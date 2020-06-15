@@ -1,0 +1,511 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Statistical Modelling},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% \usepackage{amsmath,amssymb,mathtools}
+\usepackage{enumerate}
+\usepackage{geometry}
+\geometry{hmargin=1.2in}
+\usepackage[mathscr]{eucal}
+\DeclareMathAlphabet{\mathcrl}{U}{rsfs}{m}{n}
+\usepackage{utopia}
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=8pt plus 2pt minus 4pt
+  \thm@postskip=\thm@preskip
+}
+\makeatother
+
+\usepackage{framed,color}
+\definecolor{shadecolor}{RGB}{248,248,248}
+
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.8}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\floatpagefraction}{0.75}
+
+\let\oldhref\href
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+
+\ifxetex
+  \usepackage{letltxmacro}
+  \setlength{\XeTeXLinkMargin}{1pt}
+  \LetLtxMacro\SavedIncludeGraphics\includegraphics
+  \def\includegraphics#1#{% #1 catches optional stuff (star/opt. arg.)
+    \IncludeGraphicsAux{#1}%
+  }%
+  \newcommand*{\IncludeGraphicsAux}[2]{%
+    \XeTeXLinkBox{%
+      \SavedIncludeGraphics#1{#2}%
+    }%
+  }%
+\fi
+
+\makeatletter
+\newenvironment{kframe}{%
+\medskip{}
+\setlength{\fboxsep}{.8em}
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\makeatletter
+\@ifundefined{Shaded}{
+}{\renewenvironment{Shaded}{\begin{kframe}}{\end{kframe}}}
+\makeatother
+
+\newenvironment{rmdblock}[1]
+  {
+  \begin{itemize}
+  \renewcommand{\labelitemi}{
+    \raisebox{-.7\height}[0pt][0pt]{
+      {\setkeys{Gin}{width=3em,keepaspectratio}\includegraphics{images/#1}}
+    }
+  }
+  \setlength{\fboxsep}{1em}
+  \begin{kframe}
+  \item
+  }
+  {
+  \end{kframe}
+  \end{itemize}
+  }
+\newenvironment{rmdnote}
+  {\begin{rmdblock}{note}}
+  {\end{rmdblock}}
+\newenvironment{rmdcaution}
+  {\begin{rmdblock}{caution}}
+  {\end{rmdblock}}
+\newenvironment{rmdimportant}
+  {\begin{rmdblock}{important}}
+  {\end{rmdblock}}
+\newenvironment{rmdtip}
+  {\begin{rmdblock}{tip}}
+  {\end{rmdblock}}
+\newenvironment{rmdwarning}
+  {\begin{rmdblock}{warning}}
+  {\end{rmdblock}}
+\usepackage[]{natbib}
+\bibliographystyle{apalike2}
+
+\title{Statistical Modelling}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\let\href\oldhref
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{preliminary-remarks}{%
+\chapter*{Preliminary remarks}\label{preliminary-remarks}}
+\addcontentsline{toc}{chapter}{Preliminary remarks}
+
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-06-15.
+
+While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
+
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\Hmat}{\mathbf{H}}
+\newcommand{\Mmat}{\mathbf{M}}
+\newcommand{\mX}{\mathbf{X}}
+\newcommand{\bX}{{\mathbf{X}}}
+\newcommand{\bx}{{\mathbf{x}}}
+\newcommand{\by}{{\boldsymbol{y}}}
+\newcommand{\bY}{{\boldsymbol{Y}}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\beps}{\boldsymbol{\varepsilon}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\hbb}{\hat{\boldsymbol{\beta}}}
+\newcommand{\limni}{\lim_{n \ra \infty}}
+\newcommand{\Sp}{\mathscr{S}}
+\newcommand{\Hy}{\mathscr{H}}
+\newcommand{\E}[2][]{{\mathsf E}_{#1}\left(#2\right)}
+\newcommand{\Va}[2][]{{\mathsf{Var}_{#1}}\left(#2\right)}
+\newcommand{\I}[1]{{\mathbf 1}_{#1}}
+
+\hypertarget{intro}{%
+\chapter{Introduction to statistical inference}\label{intro}}
+
+\hypertarget{linear-regression}{%
+\chapter{Linear regression}\label{linear-regression}}
+
+\hypertarget{generalized-linear-models}{%
+\chapter{Generalized linear models}\label{generalized-linear-models}}
+
+\hypertarget{correlated-longitudinal-data}{%
+\chapter{Correlated and longitudinal data}\label{correlated-longitudinal-data}}
+
+\hypertarget{linear-mixed-models}{%
+\chapter{Linear mixed models}\label{linear-mixed-models}}
+
+\hypertarget{survival}{%
+\chapter{Survival analysis}\label{survival}}
+
+\hypertarget{likelihood}{%
+\chapter{Likelihood-based inference}\label{likelihood}}
+
+\hypertarget{appendix-appendix}{%
+\appendix}
+
+
+\hypertarget{r}{%
+\chapter*{\texorpdfstring{\textbf{R}}{R}}\label{r}}
+\addcontentsline{toc}{chapter}{\textbf{R}}
+
+\textbf{R} is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.
+
+You can find several introductions to \textbf{R} online. Have a look at the \href{https://cran.r-project.org/manuals.html}{\textbf{R} manuals} or better at \href{https://cran.r-project.org/other-docs.html}{contributed manuals}. A nice official reference is \href{http://colinfay.me/intro-to-r/index.html}{An introduction to \textbf{R}}.
+You may wish to look up the following chapters of the \textbf{R} language definition (\href{http://colinfay.me/r-language-definition/evaluation-of-expressions.html}{Evaluation of expressions} and part of the \href{http://colinfay.me/r-language-definition/objects.html}{\emph{Objects} chapter}).
+
+If you favor online courses, Data Camp offers a \href{https://www.datacamp.com/courses/free-introduction-to-r}{free introduction to R}.
+
+\hypertarget{basics-of-r}{%
+\section{\texorpdfstring{Basics of \textbf{R}}{Basics of R}}\label{basics-of-r}}
+
+\hypertarget{help}{%
+\subsection{Help}\label{help}}
+
+Help can be accessed via \texttt{help} or simply \texttt{?}, e.g., \texttt{help("Normal")}. \href{https://www.r-project.org/help.html}{See \textbf{R} page about help files}.
+
+\hypertarget{basic-commands}{%
+\subsection{Basic commands}\label{basic-commands}}
+
+Basic \textbf{R} commands are fairly intuitive, especially if you want to use \textbf{R} as a calculator.
+Elementary functions such as \texttt{sum}, \texttt{min}, \texttt{max}, \texttt{sqrt}, \texttt{log}, \texttt{exp}, etc., are self-explanatory.
+
+Some (unconventional) features of the language:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{R} is case sensitive.
+\item
+  Use \texttt{\textless{}-} for assignments to a variable, and \texttt{=} for matching arguments inside functions
+\item
+  Indexing in \textbf{R} starts at 1, \textbf{not} 0.
+\item
+  Most functions in \textbf{R} are vectorized and loops are typically inefficient.
+\item
+  Integers are obtained by appending \texttt{L} to the number, so \texttt{2L} is an integer and \texttt{2} a double (\texttt{numerical}).
+\end{itemize}
+
+Besides integers and doubles, the common types are
+
+\begin{itemize}
+\tightlist
+\item
+  logical (\texttt{TRUE} and \texttt{FALSE});
+\item
+  null pointers (\texttt{NULL}), which can be assigned to arguments;
+\item
+  missing values, namely \texttt{NA} or \texttt{NaN}. These can also be obtained a result of invalid mathematical operations such as \texttt{log(-2)}.
+\end{itemize}
+
+Beware! In \textbf{R}, invalid calls will often returns \emph{something} rather than an error. It is therefore good practice to check that the output is sensical.
+
+\hypertarget{linear-algebra-in-r}{%
+\subsection{\texorpdfstring{Linear algebra in \textbf{R}}{Linear algebra in R}}\label{linear-algebra-in-r}}
+
+\textbf{R} is an object oriented language, and the basic elements in \textbf{R} are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{c} concatenates elements to form a vector
+\item
+  \texttt{cbind} (\texttt{rbind}) binds column (row) vectors
+\item
+  \texttt{matrix} and \texttt{vector} are constructors
+\item
+  \texttt{diag} creates a diagonal matrix (by default with ones)
+\item
+  \texttt{t} is the function for transpose
+\item
+  \texttt{rep} creates a vector of duplicates, \texttt{seq} a sequence. For integers \(i\), \(j\) with \(i<j\), \texttt{i:j} generates the sequence \(i, i+1, \ldots, j-1, j\).
+\end{itemize}
+
+Subsetting is fairly intuitive and general; you can use vectors, logical statements. For example, if \texttt{x} is a vector,
+then
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{x{[}2{]}} returns the second element
+\item
+  \texttt{x{[}-2{]}} returns all but the second element
+\item
+  \texttt{x{[}1:5{]}} returns the first five elements
+\item
+  \texttt{x{[}(length(x)\ -\ 5):length(x){]}} returns the last five elements
+\item
+  \texttt{x{[}c(1,\ 2,\ 4){]}} returns the first, second and fourth element
+\item
+  \texttt{x{[}x\ \textgreater{}\ 3{]}} return any element greater than 3. Possibly an empty vector of length zero!
+\item
+  \texttt{x{[}\ x\ \textless{}\ -2\ \textbar{}\ x\ \textgreater{}\ 2{]}} multiple logical conditions.
+\item
+  \texttt{which(x\ ==\ max(x))} index of elements satisfying a logical condition.
+\end{itemize}
+
+For a matrix \texttt{x}, subsetting now involves dimensions: \texttt{{[}1,2{]}} returns the element in the first row, second column. \texttt{x{[},2{]}} will return all of the rows, but only the second column. For lists, you can use \texttt{{[}{[}} for subsetting by index or the \texttt{\$} sign by names.
+
+\hypertarget{packages}{%
+\subsection{Packages}\label{packages}}
+
+The great strength of \textbf{R} comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (\texttt{base}, \texttt{stats}, \texttt{graphics}, etc.) are loaded by default whenever you open a session.
+
+To install a package from CRAN, use \texttt{install.packages("package")}, replacing \texttt{package} by the package name. Once installed, packages can be loaded using \texttt{library(package)}; all the functions in \texttt{package} will be available in the environment.
+
+\begin{rmdcaution}
+\begin{rmdcaution}
+
+There are drawbacks to loading packages: if an object with the same name from another package is already present in your environment, it will be hidden. Use the double-colon operator \texttt{::} to access a single object from an installed package (\texttt{package::object}).
+
+\end{rmdcaution}
+\end{rmdcaution}
+
+\hypertarget{datasets}{%
+\subsection{Datasets}\label{datasets}}
+
+\begin{itemize}
+\tightlist
+\item
+  datasets are typically stored inside a \texttt{data.frame}, a matrix-like object whose columns contain the variables and the rows the observation vectors.
+\item
+  The columns can be of different types (\texttt{integer}, \texttt{double}, \texttt{logical}, \texttt{character}), but all the column vectors must be of the same length.
+\item
+  Variable names can be displayed by using \texttt{names(faithful)}.
+\item
+  Individual columns can be accessed using the column name using the \texttt{\$} operator. For example, \texttt{faithful\$eruptions} will return the first column of the \texttt{faithful} dataset.
+\item
+  To load a dataset from an (installed) \textbf{R} package, use the command \texttt{data} with the name of the \texttt{package} as an argument (must be a string). The package \texttt{datasets} is loaded by default whenever you open \textbf{R}, so these are always in the search path.
+\end{itemize}
+
+The following functions can be useful to get a quick glimpse of the data:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{summary} provides descriptive statistics for the variable.
+\item
+  \texttt{str} provides the first few elements with each variable, along with the dimension
+\item
+  \texttt{head} (\texttt{tail}) prints the first (last) \(n\) lines of the object to the console (default is \(n=6\)).
+\end{itemize}
+
+We start by loading a dataset of the Old Faithful Geyser of Yellowstone National park and looking at its entries.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Load Old faithful dataset}
+\KeywordTok{data}\NormalTok{(faithful, }\DataTypeTok{package =} \StringTok{"datasets"}\NormalTok{)}
+\CommentTok{# Query the database for documentation}
+\NormalTok{?faithful}
+\CommentTok{# look at first entries}
+\KeywordTok{head}\NormalTok{(faithful)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   eruptions waiting
+## 1       3.6      79
+## 2       1.8      54
+## 3       3.3      74
+## 4       2.3      62
+## 5       4.5      85
+## 6       2.9      55
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(faithful)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    272 obs. of  2 variables:
+##  $ eruptions: num  3.6 1.8 3.33 2.28 4.53 ...
+##  $ waiting  : num  79 54 74 62 85 55 88 85 51 85 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# What kind of object is faithful? }
+\KeywordTok{class}\NormalTok{(faithful)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "data.frame"
+\end{verbatim}
+
+Other common classes of objects:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{matrix}: an object with attributes \texttt{dim}, \texttt{ncol} and \texttt{nrow} in addition to \texttt{length}, which gives the total number of elements.
+\item
+  \texttt{array}: a higher dimensional extension of \texttt{matrix} with arguments \texttt{dim} and \texttt{dimnames}.
+\item
+  \texttt{list}: an unstructured class whose elements are accessed using double indexing \texttt{{[}{[}\ {]}{]}} and elements are typically accessed using \texttt{\$} symbol with names. To delete an element from a list, assign \texttt{NULL} to it.
+\item
+  \texttt{data.frame} is a special type of list where all the elements are vectors of potentially different type, but of the same length.
+\end{itemize}
+
+\hypertarget{graphics}{%
+\subsection{Graphics}\label{graphics}}
+
+The \texttt{faithful} dataset consists of two variables: the regressand \texttt{waiting} and the regressor \texttt{eruptions}. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables.
+
+An image is worth a thousand words and in statistics, visualization is crucial. Scatterplots are produced using the function \texttt{plot}. You can control the graphic console options using \texttt{par} --- see \texttt{?plot} and \texttt{?par} for a description of the basic and advanced options available.
+
+Once \texttt{plot} has been called, you can add additional observations as points (lines) to the graph using \texttt{point} (\texttt{lines}) in place of \texttt{plot}. If you want to add a line (horizontal, vertical, or with known intercept and slope), use the function \texttt{abline}.
+
+Other functions worth mentioning for simple graphics:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{boxplot} creates a box-and-whiskers plot
+\item
+  \texttt{hist} creates an histogram, either on frequency or probability scale (option \texttt{freq\ =\ FALSE}). \texttt{breaks} control the number of bins. \texttt{rug} adds lines below the graph indicating the value of the observations.
+\item
+  \texttt{pairs} creates a matrix of scatterplots, akin to \texttt{plot} for data frame objects.
+\end{itemize}
+
+\begin{rmdnote}
+\begin{rmdnote}
+
+There are two options for basic graphics: the base graphics package and the package \texttt{ggplot2}. The latter is a more recent proposal that builds on a modular approach and is more easily customizable --- I suggest you stick to either and \texttt{ggplot2} is a good option if you don't know \textbf{R} already, as the learning curve will be about the same. Even if the display from \texttt{ggplot2} is nicer, this is no excuse for not making proper graphics. Always label the axis and include measurement units!
+
+\end{rmdnote}
+\end{rmdnote}
+
+  \bibliography{book.bib,packages.bib}
+
+\end{document}

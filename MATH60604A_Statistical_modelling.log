@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.8)  15 JUN 2020 11:08
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.8)  15 JUN 2020 12:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Statistical-modelling.tex
-(./Statistical-modelling.tex
+**MATH60604A_Statistical_modelling.tex
+(./MATH60604A_Statistical_modelling.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-05-05> (/usr/local/texlive/2020/texmf-dist/tex/latex
 /base/book.cls
@@ -461,7 +461,7 @@ Package utopia Warning: This package is to be regarded as obsolete.
 (utopia)                See the PSNFSS documentation.
 
 )
-LaTeX Font Info:    Redeclaring math alphabet \mathcal on input line 117.
+LaTeX Font Info:    Redeclaring math alphabet \mathcal on input line 116.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2017/10/31 v2.20.4
 \thm@style=\toks26
@@ -479,50 +479,50 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibsep=\skip62
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count302
-) (./Statistical-modelling.aux)
-\openout1 = `Statistical-modelling.aux'.
+) (./MATH60604A_Statistical_modelling.aux)
+\openout1 = `MATH60604A_Statistical_modelling.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 215.
-LaTeX Font Info:    ... okay on input line 215.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 214.
+LaTeX Font Info:    ... okay on input line 214.
 LaTeX Font Info:    Trying to load font information for TU+put on input line 21
-5.
-LaTeX Font Info:    No file TUput.fd. on input line 215.
+4.
+LaTeX Font Info:    No file TUput.fd. on input line 214.
 
 LaTeX Font Warning: Font shape `TU/put/m/n' undefined
-(Font)              using `TU/lmr/m/n' instead on input line 215.
+(Font)              using `TU/lmr/m/n' instead on input line 214.
 
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/lmr/m/n --> TU/put/m/n on input line 215.
+(Font)                  OT1/lmr/m/n --> TU/put/m/n on input line 214.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/lmr/m/it --> TU/put/m/it on input line 215.
+(Font)                  OT1/lmr/m/it --> TU/put/m/it on input line 214.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/lmr/bx/n --> TU/put/b/n on input line 215.
+(Font)                  OT1/lmr/bx/n --> TU/put/b/n on input line 214.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 215.
+(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 214.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> TU/lmss/b/n on input line 215.
+(Font)                  OT1/lmss/bx/n --> TU/lmss/b/n on input line 214.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 215.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 214.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/b/n on input line 215.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/b/n on input line 214.
 
 Package fontspec Info: latinmodern-math scale = 0.9999964596882403.
 
@@ -551,7 +551,7 @@ pt=math;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(0)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 215.
+(Font)              scaled to size 10.0pt on input line 214.
 
 Package fontspec Info: latinmodern-math scale = 0.9999964596882403.
 
@@ -590,18 +590,18 @@ pt=math;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 215.
+(Font)              scaled to size 10.0pt on input line 214.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 215.
+(Font)              `operators' in the math version `normal' on input line 214.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/lmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input
- line 215.
+ line 214.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 215.
+(Font)              `operators' in the math version `bold' on input line 214.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/lmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on inpu
-t line 215.
+t line 214.
 
 Package fontspec Info: latinmodern-math scale = 0.9999964596882403.
 
@@ -688,15 +688,15 @@ t=math;language=dflt;"
 (fontspec)             \fontdimen 21\font =0pt\relax 
 
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 215.
+(Font)              `symbols' in the math version `normal' on input line 214.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
 (Font)                  OMS/lmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on inpu
-t line 215.
+t line 214.
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 215.
+(Font)              `symbols' in the math version `bold' on input line 214.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
 (Font)                  OMS/lmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on inpu
-t line 215.
+t line 214.
 
 Package fontspec Info: latinmodern-math scale = 0.9999964596882403.
 
@@ -766,17 +766,17 @@ pt=math;language=dflt;"
 
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
 (Font)              `largesymbols' in the math version `normal' on input line 2
-15.
+14.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/m/n on inpu
-t line 215.
+t line 214.
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 215
+(Font)              `largesymbols' in the math version `bold' on input line 214
 .
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/b/n on inpu
-t line 215.
-LaTeX Info: Redefining \microtypecontext on input line 215.
+t line 214.
+LaTeX Info: Redefining \microtypecontext on input line 214.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: No adjustment of tracking.
@@ -787,7 +787,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 \AtBeginShipoutBox=\box55
-Package hyperref Info: Link coloring OFF on input line 215.
+Package hyperref Info: Link coloring OFF on input line 214.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 (/usr/local/texlive/2020/texmf-dist/tex/latex/refcount/refcount.sty
@@ -799,9 +799,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count303
 )
-LaTeX Info: Redefining \ref on input line 215.
-LaTeX Info: Redefining \pageref on input line 215.
-LaTeX Info: Redefining \nameref on input line 215.
+LaTeX Info: Redefining \ref on input line 214.
+LaTeX Info: Redefining \pageref on input line 214.
+LaTeX Info: Redefining \nameref on input line 214.
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -837,36 +837,36 @@ LaTeX Info: Redefining \nameref on input line 215.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 12.0pt on input line 217.
+(Font)              scaled to size 12.0pt on input line 216.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 8.0pt on input line 217.
+(Font)              scaled to size 8.0pt on input line 216.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 6.0pt on input line 217.
+(Font)              scaled to size 6.0pt on input line 216.
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
-17.
+16.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 12.0011pt on input line 217.
+(Font)              scaled to size 12.0011pt on input line 216.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 8.00073pt on input line 217.
+(Font)              scaled to size 8.00073pt on input line 216.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 6.00055pt on input line 217.
+(Font)              scaled to size 6.00055pt on input line 216.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 11.99872pt on input line 217.
+(Font)              scaled to size 11.99872pt on input line 216.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 7.99915pt on input line 217.
+(Font)              scaled to size 7.99915pt on input line 216.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 5.99936pt on input line 217.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 217
+(Font)              scaled to size 5.99936pt on input line 216.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 216
 .
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2020/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 217
+LaTeX Font Info:    Trying to load font information for U+msb on input line 216
 .
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -878,322 +878,160 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 222.
+(Font)              using `TU/put/m/it' instead on input line 221.
 
 
 LaTeX Font Warning: Font shape `TU/put/m/it' undefined
-(Font)              using `TU/put/m/n' instead on input line 222.
+(Font)              using `TU/put/m/n' instead on input line 221.
 
 [2
 
 ]
 
 LaTeX Font Warning: Font shape `TU/put/b/n' undefined
-(Font)              using `TU/put/m/n' instead on input line 222.
+(Font)              using `TU/put/m/n' instead on input line 221.
 
-(./Statistical-modelling.toc
+(./MATH60604A_Statistical_modelling.toc
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 2.
+(Font)              scaled to size 7.0pt on input line 10.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 2.
+(Font)              scaled to size 5.0pt on input line 10.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 2.
+(Font)              scaled to size 10.00092pt on input line 10.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 2.
+(Font)              scaled to size 7.00064pt on input line 10.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 2.
+(Font)              scaled to size 5.00046pt on input line 10.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 2.
+(Font)              scaled to size 9.99893pt on input line 10.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 2.
+(Font)              scaled to size 6.99925pt on input line 10.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 2.
+(Font)              scaled to size 4.99947pt on input line 10.
 )
 \tf@toc=\write4
-\openout4 = `Statistical-modelling.toc'.
+\openout4 = `MATH60604A_Statistical_modelling.toc'.
 
 [3]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 225.
+(Font)              using `TU/put/m/it' instead on input line 224.
 
 [4
 
 ] [5]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 355.
+(Font)              using `TU/put/m/it' instead on input line 251.
 
-[6]
-File: images/caution.png Graphic file (type bmp)
-<images/caution.png>
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 400.
+[6
 
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 418.
-
+]
+Chapter 1.
 [7]
-File: images/note.png Graphic file (type bmp)
-<images/note.png>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 482.
+(Font)              using `TU/put/m/it' instead on input line 254.
 
-[8]
+[8
 
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 485.
-
+]
+Chapter 2.
 [9]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 485.
+(Font)              using `TU/put/m/it' instead on input line 257.
 
 [10
 
 ]
-Chapter 1.
+Chapter 3.
 [11]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 536.
+(Font)              using `TU/put/m/it' instead on input line 260.
 
-[12]
+[12
 
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 559.
-
+]
+Chapter 4.
 [13]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 559.
+(Font)              using `TU/put/m/it' instead on input line 263.
 
 [14
 
 ]
-Chapter 2.
-
-LaTeX Font Warning: Font shape `TU/put/b/it' undefined
-(Font)              using `TU/put/b/n' instead on input line 562.
-
-LaTeX Font Info:    Trying to load font information for U+eus on input line 581
-.
-(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/ueus.fd
-File: ueus.fd 2013/01/14 v3.01 Euler Script
-) (/usr/local/texlive/2020/texmf-dist/tex/latex/microtype/mt-eus.cfg
-File: mt-eus.cfg 2006/07/28 v1.2 microtype config. file: AMS Euler Script (RS)
-) [15]
-File: Statistical-modelling_files/figure-latex/hist_distract-1.pdf Graphic file
- (type pdf)
-<use Statistical-modelling_files/figure-latex/hist_distract-1.pdf>
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmss' (encoding: TU).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
+Chapter 5.
+[15]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 627.
+(Font)              using `TU/put/m/it' instead on input line 266.
 
-[16]
-File: Statistical-modelling_files/figure-latex/tdensity-1.pdf Graphic file (typ
-e pdf)
-<use Statistical-modelling_files/figure-latex/tdensity-1.pdf>
+[16
 
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 649.
-
+]
+Chapter 6.
 [17]
-File: Statistical-modelling_files/figure-latex/loadtickets-1.pdf Graphic file (
-type pdf)
-<use Statistical-modelling_files/figure-latex/loadtickets-1.pdf>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 693.
+(Font)              using `TU/put/m/it' instead on input line 269.
 
-[18]
+[18
 
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 747.
-
+]
+Chapter 7.
 [19]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 789.
+(Font)              using `TU/put/m/it' instead on input line 276.
 
-[20]
+[20
 
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 869.
-
-[21]
-File: Statistical-modelling_files/figure-latex/plottickets-1.pdf Graphic file (
-type pdf)
-<use Statistical-modelling_files/figure-latex/plottickets-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+] [21]
+File: images/caution.png Graphic file (type bmp)
+<images/caution.png>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 871.
+(Font)              using `TU/put/m/it' instead on input line 401.
 
 [22]
-File: Statistical-modelling_files/figure-latex/plottickets-2.pdf Graphic file (
-type pdf)
-<use Statistical-modelling_files/figure-latex/plottickets-2.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 425.
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 896.
+(Font)              using `TU/put/m/it' instead on input line 475.
+
+
+LaTeX Font Warning: Font shape `TU/put/b/it' undefined
+(Font)              using `TU/put/b/n' instead on input line 475.
 
 [23]
+File: images/note.png Graphic file (type bmp)
+<images/note.png>
+No file MATH60604A_Statistical_modelling.bbl.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 511.
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 919.
+(Font)              using `TU/put/m/it' instead on input line 511.
 
 [24]
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 980.
-
-[25]
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1016.
-
-[26]
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1074.
-
-[27]
-File: Statistical-modelling_files/figure-latex/wilcoxsimu-1.pdf Graphic file (t
-ype pdf)
-<use Statistical-modelling_files/figure-latex/wilcoxsimu-1.pdf>
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1113.
-
-[28]
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1150.
-
-[29]
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1150.
-
-[30
-
-]
-Chapter 3.
-[31]
-File: Statistical-modelling_files/figure-latex/slrscatterplots-1.pdf Graphic fi
-le (type pdf)
-<use Statistical-modelling_files/figure-latex/slrscatterplots-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1231.
-
-[32]
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 1236.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 10.0pt on input line 1243.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 7.0pt on input line 1243.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 5.0pt on input line 1243.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 10.00092pt on input line 1243.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 7.00064pt on input line 1243.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 5.00046pt on input line 1243.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 9.99893pt on input line 1243.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 6.99925pt on input line 1243.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 4.99947pt on input line 1243.
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1249.
-
-[33]
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1325.
-
-[34]
-File: Statistical-modelling_files/figure-latex/plotfitted-1.pdf Graphic file (t
-ype pdf)
-<use Statistical-modelling_files/figure-latex/plotfitted-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1340.
-
-[35]
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1394.
-
-[36]
-File: Statistical-modelling_files/figure-latex/residlowess-1.pdf Graphic file (
-type pdf)
-<use Statistical-modelling_files/figure-latex/residlowess-1.pdf>
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1423.
-
-[37]
-File: Statistical-modelling_files/figure-latex/autoplot-1.pdf Graphic file (typ
-e pdf)
-<use Statistical-modelling_files/figure-latex/autoplot-1.pdf>
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1455.
-
-[38]
-File: Statistical-modelling_files/figure-latex/normalitychecks-1.pdf Graphic fi
-le (type pdf)
-<use Statistical-modelling_files/figure-latex/normalitychecks-1.pdf>
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1474.
-
-[39]
-No file Statistical-modelling.bbl.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1525.
-
-LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1525.
-
-[40]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1525.
-(./Statistical-modelling.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1525.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1525.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 511.
+(./MATH60604A_Statistical_modelling.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 511.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 511.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 19728 strings out of 479487
- 349607 string characters out of 5885553
- 791161 words of memory out of 5000000
- 36852 multiletter control sequences out of 15000+600000
- 540866 words of font info for 92 fonts, out of 8000000 for 9000
+ 19541 strings out of 479487
+ 342652 string characters out of 5885553
+ 787599 words of memory out of 5000000
+ 36707 multiletter control sequences out of 15000+600000
+ 538765 words of font info for 74 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 58i,8n,118p,1750b,467s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 58i,6n,118p,831b,386s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Statistical-modelling.pdf (40 pages).
+Output written on MATH60604A_Statistical_modelling.pdf (24 pages).
