@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.1 The lm function | Statistical Modelling</title>
+  <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.1 The lm function | Statistical Modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
+  <meta name="github-repo" content="lbelzile/math60604a" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.1 The lm function | Statistical Modelling" />
+  
+  <meta name="twitter:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
+  
+
+<meta name="author" content="Léo Belzile" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="linear-regression.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistical-modelling</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a><ul>
+<li class="chapter" data-level="0.1" data-path="basics-of-r.html"><a href="basics-of-r.html"><i class="fa fa-check"></i><b>0.1</b> Basics of <strong>R</strong></a><ul>
+<li class="chapter" data-level="0.1.1" data-path="basics-of-r.html"><a href="basics-of-r.html#help"><i class="fa fa-check"></i><b>0.1.1</b> Help</a></li>
+<li class="chapter" data-level="0.1.2" data-path="basics-of-r.html"><a href="basics-of-r.html#basic-commands"><i class="fa fa-check"></i><b>0.1.2</b> Basic commands</a></li>
+<li class="chapter" data-level="0.1.3" data-path="basics-of-r.html"><a href="basics-of-r.html#linear-algebra-in-r"><i class="fa fa-check"></i><b>0.1.3</b> Linear algebra in <strong>R</strong></a></li>
+<li class="chapter" data-level="0.1.4" data-path="basics-of-r.html"><a href="basics-of-r.html#packages"><i class="fa fa-check"></i><b>0.1.4</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="0.2" data-path="week1.html"><a href="week1.html"><i class="fa fa-check"></i><b>0.2</b> Tutorial 1</a><ul>
+<li class="chapter" data-level="0.2.1" data-path="week1.html"><a href="week1.html#datasets"><i class="fa fa-check"></i><b>0.2.1</b> Datasets</a></li>
+<li class="chapter" data-level="0.2.2" data-path="week1.html"><a href="week1.html#graphics"><i class="fa fa-check"></i><b>0.2.2</b> Graphics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="statistical-inference-versus-predictions.html"><a href="statistical-inference-versus-predictions.html"><i class="fa fa-check"></i><b>1.1</b> Statistical inference versus predictions</a></li>
+<li class="chapter" data-level="1.2" data-path="reminders-and-objectives.html"><a href="reminders-and-objectives.html"><i class="fa fa-check"></i><b>1.2</b> Reminders and Objectives</a></li>
+<li class="chapter" data-level="1.3" data-path="population-and-sample.html"><a href="population-and-sample.html"><i class="fa fa-check"></i><b>1.3</b> Population and sample</a></li>
+<li class="chapter" data-level="1.4" data-path="testing-statistical-hypotheses.html"><a href="testing-statistical-hypotheses.html"><i class="fa fa-check"></i><b>1.4</b> Testing statistical hypotheses</a></li>
+<li class="chapter" data-level="1.5" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1.5</b> Exploratory data analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="one-sample-and-two-sample-location-tests.html"><a href="one-sample-and-two-sample-location-tests.html"><i class="fa fa-check"></i><b>2</b> One-sample and two-sample location tests</a><ul>
+<li class="chapter" data-level="2.1" data-path="one-sample-and-paired-t-test.html"><a href="one-sample-and-paired-t-test.html"><i class="fa fa-check"></i><b>2.1</b> One-sample and paired <em>t</em>-test</a></li>
+<li class="chapter" data-level="2.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html"><i class="fa fa-check"></i><b>2.2</b> Two-sample <em>t</em>-test</a></li>
+<li class="chapter" data-level="2.3" data-path="wilcoxon-rank-sum-test.html"><a href="wilcoxon-rank-sum-test.html"><i class="fa fa-check"></i><b>2.3</b> Wilcoxon rank sum test</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>3</b> Linear regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-lm-function.html"><a href="the-lm-function.html"><i class="fa fa-check"></i><b>3.1</b> The <code>lm</code> function</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="the-lm-function.html"><a href="the-lm-function.html#graphical-diagnostics-and-analysis-of-residuals"><i class="fa fa-check"></i><b>3.1.1</b> Graphical diagnostics and analysis of residuals</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-lm-function.html"><a href="the-lm-function.html#binary-explanatory-variable"><i class="fa fa-check"></i><b>3.1.2</b> Binary explanatory variable</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistical Modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="the-lm-function" class="section level2">
+<h2><span class="header-section-number">3.1</span> The <code>lm</code> function</h2>
+<p>The function <code>lm</code> is the workshorse for fitting linear models. It takes as input a formula: suppose you have a data frame containing columns <code>x</code> (a regressor) and <code>y</code> (the regressand); you can then call <code>lm(y ~ x)</code> to fit the linear model <span class="math inline">\(y = \beta_0 + \beta_1 x + \varepsilon\)</span>. The explanatory variable <code>y</code> is on the left hand side,
+while the right hand side should contain the predictors, separated by a <code>+</code> sign if there are more than one.
+If you provide the data frame name using <code>data</code>, then the shorthand <code>y ~ .</code> fits all the columns of the data frame (but <code>y</code>) as regressors.</p>
+<p>To fit higher order polynomials or transformations, use the <code>I</code> function to tell <strong>R</strong> to interpret the input “as is”.
+Thus, <code>lm(y~x+I(x^2))</code>, would fit a linear model with design matrix <span class="math inline">\((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\)</span>. A constant is automatically included in the regression, but can be removed by writing <code>-1</code> or <code>+0</code> on the right hand side of the formula.</p>
+<p>The <code>lm</code> function output will display ordinary least squares estimates along with standard errors, <span class="math inline">\(t\)</span> values for the Wald test of the hypothesis <span class="math inline">\(\mathrm{H}_0: \beta_i=0\)</span> and the associated <span class="math inline">\(P\)</span>-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.</p>
+<p>Many methods allow you to extract specific objects. For example, the functions <code>coef</code>, <code>resid</code>, <code>fitted</code>, <code>model.matrix</code> will return <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>, <span class="math inline">\(\boldsymbol{e}\)</span>, <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> and <span class="math inline">\(\mathbf{X}\)</span>, respectively.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="the-lm-function.html#cb57-1"></a>linmod &lt;-<span class="st"> </span><span class="kw">lm</span>(intention <span class="op">~</span><span class="st"> </span>fixation, <span class="dt">data =</span> intention)</span>
+<span id="cb57-2"><a href="the-lm-function.html#cb57-2"></a><span class="kw">summary</span>(linmod)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intention ~ fixation, data = intention)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.813 -1.828 -0.207  2.176  6.130 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    6.453      0.428   15.06  &lt; 2e-16 ***
+## fixation       1.144      0.224    5.12  1.2e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.7 on 118 degrees of freedom
+## Multiple R-squared:  0.182,  Adjusted R-squared:  0.175 
+## F-statistic: 26.2 on 1 and 118 DF,  p-value: 1.21e-06</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="the-lm-function.html#cb59-1"></a><span class="kw">confint</span>(linmod) <span class="co">#confidence intervals for model parameters</span></span></code></pre></div>
+<pre><code>##             2.5 % 97.5 %
+## (Intercept)   5.6    7.3
+## fixation      0.7    1.6</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="the-lm-function.html#cb61-1"></a>yhat &lt;-<span class="st"> </span><span class="kw">fitted</span>(linmod) <span class="co">#fitted values yhat</span></span>
+<span id="cb61-2"><a href="the-lm-function.html#cb61-2"></a>e &lt;-<span class="st"> </span><span class="kw">resid</span>(linmod) <span class="co">#ordinary residuals</span></span>
+<span id="cb61-3"><a href="the-lm-function.html#cb61-3"></a>jsr &lt;-<span class="st"> </span><span class="kw">rstudent</span>(linmod) <span class="co">#jackknife studentized resid.</span></span></code></pre></div>
+<p>The estimated intercept <span class="math inline">\(\widehat{\beta}_0\)</span> is 6.92 and the estimated slope <span class="math inline">\(\widehat{\beta}_1\)</span> is 1.29 The table gives the <span class="math inline">\(p\)</span>-values for the null hypotheses <span class="math inline">\(\beta_0=0\)</span> and <span class="math inline">\(\beta_1=0\)</span>, which are negligible. The estimated variance <span class="math inline">\(\widehat{\sigma}^2\)</span>, given by the <code>Residual standard error</code> is 2.86.</p>
+<p>To obtain predicted values for combination of explanatories not present in the dataset, we need to first create a new data frame, with the same column names as those of the explanatory. In this case, the only <span class="math inline">\(\mathrm{X}\)</span> variable is <code>fixation</code>. We can get confidence intervals for the mean value with <code>interval = "conf"</code> or prediction intervals for the new observations with <code>interval = "pred"</code>.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="the-lm-function.html#cb62-1"></a>newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">fixation =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">6.5</span>, <span class="dt">length.out =</span> 100L))</span>
+<span id="cb62-2"><a href="the-lm-function.html#cb62-2"></a><span class="co"># Predictions with confidence interval for E(Y)</span></span>
+<span id="cb62-3"><a href="the-lm-function.html#cb62-3"></a>fitted_vals &lt;-<span class="st"> </span><span class="kw">predict</span>(<span class="dt">object =</span> linmod, </span>
+<span id="cb62-4"><a href="the-lm-function.html#cb62-4"></a>         <span class="dt">newdata =</span> newdata, </span>
+<span id="cb62-5"><a href="the-lm-function.html#cb62-5"></a>         <span class="dt">interval =</span> <span class="st">&quot;conf&quot;</span>)</span>
+<span id="cb62-6"><a href="the-lm-function.html#cb62-6"></a><span class="co">#Same, but with prediction intervals for Y_new</span></span>
+<span id="cb62-7"><a href="the-lm-function.html#cb62-7"></a>predict_vals &lt;-<span class="st"> </span><span class="kw">predict</span>(<span class="dt">object =</span> linmod, </span>
+<span id="cb62-8"><a href="the-lm-function.html#cb62-8"></a>         <span class="dt">newdata =</span> newdata, </span>
+<span id="cb62-9"><a href="the-lm-function.html#cb62-9"></a>         <span class="dt">interval =</span> <span class="st">&quot;pred&quot;</span>)</span>
+<span id="cb62-10"><a href="the-lm-function.html#cb62-10"></a><span class="kw">plot</span>(intention <span class="op">~</span><span class="st"> </span>fixation, <span class="dt">data =</span> intention)</span>
+<span id="cb62-11"><a href="the-lm-function.html#cb62-11"></a><span class="kw">matplot</span>(<span class="dt">x =</span> newdata<span class="op">$</span>fixation,</span>
+<span id="cb62-12"><a href="the-lm-function.html#cb62-12"></a>        <span class="dt">y =</span> fitted_vals, </span>
+<span id="cb62-13"><a href="the-lm-function.html#cb62-13"></a>        <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, </span>
+<span id="cb62-14"><a href="the-lm-function.html#cb62-14"></a>        <span class="dt">add =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb62-15"><a href="the-lm-function.html#cb62-15"></a>        <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb62-16"><a href="the-lm-function.html#cb62-16"></a><span class="kw">matplot</span>(<span class="dt">x =</span> newdata<span class="op">$</span>fixation,</span>
+<span id="cb62-17"><a href="the-lm-function.html#cb62-17"></a>        <span class="dt">y =</span> predict_vals, </span>
+<span id="cb62-18"><a href="the-lm-function.html#cb62-18"></a>        <span class="dt">lty =</span> <span class="dv">2</span>, <span class="co">#dashed lines, </span></span>
+<span id="cb62-19"><a href="the-lm-function.html#cb62-19"></a>        <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, </span>
+<span id="cb62-20"><a href="the-lm-function.html#cb62-20"></a>        <span class="dt">add =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb62-21"><a href="the-lm-function.html#cb62-21"></a>        <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="Statistical-modelling_files/figure-html/plotfitted-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>The confidence interval for the mean value <span class="math inline">\(\mathsf{E}({\widehat{Y}_i})\)</span> is larger for values of <span class="math inline">\(\mathrm{X}\)</span> that are far from <span class="math inline">\(\overline{\mathrm{X}}\)</span>; since there are less neighboring points, the model is extrapolating at this point and this translates in higher uncertainty, roughly speaking. The prediction intervals are much wider and account for the additional variability of <span class="math inline">\(\varepsilon_{\text{new}}\)</span>; the intervals are pointwise, so for any given <span class="math inline">\(\mathrm{X}\)</span>, we would assume that 95% of the intervals in repeated samples would capture <span class="math inline">\(Y_{\text{new}}\)</span>.</p>
+<div id="graphical-diagnostics-and-analysis-of-residuals" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Graphical diagnostics and analysis of residuals</h3>
+<p>The hypothesis underlying the classical linear model are</p>
+<ol style="list-style-type: decimal">
+<li>independence</li>
+<li>linearity (correct specification of the mean response)</li>
+<li>homoscedasticity</li>
+<li>normality</li>
+</ol>
+<p>Underlying the linear model
+<span class="math display">\[\begin{align*}
+Y_i = \beta_0 + \sum_{j=1}^p \mathrm{X}_{ij} + \varepsilon_i.
+\end{align*}\]</span>
+is the hypothesis that the errors <span class="math inline">\(\{\varepsilon_i\}_{i=1}^n\)</span> are independent and identically distributed <span class="math inline">\(\mathcal{N}(0, \sigma^2)\)</span> variables. We get to observe <span class="math inline">\(y_i (i=1,\ldots,n)\)</span>, but <span class="math inline">\(\beta_0, \beta_1, \ldots \beta_p, \sigma^2, \varepsilon_i (i=1,\ldots,n)\)</span> are all unknown. The best we can hope for is
+least square estimates for <span class="math inline">\(\beta\)</span>’s, say <span class="math inline">\(\widehat{\beta}_0, \ldots, \widehat{\beta}_p\)</span>.
+The fitted values are <span class="math inline">\(\widehat{y}_i=\widehat{\beta}_0 + \sum_{j=1}^p \widehat{\beta}_j \mathrm{X}_{i,j}\)</span> from which we will deduce the <strong>ordinary residuals</strong> <span class="math inline">\(e_i = Y_i - \widehat{Y}_i\)</span>.</p>
+<p>Unfortunately, it turns out that <span class="math inline">\(e_i\)</span>’s are not independent; worst, they each have a different variance. However, the ordinary residuals and the fitted values are orthogonal, i.e. their linear correlation is zero. This is also true of <span class="math inline">\(\mathbf{X}_j\)</span> and <span class="math inline">\(\boldsymbol{e}\)</span>, and <span class="math inline">\(\overline{e} = 0\)</span> by construction. Thus, if we fit a linear model with mean structure <span class="math inline">\(\mathsf{E}(e_i) = \beta_0 + \beta_1\mathrm{X}_{ij}\)</span> or <span class="math inline">\(\mathsf{E}(e_i) = \beta_0 + \beta_1 \widehat{y}_i\)</span>, the estimates for <span class="math inline">\(\widehat{\beta}_0\)</span> and <span class="math inline">\(\widehat{\beta}_1\)</span> will be exactly zero in both cases. We can verify this numerically.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="the-lm-function.html#cb63-1"></a><span class="co">#check whether coefs are zero</span></span>
+<span id="cb63-2"><a href="the-lm-function.html#cb63-2"></a><span class="kw">isTRUE</span>(<span class="kw">all.equal</span>(<span class="kw">coef</span>(<span class="kw">lm</span>(e <span class="op">~</span><span class="st"> </span>yhat)), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>))</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="the-lm-function.html#cb65-1"></a><span class="co">#due to machine precision, could be ~1e-17</span></span>
+<span id="cb65-2"><a href="the-lm-function.html#cb65-2"></a><span class="kw">coef</span>(<span class="kw">lm</span>(e <span class="op">~</span><span class="st"> </span>fixation, <span class="dt">data =</span> intention))</span></code></pre></div>
+<pre><code>## (Intercept)    fixation 
+##    -6.3e-17     8.0e-18</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="the-lm-function.html#cb67-1"></a><span class="kw">mean</span>(e)</span></code></pre></div>
+<pre><code>## [1] -4.4e-17</code></pre>
+<p>If we plot <span class="math inline">\(e_i\)</span> against <span class="math inline">\(\hat{y}_i\)</span> or <span class="math inline">\(\mathrm{X}_i\)</span>, we would expect to see no pattern. If we omitted important explanatory models for <span class="math inline">\(Y\)</span>, these would not be accounted for in the mean model and their impact would be transferred to the residuals, which would be correlated with the omitted covariate. We can use local smoothing to check for residual nonlinear relationships or changepoints between <span class="math inline">\(e_i\)</span> and <span class="math inline">\(\hat{y}_i\)</span> or <span class="math inline">\(e_i\)</span> and <span class="math inline">\(\mathrm{X}_{i}\)</span> by using a local smoother (LOESS) that should capture these local effects, if present. Bear in mind that the model is not reliable.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="the-lm-function.html#cb69-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb69-2"><a href="the-lm-function.html#cb69-2"></a>car<span class="op">::</span><span class="kw">residualPlot</span>(linmod)</span>
+<span id="cb69-3"><a href="the-lm-function.html#cb69-3"></a><span class="kw">scatter.smooth</span>(e <span class="op">~</span><span class="st"> </span>intention<span class="op">$</span>fixation, </span>
+<span id="cb69-4"><a href="the-lm-function.html#cb69-4"></a>     <span class="dt">xlab =</span> <span class="st">&quot;fixation (in sec)&quot;</span>,</span>
+<span id="cb69-5"><a href="the-lm-function.html#cb69-5"></a>     <span class="dt">ylab =</span> <span class="st">&quot;ordinary residuals&quot;</span>)</span>
+<span id="cb69-6"><a href="the-lm-function.html#cb69-6"></a><span class="kw">scatter.smooth</span>(e <span class="op">~</span><span class="st"> </span>intention<span class="op">$</span>emotion, </span>
+<span id="cb69-7"><a href="the-lm-function.html#cb69-7"></a>     <span class="dt">xlab =</span> <span class="st">&quot;omitted covariate</span><span class="ch">\n</span><span class="st">`emotion`&quot;</span>,</span>
+<span id="cb69-8"><a href="the-lm-function.html#cb69-8"></a>     <span class="dt">ylab =</span> <span class="st">&quot;ordinary residuals&quot;</span>)</span></code></pre></div>
+<p><img src="Statistical-modelling_files/figure-html/residlowess-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>There is no graphical in our example that the relationship between fixation time and buying intention is nonlinear — the dip in fitted value and fixation is spurious and is due to the lack of long fixation time, which means the point has high leverage and pulls the smooth to itself.</p>
+<p>If we plot the omitted covariate <code>emotion</code>, we see that the local trend is positive and possibly non-zero. This seems to imply that the effect of emotion has not been captured by the model, suggesting that our simple linear regression mean model is overly simple. The extension from simple to multiple linear regression models is straightforward and we can assess the significance of an added variable and test for their significance. In practice, we should use added-variable plots for new variables.</p>
+<p>Contrast the lack of residual structure between <code>intention</code> and <code>fixation</code> with the relation between horsepower and fuel consumption in miles per gallon of the <code>auto</code> dataset: we can see a clear nonlinear (potentially quadratic) relationship between distance per gallon and fuel consumption.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="the-lm-function.html#cb70-1"></a>url &lt;-<span class="st"> &quot;https://lbelzile.bitbucket.io/MATH60619A/auto.csv&quot;</span></span>
+<span id="cb70-2"><a href="the-lm-function.html#cb70-2"></a>auto &lt;-<span class="st"> </span><span class="kw">read.csv</span>(url, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb70-3"><a href="the-lm-function.html#cb70-3"></a>lmauto &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>horsepower, <span class="dt">data =</span> auto)</span>
+<span id="cb70-4"><a href="the-lm-function.html#cb70-4"></a><span class="co"># residual plots (Pearson resid = ordinary resid)</span></span>
+<span id="cb70-5"><a href="the-lm-function.html#cb70-5"></a>car<span class="op">::</span><span class="kw">residualPlots</span>(lmauto, <span class="dt">tests =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="Statistical-modelling_files/figure-html/autoplot-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>While <code>plot</code> method for <code>lm</code> objects return plots, the functions in the library <code>car</code> give nicer and often clearer output.</p>
+<p>For heteroscedasticity, we can use the absolute jackknife studentized residuals rather than the ordinary residuals: the rationale is that the latter have different variance <span class="math inline">\(\sigma^2(1-h_i)\)</span>, where <span class="math inline">\(h_i\)</span> is a known constant that depends on <span class="math inline">\(\mathbf{X}\)</span>. The jackknife studentized residuals are thus standardized residuals, whereby each <span class="math inline">\(e_i\)</span> is divided by an estimate of its standard deviation so that each has the same variance and we can make comparisons. The term jackknife comes from the estimation method. If the <span class="math inline">\(\varepsilon_i\)</span> are truly normally distributed, then the jackknife studentized residuals should follow a Student with <span class="math inline">\(n-k-1\)</span> degrees of freedom, where <span class="math inline">\(k\)</span> is the number of <span class="math inline">\(\beta\)</span> parameters estimated. If <span class="math inline">\(n-k\)</span> is large, say larger than 25, we can use the normal distribution for comparison.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="the-lm-function.html#cb71-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb71-2"><a href="the-lm-function.html#cb71-2"></a><span class="co"># check for heteroscedasticity with jsr</span></span>
+<span id="cb71-3"><a href="the-lm-function.html#cb71-3"></a><span class="kw">plot</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(jsr), <span class="kw">abs</span>(jsr), </span>
+<span id="cb71-4"><a href="the-lm-function.html#cb71-4"></a>     <span class="dt">xlab=</span><span class="st">&quot;observation number&quot;</span>, </span>
+<span id="cb71-5"><a href="the-lm-function.html#cb71-5"></a>     <span class="dt">ylab=</span><span class="st">&quot;|jackknife studentized residuals|&quot;</span>)</span>
+<span id="cb71-6"><a href="the-lm-function.html#cb71-6"></a><span class="co">#a fancy smoother</span></span>
+<span id="cb71-7"><a href="the-lm-function.html#cb71-7"></a>car<span class="op">::</span><span class="kw">gamLine</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(jsr), <span class="kw">abs</span>(jsr), <span class="dt">spread =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb71-8"><a href="the-lm-function.html#cb71-8"></a><span class="co">#density plot</span></span>
+<span id="cb71-9"><a href="the-lm-function.html#cb71-9"></a>car<span class="op">::</span><span class="kw">densityPlot</span>(jsr)</span>
+<span id="cb71-10"><a href="the-lm-function.html#cb71-10"></a>dfjsr &lt;-<span class="st"> </span>linmod<span class="op">$</span>df.residual <span class="op">-</span><span class="st"> </span>1L</span>
+<span id="cb71-11"><a href="the-lm-function.html#cb71-11"></a><span class="co">#superimpose density of student</span></span>
+<span id="cb71-12"><a href="the-lm-function.html#cb71-12"></a><span class="kw">curve</span>(<span class="kw">dt</span>(x, <span class="dt">df =</span> dfjsr), </span>
+<span id="cb71-13"><a href="the-lm-function.html#cb71-13"></a>      <span class="dt">from =</span> <span class="dv">-5</span>, </span>
+<span id="cb71-14"><a href="the-lm-function.html#cb71-14"></a>      <span class="dt">to =</span> <span class="dv">5</span>, </span>
+<span id="cb71-15"><a href="the-lm-function.html#cb71-15"></a>      <span class="dt">add =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb71-16"><a href="the-lm-function.html#cb71-16"></a>      <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb71-17"><a href="the-lm-function.html#cb71-17"></a><span class="co"># student q-q plot of jackknife resid</span></span>
+<span id="cb71-18"><a href="the-lm-function.html#cb71-18"></a>car<span class="op">::</span><span class="kw">qqPlot</span>(jsr, </span>
+<span id="cb71-19"><a href="the-lm-function.html#cb71-19"></a>            <span class="dt">distribution =</span> <span class="st">&quot;t&quot;</span>, </span>
+<span id="cb71-20"><a href="the-lm-function.html#cb71-20"></a>            <span class="dt">df =</span> dfjsr,</span>
+<span id="cb71-21"><a href="the-lm-function.html#cb71-21"></a>            <span class="dt">ylab =</span> <span class="st">&quot;jackknife studentized residuals&quot;</span>)</span></code></pre></div>
+<p><img src="Statistical-modelling_files/figure-html/normalitychecks-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<pre><code>## [1] 48 54</code></pre>
+<p>Here, we see no evidence of heteroscedasticity; the latter is more frequent in multiplicative models, when effects typically increase over time (like growth whose increase is, according to economic theory, exponential). The kernel density estimator (with rugs) and the quantile-quantile plots show that most points are in line with the postulated Student distribution, there is no outlier or extreme value and the residuals are symmetrically distributed around zero.</p>
+<p>Interpretation of quantile-quantile plots requires experience; <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">this post by <em>Glen_b</em> on StackOverflow</a> nicely summarizes what can be detected (or not) from the Q-Q plot.</p>
+</div>
+<div id="binary-explanatory-variable" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Binary explanatory variable</h3>
+<p>We have seen in class that the two-sample <span class="math inline">\(t\)</span>-test is a special of linear regression and that we can use the same model. The default parametrization is the so-called <strong>contrasts</strong>, whereby the intercept <span class="math inline">\(\beta_0\)</span> correspond to the mean of the baseline, i.e., reference group and <span class="math inline">\(\beta_1\)</span> is the difference between the two groups. The summary table gives the <span class="math inline">\(t\)</span>-test for the two-sided test <span class="math inline">\(\beta_1=0\)</span> with the alternative <span class="math inline">\(\beta_1 \neq 0\)</span>.</p>
+<p>For example, compare the output of the following two commands:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="the-lm-function.html#cb73-1"></a><span class="kw">summary</span>(<span class="kw">lm</span>(intention <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> intention))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intention ~ sex, data = intention)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.919 -2.552  0.081  2.173  5.448 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    7.552      0.376   20.07   &lt;2e-16 ***
+## sexwoman       1.368      0.523    2.61     0.01 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.9 on 118 degrees of freedom
+## Multiple R-squared:  0.0547, Adjusted R-squared:  0.0467 
+## F-statistic: 6.83 on 1 and 118 DF,  p-value: 0.0102</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="the-lm-function.html#cb75-1"></a><span class="kw">t.test</span>(intention <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> intention, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  intention by sex
+## t = -3, df = 118, p-value = 0.01
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.40 -0.33
+## sample estimates:
+##   mean in group man mean in group woman 
+##                 7.6                 8.9</code></pre>
+<p>It turns out that the value of the test statistic and the <span class="math inline">\(p\)</span>-value for the two-sample <span class="math inline">\(t\)</span>-test are the same as those of the linear regression for the coefficient <span class="math inline">\(\beta_1\)</span> corresponding to women. <a href="https://lindeloev.github.io/tests-as-linear/">In fact, many tests we cover can be cast as linear models</a>. The intercept parameter <span class="math inline">\(\beta_0\)</span> is the average of men, whereas <span class="math inline">\(\beta_0+\beta_1\)</span> is the average of women. The advantage of doing a linear regression is that we can quantify the effect of sex while accounting for other potential explanatories.</p>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="linear-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Statistical modelling.pdf", "Statistical modelling.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
