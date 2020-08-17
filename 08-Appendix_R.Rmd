@@ -6,9 +6,7 @@
 **R** is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.
 
 You can find several introductions to **R** online. Have a look at the [**R** manuals](https://cran.r-project.org/manuals.html) or better at [contributed manuals](https://cran.r-project.org/other-docs.html). A nice official reference is [An introduction to  **R**](http://colinfay.me/intro-to-r/index.html). 
-You may wish to look up the following chapters of the **R** language definition ([Evaluation of expressions](http://colinfay.me/r-language-definition/evaluation-of-expressions.html) and part of the [*Objects* chapter](http://colinfay.me/r-language-definition/objects.html)).
-
-If you favor online courses, Data Camp offers a [free introduction to R](https://www.datacamp.com/courses/free-introduction-to-r).
+You may wish to look up the following chapters of the **R** language definition ([Evaluation of expressions](http://colinfay.me/r-language-definition/evaluation-of-expressions.html) and part of the [*Objects* chapter](http://colinfay.me/r-language-definition/objects.html)). Another good (small reference) is the cheatsheet [Getting started in **R**](https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf).
 
 ## Basics of **R**
 

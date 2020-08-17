@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>R | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="R | Statistical Modelling" />
   <meta property="og:type" content="book" />
   
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="github-repo" content="lbelzile/math60604a" />
+  <meta name="github-repo" content="lbelzile/math60604" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="R | Statistical Modelling" />
@@ -30,7 +30,8 @@
   
   
 <link rel="prev" href="likelihood.html"/>
-<link rel="next" href="basics-of-r.html"/>
+<link rel="next" href="complement.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,18 +52,17 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -82,7 +82,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -127,7 +127,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Statistical modelling</a></li>
+<li><a href="./">Statistical Modelling</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
@@ -140,6 +140,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>7</b> Likelihood-based inference</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li><a href="r.html#r"><strong>R</strong></a></li>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Mathematical concepts</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -165,8 +166,129 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1><strong>R</strong></h1>
 <p><strong>R</strong> is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.</p>
 <p>You can find several introductions to <strong>R</strong> online. Have a look at the <a href="https://cran.r-project.org/manuals.html"><strong>R</strong> manuals</a> or better at <a href="https://cran.r-project.org/other-docs.html">contributed manuals</a>. A nice official reference is <a href="http://colinfay.me/intro-to-r/index.html">An introduction to <strong>R</strong></a>.
-You may wish to look up the following chapters of the <strong>R</strong> language definition (<a href="http://colinfay.me/r-language-definition/evaluation-of-expressions.html">Evaluation of expressions</a> and part of the <a href="http://colinfay.me/r-language-definition/objects.html"><em>Objects</em> chapter</a>).</p>
-<p>If you favor online courses, Data Camp offers a <a href="https://www.datacamp.com/courses/free-introduction-to-r">free introduction to R</a>.</p>
+You may wish to look up the following chapters of the <strong>R</strong> language definition (<a href="http://colinfay.me/r-language-definition/evaluation-of-expressions.html">Evaluation of expressions</a> and part of the <a href="http://colinfay.me/r-language-definition/objects.html"><em>Objects</em> chapter</a>). Another good (small reference) is the cheatsheet <a href="https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf">Getting started in <strong>R</strong></a>.</p>
+<div id="basics-of-r" class="section level2" number="7.1">
+<h2><span class="header-section-number">1</span> Basics of <strong>R</strong></h2>
+<div id="help" class="section level3" number="7.1.1">
+<h3><span class="header-section-number">1.1</span> Help</h3>
+<p>Help can be accessed via <code>help</code> or simply <code>?</code>, e.g., <code>help("Normal")</code>. <a href="https://www.r-project.org/help.html">See <strong>R</strong> page about help files</a>.</p>
+</div>
+<div id="basic-commands" class="section level3" number="7.1.2">
+<h3><span class="header-section-number">1.2</span> Basic commands</h3>
+<p>Basic <strong>R</strong> commands are fairly intuitive, especially if you want to use <strong>R</strong> as a calculator.
+Elementary functions such as <code>sum</code>, <code>min</code>, <code>max</code>, <code>sqrt</code>, <code>log</code>, <code>exp</code>, etc., are self-explanatory.</p>
+<p>Some (unconventional) features of the language:</p>
+<ul>
+<li><strong>R</strong> is case sensitive.</li>
+<li>Use <code>&lt;-</code> for assignments to a variable, and <code>=</code> for matching arguments inside functions</li>
+<li>Indexing in <strong>R</strong> starts at 1, <strong>not</strong> 0.</li>
+<li>Most functions in <strong>R</strong> are vectorized and loops are typically inefficient.</li>
+<li>Integers are obtained by appending <code>L</code> to the number, so <code>2L</code> is an integer and <code>2</code> a double (<code>numerical</code>).</li>
+</ul>
+<p>Besides integers and doubles, the common types are</p>
+<ul>
+<li>logical (<code>TRUE</code> and <code>FALSE</code>);</li>
+<li>null pointers (<code>NULL</code>), which can be assigned to arguments;</li>
+<li>missing values, namely <code>NA</code> or <code>NaN</code>. These can also be obtained a result of invalid mathematical operations such as <code>log(-2)</code>.</li>
+</ul>
+<p>Beware! In <strong>R</strong>, invalid calls will often returns <em>something</em> rather than an error. It is therefore good practice to check that the output is sensical.</p>
+</div>
+<div id="linear-algebra-in-r" class="section level3" number="7.1.3">
+<h3><span class="header-section-number">1.3</span> Linear algebra in <strong>R</strong></h3>
+<p><strong>R</strong> is an object oriented language, and the basic elements in <strong>R</strong> are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:</p>
+<ul>
+<li><code>c</code> concatenates elements to form a vector</li>
+<li><code>cbind</code> (<code>rbind</code>) binds column (row) vectors</li>
+<li><code>matrix</code> and <code>vector</code> are constructors</li>
+<li><code>diag</code> creates a diagonal matrix (by default with ones)</li>
+<li><code>t</code> is the function for transpose</li>
+<li><code>rep</code> creates a vector of duplicates, <code>seq</code> a sequence. For integers <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span> with <span class="math inline">\(i&lt;j\)</span>, <code>i:j</code> generates the sequence <span class="math inline">\(i, i+1, \ldots, j-1, j\)</span>.</li>
+</ul>
+<p>Subsetting is fairly intuitive and general; you can use vectors, logical statements. For example, if <code>x</code> is a vector,
+then</p>
+<ul>
+<li><code>x[2]</code> returns the second element</li>
+<li><code>x[-2]</code> returns all but the second element</li>
+<li><code>x[1:5]</code> returns the first five elements</li>
+<li><code>x[(length(x) - 5):length(x)]</code> returns the last five elements</li>
+<li><code>x[c(1, 2, 4)]</code> returns the first, second and fourth element</li>
+<li><code>x[x &gt; 3]</code> return any element greater than 3. Possibly an empty vector of length zero!</li>
+<li><code>x[ x &lt; -2 | x &gt; 2]</code> multiple logical conditions.</li>
+<li><code>which(x == max(x))</code> index of elements satisfying a logical condition.</li>
+</ul>
+<p>For a matrix <code>x</code>, subsetting now involves dimensions: <code>[1,2]</code> returns the element in the first row, second column. <code>x[,2]</code> will return all of the rows, but only the second column. For lists, you can use <code>[[</code> for subsetting by index or the <code>$</code> sign by names.</p>
+</div>
+<div id="packages" class="section level3" number="7.1.4">
+<h3><span class="header-section-number">1.4</span> Packages</h3>
+<p>The great strength of <strong>R</strong> comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (<code>base</code>, <code>stats</code>, <code>graphics</code>, etc.) are loaded by default whenever you open a session.</p>
+<p>To install a package from CRAN, use <code>install.packages("package")</code>, replacing <code>package</code> by the package name. Once installed, packages can be loaded using <code>library(package)</code>; all the functions in <code>package</code> will be available in the environment.</p>
+
+<div class="rmdcaution">
+<p>There are drawbacks to loading packages: if an object with the same name from another package is already present in your environment, it will be hidden. Use the double-colon operator <code>::</code> to access a single object from an installed package (<code>package::object</code>).</p>
+</div>
+</div>
+<div id="datasets" class="section level3" number="7.1.5">
+<h3><span class="header-section-number">1.5</span> Datasets</h3>
+<ul>
+<li>datasets are typically stored inside a <code>data.frame</code>, a matrix-like object whose columns contain the variables and the rows the observation vectors.</li>
+<li>The columns can be of different types (<code>integer</code>, <code>double</code>, <code>logical</code>, <code>character</code>), but all the column vectors must be of the same length.</li>
+<li>Variable names can be displayed by using <code>names(faithful)</code>.</li>
+<li>Individual columns can be accessed using the column name using the <code>$</code> operator. For example, <code>faithful$eruptions</code> will return the first column of the <code>faithful</code> dataset.</li>
+<li>To load a dataset from an (installed) <strong>R</strong> package, use the command <code>data</code> with the name of the <code>package</code> as an argument (must be a string). The package <code>datasets</code> is loaded by default whenever you open <strong>R</strong>, so these are always in the search path.</li>
+</ul>
+<p>The following functions can be useful to get a quick glimpse of the data:</p>
+<ul>
+<li><code>summary</code> provides descriptive statistics for the variable.</li>
+<li><code>str</code> provides the first few elements with each variable, along with the dimension</li>
+<li><code>head</code> (<code>tail</code>) prints the first (last) <span class="math inline">\(n\)</span> lines of the object to the console (default is <span class="math inline">\(n=6\)</span>).</li>
+</ul>
+<p>We start by loading a dataset of the Old Faithful Geyser of Yellowstone National park and looking at its entries.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r.html#cb21-1" aria-hidden="true"></a><span class="co"># Load Old faithful dataset</span></span>
+<span id="cb21-2"><a href="r.html#cb21-2" aria-hidden="true"></a><span class="kw">data</span>(faithful, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
+<span id="cb21-3"><a href="r.html#cb21-3" aria-hidden="true"></a><span class="co"># Query the database for documentation</span></span>
+<span id="cb21-4"><a href="r.html#cb21-4" aria-hidden="true"></a>?faithful</span>
+<span id="cb21-5"><a href="r.html#cb21-5" aria-hidden="true"></a><span class="co"># look at first entries</span></span>
+<span id="cb21-6"><a href="r.html#cb21-6" aria-hidden="true"></a><span class="kw">head</span>(faithful)</span></code></pre></div>
+<pre><code>##   eruptions waiting
+## 1      3.60      79
+## 2      1.80      54
+## 3      3.33      74
+## 4      2.28      62
+## 5      4.53      85
+## 6      2.88      55</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="r.html#cb23-1" aria-hidden="true"></a><span class="kw">str</span>(faithful)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:	272 obs. of  2 variables:
+##  $ eruptions: num  3.6 1.8 3.33 2.28 4.53 ...
+##  $ waiting  : num  79 54 74 62 85 55 88 85 51 85 ...</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="r.html#cb25-1" aria-hidden="true"></a><span class="co"># What kind of object is faithful? </span></span>
+<span id="cb25-2"><a href="r.html#cb25-2" aria-hidden="true"></a><span class="kw">class</span>(faithful)</span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<p>Other common classes of objects:</p>
+<ul>
+<li><code>matrix</code>: an object with attributes <code>dim</code>, <code>ncol</code> and <code>nrow</code> in addition to <code>length</code>, which gives the total number of elements.</li>
+<li><code>array</code>: a higher dimensional extension of <code>matrix</code> with arguments <code>dim</code> and <code>dimnames</code>.</li>
+<li><code>list</code>: an unstructured class whose elements are accessed using double indexing <code>[[ ]]</code> and elements are typically accessed using <code>$</code> symbol with names. To delete an element from a list, assign <code>NULL</code> to it.</li>
+<li><code>data.frame</code> is a special type of list where all the elements are vectors of potentially different type, but of the same length.</li>
+</ul>
+</div>
+<div id="graphics" class="section level3" number="7.1.6">
+<h3><span class="header-section-number">1.6</span> Graphics</h3>
+<p>The <code>faithful</code> dataset consists of two variables: the regressand <code>waiting</code> and the regressor <code>eruptions</code>. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables.</p>
+<p>An image is worth a thousand words and in statistics, visualization is crucial. Scatterplots are produced using the function <code>plot</code>. You can control the graphic console options using <code>par</code> — see <code>?plot</code> and <code>?par</code> for a description of the basic and advanced options available.</p>
+<p>Once <code>plot</code> has been called, you can add additional observations as points (lines) to the graph using <code>point</code> (<code>lines</code>) in place of <code>plot</code>. If you want to add a line (horizontal, vertical, or with known intercept and slope), use the function <code>abline</code>.</p>
+<p>Other functions worth mentioning for simple graphics:</p>
+<ul>
+<li><code>boxplot</code> creates a box-and-whiskers plot</li>
+<li><code>hist</code> creates an histogram, either on frequency or probability scale (option <code>freq = FALSE</code>). <code>breaks</code> control the number of bins. <code>rug</code> adds lines below the graph indicating the value of the observations.</li>
+<li><code>pairs</code> creates a matrix of scatterplots, akin to <code>plot</code> for data frame objects.</li>
+</ul>
+
+<div class="rmdnote">
+<p>There are two options for basic graphics: the base graphics package and the package <code>ggplot2</code>. The latter is a more recent proposal that builds on a modular approach and is more easily customizable — I suggest you stick to either and <code>ggplot2</code> is a good option if you don’t know <strong>R</strong> already, as the learning curve will be about the same. Even if the display from <code>ggplot2</code> is nicer, this is no excuse for not making proper graphics. Always label the axis and include measurement units!</p>
+</div>
+
+</div>
+</div>
 </div>
             </section>
 
@@ -174,7 +296,7 @@ You may wish to look up the following chapters of the <strong>R</strong> languag
         </div>
       </div>
 <a href="likelihood.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="basics-of-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="complement.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -189,16 +311,7 @@ You may wish to look up the following chapters of the <strong>R</strong> languag
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
+"sharing": null,
 "fontsettings": {
 "theme": "white",
 "family": "sans",

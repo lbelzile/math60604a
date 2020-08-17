@@ -1,7 +1,7 @@
 base
-methods
-datasets
-utils
-grDevices
-graphics
-stats
+viridisLite
+viridis
+ggplot2
+poorman
+qqplotr
+patchwork

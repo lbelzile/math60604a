@@ -8,11 +8,16 @@ output:
     includes:
       in_header: preamble.tex
 documentclass: book
-bibliography: [book.bib, packages.bib]
+fontsize: 11pt
+papersize: letter
+header-includes:
+  - \usepackage{amsmath,amssymb,mathtools,enumerate,booktabs}
+bibliography: [book.bib, packages.bib, notes60604.bib]
 biblio-style: apalike2
 link-citations: yes
-github-repo: lbelzile/math60604a
+github-repo: lbelzile/math60604
 always_allow_html: yes
+links-as-notes: false
 description: "This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics)  at HEC Montréal."
 ---
 
@@ -22,6 +27,21 @@ description: "This is a web complement to MATH 60604A (Statistical Modelling), a
 These notes by Léo Belzile (HEC Montréal) are licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/) and were last compiled on `r Sys.Date()`. 
 
 While we show how to implement statistical tests and models in **SAS** in class, these note will illustrate the concepts using  **R**: visit [the R-project website](https://cran.r-project.org/) to download the program. The most popular graphical cross-platform front-end is [RStudio Desktop](https://www.rstudio.com/products/rstudio/download/).
+
+
+Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de **SAS**, ces notes présentent le pendant  **R**: visitez [le site web du projet **R**](https://cran.r-project.org/) pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est [RStudio Desktop](https://www.rstudio.com/products/rstudio/download/).
+
+The most famous quote about statistical models is probably due to George Box, who claimed that "all models are wrong, but some are useful". This standpoint is reductive: Peter McCullagh and John Nelder wrote in the preamble of their book (emphasis mine)
+
+> Modelling in science remains, partly at least, an art. Some principles do exist, however, to guide the modeller. The first is that all models are wrong; **some, though, are better** than others and we can **search for the better ones**. At the same time we must recognize that eternal truth is not within our grasp.
+
+And this quote by David R. Cox adds to the point:
+
+> ...it does not seem helpful just to say that all models are wrong. The very word model implies simplification and idealization. The idea that com-
+plex physical, biological or sociological systems can be exactly described
+by a few formulae is patently absurd. The construction of idealized representations that **capture important stable aspects of such systems**
+is, however, a vital part of general scientific analysis and statistical models, especially substantive ones, do not seem essentially different from
+other kinds of model.
 
 
 \newcommand{\bs}[1]{\boldsymbol{#1}}
@@ -47,5 +67,14 @@ While we show how to implement statistical tests and models in **SAS** in class,
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, out.width = '70%', fig.align = 'center')
-options(scipen = 1, digits = 2)
+options(knitr.graphics.auto_pdf = TRUE)
+options(scipen = 1, digits = 3)
+library(viridis)
+library(ggplot2, warn.conflicts = FALSE, quietly = TRUE)
+library(poorman, quietly = TRUE, warn.conflicts = FALSE)
+options(ggplot2.continuous.colour="viridis")
+options(ggplot2.continuous.fill = "viridis")
+scale_colour_discrete <- scale_colour_viridis_d
+scale_fill_discrete <- scale_fill_viridis_d
+theme_set(theme_minimal())
 ```

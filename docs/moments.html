@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>A.3 Moments | Statistical Modelling</title>
+  <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="A.3 Moments | Statistical Modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
+  <meta name="github-repo" content="lbelzile/math60604" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="A.3 Moments | Statistical Modelling" />
+  
+  <meta name="twitter:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="random-variable.html"/>
+<link rel="next" href="law-large-numbers.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistical modelling</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a></li>
+<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a></li>
+<li class="chapter" data-level="3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>3</b> Generalized linear models</a></li>
+<li class="chapter" data-level="4" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>4</b> Correlated and longitudinal data</a></li>
+<li class="chapter" data-level="5" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>5</b> Linear mixed models</a></li>
+<li class="chapter" data-level="6" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>6</b> Survival analysis</a></li>
+<li class="chapter" data-level="7" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>7</b> Likelihood-based inference</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li><a href="r.html#r"><strong>R</strong></a></li>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Mathematical concepts</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistical Modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="moments" class="section level2" number="8.3">
+<h2><span class="header-section-number">A.3</span> Moments</h2>
+<p>One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.</p>
+<p>Let <span class="math inline">\(Y\)</span> be a random variable with density (or mass) function <span class="math inline">\(f(x)\)</span>. This function is non-negative and satisfies <span class="math inline">\(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\)</span>: the integral over a set <span class="math inline">\(B\)</span> gives the probability of <span class="math inline">\(Y\)</span> falling inside <span class="math inline">\(B \in \mathbb{R}\)</span>.</p>
+<p>The expectation of a continuous random variable <span class="math inline">\(Y\)</span> is <span class="math display">\[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]</span>
+Expectation is the “theoretical mean” in the discrete case, we set rather <span class="math inline">\(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\)</span>, where <span class="math inline">\(\mathcal{X}\)</span> stands for the support of <span class="math inline">\(Y\)</span>, which is the set of numerical values at which the probability of <span class="math inline">\(Y\)</span> is non-zero. More generally, we can look at the expectation of a function <span class="math inline">\(g(x)\)</span> for <span class="math inline">\(Y\)</span>, which is nothing but the integral (or sum in the discrete case) of <span class="math inline">\(g(x)\)</span> weighted by the density or mass function of <span class="math inline">\(f(x)\)</span>. In the same fashion, provided the integral is finite, the variance is
+<span class="math display">\[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]</span></p>
+<p>An estimator <span class="math inline">\(\hat{\theta}\)</span> for a parameter <span class="math inline">\(\theta\)</span> is unbiased if its bias <span class="math inline">\(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\)</span> is zero.
+The unbiased estimator of the mean of <span class="math inline">\(Y\)</span> is <span class="math inline">\(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\)</span> and that of the variance is <span class="math inline">\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\)</span>. While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!</p>
+<p>Often, rather, we seek to balance bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, <span class="math display">\[\mathsf{EMQ}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]</span>
+The mean squared error is an objective function consisting of the sum of the squared bias and the variance.</p>
+<p>An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.</p>
+<p>The likelihood of a sample is the joint density of the <span class="math inline">\(n\)</span> observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.</p>
+
+<div class="example">
+<p><span id="exm:bernoullidist" class="example"><strong>Example A.2  (Bernoulli distribution)  </strong></span>We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being <span class="math inline">\(\pi\)</span> so <span class="math inline">\(\mathsf{Pr}(Y=1)=\pi\)</span> and <span class="math inline">\(\mathsf{Pr}(Y=0)=1-\pi\)</span> (complementary event). The mass function of the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> is thus
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\end{align*}\]</span>
+A rapid calculation shows that <span class="math inline">\(\mathsf{E}(Y)=\pi\)</span> and <span class="math inline">\(\mathsf{Va}(Y)=\pi(1-\pi)\)</span>.
+Many research questions have binary responses, for example:</p>
+<ul>
+<li><p>did a potential client respond favourably to a promotional offer?</p></li>
+<li><p>is the client satisfied with service provided post-purchase?</p></li>
+<li><p>will a company go bankrupt in the next three years?</p></li>
+<li><p>did a study participant successfully complete a task?</p>
+</div></li>
+</ul>
+
+<div class="example">
+<p><span id="exm:binomialdist" class="example"><strong>Example A.3  (Binomial distribution)  </strong></span>If the data five the sum of independent Bernoulli events, the number of sucessess <span class="math inline">\(Y\)</span> out of <span class="math inline">\(m\)</span> trials is <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial</a>, denoted <span class="math inline">\(\mathsf{Bin}(m, \pi)\)</span>; the mass function of the binomial distribution is
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \binom{m}{y}\pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\end{align*}\]</span>
+The likelihood of a sample from a binomial distribution is (up to a normalizing constant that doesn’t depend on <span class="math inline">\(\pi\)</span>) the same as that of <span class="math inline">\(m\)</span>independent Bernoulli trials. The expectation of the binomial random variable is <span class="math inline">\(\mathsf{E}(Y)=m\pi\)</span> and its variance <span class="math inline">\(\mathsf{Va}(Y)=m\pi(1-\pi)\)</span>.</p>
+<p>As examples, we could consider the number of successful candidates out of <span class="math inline">\(m\)</span> who passed their driving license test or the number of customers out of <span class="math inline">\(m\)</span> total which spent more than 10$ in a store.</p>
+</div>
+<p>More generally, we can also consider count variables whose realizations are integer-valued, for examples the number of</p>
+<ul>
+<li>insurance claims made by a policyholder over a year,</li>
+<li>purchases made by a client over a month on a website,</li>
+<li>tasks completed by a study participant in a given time frame.</li>
+</ul>
+
+<div class="example">
+<p><span id="exm:geomdist" class="example"><strong>Example A.4  (Geometric distribution)  </strong></span>The <a href="https://en.wikipedia.org/wiki/Geometric_distribution">geometric distribution</a> is a model describing the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> required to obtain a first success. The mass function of <span class="math inline">\(Y \sim \mathsf{Geo}(\pi)\)</span> is
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
+\end{align*}\]</span></p>
+<p>For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.</p>
+</div>
+
+<div class="example">
+<p><span id="exm:poissondist" class="example"><strong>Example A.5  (Poisson distribution)  </strong></span>If the probability of success <span class="math inline">\(\pi\)</span> of a Bernoulli event is small in the sense that <span class="math inline">\(m\pi \to \lambda\)</span> wen the number of trials <span class="math inline">\(m\)</span> increases, then the number of success followss approximately a Poisson distribution with mass function
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
+\end{align*}\]</span>
+where <span class="math inline">\(\Gamma(\cdot)\)</span> denotes the gamma function. The parameter <span class="math inline">\(\lambda\)</span> of the Poisson distribution is both the expectation and the variance of the distribution, meaning <span class="math inline">\(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\)</span>.</p>
+</div>
+
+<div class="example">
+<p><span id="exm:negbindist" class="example"><strong>Example A.6  (Negative binomial distribution)  </strong></span>The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> until we obtain <span class="math inline">\(m\)</span> success. Let <span class="math inline">\(Y\)</span> denote the number of failures: the order of success and failure doesn’t matter, but for the latest trial which is a success. The mass function is thus
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} \pi^m (1-\pi)^{y}.
+\end{align*}\]</span></p>
+<p>The negative binomial distribution also appears as the unconditional distribution of a two-stage hierarchical gamma-Poisson model, in which the mean of the Poisson distribution is random and follows a gamma distribution. In notation, this is <span class="math inline">\(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\)</span> and <span class="math inline">\(\Lambda\)</span> follows a gamma distribution with shape <span class="math inline">\(r\)</span> and scale <span class="math inline">\(\theta\)</span>, whose density is <span class="math display">\[f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\]</span> The unconditional number of success is then negative binomial.</p>
+In the context of generalized linear models, we will employ yet another parametrisation of the distribution, with the mass function
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r &gt;0,
+\end{align*}\]</span>
+where <span class="math inline">\(\Gamma\)</span> is the gamma function and the parameter <span class="math inline">\(r&gt;0\)</span> is not anymore integer valued. The expectation and variance of <span class="math inline">\(Y\)</span> are
+<span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, where <span class="math inline">\(k=1/r\)</span>. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
+</div>
+<div id="diagramme-qq" class="section level3" number="8.3.1">
+<h3><span class="header-section-number">A.3.1</span> Quantiles-quantiles plots</h3>
+<p>Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if <span class="math inline">\(Y\)</span> is a continuous random variable with distribution function <span class="math inline">\(F\)</span>, then the mapping <span class="math inline">\(F(Y) \sim \mathsf{U}(0,1)\)</span> yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from <span class="math inline">\(F\)</span>, viz. <span class="math inline">\(F^{-1}(U)\)</span>. Consider then a random sample of size <span class="math inline">\(n\)</span> from the uniform distribution ordered from smallest to largest, with <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}\)</span>. One can show these ranks have marginally a Beta distribution, <span class="math inline">\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\)</span> with expectation <span class="math inline">\(k/(n+1)\)</span>.</p>
+<p>In practice, we don’t know <span class="math inline">\(F\)</span> and, even if we did, one would need to estimate the parameters. We consider some estimator <span class="math inline">\(\widehat{F}\)</span> for the model and apply the inverse transform to an approximate uniform sample <span class="math inline">\(\{i/(n+1)\}_{i=1}^n\)</span>. The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:</p>
+<ul>
+<li>on the <span class="math inline">\(x\)</span>-axis, the theoretical quantiles <span class="math inline">\(\widehat{F}^{-1}\{\mathrm{rank}(y_i)/(n+1)\}\)</span></li>
+<li>on the <span class="math inline">\(y\)</span>-axis, the empirical quantiles <span class="math inline">\(y_i\)</span></li>
+</ul>
+<p>If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope: the detrended plot is easier to interpret and was proposed by Tukey (but beware of the scale of the <span class="math inline">\(y\)</span>-axis!). Figure <a href="moments.html#fig:diagrammeqq2">A.2</a> shows two representations of the same data using simulated samples from a standard normal distribution.</p>
+<div class="figure" style="text-align: center"><span id="fig:diagrammeqq2"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/diagrammeqq2-1.png" alt="Normal quantile-quantile plot (left) and detrended version (Tukey's) of the same plot (right)." width="70%" />
+<p class="caption">
+Figure A.2: Normal quantile-quantile plot (left) and detrended version (Tukey’s) of the same plot (right).
+</p>
+</div>
+<p>Even if we knew the true distribution of the data, the sample variability makes it very difficult to spot if deviations from the model are abnormal or compatible with the model. A simple point estimate with no uncertainty measure can lead to wrong conclusions. As such, we add approximate pointwise or simultaneous confidence intervals. The simplest way to do this is by simulation (using a parametric bootstrap), by repeating the following steps <span class="math inline">\(B\)</span> times:</p>
+<ol style="list-style-type: decimal">
+<li>simulate a (bootstrap) sample <span class="math inline">\(\{Y^{(b)}_{i}\} (i=1,\ldots, n)\)</span> from <span class="math inline">\(\widehat{F}\)</span></li>
+<li>re-estimate the parameters of <span class="math inline">\(F\)</span> to obtain <span class="math inline">\(\widehat{F}_{(b)}\)</span></li>
+<li>calculate and save the plotting positions <span class="math inline">\(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}\)</span>.</li>
+</ol>
+<p>The result of this operation is an <span class="math inline">\(n \times B\)</span> matrix of simulated data. We obtain a symmetric (<span class="math inline">\(1-\alpha\)</span>) confidence interval by keeping the empirical quantile of order <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> from each row. The number <span class="math inline">\(B\)</span> should be larger than 999, say, and be chosen so that <span class="math inline">\(B/alpha\)</span> is an integer.</p>
+<p>For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately <span class="math inline">\(\alpha\)</span>. However, order statistics are not independent (they are ordered), so its common to see neighboring points falling outside of their respective intervals. [It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall <span class="math inline">\(100(1-\alpha)\)</span>% of the time inside the bands in repeated samples; <a href="https://lbelzile.github.io/lineaRmodels/qqplot.html">see Section 4.4.3 of these course notes</a>. The intervals shown in Figure <a href="moments.html#fig:diagrammeqq2">A.2</a> are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on <span class="math inline">\(F\)</span>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="random-variable.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="law-large-numbers.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["MATH60604A_Statistical_modelling.pdf"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
