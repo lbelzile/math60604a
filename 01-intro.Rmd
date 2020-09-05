@@ -340,7 +340,7 @@ Before fitting a model, it is advisable to understand the structure of the data 
 
 - [Chapter 3, _**R** for Data Science_ by Garrett Grolemund and Hadley Wickham](https://r4ds.had.co.nz/exploratory-data-analysis.html)
 - [Section 1.6 of OpenIntro *Introductory Statistics with Randomization and Simulation*](https://www.openintro.org/book/isrs/) 
-- [*Fundamentals of Data Visualization* by Claus O. Wilke](https://serialmentor.com/dataviz/)
+- [*Fundamentals of Data Visualization* by Claus O. Wilke](https://clauswilke.com/dataviz/)
 - [Chapter 1 of *Data Visualization: A practical introduction* by Kieran Healy](https://socviz.co/lookatdata.html#lookatdata)
 
 

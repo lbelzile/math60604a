@@ -207,6 +207,9 @@
   {\begin{rmdblock}{warning}}
   {\end{rmdblock}}
 \usepackage{amsmath,amssymb,mathtools,enumerate,booktabs}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike2}
 
@@ -242,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-08-16.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-04.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -670,7 +673,7 @@ Before fitting a model, it is advisable to understand the structure of the data 
 \item
   \href{https://www.openintro.org/book/isrs/}{Section 1.6 of OpenIntro \emph{Introductory Statistics with Randomization and Simulation}}
 \item
-  \href{https://serialmentor.com/dataviz/}{\emph{Fundamentals of Data Visualization} by Claus O. Wilke}
+  \href{https://clauswilke.com/dataviz/}{\emph{Fundamentals of Data Visualization} by Claus O. Wilke}
 \item
   \href{https://socviz.co/lookatdata.html\#lookatdata}{Chapter 1 of \emph{Data Visualization: A practical introduction} by Kieran Healy}
 \end{itemize}
@@ -1052,6 +1055,448 @@ We can summarize our findings:
 \hypertarget{linear-regression}{%
 \chapter{Linear regression}\label{linear-regression}}
 
+A linear regression is a model for the conditional mean of a response variable \(Y\) as a function of \(p\) explanatory variables (also termed regressors or covariates),
+\begin{align}
+\mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}. \label{eq:linearreg}
+\end{align}
+The mean of \(Y\) is conditional on the values of the observed covariate \(\mathbf{X}\); this amounts to treating them as non-random, known in advance.
+
+In practice, any model is an approximation of reality. An error term is included to take into account the fact that no exact linear relationship links \(\mathbf{X}\) and \(Y\) (otherwise this wouldn't be a statistical problem), or that measurements of \(Y\) are subject to error. The random error term \(\varepsilon\) will be the source of information for our inference, as it will quantify the goodness of fit of the model.
+
+We can rewrite the linear model in terms of the error for a random sample of size \(n\): denote by \(Y_i\) the value of the response for observation \(i\), and \(\mathrm{X}_{ij}\) the value of of the \(j\)th explanatory variable of observation \(i\). The model is
+\begin{align}
+Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\varepsilon_{i}, \qquad i =1, \ldots, n, \label{eq:olsmean}
+\end{align}
+where \(\varepsilon_i\) is the additive error term specific to observation \(i\). While we may avoid making distributional assumption about \(\varepsilon_i\), we nevertheless fix its expectation to zero to encode the fact we do not believe the model is systematically off,, so \(\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0\) \((i=1, \ldots, n)\).
+
+One important remark is that the model is linear in the coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example \(\mathrm{X}=\log(\texttt{annees})\), \(\mathrm{X}=\texttt{horsepower}^2\) or \(\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}\). The mean of the response is specified as a \textbf{linear combination of explanatory variables}. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Evaluate the effects of covariates \(\mathbf{X}\) on the mean response
+  of \(Y\).
+\item
+  Quantify the influence of the explanatories \(\mathbf{X}\) on the
+  response and test for their significance.
+\item
+  Predict the response for new sets of explanatories \(\mathbf{X}\).
+\end{enumerate}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Linear regression is the most famous and the most widely used statistical model around. The name may appear reductive, but many tests statistics (\emph{t}-tests, ANOVA, Wilcoxon, Kruskal--Wallis) \href{https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf}{can be formulated using a linear regression}, while \href{https://threadreaderapp.com/thread/1286420597505892352.html}{models as diverse as trees, principal components and deep neural networks are just linear regression model in disguise}. What changes under the hood between one fancy model to the next are the optimization method (e.g., ordinary least squares, constrained optimization or stochastic gradient descent) and the choice of variables entering the model (spline basis for nonparametric regression, indicator variable selected via a greedy search for trees, activation functions for neural networks).
+
+This chapter explores the basics of linear regression, parameter interpretation and testing for coefficients and sub-models. Analysis of variance will be presented as special case of linear regression.
+
+To make concepts and theoretical notions more concrete, we will use data from a study performed in a college in the United States. The goal of the administration who collected these information was to investigate potential gender inequality in the salary of faculty members. The data contains the following variables:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{salary}: nine-month salary of professors during the 2008--2009 academic year (in thousands USD).
+\item
+  \texttt{rank}: academic rank of the professor (\texttt{assistant}, \texttt{associate} or \texttt{full}).
+\item
+  \texttt{field}: categorical variable for the field of expertise of the professor, one of \texttt{applied} or \texttt{theoretical}.
+\item
+  \texttt{sex}: binary indicator for sex, either \texttt{man} or \texttt{woman}.
+\item
+  \texttt{service}: number of years of service in the college.
+\item
+  \texttt{annees}: number of years since PhD.
+\end{itemize}
+
+Before drafting a model, a quick look at the data is in due order. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/edacollege-1} 
+
+}
+
+\caption{Exploratory data analysis of $\texttt{college}$ data: salaries of professors as a function of the number of years of service and the academic ranking}\label{fig:edacollege}
+\end{figure}
+
+Salary increases over years of service, but its variability also increases with rank. Note the much smaller number of women in the sample: this will impact our power to detect differences between sex. A contingency table of sex and academic rank can be useful to see if the proportion of women is the same in each rank: women represent 16\% of assistant professors and 16\% of associate profs, but only 7\% of full professors and these are better paid on average.
+
+\begin{table}
+
+\caption{\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+  & assistant & associate & full\\
+\midrule
+man & 56 & 54 & 248\\
+woman & 11 & 10 & 18\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The simple linear regression model only includes a single explanatory variable and defines a straight line linking two variables \(\mathrm{X}\) and \(Y\) by means of an equation of the form \(y=a+bx\); Figure \ref{fig:droitenuage} shows the line passing through the scatterplot for years of service.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/droitenuage-1} 
+
+}
+
+\caption{Simple linear regression model for the salary of professors as a function of the number of years of service; the line is the solution of the least squares problem.}\label{fig:droitenuage}
+\end{figure}
+
+\hypertarget{ordinary-least-squares}{%
+\section{Ordinary least squares}\label{ordinary-least-squares}}
+
+The ordinary least square estimators \(\widehat{\boldsymbol{\beta}}=(\widehat{\beta}_0, \ldots, \widehat{\beta}_p)\) are the values that simultaneously minimize the Euclidean distance between the random observations \(Y_i\) and the \textbf{fitted values}
+\begin{align*}
+ \widehat{Y}_i &= \widehat{\beta}_0 + \widehat{\beta}_1 \mathrm{X}_{i1} + \cdots + \widehat{\beta}_p \mathrm{X}_{ip}, \qquad i =1, \ldots, n.
+\end{align*}
+In other words, the least square estimators are the solution of the convex optimization problem
+\begin{align*}
+\widehat{\boldsymbol{\beta}} &=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}\sum_{i=1}^n (Y_i-\widehat{Y}_i)^2= \min_{\boldsymbol{\beta}} \|\boldsymbol{Y}-\mathbf{X}\boldsymbol{\beta}\|^2
+\end{align*}
+This system of equations has an explicit solution which is better expressed using matrix notation: this amounts to expressing equation \eqref{eq:olsmean} with one observation per line.
+
+Consider the matrices
+\begin{align*}
+\boldsymbol{Y} =
+ \begin{pmatrix}
+  Y_1 \\
+  Y_2 \\
+  \vdots \\
+  Y_n 
+ \end{pmatrix} ,
+ \;
+ \boldsymbol{\varepsilon} =
+ \begin{pmatrix}
+  \varepsilon_1 \\
+  \varepsilon_2 \\
+  \vdots \\
+  \varepsilon_n 
+ \end{pmatrix} ,
+ \;
+\mathbf{X} = \begin{pmatrix}
+\mathrm{X}_{11} & \mathrm{X}_{12} & \cdots & \mathrm{X}_{1p} \\
+\mathrm{X}_{21} & \mathrm{X}_{22} & \cdots & \mathrm{X}_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+\mathrm{X}_{n1} & \mathrm{X}_{n2} & \cdots & \mathrm{X}_{np} 
+\end{pmatrix} , \;
+\boldsymbol{\beta} =
+ \begin{pmatrix}
+  \beta_1 \\
+  \beta_2 \\
+  \vdots \\
+  \beta_p 
+ \end{pmatrix}
+\end{align*}
+The model in compact form is
+\begin{align*}
+\boldsymbol{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}.
+\end{align*}
+LThe ordinary least squares estimator solves the unconstrained optimization problem
+\begin{align*}
+\widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*}
+We can compute the derivative of the right hand side with respect to \(\boldsymbol{\beta}\), set it to zero and solve for \(\widehat{\boldsymbol{\beta}}\),\\
+\begin{align*}
+\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*}
+using the chain rule. Distributing the terms leads to the so-called \emph{normal equation}
+\begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*}
+If the \(n \times p\) matrix \(\mathbf{X}\) is full-rank, the quadratic form \(\mathbf{X}^\top \mathbf{X}\) is invertible and we obtain a unique solution to the optimization problem,
+\begin{align*}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
+\end{align*}
+
+What do these least squares represent in two dimensions? The estimator is the one minimising the sum of squared residuals: the \(i\)th \textbf{ordinary residual} \(e_i = y_i -\widehat{y}_i\) is the \emph{vertical} distance between a point \(y_i\) and the fitted value \(\widehat{y}_i\) on the line; the blue segments on Figure \ref{fig:distancevert} represent the individual vectors of residuals.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/distancevert-1} 
+
+}
+
+\caption{Illustration of ordinary residuals added to the regression line (blue vectors).}\label{fig:distancevert}
+\end{figure}
+
+\begin{remark}[Geometry of least squares]
+\iffalse{} {Remark (Geometry of least squares). } \fi{}If we consider the \(n\) observations as a (column) vector, the term \(\mathbf{X} \widehat{\boldsymbol{\beta}}\) is the projection of the response vector \(\boldsymbol{y}\) on the linear span generated by the columns of \(\mathbf{X}\), \(\mathscr{S}_{\mathbf{X}}\). The ordinary residuals are thus orthogonal to \(\mathscr{S}_{\mathbf{X}}\) and to the fitted values, meaning \(\boldsymbol{e}^\top\widehat{\boldsymbol{y}}=0\).
+A direct consequence of this fact is that the linear correlation between \(\boldsymbol{e}\) and \(\widehat{\boldsymbol{y}}\) is zero; we will use this property to build graphical diagnostics.
+\end{remark}
+
+\begin{remark}[Complexity of ordinary least squares]
+\iffalse{} {Remark (Complexity of ordinary least squares). } \fi{}This is an aside: in machine learning, you will often encounter linear models fitted using a (stochastic) gradient descent algorithm. Unless your sample size \(n\) or the number of covariates \(p\) is significant (think at the Google scale), an approximate should not be prefered to the exact solution! From a numerical perspective, obtaining the least square estimates requires inverting a \(p \times p\) matrix \(\mathbf{X}^\top\mathbf{X}\), which is the most costly operation. In general, direct inversion should be avoided because it is not the most numerically stable way of obtaining the solution. \textbf{R} uses the QR decomposition, which has a complexity of \(\mathrm{O}(np^2)\). Another more stable alternative, which has the same complexity but is a bit more costly is use of a singular value decomposition.
+\end{remark}
+
+Any good software will calculate ordinary least square estimates for you. Keep in mind that there is an explicit and unique solution provided your design matrix \(\mathbf{X}\) doesn't contain collinear columns. If you have more than one explanatory variable, the fitted values lie on a hyperplan (which is hard to represent graphically). Mastering the language and technical term (fitted values, ordinary residuals, etc.) is necessary for the continuation.
+
+\hypertarget{interpretation-of-the-model-parameters}{%
+\section{Interpretation of the model parameters}\label{interpretation-of-the-model-parameters}}
+
+What do the \(\boldsymbol{\beta}\) parameters of the linear model represent? In the simple case presented in Figure \ref{fig:droitenuage}, the equation of the line is \(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1\mathrm{X}_1\), \(\beta_0\) is the intercept (the mean value of \(Y\) when \(\mathrm{X}_1=0\)) and \(\beta_1\) is the slope, i.e., the average increase of \(Y\) when \(\mathrm{X}_1\) increases by one unit.
+
+In some cases, the intercept is \textbf{meaningless} because the value \(\mathrm{X}_1=0\) is impossible (e.g., \(\mathrm{X}_1\) represents the height of a human). In the same vein, there may be no observation in a neighborhood of \(\mathrm{X}_1=0\), even if this value is plausible, in which case the intercept is an \textbf{extrapolation}.
+
+If the columns of \(\mathbf{X}\) are arbitrary, it is customary to include an intercept: this amounts to including \(\mathbf{1}_n\) as column of the design matrix \(\mathbf{X}\). Because the residuals are orthogonal to the columns of \(\mathbf{X}\), their mean is zero, since \(n^{-1}\mathbf{1}_n^\top\boldsymbol{e}=\bar{\boldsymbol{e}}=0\). In general, we could also obtain mean zero residuals by including a set of vectors in \(\mathbf{X}\) that span \(\mathbf{1}_n\).
+
+In our example, the equation of the fitted line of Figure \ref{fig:droitenuage} is \[\widehat{\texttt{salary}} = 99.975 + 0.78\texttt{service}.\]
+The average salary of a new professor would then be 99974.653 dollars, whereas the average annual increase for each additional year of service is 779.569 dollars.
+
+If the response variable \(Y\) should be continuous (for the least square criterion to be meaningful), we place no such restriction on the explanatories. The case of dummies in particular is common: these variables are encoded using binary indicators (\(0/1\)). Consider for example the sex of the professors in the study:
+\[\texttt{sex} = \begin{cases} 0 , & \text{for men},\\
+1, & \text{for women.}
+\end{cases}
+\]
+The equation of the simple linear model that includes the binary variable \(\texttt{sex}\) is \(\texttt{salary} = \beta_0 + \beta_1 \texttt{sex} + \varepsilon\). Let \(\mu_0\) denote the average salary of mean and \(\mu_1\) that of women. The intercept \(\beta_0\) can be interpreted as usual: it is the average salary when \(\texttt{sex}=0\), meaning that \(\beta_0=\mu_0\). We can write the equation for the conditional expectation for each sex,
+\begin{align*}
+\mathsf{E}(\texttt{salary} \mid \texttt{sex})= \begin{cases}
+\beta_0, & \texttt{sex}=0 \text{ (men)}, \\
+\beta_0 + \beta_1 & \texttt{sex}=1 \text{ (women)}.
+\end{cases}
+\end{align*}
+A linear model that only contains a binary variable \(\mathrm{X}\) as regressor amounts to specifying a different mean for each of two groups: the average of women is \(\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1\) and \(\beta_1=\mu_1-\mu_0\) represents the difference between the average salary of men and women. The least square estimator \(\widehat{\beta}_0\) is the sample mean of men and \(\widehat{\beta}_1\) is the difference of the sample mean of women and men. The parametrization of the linear model with \(\beta_0\) and \(\beta_1\) is in terms of \textbf{contrasts} and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing \(\mathscr{H}_0: \beta_1=0\). If we wanted our model to directly output the sample means, we would need to replace the design matrix \(\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]\) by \([\mathbf{1}_n- \texttt{sex}, \texttt{sex}]\). The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behavior (more on this latter).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/graphcollegesex-1} 
+
+}
+
+\caption{Simple linear model for the $\texttt{college}$ data using the binary variable sex as regressor: even if the equation defines a line, only its values in $0/1$ are realistic.}\label{fig:graphcollegesex}
+\end{figure}
+
+If we fit the model with sex only to the \texttt{college} data, we find that the average salary of men is \(\widehat{\beta}_0=\ensuremath{1.151\times 10^{5}}\) USD and the mean difference estimate of the salary between women and men is \(\widehat{\beta}_1=14088.009\) dollars. Since the estimate is negative, this means women are paid less. Bear in mind that the model is not adequate for determining if there are gender inequalities in the salary distribution: \ref{fig:droitenuage} shows that the number of years of service and the academic rank strongly impact wages, yet the distribution of men and women is not the same within each rank.
+
+Even if the linear model defines a line, the latter is only meaningful when evaluated at \(0\) or \(1\); Figure \ref{fig:graphcollegesex} shows it in addition to sample observations (jittered) and a density estimate for each sex. The colored dot represents the mean, showing that the line does indeed pass through the mean of each group.
+
+A binary indicator is a categorical variable with two levels, so we could extend our reasoning and fit a model with a categorical explanatory variable with \(k\) levels. To do this, we add \(k-1\) indicator variables plus the intercept: if we want to model a different mean for each of the \(k\) groups, it is logical to only include \(k\) parameters in the mean model. We will choose, as we did with sex, a \textbf{reference category} or \textbf{baseline} whose average will be encoded by the intercept \(\beta_0\). The other parameters \(\beta_1, \ldots, \beta_{k-1}\) are contrasts relative to the baseline. The college data includes the ordinal variable \texttt{rank}, which has three levels (assistant, associate and full). We thus need two binary variables, \(\mathrm{X}_1 = \mathsf{I}(\texttt{rank}=\texttt{associate})\) and \(\mathrm{X}_2 = \mathsf{I}(\texttt{rank}=\texttt{full})\); the \(i\)th element of the vector \(\mathrm{X}_1\) is one for an associate professor and zero otherwise. The linear model is
+\begin{align*}
+\texttt{salary} =\beta_0 + \beta_1 \mathrm{X}_1+\beta_2\mathrm{X}_2 + \varepsilon,
+\end{align*}
+and the conditional expectation of salary
+\begin{align*}
+\mathsf{E}(\texttt{salary} \mid \texttt{rank})= \begin{cases}
+\beta_0, & \texttt{rank}=\texttt{assistant},\\
+\beta_0 + \beta_1 & \texttt{rank}=\texttt{associate},\\
+\beta_0 + \beta_2 & \texttt{rank}=\texttt{full},
+\end{cases}
+\end{align*}
+Thus \(\beta_1\) (respectively \(\beta_2\)) are the difference between the average salary of associate (respectively full) professors and assistant professors. The choice of the baseline category is arbitrary and all choices yield the same model: only the interpretation changes from one parametrization to the next. For an ordinal variable, it is recommended to choose the smallest or the largest category to ease comparisons.
+
+The models we have fitted so far are not adequate because they ignore variables that are necessarily to correctly explain variations in salaries: Figure \ref{fig:edacollege} show for example that rank is critical for explaining the salary variations in the college. We should thus fit a model that include those simultaneously to investigate the gender gap (which consists of differences that are unexplained by other factors). Before doing this, we come back to the interpretation of the parameters in the multiple linear regression setting.
+
+Consider the model \(Y= \beta_0 + \beta_1 \mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p + \varepsilon\). The intercept \(\beta_0\) represents the mean value of \(Y\) when \emph{all} of the covariates are set to zero,
+\begin{align*}
+\beta_0 &= \mathsf{E}(Y \mid \mathrm{X}_1=0,\mathrm{X}_2=0,\ldots,\mathrm{X}_p=0).
+\end{align*}
+For categorical variables, this yields the baseline, whereas we fix the continous variables to zero: again, this may be nonsensical depending on the study. The coefficient \(\beta_j\) \((j \geq 1)\) can be interpreted as the mean increase of the response \(Y\) when \(\mathrm{X}_j\) increases by one unit, all other things being equal (\emph{ceteris paribus}); e.g.,
+\begin{align*}
+\beta_1 &= \mathsf{E}(Y \mid \mathrm{X}_1=x_1+1,\mathrm{X}_2=x_2,\ldots,\mathrm{X}_p=x_p) \\
+& \qquad \qquad - \mathsf{E}(Y \mid \mathrm{X}_1=x_1,\mathrm{X}_2=x_2,\ldots,\mathrm{X}_p=x_p) \\
+&= \left\{\beta_0 + \beta_1 (x_1+1) + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} \\
+& \qquad \qquad -\left\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} 
+\end{align*}
+It is not always possible to fix the value of an explanatory if multiple columns of \(\mathbf{X}\) contains functions/transformations of it. For example, if we included a polynomial of order \(k\) for some variable \(\mathrm{X}\),
+\begin{align*}
+Y=\beta_0+ \beta_1 \mathrm{X}+ \beta_2 \mathrm{X}^2 + \ldots +\beta_k \mathrm{X}^k + \varepsilon.
+\end{align*}
+If we include a term of order \(k\), \(\mathrm{X}^k\), we must \emph{always} include the lower order terms \(1, \mathrm{X}, \ldots, \mathrm{X}^{k-1}\) to make sure the resulting model is interpretable (otherwise, it amounts to a particular class of polynomials with some zero coefficients). Interpreting nonlinear effects (even polynomials, for which \(k\leq 3\) in practice), is complicated because the effect of an increase of one unit of \(\mathrm{X}\) \emph{depends of the value of the latter}.
+
+\begin{example}[Auto data]
+\protect\hypertarget{exm:auto}{}{\label{exm:auto} \iffalse (Auto data) \fi{} }We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the \texttt{auto} dataset. The postulated model,
+\[
+\texttt{mpg}_i = \beta_0 + \beta_1 \texttt{horsepower}_i + \beta_2 \texttt{horsepower}_i^2 + \varepsilon_i,
+\]
+includes a quadratic term. Figure \ref{fig:autoquad2d} shows the scatterplot with the fitted regression line, above which the line for the simple linear regression for horsepower is added.
+\end{example}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/autoquad2d-1} 
+
+}
+
+\caption{Linear regression models for the fuel autonomy of cars as a function of motor power}\label{fig:autoquad2d}
+\end{figure}
+
+It appears graphically that the quadratic model fits better than the simple linear alternative: we will assess this hypothesis formally later. For the degree two polynomial, Figure \ref{fig:autoquad2d} show that fuel autonomy decreases rapidly when power increases between 50 to 100, then more slow until 189.35 hp. After that, the model postulates that autonomy increases again as evidenced by the scatterplot, but beware of extrapolating (weird things can happen beyond the range of the data, as exemplified by \href{https://livefreeordichotomize.com/2020/05/05/model-detective/}{Hassett's cubic model for the number of daily cases of Covid19 in the USA}).
+
+The representation in Figure \ref{fig:autoquad2d} may seem counter-intuitive given that we fit a linear model, but it is a 2D projection of 3D coordinates for the equation \(\beta_0 + \beta_1x-y +\beta_2z =0\), where \(x=\texttt{horsepower}\), \(z=\texttt{horsepower}^2\) and \(y=\texttt{mpg}\). Physics and common sense force \(z = x^2\), and so the fitted values lie on a curve in a 2D subspace of the fitted plan, as shown in grey in the 3D Figure \ref{fig:hyperplan}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/hyperplane_auto} 
+
+}
+
+\caption{3D graphical representation of the linear regression model for the $	exttt{auto}$ data.}\label{fig:hyperplan}
+\end{figure}
+
+\begin{remark}[There are better alternatives to polynomials for modelling nonlinear effects]
+\iffalse{} {Remark (There are better alternatives to polynomials for modelling nonlinear effects). } \fi{}Generally speaking, one uses flexible basis vectors (splines) rather than polynomials for smoothing when the relation between the response \(Y\) and an explanatory variable \(\mathrm{X}\) is nonlinear; these models involve many covariates and it is customary to add a penalty term to control for overfitting and wiggliness. A better (physical) understanding of the system, or a theoretical model can also guide the choice of functions to use.
+\end{remark}
+
+The coefficient \(\beta_j\) in Eq. \eqref{eq:linearreg} represents the \emph{marginal} contribution of \(\mathrm{X}_j\) when all the other covariates are included in the model and which is not explained by them. This can be represented graphically by projecting \(Y\) and \(\mathrm{X}_j\) in the orthogonal complement of \(\mathbf{X}_{-j}\) (the matrix containing all but the \(j\)th column \(\mathrm{X}_j\)). The \textbf{added-variable plot} is a graphical tool showing this projection: the residuals from the linear regression of \(Y\) onto \(\mathscr{S}(\mathbf{X}_{-j})\) are mapped to the \(y\)-axis, whereas the residuals from the linear regression of \(\mathrm{X}_j\) as a function of \(\mathbf{X}_{-j}\) are shown on the \(x\)-axis. The regression line passes through (\(0,0\)) and its slope is \(\hat{\beta}_j\). This graphical diagnostic is useful for detecting collinearity and the impact of outliers.
+
+\begin{example}[Wage inequality in an American college]
+\protect\hypertarget{exm:inequite-salariale}{}{\label{exm:inequite-salariale} \iffalse (Wage inequality in an American college) \fi{} }We consider a multiple regression model for the \texttt{college} data that includes sex, academic rank, field of study and the number of years of service as regressors.
+\end{example}
+
+If we multiply \(\texttt{salary}\) by a thousand to get the resulting estimates in US dollars, the postulated model is
+\begin{align*}
+\texttt{salary}\times 1000 &= \beta_0 + \beta_1 \texttt{sex}_{\texttt{woman}} +\beta_2 \texttt{field}_{\texttt{theoretical}} \\&\quad +\beta_3 \texttt{rank}_{\texttt{associate}}
++\beta_4 \texttt{rank}_{\texttt{full}}  +\beta_5 \texttt{service} + \varepsilon.
+\end{align*}
+
+\begin{table}
+
+\caption{\label{tab:collegecoefs}Estimated coefficients of the linear model for the $\texttt{college}$ (in USD, rounded to the nearest dollar).}
+\centering
+\begin{tabular}[t]{rrrrrr}
+\toprule
+$\widehat{\beta}_0$ & $\widehat{\beta}_1$ & $\widehat{\beta}_2$ & $\widehat{\beta}_3$ & $\widehat{\beta}_4$ & $\widehat{\beta}_5$\\
+\midrule
+86596 & -4771 & -13473 & 14560 & 49160 & -89\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The interpretation of the coefficients is as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  The estimated intercept is \(\widehat{\beta}_0=86596\) dollars; it corresponds to the mean salary of men assistant professors who just started the job and works in an applied domain.
+\item
+  everything else being equal (same field, academic rank, and number of years of service), the estimated salary difference between a woman and is estimated at \(\widehat{\beta}_1=-4771\) dollars.
+\item
+  \emph{ceteris paribus}, the salary difference between a professor working in a theoretical field and one working in an applied field is \(\beta_2\) dollars: our estimate of this difference is \(-13473\) dollars, meaning applied pays more than theoretical.
+\item
+  \emph{ceteris paribus}, the estimated mean salary difference between associate and assistant professors is \(\widehat{\beta}_3=14560\) dollars.
+\item
+  \emph{ceteris paribus}, the estimated mean salary difference between full and assistant professors is \(\widehat{\beta}_4=49160\) dollars.
+\item
+  au sein d'un même échelon, chaque année supplémentaire de service mène à une augmentation de salary annuelle moyenne de \(\widehat{\beta}_5=-89\) dollars.
+\end{itemize}
+
+All other factors taken into account, women get paid less than men. It remains to see if this difference is statistically significant. Perhaps more surprising, the model estimates that salary decreases with every additional year of service: this seems counterintuitive when looking at Figure \ref{fig:droitenuage}, which showed a steady increas of salary over the years. However, this graphical representation is misleading because Figure \ref{fig:edacollege} showed that academic ranking mattered the most. Once all the other factors are accounted for, years of service serves to explain the salary of full professors who have been working unusual amounts of time and who gain less than the average full professor, as shown by the added-variable plot of Figure \ref{fig:avplotcollege}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/avplotcollege-1} 
+
+}
+
+\caption{Added-variable plot for years of service in the linear regression model of the  $\texttt{college}$ data.}\label{fig:avplotcollege}
+\end{figure}
+
+\hypertarget{r-interlude-the-lm-function}{%
+\section{\texorpdfstring{\textbf{R} interlude: the \texttt{lm} function}{R interlude: the lm function}}\label{r-interlude-the-lm-function}}
+
+The function \texttt{lm} is the workshorse for fitting linear models in \textbf{R}. It takes as input a formula: suppose you have a data frame containing columns \texttt{x} (a regressor) and \texttt{y} (the regressand); you can then call \texttt{lm(y\ \textasciitilde{}\ x)} to fit the linear model \(y = \beta_0 + \beta_1 x + \varepsilon\). The explanatory variable \texttt{y} is on the left hand side,
+while the right hand side should contain the predictors, separated by a \texttt{+} sign if there are more than one.
+If you provide the data frame name using \texttt{data}, then the shorthand \texttt{y\ \textasciitilde{}\ .} fits all the columns of the data frame (but \texttt{y}) as regressors.
+
+If you include categorical variables, make sure they are transformed to factors. Normally, strings are cast to factor (unless you specify \texttt{stringsAsFactors\ =\ FALSE}) upon import of the data, but the danger here lies with variables that are encoded using integers (sex, revenue class, level of education, marital status, etc.) It is okay if we keep binary variables as is if they are encoded using \(0/1\), but it is often better to cast them to factor to get more meaningful labels given the lack of obvious ordering.
+
+By default, the baseline level for a factor is based on the alphabetical order, while \textbf{SAS} uses the first value it encounters. Once the variables are cast to factor, \texttt{summary} will print the counts for each respective categories; these could be likewise be obtained using \texttt{table}.
+
+To fit higher order polynomials or transformations, use the \texttt{I} function to tell \textbf{R} to interpret the input ``as is''.
+Thus, \texttt{lm(y\textasciitilde{}x+I(x\^{}2))}, would fit a linear model with design matrix \((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\). A constant is automatically included in the regression, but can be removed by writing \texttt{-1} or \texttt{+0} on the right hand side of the formula (but don't do that!). The \texttt{lm} function output will display ordinary least squares estimates along with standard errors, \(t\) values for the Wald test of the hypothesis \(\mathrm{H}_0: \beta_i=0\) and the associated \(P\)-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
+
+Many methods allow you to extract specific objects from \texttt{lm} objects. For example, the functions \texttt{coef}, \texttt{resid}, \texttt{fitted}, \texttt{model.matrix} will return the coefficients \(\widehat{\boldsymbol{\beta}}\), the ordinary residuals \(\boldsymbol{e}\), the fitted values \(\widehat{\boldsymbol{y}}\) and the design matrix \(\mathbf{X}\), respectively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(college, }\DataTypeTok{package =} \StringTok{"hecstatmod"}\NormalTok{) }\CommentTok{\#load data}
+\KeywordTok{class}\NormalTok{(college}\OperatorTok{$}\NormalTok{rank) }\CommentTok{\#check that rank is a factor}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "factor"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#if not, use the following "\textless{}{-}" to assign, "$" to access the column of a data.frame/list}
+\CommentTok{\# college$rank \textless{}{-} factor(college$rank, labels = c("assistant","associate","full"))}
+\NormalTok{linmod \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(salary }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{sex }\OperatorTok{+}\StringTok{ }\NormalTok{rank }\OperatorTok{+}\StringTok{ }\NormalTok{service }\OperatorTok{+}\StringTok{ }\NormalTok{field, }\DataTypeTok{data =}\NormalTok{ college)}
+\KeywordTok{coef}\NormalTok{(linmod) }\CommentTok{\#coefficients}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      (Intercept)         sexwoman    rankassociate         rankfull 
+##          86.5963          -4.7712          14.5604          49.1596 
+##          service fieldtheoretical 
+##          -0.0888         -13.4734
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(linmod) }\CommentTok{\#summary table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = salary ~ sex + rank + service + field, data = college)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -64.20 -14.26  -1.53  10.57  99.16 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       86.5963     2.9603   29.25  < 2e-16 ***
+## sexwoman          -4.7712     3.8780   -1.23  0.21931    
+## rankassociate     14.5604     4.0983    3.55  0.00043 ***
+## rankfull          49.1596     3.8345   12.82  < 2e-16 ***
+## service           -0.0888     0.1116   -0.80  0.42696    
+## fieldtheoretical -13.4734     2.3155   -5.82  1.2e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 22.7 on 391 degrees of freedom
+## Multiple R-squared:  0.448,	Adjusted R-squared:  0.441 
+## F-statistic: 63.4 on 5 and 391 DF,  p-value: <2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{confint}\NormalTok{(linmod) }\CommentTok{\#confidence intervals for model parameters}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    2.5 % 97.5 %
+## (Intercept)       80.776 92.416
+## sexwoman         -12.396  2.853
+## rankassociate      6.503 22.618
+## rankfull          41.621 56.698
+## service           -0.308  0.131
+## fieldtheoretical -18.026 -8.921
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yhat \textless{}{-}}\StringTok{ }\KeywordTok{fitted}\NormalTok{(linmod) }\CommentTok{\#fitted values}
+\NormalTok{e \textless{}{-}}\StringTok{ }\KeywordTok{resid}\NormalTok{(linmod) }\CommentTok{\#ordinary residuals}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{likelihood}{%
+\chapter{Likelihood-based inference}\label{likelihood}}
+
 \hypertarget{generalized-linear-models}{%
 \chapter{Generalized linear models}\label{generalized-linear-models}}
 
@@ -1063,9 +1508,6 @@ We can summarize our findings:
 
 \hypertarget{survival}{%
 \chapter{Survival analysis}\label{survival}}
-
-\hypertarget{likelihood}{%
-\chapter{Likelihood-based inference}\label{likelihood}}
 
 \hypertarget{appendix-appendix}{%
 \appendix}
@@ -1479,6 +1921,8 @@ Even if we knew the true distribution of the data, the sample variability makes 
 The result of this operation is an \(n \times B\) matrix of simulated data. We obtain a symmetric (\(1-\alpha\)) confidence interval by keeping the empirical quantile of order \(\alpha/2\) and \(1-\alpha/2\) from each row. The number \(B\) should be larger than 999, say, and be chosen so that \(B/alpha\) is an integer.
 
 For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately \(\alpha\). However, order statistics are not independent (they are ordered), so its common to see neighboring points falling outside of their respective intervals. {[}It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall \(100(1-\alpha)\)\% of the time inside the bands in repeated samples; \href{https://lbelzile.github.io/lineaRmodels/qqplot.html}{see Section 4.4.3 of these course notes}. The intervals shown in Figure \ref{fig:diagrammeqq2} are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on \(F\).
+
+Interpretation of quantile-quantile plots requires some experience: \href{https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290\#101290}{this post by \emph{Glen\_b} on StackOverflow} nicely summarizes what can be detected (or not) from them.
 
 \hypertarget{law-large-numbers}{%
 \section{Laws of large numbers}\label{law-large-numbers}}

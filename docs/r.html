@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="likelihood.html"/>
+<link rel="prev" href="survival.html"/>
 <link rel="next" href="complement.html"/>
 <script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
@@ -49,6 +49,13 @@
 
 
 
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
+<script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
+<script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
+<script src="libs/rglWebGL-binding-0.100.54/rglWebGL.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -133,11 +140,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a></li>
 <li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a></li>
-<li class="chapter" data-level="3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>3</b> Generalized linear models</a></li>
-<li class="chapter" data-level="4" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>4</b> Correlated and longitudinal data</a></li>
-<li class="chapter" data-level="5" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>5</b> Linear mixed models</a></li>
-<li class="chapter" data-level="6" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>6</b> Survival analysis</a></li>
-<li class="chapter" data-level="7" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>7</b> Likelihood-based inference</a></li>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a></li>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a></li>
+<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a></li>
+<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a></li>
+<li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li><a href="r.html#r"><strong>R</strong></a></li>
 <li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Mathematical concepts</a></li>
@@ -243,12 +250,12 @@ then</p>
 <li><code>head</code> (<code>tail</code>) prints the first (last) <span class="math inline">\(n\)</span> lines of the object to the console (default is <span class="math inline">\(n=6\)</span>).</li>
 </ul>
 <p>We start by loading a dataset of the Old Faithful Geyser of Yellowstone National park and looking at its entries.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r.html#cb21-1" aria-hidden="true"></a><span class="co"># Load Old faithful dataset</span></span>
-<span id="cb21-2"><a href="r.html#cb21-2" aria-hidden="true"></a><span class="kw">data</span>(faithful, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
-<span id="cb21-3"><a href="r.html#cb21-3" aria-hidden="true"></a><span class="co"># Query the database for documentation</span></span>
-<span id="cb21-4"><a href="r.html#cb21-4" aria-hidden="true"></a>?faithful</span>
-<span id="cb21-5"><a href="r.html#cb21-5" aria-hidden="true"></a><span class="co"># look at first entries</span></span>
-<span id="cb21-6"><a href="r.html#cb21-6" aria-hidden="true"></a><span class="kw">head</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="r.html#cb30-1" aria-hidden="true"></a><span class="co"># Load Old faithful dataset</span></span>
+<span id="cb30-2"><a href="r.html#cb30-2" aria-hidden="true"></a><span class="kw">data</span>(faithful, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
+<span id="cb30-3"><a href="r.html#cb30-3" aria-hidden="true"></a><span class="co"># Query the database for documentation</span></span>
+<span id="cb30-4"><a href="r.html#cb30-4" aria-hidden="true"></a>?faithful</span>
+<span id="cb30-5"><a href="r.html#cb30-5" aria-hidden="true"></a><span class="co"># look at first entries</span></span>
+<span id="cb30-6"><a href="r.html#cb30-6" aria-hidden="true"></a><span class="kw">head</span>(faithful)</span></code></pre></div>
 <pre><code>##   eruptions waiting
 ## 1      3.60      79
 ## 2      1.80      54
@@ -256,12 +263,12 @@ then</p>
 ## 4      2.28      62
 ## 5      4.53      85
 ## 6      2.88      55</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="r.html#cb23-1" aria-hidden="true"></a><span class="kw">str</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="r.html#cb32-1" aria-hidden="true"></a><span class="kw">str</span>(faithful)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:	272 obs. of  2 variables:
 ##  $ eruptions: num  3.6 1.8 3.33 2.28 4.53 ...
 ##  $ waiting  : num  79 54 74 62 85 55 88 85 51 85 ...</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="r.html#cb25-1" aria-hidden="true"></a><span class="co"># What kind of object is faithful? </span></span>
-<span id="cb25-2"><a href="r.html#cb25-2" aria-hidden="true"></a><span class="kw">class</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="r.html#cb34-1" aria-hidden="true"></a><span class="co"># What kind of object is faithful? </span></span>
+<span id="cb34-2"><a href="r.html#cb34-2" aria-hidden="true"></a><span class="kw">class</span>(faithful)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <p>Other common classes of objects:</p>
 <ul>
@@ -295,7 +302,7 @@ then</p>
           </div>
         </div>
       </div>
-<a href="likelihood.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="survival.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="complement.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

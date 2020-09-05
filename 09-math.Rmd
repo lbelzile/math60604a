@@ -172,6 +172,8 @@ The result of this operation is an $n \times B$ matrix of simulated data. We obt
 For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately $\alpha$. However, order statistics are not independent (they are ordered), so its common to see neighboring points falling outside of their respective intervals. [It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall $100(1-\alpha)$\% of the time inside the bands in repeated samples; [see Section 4.4.3 of these course notes](https://lbelzile.github.io/lineaRmodels/qqplot.html). The intervals shown in Figure \@ref(fig:diagrammeqq2) are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on $F$.
 
 
+Interpretation of quantile-quantile plots requires some experience: [this post by _Glen_b_ on StackOverflow](https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290) nicely summarizes what can be detected (or not) from them.
+
 
 ## Laws of large numbers {#law-large-numbers}
 
