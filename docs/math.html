@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | Statistical Modelling</title>
+  <title>9 Mathematical derivations | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | Statistical Modelling" />
+  <meta property="og:title" content="9 Mathematical derivations | Statistical Modelling" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lbelzile/math60604" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | Statistical Modelling" />
+  <meta name="twitter:title" content="9 Mathematical derivations | Statistical Modelling" />
   
   <meta name="twitter:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="r.html"/>
-
+<link rel="prev" href="complement.html"/>
+<link rel="next" href="r.html"/>
 <script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -170,21 +170,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="math" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> Mathematical derivations</h1>
+<p>This section regroups optional derivations which are provided for the sake of completeness.</p>
+<div id="ols" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> Derivation of the ordinary least squares estimator</h2>
+<p>Consider the optimization problem
+<span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*}\]</span>
+We can compute the derivative of the right hand side with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span>, set it to zero and solve for <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>,<br />
+<span class="math display">\[\begin{align*}
+\mathbf{0}_n&amp;=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&amp;=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&amp;=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*}\]</span>
+using the <a href="http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf">chain rule</a>. Distributing the terms leads to the so-called <em>normal equation</em>
+<span class="math display">\[\begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&amp;=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*}\]</span>
+If the <span class="math inline">\(n \times p\)</span> matrix <span class="math inline">\(\mathbf{X}\)</span> is full-rank, the quadratic form <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> is invertible and we obtain the solution to the least square problems provided in Equation <a href="linear-regression.html#eq:ols">(2.3)</a>.</p>
 
-<div id="refs" class="references hanging-indent">
-<div id="ref-Satterthwaite:1946">
-<p>Satterthwaite, F. E. 1946. “An Approximate Distribution of Estimates of Variance Components.” <em>Biometrics Bulletin</em> 2 (6): 110–14. <a href="http://www.jstor.org/stable/3002019">http://www.jstor.org/stable/3002019</a>.</p>
-</div>
-<div id="ref-Welch:1947">
-<p>Welch, B. L. 1947. “The generalization of ‘Student’s’ problem when several population variances are involved.” <em>Biometrika</em> 34 (1–2): 28–35. <a href="https://doi.org/10.1093/biomet/34.1-2.28">https://doi.org/10.1093/biomet/34.1-2.28</a>.</p>
 </div>
 </div>
-</div>
-
-
-
 
 
 
@@ -193,8 +201,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="r.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="complement.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

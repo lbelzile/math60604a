@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="survival.html"/>
-<link rel="next" href="complement.html"/>
+<link rel="prev" href="math.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -145,9 +145,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a></li>
 <li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
+<li class="chapter" data-level="8" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>8</b> Basic concepts</a></li>
+<li class="chapter" data-level="9" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>9</b> Mathematical derivations</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li><a href="r.html#r"><strong>R</strong></a></li>
-<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Mathematical concepts</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -174,14 +175,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>R</strong> is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.</p>
 <p>You can find several introductions to <strong>R</strong> online. Have a look at the <a href="https://cran.r-project.org/manuals.html"><strong>R</strong> manuals</a> or better at <a href="https://cran.r-project.org/other-docs.html">contributed manuals</a>. A nice official reference is <a href="http://colinfay.me/intro-to-r/index.html">An introduction to <strong>R</strong></a>.
 You may wish to look up the following chapters of the <strong>R</strong> language definition (<a href="http://colinfay.me/r-language-definition/evaluation-of-expressions.html">Evaluation of expressions</a> and part of the <a href="http://colinfay.me/r-language-definition/objects.html"><em>Objects</em> chapter</a>). Another good (small reference) is the cheatsheet <a href="https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf">Getting started in <strong>R</strong></a>.</p>
-<div id="basics-of-r" class="section level2" number="7.1">
-<h2><span class="header-section-number">1</span> Basics of <strong>R</strong></h2>
-<div id="help" class="section level3" number="7.1.1">
-<h3><span class="header-section-number">1.1</span> Help</h3>
+<div id="basics-of-r" class="section level2" number="9.2">
+<h2><span class="header-section-number">2</span> Basics of <strong>R</strong></h2>
+<div id="help" class="section level3" number="9.2.1">
+<h3><span class="header-section-number">2.1</span> Help</h3>
 <p>Help can be accessed via <code>help</code> or simply <code>?</code>, e.g., <code>help("Normal")</code>. <a href="https://www.r-project.org/help.html">See <strong>R</strong> page about help files</a>.</p>
 </div>
-<div id="basic-commands" class="section level3" number="7.1.2">
-<h3><span class="header-section-number">1.2</span> Basic commands</h3>
+<div id="basic-commands" class="section level3" number="9.2.2">
+<h3><span class="header-section-number">2.2</span> Basic commands</h3>
 <p>Basic <strong>R</strong> commands are fairly intuitive, especially if you want to use <strong>R</strong> as a calculator.
 Elementary functions such as <code>sum</code>, <code>min</code>, <code>max</code>, <code>sqrt</code>, <code>log</code>, <code>exp</code>, etc., are self-explanatory.</p>
 <p>Some (unconventional) features of the language:</p>
@@ -200,8 +201,8 @@ Elementary functions such as <code>sum</code>, <code>min</code>, <code>max</code
 </ul>
 <p>Beware! In <strong>R</strong>, invalid calls will often returns <em>something</em> rather than an error. It is therefore good practice to check that the output is sensical.</p>
 </div>
-<div id="linear-algebra-in-r" class="section level3" number="7.1.3">
-<h3><span class="header-section-number">1.3</span> Linear algebra in <strong>R</strong></h3>
+<div id="linear-algebra-in-r" class="section level3" number="9.2.3">
+<h3><span class="header-section-number">2.3</span> Linear algebra in <strong>R</strong></h3>
 <p><strong>R</strong> is an object oriented language, and the basic elements in <strong>R</strong> are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:</p>
 <ul>
 <li><code>c</code> concatenates elements to form a vector</li>
@@ -225,8 +226,8 @@ then</p>
 </ul>
 <p>For a matrix <code>x</code>, subsetting now involves dimensions: <code>[1,2]</code> returns the element in the first row, second column. <code>x[,2]</code> will return all of the rows, but only the second column. For lists, you can use <code>[[</code> for subsetting by index or the <code>$</code> sign by names.</p>
 </div>
-<div id="packages" class="section level3" number="7.1.4">
-<h3><span class="header-section-number">1.4</span> Packages</h3>
+<div id="packages" class="section level3" number="9.2.4">
+<h3><span class="header-section-number">2.4</span> Packages</h3>
 <p>The great strength of <strong>R</strong> comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (<code>base</code>, <code>stats</code>, <code>graphics</code>, etc.) are loaded by default whenever you open a session.</p>
 <p>To install a package from CRAN, use <code>install.packages("package")</code>, replacing <code>package</code> by the package name. Once installed, packages can be loaded using <code>library(package)</code>; all the functions in <code>package</code> will be available in the environment.</p>
 
@@ -234,8 +235,8 @@ then</p>
 <p>There are drawbacks to loading packages: if an object with the same name from another package is already present in your environment, it will be hidden. Use the double-colon operator <code>::</code> to access a single object from an installed package (<code>package::object</code>).</p>
 </div>
 </div>
-<div id="datasets" class="section level3" number="7.1.5">
-<h3><span class="header-section-number">1.5</span> Datasets</h3>
+<div id="datasets" class="section level3" number="9.2.5">
+<h3><span class="header-section-number">2.5</span> Datasets</h3>
 <ul>
 <li>datasets are typically stored inside a <code>data.frame</code>, a matrix-like object whose columns contain the variables and the rows the observation vectors.</li>
 <li>The columns can be of different types (<code>integer</code>, <code>double</code>, <code>logical</code>, <code>character</code>), but all the column vectors must be of the same length.</li>
@@ -250,12 +251,12 @@ then</p>
 <li><code>head</code> (<code>tail</code>) prints the first (last) <span class="math inline">\(n\)</span> lines of the object to the console (default is <span class="math inline">\(n=6\)</span>).</li>
 </ul>
 <p>We start by loading a dataset of the Old Faithful Geyser of Yellowstone National park and looking at its entries.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="r.html#cb30-1" aria-hidden="true"></a><span class="co"># Load Old faithful dataset</span></span>
-<span id="cb30-2"><a href="r.html#cb30-2" aria-hidden="true"></a><span class="kw">data</span>(faithful, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
-<span id="cb30-3"><a href="r.html#cb30-3" aria-hidden="true"></a><span class="co"># Query the database for documentation</span></span>
-<span id="cb30-4"><a href="r.html#cb30-4" aria-hidden="true"></a>?faithful</span>
-<span id="cb30-5"><a href="r.html#cb30-5" aria-hidden="true"></a><span class="co"># look at first entries</span></span>
-<span id="cb30-6"><a href="r.html#cb30-6" aria-hidden="true"></a><span class="kw">head</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r.html#cb21-1" aria-hidden="true"></a><span class="co"># Load Old faithful dataset</span></span>
+<span id="cb21-2"><a href="r.html#cb21-2" aria-hidden="true"></a><span class="kw">data</span>(faithful, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
+<span id="cb21-3"><a href="r.html#cb21-3" aria-hidden="true"></a><span class="co"># Query the database for documentation</span></span>
+<span id="cb21-4"><a href="r.html#cb21-4" aria-hidden="true"></a>?faithful</span>
+<span id="cb21-5"><a href="r.html#cb21-5" aria-hidden="true"></a><span class="co"># look at first entries</span></span>
+<span id="cb21-6"><a href="r.html#cb21-6" aria-hidden="true"></a><span class="kw">head</span>(faithful)</span></code></pre></div>
 <pre><code>##   eruptions waiting
 ## 1      3.60      79
 ## 2      1.80      54
@@ -263,12 +264,12 @@ then</p>
 ## 4      2.28      62
 ## 5      4.53      85
 ## 6      2.88      55</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="r.html#cb32-1" aria-hidden="true"></a><span class="kw">str</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="r.html#cb23-1" aria-hidden="true"></a><span class="kw">str</span>(faithful)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:	272 obs. of  2 variables:
 ##  $ eruptions: num  3.6 1.8 3.33 2.28 4.53 ...
 ##  $ waiting  : num  79 54 74 62 85 55 88 85 51 85 ...</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="r.html#cb34-1" aria-hidden="true"></a><span class="co"># What kind of object is faithful? </span></span>
-<span id="cb34-2"><a href="r.html#cb34-2" aria-hidden="true"></a><span class="kw">class</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="r.html#cb25-1" aria-hidden="true"></a><span class="co"># What kind of object is faithful? </span></span>
+<span id="cb25-2"><a href="r.html#cb25-2" aria-hidden="true"></a><span class="kw">class</span>(faithful)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <p>Other common classes of objects:</p>
 <ul>
@@ -278,8 +279,8 @@ then</p>
 <li><code>data.frame</code> is a special type of list where all the elements are vectors of potentially different type, but of the same length.</li>
 </ul>
 </div>
-<div id="graphics" class="section level3" number="7.1.6">
-<h3><span class="header-section-number">1.6</span> Graphics</h3>
+<div id="graphics" class="section level3" number="9.2.6">
+<h3><span class="header-section-number">2.6</span> Graphics</h3>
 <p>The <code>faithful</code> dataset consists of two variables: the regressand <code>waiting</code> and the regressor <code>eruptions</code>. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables.</p>
 <p>An image is worth a thousand words and in statistics, visualization is crucial. Scatterplots are produced using the function <code>plot</code>. You can control the graphic console options using <code>par</code> — see <code>?plot</code> and <code>?par</code> for a description of the basic and advanced options available.</p>
 <p>Once <code>plot</code> has been called, you can add additional observations as points (lines) to the graph using <code>point</code> (<code>lines</code>) in place of <code>plot</code>. If you want to add a line (horizontal, vertical, or with known intercept and slope), use the function <code>abline</code>.</p>
@@ -293,8 +294,188 @@ then</p>
 <div class="rmdnote">
 <p>There are two options for basic graphics: the base graphics package and the package <code>ggplot2</code>. The latter is a more recent proposal that builds on a modular approach and is more easily customizable — I suggest you stick to either and <code>ggplot2</code> is a good option if you don’t know <strong>R</strong> already, as the learning curve will be about the same. Even if the display from <code>ggplot2</code> is nicer, this is no excuse for not making proper graphics. Always label the axis and include measurement units!</p>
 </div>
-
 </div>
+</div>
+<div id="rlmfunc" class="section level2" number="9.3">
+<h2><span class="header-section-number">3</span> Linear models in <strong>R</strong> using the <code>lm</code> function</h2>
+<p>The function <code>lm</code> is the workshorse for fitting linear models in <strong>R</strong>. It takes as input a formula: suppose you have a data frame containing columns <code>x</code> (a regressor) and <code>y</code> (the regressand); you can then call <code>lm(y ~ x)</code> to fit the linear model <span class="math inline">\(y = \beta_0 + \beta_1 x + \varepsilon\)</span>. The explanatory variable <code>y</code> is on the left hand side,
+while the right hand side should contain the predictors, separated by a <code>+</code> sign if there are more than one.
+If you provide the data frame name using <code>data</code>, then the shorthand <code>y ~ .</code> fits all the columns of the data frame (but <code>y</code>) as regressors.
+<!-- In class, we conducted an analysis of the linear relation between buying intention for customers (`intention`) and the number of seconds the subject fixated a candy advertisement (`fixation`) using a simple linear regression.  --></p>
+<p>If you include categorical variables, make sure they are transformed to factors. Normally, strings are cast to factor (unless you specify <code>stringsAsFactors = FALSE</code>) upon import of the data, but the danger here lies with variables that are encoded using integers (sex, revenue class, level of education, marital status, etc.) It is okay if we keep binary variables as is if they are encoded using <span class="math inline">\(0/1\)</span>, but it is often better to cast them to factor to get more meaningful labels given the lack of obvious ordering.</p>
+<!-- Note that response variable intention is bounded between $[2, 14]$ by construction, being the sum of two Likert scales ranging from 1 to 7. The normal approximation with a sample size this large probably means this won't impact the inference, but we must be careful with predictions (by truncating them so they lie within the range of possible values). -->
+<!-- ```{r linereg1} -->
+<!-- url <- "https://lbelzile.bitbucket.io/MATH60619A/intention.txt" -->
+<!-- intention <- read.table(url, header = TRUE) -->
+<!-- # number of observations (rows) and variables (cols) -->
+<!-- dim(intention)  -->
+<!-- summary(intention) -->
+<!-- #variable names -->
+<!-- colnames(intention) -->
+<!-- # cast categorical and ordinal variables to factors -->
+<!-- intention$revenue <- factor(intention$revenue,  -->
+<!--                             labels = c('low','medium','high'), -->
+<!--                              ordered = TRUE) -->
+<!-- intention$educ <- factor(intention$educ,  -->
+<!--                             labels = c(' <high school','high school','university')) -->
+<!-- intention$marital <- factor(intention$marital, -->
+<!--                             labels = c("single","relationship")) -->
+<!-- intention$sex <- factor(intention$sex,  -->
+<!--                            labels = c("man","woman")) -->
+<!-- ``` -->
+<p>By default, the baseline level for a factor is based on the alphabetical order, while <strong>SAS</strong> uses the first value it encounters. Once the variables are cast to factor, <code>summary</code> will print the counts for each respective categories; these could be likewise be obtained using <code>table</code>.</p>
+<!-- Before fitting a simple linear regression model, we should assess whether there is a linear relationship between the response and the explanatory (or not); a scatterplot can help to assess this. We superimpose the least square fit to the plot. In both cases, there is some positive correlation between intention and the explanatories, but this correlation is weak.  -->
+<!-- ```{r slrscatterplots} -->
+<!-- par(mfrow=c(1,2), pch = 20, bty = 'l') -->
+<!-- plot(intention ~ fixation, data = intention) -->
+<!-- abline(lm(intention ~ fixation, data = intention)) -->
+<!-- plot(intention ~ emotion, data = intention) -->
+<!-- abline(lm(intention ~ emotion, data = intention)) -->
+<!-- ``` -->
+<!-- We can compute the correlation coefficient using `cor`; we get 0.43 for `intention` and `fixation` and 0.23 for `intention` and `emotion`. If we specify a matrix with more than two columns or a data frame (with numeric values), we get a correlation matrix with ones on the diagonal. For factor variables, we would need to map these back to binary, but we saw that the $R^2$ value is equal to the squared correlation coefficient, so we can extract this from the output of the linear model fit.  -->
+<p>To fit higher order polynomials or transformations, use the <code>I</code> function to tell <strong>R</strong> to interpret the input “as is”.
+Thus, <code>lm(y~x+I(x^2))</code>, would fit a linear model with design matrix <span class="math inline">\((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\)</span>. A constant is automatically included in the regression, but can be removed by writing <code>-1</code> or <code>+0</code> on the right hand side of the formula (but don’t do that!). The <code>lm</code> function output will display ordinary least squares estimates along with standard errors, <span class="math inline">\(t\)</span> values for the Wald test of the hypothesis <span class="math inline">\(\mathrm{H}_0: \beta_i=0\)</span> and the associated <span class="math inline">\(P\)</span>-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.</p>
+<p>Many methods allow you to extract specific objects from <code>lm</code> objects. For example, the functions <code>coef</code>, <code>resid</code>, <code>fitted</code>, <code>model.matrix</code> will return the coefficients <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>, the ordinary residuals <span class="math inline">\(\boldsymbol{e}\)</span>, the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> and the design matrix <span class="math inline">\(\mathbf{X}\)</span>, respectively.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="r.html#cb27-1" aria-hidden="true"></a><span class="kw">data</span>(college, <span class="dt">package =</span> <span class="st">&quot;hecstatmod&quot;</span>) <span class="co">#load data</span></span>
+<span id="cb27-2"><a href="r.html#cb27-2" aria-hidden="true"></a><span class="kw">class</span>(college<span class="op">$</span>rank) <span class="co">#check that rank is a factor</span></span></code></pre></div>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="r.html#cb29-1" aria-hidden="true"></a><span class="co">#if not, use the following &quot;&lt;-&quot; to assign, &quot;$&quot; to access the column of a data.frame/list</span></span>
+<span id="cb29-2"><a href="r.html#cb29-2" aria-hidden="true"></a><span class="co"># college$rank &lt;- factor(college$rank, labels = c(&quot;assistant&quot;,&quot;associate&quot;,&quot;full&quot;))</span></span>
+<span id="cb29-3"><a href="r.html#cb29-3" aria-hidden="true"></a>linmod &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>rank <span class="op">+</span><span class="st"> </span>service <span class="op">+</span><span class="st"> </span>field, <span class="dt">data =</span> college)</span>
+<span id="cb29-4"><a href="r.html#cb29-4" aria-hidden="true"></a><span class="kw">coef</span>(linmod) <span class="co">#coefficients</span></span></code></pre></div>
+<pre><code>##      (Intercept)         sexwoman    rankassociate         rankfull 
+##          86.5963          -4.7712          14.5604          49.1596 
+##          service fieldtheoretical 
+##          -0.0888         -13.4734</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="r.html#cb31-1" aria-hidden="true"></a><span class="kw">summary</span>(linmod) <span class="co">#summary table</span></span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = salary ~ sex + rank + service + field, data = college)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -64.20 -14.26  -1.53  10.57  99.16 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       86.5963     2.9603   29.25  &lt; 2e-16 ***
+## sexwoman          -4.7712     3.8780   -1.23  0.21931    
+## rankassociate     14.5604     4.0983    3.55  0.00043 ***
+## rankfull          49.1596     3.8345   12.82  &lt; 2e-16 ***
+## service           -0.0888     0.1116   -0.80  0.42696    
+## fieldtheoretical -13.4734     2.3155   -5.82  1.2e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 22.7 on 391 degrees of freedom
+## Multiple R-squared:  0.448,	Adjusted R-squared:  0.441 
+## F-statistic: 63.4 on 5 and 391 DF,  p-value: &lt;2e-16</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="r.html#cb33-1" aria-hidden="true"></a><span class="kw">confint</span>(linmod) <span class="co">#confidence intervals for model parameters</span></span></code></pre></div>
+<pre><code>##                    2.5 % 97.5 %
+## (Intercept)       80.776 92.416
+## sexwoman         -12.396  2.853
+## rankassociate      6.503 22.618
+## rankfull          41.621 56.698
+## service           -0.308  0.131
+## fieldtheoretical -18.026 -8.921</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="r.html#cb35-1" aria-hidden="true"></a>yhat &lt;-<span class="st"> </span><span class="kw">fitted</span>(linmod) <span class="co">#fitted values</span></span>
+<span id="cb35-2"><a href="r.html#cb35-2" aria-hidden="true"></a>e &lt;-<span class="st"> </span><span class="kw">resid</span>(linmod) <span class="co">#ordinary residuals</span></span></code></pre></div>
+<!-- The estimated intercept $\widehat{\beta}_0$ is 6.92 and the estimated slope $\widehat{\beta}_1$ is 1.29 The table gives the $p$-values for the null hypotheses $\beta_0=0$ and $\beta_1=0$, which are negligible. The estimated variance $\widehat{\sigma}^2$, given by the `Residual standard error` is 2.86. -->
+<!-- To obtain predicted values for combination of explanatories not present in the dataset, we need to first create a new data frame, with the same column names as those of the explanatory. In this case, the only $\mathrm{X}$ variable is `fixation`. We can get confidence intervals for the mean value with `interval = "conf"` or prediction intervals for the new observations with `interval = "pred"`. -->
+<!-- ```{r plotfitted} -->
+<!-- newdata <- data.frame(fixation = seq(0, 6.5, length.out = 100L)) -->
+<!-- # Predictions with confidence interval for E(Y) -->
+<!-- fitted_vals <- predict(object = linmod,  -->
+<!--          newdata = newdata,  -->
+<!--          interval = "conf") -->
+<!-- #Same, but with prediction intervals for Y_new -->
+<!-- predict_vals <- predict(object = linmod,  -->
+<!--          newdata = newdata,  -->
+<!--          interval = "pred") -->
+<!-- plot(intention ~ fixation, data = intention) -->
+<!-- matplot(x = newdata$fixation, -->
+<!--         y = fitted_vals,  -->
+<!--         col = "blue",  -->
+<!--         add = TRUE, -->
+<!--         type = "l") -->
+<!-- matplot(x = newdata$fixation, -->
+<!--         y = predict_vals,  -->
+<!--         lty = 2, #dashed lines,  -->
+<!--         col = "blue",  -->
+<!--         add = TRUE, -->
+<!--         type = "l") -->
+<!-- ``` -->
+<!-- The confidence interval for the mean value $\mathsf{E}({\widehat{Y}_i})$ is larger for values of $\mathrm{X}$ that are far from $\overline{\mathrm{X}}$; since there are less neighboring points, the model is extrapolating at this point and this translates in higher uncertainty, roughly speaking. The prediction intervals are much wider and account for the additional variability of $\varepsilon_{\text{new}}$; the intervals are pointwise, so for any given $\mathrm{X}$, we would assume that 95\% of the intervals in repeated samples would capture $Y_{\text{new}}$. -->
+<!-- ### Graphical diagnostics and analysis of residuals -->
+<!-- The hypothesis of the classical linear model are -->
+<!-- 1. independence -->
+<!-- 2. linearity (correct specification of the mean response) -->
+<!-- 3. homoscedasticity -->
+<!-- 4. normality -->
+<!-- Underlying the linear model  -->
+<!-- \begin{align*} -->
+<!-- Y_i = \beta_0 + \sum_{j=1}^p \mathrm{X}_{ij} + \varepsilon_i. -->
+<!-- \end{align*} -->
+<!-- is the hypothesis that the errors $\{\varepsilon_i\}_{i=1}^n$ are independent and identically distributed $\mathcal{N}(0, \sigma^2)$ variables. We get to observe $y_i (i=1,\ldots,n)$, but $\beta_0, \beta_1, \ldots \beta_p, \sigma^2, \varepsilon_i (i=1,\ldots,n)$ are all unknown. The best we can hope for is  -->
+<!-- least square estimates for $\beta$'s, say $\widehat{\beta}_0, \ldots, \widehat{\beta}_p$. -->
+<!-- The fitted values are $\widehat{y}_i=\widehat{\beta}_0 + \sum_{j=1}^p \widehat{\beta}_j \mathrm{X}_{i,j}$ from which we will deduce the **ordinary residuals** $e_i = Y_i - \widehat{Y}_i$. -->
+<!-- Unfortunately, it turns out that $e_i$'s are not independent; worst, they each have a different variance. However, the ordinary residuals and the fitted values are orthogonal, i.e. their linear correlation is zero. This is also true of $\mathbf{X}_j$ and $\boldsymbol{e}$, and $\overline{e} = 0$ by construction. Thus, if we fit a linear model with mean structure $\mathsf{E}(e_i) = \beta_0 + \beta_1\mathrm{X}_{ij}$ or $\mathsf{E}(e_i) = \beta_0 + \beta_1 \widehat{y}_i$, the estimates for $\widehat{\beta}_0$ and $\widehat{\beta}_1$ will be exactly zero in both cases. We can verify this numerically. -->
+<!-- ```{r checkresiduortho} -->
+<!-- #check whether coefs are zero -->
+<!-- isTRUE(all.equal(coef(lm(e ~ yhat)), rep(0, 2), check.attributes = FALSE)) -->
+<!-- #due to machine precision, could be ~1e-17 -->
+<!-- coef(lm(e ~ fixation, data = intention)) -->
+<!-- mean(e) -->
+<!-- ``` -->
+<!-- If we plot $e_i$ against $\hat{y}_i$ or $\mathrm{X}_i$, we would expect to see no pattern. If we omitted important explanatory models for $Y$, these would not be accounted for in the mean model and their impact would be transferred to the residuals, which would be correlated with the omitted covariate. We can use local smoothing to check for residual nonlinear relationships or changepoints between $e_i$ and $\hat{y}_i$ or $e_i$ and $\mathrm{X}_{i}$ by using a local smoother (LOESS) that should capture these local effects, if present. Bear in mind that the model is not reliable. -->
+<!-- ```{r residlowess} -->
+<!-- par(mfrow = c(1, 3)) -->
+<!-- car::residualPlot(linmod) -->
+<!-- scatter.smooth(e ~ intention$fixation,  -->
+<!--      xlab = "fixation (in sec)", -->
+<!--      ylab = "ordinary residuals") -->
+<!-- scatter.smooth(e ~ intention$emotion,  -->
+<!--      xlab = "omitted covariate\n`emotion`", -->
+<!--      ylab = "ordinary residuals") -->
+<!-- ``` -->
+<!-- There is no graphical in our example that the relationship between fixation time and buying intention is nonlinear --- the dip in fitted value and fixation is spurious and is due to the lack of long fixation time, which means the point has high leverage and pulls the smooth to itself.  -->
+<!-- If we plot the omitted covariate `emotion`, we see that the local trend is positive and possibly non-zero. This seems to imply that the effect of emotion has not been captured by the model, suggesting that our simple linear regression mean model is overly simple. The extension from simple to multiple linear regression models is straightforward and we can assess the significance of an added variable and test for their significance. In practice, we should use added-variable plots for new variables. -->
+<!-- Contrast the lack of residual structure between `intention` and `fixation` with the relation between horsepower and fuel consumption in miles per gallon of the `auto` dataset: we can see a clear nonlinear (potentially quadratic) relationship between distance per gallon and fuel consumption. -->
+<!-- ```{r autoplot} -->
+<!-- url <- "https://lbelzile.bitbucket.io/MATH60619A/auto.csv" -->
+<!-- auto <- read.csv(url, header = TRUE) -->
+<!-- lmauto <- lm(mpg ~ horsepower, data = auto) -->
+<!-- # residual plots (Pearson resid = ordinary resid) -->
+<!-- car::residualPlots(lmauto, tests = FALSE) -->
+<!-- ``` -->
+<!-- While `plot` method for `lm` objects return plots, the functions in the library `car` give nicer and often clearer output.  -->
+<!-- For heteroscedasticity, we can use the absolute jackknife studentized residuals rather than the ordinary residuals: the rationale is that the latter have different variance $\sigma^2(1-h_i)$, where $h_i$ is a known constant that depends on $\mathbf{X}$. The jackknife studentized residuals are thus standardized residuals, whereby each $e_i$ is divided by an estimate of its standard deviation so that each has the same variance and we can make comparisons. The term jackknife comes from the estimation method. If the $\varepsilon_i$ are truly normally distributed, then the jackknife studentized residuals should follow a Student with $n-k-1$ degrees of freedom, where $k$ is the number of $\beta$ parameters estimated. If $n-k$ is large, say larger than 25, we can use the normal distribution for comparison. -->
+<!-- ```{r normalitychecks} -->
+<!-- par(mfrow = c(1,3)) -->
+<!-- # check for heteroscedasticity with jsr -->
+<!-- plot(1:length(jsr), abs(jsr),  -->
+<!--      xlab="observation number",  -->
+<!--      ylab="|jackknife studentized residuals|") -->
+<!-- #a fancy smoother -->
+<!-- car::gamLine(1:length(jsr), abs(jsr), spread = TRUE) -->
+<!-- #density plot -->
+<!-- car::densityPlot(jsr) -->
+<!-- dfjsr <- linmod$df.residual - 1L -->
+<!-- #superimpose density of student -->
+<!-- curve(dt(x, df = dfjsr),  -->
+<!--       from = -5,  -->
+<!--       to = 5,  -->
+<!--       add = TRUE, -->
+<!--       col = "red") -->
+<!-- # student q-q plot of jackknife resid -->
+<!-- car::qqPlot(jsr,  -->
+<!--             distribution = "t",  -->
+<!--             df = dfjsr, -->
+<!--             ylab = "jackknife studentized residuals") -->
+<!-- ``` -->
+<!-- Here, we see no evidence of heteroscedasticity; the latter is more frequent in multiplicative models, when effects typically increase over time (like growth whose increase is, according to economic theory, exponential). The kernel density estimator (with rugs) and the quantile-quantile plots show that most points are in line with the postulated Student distribution, there is no outlier or extreme value and the residuals are symmetrically distributed around zero. -->
+<!-- Interpretation of quantile-quantile plots requires experience; [this post by _Glen_b_ on StackOverflow](https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290) nicely summarizes what can be detected (or not) from the Q-Q plot. -->
+
 </div>
 </div>
             </section>
@@ -302,8 +483,8 @@ then</p>
           </div>
         </div>
       </div>
-<a href="survival.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="complement.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="math.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

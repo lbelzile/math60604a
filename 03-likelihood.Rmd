@@ -1,1 +1,296 @@
 # Likelihood-based inference {#likelihood}
+
+The goal of this chapter is to familiarize you with likelihood-based inference.
+
+The starting point of likelihood-based inference is a statistical model: we postulate that (a function of) the data has been generated from a probability distribution with $p$-dimensional parameter vector $\boldsymbol{\theta}$. The purpose of the analyst is to estimate these unknown parameters on the basis of a sample and make inference about them.
+
+
+The **likelihood** $L(\boldsymbol{\theta})$ is a function of $\boldsymbol{\theta}$ that gives the probability (or density) of observing a sample under a postulated distribution, treating the observations as fixed. In most settings we consider, observations are independent and so the joint probability of the sample values is the product of the probability of the individual observations^[If this seems foreign, think about repeated coin tosses with Bernoulli distribution of unknown parameter $p$ and convince yourself that the trials are independent, so the probability of obtaining two consecutive heads is $0.25$ for a fair coin.]: for $y_1, \ldots, y_n$ assuming $Y_i$ ($i=1, \ldots, n$) follows a distribution whose mass function or density is $f(y; \boldsymbol{\theta})$, this is just
+\begin{align*}
+L(\boldsymbol{\theta}; \boldsymbol{y}) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}) = f(y_1; \boldsymbol{\theta}) \times \cdots \times f(y_n; \boldsymbol{\theta}).
+\end{align*}
+
+From a pure optimization perspective, the likelihood is a particular choice of objective function that reflects the probability of the observed outcome. One shouldn't however maximize directly the likelihood, since computing the product of a lot of potentially small numbers is subject to numerical overflow and is unstable (for discrete distributions, the mass function gives probabilities that are by definition between zero and one). Instead, one should work with the log-likelihood function, $\ell(\boldsymbol{\theta}) = \log\{L(\boldsymbol{\theta})\}$. Since logarithm is a strictly increasing function, maximizing the natural logarithm (denoted $\log\equiv \ln$ throughout) of the likelihood leads to the same solution. Another reason why working with the log-likelihood is preferable is because product over $n$ likelihood contributions becomes a sum and this facilitates numerical and analytical derivations of the maximum likelihood estimators (the log of a product is equal to the sum of logs, i.e., $\log(ab) =\log(a) +\log(b)$ for $a, b>0$.)  
+
+The **maximum likelihood estimator** $\widehat{\boldsymbol{\theta}}$ is the value of $\boldsymbol{\theta}$ that maximizes the likelihood, i.e., the value under which the random sample is the most likely to be generated. The scientific reasoning behind this is: "whatever we observe, we have expected to observe" so we choose between competing models the one that makes the most sense.
+
+
+Several properties of maximum likelihood estimator makes it appealing for inference.
+
+- The maximum likelihood estimator is **consistent**, i.e., it converges to the correct value as the sample size increase (asymptotically unbiased).
+- The maximum likelihood estimator is invariant to reparametrizations
+- Under regularity conditions, the maximum likelihood estimator is asymptotically normal, so we can obtain the null distribution of classes of hypothesis tests and derive confidence intervals based on $\widehat{\boldsymbol{\theta}}$.
+- The maximum likelihood estimator is efficient, meaning it has the smallest asymptotic mean squared error (or the smallest asymptotic variance).
+
+
+The **score function** $U(\boldsymbol{\theta}; \boldsymbol{y}) = \partial \ell(\boldsymbol{\theta}; \boldsymbol{y})/ \partial \boldsymbol{\theta}$ is the gradient of the log-likelihood function and, under regularity conditions, the maximum likelihood estimator solves $U(\boldsymbol{\theta}; \boldsymbol{Y})=\boldsymbol{0}_p$. This property can be used to derive gradient-based algorithms for optimization and for verifying that the solution found is a global maximum.
+
+
+```{remark optimlik, title = "Optimization routines for regression models"}
+While least squares admit a closed-form solution, the maximum of the log-likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
+```
+
+
+The **observed information matrix** is the hessian $j(\boldsymbol{\theta}; \boldsymbol{y})=-\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})/\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top$ evaluated at the maximum likelihood estimate $\widehat{\boldsymbol{\theta}}$.
+Under regularity conditions, the Fisher information matrix is
+\begin{align*}
+i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = -\mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
+\end{align*}
+The Fisher (or expected) and observed information matrices encodes the curvature of the log-likelihood and provides information about the variability of $\widehat{\boldsymbol{\theta}}$.
+
+The properties of the log-likelihood are particularly convenient for inference because they provide omnibus testing procedures that have a known asymptotic distribution. The starting point for the distributional theory surrounding likelihood-based statistics is the asymptotic normality of the score $U(\boldsymbol{\theta}) \stackrel{\cdot}{\sim}\mathsf{No}(0, i(\boldsymbol{\theta}))$, which follows from a central limit theorem. The variance of $U(\boldsymbol{\theta}_0)$ is exactly $i(\boldsymbol{\theta}_0)$, while that of $\widehat{\boldsymbol{\theta}}$ is approximately $i(\boldsymbol{\theta}_0)^{-1}$ under the null hypothesis $\mathscr{H}_0$. This result is particularly useful: we often use the inverse of the observed information as estimate of the covariance matrix of the maximum likelihood estimator. To obtain the standard errors of $\widehat{\boldsymbol{\theta}}$, one simple computes the square root of the diagonal elements of the inverse of the observed information, i.e., $[\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}$.
+
+```{example label="waitingtime", name = "Exponential model for waiting times of the Montreal metro"}
+Consider the waiting time $Y$ between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with scale $\theta$, denoted $Y \sim \mathsf{E}(\theta)$. The purpose of statistical inference is to use the information from a random sample of size $n$ to estimate the unknown parameter $\theta$. The density of $Y$ evaluated at $y$, $f(y; \theta)=\theta^{-1}\exp(-y/\theta)$, encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing $y_1, \ldots, y_n$ is the product of probabilities of individual events. The likelihood is thus
+\begin{align*}
+L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta^{-1}\exp(-y_i/\theta),\\
+\ell(\theta; \boldsymbol{y}) & = -n\log(\theta) - \theta^{-1}\sum_{i=1}^n y_i
+\end{align*}
+To find the maximum of the function, we differentiate the log-likelihood $\ell(\theta; \boldsymbol{y})$ and set the gradient to zero,
+\begin{align*}
+\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = -\frac{n}{\theta} + \theta^{-2} \sum_{i=1}^n y_i =0.
+\end{align*}
+Solving for $\theta$ gives $\widehat{\theta} = \overline{y}$, so the maximum likelihood estimator is the sample mean $\overline{Y}$. The observed information is $j(\theta) = -n\theta^{-2} + 2\theta^{-3}n\overline{y}$ and $i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}$.
+
+```
+
+```{r explikelihood, fig.cap = "Log-likelihood for a sample of size 20 of waiting times (in minutes)", echo = FALSE}
+set.seed(24)
+waiting_times <- rexp(n = 20, rate = 1/4)
+explik <- function(lambda, samp = waiting_times, log = TRUE){
+  ll <- sapply(lambda, function(l){sum(log(dexp(x = samp, rate = 1/l)))})
+  switch(log, ll, exp(ll))
+}
+# curve(expr = explik(x, samp = waiting_times, log = TRUE), from = 1.8, to = 10)
+library(latex2exp)
+ggplot() +
+  geom_vline(xintercept = mean(waiting_times), lty = 2, col = "grey", alpha = 0.8) +
+  stat_function(xlim = c(2,5), n = 101L, fun = explik, args = list(log = TRUE, samp = waiting_times)) +
+  ylab("log-likelihood") +
+  xlab(TeX("$\\lambda$")) + 
+  theme(panel.grid.major.x = element_blank(), 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_blank(), 
+        panel.grid.minor.y = element_blank())
+```
+
+
+For the sample of waiting time in the subway, the maximum likelihood estimate is $\widehat{\theta}=`r mean(waiting_times)`$, the observed information is $j(\widehat{\theta})=i(\widehat{\theta})=`r length(waiting_times)/mean(waiting_times)^2`$ and the standard error of $\widehat{\theta}$ is $j(\widehat{\theta})^{-1/2}=`r sqrt(mean(waiting_times)^2/length(waiting_times))`$.
+
+
+```{example label="normal", name = "Normal samples and ordinary least squares"}
+Suppose we have an independent normal sample of size $n$ with mean $\mu$ and variance $\sigma^2$, where
+$Y_i \sim \mathsf{No}(\mu, \sigma^2)$ are independent. 
+Recall that the density of the normal distribution is
+\begin{align*}
+f(\boldsymbol{y}; \mu, \sigma^2)=\frac{1}{(2\pi \sigma^2)^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}.
+\end{align*}
+For an $n$-sample $\boldsymbol{y}$, the likelihood is 
+\begin{align*}
+L(\mu, \sigma^2; \boldsymbol{y})=&\prod_{i=1}^n\frac{1}{({2\pi \sigma^2})^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(y_i-\mu)^2\right\}\\
+=&(2\pi \sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\mu)^2\right\}.
+\end{align*}
+and the log-likelihood is
+\begin{align*}
+\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
+\end{align*}
+
+One can show that the maximum likelihood estimators for the two parameters are 
+\begin{align*}
+\widehat{\mu}=\overline{Y}=\frac{1}{n} \sum_{i=1}^n Y_i, \qquad \widehat{\sigma}^2=\frac{1}{n}\sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}
+
+
+The fact that the estimator of the theoretical mean $\mu$ is the sample mean is fairly intuitive and one can show the estimator is unbiased for $\mu$. The (unbiased) sample variance estimator,
+\begin{align*}
+S^2=\frac{1}{n-1} \sum_{i=1}^n (\mathrm{Y}_i-\overline{Y})^2
+\end{align*}
+Since $\widehat{\sigma}^2=(n-1)/n S^2$, it follows that the maximum likelihood estimator of $\sigma^2$ is biased, but both estimators are consistent and will thus get arbitrarily close to the true value $\sigma^2$ for $n$ sufficiently large.
+
+The case of normally distributed data is intimately related to linear regression and ordinary least squares: assuming normality of the errors, the least square estimators of $\boldsymbol{\beta}$ coincide with the maximum likelihood estimator of $\boldsymbol{\beta}$.
+
+Recall the linear regression model, 
+\begin{align*}
+Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
+\end{align*}
+where the errors $\varepsilon_i \sim \mathsf{No}(0, \sigma^2)$.
+The linear model has $p+2$ parameters ($\boldsymbol{\beta}$ and $\sigma^2$) and the log-likelihood is 
+\begin{align*}
+\ell(\boldsymbol{\theta})&=-\frac{n}{2} \log(2\pi)-\frac{n}{2} \log (\sigma^2) -\frac{1}{2\sigma^2}\left\{\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*}
+Maximizing the log-likelihood with respect to $\boldsymbol{\beta}$ is equivalent to
+minimizing the sum of squared errors $\|\boldsymbol{Y} - \widehat{\boldsymbol{Y}}\|^2$. Since this objective function is the same as that of least squares, it follows that the least-square estimator $\widehat{\boldsymbol{\beta}}$ for the mean parameters is the maximum likelihood estimator for normal errors with common variance $\sigma^2$, regardless of the value of the latter. The maximum likelihood estimator $\widehat{\sigma}^2$ is thus
+\begin{align*}
+\hat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*}
+The log-likelihood, excluding constant terms that don't depend on $\sigma^2$, is
+\begin{align*}
+\ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
+&\propto-\frac{1}{2}\left\{n\log\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*}
+Differentiating each term with respect to $\sigma^2$ and setting the gradient equal to zero yields the maximum likelihood estimator
+\begin{align*}
+\hat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
+\end{align*}
+where $\mathsf{SS}_e$ is the sum of squared residuals. The usual unbiased estimator of $\sigma^2$ calculated by software is $S^2=\mathsf{SS}_e/(n-p-1)$, where the denominator is the sample size $n$ minus the number of mean parameters $\boldsymbol{\beta}$, $p+1$.
+```
+
+
+Oftentimes, we wish to compare two models: the model implied by the null hypothesis, which is a restriction or simpler version of the full model. Models are said to be **nested** if we can obtain one from the other by imposing restrictions on the parameters.
+
+We consider a null hypothesis $\mathscr{H}_0$ that imposes restrictions on the possible values of $\boldsymbol{\theta}$ can take, relative to an unconstrained alternative $\mathscr{H}_1$. We need two **nested** models: a *full* model, and a *reduced* model that is a subset of the full model where we impose $q$ restrictions. For example, the full model could be a regression model with four predictor variables and the reduced model could include only the first two predictor variables, which is equivalent to setting $\mathscr{H}_0: \beta_3=\beta_4=0$. The testing procedure involves fitting the two models and obtaining the maximum likelihood estimators of each of $\mathscr{H}_1$ and $\mathscr{H}_0$, respectively $\widehat{\boldsymbol{\theta}}$ and $\widehat{\boldsymbol{\theta}}_0$ for the parameters under $\mathscr{H}_0$.
+ The null hypothesis $\mathscr{H}_0$ tested is: `the reduced model is an **adequate simplification** of the full model' and the likelihood provides three main classes of statistics for testing this hypothesis: these are
+
+- likelihood ratio tests statistics, denoted $R$, which measure the drop in log-likelihood (vertical distance) from $\ell(\widehat{\boldsymbol{\theta}})$ and $\ell(\widehat{\boldsymbol{\theta}}_0)$.
+- Wald tests statistics, denoted $W$, which consider the standardized horizontal distance between $\widehat{\boldsymbol{\theta}}$ and $\widehat{\boldsymbol{\theta}}_0$.
+- score tests statistics, denoted $S$, which looks at the scaled gradient of $\ell$, evaluated *only* at $\widehat{\boldsymbol{\theta}}_0$ (derivative of $\ell$).
+
+```{r variablesquanti, fig.cap = "Log-likelihood curve; the three likelihood-based tests, namely Wald, likelihood ratio and score tests, use different information about the function.", echo = FALSE}
+knitr::include_graphics('images/likelihood_tests.png')
+```
+
+The three main classes of statistics for testing a simple null hypothesis $\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0$ against the alternative $\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$ are the likelihood ratio, the score and the Wald statistics, defined respectively as
+\begin{align*}
+ R &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
+ S &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
+ W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top i(\boldsymbol{\theta}_0)(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
+\end{align*}
+where $\widehat{\boldsymbol{\theta}}$ is the maximum likelihood estimate under the alternative and $\boldsymbol{\theta}_0$ is the null value of the parameter vector. Asymptotically, all the test statistics are equivalent (in the sense that they lead to the same conclusions about $\mathscr{H}_0$).
+If $\mathscr{H}_0$ is true, the three test statistics follow asymptotically a $\chi^2_q$ distribution under a null hypothesis $\mathscr{H}_0$, where the degrees of freedom $q$ are the number of restrictions.
+
+For scalar $\theta$ with $q=1$, signed versions of these statistics exist, e.g., \begin{align*}
+W(\theta_0)=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})\stackrel{\cdot}{\sim} \mathsf{No}(0,1)
+\end{align*}
+for the Wald statistic or the directed likelihood root
+\begin{align*}
+R({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \stackrel{\cdot}{\sim} \mathsf{No}(0,1).
+\end{align*}
+The likelihood ratio test statistic is normally the most powerful of the three likelihood tests. The score statistic $S$ only requires calculation of the score and information under $\mathscr{H}_0$ (because by definition $U(\widehat{\theta})=0$), so it can be useful in problems where calculations of the maximum likelihood estimator under the alternative is costly or impossible.
+
+
+
+
+The Wald statistic $W$ is the most widely encountered statistic and two-sided 95\% confidence intervals for a single parameter  $\theta$ are of the form
+\begin{align*}
+\widehat{\theta} \pm q_{1-\alpha/2}\mathrm{se}(\widehat{\theta}),
+\end{align*}
+where $q_{1-\alpha/2}$ is the $1-\alpha/2$ quantile of the standard normal distribution; for a $95$\% confidence interval, the $0.975$ quantile of the normal distribution is $1.96$.
+The Wald-based confidence intervals are by construction **symmetric**: they may include implausible values (e.g., negative values for variances). The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function $h(\theta)$, then in general
+$\mathsf{CI}_{W}\{h(\theta)\} \neq h\{\mathsf{CI}_{W}(\theta)\}.$
+So, if $[0.1, 0.9]$ is a 95\% Wald-based confidence interval for $\widehat{\beta}$, the Wald-based confidence interval for $\exp(\widehat{\beta})$ **is not** $[\exp(0.1), \exp(0.9)]$.
+
+These confidence intervals can be contrasted with the (better) ones derived using the likelihood ratio test: these are found through a numerical search to find the limits of
+\begin{align*}
+\theta: 2\{\ell(\widehat{\theta}) - \ell(\theta)\} \leq \chi^2_1(1-\alpha),
+\end{align*}
+where $\chi^2_1(1-\alpha)$ is the $(1-\alpha)$ quantile of the  $\chi^2_1$ distribution. If $\boldsymbol{\theta}$ is multidimensional, confidence intervals for $\theta_i$ are derived using the profile likelihood. Likelihood ratio-based confidence intervals are **parametrization invariant**, so $\mathsf{CI}_{R}\{h(\theta)\} = h\{\mathsf{CI}_{R}(\theta)\}$. Because the likelihood is zero if a parameter value falls outside the range of possible values for the parameter, the intervals only include plausible values of $\theta$. In general, the intervals are asymmetric and have better coverage properties.
+
+The $F$-tests covered in linear regression are equivalent to the likelihood ratio test for the linear model, but software reports the $p$-values calculated using an $F$ distribution, which is the exact null under the assumption of normally distributed errors with constant variance. The chi-square distribution and the $F$-distribution are equivalent for $n$ large.
+
+The Wald statistic and the likelihood ratio test for testing individual coefficients of the mean model $\beta_j$ in a linear regression are equivalent: they give the same $p$-value.
+
+## Profile likelihood
+
+Consider a parametric model with log-likelihood function $\ell(\boldsymbol{\theta})$ whose $p$-dimensional parameter vector $\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})$ that can be decomposed into a $q$-dimensional parameter of interest $\boldsymbol{\psi}$ and a $(p-q)$-dimensional nuisance vector $\boldsymbol{\lambda}$.
+
+<!-- The score vector, the information matrix and its inverse are partitioned accordingly as -->
+<!-- \begin{align*} -->
+<!-- U(\boldsymbol{\theta})=\ell_{\boldsymbol{\theta}} = \begin{pmatrix} -->
+<!-- \ell_{\boldsymbol{\psi}} \\ \ell_{\boldsymbol{\lambda}} -->
+<!-- \end{pmatrix}, \qquad  -->
+<!-- i(\boldsymbol{\theta}) = \begin{pmatrix} -->
+<!-- i_{\boldsymbol{\psi\psi}} & i_{\boldsymbol{\psi\lambda}}\\ -->
+<!-- i_{\boldsymbol{\lambda\psi}} & i_{\boldsymbol{\lambda\lambda}}\\ -->
+<!-- \end{pmatrix}, \qquad  -->
+<!-- i^{-1}(\boldsymbol{\theta}) = \begin{pmatrix} -->
+<!-- i^{\boldsymbol{\psi\psi}} & i^{\boldsymbol{\psi\lambda}}\\ -->
+<!-- i^{\boldsymbol{\lambda\psi}} & i^{\boldsymbol{\lambda\lambda}}\\ -->
+<!-- \end{pmatrix}.       -->
+<!-- \end{align*} -->
+For example, we may be interested in obtaining confidence intervals for a single $\beta_j$ in a logistic regression, treating the other parameters $\boldsymbol{\beta}_{-j}$ as nuisance
+
+In these cases, we can consider the profile likelihood $\ell_{\mathsf{p}}$, a function of $\boldsymbol{\psi}$ alone, which is obtained by maximizing the likelihood pointwise at each fixed value $\boldsymbol{\psi}_0$ over the nuisance vector $\boldsymbol{\varphi}_{\psi_0}$,
+\begin{align*}
+\ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
+\end{align*}
+Figure \@ref(fig:profile3d) shows a fictional log-likelihood contour plot with the resulting profile curve (in black), where the log-likelihood value is mapped to colors. If one thinks of these contours lines as those of a topographic map, the profile likelihood corresponds in this case to walking along the ridge of both mountains along the $\psi$ direction, with the right panel showing the elevation gain/loss.
+
+The maximum profile likelihood estimator behaves like a regular likelihood for most quantities of interest and we can derive test statistics and confidence intervals in the usual way. One famous example of profile likelihood is the Cox proportional hazard covered in [Chapter 7](#survival).
+
+```{r profile3d, cache = TRUE, fig.cap ="Two-dimensional log-likelihood surface with a parameter of interest $\\psi$ and a nuisance parameter $\\varphi$; the contour plot shows area of higher likelihood, and the black line is the profile log-likelihood, also shown as a function of $\\psi$ on the right panel.", echo = FALSE}
+prof_mat <- cbind(matrix(unlist(sapply(sort(unique(faithfuld$waiting)), function(y){faithfuld[which(faithfuld$waiting == y),][which.max(faithfuld[which(faithfuld$waiting == y),]$density),-2]})), ncol = 2, byrow = TRUE), sort(unique(faithfuld$waiting)))
+colnames(prof_mat) <- c("eruptions","density","waiting")
+prof <- tibble::as_tibble(prof_mat)
+
+g1 <- ggplot(faithful, aes(x = eruptions, y = waiting)) +
+ geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
+ geom_density_2d(size = 0.25, colour = "black") +
+ xlim(0.5, 6) +
+ ylim(40, 110) + xlab(expression(phi)) + ylab(expression(psi)) + 
+  geom_line(data = prof, aes(x = eruptions, y = waiting)) + 
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+g2 <- ggplot(data = prof, aes(x = waiting, y = density)) + geom_line() + 
+  ylab("profile log-likelihood") + xlab(expression(psi)) + 
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+g1 + g2
+```
+
+
+```{example label = "boxcox", name = "Box--Cox transformation"}
+Sometimes, the assumption of normality of the error doesn't hold. If the data are strictly positive, one can consider a Box--Cox transformation,
+\begin{align*}
+y_i(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
+\log(y), & \lambda=0.
+\end{cases}
+\end{align*}
+
+If we assume that $\boldsymbol{y}(\lambda) \sim \mathsf{No}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)$, then the likelihood of $\boldsymbol{y}$ is
+\begin{align*}
+L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) = (2\pi\sigma^2)^{-n/2}\exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right] J(\lambda, \boldsymbol{y}),
+\end{align*}
+where $J$ denotes the Jacobian of the Box--Cox transformation, $\prod_{i=1}^n y_i^{\lambda-1}$.
+For each given value of $\lambda$, the maximum likelihood estimator is that of the usual regression model, with $\boldsymbol{y}$ replaced by $\boldsymbol{y}(\lambda)$, namely $\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)$ and $\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}$.
+
+The profile log-likelihood is
+\begin{align*}
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\log(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \log(y_i)
+\end{align*}
+The maximum profile likelihood estimator is the value $\lambda$ minimizes the sum of squared residuals from the linear model with $\boldsymbol{y}(\lambda)$ as response.
+```
+
+```{r profileplot, fig.cap ="Profile log-likelihood for the Box--Cox transformation for the waiting time data", echo = FALSE}
+par(mar = c(4,4,1,1))
+bc <- MASS::boxcox(lm(waiting_times~1), plotit = FALSE, lambda = seq(-0.1, 1, by = 0.01))
+plot(x = bc$x, 
+y = bc$y - max(bc$y), 
+bty = "l", type = "l", ylab = "profile log-likelihood", xlab = expression(lambda), 
+panel.first = {abline(h = -qchisq(0.95, 1)/2, col = "grey")})
+confind <- which(diff(bc$x[bc$y-max(bc$y) < -qchisq(0.95, 1)/2]) > 0.011)
+```
+
+Figure \@ref(fig:profileplot) shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately `r bc$x[which.max(bc$y)]` would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of $\lambda$, $(`r bc$x[confind]`, `r bc$x[confind+1]`)$, at which the curve intersects the horizontal grey line drawn at $-\chi^2_1/2$. The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an *ad hoc* choice of transformation, one could choose a log transformation if the value $0$ is included within the 95\% confidence interval since this improves interpretability.
+
+
+## Likelihood-based tools for model comparison
+
+The likelihood can also serve as building block for model comparison: the larger $\ell(\boldsymbol{\widehat{\theta}})$, the better the fit. However, the likelihood doesn't account for model complexity in the sense that more complex models with more parameters lead to higher likelihood. This is not a problem for comparison of nested models using the likelihood ratio test because we look only at relative improvement in fit. There is a danger of **overfitting** if we only consider the likelihood of a model.
+
+
+<!-- Software often reports $-2\ell(\boldsymbol{\widehat{\theta}})$, often (improperly) termed **deviance**. -->
+
+$\mathsf{AIC}$ and $\mathsf{BIC}$ are information criteria measuring how well the model fits the data, while penalizing models with more parameters,
+\begin{align*}
+\mathsf{AIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+2k \\
+\mathsf{BIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+k\log(n),
+\end{align*}
+where $k$ is the number of parameters in the model. The smaller the value of $\mathsf{AIC}$ (or of $\mathsf{BIC}$), the better the model fit.
+
+Note that information criteria do not constitute formal hypothesis tests on the parameters, but they can be used to compare non nested-models, even these estimates are particularly noisy. If we want to compare likelihood from different probability models, we need to make sure they include normalizing constant. The $\mathsf{BIC}$ is more stringent than $\mathsf{AIC}$, as its penalty increases with the sample size, so it selects models with fewer parameters. The $\mathsf{BIC}$ is **consistent**, meaning that it will pick the true correct model from an ensemble of models with probability one as $n \to \infty$. In practice, this is of little interest if one assumes that all models are approximation of reality (it is unlikely that the true model is included in the ones we consider). $\mathsf{AIC}$ often selects overly complicated models in large samples, whereas $\mathsf{BIC}$ is sometimes too conservative in that it chooses models that are overly simple.

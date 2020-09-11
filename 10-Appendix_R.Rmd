@@ -1,0 +1,314 @@
+
+# (APPENDIX) Appendix {-} 
+# **R** {-}
+
+
+**R** is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.
+
+You can find several introductions to **R** online. Have a look at the [**R** manuals](https://cran.r-project.org/manuals.html) or better at [contributed manuals](https://cran.r-project.org/other-docs.html). A nice official reference is [An introduction to  **R**](http://colinfay.me/intro-to-r/index.html). 
+You may wish to look up the following chapters of the **R** language definition ([Evaluation of expressions](http://colinfay.me/r-language-definition/evaluation-of-expressions.html) and part of the [*Objects* chapter](http://colinfay.me/r-language-definition/objects.html)). Another good (small reference) is the cheatsheet [Getting started in **R**](https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf).
+
+## Basics of **R**
+
+
+### Help
+
+Help can be accessed via `help` or simply `?`, e.g., `help("Normal")`. [See **R** page about help files](https://www.r-project.org/help.html).
+ 
+
+### Basic commands 
+Basic **R** commands are fairly intuitive, especially if you want to use **R** as a calculator.
+Elementary functions such as `sum`, `min`, `max`, `sqrt`, `log`, `exp`, etc., are self-explanatory.
+
+Some (unconventional) features of the language: 
+
+- **R** is case sensitive.
+- Use `<-` for assignments to a variable, and `=` for matching arguments inside functions
+- Indexing in **R** starts at 1, **not** 0. 
+- Most functions in **R** are vectorized and loops are typically inefficient.
+- Integers are obtained by appending `L` to the number, so `2L` is an integer and `2` a double (`numerical`).
+
+
+Besides integers and doubles, the common types are 
+
+- logical (`TRUE` and `FALSE`);
+- null pointers (`NULL`), which can be assigned to arguments;
+- missing values, namely `NA` or `NaN`. These can also be obtained a result of invalid mathematical operations such as `log(-2)`. 
+
+Beware! In **R**, invalid calls will often returns _something_ rather than an error. It is therefore good practice to check that the output is sensical.
+
+### Linear algebra in **R**
+
+**R** is an object oriented language, and the basic elements in **R** are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:
+
+- `c` concatenates elements to form a vector
+- `cbind` (`rbind`) binds column (row) vectors
+- `matrix` and `vector` are constructors
+- `diag` creates a diagonal matrix (by default with ones)
+- `t` is the function for transpose
+- `rep` creates a vector of duplicates, `seq` a sequence. For integers $i$, $j$ with $i<j$, `i:j` generates the sequence $i, i+1, \ldots, j-1, j$.
+
+Subsetting is fairly intuitive and general;  you can use vectors, logical statements. For example, if `x` is a vector,
+then 
+
+- `x[2]` returns the second element
+- `x[-2]` returns all but the second element
+- `x[1:5]` returns the first five elements
+- `x[(length(x) - 5):length(x)]` returns the last five elements
+- `x[c(1, 2, 4)]` returns the first, second and fourth element
+- `x[x > 3]` return any element greater than 3. Possibly an empty vector of length zero!
+- `x[ x < -2 | x > 2]` multiple logical conditions.
+- `which(x == max(x))` index of elements satisfying a logical condition.
+
+For a matrix `x`, subsetting now involves dimensions: `[1,2]` returns the element in the first row, second column. `x[,2]` will return all of the rows, but only the second column. For lists, you can use `[[ ` for subsetting by index or the `$` sign by names.
+
+
+### Packages
+
+The great strength of **R** comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (`base`, `stats`, `graphics`, etc.) are loaded by default whenever you open a session.
+
+To install a package from CRAN, use `install.packages("package")`, replacing `package` by the package name. Once installed, packages can be loaded using `library(package)`; all the functions in `package` will be available in the environment. 
+
+```{block2, type = "rmdcaution"}
+There are drawbacks to loading packages: if an object with the same name from another package is already present in your environment, it will be hidden. Use the double-colon operator `::` to access a single object from an installed package (`package::object`). 
+
+```
+
+### Datasets
+
+- datasets are typically stored inside a `data.frame`, a matrix-like object whose columns contain the variables and the rows the observation vectors. 
+- The columns can be of different types (`integer`, `double`, `logical`, `character`), but all the column vectors must be of the same length. 
+- Variable names can be displayed by using `names(faithful)`. 
+- Individual columns can be accessed using the column name using the `$` operator. For example, `faithful$eruptions` will return the first column of the `faithful` dataset.
+- To load a dataset from an (installed) **R** package, use the command `data` with the name of the `package` as an argument (must be a string). The package `datasets` is loaded by default whenever you open **R**, so these are always in the search path.
+
+The following functions can be useful to get a quick glimpse of the data:
+
+- `summary` provides descriptive statistics for the variable.
+- `str` provides the first few elements with each variable, along with the dimension
+- `head` (`tail`) prints the first (last) $n$ lines of the object to the console (default is $n=6$).
+
+We start by loading a dataset of the Old Faithful Geyser of Yellowstone National park and looking at its entries.
+
+```{r week1_loadfaithful}
+# Load Old faithful dataset
+data(faithful, package = "datasets")
+# Query the database for documentation
+?faithful
+# look at first entries
+head(faithful)
+str(faithful)
+# What kind of object is faithful? 
+class(faithful)
+```
+
+Other common classes of objects:
+
+- `matrix`: an object with attributes `dim`, `ncol` and `nrow` in addition to `length`, which gives the total number of elements. 
+- `array`: a higher dimensional extension of `matrix` with arguments `dim` and `dimnames`.
+- `list`: an unstructured class whose elements are accessed using double indexing `[[ ]]` and elements are typically accessed using `$` symbol with names. To delete an element from a list, assign  `NULL` to it. 
+- `data.frame` is a special type of list where all the elements are vectors of potentially different type, but of the same length.
+
+### Graphics
+
+The `faithful` dataset consists of two variables: the regressand `waiting` and the regressor `eruptions`. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables. 
+
+An image is worth a thousand words and in statistics, visualization is crucial. Scatterplots are produced using the function `plot`. You can control the graphic console options using `par` --- see `?plot` and `?par` for a description of the basic and advanced options available.
+
+Once `plot` has been called, you can add additional observations as points (lines) to the graph using `point` (`lines`) in place of `plot`. If you want to add a line (horizontal, vertical, or with known intercept and slope), use the function `abline`.
+
+Other functions worth mentioning for simple graphics:
+
+- `boxplot` creates a box-and-whiskers plot
+- `hist` creates an histogram, either on frequency or probability scale (option `freq = FALSE`). `breaks` control the number of bins. `rug` adds lines below the graph indicating the value of the observations.
+- `pairs` creates a matrix of scatterplots, akin to `plot` for data frame objects.
+
+```{block2, type="rmdnote"}
+There are two options for basic graphics: the base graphics package and the package `ggplot2`. The latter is a more recent proposal that builds on a modular approach and is more easily customizable --- I suggest you stick to either and `ggplot2` is a good option if you don't know **R** already, as the learning curve will be about the same. Even if the display from `ggplot2` is nicer, this is no excuse for not making proper graphics. Always label the axis and include measurement units!
+
+```
+
+
+## Linear models in **R** using the `lm` function {#rlmfunc}
+
+The function `lm` is the workshorse for fitting linear models in **R**. It takes as input a formula: suppose you have a data frame containing columns `x` (a regressor) and `y` (the regressand); you can then call `lm(y ~ x)` to fit the linear model $y = \beta_0 + \beta_1 x + \varepsilon$. The explanatory variable `y` is on the left hand side,
+while the right hand side should contain the predictors, separated by a `+` sign if there are more than one.
+If you provide the data frame name using `data`, then the shorthand `y ~ .` fits all the columns of the data frame  (but `y`) as regressors. 
+<!-- In class, we conducted an analysis of the linear relation between buying intention for customers (`intention`) and the number of seconds the subject fixated a candy advertisement (`fixation`) using a simple linear regression.  -->
+
+If you include categorical variables, make sure they are transformed to factors. Normally, strings are cast to factor (unless you specify `stringsAsFactors = FALSE`) upon import of the data, but the danger here lies with variables that are encoded using integers (sex, revenue class, level of education, marital status, etc.) It is okay if we keep binary variables as is if they are encoded using $0/1$, but it is often better to cast them to factor to get more meaningful labels given the lack of obvious ordering. 
+
+<!-- Note that response variable intention is bounded between $[2, 14]$ by construction, being the sum of two Likert scales ranging from 1 to 7. The normal approximation with a sample size this large probably means this won't impact the inference, but we must be careful with predictions (by truncating them so they lie within the range of possible values). -->
+
+<!-- ```{r linereg1} -->
+<!-- url <- "https://lbelzile.bitbucket.io/MATH60619A/intention.txt" -->
+<!-- intention <- read.table(url, header = TRUE) -->
+<!-- # number of observations (rows) and variables (cols) -->
+<!-- dim(intention)  -->
+<!-- summary(intention) -->
+<!-- #variable names -->
+<!-- colnames(intention) -->
+<!-- # cast categorical and ordinal variables to factors -->
+<!-- intention$revenue <- factor(intention$revenue,  -->
+<!--                             labels = c('low','medium','high'), -->
+<!--                              ordered = TRUE) -->
+<!-- intention$educ <- factor(intention$educ,  -->
+<!--                             labels = c(' <high school','high school','university')) -->
+<!-- intention$marital <- factor(intention$marital, -->
+<!--                             labels = c("single","relationship")) -->
+<!-- intention$sex <- factor(intention$sex,  -->
+<!--                            labels = c("man","woman")) -->
+<!-- ``` -->
+
+By default, the baseline level for a factor is based on the alphabetical order, while **SAS** uses the first value it encounters. Once the variables are cast to factor, `summary` will print the counts for each respective categories; these could be likewise be obtained using `table`.
+
+<!-- Before fitting a simple linear regression model, we should assess whether there is a linear relationship between the response and the explanatory (or not); a scatterplot can help to assess this. We superimpose the least square fit to the plot. In both cases, there is some positive correlation between intention and the explanatories, but this correlation is weak.  -->
+
+<!-- ```{r slrscatterplots} -->
+<!-- par(mfrow=c(1,2), pch = 20, bty = 'l') -->
+<!-- plot(intention ~ fixation, data = intention) -->
+<!-- abline(lm(intention ~ fixation, data = intention)) -->
+<!-- plot(intention ~ emotion, data = intention) -->
+<!-- abline(lm(intention ~ emotion, data = intention)) -->
+<!-- ``` -->
+
+<!-- We can compute the correlation coefficient using `cor`; we get `r round(cor(intention$intention, intention$fixation), digits = 2)` for `intention` and `fixation` and `r round(cor(intention$intention, intention$emotion), digits = 2)` for `intention` and `emotion`. If we specify a matrix with more than two columns or a data frame (with numeric values), we get a correlation matrix with ones on the diagonal. For factor variables, we would need to map these back to binary, but we saw that the $R^2$ value is equal to the squared correlation coefficient, so we can extract this from the output of the linear model fit.  -->
+
+To fit higher order polynomials or transformations, use the `I` function to tell **R** to interpret the input "as is". 
+Thus, `lm(y~x+I(x^2))`, would fit a linear model with design matrix $(\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top$. A constant is automatically included in the regression, but can be removed by writing `-1` or `+0` on the right hand side of the formula (but don't do that!). The `lm` function output will display ordinary least squares estimates along with standard errors, $t$ values for the Wald test of the hypothesis $\mathrm{H}_0: \beta_i=0$ and the associated $P$-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
+
+Many methods allow you to extract specific objects from `lm` objects. For example, the functions `coef`, `resid`, `fitted`, `model.matrix` will return the coefficients $\widehat{\boldsymbol{\beta}}$, the ordinary residuals $\boldsymbol{e}$, the fitted values $\widehat{\boldsymbol{y}}$ and the design matrix $\mathbf{X}$, respectively.
+
+```{r fitlm}
+data(college, package = "hecstatmod") #load data
+class(college$rank) #check that rank is a factor
+#if not, use the following "<-" to assign, "$" to access the column of a data.frame/list
+# college$rank <- factor(college$rank, labels = c("assistant","associate","full"))
+linmod <- lm(salary ~ sex + rank + service + field, data = college)
+coef(linmod) #coefficients
+summary(linmod) #summary table
+confint(linmod) #confidence intervals for model parameters
+yhat <- fitted(linmod) #fitted values
+e <- resid(linmod) #ordinary residuals
+```
+
+<!-- The estimated intercept $\widehat{\beta}_0$ is `r round(coef(lm(intention ~ emotion, data = intention))[1], 2)` and the estimated slope $\widehat{\beta}_1$ is `r round(coef(lm(intention ~ emotion, data = intention))[2], 2)` The table gives the $p$-values for the null hypotheses $\beta_0=0$ and $\beta_1=0$, which are negligible. The estimated variance $\widehat{\sigma}^2$, given by the `Residual standard error` is `r round(summary(lm(intention ~ emotion, data = intention))$sigma, 2)`. -->
+
+
+<!-- To obtain predicted values for combination of explanatories not present in the dataset, we need to first create a new data frame, with the same column names as those of the explanatory. In this case, the only $\mathrm{X}$ variable is `fixation`. We can get confidence intervals for the mean value with `interval = "conf"` or prediction intervals for the new observations with `interval = "pred"`. -->
+
+<!-- ```{r plotfitted} -->
+<!-- newdata <- data.frame(fixation = seq(0, 6.5, length.out = 100L)) -->
+<!-- # Predictions with confidence interval for E(Y) -->
+<!-- fitted_vals <- predict(object = linmod,  -->
+<!--          newdata = newdata,  -->
+<!--          interval = "conf") -->
+<!-- #Same, but with prediction intervals for Y_new -->
+<!-- predict_vals <- predict(object = linmod,  -->
+<!--          newdata = newdata,  -->
+<!--          interval = "pred") -->
+<!-- plot(intention ~ fixation, data = intention) -->
+<!-- matplot(x = newdata$fixation, -->
+<!--         y = fitted_vals,  -->
+<!--         col = "blue",  -->
+<!--         add = TRUE, -->
+<!--         type = "l") -->
+<!-- matplot(x = newdata$fixation, -->
+<!--         y = predict_vals,  -->
+<!--         lty = 2, #dashed lines,  -->
+<!--         col = "blue",  -->
+<!--         add = TRUE, -->
+<!--         type = "l") -->
+<!-- ``` -->
+
+<!-- The confidence interval for the mean value $\mathsf{E}({\widehat{Y}_i})$ is larger for values of $\mathrm{X}$ that are far from $\overline{\mathrm{X}}$; since there are less neighboring points, the model is extrapolating at this point and this translates in higher uncertainty, roughly speaking. The prediction intervals are much wider and account for the additional variability of $\varepsilon_{\text{new}}$; the intervals are pointwise, so for any given $\mathrm{X}$, we would assume that 95\% of the intervals in repeated samples would capture $Y_{\text{new}}$. -->
+
+<!-- ### Graphical diagnostics and analysis of residuals -->
+
+<!-- The hypothesis of the classical linear model are -->
+
+<!-- 1. independence -->
+<!-- 2. linearity (correct specification of the mean response) -->
+<!-- 3. homoscedasticity -->
+<!-- 4. normality -->
+
+<!-- Underlying the linear model  -->
+<!-- \begin{align*} -->
+<!-- Y_i = \beta_0 + \sum_{j=1}^p \mathrm{X}_{ij} + \varepsilon_i. -->
+<!-- \end{align*} -->
+<!-- is the hypothesis that the errors $\{\varepsilon_i\}_{i=1}^n$ are independent and identically distributed $\mathcal{N}(0, \sigma^2)$ variables. We get to observe $y_i (i=1,\ldots,n)$, but $\beta_0, \beta_1, \ldots \beta_p, \sigma^2, \varepsilon_i (i=1,\ldots,n)$ are all unknown. The best we can hope for is  -->
+<!-- least square estimates for $\beta$'s, say $\widehat{\beta}_0, \ldots, \widehat{\beta}_p$. -->
+<!-- The fitted values are $\widehat{y}_i=\widehat{\beta}_0 + \sum_{j=1}^p \widehat{\beta}_j \mathrm{X}_{i,j}$ from which we will deduce the **ordinary residuals** $e_i = Y_i - \widehat{Y}_i$. -->
+
+
+<!-- Unfortunately, it turns out that $e_i$'s are not independent; worst, they each have a different variance. However, the ordinary residuals and the fitted values are orthogonal, i.e. their linear correlation is zero. This is also true of $\mathbf{X}_j$ and $\boldsymbol{e}$, and $\overline{e} = 0$ by construction. Thus, if we fit a linear model with mean structure $\mathsf{E}(e_i) = \beta_0 + \beta_1\mathrm{X}_{ij}$ or $\mathsf{E}(e_i) = \beta_0 + \beta_1 \widehat{y}_i$, the estimates for $\widehat{\beta}_0$ and $\widehat{\beta}_1$ will be exactly zero in both cases. We can verify this numerically. -->
+
+<!-- ```{r checkresiduortho} -->
+<!-- #check whether coefs are zero -->
+<!-- isTRUE(all.equal(coef(lm(e ~ yhat)), rep(0, 2), check.attributes = FALSE)) -->
+<!-- #due to machine precision, could be ~1e-17 -->
+<!-- coef(lm(e ~ fixation, data = intention)) -->
+<!-- mean(e) -->
+<!-- ``` -->
+
+<!-- If we plot $e_i$ against $\hat{y}_i$ or $\mathrm{X}_i$, we would expect to see no pattern. If we omitted important explanatory models for $Y$, these would not be accounted for in the mean model and their impact would be transferred to the residuals, which would be correlated with the omitted covariate. We can use local smoothing to check for residual nonlinear relationships or changepoints between $e_i$ and $\hat{y}_i$ or $e_i$ and $\mathrm{X}_{i}$ by using a local smoother (LOESS) that should capture these local effects, if present. Bear in mind that the model is not reliable. -->
+
+<!-- ```{r residlowess} -->
+<!-- par(mfrow = c(1, 3)) -->
+<!-- car::residualPlot(linmod) -->
+<!-- scatter.smooth(e ~ intention$fixation,  -->
+<!--      xlab = "fixation (in sec)", -->
+<!--      ylab = "ordinary residuals") -->
+<!-- scatter.smooth(e ~ intention$emotion,  -->
+<!--      xlab = "omitted covariate\n`emotion`", -->
+<!--      ylab = "ordinary residuals") -->
+<!-- ``` -->
+
+<!-- There is no graphical in our example that the relationship between fixation time and buying intention is nonlinear --- the dip in fitted value and fixation is spurious and is due to the lack of long fixation time, which means the point has high leverage and pulls the smooth to itself.  -->
+
+<!-- If we plot the omitted covariate `emotion`, we see that the local trend is positive and possibly non-zero. This seems to imply that the effect of emotion has not been captured by the model, suggesting that our simple linear regression mean model is overly simple. The extension from simple to multiple linear regression models is straightforward and we can assess the significance of an added variable and test for their significance. In practice, we should use added-variable plots for new variables. -->
+
+
+<!-- Contrast the lack of residual structure between `intention` and `fixation` with the relation between horsepower and fuel consumption in miles per gallon of the `auto` dataset: we can see a clear nonlinear (potentially quadratic) relationship between distance per gallon and fuel consumption. -->
+
+<!-- ```{r autoplot} -->
+<!-- url <- "https://lbelzile.bitbucket.io/MATH60619A/auto.csv" -->
+<!-- auto <- read.csv(url, header = TRUE) -->
+<!-- lmauto <- lm(mpg ~ horsepower, data = auto) -->
+<!-- # residual plots (Pearson resid = ordinary resid) -->
+<!-- car::residualPlots(lmauto, tests = FALSE) -->
+<!-- ``` -->
+
+<!-- While `plot` method for `lm` objects return plots, the functions in the library `car` give nicer and often clearer output.  -->
+
+<!-- For heteroscedasticity, we can use the absolute jackknife studentized residuals rather than the ordinary residuals: the rationale is that the latter have different variance $\sigma^2(1-h_i)$, where $h_i$ is a known constant that depends on $\mathbf{X}$. The jackknife studentized residuals are thus standardized residuals, whereby each $e_i$ is divided by an estimate of its standard deviation so that each has the same variance and we can make comparisons. The term jackknife comes from the estimation method. If the $\varepsilon_i$ are truly normally distributed, then the jackknife studentized residuals should follow a Student with $n-k-1$ degrees of freedom, where $k$ is the number of $\beta$ parameters estimated. If $n-k$ is large, say larger than 25, we can use the normal distribution for comparison. -->
+
+
+<!-- ```{r normalitychecks} -->
+<!-- par(mfrow = c(1,3)) -->
+<!-- # check for heteroscedasticity with jsr -->
+<!-- plot(1:length(jsr), abs(jsr),  -->
+<!--      xlab="observation number",  -->
+<!--      ylab="|jackknife studentized residuals|") -->
+<!-- #a fancy smoother -->
+<!-- car::gamLine(1:length(jsr), abs(jsr), spread = TRUE) -->
+<!-- #density plot -->
+<!-- car::densityPlot(jsr) -->
+<!-- dfjsr <- linmod$df.residual - 1L -->
+<!-- #superimpose density of student -->
+<!-- curve(dt(x, df = dfjsr),  -->
+<!--       from = -5,  -->
+<!--       to = 5,  -->
+<!--       add = TRUE, -->
+<!--       col = "red") -->
+<!-- # student q-q plot of jackknife resid -->
+<!-- car::qqPlot(jsr,  -->
+<!--             distribution = "t",  -->
+<!--             df = dfjsr, -->
+<!--             ylab = "jackknife studentized residuals") -->
+<!-- ``` -->
+
+<!-- Here, we see no evidence of heteroscedasticity; the latter is more frequent in multiplicative models, when effects typically increase over time (like growth whose increase is, according to economic theory, exponential). The kernel density estimator (with rugs) and the quantile-quantile plots show that most points are in line with the postulated Student distribution, there is no outlier or extreme value and the residuals are symmetrically distributed around zero. -->
+
+<!-- Interpretation of quantile-quantile plots requires experience; [this post by _Glen_b_ on StackOverflow](https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290) nicely summarizes what can be detected (or not) from the Q-Q plot. -->
+

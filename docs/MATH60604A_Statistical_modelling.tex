@@ -245,11 +245,9 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-04.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-10.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
-
-Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de \textbf{SAS}, ces notes présentent le pendant \textbf{R}: visitez \href{https://cran.r-project.org/}{le site web du projet \textbf{R}} pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
 The most famous quote about statistical models is probably due to George Box, who claimed that ``all models are wrong, but some are useful''. This standpoint is reductive: Peter McCullagh and John Nelder wrote in the preamble of their book (emphasis mine)
 
@@ -1196,26 +1194,16 @@ The model in compact form is
 \begin{align*}
 \boldsymbol{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}.
 \end{align*}
-LThe ordinary least squares estimator solves the unconstrained optimization problem
+The ordinary least squares estimator solves the unconstrained optimization problem
 \begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
-We can compute the derivative of the right hand side with respect to \(\boldsymbol{\beta}\), set it to zero and solve for \(\widehat{\boldsymbol{\beta}}\),\\
-\begin{align*}
-\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
-\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
- \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
-\end{align*}
-using the chain rule. Distributing the terms leads to the so-called \emph{normal equation}
-\begin{align*}
- \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
-\end{align*}
-If the \(n \times p\) matrix \(\mathbf{X}\) is full-rank, the quadratic form \(\mathbf{X}^\top \mathbf{X}\) is invertible and we obtain a unique solution to the optimization problem,
-\begin{align*}
-\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
-\end{align*}
+and a proof is provided \protect\hyperlink{ols}{in the Appendix}. If the \(n \times (p+1)\) matrix \(\mathbf{X}\) is full-rank, we obtain a unique solution to the optimization problem,
+\begin{align}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}. \label{eq:ols}
+\end{align}
 
-What do these least squares represent in two dimensions? The estimator is the one minimising the sum of squared residuals: the \(i\)th \textbf{ordinary residual} \(e_i = y_i -\widehat{y}_i\) is the \emph{vertical} distance between a point \(y_i\) and the fitted value \(\widehat{y}_i\) on the line; the blue segments on Figure \ref{fig:distancevert} represent the individual vectors of residuals.
+What does the solution to the least squares problem represent in two dimensions? The estimator is the one minimizing the sum of squared residuals: the \(i\)th \textbf{ordinary residual} \(e_i = y_i -\widehat{y}_i\) is the \emph{vertical} distance between a point \(y_i\) and the fitted value \(\widehat{y}_i\) on the line; the blue segments on Figure \ref{fig:distancevert} represent the individual vectors of residuals.
 
 \begin{figure}
 
@@ -1232,7 +1220,7 @@ A direct consequence of this fact is that the linear correlation between \(\bold
 \end{remark}
 
 \begin{remark}[Complexity of ordinary least squares]
-\iffalse{} {Remark (Complexity of ordinary least squares). } \fi{}This is an aside: in machine learning, you will often encounter linear models fitted using a (stochastic) gradient descent algorithm. Unless your sample size \(n\) or the number of covariates \(p\) is significant (think at the Google scale), an approximate should not be prefered to the exact solution! From a numerical perspective, obtaining the least square estimates requires inverting a \(p \times p\) matrix \(\mathbf{X}^\top\mathbf{X}\), which is the most costly operation. In general, direct inversion should be avoided because it is not the most numerically stable way of obtaining the solution. \textbf{R} uses the QR decomposition, which has a complexity of \(\mathrm{O}(np^2)\). Another more stable alternative, which has the same complexity but is a bit more costly is use of a singular value decomposition.
+\iffalse{} {Remark (Complexity of ordinary least squares). } \fi{}This is an aside: in machine learning, you will often encounter linear models fitted using a (stochastic) gradient descent algorithm. Unless your sample size \(n\) or the number of covariates \(p\) is significant (think at the Google scale), an approximate should not be prefered to the exact solution! From a numerical perspective, obtaining the least square estimates requires inverting a \((p+1) \times (p+1)\) matrix \(\mathbf{X}^\top\mathbf{X}\), which is the most costly operation. In general, direct inversion should be avoided because it is not the most numerically stable way of obtaining the solution. \textbf{R} uses the QR decomposition, which has a complexity of \(\mathrm{O}(np^2)\). Another more stable alternative, which has the same complexity but is a bit more costly is use of a singular value decomposition.
 \end{remark}
 
 Any good software will calculate ordinary least square estimates for you. Keep in mind that there is an explicit and unique solution provided your design matrix \(\mathbf{X}\) doesn't contain collinear columns. If you have more than one explanatory variable, the fitted values lie on a hyperplan (which is hard to represent graphically). Mastering the language and technical term (fitted values, ordinary residuals, etc.) is necessary for the continuation.
@@ -1397,105 +1385,269 @@ All other factors taken into account, women get paid less than men. It remains t
 \caption{Added-variable plot for years of service in the linear regression model of the  $\texttt{college}$ data.}\label{fig:avplotcollege}
 \end{figure}
 
-\hypertarget{r-interlude-the-lm-function}{%
-\section{\texorpdfstring{\textbf{R} interlude: the \texttt{lm} function}{R interlude: the lm function}}\label{r-interlude-the-lm-function}}
+\protect\hyperlink{rlmfunc}{Details about implementation of linear models using \textbf{R} are provided in the Appendix}.
 
-The function \texttt{lm} is the workshorse for fitting linear models in \textbf{R}. It takes as input a formula: suppose you have a data frame containing columns \texttt{x} (a regressor) and \texttt{y} (the regressand); you can then call \texttt{lm(y\ \textasciitilde{}\ x)} to fit the linear model \(y = \beta_0 + \beta_1 x + \varepsilon\). The explanatory variable \texttt{y} is on the left hand side,
-while the right hand side should contain the predictors, separated by a \texttt{+} sign if there are more than one.
-If you provide the data frame name using \texttt{data}, then the shorthand \texttt{y\ \textasciitilde{}\ .} fits all the columns of the data frame (but \texttt{y}) as regressors.
-
-If you include categorical variables, make sure they are transformed to factors. Normally, strings are cast to factor (unless you specify \texttt{stringsAsFactors\ =\ FALSE}) upon import of the data, but the danger here lies with variables that are encoded using integers (sex, revenue class, level of education, marital status, etc.) It is okay if we keep binary variables as is if they are encoded using \(0/1\), but it is often better to cast them to factor to get more meaningful labels given the lack of obvious ordering.
-
-By default, the baseline level for a factor is based on the alphabetical order, while \textbf{SAS} uses the first value it encounters. Once the variables are cast to factor, \texttt{summary} will print the counts for each respective categories; these could be likewise be obtained using \texttt{table}.
-
-To fit higher order polynomials or transformations, use the \texttt{I} function to tell \textbf{R} to interpret the input ``as is''.
-Thus, \texttt{lm(y\textasciitilde{}x+I(x\^{}2))}, would fit a linear model with design matrix \((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\). A constant is automatically included in the regression, but can be removed by writing \texttt{-1} or \texttt{+0} on the right hand side of the formula (but don't do that!). The \texttt{lm} function output will display ordinary least squares estimates along with standard errors, \(t\) values for the Wald test of the hypothesis \(\mathrm{H}_0: \beta_i=0\) and the associated \(P\)-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
-
-Many methods allow you to extract specific objects from \texttt{lm} objects. For example, the functions \texttt{coef}, \texttt{resid}, \texttt{fitted}, \texttt{model.matrix} will return the coefficients \(\widehat{\boldsymbol{\beta}}\), the ordinary residuals \(\boldsymbol{e}\), the fitted values \(\widehat{\boldsymbol{y}}\) and the design matrix \(\mathbf{X}\), respectively.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{data}\NormalTok{(college, }\DataTypeTok{package =} \StringTok{"hecstatmod"}\NormalTok{) }\CommentTok{\#load data}
-\KeywordTok{class}\NormalTok{(college}\OperatorTok{$}\NormalTok{rank) }\CommentTok{\#check that rank is a factor}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "factor"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#if not, use the following "\textless{}{-}" to assign, "$" to access the column of a data.frame/list}
-\CommentTok{\# college$rank \textless{}{-} factor(college$rank, labels = c("assistant","associate","full"))}
-\NormalTok{linmod \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(salary }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{sex }\OperatorTok{+}\StringTok{ }\NormalTok{rank }\OperatorTok{+}\StringTok{ }\NormalTok{service }\OperatorTok{+}\StringTok{ }\NormalTok{field, }\DataTypeTok{data =}\NormalTok{ college)}
-\KeywordTok{coef}\NormalTok{(linmod) }\CommentTok{\#coefficients}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##      (Intercept)         sexwoman    rankassociate         rankfull 
-##          86.5963          -4.7712          14.5604          49.1596 
-##          service fieldtheoretical 
-##          -0.0888         -13.4734
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(linmod) }\CommentTok{\#summary table}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 
-## Call:
-## lm(formula = salary ~ sex + rank + service + field, data = college)
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -64.20 -14.26  -1.53  10.57  99.16 
-## 
-## Coefficients:
-##                  Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)       86.5963     2.9603   29.25  < 2e-16 ***
-## sexwoman          -4.7712     3.8780   -1.23  0.21931    
-## rankassociate     14.5604     4.0983    3.55  0.00043 ***
-## rankfull          49.1596     3.8345   12.82  < 2e-16 ***
-## service           -0.0888     0.1116   -0.80  0.42696    
-## fieldtheoretical -13.4734     2.3155   -5.82  1.2e-08 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 22.7 on 391 degrees of freedom
-## Multiple R-squared:  0.448,	Adjusted R-squared:  0.441 
-## F-statistic: 63.4 on 5 and 391 DF,  p-value: <2e-16
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{confint}\NormalTok{(linmod) }\CommentTok{\#confidence intervals for model parameters}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##                    2.5 % 97.5 %
-## (Intercept)       80.776 92.416
-## sexwoman         -12.396  2.853
-## rankassociate      6.503 22.618
-## rankfull          41.621 56.698
-## service           -0.308  0.131
-## fieldtheoretical -18.026 -8.921
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{yhat \textless{}{-}}\StringTok{ }\KeywordTok{fitted}\NormalTok{(linmod) }\CommentTok{\#fitted values}
-\NormalTok{e \textless{}{-}}\StringTok{ }\KeywordTok{resid}\NormalTok{(linmod) }\CommentTok{\#ordinary residuals}
-\end{Highlighting}
-\end{Shaded}
+\hypertarget{test-lm}{%
+\section{Tests for parameters of the linear model}\label{test-lm}}
 
 \hypertarget{likelihood}{%
 \chapter{Likelihood-based inference}\label{likelihood}}
+
+The goal of this chapter is to familiarize you with likelihood-based inference.
+
+The starting point of likelihood-based inference is a statistical model: we postulate that (a function of) the data has been generated from a probability distribution with \(p\)-dimensional parameter vector \(\boldsymbol{\theta}\). The purpose of the analyst is to estimate these unknown parameters on the basis of a sample and make inference about them.
+
+The \textbf{likelihood} \(L(\boldsymbol{\theta})\) is a function of \(\boldsymbol{\theta}\) that gives the probability (or density) of observing a sample under a postulated distribution, treating the observations as fixed. In most settings we consider, observations are independent and so the joint probability of the sample values is the product of the probability of the individual observations\footnote{If this seems foreign, think about repeated coin tosses with Bernoulli distribution of unknown parameter \(p\) and convince yourself that the trials are independent, so the probability of obtaining two consecutive heads is \(0.25\) for a fair coin.}: for \(y_1, \ldots, y_n\) assuming \(Y_i\) (\(i=1, \ldots, n\)) follows a distribution whose mass function or density is \(f(y; \boldsymbol{\theta})\), this is just
+\begin{align*}
+L(\boldsymbol{\theta}; \boldsymbol{y}) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}) = f(y_1; \boldsymbol{\theta}) \times \cdots \times f(y_n; \boldsymbol{\theta}).
+\end{align*}
+
+From a pure optimization perspective, the likelihood is a particular choice of objective function that reflects the probability of the observed outcome. One shouldn't however maximize directly the likelihood, since computing the product of a lot of potentially small numbers is subject to numerical overflow and is unstable (for discrete distributions, the mass function gives probabilities that are by definition between zero and one). Instead, one should work with the log-likelihood function, \(\ell(\boldsymbol{\theta}) = \log\{L(\boldsymbol{\theta})\}\). Since logarithm is a strictly increasing function, maximizing the natural logarithm (denoted \(\log\equiv \ln\) throughout) of the likelihood leads to the same solution. Another reason why working with the log-likelihood is preferable is because product over \(n\) likelihood contributions becomes a sum and this facilitates numerical and analytical derivations of the maximum likelihood estimators (the log of a product is equal to the sum of logs, i.e., \(\log(ab) =\log(a) +\log(b)\) for \(a, b>0\).)
+
+The \textbf{maximum likelihood estimator} \(\widehat{\boldsymbol{\theta}}\) is the value of \(\boldsymbol{\theta}\) that maximizes the likelihood, i.e., the value under which the random sample is the most likely to be generated. The scientific reasoning behind this is: ``whatever we observe, we have expected to observe'' so we choose between competing models the one that makes the most sense.
+
+Several properties of maximum likelihood estimator makes it appealing for inference.
+
+\begin{itemize}
+\tightlist
+\item
+  The maximum likelihood estimator is \textbf{consistent}, i.e., it converges to the correct value as the sample size increase (asymptotically unbiased).
+\item
+  The maximum likelihood estimator is invariant to reparametrizations
+\item
+  Under regularity conditions, the maximum likelihood estimator is asymptotically normal, so we can obtain the null distribution of classes of hypothesis tests and derive confidence intervals based on \(\widehat{\boldsymbol{\theta}}\).
+\item
+  The maximum likelihood estimator is efficient, meaning it has the smallest asymptotic mean squared error (or the smallest asymptotic variance).
+\end{itemize}
+
+The \textbf{score function} \(U(\boldsymbol{\theta}; \boldsymbol{y}) = \partial \ell(\boldsymbol{\theta}; \boldsymbol{y})/ \partial \boldsymbol{\theta}\) is the gradient of the log-likelihood function and, under regularity conditions, the maximum likelihood estimator solves \(U(\boldsymbol{\theta}; \boldsymbol{Y})=\boldsymbol{0}_p\). This property can be used to derive gradient-based algorithms for optimization and for verifying that the solution found is a global maximum.
+
+\begin{remark}
+\iffalse{} {Remark. } \fi{}While least squares admit a closed-form solution, the maximum of the log-likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
+\end{remark}
+
+The \textbf{observed information matrix} is the hessian \(j(\boldsymbol{\theta}; \boldsymbol{y})=-\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})/\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top\) evaluated at the maximum likelihood estimate \(\widehat{\boldsymbol{\theta}}\).
+Under regularity conditions, the Fisher information matrix is
+\begin{align*}
+i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = -\mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
+\end{align*}
+The Fisher (or expected) and observed information matrices encodes the curvature of the log-likelihood and provides information about the variability of \(\widehat{\boldsymbol{\theta}}\).
+
+The properties of the log-likelihood are particularly convenient for inference because they provide omnibus testing procedures that have a known asymptotic distribution. The starting point for the distributional theory surrounding likelihood-based statistics is the asymptotic normality of the score \(U(\boldsymbol{\theta}) \stackrel{\cdot}{\sim}\mathsf{No}(0, i(\boldsymbol{\theta}))\), which follows from a central limit theorem. The variance of \(U(\boldsymbol{\theta}_0)\) is exactly \(i(\boldsymbol{\theta}_0)\), while that of \(\widehat{\boldsymbol{\theta}}\) is approximately \(i(\boldsymbol{\theta}_0)^{-1}\) under the null hypothesis \(\mathscr{H}_0\). This result is particularly useful: we often use the inverse of the observed information as estimate of the covariance matrix of the maximum likelihood estimator. To obtain the standard errors of \(\widehat{\boldsymbol{\theta}}\), one simple computes the square root of the diagonal elements of the inverse of the observed information, i.e., \([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\).
+
+\begin{example}[Exponential model for waiting times of the Montreal metro]
+\protect\hypertarget{exm:waitingtime}{}{\label{exm:waitingtime} \iffalse (Exponential model for waiting times of the Montreal metro) \fi{} }Consider the waiting time \(Y\) between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with scale \(\theta\), denoted \(Y \sim \mathsf{E}(\theta)\). The purpose of statistical inference is to use the information from a random sample of size \(n\) to estimate the unknown parameter \(\theta\). The density of \(Y\) evaluated at \(y\), \(f(y; \theta)=\theta^{-1}\exp(-y/\theta)\), encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing \(y_1, \ldots, y_n\) is the product of probabilities of individual events. The likelihood is thus
+\begin{align*}
+L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta^{-1}\exp(-y_i/\theta),\\
+\ell(\theta; \boldsymbol{y}) & = -n\log(\theta) - \theta^{-1}\sum_{i=1}^n y_i
+\end{align*}
+To find the maximum of the function, we differentiate the log-likelihood \(\ell(\theta; \boldsymbol{y})\) and set the gradient to zero,
+\begin{align*}
+\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = -\frac{n}{\theta} + \theta^{-2} \sum_{i=1}^n y_i =0.
+\end{align*}
+Solving for \(\theta\) gives \(\widehat{\theta} = \overline{y}\), so the maximum likelihood estimator is the sample mean \(\overline{Y}\). The observed information is \(j(\theta) = -n\theta^{-2} + 2\theta^{-3}n\overline{y}\) and \(i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}\).
+\end{example}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/explikelihood-1} 
+
+}
+
+\caption{Log-likelihood for a sample of size 20 of waiting times (in minutes)}\label{fig:explikelihood}
+\end{figure}
+
+For the sample of waiting time in the subway, the maximum likelihood estimate is \(\widehat{\theta}=3.058\), the observed information is \(j(\widehat{\theta})=i(\widehat{\theta})=2.139\) and the standard error of \(\widehat{\theta}\) is \(j(\widehat{\theta})^{-1/2}=0.684\).
+
+\begin{example}[Normal samples and ordinary least squares]
+\protect\hypertarget{exm:normal}{}{\label{exm:normal} \iffalse (Normal samples and ordinary least squares) \fi{} }Suppose we have an independent normal sample of size \(n\) with mean \(\mu\) and variance \(\sigma^2\), where
+\(Y_i \sim \mathsf{No}(\mu, \sigma^2)\) are independent.
+Recall that the density of the normal distribution is
+\begin{align*}
+f(\boldsymbol{y}; \mu, \sigma^2)=\frac{1}{(2\pi \sigma^2)^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}.
+\end{align*}
+For an \(n\)-sample \(\boldsymbol{y}\), the likelihood is
+\begin{align*}
+L(\mu, \sigma^2; \boldsymbol{y})=&\prod_{i=1}^n\frac{1}{({2\pi \sigma^2})^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(y_i-\mu)^2\right\}\\
+=&(2\pi \sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\mu)^2\right\}.
+\end{align*}
+and the log-likelihood is
+\begin{align*}
+\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
+\end{align*}
+
+One can show that the maximum likelihood estimators for the two parameters are
+\begin{align*}
+\widehat{\mu}=\overline{Y}=\frac{1}{n} \sum_{i=1}^n Y_i, \qquad \widehat{\sigma}^2=\frac{1}{n}\sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}
+
+The fact that the estimator of the theoretical mean \(\mu\) is the sample mean is fairly intuitive and one can show the estimator is unbiased for \(\mu\). The (unbiased) sample variance estimator,
+\begin{align*}
+S^2=\frac{1}{n-1} \sum_{i=1}^n (\mathrm{Y}_i-\overline{Y})^2
+\end{align*}
+Since \(\widehat{\sigma}^2=(n-1)/n S^2\), it follows that the maximum likelihood estimator of \(\sigma^2\) is biased, but both estimators are consistent and will thus get arbitrarily close to the true value \(\sigma^2\) for \(n\) sufficiently large.
+
+The case of normally distributed data is intimately related to linear regression and ordinary least squares: assuming normality of the errors, the least square estimators of \(\boldsymbol{\beta}\) coincide with the maximum likelihood estimator of \(\boldsymbol{\beta}\).
+
+Recall the linear regression model,
+\begin{align*}
+Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
+\end{align*}
+where the errors \(\varepsilon_i \sim \mathsf{No}(0, \sigma^2)\).
+The linear model has \(p+2\) parameters (\(\boldsymbol{\beta}\) and \(\sigma^2\)) and the log-likelihood is
+\begin{align*}
+\ell(\boldsymbol{\theta})&=-\frac{n}{2} \log(2\pi)-\frac{n}{2} \log (\sigma^2) -\frac{1}{2\sigma^2}\left\{\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*}
+Maximizing the log-likelihood with respect to \(\boldsymbol{\beta}\) is equivalent to
+minimizing the sum of squared errors \(\|\boldsymbol{Y} - \widehat{\boldsymbol{Y}}\|^2\). Since this objective function is the same as that of least squares, it follows that the least-square estimator \(\widehat{\boldsymbol{\beta}}\) for the mean parameters is the maximum likelihood estimator for normal errors with common variance \(\sigma^2\), regardless of the value of the latter. The maximum likelihood estimator \(\widehat{\sigma}^2\) is thus
+\begin{align*}
+\hat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*}
+The log-likelihood, excluding constant terms that don't depend on \(\sigma^2\), is
+\begin{align*}
+\ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
+&\propto-\frac{1}{2}\left\{n\log\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*}
+Differentiating each term with respect to \(\sigma^2\) and setting the gradient equal to zero yields the maximum likelihood estimator
+\begin{align*}
+\hat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
+\end{align*}
+where \(\mathsf{SS}_e\) is the sum of squared residuals. The usual unbiased estimator of \(\sigma^2\) calculated by software is \(S^2=\mathsf{SS}_e/(n-p-1)\), where the denominator is the sample size \(n\) minus the number of mean parameters \(\boldsymbol{\beta}\), \(p+1\).
+\end{example}
+
+Oftentimes, we wish to compare two models: the model implied by the null hypothesis, which is a restriction or simpler version of the full model. Models are said to be \textbf{nested} if we can obtain one from the other by imposing restrictions on the parameters.
+
+We consider a null hypothesis \(\mathscr{H}_0\) that imposes restrictions on the possible values of \(\boldsymbol{\theta}\) can take, relative to an unconstrained alternative \(\mathscr{H}_1\). We need two \textbf{nested} models: a \emph{full} model, and a \emph{reduced} model that is a subset of the full model where we impose \(q\) restrictions. For example, the full model could be a regression model with four predictor variables and the reduced model could include only the first two predictor variables, which is equivalent to setting \(\mathscr{H}_0: \beta_3=\beta_4=0\). The testing procedure involves fitting the two models and obtaining the maximum likelihood estimators of each of \(\mathscr{H}_1\) and \(\mathscr{H}_0\), respectively \(\widehat{\boldsymbol{\theta}}\) and \(\widehat{\boldsymbol{\theta}}_0\) for the parameters under \(\mathscr{H}_0\).
+The null hypothesis \(\mathscr{H}_0\) tested is: `the reduced model is an \textbf{adequate simplification} of the full model' and the likelihood provides three main classes of statistics for testing this hypothesis: these are
+
+\begin{itemize}
+\tightlist
+\item
+  likelihood ratio tests statistics, denoted \(R\), which measure the drop in log-likelihood (vertical distance) from \(\ell(\widehat{\boldsymbol{\theta}})\) and \(\ell(\widehat{\boldsymbol{\theta}}_0)\).
+\item
+  Wald tests statistics, denoted \(W\), which consider the standardized horizontal distance between \(\widehat{\boldsymbol{\theta}}\) and \(\widehat{\boldsymbol{\theta}}_0\).
+\item
+  score tests statistics, denoted \(S\), which looks at the scaled gradient of \(\ell\), evaluated \emph{only} at \(\widehat{\boldsymbol{\theta}}_0\) (derivative of \(\ell\)).
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/likelihood_tests} 
+
+}
+
+\caption{Log-likelihood curve; the three likelihood-based tests, namely Wald, likelihood ratio and score tests, use different information about the function.}\label{fig:variablesquanti}
+\end{figure}
+
+The three main classes of statistics for testing a simple null hypothesis \(\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0\) against the alternative \(\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\) are the likelihood ratio, the score and the Wald statistics, defined respectively as
+\begin{align*}
+ R &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
+ S &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
+ W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top i(\boldsymbol{\theta}_0)(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
+\end{align*}
+where \(\widehat{\boldsymbol{\theta}}\) is the maximum likelihood estimate under the alternative and \(\boldsymbol{\theta}_0\) is the null value of the parameter vector. Asymptotically, all the test statistics are equivalent (in the sense that they lead to the same conclusions about \(\mathscr{H}_0\)).
+If \(\mathscr{H}_0\) is true, the three test statistics follow asymptotically a \(\chi^2_q\) distribution under a null hypothesis \(\mathscr{H}_0\), where the degrees of freedom \(q\) are the number of restrictions.
+
+For scalar \(\theta\) with \(q=1\), signed versions of these statistics exist, e.g., \begin{align*}
+W(\theta_0)=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})\stackrel{\cdot}{\sim} \mathsf{No}(0,1)
+\end{align*}
+for the Wald statistic or the directed likelihood root
+\begin{align*}
+R({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \stackrel{\cdot}{\sim} \mathsf{No}(0,1).
+\end{align*}
+The likelihood ratio test statistic is normally the most powerful of the three likelihood tests. The score statistic \(S\) only requires calculation of the score and information under \(\mathscr{H}_0\) (because by definition \(U(\widehat{\theta})=0\)), so it can be useful in problems where calculations of the maximum likelihood estimator under the alternative is costly or impossible.
+
+The Wald statistic \(W\) is the most widely encountered statistic and two-sided 95\% confidence intervals for a single parameter \(\theta\) are of the form
+\begin{align*}
+\widehat{\theta} \pm q_{1-\alpha/2}\mathrm{se}(\widehat{\theta}),
+\end{align*}
+where \(q_{1-\alpha/2}\) is the \(1-\alpha/2\) quantile of the standard normal distribution; for a \(95\)\% confidence interval, the \(0.975\) quantile of the normal distribution is \(1.96\).
+The Wald-based confidence intervals are by construction \textbf{symmetric}: they may include implausible values (e.g., negative values for variances). The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function \(h(\theta)\), then in general
+\(\mathsf{CI}_{W}\{h(\theta)\} \neq h\{\mathsf{CI}_{W}(\theta)\}.\)
+So, if \([0.1, 0.9]\) is a 95\% Wald-based confidence interval for \(\widehat{\beta}\), the Wald-based confidence interval for \(\exp(\widehat{\beta})\) \textbf{is not} \([\exp(0.1), \exp(0.9)]\).
+
+These confidence intervals can be contrasted with the (better) ones derived using the likelihood ratio test: these are found through a numerical search to find the limits of
+\begin{align*}
+\theta: 2\{\ell(\widehat{\theta}) - \ell(\theta)\} \leq \chi^2_1(1-\alpha),
+\end{align*}
+where \(\chi^2_1(1-\alpha)\) is the \((1-\alpha)\) quantile of the \(\chi^2_1\) distribution. If \(\boldsymbol{\theta}\) is multidimensional, confidence intervals for \(\theta_i\) are derived using the profile likelihood. Likelihood ratio-based confidence intervals are \textbf{parametrization invariant}, so \(\mathsf{CI}_{R}\{h(\theta)\} = h\{\mathsf{CI}_{R}(\theta)\}\). Because the likelihood is zero if a parameter value falls outside the range of possible values for the parameter, the intervals only include plausible values of \(\theta\). In general, the intervals are asymmetric and have better coverage properties.
+
+The \(F\)-tests covered in linear regression are equivalent to the likelihood ratio test for the linear model, but software reports the \(p\)-values calculated using an \(F\) distribution, which is the exact null under the assumption of normally distributed errors with constant variance. The chi-square distribution and the \(F\)-distribution are equivalent for \(n\) large.
+
+The Wald statistic and the likelihood ratio test for testing individual coefficients of the mean model \(\beta_j\) in a linear regression are equivalent: they give the same \(p\)-value.
+
+\hypertarget{profile-likelihood}{%
+\section{Profile likelihood}\label{profile-likelihood}}
+
+Consider a parametric model with log-likelihood function \(\ell(\boldsymbol{\theta})\) whose \(p\)-dimensional parameter vector \(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})\) that can be decomposed into a \(q\)-dimensional parameter of interest \(\boldsymbol{\psi}\) and a \((p-q)\)-dimensional nuisance vector \(\boldsymbol{\lambda}\).
+
+For example, we may be interested in obtaining confidence intervals for a single \(\beta_j\) in a logistic regression, treating the other parameters \(\boldsymbol{\beta}_{-j}\) as nuisance
+
+In these cases, we can consider the profile likelihood \(\ell_{\mathsf{p}}\), a function of \(\boldsymbol{\psi}\) alone, which is obtained by maximizing the likelihood pointwise at each fixed value \(\boldsymbol{\psi}_0\) over the nuisance vector \(\boldsymbol{\varphi}_{\psi_0}\),
+\begin{align*}
+\ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
+\end{align*}
+Figure \ref{fig:profile3d} shows a fictional log-likelihood contour plot with the resulting profile curve (in black), where the log-likelihood value is mapped to colors. If one thinks of these contours lines as those of a topographic map, the profile likelihood corresponds in this case to walking along the ridge of both mountains along the \(\psi\) direction, with the right panel showing the elevation gain/loss.
+
+The maximum profile likelihood estimator behaves like a regular likelihood for most quantities of interest and we can derive test statistics and confidence intervals in the usual way. One famous example of profile likelihood is the Cox proportional hazard covered in \protect\hyperlink{survival}{Chapter 7}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/profile3d-1} 
+
+}
+
+\caption{Two-dimensional log-likelihood surface with a parameter of interest $\psi$ and a nuisance parameter $\varphi$; the contour plot shows area of higher likelihood, and the black line is the profile log-likelihood, also shown as a function of $\psi$ on the right panel.}\label{fig:profile3d}
+\end{figure}
+
+\begin{example}[Box--Cox transformation]
+\protect\hypertarget{exm:boxcox}{}{\label{exm:boxcox} \iffalse (Box--Cox transformation) \fi{} }Sometimes, the assumption of normality of the error doesn't hold. If the data are strictly positive, one can consider a Box--Cox transformation,
+\begin{align*}
+y_i(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
+\log(y), & \lambda=0.
+\end{cases}
+\end{align*}
+
+If we assume that \(\boldsymbol{y}(\lambda) \sim \mathsf{No}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\), then the likelihood of \(\boldsymbol{y}\) is
+\begin{align*}
+L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) = (2\pi\sigma^2)^{-n/2}\exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right] J(\lambda, \boldsymbol{y}),
+\end{align*}
+where \(J\) denotes the Jacobian of the Box--Cox transformation, \(\prod_{i=1}^n y_i^{\lambda-1}\).
+For each given value of \(\lambda\), the maximum likelihood estimator is that of the usual regression model, with \(\boldsymbol{y}\) replaced by \(\boldsymbol{y}(\lambda)\), namely \(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\) and \(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\).
+
+The profile log-likelihood is
+\begin{align*}
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\log(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \log(y_i)
+\end{align*}
+The maximum profile likelihood estimator is the value \(\lambda\) minimizes the sum of squared residuals from the linear model with \(\boldsymbol{y}(\lambda)\) as response.
+\end{example}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/profileplot-1} 
+
+}
+
+\caption{Profile log-likelihood for the Box--Cox transformation for the waiting time data}\label{fig:profileplot}
+\end{figure}
+
+Figure \ref{fig:profileplot} shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately 0.37 would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of \(\lambda\), \((0.12, 0.13)\), at which the curve intersects the horizontal grey line drawn at \(-\chi^2_1/2\). The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an \emph{ad hoc} choice of transformation, one could choose a log transformation if the value \(0\) is included within the 95\% confidence interval since this improves interpretability.
+
+\hypertarget{likelihood-based-tools-for-model-comparison}{%
+\section{Likelihood-based tools for model comparison}\label{likelihood-based-tools-for-model-comparison}}
+
+The likelihood can also serve as building block for model comparison: the larger \(\ell(\boldsymbol{\widehat{\theta}})\), the better the fit. However, the likelihood doesn't account for model complexity in the sense that more complex models with more parameters lead to higher likelihood. This is not a problem for comparison of nested models using the likelihood ratio test because we look only at relative improvement in fit. There is a danger of \textbf{overfitting} if we only consider the likelihood of a model.
+
+\(\mathsf{AIC}\) and \(\mathsf{BIC}\) are information criteria measuring how well the model fits the data, while penalizing models with more parameters,
+\begin{align*}
+\mathsf{AIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+2k \\
+\mathsf{BIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+k\log(n),
+\end{align*}
+where \(k\) is the number of parameters in the model. The smaller the value of \(\mathsf{AIC}\) (or of \(\mathsf{BIC}\)), the better the model fit.
+
+Note that information criteria do not constitute formal hypothesis tests on the parameters, but they can be used to compare non nested-models, even these estimates are particularly noisy. If we want to compare likelihood from different probability models, we need to make sure they include normalizing constant. The \(\mathsf{BIC}\) is more stringent than \(\mathsf{AIC}\), as its penalty increases with the sample size, so it selects models with fewer parameters. The \(\mathsf{BIC}\) is \textbf{consistent}, meaning that it will pick the true correct model from an ensemble of models with probability one as \(n \to \infty\). In practice, this is of little interest if one assumes that all models are approximation of reality (it is unlikely that the true model is included in the ones we consider). \(\mathsf{AIC}\) often selects overly complicated models in large samples, whereas \(\mathsf{BIC}\) is sometimes too conservative in that it chooses models that are overly simple.
 
 \hypertarget{generalized-linear-models}{%
 \chapter{Generalized linear models}\label{generalized-linear-models}}
@@ -1508,6 +1660,286 @@ Many methods allow you to extract specific objects from \texttt{lm} objects. For
 
 \hypertarget{survival}{%
 \chapter{Survival analysis}\label{survival}}
+
+\hypertarget{complement}{%
+\chapter{Basic concepts}\label{complement}}
+
+\hypertarget{population-sample}{%
+\section{Population and samples}\label{population-sample}}
+
+Statistics is the science of uncertainty quantification: of paramount importance is the notion of randomness. Generally, we will seek to estimate characteristics of a population using only a sample (a sub-group of the population of smaller size).
+
+The \textbf{population of interest} is a collection of individuals which the study targets. For example, the Labour Force Survey (LFS) is a monthly study conducted by Statistics Canada, who define the target population as ``all members of the selected household who are 15 years old and older, whether they work or not.'' Asking every Canadian meeting this definition would be costly and the process would be long: the characteristic of interest (employment) is also a snapshot in time and can vary when the person leaves a job, enters the job market or become unemployed.
+
+In general, we therefore consider only \textbf{samples} to gather the information we seek to obtain. The purpose of \textbf{statistical inference} is to draw conclusions about the population, but using only a share of the latter and accounting for sources of variability. George Gallup made this great analogy between sample and population:
+
+\begin{quote}
+One spoonful can reflect the taste of the whole pot, if the soup is well-stirred
+\end{quote}
+
+A \textbf{sample} is a random sub-group of individuals drawn from the population. Creation of sampling plans is a complex subject and semester-long sampling courses would be required to evens scratch the surface of the topic. Even if we won't be collecting data, keep in mind the following information: for a sample to be good, it must be representative of the population under study. Selection bias must be avoided, notably samples of friends or of people sharing opinions.
+
+Because the individuals are selected at \textbf{random} to be part of the sample, the measurement of the characteristic of interest will also be random and change from one sample to the next. However, larger samples of the same quality carry more information and our estimator will be more precise. Sample size is not guarantee of quality, as the following example demonstrates.
+
+\begin{example}
+\protect\hypertarget{exm:Galluppoll}{}{\label{exm:Galluppoll} }
+\emph{The Literary Digest} surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. \href{https://www.jstor.org/stable/2749114}{Biased sampling and differential non-response are mostly responsible for the error:}) the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'\,', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
+
+In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. \href{https://medium.com/@ozanozbey/how-not-to-sample-11579793dac}{Read the full story here.}
+\end{example}
+
+\hypertarget{random-variable}{%
+\section{Random variable}\label{random-variable}}
+
+Suppose we wish to describe the behaviour of a stochastic phenomenon. To this effect, one should enumerate the set of possible values taken by the variable of interest and their probability: this is what is encoded in the distribution. We will distinguish between two cases: discrete and continuous variables. Random variables are denoted using capital letters: for example \(Y \sim \mathsf{No}(\mu, \sigma^2)\) indicates that \(Y\) follows a normal distribution with parameters \(\mu\) and \(\sigma^2\), which represent respectively the expectation and variance of \(Y\).
+
+The (cumulative) distribution function \(F(y)\) gives the cumulative probability that an event doesn't exceed a given numerical value \(y\), \(F(y) = \mathsf{Pr}(Y \leq y)\).
+
+If \(Y\) is discrete, then it has atoms of non-zero probability and the mass function \(f(y)=\mathsf{Pr}(Y=y)\) gives the probability of each outcome \(y\). In the continuous case, no numerical value has non-zero probability and so we consider intervals instead: the density function gives the probability of \(Y\) falling in a set \(B\), via \(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\). It follows that the distribution function of a continuous random variable is simply \(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x\).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/02-ttest-DF_illustration} 
+
+}
+
+\caption{(Cumulative) distribution functions (top) and density/mass functions (bottom) of continuous (left) and discrete (right) random variables.}\label{fig:distributions}
+\end{figure}
+
+\hypertarget{moments}{%
+\section{Moments}\label{moments}}
+
+One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
+
+Let \(Y\) be a random variable with density (or mass) function \(f(x)\). This function is non-negative and satisfies \(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\): the integral over a set \(B\) gives the probability of \(Y\) falling inside \(B \in \mathbb{R}\).
+
+The expectation of a continuous random variable \(Y\) is \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]
+Expectation is the ``theoretical mean'' in the discrete case, we set rather \(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\), where \(\mathcal{X}\) stands for the support of \(Y\), which is the set of numerical values at which the probability of \(Y\) is non-zero. More generally, we can look at the expectation of a function \(g(x)\) for \(Y\), which is nothing but the integral (or sum in the discrete case) of \(g(x)\) weighted by the density or mass function of \(f(x)\). In the same fashion, provided the integral is finite, the variance is
+\[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
+
+An estimator \(\hat{\theta}\) for a parameter \(\theta\) is unbiased if its bias \(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\) is zero.
+The unbiased estimator of the mean of \(Y\) is \(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\) and that of the variance is \(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\). While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!
+
+Often, rather, we seek to balance bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, \[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]
+The mean squared error is an objective function consisting of the sum of the squared bias and the variance.
+
+An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.
+
+The likelihood of a sample is the joint density of the \(n\) observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.
+
+\begin{example}[Bernoulli distribution]
+\protect\hypertarget{exm:bernoullidist}{}{\label{exm:bernoullidist} \iffalse (Bernoulli distribution) \fi{} }We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being \(\pi\) so \(\mathsf{Pr}(Y=1)=\pi\) and \(\mathsf{Pr}(Y=0)=1-\pi\) (complementary event). The mass function of the \href{https://en.wikipedia.org/wiki/Bernoulli_distribution}{Bernoulli distribution} is thus
+\begin{align*}
+\mathsf{Pr}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\end{align*}
+A rapid calculation shows that \(\mathsf{E}(Y)=\pi\) and \(\mathsf{Va}(Y)=\pi(1-\pi)\).
+Many research questions have binary responses, for example:
+
+\begin{itemize}
+\tightlist
+\item
+  did a potential client respond favourably to a promotional offer?
+\item
+  is the client satisfied with service provided post-purchase?
+\item
+  will a company go bankrupt in the next three years?
+\item
+  did a study participant successfully complete a task?
+\end{itemize}
+\end{example}
+
+\begin{example}[Binomial distribution]
+\protect\hypertarget{exm:binomialdist}{}{\label{exm:binomialdist} \iffalse (Binomial distribution) \fi{} }If the data five the sum of independent Bernoulli events, the number of sucessess \(Y\) out of \(m\) trials is \href{https://en.wikipedia.org/wiki/Binomial_distribution}{binomial}, denoted \(\mathsf{Bin}(m, \pi)\); the mass function of the binomial distribution is
+\begin{align*}
+\mathsf{Pr}(Y=y) = \binom{m}{y}\pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\end{align*}
+The likelihood of a sample from a binomial distribution is (up to a normalizing constant that doesn't depend on \(\pi\)) the same as that of \(m\)independent Bernoulli trials. The expectation of the binomial random variable is \(\mathsf{E}(Y)=m\pi\) and its variance \(\mathsf{Va}(Y)=m\pi(1-\pi)\).
+
+As examples, we could consider the number of successful candidates out of \(m\) who passed their driving license test or the number of customers out of \(m\) total which spent more than 10\$ in a store.
+\end{example}
+
+More generally, we can also consider count variables whose realizations are integer-valued, for examples the number of
+
+\begin{itemize}
+\tightlist
+\item
+  insurance claims made by a policyholder over a year,
+\item
+  purchases made by a client over a month on a website,
+\item
+  tasks completed by a study participant in a given time frame.
+\end{itemize}
+
+\begin{example}[Geometric distribution]
+\protect\hypertarget{exm:geomdist}{}{\label{exm:geomdist} \iffalse (Geometric distribution) \fi{} }The \href{https://en.wikipedia.org/wiki/Geometric_distribution}{geometric distribution} is a model describing the number of Bernoulli trials with probability of success \(\pi\) required to obtain a first success. The mass function of \(Y \sim \mathsf{Geo}(\pi)\) is
+\begin{align*}
+\mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
+\end{align*}
+
+For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.
+\end{example}
+
+\begin{example}[Poisson distribution]
+\protect\hypertarget{exm:poissondist}{}{\label{exm:poissondist} \iffalse (Poisson distribution) \fi{} }If the probability of success \(\pi\) of a Bernoulli event is small in the sense that \(m\pi \to \lambda\) wen the number of trials \(m\) increases, then the number of success followss approximately a Poisson distribution with mass function
+\begin{align*}
+\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
+\end{align*}
+where \(\Gamma(\cdot)\) denotes the gamma function. The parameter \(\lambda\) of the Poisson distribution is both the expectation and the variance of the distribution, meaning \(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\).
+\end{example}
+
+\begin{example}[Negative binomial distribution]
+\protect\hypertarget{exm:negbindist}{}{\label{exm:negbindist} \iffalse (Negative binomial distribution) \fi{} }The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success \(\pi\) until we obtain \(m\) success. Let \(Y\) denote the number of failures: the order of success and failure doesn't matter, but for the latest trial which is a success. The mass function is thus
+\begin{align*}
+\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} \pi^m (1-\pi)^{y}.
+\end{align*}
+
+The negative binomial distribution also appears as the unconditional distribution of a two-stage hierarchical gamma-Poisson model, in which the mean of the Poisson distribution is random and follows a gamma distribution. In notation, this is \(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\) and \(\Lambda\) follows a gamma distribution with shape \(r\) and scale \(\theta\), whose density is \[f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\] The unconditional number of success is then negative binomial.
+
+In the context of generalized linear models, we will employ yet another parametrisation of the distribution, with the mass function
+\begin{align*}
+\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r >0,
+\end{align*}
+where \(\Gamma\) is the gamma function and the parameter \(r>0\) is not anymore integer valued. The expectation and variance of \(Y\) are
+\(\mathsf{E}(Y)=\mu\) et \(\mathsf{Va}(Y)=\mu+k\mu^2\), where \(k=1/r\). The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
+\end{example}
+
+\begin{example}[Student-*t* distribution]
+\protect\hypertarget{exm:studentdist}{}{\label{exm:studentdist} \iffalse (Student-\emph{t} distribution) \fi{} }If \(X \sim \mathsf{No}(0,1)\) independent of \(Y \sim \chi^{2}_\nu\), then
+\begin{align*}
+T = \frac{X}{\sqrt{Y/\nu}}
+\end{align*}
+follows a Student-\(t\) distribution with \(\nu\) degrees of freedom, denoted \(\mathsf{St}_{\nu}\). The density of \(T\) is
+\begin{align*}
+f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right)
+\sqrt{\nu\pi}}\left(1+\frac{y^{2}}{\nu}\right)^{-\frac{\nu+1}{2}}
+\end{align*}
+the distribution has polynomial tails, is symmetric around \(0\) and unimodal. Its bell-curve shape resembles that of the normal distribution, and, as \(\nu \to \infty\), the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first \(\nu-1\) moments of the distribution exist, so a Student distribution with \(\nu=2\) degrees of freedom has infinite variance.
+\end{example}
+
+\hypertarget{diagramme-qq}{%
+\subsection{Quantiles-quantiles plots}\label{diagramme-qq}}
+
+Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if \(Y\) is a continuous random variable with distribution function \(F\), then the mapping \(F(Y) \sim \mathsf{U}(0,1)\) yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from \(F\), viz.~\(F^{-1}(U)\). Consider then a random sample of size \(n\) from the uniform distribution ordered from smallest to largest, with \(U_{(1)} \leq \cdots \leq U_{(n)}\). One can show these ranks have marginally a Beta distribution, \(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\) with expectation \(k/(n+1)\).
+
+In practice, we don't know \(F\) and, even if we did, one would need to estimate the parameters. We consider some estimator \(\widehat{F}\) for the model and apply the inverse transform to an approximate uniform sample \(\{i/(n+1)\}_{i=1}^n\). The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:
+
+\begin{itemize}
+\tightlist
+\item
+  on the \(x\)-axis, the theoretical quantiles \(\widehat{F}^{-1}\{\mathrm{rank}(y_i)/(n+1)\}\)
+\item
+  on the \(y\)-axis, the empirical quantiles \(y_i\)
+\end{itemize}
+
+If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope: the detrended plot is easier to interpret and was proposed by Tukey (but beware of the scale of the \(y\)-axis!). Figure \ref{fig:diagrammeqq2} shows two representations of the same data using simulated samples from a standard normal distribution.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1} 
+
+}
+
+\caption{Normal quantile-quantile plot (left) and detrended version (Tukey's) of the same plot (right).}\label{fig:diagrammeqq2}
+\end{figure}
+
+Even if we knew the true distribution of the data, the sample variability makes it very difficult to spot if deviations from the model are abnormal or compatible with the model. A simple point estimate with no uncertainty measure can lead to wrong conclusions. As such, we add approximate pointwise or simultaneous confidence intervals. The simplest way to do this is by simulation (using a parametric bootstrap), by repeating the following steps \(B\) times:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  simulate a (bootstrap) sample \(\{Y^{(b)}_{i}\} (i=1,\ldots, n)\) from \(\widehat{F}\)
+\item
+  re-estimate the parameters of \(F\) to obtain \(\widehat{F}_{(b)}\)
+\item
+  calculate and save the plotting positions \(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}\).
+\end{enumerate}
+
+The result of this operation is an \(n \times B\) matrix of simulated data. We obtain a symmetric (\(1-\alpha\)) confidence interval by keeping the empirical quantile of order \(\alpha/2\) and \(1-\alpha/2\) from each row. The number \(B\) should be larger than 999, say, and be chosen so that \(B/alpha\) is an integer.
+
+For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately \(\alpha\). However, order statistics are not independent (they are ordered), so its common to see neighboring points falling outside of their respective intervals. {[}It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall \(100(1-\alpha)\)\% of the time inside the bands in repeated samples; \href{https://lbelzile.github.io/lineaRmodels/qqplot.html}{see Section 4.4.3 of these course notes}. The intervals shown in Figure \ref{fig:diagrammeqq2} are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on \(F\).
+
+Interpretation of quantile-quantile plots requires some experience: \href{https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290\#101290}{this post by \emph{Glen\_b} on StackOverflow} nicely summarizes what can be detected (or not) from them.
+
+\hypertarget{law-large-numbers}{%
+\section{Laws of large numbers}\label{law-large-numbers}}
+
+An estimator for a parameter \(\theta\) is \textbf{consistent} if the value obtained as the sample size increases (to infinity) converges to the true value of \(\theta\). Mathematically speaking, this translates into convergence in probability, meaning \(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta\). In common language, we say that the probability that \(\hat{\theta}\) and \(\theta\) differ becomes negligible as \(n\) gets large.
+
+Consistency is the \emph{a minima} requirement for an estimator: when we collect more information, we should approach the truth. The law of large number states that the sample mean of \(n\) (independent) observations with common mean \(\mu\), say \(\overline{Y}_n\), converges to \(\mu\), denoted \(\overline{Y}_n \rightarrow \mu\). Roughly speaking, our approximation becomes less variable and asymptotically unbiased as the sample size (and thus the quantity of information available for the parameter) increases. The law of large number is featured in Monte Carlo experiments: we can approximate the expectation of some (complicated) function \(g(x)\) by simulating repeatedly independent draws from \(Y\) and calculating the sample mean \(n^{-1} \sum_{i=1}^n g(Y_i)\).
+
+If the law of large number tells us what happens in the limit (we get a single numerical value), the result doesn't contain information about the rate of convergence and the uncertainty at finite levels.
+
+\hypertarget{CLT}{%
+\section{Central Limit Theorem}\label{CLT}}
+
+The central limit theorem is perhaps the flagship result of probability theory: for a random sample of size \(n\) with (independent) random variables whose expectation is \(\mu\) and variance \(\sigma^2\), then the sample mean converges to \(\mu\), but
+
+\begin{itemize}
+\tightlist
+\item
+  the estimator \(\overline{Y}\) is centered around \(\mu\),
+\item
+  the standard error is \(\sigma/\sqrt{n}\); the rate of convergence is thus \(\sqrt{n}\). For a sample of size 100, the standard error of the sample mean will be 10 times smaller than that of the underlying random variable.
+\item
+  the sample mean, once properly scaled, follows approximately a normal distribution
+\end{itemize}
+
+Mathematically, the central limit theorem states \(\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{No}(0, \sigma^2)\). If \(n\) is large (a rule of thumb is \(n>30\), but this depends on the underlying distribution of \(Y\)), then \(\overline{Y} \stackrel{\cdot}{\sim} \mathsf{No}(\mu, \sigma^2/n)\).
+
+How do we make sense of this result? Let us consider the mean travel time of high speed Spanish trains (AVE) between Madrid and Barcelona that are operated by Renfe.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1} 
+
+}
+
+\caption{Empirical distribution of travel times of high speed trains.}\label{fig:renfeclt}
+\end{figure}
+
+Our exploratory data analysis showed previously that the duration is the one advertised on the ticket: there are only 15 unique travel time. Based on 9603 observations, we estimate the mean travel time to be 170 minutes and 41 seconds. Figure \ref{fig:renfeclt} shows the empirical distribution of the data.
+
+Consider now samples of size \(n=10\), drawn repeatedly from the population: in the first sample, the sample mean is 170.9 minutes, whereas we get an estimate of 164.5 minutes in our second , 172.3 minutes in the third, etc.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1} 
+
+}
+
+\caption{Graphical representation of the central limit theorem. The upper left panel shows a sample of 20 observations with its sample mean (vertical red). The three other panels show the histograms of the sample mean from repeated samples of size 5 (top right), 20 (bottom left) and 20, 50 and 100 overlaid, with the density approximation provided by the central limit theorem.}\label{fig:renfemeanCLT}
+\end{figure}
+
+We draw \(B=1000\) different samples, each of size \(n=5\), from two millions records, and calculate the sample mean in each of them. The top right panel of \ref{fig:renfemeanCLT} shows the result for \(n=5\), but also for \(n=20\) (bottom left). The last graph of Figure \ref{fig:renfemeanCLT} shows the impact of the increase in sample size: whereas the normal approximation is okay-ish for \(n=5\), it is indistinguishable from the normal approximation for \(n=20\). As \(n\) increases and the sample size gets bigger, the quality of the approximation improves and the curve becomes more concentrated around the true mean. Even if the distribution of the travel time is discrete, the mean is approximately normal.
+
+We considered a single distribution in the example, but you could play with other distributions and vary the sample size to see when the central limit theorem kicks in usng this \href{http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html}{applet}.
+
+The central limit theorem underlies why scaled test statistics which have sample mean zero and sample variance 1 have a standard null distribution in large sample: this is what guarantees the validity of our inference!
+
+\hypertarget{math}{%
+\chapter{Mathematical derivations}\label{math}}
+
+This section regroups optional derivations which are provided for the sake of completeness.
+
+\hypertarget{ols}{%
+\section{Derivation of the ordinary least squares estimator}\label{ols}}
+
+Consider the optimization problem
+\begin{align*}
+\widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*}
+We can compute the derivative of the right hand side with respect to \(\boldsymbol{\beta}\), set it to zero and solve for \(\widehat{\boldsymbol{\beta}}\),\\
+\begin{align*}
+\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*}
+using the \href{http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf}{chain rule}. Distributing the terms leads to the so-called \emph{normal equation}
+\begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*}
+If the \(n \times p\) matrix \(\mathbf{X}\) is full-rank, the quadratic form \(\mathbf{X}^\top \mathbf{X}\) is invertible and we obtain the solution to the least square problems provided in Equation \eqref{eq:ols}.
 
 \hypertarget{appendix-appendix}{%
 \appendix}
@@ -1737,248 +2169,103 @@ Other functions worth mentioning for simple graphics:
 There are two options for basic graphics: the base graphics package and the package \texttt{ggplot2}. The latter is a more recent proposal that builds on a modular approach and is more easily customizable --- I suggest you stick to either and \texttt{ggplot2} is a good option if you don't know \textbf{R} already, as the learning curve will be about the same. Even if the display from \texttt{ggplot2} is nicer, this is no excuse for not making proper graphics. Always label the axis and include measurement units!
 \end{rmdnote}
 
-\hypertarget{complement}{%
-\chapter{Mathematical concepts}\label{complement}}
+\hypertarget{rlmfunc}{%
+\section{\texorpdfstring{Linear models in \textbf{R} using the \texttt{lm} function}{Linear models in R using the lm function}}\label{rlmfunc}}
+
+The function \texttt{lm} is the workshorse for fitting linear models in \textbf{R}. It takes as input a formula: suppose you have a data frame containing columns \texttt{x} (a regressor) and \texttt{y} (the regressand); you can then call \texttt{lm(y\ \textasciitilde{}\ x)} to fit the linear model \(y = \beta_0 + \beta_1 x + \varepsilon\). The explanatory variable \texttt{y} is on the left hand side,
+while the right hand side should contain the predictors, separated by a \texttt{+} sign if there are more than one.
+If you provide the data frame name using \texttt{data}, then the shorthand \texttt{y\ \textasciitilde{}\ .} fits all the columns of the data frame (but \texttt{y}) as regressors.
+
+If you include categorical variables, make sure they are transformed to factors. Normally, strings are cast to factor (unless you specify \texttt{stringsAsFactors\ =\ FALSE}) upon import of the data, but the danger here lies with variables that are encoded using integers (sex, revenue class, level of education, marital status, etc.) It is okay if we keep binary variables as is if they are encoded using \(0/1\), but it is often better to cast them to factor to get more meaningful labels given the lack of obvious ordering.
+
+By default, the baseline level for a factor is based on the alphabetical order, while \textbf{SAS} uses the first value it encounters. Once the variables are cast to factor, \texttt{summary} will print the counts for each respective categories; these could be likewise be obtained using \texttt{table}.
+
+To fit higher order polynomials or transformations, use the \texttt{I} function to tell \textbf{R} to interpret the input ``as is''.
+Thus, \texttt{lm(y\textasciitilde{}x+I(x\^{}2))}, would fit a linear model with design matrix \((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\). A constant is automatically included in the regression, but can be removed by writing \texttt{-1} or \texttt{+0} on the right hand side of the formula (but don't do that!). The \texttt{lm} function output will display ordinary least squares estimates along with standard errors, \(t\) values for the Wald test of the hypothesis \(\mathrm{H}_0: \beta_i=0\) and the associated \(P\)-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
+
+Many methods allow you to extract specific objects from \texttt{lm} objects. For example, the functions \texttt{coef}, \texttt{resid}, \texttt{fitted}, \texttt{model.matrix} will return the coefficients \(\widehat{\boldsymbol{\beta}}\), the ordinary residuals \(\boldsymbol{e}\), the fitted values \(\widehat{\boldsymbol{y}}\) and the design matrix \(\mathbf{X}\), respectively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(college, }\DataTypeTok{package =} \StringTok{"hecstatmod"}\NormalTok{) }\CommentTok{\#load data}
+\KeywordTok{class}\NormalTok{(college}\OperatorTok{$}\NormalTok{rank) }\CommentTok{\#check that rank is a factor}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "factor"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#if not, use the following "\textless{}{-}" to assign, "$" to access the column of a data.frame/list}
+\CommentTok{\# college$rank \textless{}{-} factor(college$rank, labels = c("assistant","associate","full"))}
+\NormalTok{linmod \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(salary }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{sex }\OperatorTok{+}\StringTok{ }\NormalTok{rank }\OperatorTok{+}\StringTok{ }\NormalTok{service }\OperatorTok{+}\StringTok{ }\NormalTok{field, }\DataTypeTok{data =}\NormalTok{ college)}
+\KeywordTok{coef}\NormalTok{(linmod) }\CommentTok{\#coefficients}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      (Intercept)         sexwoman    rankassociate         rankfull 
+##          86.5963          -4.7712          14.5604          49.1596 
+##          service fieldtheoretical 
+##          -0.0888         -13.4734
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(linmod) }\CommentTok{\#summary table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = salary ~ sex + rank + service + field, data = college)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -64.20 -14.26  -1.53  10.57  99.16 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       86.5963     2.9603   29.25  < 2e-16 ***
+## sexwoman          -4.7712     3.8780   -1.23  0.21931    
+## rankassociate     14.5604     4.0983    3.55  0.00043 ***
+## rankfull          49.1596     3.8345   12.82  < 2e-16 ***
+## service           -0.0888     0.1116   -0.80  0.42696    
+## fieldtheoretical -13.4734     2.3155   -5.82  1.2e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 22.7 on 391 degrees of freedom
+## Multiple R-squared:  0.448,	Adjusted R-squared:  0.441 
+## F-statistic: 63.4 on 5 and 391 DF,  p-value: <2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{confint}\NormalTok{(linmod) }\CommentTok{\#confidence intervals for model parameters}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    2.5 % 97.5 %
+## (Intercept)       80.776 92.416
+## sexwoman         -12.396  2.853
+## rankassociate      6.503 22.618
+## rankfull          41.621 56.698
+## service           -0.308  0.131
+## fieldtheoretical -18.026 -8.921
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yhat \textless{}{-}}\StringTok{ }\KeywordTok{fitted}\NormalTok{(linmod) }\CommentTok{\#fitted values}
+\NormalTok{e \textless{}{-}}\StringTok{ }\KeywordTok{resid}\NormalTok{(linmod) }\CommentTok{\#ordinary residuals}
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{population-sample}{%
-\section{Population and samples}\label{population-sample}}
-
-Statistics is the science of uncertainty quantification: of paramount importance is the notion of randomness. Generally, we will seek to estimate characteristics of a population using only a sample (a sub-group of the population of smaller size).
-
-The \textbf{population of interest} is a collection of individuals which the study targets. For example, the Labour Force Survey (LFS) is a monthly study conducted by Statistics Canada, who define the target population as ``all members of the selected household who are 15 years old and older, whether they work or not.'' Asking every Canadian meeting this definition would be costly and the process would be long: the characteristic of interest (employment) is also a snapshot in time and can vary when the person leaves a job, enters the job market or become unemployed.
-
-In general, we therefore consider only \textbf{samples} to gather the information we seek to obtain. The purpose of \textbf{statistical inference} is to draw conclusions about the population, but using only a share of the latter and accounting for sources of variability. George Gallup made this great analogy between sample and population:
-
-\begin{quote}
-One spoonful can reflect the taste of the whole pot, if the soup is well-stirred
-\end{quote}
-
-A \textbf{sample} is a random sub-group of individuals drawn from the population. Creation of sampling plans is a complex subject and semester-long sampling courses would be required to evens scratch the surface of the topic. Even if we won't be collecting data, keep in mind the following information: for a sample to be good, it must be representative of the population under study. Selection bias must be avoided, notably samples of friends or of people sharing opinions.
-
-Because the individuals are selected at \textbf{random} to be part of the sample, the measurement of the characteristic of interest will also be random and change from one sample to the next. However, larger samples of the same quality carry more information and our estimator will be more precise. Sample size is not guarantee of quality, as the following example demonstrates.
-
-\begin{example}
-\protect\hypertarget{exm:Galluppoll}{}{\label{exm:Galluppoll} }
-\emph{The Literary Digest} surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. \href{https://www.jstor.org/stable/2749114}{Biased sampling and differential non-response are mostly responsible for the error:}) the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'\,', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
-
-In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. \href{https://medium.com/@ozanozbey/how-not-to-sample-11579793dac}{Read the full story here.}
-\end{example}
-
-\hypertarget{random-variable}{%
-\section{Random variable}\label{random-variable}}
-
-Suppose we wish to describe the behaviour of a stochastic phenomenon. To this effect, one should enumerate the set of possible values taken by the variable of interest and their probability: this is what is encoded in the distribution. We will distinguish between two cases: discrete and continuous variables. Random variables are denoted using capital letters: for example \(Y \sim \mathsf{No}(\mu, \sigma^2)\) indicates that \(Y\) follows a normal distribution with parameters \(\mu\) and \(\sigma^2\), which represent respectively the expectation and variance of \(Y\).
-
-The (cumulative) distribution function \(F(y)\) gives the cumulative probability that an event doesn't exceed a given numerical value \(y\), \(F(y) = \mathsf{Pr}(Y \leq y)\).
-
-If \(Y\) is discrete, then it has atoms of non-zero probability and the mass function \(f(y)=\mathsf{Pr}(Y=y)\) gives the probability of each outcome \(y\). In the continuous case, no numerical value has non-zero probability and so we consider intervals instead: the density function gives the probability of \(Y\) falling in a set \(B\), via \(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\). It follows that the distribution function of a continuous random variable is simply \(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x\).
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{images/02-ttest-DF_illustration} 
-
-}
-
-\caption{(Cumulative) distribution functions (top) and density/mass functions (bottom) of continuous (left) and discrete (right) random variables.}\label{fig:distributions}
-\end{figure}
-
-\hypertarget{moments}{%
-\section{Moments}\label{moments}}
-
-One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
-
-Let \(Y\) be a random variable with density (or mass) function \(f(x)\). This function is non-negative and satisfies \(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\): the integral over a set \(B\) gives the probability of \(Y\) falling inside \(B \in \mathbb{R}\).
-
-The expectation of a continuous random variable \(Y\) is \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]
-Expectation is the ``theoretical mean'' in the discrete case, we set rather \(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\), where \(\mathcal{X}\) stands for the support of \(Y\), which is the set of numerical values at which the probability of \(Y\) is non-zero. More generally, we can look at the expectation of a function \(g(x)\) for \(Y\), which is nothing but the integral (or sum in the discrete case) of \(g(x)\) weighted by the density or mass function of \(f(x)\). In the same fashion, provided the integral is finite, the variance is
-\[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
-
-An estimator \(\hat{\theta}\) for a parameter \(\theta\) is unbiased if its bias \(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\) is zero.
-The unbiased estimator of the mean of \(Y\) is \(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\) and that of the variance is \(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\). While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!
-
-Often, rather, we seek to balance bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, \[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]
-The mean squared error is an objective function consisting of the sum of the squared bias and the variance.
-
-An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.
-
-The likelihood of a sample is the joint density of the \(n\) observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.
-
-\begin{example}[Bernoulli distribution]
-\protect\hypertarget{exm:bernoullidist}{}{\label{exm:bernoullidist} \iffalse (Bernoulli distribution) \fi{} }We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being \(\pi\) so \(\mathsf{Pr}(Y=1)=\pi\) and \(\mathsf{Pr}(Y=0)=1-\pi\) (complementary event). The mass function of the \href{https://en.wikipedia.org/wiki/Bernoulli_distribution}{Bernoulli distribution} is thus
-\begin{align*}
-\mathsf{Pr}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
-\end{align*}
-A rapid calculation shows that \(\mathsf{E}(Y)=\pi\) and \(\mathsf{Va}(Y)=\pi(1-\pi)\).
-Many research questions have binary responses, for example:
-
-\begin{itemize}
-\tightlist
-\item
-  did a potential client respond favourably to a promotional offer?
-\item
-  is the client satisfied with service provided post-purchase?
-\item
-  will a company go bankrupt in the next three years?
-\item
-  did a study participant successfully complete a task?
-\end{itemize}
-\end{example}
-
-\begin{example}[Binomial distribution]
-\protect\hypertarget{exm:binomialdist}{}{\label{exm:binomialdist} \iffalse (Binomial distribution) \fi{} }If the data five the sum of independent Bernoulli events, the number of sucessess \(Y\) out of \(m\) trials is \href{https://en.wikipedia.org/wiki/Binomial_distribution}{binomial}, denoted \(\mathsf{Bin}(m, \pi)\); the mass function of the binomial distribution is
-\begin{align*}
-\mathsf{Pr}(Y=y) = \binom{m}{y}\pi^y (1-\pi)^{1-y}, \quad y=0, 1.
-\end{align*}
-The likelihood of a sample from a binomial distribution is (up to a normalizing constant that doesn't depend on \(\pi\)) the same as that of \(m\)independent Bernoulli trials. The expectation of the binomial random variable is \(\mathsf{E}(Y)=m\pi\) and its variance \(\mathsf{Va}(Y)=m\pi(1-\pi)\).
-
-As examples, we could consider the number of successful candidates out of \(m\) who passed their driving license test or the number of customers out of \(m\) total which spent more than 10\$ in a store.
-\end{example}
-
-More generally, we can also consider count variables whose realizations are integer-valued, for examples the number of
-
-\begin{itemize}
-\tightlist
-\item
-  insurance claims made by a policyholder over a year,
-\item
-  purchases made by a client over a month on a website,
-\item
-  tasks completed by a study participant in a given time frame.
-\end{itemize}
-
-\begin{example}[Geometric distribution]
-\protect\hypertarget{exm:geomdist}{}{\label{exm:geomdist} \iffalse (Geometric distribution) \fi{} }The \href{https://en.wikipedia.org/wiki/Geometric_distribution}{geometric distribution} is a model describing the number of Bernoulli trials with probability of success \(\pi\) required to obtain a first success. The mass function of \(Y \sim \mathsf{Geo}(\pi)\) is
-\begin{align*}
-\mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
-\end{align*}
-
-For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.
-\end{example}
-
-\begin{example}[Poisson distribution]
-\protect\hypertarget{exm:poissondist}{}{\label{exm:poissondist} \iffalse (Poisson distribution) \fi{} }If the probability of success \(\pi\) of a Bernoulli event is small in the sense that \(m\pi \to \lambda\) wen the number of trials \(m\) increases, then the number of success followss approximately a Poisson distribution with mass function
-\begin{align*}
-\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
-\end{align*}
-where \(\Gamma(\cdot)\) denotes the gamma function. The parameter \(\lambda\) of the Poisson distribution is both the expectation and the variance of the distribution, meaning \(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\).
-\end{example}
-
-\begin{example}[Negative binomial distribution]
-\protect\hypertarget{exm:negbindist}{}{\label{exm:negbindist} \iffalse (Negative binomial distribution) \fi{} }The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success \(\pi\) until we obtain \(m\) success. Let \(Y\) denote the number of failures: the order of success and failure doesn't matter, but for the latest trial which is a success. The mass function is thus
-\begin{align*}
-\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} \pi^m (1-\pi)^{y}.
-\end{align*}
-
-The negative binomial distribution also appears as the unconditional distribution of a two-stage hierarchical gamma-Poisson model, in which the mean of the Poisson distribution is random and follows a gamma distribution. In notation, this is \(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\) and \(\Lambda\) follows a gamma distribution with shape \(r\) and scale \(\theta\), whose density is \[f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\] The unconditional number of success is then negative binomial.
-
-In the context of generalized linear models, we will employ yet another parametrisation of the distribution, with the mass function
-\begin{align*}
-\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r >0,
-\end{align*}
-where \(\Gamma\) is the gamma function and the parameter \(r>0\) is not anymore integer valued. The expectation and variance of \(Y\) are
-\(\mathsf{E}(Y)=\mu\) et \(\mathsf{Va}(Y)=\mu+k\mu^2\), where \(k=1/r\). The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
-\end{example}
-
-\hypertarget{diagramme-qq}{%
-\subsection{Quantiles-quantiles plots}\label{diagramme-qq}}
-
-Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if \(Y\) is a continuous random variable with distribution function \(F\), then the mapping \(F(Y) \sim \mathsf{U}(0,1)\) yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from \(F\), viz.~\(F^{-1}(U)\). Consider then a random sample of size \(n\) from the uniform distribution ordered from smallest to largest, with \(U_{(1)} \leq \cdots \leq U_{(n)}\). One can show these ranks have marginally a Beta distribution, \(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\) with expectation \(k/(n+1)\).
-
-In practice, we don't know \(F\) and, even if we did, one would need to estimate the parameters. We consider some estimator \(\widehat{F}\) for the model and apply the inverse transform to an approximate uniform sample \(\{i/(n+1)\}_{i=1}^n\). The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:
-
-\begin{itemize}
-\tightlist
-\item
-  on the \(x\)-axis, the theoretical quantiles \(\widehat{F}^{-1}\{\mathrm{rank}(y_i)/(n+1)\}\)
-\item
-  on the \(y\)-axis, the empirical quantiles \(y_i\)
-\end{itemize}
-
-If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope: the detrended plot is easier to interpret and was proposed by Tukey (but beware of the scale of the \(y\)-axis!). Figure \ref{fig:diagrammeqq2} shows two representations of the same data using simulated samples from a standard normal distribution.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1} 
-
-}
-
-\caption{Normal quantile-quantile plot (left) and detrended version (Tukey's) of the same plot (right).}\label{fig:diagrammeqq2}
-\end{figure}
-
-Even if we knew the true distribution of the data, the sample variability makes it very difficult to spot if deviations from the model are abnormal or compatible with the model. A simple point estimate with no uncertainty measure can lead to wrong conclusions. As such, we add approximate pointwise or simultaneous confidence intervals. The simplest way to do this is by simulation (using a parametric bootstrap), by repeating the following steps \(B\) times:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  simulate a (bootstrap) sample \(\{Y^{(b)}_{i}\} (i=1,\ldots, n)\) from \(\widehat{F}\)
-\item
-  re-estimate the parameters of \(F\) to obtain \(\widehat{F}_{(b)}\)
-\item
-  calculate and save the plotting positions \(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}\).
-\end{enumerate}
-
-The result of this operation is an \(n \times B\) matrix of simulated data. We obtain a symmetric (\(1-\alpha\)) confidence interval by keeping the empirical quantile of order \(\alpha/2\) and \(1-\alpha/2\) from each row. The number \(B\) should be larger than 999, say, and be chosen so that \(B/alpha\) is an integer.
-
-For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately \(\alpha\). However, order statistics are not independent (they are ordered), so its common to see neighboring points falling outside of their respective intervals. {[}It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall \(100(1-\alpha)\)\% of the time inside the bands in repeated samples; \href{https://lbelzile.github.io/lineaRmodels/qqplot.html}{see Section 4.4.3 of these course notes}. The intervals shown in Figure \ref{fig:diagrammeqq2} are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on \(F\).
-
-Interpretation of quantile-quantile plots requires some experience: \href{https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290\#101290}{this post by \emph{Glen\_b} on StackOverflow} nicely summarizes what can be detected (or not) from them.
-
-\hypertarget{law-large-numbers}{%
-\section{Laws of large numbers}\label{law-large-numbers}}
-
-An estimator for a parameter \(\theta\) is \textbf{consistent} if the value obtained as the sample size increases (to infinity) converges to the true value of \(\theta\). Mathematically speaking, this translates into convergence in probability, meaning \(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta\). In common language, we say that the probability that \(\hat{\theta}\) and \(\theta\) differ becomes negligible as \(n\) gets large.
-
-Consistency is the \emph{a minima} requirement for an estimator: when we collect more information, we should approach the truth. The law of large number states that the sample mean of \(n\) (independent) observations with common mean \(\mu\), say \(\overline{Y}_n\), converges to \(\mu\), denoted \(\overline{Y}_n \rightarrow \mu\). Roughly speaking, our approximation becomes less variable and asymptotically unbiased as the sample size (and thus the quantity of information available for the parameter) increases. The law of large number is featured in Monte Carlo experiments: we can approximate the expectation of some (complicated) function \(g(x)\) by simulating repeatedly independent draws from \(Y\) and calculating the sample mean \(n^{-1} \sum_{i=1}^n g(Y_i)\).
-
-If the law of large number tells us what happens in the limit (we get a single numerical value), the result doesn't contain information about the rate of convergence and the uncertainty at finite levels.
-
-\hypertarget{CLT}{%
-\section{Central Limit Theorem}\label{CLT}}
-
-The central limit theorem is perhaps the flagship result of probability theory: for a random sample of size \(n\) with (independent) random variables whose expectation is \(\mu\) and variance \(\sigma^2\), then the sample mean converges to \(\mu\), but
-
-\begin{itemize}
-\tightlist
-\item
-  the estimator \(\overline{Y}\) is centered around \(\mu\),
-\item
-  the standard error is \(\sigma/\sqrt{n}\); the rate of convergence is thus \(\sqrt{n}\). For a sample of size 100, the standard error of the sample mean will be 10 times smaller than that of the underlying random variable.
-\item
-  the sample mean, once properly scaled, follows approximately a normal distribution
-\end{itemize}
-
-Mathematically, the central limit theorem states \(\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{No}(0, \sigma^2)\). If \(n\) is large (a rule of thumb is \(n>30\), but this depends on the underlying distribution of \(Y\)), then \(\overline{Y} \stackrel{\cdot}{\sim} \mathsf{No}(\mu, \sigma^2/n)\).
-
-How do we make sense of this result? Let us consider the mean travel time of high speed Spanish trains (AVE) between Madrid and Barcelona that are operated by Renfe.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1} 
-
-}
-
-\caption{Empirical distribution of travel times of high speed trains.}\label{fig:renfeclt}
-\end{figure}
-
-Our exploratory data analysis showed previously that the duration is the one advertised on the ticket: there are only 15 unique travel time. Based on 9603 observations, we estimate the mean travel time to be 170 minutes and 41 seconds. Figure \ref{fig:renfeclt} shows the empirical distribution of the data.
-
-Consider now samples of size \(n=10\), drawn repeatedly from the population: in the first sample, the sample mean is 170.9 minutes, whereas we get an estimate of 164.5 minutes in our second , 172.3 minutes in the third, etc.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.9\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1} 
-
-}
-
-\caption{Graphical representation of the central limit theorem. The upper left panel shows a sample of 20 observations with its sample mean (vertical red). The three other panels show the histograms of the sample mean from repeated samples of size 5 (top right), 20 (bottom left) and 20, 50 and 100 overlaid, with the density approximation provided by the central limit theorem.}\label{fig:renfemeanCLT}
-\end{figure}
-
-We draw \(B=1000\) different samples, each of size \(n=5\), from two millions records, and calculate the sample mean in each of them. The top right panel of \ref{fig:renfemeanCLT} shows the result for \(n=5\), but also for \(n=20\) (bottom left). The last graph of Figure \ref{fig:renfemeanCLT} shows the impact of the increase in sample size: whereas the normal approximation is okay-ish for \(n=5\), it is indistinguishable from the normal approximation for \(n=20\). As \(n\) increases and the sample size gets bigger, the quality of the approximation improves and the curve becomes more concentrated around the true mean. Even if the distribution of the travel time is discrete, the mean is approximately normal.
-
-We considered a single distribution in the example, but you could play with other distributions and vary the sample size to see when the central limit theorem kicks in usng this \href{http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html}{applet}.
-
-The central limit theorem underlies why scaled test statistics which have sample mean zero and sample variance 1 have a standard null distribution in large sample: this is what guarantees the validity of our inference!
 
   \bibliography{book.bib,packages.bib,notes60604.bib}
 
