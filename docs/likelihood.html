@@ -180,7 +180,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span class="math display">\[\begin{align*}
 L(\boldsymbol{\theta}; \boldsymbol{y}) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}) = f(y_1; \boldsymbol{\theta}) \times \cdots \times f(y_n; \boldsymbol{\theta}).
 \end{align*}\]</span></p>
-<p>From a pure optimization perspective, the likelihood is a particular choice of objective function that reflects the probability of the observed outcome. One shouldn’t however maximize directly the likelihood, since computing the product of a lot of potentially small numbers is subject to numerical overflow and is unstable (for discrete distributions, the mass function gives probabilities that are by definition between zero and one). Instead, one should work with the log-likelihood function, <span class="math inline">\(\ell(\boldsymbol{\theta}) = \log\{L(\boldsymbol{\theta})\}\)</span>. Since logarithm is a strictly increasing function, maximizing the natural logarithm (denoted <span class="math inline">\(\log\equiv \ln\)</span> throughout) of the likelihood leads to the same solution. Another reason why working with the log-likelihood is preferable is because product over <span class="math inline">\(n\)</span> likelihood contributions becomes a sum and this facilitates numerical and analytical derivations of the maximum likelihood estimators (the log of a product is equal to the sum of logs, i.e., <span class="math inline">\(\log(ab) =\log(a) +\log(b)\)</span> for <span class="math inline">\(a, b&gt;0\)</span>.)</p>
+<p>From a pure optimization perspective, the likelihood is a particular choice of objective function that reflects the probability of the observed outcome. One shouldn’t however maximize directly the likelihood, since computing the product of a lot of potentially small numbers is subject to numerical overflow and is unstable (for discrete distributions, the mass function gives probabilities that are by definition between zero and one). Instead, one should work with the log-likelihood function, <span class="math inline">\(\ell(\boldsymbol{\theta}) = \ln\{L(\boldsymbol{\theta})\}\)</span>. Since logarithm is a strictly increasing function, maximizing the natural logarithm (denoted <span class="math inline">\(\ln\)</span>) of the likelihood leads to the same solution. Another reason why working with the log-likelihood is preferable is because product over <span class="math inline">\(n\)</span> likelihood contributions becomes a sum and this facilitates numerical and analytical derivations of the maximum likelihood estimators (the log of a product is equal to the sum of logs, i.e., <span class="math inline">\(\ln(ab) =\ln(a) +\ln(b)\)</span> for <span class="math inline">\(a, b&gt;0\)</span>.)</p>
 <p>The <strong>maximum likelihood estimator</strong> <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is the value of <span class="math inline">\(\boldsymbol{\theta}\)</span> that maximizes the likelihood, i.e., the value under which the random sample is the most likely to be generated. The scientific reasoning behind this is: “whatever we observe, we have expected to observe” so we choose between competing models the one that makes the most sense.</p>
 <p>Several properties of maximum likelihood estimator makes it appealing for inference.</p>
 <ul>
@@ -206,11 +206,11 @@ The Fisher (or expected) and observed information matrices encodes the curvature
 <p><span id="exm:waitingtime" class="example"><strong>Example 3.1  (Exponential model for waiting times of the Montreal metro)  </strong></span>Consider the waiting time <span class="math inline">\(Y\)</span> between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate <span class="math inline">\(\theta\)</span>, denoted <span class="math inline">\(Y \sim \mathsf{E}(\theta)\)</span>. The purpose of statistical inference is to use the information from a random sample of size <span class="math inline">\(n\)</span> to estimate the unknown parameter <span class="math inline">\(\theta\)</span>. The density of <span class="math inline">\(Y\)</span> evaluated at <span class="math inline">\(y\)</span>, <span class="math inline">\(f(y; \theta)=\theta\exp(-\theta y)\)</span>, encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing <span class="math inline">\(y_1, \ldots, y_n\)</span> is the product of probabilities of individual events. The likelihood is thus
 <span class="math display">\[\begin{align*}
 L(\theta; \boldsymbol{y}) &amp;= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta\exp(-\theta y_i),\\
-\ell(\theta; \boldsymbol{y}) &amp; = n\log(\theta) - \theta\sum_{i=1}^n y_i
+\ell(\theta; \boldsymbol{y}) &amp; = n\ln(\theta) - \theta\sum_{i=1}^n y_i
 \end{align*}\]</span>
 To find the maximum of the function, we differentiate the log-likelihood <span class="math inline">\(\ell(\theta; \boldsymbol{y})\)</span> and set the gradient to zero,
 <span class="math display">\[\begin{align*}
-\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} &amp; = \frac{n}{\theta} + \sum_{i=1}^n y_i =0.
+\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} &amp; = \frac{n}{\theta} - \sum_{i=1}^n y_i =0.
 \end{align*}\]</span>
 Solving for <span class="math inline">\(\theta\)</span> gives <span class="math inline">\(\widehat{\theta} = \overline{y}^{-1}\)</span>, so the maximum likelihood estimator is the reciprocal of the sample mean <span class="math inline">\(\overline{Y}\)</span>. The observed information is <span class="math inline">\(j(\theta) = n\theta^{-2}\)</span> and likewise <span class="math inline">\(i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}\)</span>.</p>
 </div>
@@ -236,7 +236,7 @@ L(\mu, \sigma^2; \boldsymbol{y})=&amp;\prod_{i=1}^n\frac{1}{({2\pi \sigma^2})^{1
 \end{align*}\]</span>
 and the log-likelihood is
 <span class="math display">\[\begin{align*}
-\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
+\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\ln(2\pi) -\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
 \end{align*}\]</span></p>
 <p>One can show that the maximum likelihood estimators for the two parameters are
 <span class="math display">\[\begin{align*}
@@ -255,7 +255,7 @@ Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mat
 where the errors <span class="math inline">\(\varepsilon_i \sim \mathsf{No}(0, \sigma^2)\)</span>.
 The linear model has <span class="math inline">\(p+2\)</span> parameters (<span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\sigma^2\)</span>) and the log-likelihood is
 <span class="math display">\[\begin{align*}
-\ell(\boldsymbol{\theta})&amp;=-\frac{n}{2} \log(2\pi)-\frac{n}{2} \log (\sigma^2) -\frac{1}{2\sigma^2}\left\{\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\ell(\boldsymbol{\theta})&amp;=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
 \end{align*}\]</span>
 Maximizing the log-likelihood with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span> is equivalent to
 minimizing the sum of squared errors <span class="math inline">\(\|\boldsymbol{Y} - \widehat{\boldsymbol{Y}}\|^2\)</span>. Since this objective function is the same as that of least squares, it follows that the least-square estimator <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> for the mean parameters is the maximum likelihood estimator for normal errors with common variance <span class="math inline">\(\sigma^2\)</span>, regardless of the value of the latter. The maximum likelihood estimator <span class="math inline">\(\widehat{\sigma}^2\)</span> is thus
@@ -265,7 +265,7 @@ minimizing the sum of squared errors <span class="math inline">\(\|\boldsymbol{Y
 The log-likelihood, excluding constant terms that don’t depend on <span class="math inline">\(\sigma^2\)</span>, is
 <span class="math display">\[\begin{align*}
 \ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
-&amp;\propto-\frac{1}{2}\left\{n\log\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+&amp;\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
 \end{align*}\]</span>
 Differentiating each term with respect to <span class="math inline">\(\sigma^2\)</span> and setting the gradient equal to zero yields the maximum likelihood estimator
 <span class="math display">\[\begin{align*}
@@ -368,7 +368,7 @@ Figure 3.3: Two-dimensional log-likelihood surface with a parameter of interest 
 <span class="math display">\[\begin{align*}
 y_i(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
-\log(y), &amp; \lambda=0.
+\ln(y), &amp; \lambda=0.
 \end{cases}
 \end{align*}\]</span></p>
 <p>If we assume that <span class="math inline">\(\boldsymbol{y}(\lambda) \sim \mathsf{No}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\)</span>, then the likelihood of <span class="math inline">\(\boldsymbol{y}\)</span> is
@@ -379,7 +379,7 @@ where <span class="math inline">\(J\)</span> denotes the Jacobian of the Box–C
 For each given value of <span class="math inline">\(\lambda\)</span>, the maximum likelihood estimator is that of the usual regression model, with <span class="math inline">\(\boldsymbol{y}\)</span> replaced by <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span>, namely <span class="math inline">\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)</span> and <span class="math inline">\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\)</span>.</p>
 The profile log-likelihood is
 <span class="math display">\[\begin{align*}
-\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\log(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \log(y_i)
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
 \end{align*}\]</span>
 The maximum profile likelihood estimator is the value <span class="math inline">\(\lambda\)</span> minimizes the sum of squared residuals from the linear model with <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span> as response.
 </div>
@@ -398,7 +398,7 @@ Figure 3.4: Profile log-likelihood for the Box–Cox transformation for the wait
 <p><span class="math inline">\(\mathsf{AIC}\)</span> and <span class="math inline">\(\mathsf{BIC}\)</span> are information criteria measuring how well the model fits the data, while penalizing models with more parameters,
 <span class="math display">\[\begin{align*}
 \mathsf{AIC}&amp;=-2\ell(\widehat{\boldsymbol{\theta}})+2k \\
-\mathsf{BIC}&amp;=-2\ell(\widehat{\boldsymbol{\theta}})+k\log(n),
+\mathsf{BIC}&amp;=-2\ell(\widehat{\boldsymbol{\theta}})+k\ln(n),
 \end{align*}\]</span>
 where <span class="math inline">\(k\)</span> is the number of parameters in the model. The smaller the value of <span class="math inline">\(\mathsf{AIC}\)</span> (or of <span class="math inline">\(\mathsf{BIC}\)</span>), the better the model fit.</p>
 <p>Note that information criteria do not constitute formal hypothesis tests on the parameters, but they can be used to compare non nested-models, even these estimates are particularly noisy. If we want to compare likelihood from different probability models, we need to make sure they include normalizing constant. The <span class="math inline">\(\mathsf{BIC}\)</span> is more stringent than <span class="math inline">\(\mathsf{AIC}\)</span>, as its penalty increases with the sample size, so it selects models with fewer parameters. The <span class="math inline">\(\mathsf{BIC}\)</span> is <strong>consistent</strong>, meaning that it will pick the true correct model from an ensemble of models with probability one as <span class="math inline">\(n \to \infty\)</span>. In practice, this is of little interest if one assumes that all models are approximation of reality (it is unlikely that the true model is included in the ones we consider). <span class="math inline">\(\mathsf{AIC}\)</span> often selects overly complicated models in large samples, whereas <span class="math inline">\(\mathsf{BIC}\)</span> is sometimes too conservative in that it chooses models that are overly simple.</p>

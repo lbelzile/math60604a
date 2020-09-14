@@ -14,7 +14,7 @@ Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\var
 \end{align}
 where $\varepsilon_i$ is the additive error term specific to observation $i$. While we may avoid making distributional assumption about $\varepsilon_i$, we nevertheless fix its expectation to zero to encode the fact we do not believe the model is systematically off,, so $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0$ $(i=1, \ldots, n)$.
 
-One important remark is that the model is linear in the coefficients $\boldsymbol{\beta}\in \mathbb{R}_{p+1}$, not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example $\mathrm{X}=\log(\texttt{annees})$, $\mathrm{X}=\texttt{horsepower}^2$ or $\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}$. The mean of the response is specified as a  **linear combination of explanatory variables**. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
+One important remark is that the model is linear in the coefficients $\boldsymbol{\beta}\in \mathbb{R}_{p+1}$, not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example $\mathrm{X}=\ln(\texttt{annees})$, $\mathrm{X}=\texttt{horsepower}^2$ or $\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}$. The mean of the response is specified as a  **linear combination of explanatory variables**. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
 
 
 1.  Evaluate the effects of covariates $\mathbf{X}$ on the mean response

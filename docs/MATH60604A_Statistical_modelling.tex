@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-13.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-14.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -1079,7 +1079,7 @@ Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\var
 \end{align}
 where \(\varepsilon_i\) is the additive error term specific to observation \(i\). While we may avoid making distributional assumption about \(\varepsilon_i\), we nevertheless fix its expectation to zero to encode the fact we do not believe the model is systematically off,, so \(\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0\) \((i=1, \ldots, n)\).
 
-One important remark is that the model is linear in the coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example \(\mathrm{X}=\log(\texttt{annees})\), \(\mathrm{X}=\texttt{horsepower}^2\) or \(\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}\). The mean of the response is specified as a \textbf{linear combination of explanatory variables}. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
+One important remark is that the model is linear in the coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example \(\mathrm{X}=\ln(\texttt{annees})\), \(\mathrm{X}=\texttt{horsepower}^2\) or \(\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}\). The mean of the response is specified as a \textbf{linear combination of explanatory variables}. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1459,7 +1459,7 @@ The \textbf{likelihood} \(L(\boldsymbol{\theta})\) is a function of \(\boldsymbo
 L(\boldsymbol{\theta}; \boldsymbol{y}) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}) = f(y_1; \boldsymbol{\theta}) \times \cdots \times f(y_n; \boldsymbol{\theta}).
 \end{align*}
 
-From a pure optimization perspective, the likelihood is a particular choice of objective function that reflects the probability of the observed outcome. One shouldn't however maximize directly the likelihood, since computing the product of a lot of potentially small numbers is subject to numerical overflow and is unstable (for discrete distributions, the mass function gives probabilities that are by definition between zero and one). Instead, one should work with the log-likelihood function, \(\ell(\boldsymbol{\theta}) = \log\{L(\boldsymbol{\theta})\}\). Since logarithm is a strictly increasing function, maximizing the natural logarithm (denoted \(\log\equiv \ln\) throughout) of the likelihood leads to the same solution. Another reason why working with the log-likelihood is preferable is because product over \(n\) likelihood contributions becomes a sum and this facilitates numerical and analytical derivations of the maximum likelihood estimators (the log of a product is equal to the sum of logs, i.e., \(\log(ab) =\log(a) +\log(b)\) for \(a, b>0\).)
+From a pure optimization perspective, the likelihood is a particular choice of objective function that reflects the probability of the observed outcome. One shouldn't however maximize directly the likelihood, since computing the product of a lot of potentially small numbers is subject to numerical overflow and is unstable (for discrete distributions, the mass function gives probabilities that are by definition between zero and one). Instead, one should work with the log-likelihood function, \(\ell(\boldsymbol{\theta}) = \ln\{L(\boldsymbol{\theta})\}\). Since logarithm is a strictly increasing function, maximizing the natural logarithm (denoted \(\ln\)) of the likelihood leads to the same solution. Another reason why working with the log-likelihood is preferable is because product over \(n\) likelihood contributions becomes a sum and this facilitates numerical and analytical derivations of the maximum likelihood estimators (the log of a product is equal to the sum of logs, i.e., \(\ln(ab) =\ln(a) +\ln(b)\) for \(a, b>0\).)
 
 The \textbf{maximum likelihood estimator} \(\widehat{\boldsymbol{\theta}}\) is the value of \(\boldsymbol{\theta}\) that maximizes the likelihood, i.e., the value under which the random sample is the most likely to be generated. The scientific reasoning behind this is: ``whatever we observe, we have expected to observe'' so we choose between competing models the one that makes the most sense.
 
@@ -1496,11 +1496,11 @@ The properties of the log-likelihood are particularly convenient for inference b
 \protect\hypertarget{exm:waitingtime}{}{\label{exm:waitingtime} \iffalse (Exponential model for waiting times of the Montreal metro) \fi{} }Consider the waiting time \(Y\) between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate \(\theta\), denoted \(Y \sim \mathsf{E}(\theta)\). The purpose of statistical inference is to use the information from a random sample of size \(n\) to estimate the unknown parameter \(\theta\). The density of \(Y\) evaluated at \(y\), \(f(y; \theta)=\theta\exp(-\theta y)\), encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing \(y_1, \ldots, y_n\) is the product of probabilities of individual events. The likelihood is thus
 \begin{align*}
 L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta\exp(-\theta y_i),\\
-\ell(\theta; \boldsymbol{y}) & = n\log(\theta) - \theta\sum_{i=1}^n y_i
+\ell(\theta; \boldsymbol{y}) & = n\ln(\theta) - \theta\sum_{i=1}^n y_i
 \end{align*}
 To find the maximum of the function, we differentiate the log-likelihood \(\ell(\theta; \boldsymbol{y})\) and set the gradient to zero,
 \begin{align*}
-\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = \frac{n}{\theta} + \sum_{i=1}^n y_i =0.
+\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = \frac{n}{\theta} - \sum_{i=1}^n y_i =0.
 \end{align*}
 Solving for \(\theta\) gives \(\widehat{\theta} = \overline{y}^{-1}\), so the maximum likelihood estimator is the reciprocal of the sample mean \(\overline{Y}\). The observed information is \(j(\theta) = n\theta^{-2}\) and likewise \(i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}\).
 \end{example}
@@ -1530,7 +1530,7 @@ L(\mu, \sigma^2; \boldsymbol{y})=&\prod_{i=1}^n\frac{1}{({2\pi \sigma^2})^{1/2}}
 \end{align*}
 and the log-likelihood is
 \begin{align*}
-\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
+\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\ln(2\pi) -\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
 \end{align*}
 
 One can show that the maximum likelihood estimators for the two parameters are
@@ -1553,7 +1553,7 @@ Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mat
 where the errors \(\varepsilon_i \sim \mathsf{No}(0, \sigma^2)\).
 The linear model has \(p+2\) parameters (\(\boldsymbol{\beta}\) and \(\sigma^2\)) and the log-likelihood is
 \begin{align*}
-\ell(\boldsymbol{\theta})&=-\frac{n}{2} \log(2\pi)-\frac{n}{2} \log (\sigma^2) -\frac{1}{2\sigma^2}\left\{\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
 \end{align*}
 Maximizing the log-likelihood with respect to \(\boldsymbol{\beta}\) is equivalent to
 minimizing the sum of squared errors \(\|\boldsymbol{Y} - \widehat{\boldsymbol{Y}}\|^2\). Since this objective function is the same as that of least squares, it follows that the least-square estimator \(\widehat{\boldsymbol{\beta}}\) for the mean parameters is the maximum likelihood estimator for normal errors with common variance \(\sigma^2\), regardless of the value of the latter. The maximum likelihood estimator \(\widehat{\sigma}^2\) is thus
@@ -1563,7 +1563,7 @@ minimizing the sum of squared errors \(\|\boldsymbol{Y} - \widehat{\boldsymbol{Y
 The log-likelihood, excluding constant terms that don't depend on \(\sigma^2\), is
 \begin{align*}
 \ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
-&\propto-\frac{1}{2}\left\{n\log\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
 \end{align*}
 Differentiating each term with respect to \(\sigma^2\) and setting the gradient equal to zero yields the maximum likelihood estimator
 \begin{align*}
@@ -1679,7 +1679,7 @@ The maximum profile likelihood estimator behaves like a regular likelihood for m
 \begin{align*}
 y_i(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
-\log(y), & \lambda=0.
+\ln(y), & \lambda=0.
 \end{cases}
 \end{align*}
 
@@ -1692,7 +1692,7 @@ For each given value of \(\lambda\), the maximum likelihood estimator is that of
 
 The profile log-likelihood is
 \begin{align*}
-\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\log(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \log(y_i)
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
 \end{align*}
 The maximum profile likelihood estimator is the value \(\lambda\) minimizes the sum of squared residuals from the linear model with \(\boldsymbol{y}(\lambda)\) as response.
 \end{example}
@@ -1716,7 +1716,7 @@ The likelihood can also serve as building block for model comparison: the larger
 \(\mathsf{AIC}\) and \(\mathsf{BIC}\) are information criteria measuring how well the model fits the data, while penalizing models with more parameters,
 \begin{align*}
 \mathsf{AIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+2k \\
-\mathsf{BIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+k\log(n),
+\mathsf{BIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+k\ln(n),
 \end{align*}
 where \(k\) is the number of parameters in the model. The smaller the value of \(\mathsf{AIC}\) (or of \(\mathsf{BIC}\)), the better the model fit.
 
