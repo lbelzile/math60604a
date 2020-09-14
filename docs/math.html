@@ -190,6 +190,28 @@ using the <a href="http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.C
  \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&amp;=\mathbf{X}^\top \boldsymbol{y}.
 \end{align*}\]</span>
 If the <span class="math inline">\(n \times p\)</span> matrix <span class="math inline">\(\mathbf{X}\)</span> is full-rank, the quadratic form <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> is invertible and we obtain the solution to the least square problems provided in Equation <a href="linear-regression.html#eq:ols">(2.3)</a>.</p>
+</div>
+<div id="ftestslm" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> <em>F</em>-tests for comparison of nested linear models</h2>
+<p>Consider the <em>full</em> linear model which contains <span class="math inline">\(p\)</span> predictors,
+<span class="math display">\[\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
+\end{align*}\]</span>
+Suppose without loss of generality that we want to test <span class="math inline">\(\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0\)</span> (one could permute columns of the design matrix to achieve this configuration).
+The global hypothesis specifies that <span class="math inline">\((p-k)\)</span> of the <span class="math inline">\(\beta\)</span> parameters are zero. The <em>restricted model</em> corresponding to the null hypothesis contains only the covariates for which <span class="math inline">\(\beta_j \neq 0\)</span>,
+<span class="math display">\[\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
+\end{align*}\]</span>
+Let <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_1)\)</span> be the residuals sum of squares for model <span class="math inline">\(\mathbb{M}_1\)</span>,
+<span class="math display">\[\begin{align*}
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\hat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*}\]</span>
+where <span class="math inline">\(\hat{Y}_i^{\mathbb{M}_1}\)</span> is the <span class="math inline">\(i\)</span>th fitted value from <span class="math inline">\(\mathbb{M}_1\)</span>. Similarly define <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0)\)</span> for the residuals sum of square of <span class="math inline">\(\mathbb{M}_0\)</span>. Clearly, <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\)</span> (why?)</p>
+<p>The <span class="math inline">\(F\)</span>-test statistic is
+<span class="math display">\[\begin{align*}
+F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}
+\end{align*}\]</span>
+Under <span class="math inline">\(\mathscr{H}_0\)</span>, the <span class="math inline">\(F\)</span>statistic follows a <a href="https://en.wikipedia.org/wiki/F-distribution">Fisher distribution</a> with <span class="math inline">\((p-k)\)</span> and <span class="math inline">\((n-p-1)\)</span> degrees of freedom, <span class="math inline">\(\mathsf{F}(p-k, n-p-1)\)</span> — <span class="math inline">\(p-k\)</span> is the number of restrictions, <span class="math inline">\(n-p-1\)</span> is sample size minus the number of <span class="math inline">\(\beta\)</span>’s in <span class="math inline">\(\mathbb{M}_1\)</span>.</p>
 
 </div>
 </div>

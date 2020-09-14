@@ -175,14 +175,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>R</strong> is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.</p>
 <p>You can find several introductions to <strong>R</strong> online. Have a look at the <a href="https://cran.r-project.org/manuals.html"><strong>R</strong> manuals</a> or better at <a href="https://cran.r-project.org/other-docs.html">contributed manuals</a>. A nice official reference is <a href="http://colinfay.me/intro-to-r/index.html">An introduction to <strong>R</strong></a>.
 You may wish to look up the following chapters of the <strong>R</strong> language definition (<a href="http://colinfay.me/r-language-definition/evaluation-of-expressions.html">Evaluation of expressions</a> and part of the <a href="http://colinfay.me/r-language-definition/objects.html"><em>Objects</em> chapter</a>). Another good (small reference) is the cheatsheet <a href="https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf">Getting started in <strong>R</strong></a>.</p>
-<div id="basics-of-r" class="section level2" number="9.2">
-<h2><span class="header-section-number">2</span> Basics of <strong>R</strong></h2>
-<div id="help" class="section level3" number="9.2.1">
-<h3><span class="header-section-number">2.1</span> Help</h3>
+<div id="basics-of-r" class="section level2" number="9.3">
+<h2><span class="header-section-number">3</span> Basics of <strong>R</strong></h2>
+<div id="help" class="section level3" number="9.3.1">
+<h3><span class="header-section-number">3.1</span> Help</h3>
 <p>Help can be accessed via <code>help</code> or simply <code>?</code>, e.g., <code>help("Normal")</code>. <a href="https://www.r-project.org/help.html">See <strong>R</strong> page about help files</a>.</p>
 </div>
-<div id="basic-commands" class="section level3" number="9.2.2">
-<h3><span class="header-section-number">2.2</span> Basic commands</h3>
+<div id="basic-commands" class="section level3" number="9.3.2">
+<h3><span class="header-section-number">3.2</span> Basic commands</h3>
 <p>Basic <strong>R</strong> commands are fairly intuitive, especially if you want to use <strong>R</strong> as a calculator.
 Elementary functions such as <code>sum</code>, <code>min</code>, <code>max</code>, <code>sqrt</code>, <code>log</code>, <code>exp</code>, etc., are self-explanatory.</p>
 <p>Some (unconventional) features of the language:</p>
@@ -201,8 +201,8 @@ Elementary functions such as <code>sum</code>, <code>min</code>, <code>max</code
 </ul>
 <p>Beware! In <strong>R</strong>, invalid calls will often returns <em>something</em> rather than an error. It is therefore good practice to check that the output is sensical.</p>
 </div>
-<div id="linear-algebra-in-r" class="section level3" number="9.2.3">
-<h3><span class="header-section-number">2.3</span> Linear algebra in <strong>R</strong></h3>
+<div id="linear-algebra-in-r" class="section level3" number="9.3.3">
+<h3><span class="header-section-number">3.3</span> Linear algebra in <strong>R</strong></h3>
 <p><strong>R</strong> is an object oriented language, and the basic elements in <strong>R</strong> are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:</p>
 <ul>
 <li><code>c</code> concatenates elements to form a vector</li>
@@ -226,8 +226,8 @@ then</p>
 </ul>
 <p>For a matrix <code>x</code>, subsetting now involves dimensions: <code>[1,2]</code> returns the element in the first row, second column. <code>x[,2]</code> will return all of the rows, but only the second column. For lists, you can use <code>[[</code> for subsetting by index or the <code>$</code> sign by names.</p>
 </div>
-<div id="packages" class="section level3" number="9.2.4">
-<h3><span class="header-section-number">2.4</span> Packages</h3>
+<div id="packages" class="section level3" number="9.3.4">
+<h3><span class="header-section-number">3.4</span> Packages</h3>
 <p>The great strength of <strong>R</strong> comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (<code>base</code>, <code>stats</code>, <code>graphics</code>, etc.) are loaded by default whenever you open a session.</p>
 <p>To install a package from CRAN, use <code>install.packages("package")</code>, replacing <code>package</code> by the package name. Once installed, packages can be loaded using <code>library(package)</code>; all the functions in <code>package</code> will be available in the environment.</p>
 
@@ -235,8 +235,8 @@ then</p>
 <p>There are drawbacks to loading packages: if an object with the same name from another package is already present in your environment, it will be hidden. Use the double-colon operator <code>::</code> to access a single object from an installed package (<code>package::object</code>).</p>
 </div>
 </div>
-<div id="datasets" class="section level3" number="9.2.5">
-<h3><span class="header-section-number">2.5</span> Datasets</h3>
+<div id="datasets" class="section level3" number="9.3.5">
+<h3><span class="header-section-number">3.5</span> Datasets</h3>
 <ul>
 <li>datasets are typically stored inside a <code>data.frame</code>, a matrix-like object whose columns contain the variables and the rows the observation vectors.</li>
 <li>The columns can be of different types (<code>integer</code>, <code>double</code>, <code>logical</code>, <code>character</code>), but all the column vectors must be of the same length.</li>
@@ -279,8 +279,8 @@ then</p>
 <li><code>data.frame</code> is a special type of list where all the elements are vectors of potentially different type, but of the same length.</li>
 </ul>
 </div>
-<div id="graphics" class="section level3" number="9.2.6">
-<h3><span class="header-section-number">2.6</span> Graphics</h3>
+<div id="graphics" class="section level3" number="9.3.6">
+<h3><span class="header-section-number">3.6</span> Graphics</h3>
 <p>The <code>faithful</code> dataset consists of two variables: the regressand <code>waiting</code> and the regressor <code>eruptions</code>. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables.</p>
 <p>An image is worth a thousand words and in statistics, visualization is crucial. Scatterplots are produced using the function <code>plot</code>. You can control the graphic console options using <code>par</code> — see <code>?plot</code> and <code>?par</code> for a description of the basic and advanced options available.</p>
 <p>Once <code>plot</code> has been called, you can add additional observations as points (lines) to the graph using <code>point</code> (<code>lines</code>) in place of <code>plot</code>. If you want to add a line (horizontal, vertical, or with known intercept and slope), use the function <code>abline</code>.</p>
@@ -296,8 +296,8 @@ then</p>
 </div>
 </div>
 </div>
-<div id="rlmfunc" class="section level2" number="9.3">
-<h2><span class="header-section-number">3</span> Linear models in <strong>R</strong> using the <code>lm</code> function</h2>
+<div id="rlmfunc" class="section level2" number="9.4">
+<h2><span class="header-section-number">4</span> Linear models in <strong>R</strong> using the <code>lm</code> function</h2>
 <p>The function <code>lm</code> is the workshorse for fitting linear models in <strong>R</strong>. It takes as input a formula: suppose you have a data frame containing columns <code>x</code> (a regressor) and <code>y</code> (the regressand); you can then call <code>lm(y ~ x)</code> to fit the linear model <span class="math inline">\(y = \beta_0 + \beta_1 x + \varepsilon\)</span>. The explanatory variable <code>y</code> is on the left hand side,
 while the right hand side should contain the predictors, separated by a <code>+</code> sign if there are more than one.
 If you provide the data frame name using <code>data</code>, then the shorthand <code>y ~ .</code> fits all the columns of the data frame (but <code>y</code>) as regressors.

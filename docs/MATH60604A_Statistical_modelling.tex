@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-10.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-13.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -699,7 +699,18 @@ Pay as much attention to figures and tables than to the main text. These should 
 \hypertarget{variable-type}{%
 \subsection{Variable type}\label{variable-type}}
 
-The data we will handled are stored in tables or frames. If the data frame is stocked in wide format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.
+The data we will handled are stored in tables or frames. If the data frame is stocked in long format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.
+
+The alternative is wide format, whereby the columns represent categorical variables and the entries are values of the response for a specific category (notably contingency tables). Figure \ref{fig:longvswide} shows the difference between the two structures. Software typically require long formatted database for modelling purposes.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/original-dfs-tidy} 
+
+}
+
+\caption{Long versus wide-format for data tables (illustration by Garrick Aden-Buie).}\label{fig:longvswide}
+\end{figure}
 
 \begin{itemize}
 \tightlist
@@ -831,7 +842,8 @@ Rather than describe in details the exploratory analysis procedure, we proceed w
   \texttt{wday} categorical variable (integer) denoting the week day, ranging from Sunday (\texttt{1}) to Saturday (\texttt{7}).
 \end{itemize}
 
-There are no missing values and a quick view of the first row of the data frame (\texttt{head(renfe)}) shows that the data are stored in long format, meaning each line corresponds to a different ticket. We will begin our exploratory analysis with vague questions, for example
+There are no missing values and a quick view of the first row of the data frame (\texttt{head(renfe)}) shows that the data are stored in long format, meaning each line corresponds to a different ticket.
+We will begin our exploratory analysis with vague questions, for example
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1249,7 +1261,7 @@ The equation of the simple linear model that includes the binary variable \(\tex
 \beta_0 + \beta_1 & \texttt{sex}=1 \text{ (women)}.
 \end{cases}
 \end{align*}
-A linear model that only contains a binary variable \(\mathrm{X}\) as regressor amounts to specifying a different mean for each of two groups: the average of women is \(\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1\) and \(\beta_1=\mu_1-\mu_0\) represents the difference between the average salary of men and women. The least square estimator \(\widehat{\beta}_0\) is the sample mean of men and \(\widehat{\beta}_1\) is the difference of the sample mean of women and men. The parametrization of the linear model with \(\beta_0\) and \(\beta_1\) is in terms of \textbf{contrasts} and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing \(\mathscr{H}_0: \beta_1=0\). If we wanted our model to directly output the sample means, we would need to replace the design matrix \(\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]\) by \([\mathbf{1}_n- \texttt{sex}, \texttt{sex}]\). The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behavior (more on this latter).
+A linear model that only contains a binary variable \(\mathrm{X}\) as regressor amounts to specifying a different mean for each of two groups: the average of women is \(\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1\) and \(\beta_1=\mu_1-\mu_0\) represents the difference between the average salary of men and women. The least square estimator \(\widehat{\beta}_0\) is the sample mean of men and \(\widehat{\beta}_1\) is the difference of the sample mean of women and men. The parametrization of the linear model with \(\beta_0\) and \(\beta_1\) is in terms of \textbf{contrasts} and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing \(\mathscr{H}_0: \beta_1=0\). If we wanted our model to directly output the sample means, we would need to replace the design matrix \(\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]\) by \([\mathbf{1}_n- \texttt{sex}, \texttt{sex}]\). The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behaviour (more on this latter).
 
 \begin{figure}
 
@@ -1390,12 +1402,57 @@ All other factors taken into account, women get paid less than men. It remains t
 \hypertarget{test-lm}{%
 \section{Tests for parameters of the linear model}\label{test-lm}}
 
+We will need to make further assumptions in order to carry out inference and build testing procedures for the mean model parameters. At the expense of some loss of generality, we will assume \(\varepsilon_1, \ldots, \varepsilon_n\) are conditionally independent centered random variables with \(\mathsf{E}(\varepsilon_i\mid \mathbf{X}_i)=0\) and variance \(\mathsf{Va}(\varepsilon_i\mid \mathbf{X}_i)= \sigma^2\) (\(i=1, \ldots, n\)). From these moment assumptions, it follows that \(Y_1, \ldots, Y_n\) are conditionally \emph{independent} random variables with
+\begin{align*}
+\mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.                                          
+\end{align*}
+In order to get a tractable distribution for test statistics, it is customary to assume that the disturbances \(\boldsymbol{\varepsilon}\) are independent normal random variables with mean zero and common variance \(\sigma^2\). Under this hypothesis, the least square estimators for the mean parameters coincide with the maximum likelihood estimators. The advantage of imposing this (more stringent than necessary) assumption is that we can use our toolbox for testing: the theory underlying likelihood tests is presented in the chapter on \href{likelihood}{likelihood-based inference}. Assuming normal errors leads to exact distributions for the test statistics (which also coincide with the asymptotic ones in large samples).
+
+Of particular interest are tests of restrictions for components of \(\boldsymbol{\beta}\). The large sample properties of the maximum likelihood estimator imply that
+\begin{align*}
+\widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{No}_{p+1}\left\{\boldsymbol{\beta}, \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\right\}
+\end{align*}
+for sufficiently large sample size. One can thus easily estimate the standard errors from the matrix upon replacing \(\sigma^2\) by an estimator, typically the unbiased estimator of the variance.
+
+In an inferential setting, it's often important to test whether the effect of an explanatory variable is significant: if \(\mathrm{X}_j\) is binary or continuous, the test for \(\mathscr{H}_0: \beta_j=0\) corresponds to a null marginal effect for \(\mathrm{X}_j\). The null model is a linear regression in which we remove the \((j+1)\)st column of \(\mathbf{X}\), so both models are nested. The Wald test statistic is reported by most software \(W=\widehat{\beta}_j/\mathsf{se}(\widehat{\beta}_j)\) and the null distribution is Student-\emph{t} with \(n-p-1\) degrees of freedom, which explains the terminology (\(t\) values). In addition to coefficient estimates, it is possible to obtain confidence intervals for \(\beta_j\), which are the usual \(\widehat{\beta}_j \pm t_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)\), with \(t_{n-p-1,\alpha/2}\) denoting the \(1-\alpha/2\) quantile of the \(\mathsf{St}_{n-p-1}\) distribution.
+
+One could wonder why not use the likelihood ratio statistic instead of the Wald statistic for testing individual coefficients of the mean model \(\beta_j\) in a linear regression, given that the former is more powerful. It turns out that both statistics are equivalent: they lead to the same inference and the \(p\)-value for the test are identical.
+
+While it may get reported in tables, tests for \(\beta_0=0\) are not of interest; we keep the intercept merely to center the residuals.
+
+For categorical variables with more than two levels, testing if \(\beta_j=0\) is typically not of interest because the contrast represent the different between the category \(\mathrm{X}_j\) and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories.
+
+Inference for the \(F\)-tests, which are described in more mathematical detail in the \href{ftestslm}{Appendix}, is equivalent to the likelihood ratio test for the linear model. The software reports the \(p\)-values calculated using an \(F\) distribution, which is the exact null distribution under the assumption of normally distributed errors with constant variance. The chi-square distribution and the \(F\)-distribution are equivalent for \(n\) large and similarly the Student-\emph{t} distribution and the normal distribution are indistinguishable for large degrees of freedom, except far in the tail.
+
+Consider the \texttt{college} data example and the associated linear model with \texttt{rank}, \texttt{sex}, years of \texttt{service} and \texttt{field} as covariates.
+\setlength{\tabcolsep}{6pt}
+
+\begin{table}
+\centering
+
+\label{tab:summarytestslmcollege}\begin{tabular}{lrrrl}
+  \multicolumn{1}{l}{Term} & \multicolumn{1}{r}{Estimate} & \multicolumn{1}{r}{SE} & \multicolumn{1}{r}{T-statistic} & \multicolumn{1}{l}{P-value}   \\ 
+ \multicolumn{1}{l}{(Intercept)} & \multicolumn{1}{r}{86.6} & \multicolumn{1}{r}{2.96} & \multicolumn{1}{r}{29.25} & \multicolumn{1}{l}{< 0.001}   \\ 
+ \multicolumn{1}{l}{sexwoman} & \multicolumn{1}{r}{-4.77} & \multicolumn{1}{r}{3.88} & \multicolumn{1}{r}{-1.23} & \multicolumn{1}{l}{0.22}   \\ 
+ \multicolumn{1}{l}{fieldtheoretical} & \multicolumn{1}{r}{-13.47} & \multicolumn{1}{r}{2.32} & \multicolumn{1}{r}{-5.82} & \multicolumn{1}{l}{< 0.001}   \\ 
+ \multicolumn{1}{l}{rankassociate} & \multicolumn{1}{r}{14.56} & \multicolumn{1}{r}{4.1} & \multicolumn{1}{r}{3.55} & \multicolumn{1}{l}{< 0.001}   \\ 
+ \multicolumn{1}{l}{rankfull} & \multicolumn{1}{r}{49.16} & \multicolumn{1}{r}{3.83} & \multicolumn{1}{r}{12.82} & \multicolumn{1}{l}{< 0.001}   \\ 
+ \multicolumn{1}{l}{service} & \multicolumn{1}{r}{-0.09} & \multicolumn{1}{r}{0.11} & \multicolumn{1}{r}{-0.8} & \multicolumn{1}{l}{0.43}   \\ 
+
+ \end{tabular}
+\end{table}
+
+Neither years of service nor sex are statistically different from zero given all the other variables. The test for \(\beta_{\texttt{sex}}\) is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank.
+
 \hypertarget{likelihood}{%
 \chapter{Likelihood-based inference}\label{likelihood}}
 
 The goal of this chapter is to familiarize you with likelihood-based inference.
 
 The starting point of likelihood-based inference is a statistical model: we postulate that (a function of) the data has been generated from a probability distribution with \(p\)-dimensional parameter vector \(\boldsymbol{\theta}\). The purpose of the analyst is to estimate these unknown parameters on the basis of a sample and make inference about them.
+
+\hypertarget{maximum-likelihood}{%
+\section{Maximum likelihood}\label{maximum-likelihood}}
 
 The \textbf{likelihood} \(L(\boldsymbol{\theta})\) is a function of \(\boldsymbol{\theta}\) that gives the probability (or density) of observing a sample under a postulated distribution, treating the observations as fixed. In most settings we consider, observations are independent and so the joint probability of the sample values is the product of the probability of the individual observations\footnote{If this seems foreign, think about repeated coin tosses with Bernoulli distribution of unknown parameter \(p\) and convince yourself that the trials are independent, so the probability of obtaining two consecutive heads is \(0.25\) for a fair coin.}: for \(y_1, \ldots, y_n\) assuming \(Y_i\) (\(i=1, \ldots, n\)) follows a distribution whose mass function or density is \(f(y; \boldsymbol{\theta})\), this is just
 \begin{align*}
@@ -1436,16 +1493,16 @@ The Fisher (or expected) and observed information matrices encodes the curvature
 The properties of the log-likelihood are particularly convenient for inference because they provide omnibus testing procedures that have a known asymptotic distribution. The starting point for the distributional theory surrounding likelihood-based statistics is the asymptotic normality of the score \(U(\boldsymbol{\theta}) \stackrel{\cdot}{\sim}\mathsf{No}(0, i(\boldsymbol{\theta}))\), which follows from a central limit theorem. The variance of \(U(\boldsymbol{\theta}_0)\) is exactly \(i(\boldsymbol{\theta}_0)\), while that of \(\widehat{\boldsymbol{\theta}}\) is approximately \(i(\boldsymbol{\theta}_0)^{-1}\) under the null hypothesis \(\mathscr{H}_0\). This result is particularly useful: we often use the inverse of the observed information as estimate of the covariance matrix of the maximum likelihood estimator. To obtain the standard errors of \(\widehat{\boldsymbol{\theta}}\), one simple computes the square root of the diagonal elements of the inverse of the observed information, i.e., \([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\).
 
 \begin{example}[Exponential model for waiting times of the Montreal metro]
-\protect\hypertarget{exm:waitingtime}{}{\label{exm:waitingtime} \iffalse (Exponential model for waiting times of the Montreal metro) \fi{} }Consider the waiting time \(Y\) between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with scale \(\theta\), denoted \(Y \sim \mathsf{E}(\theta)\). The purpose of statistical inference is to use the information from a random sample of size \(n\) to estimate the unknown parameter \(\theta\). The density of \(Y\) evaluated at \(y\), \(f(y; \theta)=\theta^{-1}\exp(-y/\theta)\), encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing \(y_1, \ldots, y_n\) is the product of probabilities of individual events. The likelihood is thus
+\protect\hypertarget{exm:waitingtime}{}{\label{exm:waitingtime} \iffalse (Exponential model for waiting times of the Montreal metro) \fi{} }Consider the waiting time \(Y\) between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate \(\theta\), denoted \(Y \sim \mathsf{E}(\theta)\). The purpose of statistical inference is to use the information from a random sample of size \(n\) to estimate the unknown parameter \(\theta\). The density of \(Y\) evaluated at \(y\), \(f(y; \theta)=\theta\exp(-\theta y)\), encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing \(y_1, \ldots, y_n\) is the product of probabilities of individual events. The likelihood is thus
 \begin{align*}
-L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta^{-1}\exp(-y_i/\theta),\\
-\ell(\theta; \boldsymbol{y}) & = -n\log(\theta) - \theta^{-1}\sum_{i=1}^n y_i
+L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta\exp(-\theta y_i),\\
+\ell(\theta; \boldsymbol{y}) & = n\log(\theta) - \theta\sum_{i=1}^n y_i
 \end{align*}
 To find the maximum of the function, we differentiate the log-likelihood \(\ell(\theta; \boldsymbol{y})\) and set the gradient to zero,
 \begin{align*}
-\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = -\frac{n}{\theta} + \theta^{-2} \sum_{i=1}^n y_i =0.
+\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = \frac{n}{\theta} + \sum_{i=1}^n y_i =0.
 \end{align*}
-Solving for \(\theta\) gives \(\widehat{\theta} = \overline{y}\), so the maximum likelihood estimator is the sample mean \(\overline{Y}\). The observed information is \(j(\theta) = -n\theta^{-2} + 2\theta^{-3}n\overline{y}\) and \(i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}\).
+Solving for \(\theta\) gives \(\widehat{\theta} = \overline{y}^{-1}\), so the maximum likelihood estimator is the reciprocal of the sample mean \(\overline{Y}\). The observed information is \(j(\theta) = n\theta^{-2}\) and likewise \(i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}\).
 \end{example}
 
 \begin{figure}
@@ -1457,7 +1514,7 @@ Solving for \(\theta\) gives \(\widehat{\theta} = \overline{y}\), so the maximum
 \caption{Log-likelihood for a sample of size 20 of waiting times (in minutes)}\label{fig:explikelihood}
 \end{figure}
 
-For the sample of waiting time in the subway, the maximum likelihood estimate is \(\widehat{\theta}=3.058\), the observed information is \(j(\widehat{\theta})=i(\widehat{\theta})=2.139\) and the standard error of \(\widehat{\theta}\) is \(j(\widehat{\theta})^{-1/2}=0.684\).
+For the sample of waiting time in the subway, the maximum likelihood estimate of \(\theta\) is \(\widehat{\theta}=0.327\), the observed information is \(j(\widehat{\theta})=i(\widehat{\theta})=0.467\) and the standard error of \(\widehat{\theta}\) is \(j(\widehat{\theta})^{-1/2}=1.463\).
 
 \begin{example}[Normal samples and ordinary least squares]
 \protect\hypertarget{exm:normal}{}{\label{exm:normal} \iffalse (Normal samples and ordinary least squares) \fi{} }Suppose we have an independent normal sample of size \(n\) with mean \(\mu\) and variance \(\sigma^2\), where
@@ -1515,6 +1572,14 @@ Differentiating each term with respect to \(\sigma^2\) and setting the gradient 
 where \(\mathsf{SS}_e\) is the sum of squared residuals. The usual unbiased estimator of \(\sigma^2\) calculated by software is \(S^2=\mathsf{SS}_e/(n-p-1)\), where the denominator is the sample size \(n\) minus the number of mean parameters \(\boldsymbol{\beta}\), \(p+1\).
 \end{example}
 
+Sometimes, the \(p\)-parameter vector \(\boldsymbol{\theta}\) of the likelihood is not the quantity of interest. Suppose for simplicity we are interested in a scalar function \(\phi = g(\boldsymbol{\theta})\). The maximum likelihood estimate of \(\phi\) is \(\widehat{\phi}=g(\widehat{\boldsymbol{\theta}})\). This property of maximum likelihood estimators justifies their widespread use. In large samples, \(\widehat{\boldsymbol{\theta}}\) is centered at the true value \(\boldsymbol{\theta}_0\) and is approximately multivariate normal with \(\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{No}_p(\boldsymbol{\theta}_0, \mathbf{V}_{\boldsymbol{\theta}})\), then
+\(\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{No}(\phi_0, \mathrm{V}_\phi)\), with \(\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi\), where \(\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top\). In applications, the variance matrix and the gradient vector are evaluated at the maximum likelihood estimate \(\widehat{\boldsymbol{\theta}}\)
+
+Consider the metro waiting time example. The quantity of interest is the reciprocal mean \(\phi = 1/\theta\), so the scalar function of interest is \(g(x) = 1/x\) and the maximum likelihood estimate \(\hat{\phi}=3.058\) is the sample mean of waiting times. The gradient of the transformation is \(\nabla \phi = -1/x^2\), which gives \(\mathrm{V}_\phi = (\theta^2/n)/\theta^4 = 1/(n\theta^2) = \phi^2/n\) and the standard error of the maximum likelihood estimator is thus approximately \(\widehat{phi}/\sqrt{n}\) in large samples.
+
+\hypertarget{likelihood-based-tests}{%
+\section{Likelihood-based tests}\label{likelihood-based-tests}}
+
 Oftentimes, we wish to compare two models: the model implied by the null hypothesis, which is a restriction or simpler version of the full model. Models are said to be \textbf{nested} if we can obtain one from the other by imposing restrictions on the parameters.
 
 We consider a null hypothesis \(\mathscr{H}_0\) that imposes restrictions on the possible values of \(\boldsymbol{\theta}\) can take, relative to an unconstrained alternative \(\mathscr{H}_1\). We need two \textbf{nested} models: a \emph{full} model, and a \emph{reduced} model that is a subset of the full model where we impose \(q\) restrictions. For example, the full model could be a regression model with four predictor variables and the reduced model could include only the first two predictor variables, which is equivalent to setting \(\mathscr{H}_0: \beta_3=\beta_4=0\). The testing procedure involves fitting the two models and obtaining the maximum likelihood estimators of each of \(\mathscr{H}_1\) and \(\mathscr{H}_0\), respectively \(\widehat{\boldsymbol{\theta}}\) and \(\widehat{\boldsymbol{\theta}}_0\) for the parameters under \(\mathscr{H}_0\).
@@ -1536,14 +1601,14 @@ The null hypothesis \(\mathscr{H}_0\) tested is: `the reduced model is an \textb
 
 }
 
-\caption{Log-likelihood curve; the three likelihood-based tests, namely Wald, likelihood ratio and score tests, use different information about the function.}\label{fig:variablesquanti}
+\caption{Log-likelihood curve: the three likelihood-based tests, namely Wald, likelihood ratio and score tests, are shown on the curve. The tests use different information about the function.}\label{fig:variablesquanti}
 \end{figure}
 
 The three main classes of statistics for testing a simple null hypothesis \(\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0\) against the alternative \(\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\) are the likelihood ratio, the score and the Wald statistics, defined respectively as
 \begin{align*}
  R &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
  S &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
- W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top i(\boldsymbol{\theta}_0)(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
+ W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
 \end{align*}
 where \(\widehat{\boldsymbol{\theta}}\) is the maximum likelihood estimate under the alternative and \(\boldsymbol{\theta}_0\) is the null value of the parameter vector. Asymptotically, all the test statistics are equivalent (in the sense that they lead to the same conclusions about \(\mathscr{H}_0\)).
 If \(\mathscr{H}_0\) is true, the three test statistics follow asymptotically a \(\chi^2_q\) distribution under a null hypothesis \(\mathscr{H}_0\), where the degrees of freedom \(q\) are the number of restrictions.
@@ -1563,19 +1628,27 @@ The Wald statistic \(W\) is the most widely encountered statistic and two-sided 
 \widehat{\theta} \pm q_{1-\alpha/2}\mathrm{se}(\widehat{\theta}),
 \end{align*}
 where \(q_{1-\alpha/2}\) is the \(1-\alpha/2\) quantile of the standard normal distribution; for a \(95\)\% confidence interval, the \(0.975\) quantile of the normal distribution is \(1.96\).
-The Wald-based confidence intervals are by construction \textbf{symmetric}: they may include implausible values (e.g., negative values for variances). The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function \(h(\theta)\), then in general
-\(\mathsf{CI}_{W}\{h(\theta)\} \neq h\{\mathsf{CI}_{W}(\theta)\}.\)
-So, if \([0.1, 0.9]\) is a 95\% Wald-based confidence interval for \(\widehat{\beta}\), the Wald-based confidence interval for \(\exp(\widehat{\beta})\) \textbf{is not} \([\exp(0.1), \exp(0.9)]\).
+The Wald-based confidence intervals are by construction \textbf{symmetric}: they may include implausible values (e.g., negative values for variances). The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function \(g(\theta)\), then in general
+\(\mathsf{CI}_{W}\{g(\theta)\} \neq g\{\mathsf{CI}_{W}(\theta)\}.\)
 
 These confidence intervals can be contrasted with the (better) ones derived using the likelihood ratio test: these are found through a numerical search to find the limits of
 \begin{align*}
 \theta: 2\{\ell(\widehat{\theta}) - \ell(\theta)\} \leq \chi^2_1(1-\alpha),
 \end{align*}
-where \(\chi^2_1(1-\alpha)\) is the \((1-\alpha)\) quantile of the \(\chi^2_1\) distribution. If \(\boldsymbol{\theta}\) is multidimensional, confidence intervals for \(\theta_i\) are derived using the profile likelihood. Likelihood ratio-based confidence intervals are \textbf{parametrization invariant}, so \(\mathsf{CI}_{R}\{h(\theta)\} = h\{\mathsf{CI}_{R}(\theta)\}\). Because the likelihood is zero if a parameter value falls outside the range of possible values for the parameter, the intervals only include plausible values of \(\theta\). In general, the intervals are asymmetric and have better coverage properties.
+where \(\chi^2_1(1-\alpha)\) is the \((1-\alpha)\) quantile of the \(\chi^2_1\) distribution. If \(\boldsymbol{\theta}\) is multidimensional, confidence intervals for \(\theta_i\) are derived using the profile likelihood. Likelihood ratio-based confidence intervals are \textbf{parametrization invariant}, so \(\mathsf{CI}_{R}\{g(\theta)\} = g\{\mathsf{CI}_{R}(\theta)\}\). Because the likelihood is zero if a parameter value falls outside the range of possible values for the parameter, the intervals only include plausible values of \(\theta\). In general, the intervals are asymmetric and have better coverage properties.
 
-The \(F\)-tests covered in linear regression are equivalent to the likelihood ratio test for the linear model, but software reports the \(p\)-values calculated using an \(F\) distribution, which is the exact null under the assumption of normally distributed errors with constant variance. The chi-square distribution and the \(F\)-distribution are equivalent for \(n\) large.
+To illustrate the difference between likelihood ratio and Wald tests (and their respective confidence intervals), we consider the metro waiting time data and consider a two-sided test for the null hypothesis \(\mathscr{H}_0: \phi_0=4\) minutes. The Wald statistic is
+\begin{align*}
+W =\frac{\hat{\phi}-\phi_0}{\mathsf{se}(\widehat{\phi})}=\sqrt{n}\frac{\widehat{\phi}-\phi_0}{\widehat{\phi}}= -1.378,
+\end{align*}
+since \(\mathsf{se}(\phi)=\mathrm{V}^{1/2}_{\phi}=\phi/\sqrt{n}\) and the latter function is evaluated at \(\widehat{\phi}=3.058\). The asymptotic null distribution is \(\mathsf{No}(0,1)\), so we fail to reject \(\mathscr{H}_0: \phi=4\) minutes since the observed value for \(|W|\) is smaller than \(1.96\). We could invert the test statistic to get a symmetric 95\% confidence interval for \(\phi\), \([1.718\), \(4.398]\).
 
-The Wald statistic and the likelihood ratio test for testing individual coefficients of the mean model \(\beta_j\) in a linear regression are equivalent: they give the same \(p\)-value.
+The hypothesis corresponds also to \(\theta=0.25\) and similar calculations give \(W = \sqrt{n}(0.327 - 0.25)/0.327 = 1.053\). In this case, the null distribution is the same, but the value of the test statistic is not! The confidence interval for \(\theta\) is \([0.184\), \(0.47]\). You can check for yourself that the reciprocal of these confidence intervals do not match those for \(\phi\).
+
+In contrast, the likelihood ratio test is invariant to interest-preserving reparamtrizations, so the test statistic for \(\mathscr{H}_0: \phi=4\) and \(\mathscr{H}_0: \theta = 0.25\) are the same. The log-likelihood at \(\theta=0.25\) is -43.015, the maximum log-likelihood value is -42.354
+and the likelihood ratio statistic \(R=2 \{\ell(\widehat{\theta}) - \ell(4)\}= 1.322\). The statistic should behave like a \(\chi^2_1\) variable in large samples. The 95\% of the \(\chi^2_1\) distribution is \(3.841\), so we fail to reject the null hypothesis that the mean waiting time is 4 minutes.
+
+The likelihood ratio statistic 95\% confidence interval for \(\phi\) can be found by using a root finding algorithm: the confidence interval is \([2.032\), \(4.906]\). By invariance, the 95\% confidence interval for \(\theta\) is \([0.204, 0.492]\).
 
 \hypertarget{profile-likelihood}{%
 \section{Profile likelihood}\label{profile-likelihood}}
@@ -1635,8 +1708,8 @@ The maximum profile likelihood estimator is the value \(\lambda\) minimizes the 
 
 Figure \ref{fig:profileplot} shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately 0.37 would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of \(\lambda\), \((0.12, 0.13)\), at which the curve intersects the horizontal grey line drawn at \(-\chi^2_1/2\). The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an \emph{ad hoc} choice of transformation, one could choose a log transformation if the value \(0\) is included within the 95\% confidence interval since this improves interpretability.
 
-\hypertarget{likelihood-based-tools-for-model-comparison}{%
-\section{Likelihood-based tools for model comparison}\label{likelihood-based-tools-for-model-comparison}}
+\hypertarget{information-criteria}{%
+\section{Information criteria}\label{information-criteria}}
 
 The likelihood can also serve as building block for model comparison: the larger \(\ell(\boldsymbol{\widehat{\theta}})\), the better the fit. However, the likelihood doesn't account for model complexity in the sense that more complex models with more parameters lead to higher likelihood. This is not a problem for comparison of nested models using the likelihood ratio test because we look only at relative improvement in fit. There is a danger of \textbf{overfitting} if we only consider the likelihood of a model.
 
@@ -1713,9 +1786,11 @@ One of the first topics covered in introductory statistics is descriptive statis
 
 Let \(Y\) be a random variable with density (or mass) function \(f(x)\). This function is non-negative and satisfies \(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\): the integral over a set \(B\) gives the probability of \(Y\) falling inside \(B \in \mathbb{R}\).
 
-The expectation of a continuous random variable \(Y\) is \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]
-Expectation is the ``theoretical mean'' in the discrete case, we set rather \(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\), where \(\mathcal{X}\) stands for the support of \(Y\), which is the set of numerical values at which the probability of \(Y\) is non-zero. More generally, we can look at the expectation of a function \(g(x)\) for \(Y\), which is nothing but the integral (or sum in the discrete case) of \(g(x)\) weighted by the density or mass function of \(f(x)\). In the same fashion, provided the integral is finite, the variance is
+The expectation (or theoretical mean) of a continuous random variable \(Y\) is \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]
+In the discrete case, we set rather \(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\), where \(\mathcal{X}\) denotes the support of \(Y\), the set of numerical values at which the probability of \(Y\) is non-zero.
+More generally, we can look at the expectation of a function \(g(x)\) for \(Y\), which is nothing but the integral (or sum in the discrete case) of \(g(x)\) weighted by the density or mass function of \(f(x)\). In the same fashion, provided the integral is finite, the variance is
 \[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
+The \textbf{standard deviation} is the square root of the variance and measures the variability of the variable, measured in the same units as \(Y\).
 
 An estimator \(\hat{\theta}\) for a parameter \(\theta\) is unbiased if its bias \(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\) is zero.
 The unbiased estimator of the mean of \(Y\) is \(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\) and that of the variance is \(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\). While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!
@@ -1803,6 +1878,29 @@ where \(\Gamma\) is the gamma function and the parameter \(r>0\) is not anymore 
 \(\mathsf{E}(Y)=\mu\) et \(\mathsf{Va}(Y)=\mu+k\mu^2\), where \(k=1/r\). The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
 \end{example}
 
+We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.
+
+\begin{example}[Normal distribution]
+\protect\hypertarget{exm:normaldist}{}{\label{exm:normaldist} \iffalse (Normal distribution) \fi{} }The normal distribution is ubiquitous in statistics because of the \href{CLT}{central limit theorem}. A random variable \(Y\) follows a normal distribution if its density function is
+\begin{align*}
+f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
+\end{align*}
+The parameters \(\mu\) and \(\sigma>0\) that fully characterize the distribution of the normal distribution and they correspond to the expectation and standard deviation. The normal distribution is a location-scale distribution, so \((Y-\mu)/\sigma \sim \mathsf{No}(0, 1)\). The distribution function of the standard normal distribution, \(\Phi\), is not available in closed-form.
+
+We will also encounter the multivariate normal distribution; for a \(n\) dimensional vector \(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{\mu}, \boldsymbol{\Sigma})\), the density is
+\begin{align*}
+f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
+\end{align*}
+
+The mean vector \(\boldsymbol{\mu}\) is the vector of expectation of individual observations. The diagonal of the covariance matrix \(\boldsymbol{\Sigma}\) encodes the variance of the components. The diagonal entries are the variance \(\sigma_i^2=\sigma_{ii}\) and the off-diagonal entries give the covariance. More commonly, we express the dependence between components between \(Y_i\) and \(Y_j\) using the linear correlation \(\rho_{ij}=\sigma_{ij}/(\sigma_{ii}\sigma_{jj}) \in [-1, 1]\). A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if \(Y_i\) and \(Y_j\) are independent, the \((i,j)\) off-diagonal entry of \(\boldsymbol{\Sigma}\) is zero.
+\end{example}
+
+\begin{example}[Chi-square distribution]
+\protect\hypertarget{exm:chisqdist}{}{\label{exm:chisqdist} \iffalse (Chi-square distribution) \fi{} }The chi-square distribution arises as null distribution of likelihood-based test. If \(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\), i.e., all components are independent and centered \(Y_i \sim \mathsf{No}(0, 1)\), then \(\sum_{i=1}^p Y_i^2\) follows a chi-square distribution with \(p\) degrees of freedom, denote \(\chi^2_p\). The square of a standard normal variate likewise follows a \(\chi^2_1\) distribution.
+
+If we consider a sample of \(n\) normally distributed observations, the sample variance \((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\).
+\end{example}
+
 \begin{example}[Student-*t* distribution]
 \protect\hypertarget{exm:studentdist}{}{\label{exm:studentdist} \iffalse (Student-\emph{t} distribution) \fi{} }If \(X \sim \mathsf{No}(0,1)\) independent of \(Y \sim \chi^{2}_\nu\), then
 \begin{align*}
@@ -1813,7 +1911,9 @@ follows a Student-\(t\) distribution with \(\nu\) degrees of freedom, denoted \(
 f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right)
 \sqrt{\nu\pi}}\left(1+\frac{y^{2}}{\nu}\right)^{-\frac{\nu+1}{2}}
 \end{align*}
-the distribution has polynomial tails, is symmetric around \(0\) and unimodal. Its bell-curve shape resembles that of the normal distribution, and, as \(\nu \to \infty\), the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first \(\nu-1\) moments of the distribution exist, so a Student distribution with \(\nu=2\) degrees of freedom has infinite variance.
+the distribution has polynomial tails, is symmetric around \(0\) and unimodal. As \(\nu \to \infty\), the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first \(\nu-1\) moments of the distribution exist, so a Student distribution with \(\nu=2\) degrees of freedom has infinite variance.
+
+For normally distributed data, the centered sample mean divided by the sample variance, \((\overline{Y}-\mu)/S^2\) follows a Student-\(t\) distribution with \(n-1\) degrees of freedom, which explains the terminology \(t\)-tests.
 \end{example}
 
 \hypertarget{diagramme-qq}{%
@@ -1940,6 +2040,30 @@ using the \href{http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calc
  \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
 \end{align*}
 If the \(n \times p\) matrix \(\mathbf{X}\) is full-rank, the quadratic form \(\mathbf{X}^\top \mathbf{X}\) is invertible and we obtain the solution to the least square problems provided in Equation \eqref{eq:ols}.
+
+\hypertarget{ftestslm}{%
+\section{\texorpdfstring{\emph{F}-tests for comparison of nested linear models}{F-tests for comparison of nested linear models}}\label{ftestslm}}
+
+Consider the \emph{full} linear model which contains \(p\) predictors,
+\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
+\end{align*}
+Suppose without loss of generality that we want to test \(\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0\) (one could permute columns of the design matrix to achieve this configuration).
+The global hypothesis specifies that \((p-k)\) of the \(\beta\) parameters are zero. The \emph{restricted model} corresponding to the null hypothesis contains only the covariates for which \(\beta_j \neq 0\),
+\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
+\end{align*}
+Let \(\mathsf{SS}_e(\mathbb{M}_1)\) be the residuals sum of squares for model \(\mathbb{M}_1\),
+\begin{align*}
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\hat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*}
+where \(\hat{Y}_i^{\mathbb{M}_1}\) is the \(i\)th fitted value from \(\mathbb{M}_1\). Similarly define \(\mathsf{SS}_e(\mathbb{M}_0)\) for the residuals sum of square of \(\mathbb{M}_0\). Clearly, \(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\) (why?)
+
+The \(F\)-test statistic is
+\begin{align*}
+F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}
+\end{align*}
+Under \(\mathscr{H}_0\), the \(F\)statistic follows a \href{https://en.wikipedia.org/wiki/F-distribution}{Fisher distribution} with \((p-k)\) and \((n-p-1)\) degrees of freedom, \(\mathsf{F}(p-k, n-p-1)\) --- \(p-k\) is the number of restrictions, \(n-p-1\) is sample size minus the number of \(\beta\)'s in \(\mathbb{M}_1\).
 
 \hypertarget{appendix-appendix}{%
 \appendix}

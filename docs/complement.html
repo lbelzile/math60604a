@@ -205,9 +205,11 @@ Figure 8.1: (Cumulative) distribution functions (top) and density/mass functions
 <h2><span class="header-section-number">8.3</span> Moments</h2>
 <p>One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.</p>
 <p>Let <span class="math inline">\(Y\)</span> be a random variable with density (or mass) function <span class="math inline">\(f(x)\)</span>. This function is non-negative and satisfies <span class="math inline">\(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\)</span>: the integral over a set <span class="math inline">\(B\)</span> gives the probability of <span class="math inline">\(Y\)</span> falling inside <span class="math inline">\(B \in \mathbb{R}\)</span>.</p>
-<p>The expectation of a continuous random variable <span class="math inline">\(Y\)</span> is <span class="math display">\[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]</span>
-Expectation is the “theoretical mean” in the discrete case, we set rather <span class="math inline">\(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\)</span>, where <span class="math inline">\(\mathcal{X}\)</span> stands for the support of <span class="math inline">\(Y\)</span>, which is the set of numerical values at which the probability of <span class="math inline">\(Y\)</span> is non-zero. More generally, we can look at the expectation of a function <span class="math inline">\(g(x)\)</span> for <span class="math inline">\(Y\)</span>, which is nothing but the integral (or sum in the discrete case) of <span class="math inline">\(g(x)\)</span> weighted by the density or mass function of <span class="math inline">\(f(x)\)</span>. In the same fashion, provided the integral is finite, the variance is
-<span class="math display">\[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]</span></p>
+<p>The expectation (or theoretical mean) of a continuous random variable <span class="math inline">\(Y\)</span> is <span class="math display">\[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]</span>
+In the discrete case, we set rather <span class="math inline">\(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\)</span>, where <span class="math inline">\(\mathcal{X}\)</span> denotes the support of <span class="math inline">\(Y\)</span>, the set of numerical values at which the probability of <span class="math inline">\(Y\)</span> is non-zero.
+More generally, we can look at the expectation of a function <span class="math inline">\(g(x)\)</span> for <span class="math inline">\(Y\)</span>, which is nothing but the integral (or sum in the discrete case) of <span class="math inline">\(g(x)\)</span> weighted by the density or mass function of <span class="math inline">\(f(x)\)</span>. In the same fashion, provided the integral is finite, the variance is
+<span class="math display">\[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]</span>
+The <strong>standard deviation</strong> is the square root of the variance and measures the variability of the variable, measured in the same units as <span class="math inline">\(Y\)</span>.</p>
 <p>An estimator <span class="math inline">\(\hat{\theta}\)</span> for a parameter <span class="math inline">\(\theta\)</span> is unbiased if its bias <span class="math inline">\(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\)</span> is zero.
 The unbiased estimator of the mean of <span class="math inline">\(Y\)</span> is <span class="math inline">\(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\)</span> and that of the variance is <span class="math inline">\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\)</span>. While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!</p>
 <p>Often, rather, we seek to balance bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, <span class="math display">\[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]</span>
@@ -250,7 +252,7 @@ The likelihood of a sample from a binomial distribution is (up to a normalizing 
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
 \end{align*}\]</span></p>
-<p>For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.</p>
+For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.
 </div>
 
 <div class="example">
@@ -274,9 +276,29 @@ In the context of generalized linear models, we will employ yet another parametr
 where <span class="math inline">\(\Gamma\)</span> is the gamma function and the parameter <span class="math inline">\(r&gt;0\)</span> is not anymore integer valued. The expectation and variance of <span class="math inline">\(Y\)</span> are
 <span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, where <span class="math inline">\(k=1/r\)</span>. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
 </div>
+<!-- Most of the continuous distributions encountered in this course give the  -->
+<p>We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.</p>
 
 <div class="example">
-<span id="exm:studentdist" class="example"><strong>Example 8.7  (Student-<em>t</em> distribution)  </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
+<p><span id="exm:normaldist" class="example"><strong>Example 8.7  (Normal distribution)  </strong></span>The normal distribution is ubiquitous in statistics because of the <a href="CLT">central limit theorem</a>. A random variable <span class="math inline">\(Y\)</span> follows a normal distribution if its density function is
+<span class="math display">\[\begin{align*}
+f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
+\end{align*}\]</span>
+The parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma&gt;0\)</span> that fully characterize the distribution of the normal distribution and they correspond to the expectation and standard deviation. The normal distribution is a location-scale distribution, so <span class="math inline">\((Y-\mu)/\sigma \sim \mathsf{No}(0, 1)\)</span>. The distribution function of the standard normal distribution, <span class="math inline">\(\Phi\)</span>, is not available in closed-form.</p>
+<p>We will also encounter the multivariate normal distribution; for a <span class="math inline">\(n\)</span> dimensional vector <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span>, the density is
+<span class="math display">\[\begin{align*}
+f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
+\end{align*}\]</span></p>
+The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations. The diagonal of the covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span> encodes the variance of the components. The diagonal entries are the variance <span class="math inline">\(\sigma_i^2=\sigma_{ii}\)</span> and the off-diagonal entries give the covariance. More commonly, we express the dependence between components between <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> using the linear correlation <span class="math inline">\(\rho_{ij}=\sigma_{ij}/(\sigma_{ii}\sigma_{jj}) \in [-1, 1]\)</span>. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.
+</div>
+
+<div class="example">
+<p><span id="exm:chisqdist" class="example"><strong>Example 8.8  (Chi-square distribution)  </strong></span>The chi-square distribution arises as null distribution of likelihood-based test. If <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\)</span>, i.e., all components are independent and centered <span class="math inline">\(Y_i \sim \mathsf{No}(0, 1)\)</span>, then <span class="math inline">\(\sum_{i=1}^p Y_i^2\)</span> follows a chi-square distribution with <span class="math inline">\(p\)</span> degrees of freedom, denote <span class="math inline">\(\chi^2_p\)</span>. The square of a standard normal variate likewise follows a <span class="math inline">\(\chi^2_1\)</span> distribution.</p>
+<p>If we consider a sample of <span class="math inline">\(n\)</span> normally distributed observations, the sample variance <span class="math inline">\((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\)</span>.</p>
+</div>
+
+<div class="example">
+<p><span id="exm:studentdist" class="example"><strong>Example 8.9  (Student-<em>t</em> distribution)  </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
 <span class="math display">\[\begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
 \end{align*}\]</span>
@@ -285,7 +307,8 @@ follows a Student-<span class="math inline">\(t\)</span> distribution with <span
 f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right)
 \sqrt{\nu\pi}}\left(1+\frac{y^{2}}{\nu}\right)^{-\frac{\nu+1}{2}}
 \end{align*}\]</span>
-the distribution has polynomial tails, is symmetric around <span class="math inline">\(0\)</span> and unimodal. Its bell-curve shape resembles that of the normal distribution, and, as <span class="math inline">\(\nu \to \infty\)</span>, the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first <span class="math inline">\(\nu-1\)</span> moments of the distribution exist, so a Student distribution with <span class="math inline">\(\nu=2\)</span> degrees of freedom has infinite variance.
+the distribution has polynomial tails, is symmetric around <span class="math inline">\(0\)</span> and unimodal. As <span class="math inline">\(\nu \to \infty\)</span>, the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first <span class="math inline">\(\nu-1\)</span> moments of the distribution exist, so a Student distribution with <span class="math inline">\(\nu=2\)</span> degrees of freedom has infinite variance.</p>
+For normally distributed data, the centered sample mean divided by the sample variance, <span class="math inline">\((\overline{Y}-\mu)/S^2\)</span> follows a Student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom, which explains the terminology <span class="math inline">\(t\)</span>-tests.
 </div>
 <div id="diagramme-qq" class="section level3" number="8.3.1">
 <h3><span class="header-section-number">8.3.1</span> Quantiles-quantiles plots</h3>

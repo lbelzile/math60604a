@@ -41,9 +41,13 @@ One of the first topics covered in introductory statistics is descriptive statis
 
 Let $Y$ be a random variable with density (or mass) function $f(x)$. This function is non-negative and satisfies $\int_{\mathbb{R}} f(x) \mathrm{d}x=1$: the integral over a set $B$ gives the probability of $Y$ falling inside $B \in \mathbb{R}$.
 
-The expectation of a continuous random variable $Y$ is \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\] 
-Expectation is the "theoretical mean" in the discrete case, we set rather $\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)$, where $\mathcal{X}$ stands for the support of $Y$, which is the set of numerical values at which the probability of $Y$ is non-zero. More generally, we can look at the expectation of a function $g(x)$ for $Y$, which is nothing but the integral (or sum in the discrete case) of $g(x)$ weighted by the density or mass function of $f(x)$. In the same fashion, provided the integral is finite, the variance is
+
+The expectation (or theoretical mean) of a continuous random variable $Y$ is \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\] 
+In the discrete case, we set rather $\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)$, where $\mathcal{X}$ denotes the support of $Y$, the set of numerical values at which the probability of $Y$ is non-zero.
+More generally, we can look at the expectation of a function $g(x)$ for $Y$, which is nothing but the integral (or sum in the discrete case) of $g(x)$ weighted by the density or mass function of $f(x)$. In the same fashion, provided the integral is finite, the variance is
 \[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
+The **standard deviation** is the square root of the variance and measures the variability of the variable, measured in the same units as $Y$. 
+
 
 An estimator $\hat{\theta}$  for a parameter $\theta$ is unbiased if its bias $\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta$ is zero.
 The unbiased estimator of the mean of $Y$ is $\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i$ and that of the variance is $S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2$. While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!
@@ -96,7 +100,6 @@ The [geometric distribution](https://en.wikipedia.org/wiki/Geometric_distributio
 \end{align*}
 
 For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.
-
 ```
 
 
@@ -127,6 +130,31 @@ where $\Gamma$ is the gamma function and the parameter $r>0$ is not anymore inte
 $\mathsf{E}(Y)=\mu$ et $\mathsf{Va}(Y)=\mu+k\mu^2$, where $k=1/r$. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
 ```
 
+<!-- Most of the continuous distributions encountered in this course give the  -->
+We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics. 
+
+```{example, label = "normaldist", name = "Normal distribution"}
+The normal distribution is ubiquitous in statistics because of the [central limit theorem](CLT). A random variable $Y$ follows a normal distribution if its density function is 
+\begin{align*}
+f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
+\end{align*}
+The parameters $\mu$ and $\sigma>0$ that fully characterize the distribution of the normal distribution and they correspond to the expectation and standard deviation. The normal distribution is a location-scale distribution, so $(Y-\mu)/\sigma \sim \mathsf{No}(0, 1)$. The distribution function of the standard normal distribution, $\Phi$, is not available in closed-form.
+
+We will also encounter the multivariate normal distribution; for a $n$ dimensional vector $\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{\mu}, \boldsymbol{\Sigma})$, the density is
+\begin{align*}
+f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
+\end{align*}
+
+The mean vector $\boldsymbol{\mu}$ is the vector of expectation of individual observations. The diagonal of the covariance matrix $\boldsymbol{\Sigma}$ encodes the variance of the components. The diagonal entries are the variance $\sigma_i^2=\sigma_{ii}$ and the off-diagonal entries give the covariance. More commonly, we express the dependence between components between $Y_i$ and $Y_j$ using the linear correlation $\rho_{ij}=\sigma_{ij}/(\sigma_{ii}\sigma_{jj}) \in [-1, 1]$. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if $Y_i$ and $Y_j$ are independent, the $(i,j)$ off-diagonal entry of $\boldsymbol{\Sigma}$ is zero. 
+```
+
+```{example, label = "chisqdist", name = "Chi-square distribution"}
+The chi-square distribution arises as null distribution of likelihood-based test. If $\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)$, i.e., all components are independent and  centered $Y_i \sim \mathsf{No}(0, 1)$, then $\sum_{i=1}^p Y_i^2$ follows a chi-square distribution with $p$ degrees of freedom, denote $\chi^2_p$. The square of a standard normal variate likewise follows a $\chi^2_1$ distribution.
+
+If we consider a sample of $n$ normally distributed observations, the sample variance $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$.
+
+```
+
 
 ```{example, label = "studentdist", name = "Student-*t* distribution"}
 If $X \sim \mathsf{No}(0,1)$ independent of  $Y \sim \chi^{2}_\nu$, then 
@@ -138,7 +166,9 @@ follows a Student-$t$ distribution with $\nu$ degrees of freedom, denoted $\math
 f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right)
 \sqrt{\nu\pi}}\left(1+\frac{y^{2}}{\nu}\right)^{-\frac{\nu+1}{2}}
 \end{align*}
-the distribution has polynomial tails, is symmetric around $0$ and unimodal. Its bell-curve shape resembles that of the normal distribution, and, as $\nu \to \infty$, the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first $\nu-1$ moments of the distribution exist, so a Student distribution with $\nu=2$ degrees of freedom has infinite variance. 
+the distribution has polynomial tails, is symmetric around $0$ and unimodal. As $\nu \to \infty$, the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first $\nu-1$ moments of the distribution exist, so a Student distribution with $\nu=2$ degrees of freedom has infinite variance. 
+
+For normally distributed data, the centered sample mean divided by the sample variance, $(\overline{Y}-\mu)/S^2$ follows a Student-$t$ distribution with $n-1$ degrees of freedom, which explains the terminology $t$-tests.
 ```
 
 

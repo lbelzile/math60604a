@@ -190,7 +190,7 @@ The equation of the simple linear model that includes the binary variable $\text
 \beta_0 + \beta_1 & \texttt{sex}=1 \text{ (women)}.
 \end{cases}
 \end{align*}
-A linear model that only contains a binary variable $\mathrm{X}$ as regressor amounts to specifying a different mean for each of two groups: the average of women is $\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1$ and $\beta_1=\mu_1-\mu_0$ represents the difference between the average salary of men and women. The least square estimator $\widehat{\beta}_0$ is the sample mean of men and $\widehat{\beta}_1$ is the difference of the sample mean of women and men. The parametrization of the linear model with $\beta_0$ and $\beta_1$ is in terms of **contrasts** and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing $\mathscr{H}_0: \beta_1=0$. If we wanted our model to directly output the sample means, we would need to replace the design matrix $\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]$ by $[\mathbf{1}_n- \texttt{sex},  \texttt{sex}]$. The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behavior (more on this latter).
+A linear model that only contains a binary variable $\mathrm{X}$ as regressor amounts to specifying a different mean for each of two groups: the average of women is $\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1$ and $\beta_1=\mu_1-\mu_0$ represents the difference between the average salary of men and women. The least square estimator $\widehat{\beta}_0$ is the sample mean of men and $\widehat{\beta}_1$ is the difference of the sample mean of women and men. The parametrization of the linear model with $\beta_0$ and $\beta_1$ is in terms of **contrasts** and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing $\mathscr{H}_0: \beta_1=0$. If we wanted our model to directly output the sample means, we would need to replace the design matrix $\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]$ by $[\mathbf{1}_n- \texttt{sex},  \texttt{sex}]$. The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behaviour (more on this latter).
 
 ```{r graphcollegesex, eval = TRUE, echo = FALSE, fig.cap = "Simple linear model for the $\\texttt{college}$ data using the binary variable sex as regressor: even if the equation defines a line, only its values in $0/1$ are realistic."}
 college$sexbin <- as.integer(relevel(college$sex, ref = "man")) - 1L
@@ -274,7 +274,7 @@ The representation in Figure \@ref(fig:autoquad2d) may seem counter-intuitive gi
 knitr::knit_hooks$set(webgl = hook_webgl)
 ```
 
-```{r hyperplan, echo = FALSE, fig.cap = "3D graphical representation of the linear regression model for the $\texttt{auto}$ data."}
+```{r hyperplan, echo = FALSE, fig.cap = "3D graphical representation of the linear regression model for the $\texttt{auto}$ data.", cache = TRUE}
 out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 if(out_type == 'html'){
 library(rgl)
@@ -340,3 +340,53 @@ car::avPlots(model = college_lm, "service", xlab= "years of service | rest", yla
 
 ## Tests for parameters of the linear model {#test-lm}
 
+
+
+We will need to make further assumptions in order to carry out inference and build testing procedures for the mean model parameters. At the expense of some loss of generality, we will assume $\varepsilon_1, \ldots, \varepsilon_n$ are conditionally independent centered random variables with $\mathsf{E}(\varepsilon_i\mid \mathbf{X}_i)=0$ and variance $\mathsf{Va}(\varepsilon_i\mid \mathbf{X}_i)= \sigma^2$ ($i=1, \ldots, n$). From these moment assumptions, it follows that $Y_1, \ldots, Y_n$ are conditionally *independent* random variables with
+\begin{align*}
+\mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.                                          
+\end{align*}
+ In order to get a tractable distribution for test statistics, it is customary to assume that the disturbances $\boldsymbol{\varepsilon}$ are independent normal random variables with mean zero and common variance $\sigma^2$. Under this hypothesis, the least square estimators for the mean parameters coincide with the maximum likelihood estimators. The advantage of imposing this (more stringent than necessary) assumption is that we can use our toolbox for testing: the theory underlying likelihood tests is presented in the chapter on [likelihood-based inference](likelihood). Assuming normal errors leads to exact distributions for the test statistics (which also coincide with the asymptotic ones in large samples). 
+
+
+Of particular interest are tests of restrictions for components of $\boldsymbol{\beta}$. The large sample properties of the maximum likelihood estimator imply that
+\begin{align*}
+\widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{No}_{p+1}\left\{\boldsymbol{\beta}, \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\right\}
+\end{align*}
+for sufficiently large sample size. One can thus easily estimate the standard errors from the matrix upon replacing $\sigma^2$ by an estimator, typically the unbiased estimator of the variance.
+
+In an inferential setting, it’s often important to test whether the effect of an explanatory variable is significant: if $\mathrm{X}_j$ is binary or continuous, the test for $\mathscr{H}_0: \beta_j=0$ corresponds to a null marginal effect for $\mathrm{X}_j$. The null model is a linear regression in which we remove the $(j+1)$st column of $\mathbf{X}$, so both models are nested. The Wald test statistic is reported by most software $W=\widehat{\beta}_j/\mathsf{se}(\widehat{\beta}_j)$ and the null distribution is Student-_t_ with $n-p-1$ degrees of freedom, which explains the terminology ($t$ values). In addition to coefficient estimates, it is possible to obtain confidence intervals for $\beta_j$, which are the usual $\widehat{\beta}_j \pm t_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)$, with $t_{n-p-1,\alpha/2}$ denoting the $1-\alpha/2$ quantile of the $\mathsf{St}_{n-p-1}$ distribution. 
+
+One could wonder why not use the likelihood ratio statistic instead of the Wald statistic for testing individual coefficients of the mean model $\beta_j$ in a linear regression, given that the former is more powerful. It turns out that both statistics are equivalent: they lead to the same inference and the $p$-value for the test are identical.
+
+While it may get reported in tables, tests for $\beta_0=0$ are not of interest; we keep the intercept merely to center the residuals.
+
+For categorical variables with more than two levels, testing if $\beta_j=0$ is typically not of interest because the contrast represent the different between the category $\mathrm{X}_j$ and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories.
+
+
+Inference for the $F$-tests, which are described in more mathematical detail in the [Appendix](ftestslm), is equivalent to the likelihood ratio test for the linear model. The software reports the $p$-values calculated using an $F$ distribution, which is the exact null distribution under the assumption of normally distributed errors with constant variance. The chi-square distribution and the $F$-distribution are equivalent for $n$ large and similarly the Student-_t_ distribution and the normal distribution are indistinguishable for large degrees of freedom, except far in the tail.
+
+
+Consider the `college` data example and the associated linear model with `rank`, `sex`, years of `service` and `field` as covariates.
+```{r summarytestslmcollege, echo = FALSE}
+# library(gtsummary)
+# tbl_regression(college_lm) %>% bold_labels() %>% add_global_p()
+library(pixiedust)
+dust(college_lm) %>% 
+  sprinkle(col = 2:4, round = 2) %>% 
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames(term = "Term", 
+                    estimate = "Estimate", 
+                     std.error = "SE",
+                     statistic = "T-statistic", 
+                     p.value = "P-value") 
+
+# modelsummary::modelplot(models = list(full = college_lm,
+#                                       reduced = update(college_lm, ~. - rank)), coef_omit = 'Interc') +
+#     labs(x = 'Coefficients',
+#          y = 'Term names',
+#          title = 'Linear regression models for college data',
+#          caption = "Model with and without `service`")
+```
+
+Neither years of service nor sex are statistically different from zero given all the other variables. The test for $\beta_{\texttt{sex}}$ is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank. 

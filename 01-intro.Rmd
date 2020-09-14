@@ -358,7 +358,14 @@ Pay as much attention to figures and tables than to the main text. These should 
 
 ### Variable type 
 
-The data we will handled are stored in tables or frames. If the data frame is stocked in wide format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.
+The data we will handled are stored in tables or frames. If the data frame is stocked in long format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.
+
+The alternative is wide format, whereby the columns represent categorical variables and the entries are values of the response for a specific category (notably contingency tables). Figure \@ref(fig:longvswide) shows the difference between the two structures. Software typically require long formatted database for modelling purposes.
+
+```{r longvswide, fig.cap = "Long versus wide-format for data tables (illustration by Garrick Aden-Buie).", echo = FALSE}
+knitr::include_graphics(path = "images/original-dfs-tidy.png")
+```
+
 
 - a **variable** represents a characteristic of the population, for example the sex of an individual, the price of an item, etc.
 - an **observation** is a set of measures (variables) collected under identical conditions for an individual or at a given time.
@@ -479,7 +486,8 @@ First, read the documentation accompanying the dataset! The data base `renfe` co
 - `duration` length of train journey (in minutes);
 - `wday` categorical variable (integer) denoting the week day, ranging from Sunday (`1`) to Saturday (`7`).
 
-There are no missing values and a quick view of the first row of the data frame (`head(renfe)`) shows that the data are stored in long format, meaning each line corresponds to a different ticket. We will begin our exploratory analysis with vague questions, for example
+There are no missing values and a quick view of the first row of the data frame (`head(renfe)`) shows that the data are stored in long format, meaning each line corresponds to a different ticket.
+We will begin our exploratory analysis with vague questions, for example
 
 1. What are the factors determining the price and travel time?
 2. Does travel time depend on the type of train?

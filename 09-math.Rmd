@@ -20,3 +20,26 @@ using the [chain rule](http://www.stat.rice.edu/~dobelman/notes_papers/math/Matr
 \end{align*}
 If the $n \times p$ matrix  $\mathbf{X}$ is full-rank, the quadratic form $\mathbf{X}^\top \mathbf{X}$ is invertible and we obtain the solution to the least square problems provided in Equation \@ref(eq:ols).
 
+## *F*-tests for comparison of nested linear models {#ftestslm}
+
+Consider the *full* linear model which contains $p$ predictors,
+\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
+\end{align*}
+Suppose without loss of generality that we want to test $\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0$ (one could permute columns of the design matrix to achieve this configuration).
+The global hypothesis specifies that $(p-k)$ of the $\beta$ parameters are zero. The *restricted model* corresponding to the null hypothesis contains only the covariates for which $\beta_j \neq 0$,
+\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
+\end{align*}
+Let $\mathsf{SS}_e(\mathbb{M}_1)$ be the residuals sum of squares for model $\mathbb{M}_1$,
+\begin{align*}
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\hat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*}
+where $\hat{Y}_i^{\mathbb{M}_1}$ is the $i$th fitted value from $\mathbb{M}_1$. Similarly define $\mathsf{SS}_e(\mathbb{M}_0)$ for the residuals sum of square of $\mathbb{M}_0$. Clearly, $\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)$ (why?)
+
+
+The $F$-test statistic is
+\begin{align*}
+F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}
+\end{align*}
+Under $\mathscr{H}_0$, the $F$statistic follows a [Fisher distribution](https://en.wikipedia.org/wiki/F-distribution) with $(p-k)$ and $(n-p-1)$ degrees of freedom, $\mathsf{F}(p-k, n-p-1)$ ---  $p-k$ is the number of restrictions, $n-p-1$ is sample size minus the number of $\beta$'s in $\mathbb{M}_1$. 

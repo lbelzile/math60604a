@@ -4,6 +4,7 @@ The goal of this chapter is to familiarize you with likelihood-based inference.
 
 The starting point of likelihood-based inference is a statistical model: we postulate that (a function of) the data has been generated from a probability distribution with $p$-dimensional parameter vector $\boldsymbol{\theta}$. The purpose of the analyst is to estimate these unknown parameters on the basis of a sample and make inference about them.
 
+## Maximum likelihood
 
 The **likelihood** $L(\boldsymbol{\theta})$ is a function of $\boldsymbol{\theta}$ that gives the probability (or density) of observing a sample under a postulated distribution, treating the observations as fixed. In most settings we consider, observations are independent and so the joint probability of the sample values is the product of the probability of the individual observations^[If this seems foreign, think about repeated coin tosses with Bernoulli distribution of unknown parameter $p$ and convince yourself that the trials are independent, so the probability of obtaining two consecutive heads is $0.25$ for a fair coin.]: for $y_1, \ldots, y_n$ assuming $Y_i$ ($i=1, \ldots, n$) follows a distribution whose mass function or density is $f(y; \boldsymbol{\theta})$, this is just
 \begin{align*}
@@ -41,33 +42,33 @@ The Fisher (or expected) and observed information matrices encodes the curvature
 The properties of the log-likelihood are particularly convenient for inference because they provide omnibus testing procedures that have a known asymptotic distribution. The starting point for the distributional theory surrounding likelihood-based statistics is the asymptotic normality of the score $U(\boldsymbol{\theta}) \stackrel{\cdot}{\sim}\mathsf{No}(0, i(\boldsymbol{\theta}))$, which follows from a central limit theorem. The variance of $U(\boldsymbol{\theta}_0)$ is exactly $i(\boldsymbol{\theta}_0)$, while that of $\widehat{\boldsymbol{\theta}}$ is approximately $i(\boldsymbol{\theta}_0)^{-1}$ under the null hypothesis $\mathscr{H}_0$. This result is particularly useful: we often use the inverse of the observed information as estimate of the covariance matrix of the maximum likelihood estimator. To obtain the standard errors of $\widehat{\boldsymbol{\theta}}$, one simple computes the square root of the diagonal elements of the inverse of the observed information, i.e., $[\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}$.
 
 ```{example label="waitingtime", name = "Exponential model for waiting times of the Montreal metro"}
-Consider the waiting time $Y$ between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with scale $\theta$, denoted $Y \sim \mathsf{E}(\theta)$. The purpose of statistical inference is to use the information from a random sample of size $n$ to estimate the unknown parameter $\theta$. The density of $Y$ evaluated at $y$, $f(y; \theta)=\theta^{-1}\exp(-y/\theta)$, encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing $y_1, \ldots, y_n$ is the product of probabilities of individual events. The likelihood is thus
+Consider the waiting time $Y$ between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate $\theta$, denoted $Y \sim \mathsf{E}(\theta)$. The purpose of statistical inference is to use the information from a random sample of size $n$ to estimate the unknown parameter $\theta$. The density of $Y$ evaluated at $y$, $f(y; \theta)=\theta\exp(-\theta y)$, encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing $y_1, \ldots, y_n$ is the product of probabilities of individual events. The likelihood is thus
 \begin{align*}
-L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta^{-1}\exp(-y_i/\theta),\\
-\ell(\theta; \boldsymbol{y}) & = -n\log(\theta) - \theta^{-1}\sum_{i=1}^n y_i
+L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta\exp(-\theta y_i),\\
+\ell(\theta; \boldsymbol{y}) & = n\log(\theta) - \theta\sum_{i=1}^n y_i
 \end{align*}
 To find the maximum of the function, we differentiate the log-likelihood $\ell(\theta; \boldsymbol{y})$ and set the gradient to zero,
 \begin{align*}
-\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = -\frac{n}{\theta} + \theta^{-2} \sum_{i=1}^n y_i =0.
+\frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = \frac{n}{\theta} + \sum_{i=1}^n y_i =0.
 \end{align*}
-Solving for $\theta$ gives $\widehat{\theta} = \overline{y}$, so the maximum likelihood estimator is the sample mean $\overline{Y}$. The observed information is $j(\theta) = -n\theta^{-2} + 2\theta^{-3}n\overline{y}$ and $i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}$.
+Solving for $\theta$ gives $\widehat{\theta} = \overline{y}^{-1}$, so the maximum likelihood estimator is the reciprocal of the sample mean $\overline{Y}$. The observed information is $j(\theta) = n\theta^{-2}$ and likewise $i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}$.
 
 ```
 
 ```{r explikelihood, fig.cap = "Log-likelihood for a sample of size 20 of waiting times (in minutes)", echo = FALSE}
+library(ggplot2)
 set.seed(24)
-waiting_times <- rexp(n = 20, rate = 1/4)
-explik <- function(lambda, samp = waiting_times, log = TRUE){
-  ll <- sapply(lambda, function(l){sum(log(dexp(x = samp, rate = 1/l)))})
+wt <- rexp(n = 20, rate = 1/4)
+explik <- function(lambda, samp = wt, log = TRUE){
+  ll <- sapply(lambda, function(l){sum(log(dexp(x = samp, rate = l)))})
   switch(log, ll, exp(ll))
 }
-# curve(expr = explik(x, samp = waiting_times, log = TRUE), from = 1.8, to = 10)
-library(latex2exp)
+# curve(expr = explik(x, samp = wt, log = TRUE), from = 1.8, to = 10)
 ggplot() +
-  geom_vline(xintercept = mean(waiting_times), lty = 2, col = "grey", alpha = 0.8) +
-  stat_function(xlim = c(2,5), n = 101L, fun = explik, args = list(log = TRUE, samp = waiting_times)) +
+  geom_vline(xintercept = 1/mean(wt), lty = 2, col = "grey", alpha = 0.8) +
+  stat_function(xlim = c(1/5, 1/2), n = 101L, fun = explik, args = list(log = TRUE, samp = wt)) +
   ylab("log-likelihood") +
-  xlab(TeX("$\\lambda$")) + 
+  xlab(expression(lambda)) + 
   theme(panel.grid.major.x = element_blank(), 
         panel.grid.minor.x = element_blank(),
         panel.grid.major.y = element_blank(), 
@@ -75,7 +76,7 @@ ggplot() +
 ```
 
 
-For the sample of waiting time in the subway, the maximum likelihood estimate is $\widehat{\theta}=`r mean(waiting_times)`$, the observed information is $j(\widehat{\theta})=i(\widehat{\theta})=`r length(waiting_times)/mean(waiting_times)^2`$ and the standard error of $\widehat{\theta}$ is $j(\widehat{\theta})^{-1/2}=`r sqrt(mean(waiting_times)^2/length(waiting_times))`$.
+For the sample of waiting time in the subway, the maximum likelihood estimate of $\theta$ is $\widehat{\theta}=`r 1/mean(wt)`$, the observed information is $j(\widehat{\theta})=i(\widehat{\theta})=`r mean(wt)^2/length(wt)`$ and the standard error of $\widehat{\theta}$ is $j(\widehat{\theta})^{-1/2}=`r sqrt(length(wt)/mean(wt)^2)`$.
 
 
 ```{example label="normal", name = "Normal samples and ordinary least squares"}
@@ -135,6 +136,13 @@ Differentiating each term with respect to $\sigma^2$ and setting the gradient eq
 where $\mathsf{SS}_e$ is the sum of squared residuals. The usual unbiased estimator of $\sigma^2$ calculated by software is $S^2=\mathsf{SS}_e/(n-p-1)$, where the denominator is the sample size $n$ minus the number of mean parameters $\boldsymbol{\beta}$, $p+1$.
 ```
 
+Sometimes, the $p$-parameter vector $\boldsymbol{\theta}$ of the likelihood is not the quantity of interest. Suppose for simplicity we are interested in a scalar function $\phi = g(\boldsymbol{\theta})$. The maximum likelihood estimate of $\phi$ is $\widehat{\phi}=g(\widehat{\boldsymbol{\theta}})$. This property of maximum likelihood estimators justifies their widespread use. In large samples, $\widehat{\boldsymbol{\theta}}$ is centered at the true value $\boldsymbol{\theta}_0$ and is approximately multivariate normal with $\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{No}_p(\boldsymbol{\theta}_0, \mathbf{V}_{\boldsymbol{\theta}})$, then 
+$\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{No}(\phi_0, \mathrm{V}_\phi)$, with $\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi$, where $\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top$. In applications, the variance matrix and the gradient vector are evaluated at the maximum likelihood estimate $\widehat{\boldsymbol{\theta}}$
+
+Consider the metro waiting time example. The quantity of interest is the reciprocal mean $\phi = 1/\theta$, so the scalar function of interest is $g(x) = 1/x$ and the maximum likelihood estimate $\hat{\phi}=`r mean(wt)`$ is the sample mean of waiting times. The gradient of the transformation is $\nabla \phi =  -1/x^2$, which gives $\mathrm{V}_\phi = (\theta^2/n)/\theta^4 = 1/(n\theta^2) = \phi^2/n$ and the standard error of the maximum likelihood estimator is thus approximately  $\widehat{phi}/\sqrt{n}$ in large samples.
+
+
+## Likelihood-based tests
 
 Oftentimes, we wish to compare two models: the model implied by the null hypothesis, which is a restriction or simpler version of the full model. Models are said to be **nested** if we can obtain one from the other by imposing restrictions on the parameters.
 
@@ -145,7 +153,7 @@ We consider a null hypothesis $\mathscr{H}_0$ that imposes restrictions on the p
 - Wald tests statistics, denoted $W$, which consider the standardized horizontal distance between $\widehat{\boldsymbol{\theta}}$ and $\widehat{\boldsymbol{\theta}}_0$.
 - score tests statistics, denoted $S$, which looks at the scaled gradient of $\ell$, evaluated *only* at $\widehat{\boldsymbol{\theta}}_0$ (derivative of $\ell$).
 
-```{r variablesquanti, fig.cap = "Log-likelihood curve; the three likelihood-based tests, namely Wald, likelihood ratio and score tests, use different information about the function.", echo = FALSE}
+```{r variablesquanti, fig.cap = "Log-likelihood curve: the three likelihood-based tests, namely Wald, likelihood ratio and score tests, are shown on the curve. The tests use different information about the function.", echo = FALSE}
 knitr::include_graphics('images/likelihood_tests.png')
 ```
 
@@ -153,7 +161,7 @@ The three main classes of statistics for testing a simple null hypothesis $\math
 \begin{align*}
  R &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
  S &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
- W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top i(\boldsymbol{\theta}_0)(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
+ W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
 \end{align*}
 where $\widehat{\boldsymbol{\theta}}$ is the maximum likelihood estimate under the alternative and $\boldsymbol{\theta}_0$ is the null value of the parameter vector. Asymptotically, all the test statistics are equivalent (in the sense that they lead to the same conclusions about $\mathscr{H}_0$).
 If $\mathscr{H}_0$ is true, the three test statistics follow asymptotically a $\chi^2_q$ distribution under a null hypothesis $\mathscr{H}_0$, where the degrees of freedom $q$ are the number of restrictions.
@@ -176,19 +184,34 @@ The Wald statistic $W$ is the most widely encountered statistic and two-sided 95
 \widehat{\theta} \pm q_{1-\alpha/2}\mathrm{se}(\widehat{\theta}),
 \end{align*}
 where $q_{1-\alpha/2}$ is the $1-\alpha/2$ quantile of the standard normal distribution; for a $95$\% confidence interval, the $0.975$ quantile of the normal distribution is $1.96$.
-The Wald-based confidence intervals are by construction **symmetric**: they may include implausible values (e.g., negative values for variances). The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function $h(\theta)$, then in general
-$\mathsf{CI}_{W}\{h(\theta)\} \neq h\{\mathsf{CI}_{W}(\theta)\}.$
-So, if $[0.1, 0.9]$ is a 95\% Wald-based confidence interval for $\widehat{\beta}$, the Wald-based confidence interval for $\exp(\widehat{\beta})$ **is not** $[\exp(0.1), \exp(0.9)]$.
+The Wald-based confidence intervals are by construction **symmetric**: they may include implausible values (e.g., negative values for variances). The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function $g(\theta)$, then in general
+$\mathsf{CI}_{W}\{g(\theta)\} \neq g\{\mathsf{CI}_{W}(\theta)\}.$
 
 These confidence intervals can be contrasted with the (better) ones derived using the likelihood ratio test: these are found through a numerical search to find the limits of
 \begin{align*}
 \theta: 2\{\ell(\widehat{\theta}) - \ell(\theta)\} \leq \chi^2_1(1-\alpha),
 \end{align*}
-where $\chi^2_1(1-\alpha)$ is the $(1-\alpha)$ quantile of the  $\chi^2_1$ distribution. If $\boldsymbol{\theta}$ is multidimensional, confidence intervals for $\theta_i$ are derived using the profile likelihood. Likelihood ratio-based confidence intervals are **parametrization invariant**, so $\mathsf{CI}_{R}\{h(\theta)\} = h\{\mathsf{CI}_{R}(\theta)\}$. Because the likelihood is zero if a parameter value falls outside the range of possible values for the parameter, the intervals only include plausible values of $\theta$. In general, the intervals are asymmetric and have better coverage properties.
+where $\chi^2_1(1-\alpha)$ is the $(1-\alpha)$ quantile of the  $\chi^2_1$ distribution. If $\boldsymbol{\theta}$ is multidimensional, confidence intervals for $\theta_i$ are derived using the profile likelihood. Likelihood ratio-based confidence intervals are **parametrization invariant**, so $\mathsf{CI}_{R}\{g(\theta)\} = g\{\mathsf{CI}_{R}(\theta)\}$. Because the likelihood is zero if a parameter value falls outside the range of possible values for the parameter, the intervals only include plausible values of $\theta$. In general, the intervals are asymmetric and have better coverage properties.
 
-The $F$-tests covered in linear regression are equivalent to the likelihood ratio test for the linear model, but software reports the $p$-values calculated using an $F$ distribution, which is the exact null under the assumption of normally distributed errors with constant variance. The chi-square distribution and the $F$-distribution are equivalent for $n$ large.
 
-The Wald statistic and the likelihood ratio test for testing individual coefficients of the mean model $\beta_j$ in a linear regression are equivalent: they give the same $p$-value.
+To illustrate the difference between likelihood ratio and Wald tests (and their respective confidence intervals), we consider the metro waiting time data and consider a two-sided test for the null hypothesis $\mathscr{H}_0: \phi_0=4$ minutes. The Wald statistic is 
+\begin{align*}
+W =\frac{\hat{\phi}-\phi_0}{\mathsf{se}(\widehat{\phi})}=\sqrt{n}\frac{\widehat{\phi}-\phi_0}{\widehat{\phi}}= `r sqrt(length(wt))*(1-4/mean(wt))`,
+\end{align*}
+since $\mathsf{se}(\phi)=\mathrm{V}^{1/2}_{\phi}=\phi/\sqrt{n}$ and the latter function is evaluated at $\widehat{\phi}=`r mean(wt)`$. The asymptotic null distribution is $\mathsf{No}(0,1)$, so we fail to reject $\mathscr{H}_0: \phi=4$ minutes since the observed value for  $|W|$ is smaller than $1.96$. We could invert the test statistic to get a symmetric 95\% confidence interval for $\phi$, $[`r mean(wt) - qnorm(0.975)*mean(wt)/sqrt(length(wt))`$, $`r mean(wt) + qnorm(0.975)*mean(wt)/sqrt(length(wt))`]$.
+
+The hypothesis corresponds also to $\theta=0.25$ and similar calculations give $W = \sqrt{n}(`r 1/mean(wt)` - 0.25)/`r 1/mean(wt)` = `r sqrt(length(wt))*(1-0.25*mean(wt))`$. In this case, the null distribution is the same, but the value of the test statistic is not! The confidence interval for $\theta$ is $[`r 1/mean(wt) - qnorm(0.975)/mean(wt)/sqrt(length(wt))`$, $`r 1/mean(wt) + qnorm(0.975)/mean(wt)/sqrt(length(wt))`]$. You can check for yourself that the reciprocal of these confidence intervals do not match those for $\phi$.
+
+
+In contrast, the likelihood ratio test is invariant to interest-preserving reparamtrizations, so the test statistic for $\mathscr{H}_0: \phi=4$ and $\mathscr{H}_0: \theta = 0.25$ are the same. The log-likelihood at $\theta=0.25$ is `r sum(dexp(wt, rate = 0.25, log = TRUE))`, the maximum log-likelihood value is `r sum(dexp(wt, rate = 1/mean(wt), log = TRUE))`
+and the likelihood ratio statistic $R=2 \{\ell(\widehat{\theta}) - \ell(4)\}= `r 2*(sum(dexp(wt, rate = 1/mean(wt), log = TRUE)) - sum(dexp(wt, rate = 0.25, log = TRUE)))`$. The statistic should behave like a $\chi^2_1$ variable in large samples. The 95\% of the $\chi^2_1$ distribution is $`r qchisq(0.95,1)`$, so we fail to reject the null hypothesis that the mean waiting time is 4 minutes.
+```{r explrtcompute, echo = FALSE}
+lrt_lb <- uniroot(f = function(r){2*(sum(dexp(wt, rate = 1/mean(wt), log = TRUE)) - sum(dexp(wt, rate = 1/r, log = TRUE))) - qchisq(0.95, 1)}, interval = c(1.5, mean(wt)) )$root
+lrt_ub <- uniroot(f = function(r){2*(sum(dexp(wt, rate = 1/mean(wt), log = TRUE)) - sum(dexp(wt, rate = 1/r, log = TRUE))) - qchisq(0.95, 1)}, interval = c(mean(wt),6) )$root
+```
+
+The likelihood ratio statistic 95\% confidence interval for $\phi$ can be found by using a root finding algorithm: the confidence interval is $[`r lrt_lb`$, $`r lrt_ub`]$. By invariance, the 95\% confidence interval for $\theta$ is $[`r 1/lrt_ub`, `r 1/lrt_lb`]$.
+
 
 ## Profile likelihood
 
@@ -268,7 +291,7 @@ The maximum profile likelihood estimator is the value $\lambda$ minimizes the su
 
 ```{r profileplot, fig.cap ="Profile log-likelihood for the Box--Cox transformation for the waiting time data", echo = FALSE}
 par(mar = c(4,4,1,1))
-bc <- MASS::boxcox(lm(waiting_times~1), plotit = FALSE, lambda = seq(-0.1, 1, by = 0.01))
+bc <- MASS::boxcox(lm(wt~1), plotit = FALSE, lambda = seq(-0.1, 1, by = 0.01))
 plot(x = bc$x, 
 y = bc$y - max(bc$y), 
 bty = "l", type = "l", ylab = "profile log-likelihood", xlab = expression(lambda), 
@@ -279,7 +302,7 @@ confind <- which(diff(bc$x[bc$y-max(bc$y) < -qchisq(0.95, 1)/2]) > 0.011)
 Figure \@ref(fig:profileplot) shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately `r bc$x[which.max(bc$y)]` would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of $\lambda$, $(`r bc$x[confind]`, `r bc$x[confind+1]`)$, at which the curve intersects the horizontal grey line drawn at $-\chi^2_1/2$. The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an *ad hoc* choice of transformation, one could choose a log transformation if the value $0$ is included within the 95\% confidence interval since this improves interpretability.
 
 
-## Likelihood-based tools for model comparison
+## Information criteria
 
 The likelihood can also serve as building block for model comparison: the larger $\ell(\boldsymbol{\widehat{\theta}})$, the better the fit. However, the likelihood doesn't account for model complexity in the sense that more complex models with more parameters lead to higher likelihood. This is not a problem for comparison of nested models using the likelihood ratio test because we look only at relative improvement in fit. There is a danger of **overfitting** if we only consider the likelihood of a model.
 

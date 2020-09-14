@@ -463,7 +463,14 @@ Figure 1.5: Permutation-based approximation to the null distribution of Welch tw
 </div>
 <div id="variable-type" class="section level3" number="1.2.2">
 <h3><span class="header-section-number">1.2.2</span> Variable type</h3>
-<p>The data we will handled are stored in tables or frames. If the data frame is stocked in wide format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.</p>
+<p>The data we will handled are stored in tables or frames. If the data frame is stocked in long format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.</p>
+<p>The alternative is wide format, whereby the columns represent categorical variables and the entries are values of the response for a specific category (notably contingency tables). Figure <a href="intro.html#fig:longvswide">1.6</a> shows the difference between the two structures. Software typically require long formatted database for modelling purposes.</p>
+<div class="figure" style="text-align: center"><span id="fig:longvswide"></span>
+<img src="images/original-dfs-tidy.png" alt="Long versus wide-format for data tables (illustration by Garrick Aden-Buie)." width="70%" />
+<p class="caption">
+Figure 1.6: Long versus wide-format for data tables (illustration by Garrick Aden-Buie).
+</p>
+</div>
 <ul>
 <li>a <strong>variable</strong> represents a characteristic of the population, for example the sex of an individual, the price of an item, etc.</li>
 <li>an <strong>observation</strong> is a set of measures (variables) collected under identical conditions for an individual or at a given time.</li>
@@ -488,7 +495,7 @@ Figure 1.5: Permutation-based approximation to the null distribution of Welch tw
 <div class="figure" style="text-align: center"><span id="fig:barplotrenfe"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/barplotrenfe-1.png" alt="Bar plot of ticket class for Renfe tickets data" width="70%" />
 <p class="caption">
-Figure 1.6: Bar plot of ticket class for Renfe tickets data
+Figure 1.7: Bar plot of ticket class for Renfe tickets data
 </p>
 </div>
 <p>Continuous variables can take as many distinct values as there are observations, so we cannot simply count the number of occurences by unique values. Instead, we bin them into distinct intervals so as to obtain an histogram. The number of class depends on the number of observations: as a rule of thumb, the number of bins should not exceed <span class="math inline">\(\sqrt{n}\)</span>, where <span class="math inline">\(n\)</span> is the sample size. We can then obtain the frequency in each class, or else normalize the histogram so that the area under the bands equals one: this yields a discrete approximation of the underlying density function. Varying the number of bins can help us detect patterns (rounding, asymmetry, multimodality).</p>
@@ -496,7 +503,7 @@ Figure 1.6: Bar plot of ticket class for Renfe tickets data
 <div class="figure" style="text-align: center"><span id="fig:histrenfe"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/histrenfe-1.png" alt="Histogram of Promo tickets for Renfe ticket data" width="70%" />
 <p class="caption">
-Figure 1.7: Histogram of Promo tickets for Renfe ticket data
+Figure 1.8: Histogram of Promo tickets for Renfe ticket data
 </p>
 </div>
 <p>If we have a lot of data, it sometimes help to focus only on selected summary statistics. A box-and-whiskers plot (or boxplot) represents five numbers</p>
@@ -508,28 +515,28 @@ Figure 1.7: Histogram of Promo tickets for Renfe ticket data
 <div class="figure" style="text-align: center"><span id="fig:boxplot"></span>
 <img src="images/01-intro-boxplot.png" alt="Box-and-whiskers plot" width="70%" />
 <p class="caption">
-Figure 1.8: Box-and-whiskers plot
+Figure 1.9: Box-and-whiskers plot
 </p>
 </div>
-<p>We can represent the distribution of a response variable as a function of a categorical variable by drawing a boxplot for each category and laying them side by side. A third variable, categorical, can be added via a color palette, as shown in Figure <a href="intro.html#fig:histboxplot">1.9</a>.</p>
+<p>We can represent the distribution of a response variable as a function of a categorical variable by drawing a boxplot for each category and laying them side by side. A third variable, categorical, can be added via a color palette, as shown in Figure <a href="intro.html#fig:histboxplot">1.10</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:histboxplot"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/histboxplot-1.png" alt="Box-and-whiskers plots for Promo fare tickets as a function of class and type for the Renfe tickets data." width="70%" />
 <p class="caption">
-Figure 1.9: Box-and-whiskers plots for Promo fare tickets as a function of class and type for the Renfe tickets data.
+Figure 1.10: Box-and-whiskers plots for Promo fare tickets as a function of class and type for the Renfe tickets data.
 </p>
 </div>
-<p>Scatterplots are used to represent graphically the co-variation between two continuous variables: each tuple gives the coordinate of the point. If only a handful of large values are visible on the graph, a transformation may be useful: oftentimes, you will encounter graphs where the <span class="math inline">\(x\)</span>- or <span class="math inline">\(y\)</span>-axis is on the log-scale when the underlying variable is positive. If the number of data points is too large, it is hard to distinguish points because they are overlaid: adding transparency, or binning using a two-dimensional histogram with the frequency represented using color are potential solutions. The left panel of Figure <a href="intro.html#fig:scatterplot">1.10</a> shows the 100 simulated observations, whereas the right-panel shows a larger sample of 10 000 points using hexagonal binning, an analog of the bivariate density.</p>
+<p>Scatterplots are used to represent graphically the co-variation between two continuous variables: each tuple gives the coordinate of the point. If only a handful of large values are visible on the graph, a transformation may be useful: oftentimes, you will encounter graphs where the <span class="math inline">\(x\)</span>- or <span class="math inline">\(y\)</span>-axis is on the log-scale when the underlying variable is positive. If the number of data points is too large, it is hard to distinguish points because they are overlaid: adding transparency, or binning using a two-dimensional histogram with the frequency represented using color are potential solutions. The left panel of Figure <a href="intro.html#fig:scatterplot">1.11</a> shows the 100 simulated observations, whereas the right-panel shows a larger sample of 10 000 points using hexagonal binning, an analog of the bivariate density.</p>
 <div class="figure" style="text-align: center"><span id="fig:scatterplot"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/scatterplot-1.png" alt="Scatterplot (left) and hexagonal heatmap of bidimensional bin counts (right) of simulated data." width="70%" />
 <p class="caption">
-Figure 1.10: Scatterplot (left) and hexagonal heatmap of bidimensional bin counts (right) of simulated data.
+Figure 1.11: Scatterplot (left) and hexagonal heatmap of bidimensional bin counts (right) of simulated data.
 </p>
 </div>
 <p>Sometimes, continuous data have a particular structure, mostly when observations are collected over space or time. Time series are ordered and the response should be plotted on the <span class="math inline">\(y\)</span>-axis as a function of time (on the <span class="math inline">\(x\)</span>-axis). It is customary to draw segments between observations, but this display is sometimes misleading.</p>
 <div class="figure" style="text-align: center"><span id="fig:seriechrono"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/seriechrono-1.png" alt="Graphical representation of a time series." width="70%" />
 <p class="caption">
-Figure 1.11: Graphical representation of a time series.
+Figure 1.12: Graphical representation of a time series.
 </p>
 </div>
 </div>
@@ -549,7 +556,8 @@ Figure 1.11: Graphical representation of a time series.
 <li><code>duration</code> length of train journey (in minutes);</li>
 <li><code>wday</code> categorical variable (integer) denoting the week day, ranging from Sunday (<code>1</code>) to Saturday (<code>7</code>).</li>
 </ul>
-<p>There are no missing values and a quick view of the first row of the data frame (<code>head(renfe)</code>) shows that the data are stored in long format, meaning each line corresponds to a different ticket. We will begin our exploratory analysis with vague questions, for example</p>
+<p>There are no missing values and a quick view of the first row of the data frame (<code>head(renfe)</code>) shows that the data are stored in long format, meaning each line corresponds to a different ticket.
+We will begin our exploratory analysis with vague questions, for example</p>
 <ol style="list-style-type: decimal">
 <li>What are the factors determining the price and travel time?</li>
 <li>Does travel time depend on the type of train?</li>
@@ -598,7 +606,7 @@ Figure 1.11: Graphical representation of a time series.
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed4"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfe-aed4-1.png" alt="Boxplot of ticket price as a function of destination and train type." width="70%" />
 <p class="caption">
-Figure 1.12: Boxplot of ticket price as a function of destination and train type.
+Figure 1.13: Boxplot of ticket price as a function of destination and train type.
 </p>
 </div>
 <p>We could have suspected that trains labeled <code>AVE</code> are faster: after all, it is the acronym of <em>Alta Velocidad Española</em>, literally Spanish high speed. What is the distinction between the two high speed train types. According to the <a href="https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx">SNCF website</a>, AVE-TGV trains are partnership between Renfe and SNCF that operate between France and Spain.</p>
@@ -615,7 +623,7 @@ Figure 1.12: Boxplot of ticket price as a function of destination and train type
 ## 3 AVE-TGV Barcelona-Madrid              175      0.0          87.0     16.8
 ## 4 AVE-TGV Madrid-Barcelona              179      0.0          90.6     20.2</code></pre>
 <p>The price of high speed trains are on average more than twice as expensive as regular trains. There is strong evidence of heterogeneity (standard deviation of 20 euros), which should raise scrutiny and suggests that high speed train tickets are dynamically priced. There is a single duration time for AVE-TGV tickets. We do not see meaningful differences in price depending on the type or the direction, but fares of ticket class availability may differ depending on whether the train is run in partnership with SNCF.</p>
-<p>We have not looked at ticket fare and class, except for RegioExpress trains. Figure <a href="intro.html#fig:renfe-aed7">1.14</a> shows large disparity in the variance of price according to fare: Promo fare takes many more distinct values than AdultoIda (duh) and Flexible fares. First class tickets (<code>Preferente</code>) are more expensive, but there are fewer observations falling in this group. Turista class is the least expensive for high-speed trains and the most popular. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offer an alternative to the latter with more comfort, whereas <code>TuristaSolo</code> gives access to individual seats.</p>
+<p>We have not looked at ticket fare and class, except for RegioExpress trains. Figure <a href="intro.html#fig:renfe-aed7">1.15</a> shows large disparity in the variance of price according to fare: Promo fare takes many more distinct values than AdultoIda (duh) and Flexible fares. First class tickets (<code>Preferente</code>) are more expensive, but there are fewer observations falling in this group. Turista class is the least expensive for high-speed trains and the most popular. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offer an alternative to the latter with more comfort, whereas <code>TuristaSolo</code> gives access to individual seats.</p>
 <p>Fare-wise <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html">Promo</a> and <a href="http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html">PromoPlus</a> give access to rebates that can go up to 70% and 65%, respectively. Promo tickets cannot be cancelled or exchanged, while both are possible with PromoPlus by paying a penalty amounting to 30-20% of the ticket price. <a href="http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html">Flexible</a> fare ticket a sold at the same price as regular high-speed train tickets, but offer additional benefits (and no rebates!)</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="intro.html#cb17-1" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(fare  <span class="op">!=</span><span class="st"> &quot;AdultoIda&quot;</span>) <span class="op">%&gt;%</span></span>
 <span id="cb17-2"><a href="intro.html#cb17-2" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y =</span> price, <span class="dt">x =</span> class, <span class="dt">col =</span> fare)) <span class="op">+</span><span class="st"> </span></span>
@@ -627,7 +635,7 @@ Figure 1.12: Boxplot of ticket price as a function of destination and train type
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed6"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfe-aed6-1.png" alt="Boxplot of ticket price as a function of fare and class for high-speed Renfe trains." width="70%" />
 <p class="caption">
-Figure 1.13: Boxplot of ticket price as a function of fare and class for high-speed Renfe trains.
+Figure 1.14: Boxplot of ticket price as a function of fare and class for high-speed Renfe trains.
 </p>
 </div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="intro.html#cb18-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> renfe, <span class="kw">aes</span>(<span class="dt">x =</span> price, <span class="dt">y=</span>..density.., <span class="dt">fill =</span> fare)) <span class="op">+</span></span>
@@ -637,7 +645,7 @@ Figure 1.13: Boxplot of ticket price as a function of fare and class for high-sp
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed7"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfe-aed7-1.png" alt="Histograms of ticket price as a function of fare for Renfe trains." width="70%" />
 <p class="caption">
-Figure 1.14: Histograms of ticket price as a function of fare for Renfe trains.
+Figure 1.15: Histograms of ticket price as a function of fare for Renfe trains.
 </p>
 </div>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="intro.html#cb19-1" aria-hidden="true"></a><span class="co"># Check the spread of Flexible tickets</span></span>
