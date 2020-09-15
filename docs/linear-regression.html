@@ -338,6 +338,20 @@ The equation of the simple linear model that includes the binary variable <span 
 \end{cases}
 \end{align*}\]</span>
 A linear model that only contains a binary variable <span class="math inline">\(\mathrm{X}\)</span> as regressor amounts to specifying a different mean for each of two groups: the average of women is <span class="math inline">\(\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1\)</span> and <span class="math inline">\(\beta_1=\mu_1-\mu_0\)</span> represents the difference between the average salary of men and women. The least square estimator <span class="math inline">\(\widehat{\beta}_0\)</span> is the sample mean of men and <span class="math inline">\(\widehat{\beta}_1\)</span> is the difference of the sample mean of women and men. The parametrization of the linear model with <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> is in terms of <strong>contrasts</strong> and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing <span class="math inline">\(\mathscr{H}_0: \beta_1=0\)</span>. If we wanted our model to directly output the sample means, we would need to replace the design matrix <span class="math inline">\(\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]\)</span> by <span class="math inline">\([\mathbf{1}_n- \texttt{sex}, \texttt{sex}]\)</span>. The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behaviour (more on this latter).</p>
+<pre><code>## # A tibble: 397 x 6
+##    rank      field   years      service    sex   salary    
+##    &lt;fct&gt;     &lt;fct&gt;   &lt;labelled&gt; &lt;labelled&gt; &lt;fct&gt; &lt;labelled&gt;
+##  1 full      applied 19         18         man   139.8     
+##  2 full      applied 20         16         man   173.2     
+##  3 assistant applied  4          3         man    79.8     
+##  4 full      applied 45         39         man   115.0     
+##  5 full      applied 40         41         man   141.5     
+##  6 associate applied  6          6         man    97.0     
+##  7 full      applied 30         23         man   175.0     
+##  8 full      applied 45         45         man   147.8     
+##  9 full      applied 21         20         man   119.2     
+## 10 full      applied 18         18         woman 129.0     
+## # … with 387 more rows</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:graphcollegesex"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/graphcollegesex-1.png" alt="Simple linear model for the $\texttt{college}$ data using the binary variable sex as regressor: even if the equation defines a line, only its values in $0/1$ are realistic." width="70%" />
 <p class="caption">
@@ -466,75 +480,302 @@ Figure 2.7: Added-variable plot for years of service in the linear regression mo
 </div>
 <div id="test-lm" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Tests for parameters of the linear model</h2>
-<p>We will need to make further assumptions in order to carry out inference and build testing procedures for the mean model parameters. At the expense of some loss of generality, we will assume <span class="math inline">\(\varepsilon_1, \ldots, \varepsilon_n\)</span> are conditionally independent centered random variables with <span class="math inline">\(\mathsf{E}(\varepsilon_i\mid \mathbf{X}_i)=0\)</span> and variance <span class="math inline">\(\mathsf{Va}(\varepsilon_i\mid \mathbf{X}_i)= \sigma^2\)</span> (<span class="math inline">\(i=1, \ldots, n\)</span>). From these moment assumptions, it follows that <span class="math inline">\(Y_1, \ldots, Y_n\)</span> are conditionally <em>independent</em> random variables with
+<p>We need to make further assumptions in order to carry out inference and build testing procedures for the mean model parameters of the linear model. In order to get a tractable distribution for test statistics, it is customary to assume that the disturbances <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> are independent normal random variables with mean zero and common variance <span class="math inline">\(\sigma^2\)</span>. It follows that <span class="math inline">\(Y_1, \ldots, Y_n\)</span> are conditionally <em>independent</em> random variables with
 <span class="math display">\[\begin{align*}
-\mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.                                          
+\mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.    
 \end{align*}\]</span>
-In order to get a tractable distribution for test statistics, it is customary to assume that the disturbances <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> are independent normal random variables with mean zero and common variance <span class="math inline">\(\sigma^2\)</span>. Under this hypothesis, the least square estimators for the mean parameters coincide with the maximum likelihood estimators. The advantage of imposing this (more stringent than necessary) assumption is that we can use our toolbox for testing: the theory underlying likelihood tests is presented in the chapter on <a href="likelihood">likelihood-based inference</a>. Assuming normal errors leads to exact distributions for the test statistics (which also coincide with the asymptotic ones in large samples).</p>
+Under this hypothesis, the least square estimators for the mean parameters coincide with the maximum likelihood estimators. The advantage of imposing this (more stringent than necessary) assumption is that we can use our toolbox for testing. The theory underlying likelihood tests is presented in the chapter on <a href="likelihood">likelihood-based inference</a>. Assuming normal errors leads to exact distributions for the test statistics (which also coincide with the asymptotic ones in large samples).</p>
 <p>Of particular interest are tests of restrictions for components of <span class="math inline">\(\boldsymbol{\beta}\)</span>. The large sample properties of the maximum likelihood estimator imply that
 <span class="math display">\[\begin{align*}
 \widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{No}_{p+1}\left\{\boldsymbol{\beta}, \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\right\}
 \end{align*}\]</span>
 for sufficiently large sample size. One can thus easily estimate the standard errors from the matrix upon replacing <span class="math inline">\(\sigma^2\)</span> by an estimator, typically the unbiased estimator of the variance.</p>
 <p>In an inferential setting, it’s often important to test whether the effect of an explanatory variable is significant: if <span class="math inline">\(\mathrm{X}_j\)</span> is binary or continuous, the test for <span class="math inline">\(\mathscr{H}_0: \beta_j=0\)</span> corresponds to a null marginal effect for <span class="math inline">\(\mathrm{X}_j\)</span>. The null model is a linear regression in which we remove the <span class="math inline">\((j+1)\)</span>st column of <span class="math inline">\(\mathbf{X}\)</span>, so both models are nested. The Wald test statistic is reported by most software <span class="math inline">\(W=\widehat{\beta}_j/\mathsf{se}(\widehat{\beta}_j)\)</span> and the null distribution is Student-<em>t</em> with <span class="math inline">\(n-p-1\)</span> degrees of freedom, which explains the terminology (<span class="math inline">\(t\)</span> values). In addition to coefficient estimates, it is possible to obtain confidence intervals for <span class="math inline">\(\beta_j\)</span>, which are the usual <span class="math inline">\(\widehat{\beta}_j \pm t_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)\)</span>, with <span class="math inline">\(t_{n-p-1,\alpha/2}\)</span> denoting the <span class="math inline">\(1-\alpha/2\)</span> quantile of the <span class="math inline">\(\mathsf{St}_{n-p-1}\)</span> distribution.</p>
-<p>One could wonder why not use the likelihood ratio statistic instead of the Wald statistic for testing individual coefficients of the mean model <span class="math inline">\(\beta_j\)</span> in a linear regression, given that the former is more powerful. It turns out that both statistics are equivalent: they lead to the same inference and the <span class="math inline">\(p\)</span>-value for the test are identical.</p>
-<p>While it may get reported in tables, tests for <span class="math inline">\(\beta_0=0\)</span> are not of interest; we keep the intercept merely to center the residuals.</p>
-<p>For categorical variables with more than two levels, testing if <span class="math inline">\(\beta_j=0\)</span> is typically not of interest because the contrast represent the different between the category <span class="math inline">\(\mathrm{X}_j\)</span> and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories.</p>
-<p>Inference for the <span class="math inline">\(F\)</span>-tests, which are described in more mathematical detail in the <a href="ftestslm">Appendix</a>, is equivalent to the likelihood ratio test for the linear model. The software reports the <span class="math inline">\(p\)</span>-values calculated using an <span class="math inline">\(F\)</span> distribution, which is the exact null distribution under the assumption of normally distributed errors with constant variance. The chi-square distribution and the <span class="math inline">\(F\)</span>-distribution are equivalent for <span class="math inline">\(n\)</span> large and similarly the Student-<em>t</em> distribution and the normal distribution are indistinguishable for large degrees of freedom, except far in the tail.</p>
-<p>Consider the <code>college</code> data example and the associated linear model with <code>rank</code>, <code>sex</code>, years of <code>service</code> and <code>field</code> as covariates.
-<table style = 'margin:auto;border-collapse:collapse;'>
+<p>For categorical variables with more than two levels, testing if <span class="math inline">\(\beta_j=0\)</span> is typically not of interest because the contrast represent the different between the category <span class="math inline">\(\mathrm{X}_j\)</span> and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories. The hypothesis of zero contrast is awkward because it implies a null model in which selected categories are merged.</p>
+<div id="ftestslm" class="section level3" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> <em>F</em>-tests for comparison of nested linear models</h3>
+<p>Consider the <em>full</em> linear model which contains <span class="math inline">\(p\)</span> predictors,
+<span class="math display">\[\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
+\end{align*}\]</span>
+Suppose without loss of generality that we want to test <span class="math inline">\(\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0\)</span> (one could permute columns of the design matrix to achieve this configuration).
+The global hypothesis specifies that <span class="math inline">\((p-k)\)</span> of the <span class="math inline">\(\beta\)</span> parameters are zero. The <em>restricted model</em> corresponding to the null hypothesis contains only the covariates for which <span class="math inline">\(\beta_j \neq 0\)</span>,
+<span class="math display">\[\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
+\end{align*}\]</span>
+Let <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_1)\)</span> be the residuals sum of squares for model <span class="math inline">\(\mathbb{M}_1\)</span>,
+<span class="math display">\[\begin{align*}
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\hat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*}\]</span>
+where <span class="math inline">\(\hat{Y}_i^{\mathbb{M}_1}\)</span> is the <span class="math inline">\(i\)</span>th fitted value from <span class="math inline">\(\mathbb{M}_1\)</span>. Similarly define <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0)\)</span> for the residuals sum of square of <span class="math inline">\(\mathbb{M}_0\)</span>. Clearly, <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\)</span> (why?)</p>
+<p>The <span class="math inline">\(F\)</span>-test statistic is
+<span class="math display">\[\begin{align*}
+F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}
+\end{align*}\]</span>
+Under <span class="math inline">\(\mathscr{H}_0\)</span>, the <span class="math inline">\(F\)</span> statistic follows a <a href="https://en.wikipedia.org/wiki/F-distribution">Fisher distribution</a> with <span class="math inline">\((p-k)\)</span> and <span class="math inline">\((n-p-1)\)</span> degrees of freedom, <span class="math inline">\(\mathsf{F}(p-k, n-p-1)\)</span> — <span class="math inline">\(p-k\)</span> is the number of restrictions, <span class="math inline">\(n-p-1\)</span> is sample size minus the number of <span class="math inline">\(\beta\)</span>’s in <span class="math inline">\(\mathbb{M}_1\)</span>.</p>
+<p>It turns out that both <span class="math inline">\(F\)</span> and <span class="math inline">\(t\)</span>-statistics are equivalent for testing a single coefficient <span class="math inline">\(\beta_j\)</span>: the <span class="math inline">\(F\)</span>-statistic is the square of the Wald statistic and they lead to the same inference — the <span class="math inline">\(p\)</span>-value for the test are identical. While it may get reported in tables, the test for <span class="math inline">\(\beta_0=0\)</span> is not of interest; we keep the intercept merely to centre the residuals.</p>
+<p>It turns out that, for linear regression, the likelihood ratio test is a function of the sum of squared residuals appearing in the <span class="math inline">\(F\)</span>-statistic formula. The <span class="math inline">\(p\)</span>-values for the two test statistics would be nearly identical, since they only differ in the choice of estimator of the variance and potentially the null distribution (the <span class="math inline">\(\chi^2_q\)</span> is only the asymptotic distribution of the test). The tests presented above could thus be viewed as particular cases of <a href="liktests">likelihood-based tests</a>.</p>
+Consider the <code>college</code> data example and the associated linear model with <code>rank</code>, <code>sex</code>, years of <code>service</code> and <code>field</code> as covariates.
+<table>
+<caption>
+<span id="tab:summarytestslmcollege">Table 2.3: </span>Table of linear regression coefficients with associated standard errors, Wald tests and <em>p</em>-values based on Student-<em>t</em> distribution
+</caption>
+<thead>
 <tr>
-<th colspan = '1'; rowspan = '1'; style='text-align:left;'>Term </th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;'>Estimate </th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;'>SE </th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;'>T-statistic </th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;'>P-value </th>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std. error
+</th>
+<th style="text-align:right;">
+Wald stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+86.596
+</td>
+<td style="text-align:right;">
+2.96
+</td>
+<td style="text-align:right;">
+29.25
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>(Intercept) </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>86.6 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.96 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>29.25 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>< 0.001 </td>
+<td style="text-align:left;">
+sexwoman
+</td>
+<td style="text-align:right;">
+-4.771
+</td>
+<td style="text-align:right;">
+3.878
+</td>
+<td style="text-align:right;">
+-1.23
+</td>
+<td style="text-align:right;">
+0.22
+</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>sexwoman </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-4.77 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.88 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-1.23 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>0.22 </td>
+<td style="text-align:left;">
+fieldtheoretical
+</td>
+<td style="text-align:right;">
+-13.473
+</td>
+<td style="text-align:right;">
+2.315
+</td>
+<td style="text-align:right;">
+-5.82
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>fieldtheoretical </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-13.47 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.32 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-5.82 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>< 0.001 </td>
+<td style="text-align:left;">
+rankassociate
+</td>
+<td style="text-align:right;">
+14.56
+</td>
+<td style="text-align:right;">
+4.098
+</td>
+<td style="text-align:right;">
+3.55
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>rankassociate </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>14.56 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4.1 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.55 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>< 0.001 </td>
+<td style="text-align:left;">
+rankfull
+</td>
+<td style="text-align:right;">
+49.16
+</td>
+<td style="text-align:right;">
+3.834
+</td>
+<td style="text-align:right;">
+12.82
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>rankfull </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>49.16 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.83 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>12.82 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>< 0.001 </td>
+<td style="text-align:left;">
+service
+</td>
+<td style="text-align:right;">
+-0.089
+</td>
+<td style="text-align:right;">
+0.112
+</td>
+<td style="text-align:right;">
+-0.8
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="linear-regression.html#tab:summarytestslmcollege">2.3</a> shows the estimated coefficients (in thousands of dollars). The coefficients are the least squares estimates <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>, the standard errors are the square root of the diagonal elements of <span class="math inline">\(S^2(\mathbf{X}^\top\mathbf{X})^{-1}\)</span>. The Wald (or <em>t</em>-) statistic is simply <span class="math inline">\(W=\widehat{\beta}/\mathsf{se}(\widehat{\beta})\)</span> for <span class="math inline">\(\mathscr{H}_0: \beta_j=0\)</span>: given two of the three estimates, we could easily recover the third using the formula for the test. The <span class="math inline">\(p\)</span>-values are for the two-sided alternative test with <span class="math inline">\(\mathscr{H}_a: \beta_j \neq 0\)</span>.</p>
+<p>The interpretation is usual: <span class="math inline">\(p\)</span>-values that are less than our prescribed level <span class="math inline">\(\alpha\)</span> do not contribute significantly given the other variables already in the model. Neither years of service nor sex are statistically different from zero given all the other variables. The test for <span class="math inline">\(\beta_{\texttt{sex}}\)</span> is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank.</p>
+<table>
+<caption>
+<span id="tab:summaryanovalmcollege">Table 2.4: </span>Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, <em>F</em>-statistic and associated <em>p</em>-value.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+sum of square
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:right;">
+F stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+439059.2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+855.71
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>service </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-0.09 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.11 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-0.8 </td>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>0.43 </td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+776.7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.51
+</td>
+<td style="text-align:right;">
+0.22
+</td>
 </tr>
-</table></br></br></p>
-<p>Neither years of service nor sex are statistically different from zero given all the other variables. The test for <span class="math inline">\(\beta_{\texttt{sex}}\)</span> is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank.</p>
+<tr>
+<td style="text-align:left;">
+field
+</td>
+<td style="text-align:right;">
+17372.5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+33.86
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rank
+</td>
+<td style="text-align:right;">
+102883.1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+100.26
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+service
+</td>
+<td style="text-align:right;">
+324.5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.63
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residuals
+</td>
+<td style="text-align:right;">
+200620.4
+</td>
+<td style="text-align:right;">
+391
+</td>
+<td style="text-align:right;">
+</td>
+<td style="text-align:right;">
+</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="linear-regression.html#tab:summaryanovalmcollege">2.4</a> gives the <span class="math inline">\(F\)</span>-statistics values and the associated <span class="math inline">\(p\)</span>-values. You can verify that (up to rounding) these values are identical to those of the Wald test in the output when <code>df=1</code>. The only categorical variable here with more than one level is <code>rank</code>, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.</p>
+<p>We could have also easily compute the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the <span class="math inline">\(\chi^2_2\)</span> distribution (both likelihood ratio test and <span class="math inline">\(F\)</span>-test give a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(2.2 \times 10^{-16}\)</span>).</p>
 
+</div>
 </div>
 </div>
             </section>

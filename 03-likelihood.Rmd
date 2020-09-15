@@ -142,7 +142,7 @@ $\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{No}(\phi_0, \mathrm{V}_\phi)$, wit
 Consider the metro waiting time example. The quantity of interest is the reciprocal mean $\phi = 1/\theta$, so the scalar function of interest is $g(x) = 1/x$ and the maximum likelihood estimate $\hat{\phi}=`r mean(wt)`$ is the sample mean of waiting times. The gradient of the transformation is $\nabla \phi =  -1/x^2$, which gives $\mathrm{V}_\phi = (\theta^2/n)/\theta^4 = 1/(n\theta^2) = \phi^2/n$ and the standard error of the maximum likelihood estimator is thus approximately $\widehat{\phi}/\sqrt{n}$ in large samples.
 
 
-## Likelihood-based tests
+## Likelihood-based tests {#liktests}
 
 Oftentimes, we wish to compare two models: the model implied by the null hypothesis, which is a restriction or simpler version of the full model. Models are said to be **nested** if we can obtain one from the other by imposing restrictions on the parameters.
 

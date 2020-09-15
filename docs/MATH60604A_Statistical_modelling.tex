@@ -1132,19 +1132,29 @@ Before drafting a model, a quick look at the data is in due order. If salary inc
 
 Salary increases over years of service, but its variability also increases with rank. Note the much smaller number of women in the sample: this will impact our power to detect differences between sex. A contingency table of sex and academic rank can be useful to see if the proportion of women is the same in each rank: women represent 16\% of assistant professors and 16\% of associate profs, but only 7\% of full professors and these are better paid on average.
 
-\begin{table}
+\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.
 
-\caption{\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.}
-\centering
-\begin{tabular}[t]{lrrr}
-\toprule
-  & assistant & associate & full\\
-\midrule
-man & 56 & 54 & 248\\
-woman & 11 & 10 & 18\\
-\bottomrule
-\end{tabular}
-\end{table}
+assistant
+
+associate
+
+full
+
+man
+
+56
+
+54
+
+248
+
+woman
+
+11
+
+10
+
+18
 
 The simple linear regression model only includes a single explanatory variable and defines a straight line linking two variables \(\mathrm{X}\) and \(Y\) by means of an equation of the form \(y=a+bx\); Figure \ref{fig:droitenuage} shows the line passing through the scatterplot for years of service.
 
@@ -1263,6 +1273,23 @@ The equation of the simple linear model that includes the binary variable \(\tex
 \end{align*}
 A linear model that only contains a binary variable \(\mathrm{X}\) as regressor amounts to specifying a different mean for each of two groups: the average of women is \(\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1\) and \(\beta_1=\mu_1-\mu_0\) represents the difference between the average salary of men and women. The least square estimator \(\widehat{\beta}_0\) is the sample mean of men and \(\widehat{\beta}_1\) is the difference of the sample mean of women and men. The parametrization of the linear model with \(\beta_0\) and \(\beta_1\) is in terms of \textbf{contrasts} and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing \(\mathscr{H}_0: \beta_1=0\). If we wanted our model to directly output the sample means, we would need to replace the design matrix \(\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]\) by \([\mathbf{1}_n- \texttt{sex}, \texttt{sex}]\). The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behaviour (more on this latter).
 
+\begin{verbatim}
+## # A tibble: 397 x 6
+##    rank      field   years      service    sex   salary    
+##    <fct>     <fct>   <labelled> <labelled> <fct> <labelled>
+##  1 full      applied 19         18         man   139.8     
+##  2 full      applied 20         16         man   173.2     
+##  3 assistant applied  4          3         man    79.8     
+##  4 full      applied 45         39         man   115.0     
+##  5 full      applied 40         41         man   141.5     
+##  6 associate applied  6          6         man    97.0     
+##  7 full      applied 30         23         man   175.0     
+##  8 full      applied 45         45         man   147.8     
+##  9 full      applied 21         20         man   119.2     
+## 10 full      applied 18         18         woman 129.0     
+## # ... with 387 more rows
+\end{verbatim}
+
 \begin{figure}
 
 {\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/graphcollegesex-1} 
@@ -1355,18 +1382,31 @@ If we multiply \(\texttt{salary}\) by a thousand to get the resulting estimates 
 +\beta_4 \texttt{rank}_{\texttt{full}}  +\beta_5 \texttt{service} + \varepsilon.
 \end{align*}
 
-\begin{table}
+\label{tab:collegecoefs}Estimated coefficients of the linear model for the \(\texttt{college}\) (in USD, rounded to the nearest dollar).
 
-\caption{\label{tab:collegecoefs}Estimated coefficients of the linear model for the $\texttt{college}$ (in USD, rounded to the nearest dollar).}
-\centering
-\begin{tabular}[t]{rrrrrr}
-\toprule
-$\widehat{\beta}_0$ & $\widehat{\beta}_1$ & $\widehat{\beta}_2$ & $\widehat{\beta}_3$ & $\widehat{\beta}_4$ & $\widehat{\beta}_5$\\
-\midrule
-86596 & -4771 & -13473 & 14560 & 49160 & -89\\
-\bottomrule
-\end{tabular}
-\end{table}
+\(\widehat{\beta}_0\)
+
+\(\widehat{\beta}_1\)
+
+\(\widehat{\beta}_2\)
+
+\(\widehat{\beta}_3\)
+
+\(\widehat{\beta}_4\)
+
+\(\widehat{\beta}_5\)
+
+86596
+
+-4771
+
+-13473
+
+14560
+
+49160
+
+-89
 
 The interpretation of the coefficients is as follows:
 
@@ -1402,11 +1442,11 @@ All other factors taken into account, women get paid less than men. It remains t
 \hypertarget{test-lm}{%
 \section{Tests for parameters of the linear model}\label{test-lm}}
 
-We will need to make further assumptions in order to carry out inference and build testing procedures for the mean model parameters. At the expense of some loss of generality, we will assume \(\varepsilon_1, \ldots, \varepsilon_n\) are conditionally independent centered random variables with \(\mathsf{E}(\varepsilon_i\mid \mathbf{X}_i)=0\) and variance \(\mathsf{Va}(\varepsilon_i\mid \mathbf{X}_i)= \sigma^2\) (\(i=1, \ldots, n\)). From these moment assumptions, it follows that \(Y_1, \ldots, Y_n\) are conditionally \emph{independent} random variables with
+We need to make further assumptions in order to carry out inference and build testing procedures for the mean model parameters of the linear model. In order to get a tractable distribution for test statistics, it is customary to assume that the disturbances \(\boldsymbol{\varepsilon}\) are independent normal random variables with mean zero and common variance \(\sigma^2\). It follows that \(Y_1, \ldots, Y_n\) are conditionally \emph{independent} random variables with
 \begin{align*}
-\mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.                                          
+\mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.    
 \end{align*}
-In order to get a tractable distribution for test statistics, it is customary to assume that the disturbances \(\boldsymbol{\varepsilon}\) are independent normal random variables with mean zero and common variance \(\sigma^2\). Under this hypothesis, the least square estimators for the mean parameters coincide with the maximum likelihood estimators. The advantage of imposing this (more stringent than necessary) assumption is that we can use our toolbox for testing: the theory underlying likelihood tests is presented in the chapter on \href{likelihood}{likelihood-based inference}. Assuming normal errors leads to exact distributions for the test statistics (which also coincide with the asymptotic ones in large samples).
+Under this hypothesis, the least square estimators for the mean parameters coincide with the maximum likelihood estimators. The advantage of imposing this (more stringent than necessary) assumption is that we can use our toolbox for testing. The theory underlying likelihood tests is presented in the chapter on \href{likelihood}{likelihood-based inference}. Assuming normal errors leads to exact distributions for the test statistics (which also coincide with the asymptotic ones in large samples).
 
 Of particular interest are tests of restrictions for components of \(\boldsymbol{\beta}\). The large sample properties of the maximum likelihood estimator imply that
 \begin{align*}
@@ -1416,33 +1456,185 @@ for sufficiently large sample size. One can thus easily estimate the standard er
 
 In an inferential setting, it's often important to test whether the effect of an explanatory variable is significant: if \(\mathrm{X}_j\) is binary or continuous, the test for \(\mathscr{H}_0: \beta_j=0\) corresponds to a null marginal effect for \(\mathrm{X}_j\). The null model is a linear regression in which we remove the \((j+1)\)st column of \(\mathbf{X}\), so both models are nested. The Wald test statistic is reported by most software \(W=\widehat{\beta}_j/\mathsf{se}(\widehat{\beta}_j)\) and the null distribution is Student-\emph{t} with \(n-p-1\) degrees of freedom, which explains the terminology (\(t\) values). In addition to coefficient estimates, it is possible to obtain confidence intervals for \(\beta_j\), which are the usual \(\widehat{\beta}_j \pm t_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)\), with \(t_{n-p-1,\alpha/2}\) denoting the \(1-\alpha/2\) quantile of the \(\mathsf{St}_{n-p-1}\) distribution.
 
-One could wonder why not use the likelihood ratio statistic instead of the Wald statistic for testing individual coefficients of the mean model \(\beta_j\) in a linear regression, given that the former is more powerful. It turns out that both statistics are equivalent: they lead to the same inference and the \(p\)-value for the test are identical.
+For categorical variables with more than two levels, testing if \(\beta_j=0\) is typically not of interest because the contrast represent the different between the category \(\mathrm{X}_j\) and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories. The hypothesis of zero contrast is awkward because it implies a null model in which selected categories are merged.
 
-While it may get reported in tables, tests for \(\beta_0=0\) are not of interest; we keep the intercept merely to center the residuals.
+\hypertarget{ftestslm}{%
+\subsection{\texorpdfstring{\emph{F}-tests for comparison of nested linear models}{F-tests for comparison of nested linear models}}\label{ftestslm}}
 
-For categorical variables with more than two levels, testing if \(\beta_j=0\) is typically not of interest because the contrast represent the different between the category \(\mathrm{X}_j\) and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories.
+Consider the \emph{full} linear model which contains \(p\) predictors,
+\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
+\end{align*}
+Suppose without loss of generality that we want to test \(\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0\) (one could permute columns of the design matrix to achieve this configuration).
+The global hypothesis specifies that \((p-k)\) of the \(\beta\) parameters are zero. The \emph{restricted model} corresponding to the null hypothesis contains only the covariates for which \(\beta_j \neq 0\),
+\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
+\end{align*}
+Let \(\mathsf{SS}_e(\mathbb{M}_1)\) be the residuals sum of squares for model \(\mathbb{M}_1\),
+\begin{align*}
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\hat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*}
+where \(\hat{Y}_i^{\mathbb{M}_1}\) is the \(i\)th fitted value from \(\mathbb{M}_1\). Similarly define \(\mathsf{SS}_e(\mathbb{M}_0)\) for the residuals sum of square of \(\mathbb{M}_0\). Clearly, \(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\) (why?)
 
-Inference for the \(F\)-tests, which are described in more mathematical detail in the \href{ftestslm}{Appendix}, is equivalent to the likelihood ratio test for the linear model. The software reports the \(p\)-values calculated using an \(F\) distribution, which is the exact null distribution under the assumption of normally distributed errors with constant variance. The chi-square distribution and the \(F\)-distribution are equivalent for \(n\) large and similarly the Student-\emph{t} distribution and the normal distribution are indistinguishable for large degrees of freedom, except far in the tail.
+The \(F\)-test statistic is
+\begin{align*}
+F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}
+\end{align*}
+Under \(\mathscr{H}_0\), the \(F\) statistic follows a \href{https://en.wikipedia.org/wiki/F-distribution}{Fisher distribution} with \((p-k)\) and \((n-p-1)\) degrees of freedom, \(\mathsf{F}(p-k, n-p-1)\) --- \(p-k\) is the number of restrictions, \(n-p-1\) is sample size minus the number of \(\beta\)'s in \(\mathbb{M}_1\).
+
+It turns out that both \(F\) and \(t\)-statistics are equivalent for testing a single coefficient \(\beta_j\): the \(F\)-statistic is the square of the Wald statistic and they lead to the same inference --- the \(p\)-value for the test are identical. While it may get reported in tables, the test for \(\beta_0=0\) is not of interest; we keep the intercept merely to centre the residuals.
+
+It turns out that, for linear regression, the likelihood ratio test is a function of the sum of squared residuals appearing in the \(F\)-statistic formula. The \(p\)-values for the two test statistics would be nearly identical, since they only differ in the choice of estimator of the variance and potentially the null distribution (the \(\chi^2_q\) is only the asymptotic distribution of the test). The tests presented above could thus be viewed as particular cases of \href{liktests}{likelihood-based tests}.
 
 Consider the \texttt{college} data example and the associated linear model with \texttt{rank}, \texttt{sex}, years of \texttt{service} and \texttt{field} as covariates.
-\setlength{\tabcolsep}{6pt}
 
-\begin{table}
-\centering
+\label{tab:summarytestslmcollege}Table of linear regression coefficients with associated standard errors, Wald tests and \emph{p}-values based on Student-\emph{t} distribution
 
-\label{tab:summarytestslmcollege}\begin{tabular}{lrrrl}
-  \multicolumn{1}{l}{Term} & \multicolumn{1}{r}{Estimate} & \multicolumn{1}{r}{SE} & \multicolumn{1}{r}{T-statistic} & \multicolumn{1}{l}{P-value}   \\ 
- \multicolumn{1}{l}{(Intercept)} & \multicolumn{1}{r}{86.6} & \multicolumn{1}{r}{2.96} & \multicolumn{1}{r}{29.25} & \multicolumn{1}{l}{< 0.001}   \\ 
- \multicolumn{1}{l}{sexwoman} & \multicolumn{1}{r}{-4.77} & \multicolumn{1}{r}{3.88} & \multicolumn{1}{r}{-1.23} & \multicolumn{1}{l}{0.22}   \\ 
- \multicolumn{1}{l}{fieldtheoretical} & \multicolumn{1}{r}{-13.47} & \multicolumn{1}{r}{2.32} & \multicolumn{1}{r}{-5.82} & \multicolumn{1}{l}{< 0.001}   \\ 
- \multicolumn{1}{l}{rankassociate} & \multicolumn{1}{r}{14.56} & \multicolumn{1}{r}{4.1} & \multicolumn{1}{r}{3.55} & \multicolumn{1}{l}{< 0.001}   \\ 
- \multicolumn{1}{l}{rankfull} & \multicolumn{1}{r}{49.16} & \multicolumn{1}{r}{3.83} & \multicolumn{1}{r}{12.82} & \multicolumn{1}{l}{< 0.001}   \\ 
- \multicolumn{1}{l}{service} & \multicolumn{1}{r}{-0.09} & \multicolumn{1}{r}{0.11} & \multicolumn{1}{r}{-0.8} & \multicolumn{1}{l}{0.43}   \\ 
+term
 
- \end{tabular}
-\end{table}
+estimate
 
-Neither years of service nor sex are statistically different from zero given all the other variables. The test for \(\beta_{\texttt{sex}}\) is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank.
+std. error
+
+Wald stat.
+
+p-value
+
+(Intercept)
+
+86.596
+
+2.96
+
+29.25
+
+\textless{} 0.001
+
+sexwoman
+
+-4.771
+
+3.878
+
+-1.23
+
+0.22
+
+fieldtheoretical
+
+-13.473
+
+2.315
+
+-5.82
+
+\textless{} 0.001
+
+rankassociate
+
+14.56
+
+4.098
+
+3.55
+
+\textless{} 0.001
+
+rankfull
+
+49.16
+
+3.834
+
+12.82
+
+\textless{} 0.001
+
+service
+
+-0.089
+
+0.112
+
+-0.8
+
+0.43
+
+Table \ref{tab:summarytestslmcollege} shows the estimated coefficients (in thousands of dollars). The coefficients are the least squares estimates \(\widehat{\boldsymbol{\beta}}\), the standard errors are the square root of the diagonal elements of \(S^2(\mathbf{X}^\top\mathbf{X})^{-1}\). The Wald (or \emph{t}-) statistic is simply \(W=\widehat{\beta}/\mathsf{se}(\widehat{\beta})\) for \(\mathscr{H}_0: \beta_j=0\): given two of the three estimates, we could easily recover the third using the formula for the test. The \(p\)-values are for the two-sided alternative test with \(\mathscr{H}_a: \beta_j \neq 0\).
+
+The interpretation is usual: \(p\)-values that are less than our prescribed level \(\alpha\) do not contribute significantly given the other variables already in the model. Neither years of service nor sex are statistically different from zero given all the other variables. The test for \(\beta_{\texttt{sex}}\) is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank.
+
+\label{tab:summaryanovalmcollege}Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, \emph{F}-statistic and associated \emph{p}-value.
+
+variable
+
+sum of square
+
+df
+
+F stat.
+
+p-value
+
+(Intercept)
+
+439059.2
+
+1
+
+855.71
+
+\textless{} 0.001
+
+sex
+
+776.7
+
+1
+
+1.51
+
+0.22
+
+field
+
+17372.5
+
+1
+
+33.86
+
+\textless{} 0.001
+
+rank
+
+102883.1
+
+2
+
+100.26
+
+\textless{} 0.001
+
+service
+
+324.5
+
+1
+
+0.63
+
+0.43
+
+Residuals
+
+200620.4
+
+391
+
+Table \ref{tab:summaryanovalmcollege} gives the \(F\)-statistics values and the associated \(p\)-values. You can verify that (up to rounding) these values are identical to those of the Wald test in the output when \texttt{df=1}. The only categorical variable here with more than one level is \texttt{rank}, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.
+
+We could have also easily compute the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the \(\chi^2_2\) distribution (both likelihood ratio test and \(F\)-test give a \(p\)-value of \(2.2 \times 10^{-16}\)).
 
 \hypertarget{likelihood}{%
 \chapter{Likelihood-based inference}\label{likelihood}}
@@ -1577,8 +1769,8 @@ Sometimes, the \(p\)-parameter vector \(\boldsymbol{\theta}\) of the likelihood 
 
 Consider the metro waiting time example. The quantity of interest is the reciprocal mean \(\phi = 1/\theta\), so the scalar function of interest is \(g(x) = 1/x\) and the maximum likelihood estimate \(\hat{\phi}=3.058\) is the sample mean of waiting times. The gradient of the transformation is \(\nabla \phi = -1/x^2\), which gives \(\mathrm{V}_\phi = (\theta^2/n)/\theta^4 = 1/(n\theta^2) = \phi^2/n\) and the standard error of the maximum likelihood estimator is thus approximately \(\widehat{\phi}/\sqrt{n}\) in large samples.
 
-\hypertarget{likelihood-based-tests}{%
-\section{Likelihood-based tests}\label{likelihood-based-tests}}
+\hypertarget{liktests}{%
+\section{Likelihood-based tests}\label{liktests}}
 
 Oftentimes, we wish to compare two models: the model implied by the null hypothesis, which is a restriction or simpler version of the full model. Models are said to be \textbf{nested} if we can obtain one from the other by imposing restrictions on the parameters.
 
@@ -2040,30 +2232,6 @@ using the \href{http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calc
  \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
 \end{align*}
 If the \(n \times p\) matrix \(\mathbf{X}\) is full-rank, the quadratic form \(\mathbf{X}^\top \mathbf{X}\) is invertible and we obtain the solution to the least square problems provided in Equation \eqref{eq:ols}.
-
-\hypertarget{ftestslm}{%
-\section{\texorpdfstring{\emph{F}-tests for comparison of nested linear models}{F-tests for comparison of nested linear models}}\label{ftestslm}}
-
-Consider the \emph{full} linear model which contains \(p\) predictors,
-\begin{align*}
-\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
-\end{align*}
-Suppose without loss of generality that we want to test \(\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0\) (one could permute columns of the design matrix to achieve this configuration).
-The global hypothesis specifies that \((p-k)\) of the \(\beta\) parameters are zero. The \emph{restricted model} corresponding to the null hypothesis contains only the covariates for which \(\beta_j \neq 0\),
-\begin{align*}
-\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
-\end{align*}
-Let \(\mathsf{SS}_e(\mathbb{M}_1)\) be the residuals sum of squares for model \(\mathbb{M}_1\),
-\begin{align*}
-\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\hat{Y}_i^{\mathbb{M}_1})^2,
-\end{align*}
-where \(\hat{Y}_i^{\mathbb{M}_1}\) is the \(i\)th fitted value from \(\mathbb{M}_1\). Similarly define \(\mathsf{SS}_e(\mathbb{M}_0)\) for the residuals sum of square of \(\mathbb{M}_0\). Clearly, \(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\) (why?)
-
-The \(F\)-test statistic is
-\begin{align*}
-F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}
-\end{align*}
-Under \(\mathscr{H}_0\), the \(F\)statistic follows a \href{https://en.wikipedia.org/wiki/F-distribution}{Fisher distribution} with \((p-k)\) and \((n-p-1)\) degrees of freedom, \(\mathsf{F}(p-k, n-p-1)\) --- \(p-k\) is the number of restrictions, \(n-p-1\) is sample size minus the number of \(\beta\)'s in \(\mathbb{M}_1\).
 
 \hypertarget{appendix-appendix}{%
 \appendix}
