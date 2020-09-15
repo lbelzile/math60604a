@@ -35,7 +35,7 @@ While least squares admit a closed-form solution, the maximum of the log-likelih
 The **observed information matrix** is the hessian $j(\boldsymbol{\theta}; \boldsymbol{y})=-\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})/\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top$ evaluated at the maximum likelihood estimate $\widehat{\boldsymbol{\theta}}$.
 Under regularity conditions, the Fisher information matrix is
 \begin{align*}
-i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = -\mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
+i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = \mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
 \end{align*}
 The Fisher (or expected) and observed information matrices encodes the curvature of the log-likelihood and provides information about the variability of $\widehat{\boldsymbol{\theta}}$.
 
@@ -139,7 +139,7 @@ where $\mathsf{SS}_e$ is the sum of squared residuals. The usual unbiased estima
 Sometimes, the $p$-parameter vector $\boldsymbol{\theta}$ of the likelihood is not the quantity of interest. Suppose for simplicity we are interested in a scalar function $\phi = g(\boldsymbol{\theta})$. The maximum likelihood estimate of $\phi$ is $\widehat{\phi}=g(\widehat{\boldsymbol{\theta}})$. This property of maximum likelihood estimators justifies their widespread use. In large samples, $\widehat{\boldsymbol{\theta}}$ is centered at the true value $\boldsymbol{\theta}_0$ and is approximately multivariate normal with $\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{No}_p(\boldsymbol{\theta}_0, \mathbf{V}_{\boldsymbol{\theta}})$, then 
 $\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{No}(\phi_0, \mathrm{V}_\phi)$, with $\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi$, where $\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top$. In applications, the variance matrix and the gradient vector are evaluated at the maximum likelihood estimate $\widehat{\boldsymbol{\theta}}$
 
-Consider the metro waiting time example. The quantity of interest is the reciprocal mean $\phi = 1/\theta$, so the scalar function of interest is $g(x) = 1/x$ and the maximum likelihood estimate $\hat{\phi}=`r mean(wt)`$ is the sample mean of waiting times. The gradient of the transformation is $\nabla \phi =  -1/x^2$, which gives $\mathrm{V}_\phi = (\theta^2/n)/\theta^4 = 1/(n\theta^2) = \phi^2/n$ and the standard error of the maximum likelihood estimator is thus approximately  $\widehat{phi}/\sqrt{n}$ in large samples.
+Consider the metro waiting time example. The quantity of interest is the reciprocal mean $\phi = 1/\theta$, so the scalar function of interest is $g(x) = 1/x$ and the maximum likelihood estimate $\hat{\phi}=`r mean(wt)`$ is the sample mean of waiting times. The gradient of the transformation is $\nabla \phi =  -1/x^2$, which gives $\mathrm{V}_\phi = (\theta^2/n)/\theta^4 = 1/(n\theta^2) = \phi^2/n$ and the standard error of the maximum likelihood estimator is thus approximately $\widehat{\phi}/\sqrt{n}$ in large samples.
 
 
 ## Likelihood-based tests
