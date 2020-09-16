@@ -193,7 +193,6 @@ The equation of the simple linear model that includes the binary variable $\text
 A linear model that only contains a binary variable $\mathrm{X}$ as regressor amounts to specifying a different mean for each of two groups: the average of women is $\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1$ and $\beta_1=\mu_1-\mu_0$ represents the difference between the average salary of men and women. The least square estimator $\widehat{\beta}_0$ is the sample mean of men and $\widehat{\beta}_1$ is the difference of the sample mean of women and men. The parametrization of the linear model with $\beta_0$ and $\beta_1$ is in terms of **contrasts** and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing $\mathscr{H}_0: \beta_1=0$. If we wanted our model to directly output the sample means, we would need to replace the design matrix $\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]$ by $[\mathbf{1}_n- \texttt{sex},  \texttt{sex}]$. The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behaviour (more on this latter).
 
 ```{r graphcollegesex, eval = TRUE, echo = FALSE, fig.cap = "Simple linear model for the $\\texttt{college}$ data using the binary variable sex as regressor: even if the equation defines a line, only its values in $0/1$ are realistic."}
-labelVector::set_label(college, rank = "academic rank", field = "field", years = "years since PhD", service = "years of service", sex = "sex", salary = "salary (in USD)")
 college$sexbin <- as.integer(relevel(college$sex, ref = "man")) - 1L
 coefs <- coef(lm(data = college, salary ~ sexbin))
 ggplot(data = college, aes(x = sexbin, y = salary, group = sex)) + 
@@ -389,7 +388,7 @@ Under $\mathscr{H}_0$, the $F$ statistic follows a [Fisher distribution](https:/
 
 It turns out that both $F$ and $t$-statistics are equivalent for testing a single coefficient $\beta_j$: the $F$-statistic is the square of the Wald statistic and they lead to the same inference --- the $p$-value for the test are identical. While it may get reported in tables, the test for $\beta_0=0$ is not of interest; we keep the intercept merely to centre the residuals.
 
-It turns out that, for linear regression, the likelihood ratio test is a function of the sum of squared residuals appearing in the $F$-statistic formula. The $p$-values for the two test statistics would be nearly identical, since they only differ in the choice of estimator of the variance and potentially the null distribution (the $\chi^2_q$ is only the asymptotic distribution of the test). The tests presented above could thus be viewed as particular cases of [likelihood-based tests](liktests).
+For normal linear regression, the likelihood ratio test for comparing models $\mathbb{M}_1$ and $\mathbb{M}_0$ is a function of the sum of squared residuals: the usual formula simplifies to $R = n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}$. This is reminiscent of the $F$-statistic formula and the two are in fact intimately related modulo null distribution and scaling (we could obtain the exact distribution of the test rather than use the asymptotic $\chi^2_q$ reference). The $t$-tests and $F$-tests presented above could thus both be viewed as particular cases of [likelihood-based tests](liktests).
 
 
 Consider the `college` data example and the associated linear model with `rank`, `sex`, years of `service` and `field` as covariates.
@@ -414,6 +413,7 @@ Consider the `college` data example and the associated linear model with `rank`,
 library(kableExtra)
 options(knitr.kable.NA = '')
 library(pixiedust)
+names(college_lm$coefficients)[2:5] <- c("sex [woman]","field [theoretical]","rank [associate]", "rank [full]")
 dust(college_lm) %>%
   sprinkle(col = 2:3, round = 3) %>%
   sprinkle(col = 4, round = 2) %>% 
@@ -446,7 +446,7 @@ dust(car::Anova(college_lm, type=3),
 knitr::kable(caption = "Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, _F_-statistic and associated _p_-value.", booktabs = TRUE, align = c("lrrrr"))
 ```
 
-Table \@ref(tab:summaryanovalmcollege) gives the $F$-statistics values and the associated $p$-values. You can verify that (up to rounding) these values are identical to those of the Wald test in the output when `df=1`. The only categorical variable here with more than one level is `rank`, and it is strongly significant: removing it from the model leads to a sharp decrease in fit. 
+Table \@ref(tab:summaryanovalmcollege) gives the $F$-statistics values and the associated $p$-values. The sum of squares represent the difference $\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)$ for various null models $\mathbb{M}_0$, except the last line for residuals which reports $\mathsf{SS}_e(\mathbb{M}_1)$. You can verify that (up to rounding) these $p$-pvalues are identical to those of the Wald test in the output when `df=1`. The only categorical variable here with more than one level is `rank`, and it is strongly significant: removing it from the model leads to a sharp decrease in fit. 
 
-We could have also easily compute the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is `r as.numeric(logLik(college_lm))` and that of the model without rank is `r as.numeric(logLik(update(college_lm, ~.-rank)))`, so the likelihood ratio statistic would be `r 2*(as.numeric(logLik(college_lm))-as.numeric(logLik(update(college_lm, ~.-rank))))` and this is strongly significant when compared to the $\chi^2_2$ distribution (both likelihood ratio test and $F$-test give a $p$-value of $2.2 \times 10^{-16}$).
+We could have also easily computed the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is `r as.numeric(logLik(college_lm))` and that of the model without rank is `r as.numeric(logLik(update(college_lm, ~.-rank)))`, so the likelihood ratio statistic would be `r 2*(as.numeric(logLik(college_lm))-as.numeric(logLik(update(college_lm, ~.-rank))))` and this is strongly significant when compared to the $\chi^2_2$ distribution (both likelihood ratio test and $F$-test give a $p$-value of $2.2 \times 10^{-16}$).
 

@@ -338,20 +338,6 @@ The equation of the simple linear model that includes the binary variable <span 
 \end{cases}
 \end{align*}\]</span>
 A linear model that only contains a binary variable <span class="math inline">\(\mathrm{X}\)</span> as regressor amounts to specifying a different mean for each of two groups: the average of women is <span class="math inline">\(\mathsf{E}(\texttt{salary} \mid \texttt{sex}=1) = \beta_0 + \beta_1 = \mu_1\)</span> and <span class="math inline">\(\beta_1=\mu_1-\mu_0\)</span> represents the difference between the average salary of men and women. The least square estimator <span class="math inline">\(\widehat{\beta}_0\)</span> is the sample mean of men and <span class="math inline">\(\widehat{\beta}_1\)</span> is the difference of the sample mean of women and men. The parametrization of the linear model with <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> is in terms of <strong>contrasts</strong> and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing <span class="math inline">\(\mathscr{H}_0: \beta_1=0\)</span>. If we wanted our model to directly output the sample means, we would need to replace the design matrix <span class="math inline">\(\mathbf{X}=[\mathbf{1}_n, \texttt{sex}]\)</span> by <span class="math inline">\([\mathbf{1}_n- \texttt{sex}, \texttt{sex}]\)</span>. The fitted model would be the same because they span the same 2D subspace, but this is not recommended because software treat cases without intercept differently and it can lead to unexpected behaviour (more on this latter).</p>
-<pre><code>## # A tibble: 397 x 6
-##    rank      field   years      service    sex   salary    
-##    &lt;fct&gt;     &lt;fct&gt;   &lt;labelled&gt; &lt;labelled&gt; &lt;fct&gt; &lt;labelled&gt;
-##  1 full      applied 19         18         man   139.8     
-##  2 full      applied 20         16         man   173.2     
-##  3 assistant applied  4          3         man    79.8     
-##  4 full      applied 45         39         man   115.0     
-##  5 full      applied 40         41         man   141.5     
-##  6 associate applied  6          6         man    97.0     
-##  7 full      applied 30         23         man   175.0     
-##  8 full      applied 45         45         man   147.8     
-##  9 full      applied 21         20         man   119.2     
-## 10 full      applied 18         18         woman 129.0     
-## # … with 387 more rows</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:graphcollegesex"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/graphcollegesex-1.png" alt="Simple linear model for the $\texttt{college}$ data using the binary variable sex as regressor: even if the equation defines a line, only its values in $0/1$ are realistic." width="70%" />
 <p class="caption">
@@ -514,7 +500,7 @@ F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\math
 \end{align*}\]</span>
 Under <span class="math inline">\(\mathscr{H}_0\)</span>, the <span class="math inline">\(F\)</span> statistic follows a <a href="https://en.wikipedia.org/wiki/F-distribution">Fisher distribution</a> with <span class="math inline">\((p-k)\)</span> and <span class="math inline">\((n-p-1)\)</span> degrees of freedom, <span class="math inline">\(\mathsf{F}(p-k, n-p-1)\)</span> — <span class="math inline">\(p-k\)</span> is the number of restrictions, <span class="math inline">\(n-p-1\)</span> is sample size minus the number of <span class="math inline">\(\beta\)</span>’s in <span class="math inline">\(\mathbb{M}_1\)</span>.</p>
 <p>It turns out that both <span class="math inline">\(F\)</span> and <span class="math inline">\(t\)</span>-statistics are equivalent for testing a single coefficient <span class="math inline">\(\beta_j\)</span>: the <span class="math inline">\(F\)</span>-statistic is the square of the Wald statistic and they lead to the same inference — the <span class="math inline">\(p\)</span>-value for the test are identical. While it may get reported in tables, the test for <span class="math inline">\(\beta_0=0\)</span> is not of interest; we keep the intercept merely to centre the residuals.</p>
-<p>It turns out that, for linear regression, the likelihood ratio test is a function of the sum of squared residuals appearing in the <span class="math inline">\(F\)</span>-statistic formula. The <span class="math inline">\(p\)</span>-values for the two test statistics would be nearly identical, since they only differ in the choice of estimator of the variance and potentially the null distribution (the <span class="math inline">\(\chi^2_q\)</span> is only the asymptotic distribution of the test). The tests presented above could thus be viewed as particular cases of <a href="liktests">likelihood-based tests</a>.</p>
+<p>For normal linear regression, the likelihood ratio test for comparing models <span class="math inline">\(\mathbb{M}_1\)</span> and <span class="math inline">\(\mathbb{M}_0\)</span> is a function of the sum of squared residuals: the usual formula simplifies to <span class="math inline">\(R = n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}\)</span>. This is reminiscent of the <span class="math inline">\(F\)</span>-statistic formula and the two are in fact intimately related modulo null distribution and scaling (we could obtain the exact distribution of the test rather than use the asymptotic <span class="math inline">\(\chi^2_q\)</span> reference). The <span class="math inline">\(t\)</span>-tests and <span class="math inline">\(F\)</span>-tests presented above could thus both be viewed as particular cases of <a href="liktests">likelihood-based tests</a>.</p>
 Consider the <code>college</code> data example and the associated linear model with <code>rank</code>, <code>sex</code>, years of <code>service</code> and <code>field</code> as covariates.
 <table>
 <caption>
@@ -559,7 +545,7 @@ p-value
 </tr>
 <tr>
 <td style="text-align:left;">
-sexwoman
+sex [woman]
 </td>
 <td style="text-align:right;">
 -4.771
@@ -576,7 +562,7 @@ sexwoman
 </tr>
 <tr>
 <td style="text-align:left;">
-fieldtheoretical
+field [theoretical]
 </td>
 <td style="text-align:right;">
 -13.473
@@ -593,7 +579,7 @@ fieldtheoretical
 </tr>
 <tr>
 <td style="text-align:left;">
-rankassociate
+rank [associate]
 </td>
 <td style="text-align:right;">
 14.56
@@ -610,7 +596,7 @@ rankassociate
 </tr>
 <tr>
 <td style="text-align:left;">
-rankfull
+rank [full]
 </td>
 <td style="text-align:right;">
 49.16
@@ -772,8 +758,8 @@ Residuals
 </tr>
 </tbody>
 </table>
-<p>Table <a href="linear-regression.html#tab:summaryanovalmcollege">2.4</a> gives the <span class="math inline">\(F\)</span>-statistics values and the associated <span class="math inline">\(p\)</span>-values. You can verify that (up to rounding) these values are identical to those of the Wald test in the output when <code>df=1</code>. The only categorical variable here with more than one level is <code>rank</code>, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.</p>
-<p>We could have also easily compute the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the <span class="math inline">\(\chi^2_2\)</span> distribution (both likelihood ratio test and <span class="math inline">\(F\)</span>-test give a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(2.2 \times 10^{-16}\)</span>).</p>
+<p>Table <a href="linear-regression.html#tab:summaryanovalmcollege">2.4</a> gives the <span class="math inline">\(F\)</span>-statistics values and the associated <span class="math inline">\(p\)</span>-values. The sum of squares represent the difference <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\)</span> for various null models <span class="math inline">\(\mathbb{M}_0\)</span>, except the last line for residuals which reports <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_1)\)</span>. You can verify that (up to rounding) these <span class="math inline">\(p\)</span>-pvalues are identical to those of the Wald test in the output when <code>df=1</code>. The only categorical variable here with more than one level is <code>rank</code>, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.</p>
+<p>We could have also easily computed the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the <span class="math inline">\(\chi^2_2\)</span> distribution (both likelihood ratio test and <span class="math inline">\(F\)</span>-test give a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(2.2 \times 10^{-16}\)</span>).</p>
 
 </div>
 </div>
