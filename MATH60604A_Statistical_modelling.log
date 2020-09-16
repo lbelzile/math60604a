@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.8)  15 SEP 2020 21:02
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.8)  16 SEP 2020 15:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1445,17 +1445,20 @@ LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
 [61]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1890.
+(Font)              using `TU/put/m/it' instead on input line 1887.
 
 [62]
+File: MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1.pdf Gra
+phic file (type pdf)
+<use MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1.pdf>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1901.
+(Font)              using `TU/put/m/it' instead on input line 1910.
 
 [63]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1901.
+(Font)              using `TU/put/m/it' instead on input line 1912.
 
 [64]
 Chapter 4.
@@ -1464,7 +1467,7 @@ Chapter 4.
 ]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1904.
+(Font)              using `TU/put/m/it' instead on input line 1915.
 
 [66
 
@@ -1473,7 +1476,7 @@ Chapter 5.
 [67]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1907.
+(Font)              using `TU/put/m/it' instead on input line 1918.
 
 [68
 
@@ -1482,7 +1485,7 @@ Chapter 6.
 [69]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1910.
+(Font)              using `TU/put/m/it' instead on input line 1921.
 
 [70
 
@@ -1491,7 +1494,7 @@ Chapter 7.
 [71]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1913.
+(Font)              using `TU/put/m/it' instead on input line 1924.
 
 [72
 
@@ -1502,32 +1505,32 @@ File: images/02-ttest-DF_illustration.png Graphic file (type bmp)
 <images/02-ttest-DF_illustration.png>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1963.
+(Font)              using `TU/put/m/it' instead on input line 1974.
 
 [74]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 1973.
+(Font)              using `TU/put/m/it' instead on input line 1984.
 
 [75]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2011.
+(Font)              using `TU/put/m/it' instead on input line 2022.
 
 [76]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2049.
+(Font)              using `TU/put/m/it' instead on input line 2060.
 
 [77]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2077.
+(Font)              using `TU/put/m/it' instead on input line 2088.
 
 [78]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2106.
+(Font)              using `TU/put/m/it' instead on input line 2117.
 
 [79]
 File: MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf Gr
@@ -1535,12 +1538,12 @@ aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2134.
+(Font)              using `TU/put/m/it' instead on input line 2145.
 
 [80]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2158.
+(Font)              using `TU/put/m/it' instead on input line 2169.
 
 [81]
 File: MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf Graphi
@@ -1548,7 +1551,7 @@ c file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2185.
+(Font)              using `TU/put/m/it' instead on input line 2196.
 
 [82]
 File: MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf Gr
@@ -1556,59 +1559,59 @@ aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2202.
+(Font)              using `TU/put/m/it' instead on input line 2213.
 
 [83]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2202.
+(Font)              using `TU/put/m/it' instead on input line 2213.
 
 [84
 
 ]
 Chapter 9.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2212--2214
+Underfull \hbox (badness 10000) in paragraph at lines 2223--2225
 
  []
 
 [85]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2230.
+(Font)              using `TU/put/m/it' instead on input line 2241.
 
 [86
 
 ] [87]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2335.
+(Font)              using `TU/put/m/it' instead on input line 2346.
 
 [88]
 File: images/caution.png Graphic file (type bmp)
 <images/caution.png>
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2389.
+(Font)              using `TU/put/m/it' instead on input line 2400.
 
 [89]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2446.
+(Font)              using `TU/put/m/it' instead on input line 2457.
 
 [90]
 File: images/note.png Graphic file (type bmp)
 <images/note.png>
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 2454.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 2465.
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2468.
+(Font)              using `TU/put/m/it' instead on input line 2479.
 
 [91]
 
 LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
-(Font)              using `TU/put/m/it' instead on input line 2525.
+(Font)              using `TU/put/m/it' instead on input line 2536.
 
 [92] (./MATH60604A_Statistical_modelling.bbl
 
@@ -1623,21 +1626,21 @@ LaTeX Font Warning: Font shape `TU/put/m/sl' undefined
 [94
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2553.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2564.
 [95]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2553.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2564.
 (./MATH60604A_Statistical_modelling.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 2553.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 2553.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 2564.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 2564.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 20654 strings out of 479487
- 372151 string characters out of 5885553
- 820553 words of memory out of 5000000
- 37732 multiletter control sequences out of 15000+600000
+ 20662 strings out of 479487
+ 372623 string characters out of 5885553
+ 821177 words of memory out of 5000000
+ 37739 multiletter control sequences out of 15000+600000
  544733 words of font info for 120 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  58i,16n,118p,1240b,490s stack positions out of 5000i,500n,10000p,200000b,80000s

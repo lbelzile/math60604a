@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-15.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-16.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -1881,7 +1881,18 @@ The maximum profile likelihood estimator is the value \(\lambda\) minimizes the 
 \caption{Profile log-likelihood for the Box--Cox transformation for the waiting time data}\label{fig:profileplot}
 \end{figure}
 
-Figure \ref{fig:profileplot} shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately 0.37 would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of \(\lambda\), \((0.12, 0.13)\), at which the curve intersects the horizontal grey line drawn at \(-\chi^2_1/2\). The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an \emph{ad hoc} choice of transformation, one could choose a log transformation if the value \(0\) is included within the 95\% confidence interval since this improves interpretability.
+Figure \ref{fig:profileplot} shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately \(0.37\) would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of \(\lambda\), \((0.12, 0.69)\), at which the curve intersects the horizontal grey line drawn at \(-\chi^2_1/2\). The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an \emph{ad hoc} choice of transformation, one could choose a log transformation if the value \(0\) is included within the 95\% confidence interval since this improves interpretability.
+
+We could use the profile likelihood ratio test to obtain confidence intervals for the regression coefficients of the mean model. Consider for simplicity the normal simple linear model, \(\boldsymbol{Y} \sim \mathsf{No}_n(\beta_0 + \beta_1\mathbf{X}_1, \sigma^2)\). The profile for the slope parameter \(\beta_1\) can be obtained by maximizing the log-likelihood for fixed \(\beta_1=b\), say: to achieve this, note that this amounts to \(\boldsymbol{Y}-b\mathbf{X}_1 \sim \mathsf{No}_n(\beta_0, \sigma^2)\) and so the estimator would correspond to \(\widehat{\beta}_{0}^{(b)}=n^{-1} \sum_{i=1}^n (Y_i-b\mathrm{X}_i)\) and \(\sigma^2 = n^{-1}\). With more than one covariate, we could obtain the value of \(\boldsymbol{\beta}_{-j}^{(b)}\) by running least squares and use the residuals to compute the maximum likelihood estimate \(\widehat{\sigma}^{2(b)}\) of the variance.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1} 
+
+}
+
+\caption{Profile log-likelihood for $\beta_1$ in the simple linear regression model for simulated data. The function has been so its value at the maximum likelihood estimate is zero. The horizontal cutoff marks minus half the $0.95$ quantile of the $\chi^2_1$ distribution, with vertical lines indicating the maximum likelihood estimate (red) and 95\% confidence interval (dashed gray). Because of the normality assumption of the linear regression model, the sampling distribution is exactly normally distribution, the profile is symmetric and the Wald and profile likelihood ratio based confidence intervals agree.}\label{fig:profilebeta}
+\end{figure}
 
 \hypertarget{information-criteria}{%
 \section{Information criteria}\label{information-criteria}}

@@ -296,11 +296,61 @@ plot(x = bc$x,
 y = bc$y - max(bc$y), 
 bty = "l", type = "l", ylab = "profile log-likelihood", xlab = expression(lambda), 
 panel.first = {abline(h = -qchisq(0.95, 1)/2, col = "grey")})
-confind <- which(diff(bc$x[bc$y-max(bc$y) < -qchisq(0.95, 1)/2]) > 0.011)
+xc <- bc$x[bc$y-max(bc$y) < -qchisq(0.95, 1)/2]
+confind <- which(diff(xc) > 0.011)
 ```
 
-Figure \@ref(fig:profileplot) shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately `r bc$x[which.max(bc$y)]` would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of $\lambda$, $(`r bc$x[confind]`, `r bc$x[confind+1]`)$, at which the curve intersects the horizontal grey line drawn at $-\chi^2_1/2$. The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an *ad hoc* choice of transformation, one could choose a log transformation if the value $0$ is included within the 95\% confidence interval since this improves interpretability.
+Figure \@ref(fig:profileplot) shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately $`r bc$x[which.max(bc$y)]`$ would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of $\lambda$, $(`r xc[confind]`, `r xc[confind+1]`)$, at which the curve intersects the horizontal grey line drawn at $-\chi^2_1/2$. The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an *ad hoc* choice of transformation, one could choose a log transformation if the value $0$ is included within the 95\% confidence interval since this improves interpretability.
 
+We could use the profile likelihood ratio test to obtain confidence intervals for the regression coefficients of the mean model. Consider for simplicity the normal simple linear model, $\boldsymbol{Y} \sim \mathsf{No}_n(\beta_0 + \beta_1\mathbf{X}_1, \sigma^2)$. The profile for the slope parameter $\beta_1$ can be obtained by maximizing the log-likelihood for fixed $\beta_1=b$, say: to achieve this, note that this amounts to $\boldsymbol{Y}-b\mathbf{X}_1 \sim \mathsf{No}_n(\beta_0, \sigma^2)$ and so the estimator would correspond to $\widehat{\beta}_{0}^{(b)}=n^{-1} \sum_{i=1}^n (Y_i-b\mathrm{X}_i)$ and $\sigma^2 = n^{-1}$. With more than one covariate, we could obtain the value of $\boldsymbol{\beta}_{-j}^{(b)}$ by running least squares and use the residuals to compute the maximum likelihood estimate $\widehat{\sigma}^{2(b)}$ of the variance.
+
+```{r profilebeta, eval = TRUE, echo = FALSE, fig.cap = "Profile log-likelihood for $\\beta_1$ in the simple linear regression model for simulated data. The function has been so its value at the maximum likelihood estimate is zero. The horizontal cutoff marks minus half the $0.95$ quantile of the $\\chi^2_1$ distribution, with vertical lines indicating the maximum likelihood estimate (red) and 95\\% confidence interval (dashed gray). Because of the normality assumption of the linear regression model, the sampling distribution is exactly normally distribution, the profile is symmetric and the Wald and profile likelihood ratio based confidence intervals agree."}
+# Plot profile log-likelihood for a particular dataset
+set.seed(1234)
+# Simulate fake data from a linear model
+n <- 40 #number of observations
+X1 <- rpois(n = n, lambda = 2) # covariate (fixed hereafter)
+
+# The sampling distribution of the ordinary least squares estimatrs is
+# beta_hat ~ N(beta, sigma^2*(X^TX)^(-1))
+design_mat <- cbind(1, X1)
+# These are the standard dev for betahat (sigma=1)
+theo_se <- sqrt(diag(solve(crossprod(design_mat))))
+eps <- rnorm(n, mean = 0, sd = 1)
+Y <- 8 + 0.2 * X1 + eps
+mod1 <- lm(Y ~ X1)
+
+# Maximum likelihood estimates (MLE) = Ordinary least square (OLS)
+beta1hat <- coef(mod1)[2]
+# Compute the value of the maximum (profile) log-likelihood
+# which is value at MLE
+mll <- as.numeric(logLik(mod1))
+
+# Profile log-likelihood value
+pll <- function(beta){
+  sapply(beta, function(b){
+    as.numeric(logLik(lm(Y - b*X1 ~ 1)))
+  })
+}
+ci_lrt_lb <- uniroot(function(x){2*(mll - pll(x)) - qchisq(0.95,1)}, 
+                     interval = c(beta1hat-3, beta1hat))$root
+ci_lrt_ub <- uniroot(function(x){2*(mll - pll(x)) - qchisq(0.95,1)}, 
+                     interval = c(beta1hat, beta1hat+3))$root
+
+beta_grid <- seq(from = -2*theo_se[1] + 0.2, to = 2*theo_se[1] + 0.2, length.out = 101)
+ggplot(data.frame(beta = beta_grid, 
+                pll = pll(beta_grid)-mll),
+       aes(x = beta, y = pll)) + 
+  geom_line() + 
+  geom_vline(xintercept = coef(mod1)[2], col = "red") + 
+  geom_hline(yintercept = -qchisq(0.95, 1)/2) + 
+  geom_vline(xintercept = ci_lrt_lb, col = "gray", lty = 2) + 
+  geom_vline(xintercept = ci_lrt_ub, col = "gray", lty = 2) +
+  ylab("profile log-likelihood") + 
+   xlab(expression(beta[1])) # + 
+# geom_vline(xintercept = coef(mod1)[2]-qnorm(0.975)*sqrt(diag(vcov(mod1))[2]), col = "gray", lty = 3) + 
+#   geom_vline(xintercept = coef(mod1)[2]+qnorm(0.975)*sqrt(diag(vcov(mod1))[2]), col = "gray", lty = 3) 
+```
 
 ## Information criteria
 
