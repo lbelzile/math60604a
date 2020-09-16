@@ -1955,7 +1955,7 @@ If \(Y\) is discrete, then it has atoms of non-zero probability and the mass fun
 \end{figure}
 
 \hypertarget{moments}{%
-\section{Moments}\label{moments}}
+\subsection{Moments}\label{moments}}
 
 One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
 
@@ -1976,6 +1976,9 @@ The mean squared error is an objective function consisting of the sum of the squ
 An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.
 
 The likelihood of a sample is the joint density of the \(n\) observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.
+
+\hypertarget{discrete-distributions}{%
+\subsection{Discrete distributions}\label{discrete-distributions}}
 
 \begin{example}[Bernoulli distribution]
 \protect\hypertarget{exm:bernoullidist}{}{\label{exm:bernoullidist} \iffalse (Bernoulli distribution) \fi{} }We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being \(\pi\) so \(\mathsf{Pr}(Y=1)=\pi\) and \(\mathsf{Pr}(Y=0)=1-\pi\) (complementary event). The mass function of the \href{https://en.wikipedia.org/wiki/Bernoulli_distribution}{Bernoulli distribution} is thus
@@ -2052,6 +2055,9 @@ In the context of generalized linear models, we will employ yet another parametr
 where \(\Gamma\) is the gamma function and the parameter \(r>0\) is not anymore integer valued. The expectation and variance of \(Y\) are
 \(\mathsf{E}(Y)=\mu\) et \(\mathsf{Va}(Y)=\mu+k\mu^2\), where \(k=1/r\). The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
 \end{example}
+
+\hypertarget{continuous-distributions}{%
+\subsection{Continuous distributions}\label{continuous-distributions}}
 
 We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.
 

@@ -35,7 +35,7 @@ knitr::include_graphics('images/02-ttest-DF_illustration.png')
 ```
 
 
-## Moments 
+### Moments 
 
 One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
 
@@ -60,7 +60,8 @@ An alternative to this criterion is to optimize a function such as the likelihoo
 
 The likelihood of a sample is the joint density of the $n$ observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.
 
- 
+### Discrete distributions
+
 ```{example, label="bernoullidist", name="Bernoulli distribution"}
 We consider a binary event such as coin toss (heads/tails). In general, the two events are  associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being $\pi$ so $\mathsf{Pr}(Y=1)=\pi$ and $\mathsf{Pr}(Y=0)=1-\pi$ (complementary event). The mass function of the [Bernoulli distribution](https://en.wikipedia.org/wiki/Bernoulli_distribution) is thus
 \begin{align*}
@@ -130,6 +131,7 @@ where $\Gamma$ is the gamma function and the parameter $r>0$ is not anymore inte
 $\mathsf{E}(Y)=\mu$ et $\mathsf{Va}(Y)=\mu+k\mu^2$, where $k=1/r$. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
 ```
 
+### Continuous distributions
 <!-- Most of the continuous distributions encountered in this course give the  -->
 We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics. 
 

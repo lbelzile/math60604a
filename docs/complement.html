@@ -200,9 +200,8 @@ In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabi
 Figure 8.1: (Cumulative) distribution functions (top) and density/mass functions (bottom) of continuous (left) and discrete (right) random variables.
 </p>
 </div>
-</div>
-<div id="moments" class="section level2" number="8.3">
-<h2><span class="header-section-number">8.3</span> Moments</h2>
+<div id="moments" class="section level3" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Moments</h3>
 <p>One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.</p>
 <p>Let <span class="math inline">\(Y\)</span> be a random variable with density (or mass) function <span class="math inline">\(f(x)\)</span>. This function is non-negative and satisfies <span class="math inline">\(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\)</span>: the integral over a set <span class="math inline">\(B\)</span> gives the probability of <span class="math inline">\(Y\)</span> falling inside <span class="math inline">\(B \in \mathbb{R}\)</span>.</p>
 <p>The expectation (or theoretical mean) of a continuous random variable <span class="math inline">\(Y\)</span> is <span class="math display">\[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]</span>
@@ -216,6 +215,9 @@ The unbiased estimator of the mean of <span class="math inline">\(Y\)</span> is 
 The mean squared error is an objective function consisting of the sum of the squared bias and the variance.</p>
 <p>An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.</p>
 <p>The likelihood of a sample is the joint density of the <span class="math inline">\(n\)</span> observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.</p>
+</div>
+<div id="discrete-distributions" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Discrete distributions</h3>
 
 <div class="example">
 <p><span id="exm:bernoullidist" class="example"><strong>Example 8.2  (Bernoulli distribution)  </strong></span>We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being <span class="math inline">\(\pi\)</span> so <span class="math inline">\(\mathsf{Pr}(Y=1)=\pi\)</span> and <span class="math inline">\(\mathsf{Pr}(Y=0)=1-\pi\)</span> (complementary event). The mass function of the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> is thus
@@ -276,6 +278,9 @@ In the context of generalized linear models, we will employ yet another parametr
 where <span class="math inline">\(\Gamma\)</span> is the gamma function and the parameter <span class="math inline">\(r&gt;0\)</span> is not anymore integer valued. The expectation and variance of <span class="math inline">\(Y\)</span> are
 <span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, where <span class="math inline">\(k=1/r\)</span>. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
 </div>
+</div>
+<div id="continuous-distributions" class="section level3" number="8.2.3">
+<h3><span class="header-section-number">8.2.3</span> Continuous distributions</h3>
 <!-- Most of the continuous distributions encountered in this course give the  -->
 <p>We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.</p>
 
@@ -310,8 +315,9 @@ f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2
 the distribution has polynomial tails, is symmetric around <span class="math inline">\(0\)</span> and unimodal. As <span class="math inline">\(\nu \to \infty\)</span>, the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first <span class="math inline">\(\nu-1\)</span> moments of the distribution exist, so a Student distribution with <span class="math inline">\(\nu=2\)</span> degrees of freedom has infinite variance.</p>
 For normally distributed data, the centered sample mean divided by the sample variance, <span class="math inline">\((\overline{Y}-\mu)/S^2\)</span> follows a Student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom, which explains the terminology <span class="math inline">\(t\)</span>-tests.
 </div>
-<div id="diagramme-qq" class="section level3" number="8.3.1">
-<h3><span class="header-section-number">8.3.1</span> Quantiles-quantiles plots</h3>
+</div>
+<div id="diagramme-qq" class="section level3" number="8.2.4">
+<h3><span class="header-section-number">8.2.4</span> Quantiles-quantiles plots</h3>
 <p>Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if <span class="math inline">\(Y\)</span> is a continuous random variable with distribution function <span class="math inline">\(F\)</span>, then the mapping <span class="math inline">\(F(Y) \sim \mathsf{U}(0,1)\)</span> yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from <span class="math inline">\(F\)</span>, viz. <span class="math inline">\(F^{-1}(U)\)</span>. Consider then a random sample of size <span class="math inline">\(n\)</span> from the uniform distribution ordered from smallest to largest, with <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}\)</span>. One can show these ranks have marginally a Beta distribution, <span class="math inline">\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\)</span> with expectation <span class="math inline">\(k/(n+1)\)</span>.</p>
 <p>In practice, we don’t know <span class="math inline">\(F\)</span> and, even if we did, one would need to estimate the parameters. We consider some estimator <span class="math inline">\(\widehat{F}\)</span> for the model and apply the inverse transform to an approximate uniform sample <span class="math inline">\(\{i/(n+1)\}_{i=1}^n\)</span>. The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:</p>
 <ul>
@@ -336,14 +342,14 @@ Figure 8.2: Normal quantile-quantile plot (left) and detrended version (Tukey’
 <p>Interpretation of quantile-quantile plots requires some experience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">this post by <em>Glen_b</em> on StackOverflow</a> nicely summarizes what can be detected (or not) from them.</p>
 </div>
 </div>
-<div id="law-large-numbers" class="section level2" number="8.4">
-<h2><span class="header-section-number">8.4</span> Laws of large numbers</h2>
+<div id="law-large-numbers" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Laws of large numbers</h2>
 <p>An estimator for a parameter <span class="math inline">\(\theta\)</span> is <strong>consistent</strong> if the value obtained as the sample size increases (to infinity) converges to the true value of <span class="math inline">\(\theta\)</span>. Mathematically speaking, this translates into convergence in probability, meaning <span class="math inline">\(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta\)</span>. In common language, we say that the probability that <span class="math inline">\(\hat{\theta}\)</span> and <span class="math inline">\(\theta\)</span> differ becomes negligible as <span class="math inline">\(n\)</span> gets large.</p>
 <p>Consistency is the <em>a minima</em> requirement for an estimator: when we collect more information, we should approach the truth. The law of large number states that the sample mean of <span class="math inline">\(n\)</span> (independent) observations with common mean <span class="math inline">\(\mu\)</span>, say <span class="math inline">\(\overline{Y}_n\)</span>, converges to <span class="math inline">\(\mu\)</span>, denoted <span class="math inline">\(\overline{Y}_n \rightarrow \mu\)</span>. Roughly speaking, our approximation becomes less variable and asymptotically unbiased as the sample size (and thus the quantity of information available for the parameter) increases. The law of large number is featured in Monte Carlo experiments: we can approximate the expectation of some (complicated) function <span class="math inline">\(g(x)\)</span> by simulating repeatedly independent draws from <span class="math inline">\(Y\)</span> and calculating the sample mean <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i)\)</span>.</p>
 <p>If the law of large number tells us what happens in the limit (we get a single numerical value), the result doesn’t contain information about the rate of convergence and the uncertainty at finite levels.</p>
 </div>
-<div id="CLT" class="section level2" number="8.5">
-<h2><span class="header-section-number">8.5</span> Central Limit Theorem</h2>
+<div id="CLT" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Central Limit Theorem</h2>
 <p>The central limit theorem is perhaps the flagship result of probability theory: for a random sample of size <span class="math inline">\(n\)</span> with (independent) random variables whose expectation is <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, then the sample mean converges to <span class="math inline">\(\mu\)</span>, but</p>
 <ul>
 <li>the estimator <span class="math inline">\(\overline{Y}\)</span> is centered around <span class="math inline">\(\mu\)</span>,</li>
