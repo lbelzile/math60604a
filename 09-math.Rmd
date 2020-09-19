@@ -20,3 +20,20 @@ using the [chain rule](http://www.stat.rice.edu/~dobelman/notes_papers/math/Matr
 \end{align*}
 If the $n \times p$ matrix  $\mathbf{X}$ is full-rank, the quadratic form $\mathbf{X}^\top \mathbf{X}$ is invertible and we obtain the solution to the least square problems provided in Equation \@ref(eq:ols).
 
+## Derivation of the coefficient of determination {#derivationR2}
+
+Because of the orthogonal decomposition $\boldsymbol{y}=\widehat{\boldsymbol{y}} + \boldsymbol{e}$ and provided that the design matrix includes an intercept of $\mathbf{1}_n \in \mathcal{S}(\mathbf{X})$, then $\overline{\boldsymbol{e}}=0$ and the average of the response and of the fitted values is the same. Since $n^{-1}\sum_{i=1}^n \hat{y}_i = n^{-1}\sum_{i=1}^n ({y}_i-e_i)=\overline{y}$,
+\begin{align*}
+\widehat{\mathsf{Cor}}\left(\hat{\boldsymbol{y}}, \boldsymbol{y}\right)
+&= \frac{(\boldsymbol{y} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n) +
+\boldsymbol{e}^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\| - \|\boldsymbol{e}\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \sqrt{\frac{\mathsf{SS}_c-\mathsf{SS}_e}{\mathsf{SS}_c}}= \mathrm{R}.
+\end{align*}
+This justifies the claim of [Section 2.5](#coefR2) that the squared correlation between the fitted values and the response is equal to $R^2$.

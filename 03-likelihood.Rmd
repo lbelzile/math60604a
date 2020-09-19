@@ -215,6 +215,8 @@ The likelihood ratio statistic 95\% confidence interval for $\phi$ can be found 
 
 ## Profile likelihood
 
+Sometimes, we may want to perform hypothesis test or derive confidence intervals for selected components of the model. For example, we may be interested in obtaining confidence intervals for a single $\beta_j$ in a logistic regression, treating the other parameters $\boldsymbol{\beta}_{-j}$ as nuisance In this case, the null hypothesis only restricts part of the space and the other parameters, termed nuisance,  are left unspecified --- the question then is what values to use for comparison with the full model. It turns out that the values that maximize the constrained log-likelihood are what one should use for the test, and the particular function in which these nuisance parameters are integrated out is termed a profile likelihood.
+
 Consider a parametric model with log-likelihood function $\ell(\boldsymbol{\theta})$ whose $p$-dimensional parameter vector $\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})$ that can be decomposed into a $q$-dimensional parameter of interest $\boldsymbol{\psi}$ and a $(p-q)$-dimensional nuisance vector $\boldsymbol{\lambda}$.
 
 <!-- The score vector, the information matrix and its inverse are partitioned accordingly as -->
@@ -231,9 +233,9 @@ Consider a parametric model with log-likelihood function $\ell(\boldsymbol{\thet
 <!-- i^{\boldsymbol{\lambda\psi}} & i^{\boldsymbol{\lambda\lambda}}\\ -->
 <!-- \end{pmatrix}.       -->
 <!-- \end{align*} -->
-For example, we may be interested in obtaining confidence intervals for a single $\beta_j$ in a logistic regression, treating the other parameters $\boldsymbol{\beta}_{-j}$ as nuisance
 
-In these cases, we can consider the profile likelihood $\ell_{\mathsf{p}}$, a function of $\boldsymbol{\psi}$ alone, which is obtained by maximizing the likelihood pointwise at each fixed value $\boldsymbol{\psi}_0$ over the nuisance vector $\boldsymbol{\varphi}_{\psi_0}$,
+
+We can consider the profile likelihood $\ell_{\mathsf{p}}$, a function of $\boldsymbol{\psi}$ alone, which is obtained by maximizing the likelihood pointwise at each fixed value $\boldsymbol{\psi}_0$ over the nuisance vector $\boldsymbol{\varphi}_{\psi_0}$,
 \begin{align*}
 \ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
 \end{align*}
@@ -302,7 +304,12 @@ confind <- which(diff(xc) > 0.011)
 
 Figure \@ref(fig:profileplot) shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately $`r bc$x[which.max(bc$y)]`$ would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of $\lambda$, $(`r xc[confind]`, `r xc[confind+1]`)$, at which the curve intersects the horizontal grey line drawn at $-\chi^2_1/2$. The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an *ad hoc* choice of transformation, one could choose a log transformation if the value $0$ is included within the 95\% confidence interval since this improves interpretability.
 
-We could use the profile likelihood ratio test to obtain confidence intervals for the regression coefficients of the mean model. Consider for simplicity the normal simple linear model, $\boldsymbol{Y} \sim \mathsf{No}_n(\beta_0 + \beta_1\mathbf{X}_1, \sigma^2)$. The profile for the slope parameter $\beta_1$ can be obtained by maximizing the log-likelihood for fixed $\beta_1=b$, say: to achieve this, note that this amounts to $\boldsymbol{Y}-b\mathbf{X}_1 \sim \mathsf{No}_n(\beta_0, \sigma^2)$ and so the estimator would correspond to $\widehat{\beta}_{0}^{(b)}=n^{-1} \sum_{i=1}^n (Y_i-b\mathrm{X}_i)$ and $\sigma^2 = n^{-1}$. With more than one covariate, we could obtain the value of $\boldsymbol{\beta}_{-j}^{(b)}$ by running least squares and use the residuals to compute the maximum likelihood estimate $\widehat{\sigma}^{2(b)}$ of the variance.
+We could use the profile likelihood ratio test to obtain confidence intervals for the regression coefficients of the mean model. Consider for simplicity the normal simple linear model, $\boldsymbol{Y} \sim \mathsf{No}_n(\beta_0 + \beta_1\mathbf{X}_1, \sigma^2)$. The profile for the slope parameter $\beta_1$ can be obtained by maximizing the log-likelihood for fixed $\beta_1=b$, say: to achieve this, note that this amounts to $\boldsymbol{Y}-b\mathbf{X}_1 \sim \mathsf{No}_n(\beta_0, \sigma^2)$ and so the estimator would correspond to 
+\begin{align*}
+\widehat{\beta}_{0}^{(b)}&=\frac{1}{n} \sum_{i=1}^n (Y_i-b\mathrm{X}_i)\\
+\widehat{\sigma}^{2(b)} &= \frac{1}{n}\sum_{i=1}^n \left(Y_i-b\mathrm{X}_i-\widehat{\beta}_{0}^{(b)}\right)^2.
+\end{align*}
+With more than one covariate, we could obtain the value of $\boldsymbol{\beta}_{-j}^{(b)}$ by running least squares and use the residuals to compute the maximum likelihood estimate $\widehat{\sigma}^{2(b)}$ of the variance.
 
 ```{r profilebeta, eval = TRUE, echo = FALSE, fig.cap = "Profile log-likelihood for $\\beta_1$ in the simple linear regression model for simulated data. The function has been so its value at the maximum likelihood estimate is zero. The horizontal cutoff marks minus half the $0.95$ quantile of the $\\chi^2_1$ distribution, with vertical lines indicating the maximum likelihood estimate (red) and 95\\% confidence interval (dashed gray). Because of the normality assumption of the linear regression model, the sampling distribution is exactly normally distribution, the profile is symmetric and the Wald and profile likelihood ratio based confidence intervals agree."}
 # Plot profile log-likelihood for a particular dataset

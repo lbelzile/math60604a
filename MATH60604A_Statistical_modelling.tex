@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-16.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-18.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -1079,7 +1079,7 @@ Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\var
 \end{align}
 where \(\varepsilon_i\) is the additive error term specific to observation \(i\). While we may avoid making distributional assumption about \(\varepsilon_i\), we nevertheless fix its expectation to zero to encode the fact we do not believe the model is systematically off,, so \(\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0\) \((i=1, \ldots, n)\).
 
-One important remark is that the model is linear in the coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example \(\mathrm{X}=\ln(\texttt{annees})\), \(\mathrm{X}=\texttt{horsepower}^2\) or \(\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}\). The mean of the response is specified as a \textbf{linear combination of explanatory variables}. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
+One important remark is that the model is linear in the coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example \(\mathrm{X}=\ln(\texttt{years})\), \(\mathrm{X}=\texttt{horsepower}^2\) or \(\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}\). The mean of the response is specified as a \textbf{linear combination of explanatory variables}. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1116,7 +1116,7 @@ To make concepts and theoretical notions more concrete, we will use data from a 
 \item
   \texttt{service}: number of years of service in the college.
 \item
-  \texttt{annees}: number of years since PhD.
+  \texttt{years}: number of years since PhD.
 \end{itemize}
 
 Before drafting a model, a quick look at the data is in due order. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.
@@ -1467,7 +1467,7 @@ Under \(\mathscr{H}_0\), the \(F\) statistic follows a \href{https://en.wikipedi
 
 It turns out that both \(F\) and \(t\)-statistics are equivalent for testing a single coefficient \(\beta_j\): the \(F\)-statistic is the square of the Wald statistic and they lead to the same inference --- the \(p\)-value for the test are identical. While it may get reported in tables, the test for \(\beta_0=0\) is not of interest; we keep the intercept merely to centre the residuals.
 
-For normal linear regression, the likelihood ratio test for comparing models \(\mathbb{M}_1\) and \(\mathbb{M}_0\) is a function of the sum of squared residuals: the usual formula simplifies to \(R = n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}\). This is reminiscent of the \(F\)-statistic formula and the two are in fact intimately related modulo null distribution and scaling (we could obtain the exact distribution of the test rather than use the asymptotic \(\chi^2_q\) reference). The \(t\)-tests and \(F\)-tests presented above could thus both be viewed as particular cases of \href{liktests}{likelihood-based tests}.
+For normal linear regression, the likelihood ratio test for comparing models \(\mathbb{M}_1\) and \(\mathbb{M}_0\) is a function of the sum of squared residuals: the usual formula simplifies to \(R = n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}\). This is reminiscent of the \(F\)-statistic formula and the two are in fact intimately related modulo null distribution and scaling. The \(t\)-tests and \(F\)-tests presented above could thus both be viewed as particular cases of \href{liktests}{likelihood-based tests}.
 
 Consider the \texttt{college} data example and the associated linear model with \texttt{rank}, \texttt{sex}, years of \texttt{service} and \texttt{field} as covariates.
 
@@ -1618,6 +1618,78 @@ Residuals
 Table \ref{tab:summaryanovalmcollege} gives the \(F\)-statistics values and the associated \(p\)-values. The sum of squares represent the difference \(\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\) for various null models \(\mathbb{M}_0\), except the last line for residuals which reports \(\mathsf{SS}_e(\mathbb{M}_1)\). You can verify that (up to rounding) these \(p\)-pvalues are identical to those of the Wald test in the output when \texttt{df=1}. The only categorical variable here with more than one level is \texttt{rank}, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.
 
 We could have also easily computed the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the \(\chi^2_2\) distribution (both likelihood ratio test and \(F\)-test give a \(p\)-value of \(2.2 \times 10^{-16}\)).
+
+\hypertarget{coefR2}{%
+\section{Coefficient of determination}\label{coefR2}}
+
+When we specify a model, the error term \(\boldsymbol{\varepsilon}\) accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn't need statistic to begin with). Once we have fitted a model, we estimate the variance \(\sigma^2\); one may then wonder which share of the total variance in the sample is explained by the model.
+
+The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, \(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). We can then compare the variance of the original data with that of the residuals from the model with covariate matrix \(\mathbf{X}\), defined as \(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\) with \(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_j\mathrm{X}_j\).
+We define the coefficient of determination, or squared multiple correlation coefficient of the model, \(R^2\), as
+\begin{align*}
+R^2 = 1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}
+The coefficient of determination can be interpreted as the square of Pearson's linear correlation between the response \(\boldsymbol{y}\) and the fitted values \(\widehat{\boldsymbol{y}}\); see \protect\hyperlink{derivationR2}{the Appendix for a derivation of this fact.}
+
+Its important to note that \(R^2\) is not a goodness-of-fit criterion: some phenomena are inherently noisy and even a good model will fail to account for much of the response's variability. Moreover, one can inflate the value of \(R^2\) by including more explanatory variables: the coefficient is non-decreasing in the dimension of \(\mathbf{X}\), so a model with \(p+1\) covariate will necessarily have a higher \(R^2\) values than only \(p\) of the explanatories. For model comparisons, it is better to employ \protect\hyperlink{information-criteria}{information criteria}, or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high \(R^2\) may imply high correlation, but \href{http://www.tylervigen.com/spurious-correlations}{the relation may be spurious}: linear regression does not yield causal models!
+
+\hypertarget{predictions-lm}{%
+\section{Predictions}\label{predictions-lm}}
+
+When we compute least square estimates, we obtain fitted values \(\widehat{\boldsymbol{y}}\) as \(\mathbf{X}\widehat{\boldsymbol{\beta}}\), where \(\mathbf{X}\) denotes the \(n \times (p+1)\) matrix of original observations. Recalling that \(\mathsf{E}(Y_i \mid \mathbf{X}_i) = \beta_0 + \sum_{j=1}^p \beta_j \mathrm{X}_{ij}\), we can obtain an estimate of the mean surface for any value of \(\mathbf{x}_{n+1} \in \mathbb{R}^p\) by replacing the unknown coefficients \(\boldsymbol{\beta}\) by our estimates \(\widehat{\boldsymbol{\beta}}\) -- this actually yields the best linear unbiased predictor of the mean.
+
+If we want to predict the value of a new observation, say \(Y_{n+1}\), with explanatories \(\mathbf{x}_{n+1} = (1, x_1, \ldots, x_p)\), the prediction of the value will also be \(\widehat{y}_{n+1} = \mathbf{x}_{n+1}\widehat{\boldsymbol{\beta}}\) because
+\begin{align*}
+\mathsf{E}(Y_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta} + \mathsf{E}(\varepsilon_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta}.
+\end{align*}
+However, individual observations vary more than averages (which are themselves based on multiple observations). Intuitively, this is due to the added uncertainty of the error term \(\varepsilon_{n+1}\) appearing in the model equation: the variability of new predictions is the sum of uncertainty due to the estimators (based on random data) and the intrinsic variance of the observations assuming the new observation is independent of those used to estimate the coefficients,
+\begin{align*}
+\mathsf{Va}(Y_{n+1} \mid \mathbf{x}_n) &= \mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} + \varepsilon_{n+1} \mid \mathbf{x}_n)
+\\&=\mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} \mid \mathbf{x}_n) +\mathsf{Va}(\varepsilon_{n+1} \mid \mathbf{x}_n) 
+\\& = \sigma^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top + \sigma^2,
+\end{align*}
+where \(S^2\) is the unbiased estimator of the variance \(\sigma^2\). The distribution of \(Y_{n+1}\) is by assumption normal, but since we do not know the variance, we base the prediction interval on the Student distribution, viz.
+\begin{align*}
+\frac{\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}-Y_{n+1}}{\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}}\sim \mathsf{St}_{n-p-1}.
+\end{align*}
+and obtain \(1-\alpha\) prediction interval for \(Y_{n+1}\) by inverting the test statistic,
+\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}.
+\end{align*}
+Similar calculations yield the formula for confidence intervals for the mean,
+\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top}.
+\end{align*}
+The two differ only because of the additional variance of individual observations.
+
+Figure \ref{fig:predinterval} shows pointwise uncertainty bands for a simple linear regression of the \texttt{intention} data as a function of \texttt{fixation}, illustrating the limitations of the linear model in this example: the model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 2 to 14. The middle line gives the prediction of individuals as we vary their fixation time. Looking at the formula for the confidence, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. This is more easily seen by replicating the potential curves that could have happened with different data: I generated new potential slopes from the asymptotic normal distribution of \(\widehat{\boldsymbol{\beta}}\) estimators to show the hyperbolic shape is not surprising: we are basically tilting curves from the average fixation/intention, and they have higher potential from deviating far from the range of observations.
+
+\textbackslash begin\{figure\}
+
+\{\centering \animategraphics[width=0.7\linewidth,controls,loop]{10}{MATH60604A_Statistical_modelling_files/figure-latex/predinterval-}{1}{1}
+
+\}
+
+\textbackslash caption{[}Prediction for the simple linear regression of buying intention as a function of fixation time{]}\{Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95\% confidence intervals of the mean and the individual predictions\}\label{fig:predinterval}
+\textbackslash end\{figure\}
+
+\hypertarget{interactions}{%
+\section{Interactions}\label{interactions}}
+
+In the interpretation of the linear model, the effect of an explanatory variable is assumed to be the same, regardless of the other explanatory variables (\emph{ceteris paribus}). To isolate the effect of \(\beta_j\), we indeed fix the value of the other explanatories and increase by one the variable \(\mathrm{X}_j\) (whenever this makes sense) to obtain the slope coefficient. However, the effect of a variable may sometimes depend on another one.
+
+A good example of interaction is provided by the \texttt{insurance} dataset. An exploratory data analysis suggested that premiums depended on age, smoker status and body mass index, but through obesity status. It can be best represented graphically by looking at body mass index.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/insuranceinter1-1} 
+
+}
+
+\caption{Graph of insurance charges against body mass index. The figure clearly shows the interaction: the premium vary for smokers depending on whether or not they are obese, but we see no such behaviour for non-smokers}\label{fig:insuranceinter1}
+\end{figure}
+
+From there, we could create an indicator variable \(\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)\) and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We merge the categories for non-smoker for simplicity.
 
 \hypertarget{likelihood}{%
 \chapter{Likelihood-based inference}\label{likelihood}}
@@ -1828,11 +1900,11 @@ The likelihood ratio statistic 95\% confidence interval for \(\phi\) can be foun
 \hypertarget{profile-likelihood}{%
 \section{Profile likelihood}\label{profile-likelihood}}
 
+Sometimes, we may want to perform hypothesis test or derive confidence intervals for selected components of the model. For example, we may be interested in obtaining confidence intervals for a single \(\beta_j\) in a logistic regression, treating the other parameters \(\boldsymbol{\beta}_{-j}\) as nuisance In this case, the null hypothesis only restricts part of the space and the other parameters, termed nuisance, are left unspecified --- the question then is what values to use for comparison with the full model. It turns out that the values that maximize the constrained log-likelihood are what one should use for the test, and the particular function in which these nuisance parameters are integrated out is termed a profile likelihood.
+
 Consider a parametric model with log-likelihood function \(\ell(\boldsymbol{\theta})\) whose \(p\)-dimensional parameter vector \(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})\) that can be decomposed into a \(q\)-dimensional parameter of interest \(\boldsymbol{\psi}\) and a \((p-q)\)-dimensional nuisance vector \(\boldsymbol{\lambda}\).
 
-For example, we may be interested in obtaining confidence intervals for a single \(\beta_j\) in a logistic regression, treating the other parameters \(\boldsymbol{\beta}_{-j}\) as nuisance
-
-In these cases, we can consider the profile likelihood \(\ell_{\mathsf{p}}\), a function of \(\boldsymbol{\psi}\) alone, which is obtained by maximizing the likelihood pointwise at each fixed value \(\boldsymbol{\psi}_0\) over the nuisance vector \(\boldsymbol{\varphi}_{\psi_0}\),
+We can consider the profile likelihood \(\ell_{\mathsf{p}}\), a function of \(\boldsymbol{\psi}\) alone, which is obtained by maximizing the likelihood pointwise at each fixed value \(\boldsymbol{\psi}_0\) over the nuisance vector \(\boldsymbol{\varphi}_{\psi_0}\),
 \begin{align*}
 \ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
 \end{align*}
@@ -1925,8 +1997,12 @@ Note that information criteria do not constitute formal hypothesis tests on the 
 \hypertarget{survival}{%
 \chapter{Survival analysis}\label{survival}}
 
+\hypertarget{appendix-appendix}{%
+\appendix}
+
+
 \hypertarget{complement}{%
-\chapter{Basic concepts}\label{complement}}
+\chapter{Additional topics and prerequisites}\label{complement}}
 
 \hypertarget{population-sample}{%
 \section{Population and samples}\label{population-sample}}
@@ -2238,13 +2314,27 @@ using the \href{http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calc
 \end{align*}
 If the \(n \times p\) matrix \(\mathbf{X}\) is full-rank, the quadratic form \(\mathbf{X}^\top \mathbf{X}\) is invertible and we obtain the solution to the least square problems provided in Equation \eqref{eq:ols}.
 
-\hypertarget{appendix-appendix}{%
-\appendix}
+\hypertarget{derivationR2}{%
+\section{Derivation of the coefficient of determination}\label{derivationR2}}
 
+Because of the orthogonal decomposition \(\boldsymbol{y}=\widehat{\boldsymbol{y}} + \boldsymbol{e}\) and provided that the design matrix includes an intercept of \(\mathbf{1}_n \in \mathcal{S}(\mathbf{X})\), then \(\overline{\boldsymbol{e}}=0\) and the average of the response and of the fitted values is the same. Since \(n^{-1}\sum_{i=1}^n \hat{y}_i = n^{-1}\sum_{i=1}^n ({y}_i-e_i)=\overline{y}\),
+\begin{align*}
+\widehat{\mathsf{Cor}}\left(\hat{\boldsymbol{y}}, \boldsymbol{y}\right)
+&= \frac{(\boldsymbol{y} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n) +
+\boldsymbol{e}^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\| - \|\boldsymbol{e}\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \sqrt{\frac{\mathsf{SS}_c-\mathsf{SS}_e}{\mathsf{SS}_c}}= \mathrm{R}.
+\end{align*}
+This justifies the claim of \protect\hyperlink{coefR2}{Section 2.5} that the squared correlation between the fitted values and the response is equal to \(R^2\).
 
 \hypertarget{r}{%
-\chapter*{\texorpdfstring{\textbf{R}}{R}}\label{r}}
-\addcontentsline{toc}{chapter}{\textbf{R}}
+\chapter{\texorpdfstring{\textbf{R}}{R}}\label{r}}
 
 \textbf{R} is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.
 
@@ -2255,12 +2345,14 @@ You may wish to look up the following chapters of the \textbf{R} language defini
 \section{\texorpdfstring{Basics of \textbf{R}}{Basics of R}}\label{basics-of-r}}
 
 \hypertarget{help}{%
-\subsection{Help}\label{help}}
+\subsection*{Help}\label{help}}
+\addcontentsline{toc}{subsection}{Help}
 
 Help can be accessed via \texttt{help} or simply \texttt{?}, e.g., \texttt{help("Normal")}. \href{https://www.r-project.org/help.html}{See \textbf{R} page about help files}.
 
 \hypertarget{basic-commands}{%
-\subsection{Basic commands}\label{basic-commands}}
+\subsection*{Basic commands}\label{basic-commands}}
+\addcontentsline{toc}{subsection}{Basic commands}
 
 Basic \textbf{R} commands are fairly intuitive, especially if you want to use \textbf{R} as a calculator.
 Elementary functions such as \texttt{sum}, \texttt{min}, \texttt{max}, \texttt{sqrt}, \texttt{log}, \texttt{exp}, etc., are self-explanatory.
@@ -2296,7 +2388,8 @@ Besides integers and doubles, the common types are
 Beware! In \textbf{R}, invalid calls will often returns \emph{something} rather than an error. It is therefore good practice to check that the output is sensical.
 
 \hypertarget{linear-algebra-in-r}{%
-\subsection{\texorpdfstring{Linear algebra in \textbf{R}}{Linear algebra in R}}\label{linear-algebra-in-r}}
+\subsection*{\texorpdfstring{Linear algebra in \textbf{R}}{Linear algebra in R}}\label{linear-algebra-in-r}}
+\addcontentsline{toc}{subsection}{Linear algebra in \textbf{R}}
 
 \textbf{R} is an object oriented language, and the basic elements in \textbf{R} are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:
 
@@ -2342,7 +2435,8 @@ then
 For a matrix \texttt{x}, subsetting now involves dimensions: \texttt{{[}1,2{]}} returns the element in the first row, second column. \texttt{x{[},2{]}} will return all of the rows, but only the second column. For lists, you can use \texttt{{[}{[}} for subsetting by index or the \texttt{\$} sign by names.
 
 \hypertarget{packages}{%
-\subsection{Packages}\label{packages}}
+\subsection*{Packages}\label{packages}}
+\addcontentsline{toc}{subsection}{Packages}
 
 The great strength of \textbf{R} comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (\texttt{base}, \texttt{stats}, \texttt{graphics}, etc.) are loaded by default whenever you open a session.
 
@@ -2353,7 +2447,8 @@ There are drawbacks to loading packages: if an object with the same name from an
 \end{rmdcaution}
 
 \hypertarget{datasets}{%
-\subsection{Datasets}\label{datasets}}
+\subsection*{Datasets}\label{datasets}}
+\addcontentsline{toc}{subsection}{Datasets}
 
 \begin{itemize}
 \tightlist
@@ -2441,8 +2536,9 @@ Other common classes of objects:
   \texttt{data.frame} is a special type of list where all the elements are vectors of potentially different type, but of the same length.
 \end{itemize}
 
-\hypertarget{graphics}{%
-\subsection{Graphics}\label{graphics}}
+\hypertarget{base-graphics}{%
+\subsection*{Base graphics}\label{base-graphics}}
+\addcontentsline{toc}{subsection}{Base graphics}
 
 The \texttt{faithful} dataset consists of two variables: the regressand \texttt{waiting} and the regressor \texttt{eruptions}. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables.
 
@@ -2477,8 +2573,7 @@ If you include categorical variables, make sure they are transformed to factors.
 
 By default, the baseline level for a factor is based on the alphabetical order, while \textbf{SAS} uses the first value it encounters. Once the variables are cast to factor, \texttt{summary} will print the counts for each respective categories; these could be likewise be obtained using \texttt{table}.
 
-To fit higher order polynomials or transformations, use the \texttt{I} function to tell \textbf{R} to interpret the input ``as is''.
-Thus, \texttt{lm(y\textasciitilde{}x+I(x\^{}2))}, would fit a linear model with design matrix \((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\). A constant is automatically included in the regression, but can be removed by writing \texttt{-1} or \texttt{+0} on the right hand side of the formula (but don't do that!). The \texttt{lm} function output will display ordinary least squares estimates along with standard errors, \(t\) values for the Wald test of the hypothesis \(\mathrm{H}_0: \beta_i=0\) and the associated \(P\)-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
+To fit higher order polynomials, use \texttt{poly}. For transformations, use the \texttt{I} function to tell \textbf{R} to interpret the input ``as is''. Thus, \texttt{lm(y\textasciitilde{}x+I(x\^{}2))}, would fit a linear model with design matrix \((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\). A constant is automatically included in the regression, but can be removed by writing \texttt{-1} or \texttt{+0} on the right hand side of the formula (but don't do that!). The \texttt{lm} function output will display ordinary least squares estimates along with standard errors, \(t\) values for the Wald test of the hypothesis \(\mathrm{H}_0: \beta_i=0\) and the associated \(P\)-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
 
 Many methods allow you to extract specific objects from \texttt{lm} objects. For example, the functions \texttt{coef}, \texttt{resid}, \texttt{fitted}, \texttt{model.matrix} will return the coefficients \(\widehat{\boldsymbol{\beta}}\), the ordinary residuals \(\boldsymbol{e}\), the fitted values \(\widehat{\boldsymbol{y}}\) and the design matrix \(\mathbf{X}\), respectively.
 

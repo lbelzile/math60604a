@@ -14,7 +14,7 @@ Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\var
 \end{align}
 where $\varepsilon_i$ is the additive error term specific to observation $i$. While we may avoid making distributional assumption about $\varepsilon_i$, we nevertheless fix its expectation to zero to encode the fact we do not believe the model is systematically off,, so $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0$ $(i=1, \ldots, n)$.
 
-One important remark is that the model is linear in the coefficients $\boldsymbol{\beta}\in \mathbb{R}_{p+1}$, not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example $\mathrm{X}=\ln(\texttt{annees})$, $\mathrm{X}=\texttt{horsepower}^2$ or $\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}$. The mean of the response is specified as a  **linear combination of explanatory variables**. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
+One important remark is that the model is linear in the coefficients $\boldsymbol{\beta}\in \mathbb{R}_{p+1}$, not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example $\mathrm{X}=\ln(\texttt{years})$, $\mathrm{X}=\texttt{horsepower}^2$ or $\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}$. The mean of the response is specified as a  **linear combination of explanatory variables**. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
 
 
 1.  Evaluate the effects of covariates $\mathbf{X}$ on the mean response
@@ -37,7 +37,7 @@ To make concepts and theoretical notions more concrete, we will use data from a 
 -   `field`: categorical variable for the field of expertise of the professor, one of `applied` or `theoretical`.
 -   `sex`: binary indicator for sex, either `man` or `woman`.
 -   `service`: number of years of service in the college.
--   `annees`: number of years since PhD.
+-   `years`: number of years since PhD.
 
 Before drafting a model, a quick look at the data is in due order. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.
 
@@ -388,7 +388,7 @@ Under $\mathscr{H}_0$, the $F$ statistic follows a [Fisher distribution](https:/
 
 It turns out that both $F$ and $t$-statistics are equivalent for testing a single coefficient $\beta_j$: the $F$-statistic is the square of the Wald statistic and they lead to the same inference --- the $p$-value for the test are identical. While it may get reported in tables, the test for $\beta_0=0$ is not of interest; we keep the intercept merely to centre the residuals.
 
-For normal linear regression, the likelihood ratio test for comparing models $\mathbb{M}_1$ and $\mathbb{M}_0$ is a function of the sum of squared residuals: the usual formula simplifies to $R = n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}$. This is reminiscent of the $F$-statistic formula and the two are in fact intimately related modulo null distribution and scaling (we could obtain the exact distribution of the test rather than use the asymptotic $\chi^2_q$ reference). The $t$-tests and $F$-tests presented above could thus both be viewed as particular cases of [likelihood-based tests](liktests).
+For normal linear regression, the likelihood ratio test for comparing models $\mathbb{M}_1$ and $\mathbb{M}_0$ is a function of the sum of squared residuals: the usual formula simplifies to $R = n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}$. This is reminiscent of the $F$-statistic formula and the two are in fact intimately related modulo null distribution and scaling. The $t$-tests and $F$-tests presented above could thus both be viewed as particular cases of [likelihood-based tests](liktests).
 
 
 Consider the `college` data example and the associated linear model with `rank`, `sex`, years of `service` and `field` as covariates.
@@ -450,3 +450,130 @@ Table \@ref(tab:summaryanovalmcollege) gives the $F$-statistics values and the a
 
 We could have also easily computed the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is `r as.numeric(logLik(college_lm))` and that of the model without rank is `r as.numeric(logLik(update(college_lm, ~.-rank)))`, so the likelihood ratio statistic would be `r 2*(as.numeric(logLik(college_lm))-as.numeric(logLik(update(college_lm, ~.-rank))))` and this is strongly significant when compared to the $\chi^2_2$ distribution (both likelihood ratio test and $F$-test give a $p$-value of $2.2 \times 10^{-16}$).
 
+## Coefficient of determination {#coefR2}
+
+When we specify a model, the error term $\boldsymbol{\varepsilon}$ accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn't need statistic to begin with). Once we have fitted a model, we estimate the variance $\sigma^2$; one may then wonder which share of the total variance in the sample is explained by the model.
+
+The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, $\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix $\mathbf{X}$, defined as $\mathsf{SS}_e =\sum_{i=1}^n e_i^2$ with $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_j\mathrm{X}_j$. 
+We define the coefficient of determination, or squared multiple correlation coefficient of the model, $R^2$, as
+\begin{align*}
+R^2 = 1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}
+The coefficient of determination can be interpreted as the square of Pearson's linear correlation between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$; see [the Appendix for a derivation of this fact.](#derivationR2)
+
+Its important to note that $R^2$ is not a goodness-of-fit criterion: some phenomena are inherently noisy and even a good model will fail to account for much of the response's variability. Moreover, one can inflate the value of $R^2$ by including more explanatory variables: the coefficient is non-decreasing in the dimension of $\mathbf{X}$, so a model with $p+1$ covariate will necessarily have a higher $R^2$ values than only $p$ of the explanatories. For model comparisons, it is better to employ [information criteria](#information-criteria), or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high $R^2$ may imply high correlation, but [the relation may be spurious](http://www.tylervigen.com/spurious-correlations): linear regression does not yield causal models!
+
+
+## Predictions {#predictions-lm}
+
+When we compute least square estimates, we obtain fitted values $\widehat{\boldsymbol{y}}$ as $\mathbf{X}\widehat{\boldsymbol{\beta}}$, where $\mathbf{X}$ denotes the $n \times (p+1)$ matrix of original observations.  Recalling that $\mathsf{E}(Y_i \mid \mathbf{X}_i) = \beta_0 + \sum_{j=1}^p \beta_j \mathrm{X}_{ij}$, we can obtain an estimate of the mean surface for any value of $\mathbf{x}_{n+1} \in \mathbb{R}^p$ by replacing the unknown coefficients $\boldsymbol{\beta}$ by our estimates $\widehat{\boldsymbol{\beta}}$  -- this actually yields the best linear unbiased predictor of the mean.
+
+If we want to predict the value of a new observation, say $Y_{n+1}$, with explanatories $\mathbf{x}_{n+1} = (1, x_1, \ldots, x_p)$, the prediction of the value will also be $\widehat{y}_{n+1} = \mathbf{x}_{n+1}\widehat{\boldsymbol{\beta}}$ because
+\begin{align*}
+\mathsf{E}(Y_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta} + \mathsf{E}(\varepsilon_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta}.
+\end{align*}
+However, individual observations vary more than averages (which are themselves based on multiple observations). Intuitively, this is due to the added uncertainty of the error term $\varepsilon_{n+1}$ appearing in the model equation: the variability of new predictions is the sum of uncertainty due to the estimators (based on random data) and the intrinsic variance of the observations assuming the new observation is independent of those used to estimate the coefficients, 
+\begin{align*}
+\mathsf{Va}(Y_{n+1} \mid \mathbf{x}_n) &= \mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} + \varepsilon_{n+1} \mid \mathbf{x}_n)
+\\&=\mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} \mid \mathbf{x}_n) +\mathsf{Va}(\varepsilon_{n+1} \mid \mathbf{x}_n) 
+\\& = \sigma^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top + \sigma^2,
+\end{align*}
+where $S^2$ is the unbiased estimator of the variance $\sigma^2$. The distribution of $Y_{n+1}$ is by assumption normal, but since we do not know the variance, we base the prediction interval on the Student distribution, viz.
+\begin{align*}
+\frac{\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}-Y_{n+1}}{\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}}\sim \mathsf{St}_{n-p-1}.
+\end{align*}
+and obtain $1-\alpha$ prediction interval for $Y_{n+1}$ by inverting the test statistic, 
+\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}.
+\end{align*}
+Similar calculations yield the formula for confidence intervals for the mean, 
+\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top}.
+\end{align*}
+The two differ only because of the additional variance of individual observations.
+
+Figure \@ref(fig:predinterval) shows pointwise uncertainty bands for a simple linear regression of the `intention` data as a function of `fixation`, illustrating the limitations of the linear model in this example: the model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 2 to 14. The middle line gives the prediction of individuals as we vary their fixation time. Looking at the formula for the confidence, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. This is more easily seen by replicating the potential curves that could have happened with different data: I generated new potential slopes from the asymptotic normal distribution of $\widehat{\boldsymbol{\beta}}$ estimators to show the hyperbolic shape is not surprising: we are basically tilting curves from the average fixation/intention, and they have higher potential from deviating far from the range of observations.
+
+```{r predinterval, cache = TRUE, echo = FALSE, fig.cap = "Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions", animation.hook='gifski', interval=0.1}
+
+lm_simple <- lm(intention ~ fixation, data = intention)
+predci <- data.frame(cbind(fixation = seq(0, 6, by = 0.1),
+                predict(lm_simple, newdata = data.frame(fixation = seq(0, 6, by = 0.1)), 
+                        interval = "c")[,-1]))
+predpi <- data.frame(cbind(fixation = seq(0, 6, by = 0.1),
+                predict(lm_simple, newdata = data.frame(fixation = seq(0, 6, by = 0.1)), 
+                        interval = "p")[,-1]))
+nsim <- 25L
+boot_dat <- data.frame(id = factor(1:nsim), 
+                     mvtnorm::rmvnorm(n = nsim, mean = coef(lm_simple), sigma = vcov(lm_simple)))
+colnames(boot_dat) <- c("id","intercept", "slope")
+
+
+
+out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+if(out_type == 'html'){
+  g1 <- ggplot(data = intention) + 
+  geom_point(aes(x=fixation, y=intention), col = "grey", alpha = 0.4) + 
+  ylim(c(0,20)) + 
+  geom_ribbon(data = predci, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.5) + 
+  geom_ribbon(data = predpi, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.2) +
+  geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1])  
+   for(i in 1:nrow(boot_dat)){
+   g1 <- g1 + geom_abline(slope = boot_dat[i,3], intercept =  boot_dat[i,2], col = "red", alpha = 0.4)
+   print(g1)
+   }
+ } else {
+  ggplot(data = intention) + 
+  geom_point(aes(x=fixation, y=intention), col = "grey", alpha = 0.4) + 
+  ylim(c(0,20)) + 
+  geom_ribbon(data = predci, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.5) + 
+  geom_ribbon(data = predpi, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.2) +
+  geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1])  + 
+     geom_abline(data = boot_dat, aes(slope = slope, intercept = intercept, group = id), 
+         color = 'red', alpha = .1, lwd = 1.2)
+ }
+
+```
+
+## Interactions
+
+In the interpretation of the linear model, the effect of an explanatory variable is assumed to be the same, regardless of the other explanatory variables (*ceteris paribus*). To isolate the effect of $\beta_j$, we indeed fix the value of the other explanatories and increase by one the variable $\mathrm{X}_j$ (whenever this makes sense) to obtain the slope coefficient. However, the effect of a variable may sometimes depend on another one.
+
+A good example of interaction is provided by the `insurance` dataset. An exploratory data analysis suggested that premiums depended on age, smoker status and body mass index, but through obesity status. It can be best represented graphically by looking at body mass index.
+
+```{r insuranceinter1, echo = FALSE, fig.cap = "Graph of insurance charges against body mass index. The figure clearly shows the interaction: the premium vary for smokers depending on whether or not they are obese, but we see no such behaviour for non-smokers"}
+data(insurance, package = "hecstatmod")
+insurance <- insurance %>%
+  mutate(obesity = factor(bmi >= 30, labels = c("normal","obese"))) %>%
+  mutate(smobese = droplevels(factor(interaction(obesity, smoker),
+                          levels = c("normal.no","obese.no","normal.yes","obese.yes"),
+                          labels = c("non-smoker","non-smoker","smoker non-obese","smoker obese"))))
+
+g1 <- ggplot(data = insurance, aes(x = bmi, y = charges, col = smoker)) +
+  geom_point() +
+  geom_vline(xintercept = 30) + 
+  xlab("body mass index") +
+  ylab("charges (in USD)") + 
+    theme(legend.position = "bottom")
+g2 <- ggplot(data = insurance, aes(x = age, y = charges, col = smobese)) +
+  geom_point() +
+  xlab("age") +
+  ylab("charges (in USD)") + 
+    theme(legend.position = "bottom") + 
+  labs(x = "age", y = "charges (in USD)", col = "smoking/obesity status")
+g1 + g2
+```
+
+From there, we could create an indicator variable $\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)$ and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We merge the categories for non-smoker for simplicity. 
+
+<!-- ```{r } -->
+<!-- lm_interaction <- lm(charges ~ age*obese*smoker +bmi*obese:smoker, data = insurance) -->
+<!-- insurance$res <- resid(lm_interaction) -->
+<!-- ggplot(data = insurance, aes(x = bmi, y = res, col = region)) + -->
+<!--   geom_point() + -->
+<!--   geom_vline(xintercept = 30) +  -->
+<!--   xlab("body mass index") + -->
+<!--   ylab("charges (in USD) | age") +  -->
+<!--     theme(legend.position = "bottom") -->
+
+<!-- ``` -->

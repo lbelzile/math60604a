@@ -1,4 +1,6 @@
-# Basic concepts {#complement}
+
+# (APPENDIX) Appendix {-} 
+# Additional topics and prerequisites {#complement}
 
 
 ## Population and samples {#population-sample}

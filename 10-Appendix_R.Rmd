@@ -1,6 +1,5 @@
 
-# (APPENDIX) Appendix {-} 
-# **R** {-}
+# **R** 
 
 
 **R** is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.
@@ -8,15 +7,16 @@
 You can find several introductions to **R** online. Have a look at the [**R** manuals](https://cran.r-project.org/manuals.html) or better at [contributed manuals](https://cran.r-project.org/other-docs.html). A nice official reference is [An introduction to  **R**](http://colinfay.me/intro-to-r/index.html). 
 You may wish to look up the following chapters of the **R** language definition ([Evaluation of expressions](http://colinfay.me/r-language-definition/evaluation-of-expressions.html) and part of the [*Objects* chapter](http://colinfay.me/r-language-definition/objects.html)). Another good (small reference) is the cheatsheet [Getting started in **R**](https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf).
 
-## Basics of **R**
+## Basics of **R**  
 
 
-### Help
+### Help  {-}
 
 Help can be accessed via `help` or simply `?`, e.g., `help("Normal")`. [See **R** page about help files](https://www.r-project.org/help.html).
  
 
-### Basic commands 
+### Basic commands  {-}
+
 Basic **R** commands are fairly intuitive, especially if you want to use **R** as a calculator.
 Elementary functions such as `sum`, `min`, `max`, `sqrt`, `log`, `exp`, etc., are self-explanatory.
 
@@ -37,7 +37,7 @@ Besides integers and doubles, the common types are
 
 Beware! In **R**, invalid calls will often returns _something_ rather than an error. It is therefore good practice to check that the output is sensical.
 
-### Linear algebra in **R**
+### Linear algebra in **R**  {-}
 
 **R** is an object oriented language, and the basic elements in **R** are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:
 
@@ -63,7 +63,7 @@ then
 For a matrix `x`, subsetting now involves dimensions: `[1,2]` returns the element in the first row, second column. `x[,2]` will return all of the rows, but only the second column. For lists, you can use `[[ ` for subsetting by index or the `$` sign by names.
 
 
-### Packages
+### Packages  {-}
 
 The great strength of **R** comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (`base`, `stats`, `graphics`, etc.) are loaded by default whenever you open a session.
 
@@ -74,7 +74,7 @@ There are drawbacks to loading packages: if an object with the same name from an
 
 ```
 
-### Datasets
+### Datasets  {-}
 
 - datasets are typically stored inside a `data.frame`, a matrix-like object whose columns contain the variables and the rows the observation vectors. 
 - The columns can be of different types (`integer`, `double`, `logical`, `character`), but all the column vectors must be of the same length. 
@@ -109,7 +109,7 @@ Other common classes of objects:
 - `list`: an unstructured class whose elements are accessed using double indexing `[[ ]]` and elements are typically accessed using `$` symbol with names. To delete an element from a list, assign  `NULL` to it. 
 - `data.frame` is a special type of list where all the elements are vectors of potentially different type, but of the same length.
 
-### Graphics
+### Base graphics {-}
 
 The `faithful` dataset consists of two variables: the regressand `waiting` and the regressor `eruptions`. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables. 
 
@@ -174,8 +174,7 @@ By default, the baseline level for a factor is based on the alphabetical order, 
 
 <!-- We can compute the correlation coefficient using `cor`; we get `r round(cor(intention$intention, intention$fixation), digits = 2)` for `intention` and `fixation` and `r round(cor(intention$intention, intention$emotion), digits = 2)` for `intention` and `emotion`. If we specify a matrix with more than two columns or a data frame (with numeric values), we get a correlation matrix with ones on the diagonal. For factor variables, we would need to map these back to binary, but we saw that the $R^2$ value is equal to the squared correlation coefficient, so we can extract this from the output of the linear model fit.  -->
 
-To fit higher order polynomials or transformations, use the `I` function to tell **R** to interpret the input "as is". 
-Thus, `lm(y~x+I(x^2))`, would fit a linear model with design matrix $(\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top$. A constant is automatically included in the regression, but can be removed by writing `-1` or `+0` on the right hand side of the formula (but don't do that!). The `lm` function output will display ordinary least squares estimates along with standard errors, $t$ values for the Wald test of the hypothesis $\mathrm{H}_0: \beta_i=0$ and the associated $P$-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
+To fit higher order polynomials, use `poly`. For transformations, use the `I` function to tell **R** to interpret the input "as is". Thus, `lm(y~x+I(x^2))`, would fit a linear model with design matrix $(\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top$. A constant is automatically included in the regression, but can be removed by writing `-1` or `+0` on the right hand side of the formula (but don't do that!). The `lm` function output will display ordinary least squares estimates along with standard errors, $t$ values for the Wald test of the hypothesis $\mathrm{H}_0: \beta_i=0$ and the associated $P$-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
 
 Many methods allow you to extract specific objects from `lm` objects. For example, the functions `coef`, `resid`, `fitted`, `model.matrix` will return the coefficients $\widehat{\boldsymbol{\beta}}$, the ordinary residuals $\boldsymbol{e}$, the fitted values $\widehat{\boldsymbol{y}}$ and the design matrix $\mathbf{X}$, respectively.
 
