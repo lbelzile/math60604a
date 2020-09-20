@@ -850,18 +850,435 @@ Figure 2.8: Prediction for the simple linear regression of buying intention as a
 Figure 2.9: Graph of insurance charges against body mass index. The figure clearly shows the interaction: the premium vary for smokers depending on whether or not they are obese, but we see no such behaviour for non-smokers
 </p>
 </div>
-<p>From there, we could create an indicator variable <span class="math inline">\(\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)\)</span> and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We merge the categories for non-smoker for simplicity.</p>
-<!-- ```{r } -->
-<!-- lm_interaction <- lm(charges ~ age*obese*smoker +bmi*obese:smoker, data = insurance) -->
-<!-- insurance$res <- resid(lm_interaction) -->
-<!-- ggplot(data = insurance, aes(x = bmi, y = res, col = region)) + -->
-<!--   geom_point() + -->
-<!--   geom_vline(xintercept = 30) +  -->
-<!--   xlab("body mass index") + -->
-<!--   ylab("charges (in USD) | age") +  -->
-<!--     theme(legend.position = "bottom") -->
-<!-- ``` -->
+<p>From there, we could create an indicator variable <span class="math inline">\(\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)\)</span> and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We take non-smoker as baseline category. To make interpretation more meaningful, we rescale age so that <span class="math inline">\(\texttt{age}=0\)</span> corresponds to 18 years old.</p>
+<table>
+<caption>
+<span id="tab:coefintercharges">Table 2.5: </span>Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std. error
+</th>
+<th style="text-align:right;">
+Wald stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+2668.7
+</td>
+<td style="text-align:right;">
+362.7
+</td>
+<td style="text-align:right;">
+7.36
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age
+</td>
+<td style="text-align:right;">
+265.9
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+17.7
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+obesity [obese]
+</td>
+<td style="text-align:right;">
+115.3
+</td>
+<td style="text-align:right;">
+510.3
+</td>
+<td style="text-align:right;">
+0.23
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+smoker [yes]
+</td>
+<td style="text-align:right;">
+13526.2
+</td>
+<td style="text-align:right;">
+803.1
+</td>
+<td style="text-align:right;">
+16.84
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age * obesity [obese]
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+20.1
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age * smoker [yes]
+</td>
+<td style="text-align:right;">
+-5.3
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+-0.16
+</td>
+<td style="text-align:right;">
+0.87
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+obesity [obese] * smoker [yes]
+</td>
+<td style="text-align:right;">
+19308.7
+</td>
+<td style="text-align:right;">
+1110.5
+</td>
+<td style="text-align:right;">
+17.39
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age * obesity [obese] * smoker [yes]
+</td>
+<td style="text-align:right;">
+19.1
+</td>
+<td style="text-align:right;">
+44.8
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+0.67
+</td>
+</tr>
+</tbody>
+</table>
+<p>The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for <code>age</code>; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.</p>
+<p><span class="math display">\[\begin{align*}
+\texttt{charges} &amp;= \beta_{0} + \beta_{1}\texttt{age} + \beta_{2}\texttt{obese} + \beta_{3}\texttt{smoker} + 
+\beta_{4}\texttt{age} \cdot \texttt{obese} \\&amp;\quad + \beta_{5}\texttt{age} \cdot \texttt{smoker} + \beta_{6}\texttt{obese} \cdot \texttt{smoker} + \beta_{7}\texttt{age} \cdot \texttt{obese} \cdot \texttt{smoker} + \varepsilon
+\end{align*}\]</span></p>
+<p>Because of the three-way interaction, it is not possible to recover individual parameters by changing the value of the corresponding covariate and keeping everything else constant: changing the smoker status likely impacts multiple regressors simultaneously. To retrieve the interpretation of the different coefficients, we will need to change one parameter at the time, write the mean equation and then isolate the coefficients. Throughout, <span class="math inline">\(\texttt{obese}\)</span> is a dummy variable equal to one if the person has a body mass index greater than 30 and likewise <span class="math inline">\(\texttt{smoker}\)</span> if the person is a smoker.</p>
+<p><span class="math display">\[\begin{align*}
+\texttt{charges}  = 
+\begin{cases}
+\beta_{0} + \beta_{1}\texttt{age}  &amp; (1)\texttt{non-obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{4})\texttt{age},  &amp; (2) \texttt{obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{3}) + (\beta_{1} + \beta_{5})\texttt{age},  &amp; (3) \texttt{non-obese}, \texttt{smoker} \\
+(\beta_{0} + \beta_{2} + \beta_{3}+ \beta_{6}) + (\beta_{1} + \beta_{4} +\beta_{5} + \beta_7)\texttt{age},  &amp; (4) \texttt{obese}, \texttt{smoker}
+\end{cases}
+\end{align*}\]</span></p>
+<ul>
+<li>The intercept <span class="math inline">\(\beta_0\)</span> is the average at 18 years old of non-smokers who are not obese.</li>
+<li>The slope <span class="math inline">\(\beta_1\)</span> is the average annual increase in charges for non-smokers who are not obese.</li>
+<li>The parameter <span class="math inline">\(\beta_2\)</span> is a contrast, the difference between the average charges of 18 years old non-smokers who are obese and those who are not.</li>
+<li>The parameter <span class="math inline">\(\beta_3\)</span> is a contrast, the difference between the average premium for non-obese 18 years old who smoke and those who don’t.</li>
+<li>The parameter <span class="math inline">\(\beta_4\)</span> is a contrast, the difference in average annual increase for non-smokers between obese and non-obese adults.</li>
+<li>The parameter <span class="math inline">\(\beta_5\)</span> is a contrast, the difference in average annual increase for non-obese between smoker and non-smoker adults.</li>
+</ul>
+<p>The other two coefficients, <span class="math inline">\(\beta_6\)</span> and <span class="math inline">\(\beta_7\)</span> represent differences of average between groups <span class="math inline">\((1) + (4) - (2) - (3)\)</span> for both intercepts and slopes.</p>
+<p>The only <span class="math inline">\(F\)</span>-test that we should consider in the analysis of variance table (containing the Type III sum of squares decomposition) is the test for the three-way interaction, which corresponds to <span class="math inline">\(\mathscr{H}_0: \beta_8=0\)</span>. The <span class="math inline">\(p\)</span>-value against the two-sided alternative is <span class="math inline">\(0.6704\)</span>, suggesting no difference in slope. We could perform bespoke test to check here that <span class="math inline">\(\mathscr{H}_0: \beta_2=\beta_4=0\)</span>, which consists in merging the two non-smoker categories, or even <span class="math inline">\(\mathscr{H}_0: \beta_2=\beta_4= \beta_5=\beta_7=0\)</span>, which amounts to merging non-smokers and the imposing a common slope. Such tests are not directly available in the output, but we can implement them manually by fitting two models and then plug-in in the values of residual sum of squares of both model in the formula of the <span class="math inline">\(F\)</span> statistic. Using the <span class="math inline">\(F\)</span> null distribution, we get a <span class="math inline">\(p\)</span>-value of 0.965. This suggests both non-smoker groups are indistinguishable and likewise that there is no evidence that all slopes are not equal.</p>
+<p>Most interactions include functions of categorical variables together with either other categorical variables (different intercepts / conditional means per subgroups) or else other. Keep in mind that the validity of our tests above depend on the model being correctly specified: there is however evidence of difference in heterogeneity between groups, with unexplained non-smoker records. Plotting the residuals from the model that includes four different intercepts and slopes for <span class="math inline">\(\texttt{age}\)</span> for each combination of smoker/obesity status misses other features that one would capture in diagnostic plots. in particular, except for some notable outliers, there is evidence that the premiums of smokers also increase with body mass index; as evidenced by Figure <a href="linear-regression.html#fig:resod">2.10</a>. If we include <code>bmi</code> as additional covariate in the model in addition of <code>obese</code>, the interpretation of changes in obesity will depend on the value of <code>bmi</code> and vice-versa.</p>
+<div class="figure" style="text-align: center"><span id="fig:resod"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/resod-1.png" alt="Residuals from the interaction model for $\texttt{charges}$ with $\texttt{age}$, $\texttt{smoker}$ and $\texttt{obesity}$. There is a notably outlier for a male smoker whose $\texttt{bmi}$ is exactly 30 and other points above. There is indication of a linear trend for both smoker sub-groups as their body mass index increase, which was not apparent previously because of the effect of age." width="70%" />
+<p class="caption">
+Figure 2.10: Residuals from the interaction model for <span class="math inline">\(\texttt{charges}\)</span> with <span class="math inline">\(\texttt{age}\)</span>, <span class="math inline">\(\texttt{smoker}\)</span> and <span class="math inline">\(\texttt{obesity}\)</span>. There is a notably outlier for a male smoker whose <span class="math inline">\(\texttt{bmi}\)</span> is exactly 30 and other points above. There is indication of a linear trend for both smoker sub-groups as their body mass index increase, which was not apparent previously because of the effect of age.
+</p>
+</div>
+<div id="two-way-anova" class="section level3" number="2.7.1">
+<h3><span class="header-section-number">2.7.1</span> Two-way ANOVA</h3>
+<blockquote>
+<p>“We’re the same as regression, but we’ve established a separate persona.” — Chelsea Parlett-Pelleriti</p>
+</blockquote>
+<p>Two-way analysis of variance is a linear regression model with two categorical variables, and possibly an interaction term between the two. We consider a study on the effect of the type of delay and source of delay on the evaluation of service and on time lost waiting.</p>
+<blockquote>
+<p>Hui, M. K., Thakor, M. V. et Gill, R. (1998). <em>The Effects of Delay Type and Service Stage on Consumers’ Reaction to Waiting</em>. Journal of Consumer Research <strong>24</strong>, 469-479.</p>
+</blockquote>
+<p>In a university, 120 participants tried a new course registration system. They were actually using a fake registration system where factors of interest could be manipulated, the advancement stage in the registration process and the type of delay. The two levels for stage of advancement were <code>close to end</code> and <code>far from end</code>. In stage <code>far from end</code>, a message indicating a delay appeared immediately at the beginning of the registration process. For the stage <code>close to end</code>, the delay message appeared after the participant has entered personal information and course choices.</p>
+<p>There were three types of delays: <code>procedural</code>, <code>correctional</code>, and <code>unknown</code>. The delay message indicated that the server was currently busy (<code>procedural</code> delay), that there were problems with the terminal and that the system needed to reestablish the connection (<code>correctional</code> delay) or else simply stated “please wait” (<code>unknown</code> delay).</p>
+<p>At the end of the registration process, the participants were asked to estimate the delay time (in minutes) incurred during the registration process. They were also asked to provide an evaluation of the service using two measurement scales. The simulated data corresponding to this study are found in the <span class="math inline">\(\texttt{delay}\)</span> database, which contains the following variables</p>
+<ul>
+<li><span class="math inline">\(\texttt{time}\)</span>: delay time (in minutes) according to the participant.</li>
+<li><span class="math inline">\(\texttt{eval}\)</span>: evaluation of service (standardized score).</li>
+<li><span class="math inline">\(\texttt{stage}\)</span>: stage of advancement, a factor with levels <code>close to end</code> and <code>far from end</code></li>
+<li><span class="math inline">\(\texttt{delay}\)</span>: type of delay, a factor with levels <code>procedural</code>, <code>correctional</code> and <code>unknown</code>.</li>
+</ul>
+<p>In the experimental design, the 120 participants were randomly assigned to one of these six conditions, but nine of the 120 participants were removed because they were not able to specify the type of delay that occurred. The dataset is <strong>unbalanced</strong>, meaning that the number of observations in each cell is unequal.</p>
+<p>We will evaluate the effect of the factors <span class="math inline">\(\texttt{delay}\)</span> and <span class="math inline">\(\texttt{stage}\)</span> on the estimated waiting time.</p>
+<p>If there is an interaction between explanatory variables, but the latter is not included in the models, the tests are misleading: one assumption of the linear model being that all of the relevant covariates have been included and their effect properly accounted for. In this example, omitting the interaction leads to effects being averaged and cancelling each other. Fitting an ANOVA model with only additive (main effects, without interaction) for the evaluation of service suggests that the factors <span class="math inline">\(\texttt{stage}\)</span> and <span class="math inline">\(\texttt{delay}\)</span> are not significant: the <span class="math inline">\(p\)</span>-values for the main effects, reported in Table <a href="linear-regression.html#tab:summaryanovadelaynointer">2.6</a>, are <span class="math inline">\(0.409\)</span> and <span class="math inline">\(0.137\)</span>. Therefore, there seemingly is no significant difference in delay time between the two stages and the three delay types.</p>
+<table>
+<caption>
+<span id="tab:summaryanovadelaynointer">Table 2.6: </span>Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+sum of square
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:right;">
+F stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+0.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stage
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+delay
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2.02
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residuals
+</td>
+<td style="text-align:right;">
+41.9
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+</td>
+<td style="text-align:right;">
+</td>
+</tr>
+</tbody>
+</table>
+<p>However, looking at the data and the mean of each sub-class paints a different portrait, as evidenced by the interaction plot of Figure <a href="linear-regression.html#fig:twowayanovadelay">2.11</a>. The score for service increases for <code>correctional</code> delays when the error occurs close to the end, but the effect is opposite for other delay types. The fact that our <span class="math inline">\(p\)</span>-values for the effects were not significative merely indicate that the effects cancelled out each other.</p>
+<div class="figure" style="text-align: center"><span id="fig:twowayanovadelay"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/twowayanovadelay-1.png" alt="Interactions plots for the $\texttt{delay}$ data, with jitterd observations: if there was no interaction, the curves should be parallel. These plots seem to indicate an interaction." width="70%" />
+<p class="caption">
+Figure 2.11: Interactions plots for the <span class="math inline">\(\texttt{delay}\)</span> data, with jitterd observations: if there was no interaction, the curves should be parallel. These plots seem to indicate an interaction.
+</p>
+</div>
+<p>There is a significant interaction between the variables <span class="math inline">\(\texttt{delay}\)</span> and <span class="math inline">\(\texttt{stage}\)</span> on evaluation. Therefore, the effect of <span class="math inline">\(\texttt{delay}\)</span> on the variable <span class="math inline">\(\texttt{eval}\)</span> depends on the level of the variable <span class="math inline">\(\texttt{stage}\)</span> ance vice-versa. Since there is an interaction term, tests for the main effects of <span class="math inline">\(\texttt{stage}\)</span> or <span class="math inline">\(\texttt{delay}\)</span> are not of interest.</p>
+<table>
+<caption>
+<span id="tab:summarydelaywinteraction">Table 2.7: </span>Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+sum of square
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:right;">
+F stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+18.29
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stage
+</td>
+<td style="text-align:right;">
+5.3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+25.67
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+delay
+</td>
+<td style="text-align:right;">
+8.1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+19.64
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stage:delay
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+49.63
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residuals
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+103
+</td>
+<td style="text-align:right;">
+</td>
+<td style="text-align:right;">
+</td>
+</tr>
+</tbody>
+</table>
+<p>If a difference is detected at this stage, one could then proceed to compute all pairwise differences within a given level of the other categorical variable. This is equivalent to running multiple <span class="math inline">\(t\)</span>-tests, but the linear model assumes equal variance and would thus poll all observations. For example, we could test if the difference between procedural and correctional delays when the error occurs far from the end of the procedure is significant. The mean differences of a factor for a given level of another factor are called <strong>simple effects</strong>. If the interaction is significant, there must be at least one pairwise difference which is also significant. However, repeated testing can inflate the Type I error, <a href="https://xkcd.com/882/">as illustrated in this comic strip</a>: if we conduct 20 independent tests and the null is true in all cases (so there are no difference between any of the sub-groups), we would still expect to reject (by mistake) 1/20 on average for tests performed at level <span class="math inline">\(\alpha\)</span>. There exists method to adjust for multiple testing.</p>
+<p>While the normality assumption is less crucial for the reliability of the tests, it requires sufficient sample size in each subgroup for these (say 20), so that the central limit theorem kicks in. The tests and models typically use the pooled variance estimators: in small samples, it makes better use of the data and has higher precision than estimators of the individual variance in each subgroups. If the variance were unequal, comparisons would require extended models covered later in the term and pairwise comparisons could be based on Welch test.</p>
 
+</div>
 </div>
 </div>
             </section>

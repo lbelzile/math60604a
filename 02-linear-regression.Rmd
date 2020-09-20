@@ -393,23 +393,6 @@ For normal linear regression, the likelihood ratio test for comparing models $\m
 
 Consider the `college` data example and the associated linear model with `rank`, `sex`, years of `service` and `field` as covariates.
 ```{r summarytestslmcollege, echo = FALSE }
-# library(sjPlot)
-# tab_model(college_lm, 
-#           show.r2 = FALSE,
-#           show.se = TRUE, 
-#           show.intercept = TRUE, 
-#           show.stat = TRUE, 
-#           show.ci = FALSE,
-#           show.loglik = TRUE,
-#           string.se = "std. error",
-#           string.stat = "Wald stat.",
-#           string.p = "p-value",
-#           string.est = "estimates")  
-  # col.order = c("est", "se", "stat", "p","ci")
-
-
-# library(gtsummary)
-#  tbl_regression(college_lm) %>% bold_labels() %>% add_global_p() 
 library(kableExtra)
 options(knitr.kable.NA = '')
 library(pixiedust)
@@ -517,7 +500,8 @@ if(out_type == 'html'){
   ylim(c(0,20)) + 
   geom_ribbon(data = predci, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.5) + 
   geom_ribbon(data = predpi, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.2) +
-  geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1])  
+  geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1])  +
+    geom_abline(data = boot_dat, )
    for(i in 1:nrow(boot_dat)){
    g1 <- g1 + geom_abline(slope = boot_dat[i,3], intercept =  boot_dat[i,2], col = "red", alpha = 0.4)
    print(g1)
@@ -549,31 +533,170 @@ insurance <- insurance %>%
                           levels = c("normal.no","obese.no","normal.yes","obese.yes"),
                           labels = c("non-smoker","non-smoker","smoker non-obese","smoker obese"))))
 
-g1 <- ggplot(data = insurance, aes(x = bmi, y = charges, col = smoker)) +
+g1 <- ggplot(data = insurance, 
+             aes(x = bmi, y = charges, col = smobese)) +
   geom_point() +
   geom_vline(xintercept = 30) + 
-  xlab("body mass index") +
-  ylab("charges (in USD)") + 
-    theme(legend.position = "bottom")
+  labs(x = "body mass index", 
+       y = "charges (in USD)") +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, max(insurance$charges)+100))
 g2 <- ggplot(data = insurance, aes(x = age, y = charges, col = smobese)) +
   geom_point() +
-  xlab("age") +
-  ylab("charges (in USD)") + 
-    theme(legend.position = "bottom") + 
-  labs(x = "age", y = "charges (in USD)", col = "smoking/obesity status")
+  labs(x = "age", y = "charges (in USD)") + 
+    scale_y_continuous(expand = c(0.5, 0), limits = c(0, NA))
+g1 + g2 + plot_layout(guides = 'collect') & theme(legend.position = "bottom") & labs(col = "smoking/obesity status")
+
+```
+
+From there, we could create an indicator variable $\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)$ and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We take non-smoker as baseline category. To make interpretation more meaningful, we rescale age so that $\texttt{age}=0$ corresponds to 18 years old.
+
+
+```{r coefintercharges, echo = FALSE}
+lm_interaction <- lm(charges ~ I(age-18)*obesity*smoker, data = insurance)
+
+names(lm_interaction$coefficients)[2:8] <- c("age","obesity [obese]","smoker [yes]","age * obesity [obese]", "age * smoker [yes]","obesity [obese] * smoker [yes]","age * obesity [obese] * smoker [yes]")
+dust(lm_interaction) %>%
+  sprinkle(col = 2:3, round = 1) %>%
+  sprinkle(col = 4, round = 2) %>% 
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames(estimate = "estimate", 
+                     std.error = "std. error",
+                     statistic = "Wald stat.", 
+                     p.value = "p-value") %>% 
+  sprinkle_bookdown() %>%
+  kable(align = "lrrrr", booktabs = TRUE, caption = "Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.")
+```
+
+The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for `age`; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.
+```{r equation, echo = FALSE, eval = FALSE}
+# equatiomatic::extract_eq(lm_interaction, 
+#                          intercept = "beta", 
+#                          wrap = TRUE, 
+#                          align_env = "align*")
+```
+
+\begin{align*}
+\texttt{charges} &= \beta_{0} + \beta_{1}\texttt{age} + \beta_{2}\texttt{obese} + \beta_{3}\texttt{smoker} + 
+\beta_{4}\texttt{age} \cdot \texttt{obese} \\&\quad + \beta_{5}\texttt{age} \cdot \texttt{smoker} + \beta_{6}\texttt{obese} \cdot \texttt{smoker} + \beta_{7}\texttt{age} \cdot \texttt{obese} \cdot \texttt{smoker} + \varepsilon
+\end{align*}
+
+Because of the three-way interaction, it is not possible to recover individual parameters by changing the value of the corresponding covariate and keeping everything else constant: changing the smoker status likely impacts multiple regressors simultaneously. To retrieve the interpretation of the different coefficients, we will need to change one parameter at the time, write the mean equation and then isolate the coefficients. Throughout, $\texttt{obese}$ is a dummy variable equal to one if the person has a body mass index greater than 30 and likewise $\texttt{smoker}$ if the person is a smoker.
+
+\begin{align*}
+\texttt{charges}  = 
+\begin{cases}
+\beta_{0} + \beta_{1}\texttt{age}  & (1)\texttt{non-obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{4})\texttt{age},  & (2) \texttt{obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{3}) + (\beta_{1} + \beta_{5})\texttt{age},  & (3) \texttt{non-obese}, \texttt{smoker} \\
+(\beta_{0} + \beta_{2} + \beta_{3}+ \beta_{6}) + (\beta_{1} + \beta_{4} +\beta_{5} + \beta_7)\texttt{age},  & (4) \texttt{obese}, \texttt{smoker}
+\end{cases}
+\end{align*}
+
+- The intercept $\beta_0$ is the average at 18 years old of non-smokers who are not obese.
+- The slope $\beta_1$ is the average annual increase in charges for non-smokers who are not obese.
+- The parameter $\beta_2$ is a contrast, the difference between the average charges of 18 years old non-smokers who are obese and those who are not.
+- The parameter $\beta_3$ is a contrast, the difference between the average premium for non-obese 18 years old who smoke and those who don't.
+- The parameter $\beta_4$ is a contrast, the difference in average annual increase for non-smokers between obese and non-obese adults.
+- The parameter $\beta_5$ is a contrast, the difference in average annual increase for non-obese between smoker and non-smoker adults.
+
+The other two coefficients, $\beta_6$ and $\beta_7$ represent differences of average between groups $(1) + (4) - (2) - (3)$ for both intercepts and slopes. 
+
+The only $F$-test that we should consider in the analysis of variance table (containing the Type III sum of squares decomposition) is the test for the three-way interaction, which corresponds to $\mathscr{H}_0: \beta_8=0$. The $p$-value against the two-sided alternative is $0.6704$, suggesting no difference in slope. We could perform bespoke test to check here that $\mathscr{H}_0: \beta_2=\beta_4=0$, which consists in merging the two non-smoker categories, or even $\mathscr{H}_0: \beta_2=\beta_4= \beta_5=\beta_7=0$, which amounts to merging non-smokers and the imposing a common slope. Such tests are not directly available in the output, but we can implement them manually by fitting two models and then plug-in in the values of residual sum of squares of both model in the formula of the $F$ statistic. Using the $F$ null distribution, we get a $p$-value of `r pf((sum(resid(lm(charges ~ smobese + age, data = insurance))^2)- sum(resid(lm_interaction)^2))/4 / summary(lm_interaction)$sigma^2, df1 = 4, df2 = summary(lm_interaction)$df[2], lower.tail = FALSE)`. This suggests both non-smoker groups are indistinguishable and likewise that there is no evidence that all slopes are not equal.
+
+Most interactions include functions of categorical variables together with either other categorical variables (different intercepts / conditional means per subgroups) or else other. Keep in mind that the validity of our tests above depend on the model being correctly specified: there is however evidence of difference in heterogeneity between groups, with unexplained non-smoker records. Plotting the residuals from the model that includes four different intercepts and slopes for $\texttt{age}$ for each combination of smoker/obesity status misses other features that one would capture in diagnostic plots. in particular, except for some notable outliers, there is evidence that the premiums of smokers also increase with body mass index; as evidenced by Figure \@ref(fig:resod). If we include `bmi` as additional covariate in the model in addition of `obese`, the interpretation of changes in obesity will depend on the value of `bmi` and vice-versa.
+
+```{r resod, echo = FALSE, fig.cap = "Residuals from the interaction model for $\\texttt{charges}$ with $\\texttt{age}$, $\\texttt{smoker}$ and $\\texttt{obesity}$. There is a notably outlier for a male smoker whose $\\texttt{bmi}$ is exactly 30 and other points above. There is indication of a linear trend for both smoker sub-groups as their body mass index increase, which was not apparent previously because of the effect of age." } 
+insurance$res <- resid(lm_interaction)
+ggplot(data = insurance, aes(x = bmi, y = res, col = smobese)) +
+    geom_vline(xintercept = 30) +
+  geom_point() +
+  xlab("body mass index") +
+  ylab("residuals") +
+  labs(col = "smoking/obesity status") + 
+     theme(legend.position = "bottom")
+```
+
+### Two-way ANOVA
+
+> "We're the same as regression, but we've established a separate persona." — Chelsea Parlett-Pelleriti 
+
+Two-way analysis of variance is a linear regression model with two categorical variables, and possibly an interaction term between the two. We consider a study on the effect of the type of delay and source of delay on the evaluation of service and on time lost waiting.
+
+ > Hui, M. K., Thakor, M. V. et Gill, R. (1998). *The Effects of Delay Type and Service Stage on Consumers' Reaction to Waiting*. Journal of Consumer Research **24**, 469-479.
+ 
+In a university, 120 participants tried a new course registration system. They were actually using a fake registration system where factors of interest could be manipulated, the advancement stage in the registration process and the type of delay. The two levels for stage of advancement were `close to end` and `far from end`.  In stage `far from end`, a message indicating a delay appeared immediately at the beginning of the registration process. For the stage `close to end`, the delay message appeared after the participant has entered personal information and course choices. 
+
+There were three types of delays: `procedural`, `correctional`, and `unknown`. The delay message indicated that the server was currently busy (`procedural` delay), that there were problems with the terminal and that the system needed to reestablish the connection (`correctional` delay) or else simply stated "please wait" (`unknown` delay).
+
+At the end of the registration process, the participants were asked to estimate the delay time (in minutes) incurred during the registration process. They were also asked to provide an evaluation of the service using two measurement scales. The simulated data corresponding to this study are found in the $\texttt{delay}$ database, which contains the following variables 
+
+- $\texttt{time}$: delay time (in minutes) according to the participant. 
+- $\texttt{eval}$: evaluation of service (standardized score). 
+- $\texttt{stage}$:  stage of advancement, a factor with levels `close to end` and `far from end`
+- $\texttt{delay}$: type of delay, a factor with levels `procedural`, `correctional` and `unknown`.
+
+In the experimental design, the 120 participants were randomly assigned to one of these six conditions, but nine of the 120 participants were removed because they were not able to specify the type of delay that occurred. The dataset is **unbalanced**, meaning that the number of observations in each cell is unequal.
+
+We will evaluate the effect of the factors $\texttt{delay}$ and $\texttt{stage}$ on the estimated waiting time.
+
+If there is an interaction between explanatory variables, but the latter is not included in the models, the tests are misleading: one assumption of the linear model being that all of the relevant covariates have been included and their effect properly accounted for. In this example, omitting the interaction leads to effects being averaged and cancelling each other. Fitting an ANOVA model with only additive (main effects, without interaction) for the evaluation of service suggests that the factors $\texttt{stage}$ and $\texttt{delay}$ are not significant: the $p$-values for the main effects, reported in Table \@ref(tab:summaryanovadelaynointer),  are $0.409$ and $0.137$. Therefore, there seemingly is no significant difference in delay time between the two stages and the three delay types.
+
+```{r summaryanovadelaynointer, echo = FALSE}
+dust(car::Anova(lm(eval ~ stage + delay, data = delay), type=3), 
+     keep_rownames = TRUE) %>% 
+  sprinkle(col = 2, round = 1) %>% 
+  sprinkle(col = 4, round = 2) %>% 
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames('.rownames' = "variable",
+                    'Sum Sq' = "sum of square", 
+                     'Df' = "df",
+                     'F value' = "F stat.", 
+                     "Pr(>F)" = "p-value")  %>% 
+knitr::kable(caption = "Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.", booktabs = TRUE, align = c("lrrrr"))
+```
+
+However, looking at the data and the mean of each sub-class paints a different portrait, as evidenced by the interaction plot of Figure \@ref(fig:twowayanovadelay). The score for service increases for `correctional` delays when the error occurs close to the end, but the effect is opposite for other delay types. The fact that our $p$-values for the effects were not significative merely indicate that the effects cancelled out each other.
+
+```{r twowayanovadelay, echo = FALSE, fig.cap = "Interactions plots for the $\\texttt{delay}$ data, with jitterd observations: if there was no interaction, the curves should be parallel. These plots seem to indicate an interaction."}
+data(delay, package = "hecstatmod")
+# lm(eval ~ delay + stage, data = delay)
+levels(delay$stage) <- c("close to end","far from end")
+levels(delay$delay) <- c("procedural","correctional","unknown")
+
+g1 <- ggplot(data = delay, 
+             aes(group = stage, col = stage, x= delay, y = eval)) +
+  geom_jitter(width = 0.25, alpha = 0.4) +
+  stat_summary(fun = mean, geom = "point") +
+  stat_summary(fun = mean, geom = "line") +
+  theme(legend.position = "bottom")
+
+g2 <- ggplot(data = delay, 
+             aes(group = delay, col = delay, x= stage, y = eval)) +
+  geom_jitter(width = 0.25, alpha = 0.4) +
+  stat_summary(fun = mean, geom = "point") +
+  stat_summary(fun = mean, geom = "line") +
+  theme(legend.position = "bottom")
+
 g1 + g2
 ```
 
-From there, we could create an indicator variable $\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)$ and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We merge the categories for non-smoker for simplicity. 
+There is a significant interaction between the variables $\texttt{delay}$ and $\texttt{stage}$ on evaluation. Therefore, the effect of $\texttt{delay}$ on the variable $\texttt{eval}$ depends on the level of the variable $\texttt{stage}$ ance vice-versa. Since there is an interaction term, tests for the main effects of $\texttt{stage}$ or $\texttt{delay}$ are not of interest.
 
-<!-- ```{r } -->
-<!-- lm_interaction <- lm(charges ~ age*obese*smoker +bmi*obese:smoker, data = insurance) -->
-<!-- insurance$res <- resid(lm_interaction) -->
-<!-- ggplot(data = insurance, aes(x = bmi, y = res, col = region)) + -->
-<!--   geom_point() + -->
-<!--   geom_vline(xintercept = 30) +  -->
-<!--   xlab("body mass index") + -->
-<!--   ylab("charges (in USD) | age") +  -->
-<!--     theme(legend.position = "bottom") -->
 
-<!-- ``` -->
+```{r summarydelaywinteraction, echo = FALSE}
+dust(car::Anova(lm(eval ~ stage*delay, data = delay), type=3), 
+     keep_rownames = TRUE) %>% 
+  sprinkle(col = 2, round = 1) %>% 
+  sprinkle(col = 4, round = 2) %>% 
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames('.rownames' = "variable",
+                    'Sum Sq' = "sum of square", 
+                     'Df' = "df",
+                     'F value' = "F stat.", 
+                     "Pr(>F)" = "p-value")  %>% 
+knitr::kable(caption = "Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.", booktabs = TRUE, align = c("lrrrr"))
+```
+
+If a difference is detected at this stage, one could then proceed to compute all pairwise differences within a given level of the other categorical variable. This is equivalent to running multiple $t$-tests, but the linear model assumes equal variance and would thus poll all observations. For example, we could test if the difference between procedural and correctional delays when the error occurs far from the end of the procedure is significant.  The mean differences of a factor for a given level of another factor are called **simple effects**. If the interaction is significant, there must be at least one pairwise difference which is also significant. However, repeated testing can inflate the Type I error, [as illustrated in this comic strip](https://xkcd.com/882/): if we conduct 20 independent tests and the null is true in all cases (so there are no difference between any of the sub-groups), we would still expect to reject (by mistake) 1/20 on average for tests performed at level $\alpha$. There exists method to adjust for multiple testing.
+
+While the normality assumption is less crucial for the reliability of the tests, it requires sufficient sample size in each subgroup for these (say 20), so that the central limit theorem kicks in. The tests and models typically use the pooled variance estimators: in small samples, it makes better use of the data and has higher precision than estimators of the individual variance in each subgroups. If the variance were unequal, comparisons would require extended models covered later in the term and pairwise comparisons could be based on Welch test.
