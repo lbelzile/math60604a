@@ -112,12 +112,9 @@
 \usepackage{enumerate}
 \usepackage{geometry}
 \geometry{hmargin=1.2in}
-\usepackage[mathscr]{eucal}
-\DeclareMathAlphabet{\mathcrl}{U}{rsfs}{m}{n}
-\usepackage{utopia}
-\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+
 \usepackage{booktabs}
-\usepackage{amsthm}
+\usepackage{amssymb}
 \makeatletter
 \def\thm@space@setup{%
   \thm@preskip=8pt plus 2pt minus 4pt
@@ -206,7 +203,10 @@
 \newenvironment{rmdwarning}
   {\begin{rmdblock}{warning}}
   {\end{rmdblock}}
-\usepackage{amsmath,amssymb,mathtools,enumerate,booktabs}
+\usepackage{mathrsfs}
+\DeclareMathAlphabet{\mathcrl}{U}{rsfs}{m}{n}
+\usepackage{utopia}
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
 \ifluatex
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-16.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-27.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -1079,7 +1079,7 @@ Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\var
 \end{align}
 where \(\varepsilon_i\) is the additive error term specific to observation \(i\). While we may avoid making distributional assumption about \(\varepsilon_i\), we nevertheless fix its expectation to zero to encode the fact we do not believe the model is systematically off,, so \(\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0\) \((i=1, \ldots, n)\).
 
-One important remark is that the model is linear in the coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example \(\mathrm{X}=\ln(\texttt{annees})\), \(\mathrm{X}=\texttt{horsepower}^2\) or \(\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}\). The mean of the response is specified as a \textbf{linear combination of explanatory variables}. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
+One important remark is that the model is linear in the coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example \(\mathrm{X}=\ln(\texttt{years})\), \(\mathrm{X}=\texttt{horsepower}^2\) or \(\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}\). The mean of the response is specified as a \textbf{linear combination of explanatory variables}. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1116,7 +1116,7 @@ To make concepts and theoretical notions more concrete, we will use data from a 
 \item
   \texttt{service}: number of years of service in the college.
 \item
-  \texttt{annees}: number of years since PhD.
+  \texttt{years}: number of years since PhD.
 \end{itemize}
 
 Before drafting a model, a quick look at the data is in due order. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.
@@ -1132,29 +1132,19 @@ Before drafting a model, a quick look at the data is in due order. If salary inc
 
 Salary increases over years of service, but its variability also increases with rank. Note the much smaller number of women in the sample: this will impact our power to detect differences between sex. A contingency table of sex and academic rank can be useful to see if the proportion of women is the same in each rank: women represent 16\% of assistant professors and 16\% of associate profs, but only 7\% of full professors and these are better paid on average.
 
-\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.
+\begin{table}
 
-assistant
-
-associate
-
-full
-
-man
-
-56
-
-54
-
-248
-
-woman
-
-11
-
-10
-
-18
+\caption{\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+  & assistant & associate & full\\
+\midrule
+man & 56 & 54 & 248\\
+woman & 11 & 10 & 18\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The simple linear regression model only includes a single explanatory variable and defines a straight line linking two variables \(\mathrm{X}\) and \(Y\) by means of an equation of the form \(y=a+bx\); Figure \ref{fig:droitenuage} shows the line passing through the scatterplot for years of service.
 
@@ -1353,7 +1343,7 @@ The representation in Figure \ref{fig:autoquad2d} may seem counter-intuitive giv
 \iffalse{} {Remark (There are better alternatives to polynomials for modelling nonlinear effects). } \fi{}Generally speaking, one uses flexible basis vectors (splines) rather than polynomials for smoothing when the relation between the response \(Y\) and an explanatory variable \(\mathrm{X}\) is nonlinear; these models involve many covariates and it is customary to add a penalty term to control for overfitting and wiggliness. A better (physical) understanding of the system, or a theoretical model can also guide the choice of functions to use.
 \end{remark}
 
-The coefficient \(\beta_j\) in Eq. \eqref{eq:linearreg} represents the \emph{marginal} contribution of \(\mathrm{X}_j\) when all the other covariates are included in the model and which is not explained by them. This can be represented graphically by projecting \(Y\) and \(\mathrm{X}_j\) in the orthogonal complement of \(\mathbf{X}_{-j}\) (the matrix containing all but the \(j\)th column \(\mathrm{X}_j\)). The \textbf{added-variable plot} is a graphical tool showing this projection: the residuals from the linear regression of \(Y\) onto \(\mathscr{S}(\mathbf{X}_{-j})\) are mapped to the \(y\)-axis, whereas the residuals from the linear regression of \(\mathrm{X}_j\) as a function of \(\mathbf{X}_{-j}\) are shown on the \(x\)-axis. The regression line passes through (\(0,0\)) and its slope is \(\hat{\beta}_j\). This graphical diagnostic is useful for detecting collinearity and the impact of outliers.
+The coefficient \(\beta_j\) in Eq. \eqref{eq:linearreg} represents the \emph{marginal} contribution of \(\mathrm{X}_j\) when all the other covariates are included in the model and which is not explained by them. This can be represented graphically by projecting \(Y\) and \(\mathrm{X}_j\) in the orthogonal complement of \(\mathbf{X}_{-j}\) (the matrix containing all but the \(j\)th column \(\mathrm{X}_j\)). The \textbf{added-variable plot} is a graphical tool showing this projection: the residuals from the linear regression of \(Y\) onto \(\mathscr{S}(\mathbf{X}_{-j})\) are mapped to the \(y\)-axis, whereas the residuals from the linear regression of \(\mathrm{X}_j\) as a function of \(\mathbf{X}_{-j}\) are shown on the \(x\)-axis. The regression line passes through (\(0,0\)) and its slope is \(\widehat{\beta}_j\). This graphical diagnostic is useful for detecting collinearity and the impact of outliers.
 
 \begin{example}[Wage inequality in an American college]
 \protect\hypertarget{exm:inequite-salariale}{}{\label{exm:inequite-salariale} \iffalse (Wage inequality in an American college) \fi{} }We consider a multiple regression model for the \texttt{college} data that includes sex, academic rank, field of study and the number of years of service as regressors.
@@ -1365,31 +1355,18 @@ If we multiply \(\texttt{salary}\) by a thousand to get the resulting estimates 
 +\beta_4 \texttt{rank}_{\texttt{full}}  +\beta_5 \texttt{service} + \varepsilon.
 \end{align*}
 
-\label{tab:collegecoefs}Estimated coefficients of the linear model for the \(\texttt{college}\) (in USD, rounded to the nearest dollar).
+\begin{table}
 
-\(\widehat{\beta}_0\)
-
-\(\widehat{\beta}_1\)
-
-\(\widehat{\beta}_2\)
-
-\(\widehat{\beta}_3\)
-
-\(\widehat{\beta}_4\)
-
-\(\widehat{\beta}_5\)
-
-86596
-
--4771
-
--13473
-
-14560
-
-49160
-
--89
+\caption{\label{tab:collegecoefs}Estimated coefficients of the linear model for the $\texttt{college}$ (in USD, rounded to the nearest dollar).}
+\centering
+\begin{tabular}[t]{rrrrrr}
+\toprule
+$\widehat{\beta}_0$ & $\widehat{\beta}_1$ & $\widehat{\beta}_2$ & $\widehat{\beta}_3$ & $\widehat{\beta}_4$ & $\widehat{\beta}_5$\\
+\midrule
+86596 & -4771 & -13473 & 14560 & 49160 & -89\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The interpretation of the coefficients is as follows:
 
@@ -1455,9 +1432,9 @@ The global hypothesis specifies that \((p-k)\) of the \(\beta\) parameters are z
 \end{align*}
 Let \(\mathsf{SS}_e(\mathbb{M}_1)\) be the residuals sum of squares for model \(\mathbb{M}_1\),
 \begin{align*}
-\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\hat{Y}_i^{\mathbb{M}_1})^2,
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
 \end{align*}
-where \(\hat{Y}_i^{\mathbb{M}_1}\) is the \(i\)th fitted value from \(\mathbb{M}_1\). Similarly define \(\mathsf{SS}_e(\mathbb{M}_0)\) for the residuals sum of square of \(\mathbb{M}_0\). Clearly, \(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\) (why?)
+where \(\widehat{Y}_i^{\mathbb{M}_1}\) is the \(i\)th fitted value from \(\mathbb{M}_1\). Similarly define \(\mathsf{SS}_e(\mathbb{M}_0)\) for the residuals sum of square of \(\mathbb{M}_0\). Clearly, \(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\) (why?)
 
 The \(F\)-test statistic is
 \begin{align*}
@@ -1467,157 +1444,531 @@ Under \(\mathscr{H}_0\), the \(F\) statistic follows a \href{https://en.wikipedi
 
 It turns out that both \(F\) and \(t\)-statistics are equivalent for testing a single coefficient \(\beta_j\): the \(F\)-statistic is the square of the Wald statistic and they lead to the same inference --- the \(p\)-value for the test are identical. While it may get reported in tables, the test for \(\beta_0=0\) is not of interest; we keep the intercept merely to centre the residuals.
 
-For normal linear regression, the likelihood ratio test for comparing models \(\mathbb{M}_1\) and \(\mathbb{M}_0\) is a function of the sum of squared residuals: the usual formula simplifies to \(R = n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}\). This is reminiscent of the \(F\)-statistic formula and the two are in fact intimately related modulo null distribution and scaling (we could obtain the exact distribution of the test rather than use the asymptotic \(\chi^2_q\) reference). The \(t\)-tests and \(F\)-tests presented above could thus both be viewed as particular cases of \href{liktests}{likelihood-based tests}.
+For normal linear regression, the likelihood ratio test for comparing models \(\mathbb{M}_1\) and \(\mathbb{M}_0\) is a function of the sum of squared residuals: the usual formula simplifies to \(R = n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}\). This is reminiscent of the \(F\)-statistic formula and the two are in fact intimately related modulo null distribution and scaling. The \(t\)-tests and \(F\)-tests presented above could thus both be viewed as particular cases of \href{liktests}{likelihood-based tests}.
 
 Consider the \texttt{college} data example and the associated linear model with \texttt{rank}, \texttt{sex}, years of \texttt{service} and \texttt{field} as covariates.
 
-\label{tab:summarytestslmcollege}Table of linear regression coefficients with associated standard errors, Wald tests and \emph{p}-values based on Student-\emph{t} distribution
+\begin{table}
 
-term
-
-estimate
-
-std. error
-
-Wald stat.
-
-p-value
-
-(Intercept)
-
-86.596
-
-2.96
-
-29.25
-
-\textless{} 0.001
-
-sex {[}woman{]}
-
--4.771
-
-3.878
-
--1.23
-
-0.22
-
-field {[}theoretical{]}
-
--13.473
-
-2.315
-
--5.82
-
-\textless{} 0.001
-
-rank {[}associate{]}
-
-14.56
-
-4.098
-
-3.55
-
-\textless{} 0.001
-
-rank {[}full{]}
-
-49.16
-
-3.834
-
-12.82
-
-\textless{} 0.001
-
-service
-
--0.089
-
-0.112
-
--0.8
-
-0.43
+\caption{\label{tab:summarytestslmcollege}Table of linear regression coefficients with associated standard errors, Wald tests and $p$-values based on Student-$t$ distribution}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+term & estimate & std. error & Wald stat. & p-value\\
+\midrule
+(Intercept) & 86.596 & 2.96 & 29.25 & < 0.001\\
+sex [woman] & -4.771 & 3.878 & -1.23 & 0.22\\
+field [theoretical] & -13.473 & 2.315 & -5.82 & < 0.001\\
+rank [associate] & 14.56 & 4.098 & 3.55 & < 0.001\\
+rank [full] & 49.16 & 3.834 & 12.82 & < 0.001\\
+\addlinespace
+service & -0.089 & 0.112 & -0.8 & 0.43\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Table \ref{tab:summarytestslmcollege} shows the estimated coefficients (in thousands of dollars). The coefficients are the least squares estimates \(\widehat{\boldsymbol{\beta}}\), the standard errors are the square root of the diagonal elements of \(S^2(\mathbf{X}^\top\mathbf{X})^{-1}\). The Wald (or \emph{t}-) statistic is simply \(W=\widehat{\beta}/\mathsf{se}(\widehat{\beta})\) for \(\mathscr{H}_0: \beta_j=0\): given two of the three estimates, we could easily recover the third using the formula for the test. The \(p\)-values are for the two-sided alternative test with \(\mathscr{H}_a: \beta_j \neq 0\).
 
 The interpretation is usual: \(p\)-values that are less than our prescribed level \(\alpha\) do not contribute significantly given the other variables already in the model. Neither years of service nor sex are statistically different from zero given all the other variables. The test for \(\beta_{\texttt{sex}}\) is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank.
 
-\label{tab:summaryanovalmcollege}Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, \emph{F}-statistic and associated \emph{p}-value.
+\begin{table}
 
-variable
-
-sum of square
-
-df
-
-F stat.
-
-p-value
-
-(Intercept)
-
-439059.2
-
-1
-
-855.71
-
-\textless{} 0.001
-
-sex
-
-776.7
-
-1
-
-1.51
-
-0.22
-
-field
-
-17372.5
-
-1
-
-33.86
-
-\textless{} 0.001
-
-rank
-
-102883.1
-
-2
-
-100.26
-
-\textless{} 0.001
-
-service
-
-324.5
-
-1
-
-0.63
-
-0.43
-
-Residuals
-
-200620.4
-
-391
+\caption{\label{tab:summaryanovalmcollege}Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, $F$-statistic and associated $p$-value.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+variable & sum of square & df & F stat. & p-value\\
+\midrule
+(Intercept) & 439059.2 & 1 & 855.71 & < 0.001\\
+sex & 776.7 & 1 & 1.51 & 0.22\\
+field & 17372.5 & 1 & 33.86 & < 0.001\\
+rank & 102883.1 & 2 & 100.26 & < 0.001\\
+service & 324.5 & 1 & 0.63 & 0.43\\
+\addlinespace
+Residuals & 200620.4 & 391 &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Table \ref{tab:summaryanovalmcollege} gives the \(F\)-statistics values and the associated \(p\)-values. The sum of squares represent the difference \(\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\) for various null models \(\mathbb{M}_0\), except the last line for residuals which reports \(\mathsf{SS}_e(\mathbb{M}_1)\). You can verify that (up to rounding) these \(p\)-pvalues are identical to those of the Wald test in the output when \texttt{df=1}. The only categorical variable here with more than one level is \texttt{rank}, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.
 
 We could have also easily computed the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the \(\chi^2_2\) distribution (both likelihood ratio test and \(F\)-test give a \(p\)-value of \(2.2 \times 10^{-16}\)).
+
+\hypertarget{coefR2}{%
+\section{Coefficient of determination}\label{coefR2}}
+
+When we specify a model, the error term \(\boldsymbol{\varepsilon}\) accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn't need statistic to begin with). Once we have fitted a model, we estimate the variance \(\sigma^2\); one may then wonder which share of the total variance in the sample is explained by the model.
+
+The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, \(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). We can then compare the variance of the original data with that of the residuals from the model with covariate matrix \(\mathbf{X}\), defined as \(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\) with \(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_j\mathrm{X}_j\).
+We define the coefficient of determination, or squared multiple correlation coefficient of the model, \(R^2\), as
+\begin{align*}
+R^2 = 1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}
+The coefficient of determination can be interpreted as the square of Pearson's linear correlation between the response \(\boldsymbol{y}\) and the fitted values \(\widehat{\boldsymbol{y}}\); see \protect\hyperlink{derivationR2}{the Appendix for a derivation of this fact.}
+
+Its important to note that \(R^2\) is not a goodness-of-fit criterion: some phenomena are inherently noisy and even a good model will fail to account for much of the response's variability. Moreover, one can inflate the value of \(R^2\) by including more explanatory variables: the coefficient is non-decreasing in the dimension of \(\mathbf{X}\), so a model with \(p+1\) covariate will necessarily have a higher \(R^2\) values than only \(p\) of the explanatories. For model comparisons, it is better to employ \protect\hyperlink{information-criteria}{information criteria}, or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high \(R^2\) may imply high correlation, but \href{http://www.tylervigen.com/spurious-correlations}{the relation may be spurious}: linear regression does not yield causal models!
+
+\hypertarget{predictions-lm}{%
+\section{Predictions}\label{predictions-lm}}
+
+When we compute least square estimates, we obtain fitted values \(\widehat{\boldsymbol{y}}\) as \(\mathbf{X}\widehat{\boldsymbol{\beta}}\), where \(\mathbf{X}\) denotes the \(n \times (p+1)\) matrix of original observations. Recalling that \(\mathsf{E}(Y_i \mid \mathbf{X}_i) = \beta_0 + \sum_{j=1}^p \beta_j \mathrm{X}_{ij}\), we can obtain an estimate of the mean surface for any value of \(\mathbf{x}_{n+1} \in \mathbb{R}^p\) by replacing the unknown coefficients \(\boldsymbol{\beta}\) by our estimates \(\widehat{\boldsymbol{\beta}}\) -- this actually yields the best linear unbiased predictor of the mean.
+
+If we want to predict the value of a new observation, say \(Y_{n+1}\), with explanatories \(\mathbf{x}_{n+1} = (1, x_1, \ldots, x_p)\), the prediction of the value will also be \(\widehat{y}_{n+1} = \mathbf{x}_{n+1}\widehat{\boldsymbol{\beta}}\) because
+\begin{align*}
+\mathsf{E}(Y_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta} + \mathsf{E}(\varepsilon_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta}.
+\end{align*}
+However, individual observations vary more than averages (which are themselves based on multiple observations). Intuitively, this is due to the added uncertainty of the error term \(\varepsilon_{n+1}\) appearing in the model equation: the variability of new predictions is the sum of uncertainty due to the estimators (based on random data) and the intrinsic variance of the observations assuming the new observation is independent of those used to estimate the coefficients,
+\begin{align*}
+\mathsf{Va}(Y_{n+1} \mid \mathbf{x}_n) &= \mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} + \varepsilon_{n+1} \mid \mathbf{x}_n)
+\\&=\mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} \mid \mathbf{x}_n) +\mathsf{Va}(\varepsilon_{n+1} \mid \mathbf{x}_n) 
+\\& = \sigma^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top + \sigma^2,
+\end{align*}
+where \(S^2\) is the unbiased estimator of the variance \(\sigma^2\). The distribution of \(Y_{n+1}\) is by assumption normal, but since we do not know the variance, we base the prediction interval on the Student distribution, viz.
+\begin{align*}
+\frac{\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}-Y_{n+1}}{\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}}\sim \mathsf{St}_{n-p-1}.
+\end{align*}
+and obtain \(1-\alpha\) prediction interval for \(Y_{n+1}\) by inverting the test statistic,
+\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}.
+\end{align*}
+Similar calculations yield the formula for confidence intervals for the mean,
+\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top}.
+\end{align*}
+The two differ only because of the additional variance of individual observations.
+
+Figure \ref{fig:predinterval} shows pointwise uncertainty bands for a simple linear regression of the \texttt{intention} data as a function of \texttt{fixation}, illustrating the limitations of the linear model in this example: the model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 2 to 14. The middle line gives the prediction of individuals as we vary their fixation time. Looking at the formula for the confidence, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. This is more easily seen by replicating the potential curves that could have happened with different data: I generated new potential slopes from the asymptotic normal distribution of \(\widehat{\boldsymbol{\beta}}\) estimators to show the hyperbolic shape is not surprising: we are basically tilting curves from the average fixation/intention, and they have higher potential from deviating far from the range of observations.
+
+\hypertarget{interactions}{%
+\section{Interactions}\label{interactions}}
+
+In the interpretation of the linear model, the effect of an explanatory variable is assumed to be the same, regardless of the other explanatory variables (\emph{ceteris paribus}). To isolate the effect of \(\beta_j\), we indeed fix the value of the other explanatories and increase by one the variable \(\mathrm{X}_j\) (whenever this makes sense) to obtain the slope coefficient. However, the effect of a covariate may sometimes depend on another explanatory.
+
+A good example of interaction is provided by the \texttt{insurance} dataset. An exploratory data analysis suggested that premiums depended on age, smoker status and body mass index, but through obesity status. It can be best represented graphically by looking at body mass index.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/insuranceinter1-1} 
+
+}
+
+\caption{Graph of insurance charges against body mass index. The figure clearly shows the interaction: the premium vary for smokers depending on whether or not they are obese, but we see no such behaviour for non-smokers. There is a clear linear increase of charges with age, but it is not clear whether the annual increase is the same for the three groups.}\label{fig:insuranceinter1}
+\end{figure}
+
+From there, we could create an indicator variable \(\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)\) and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We take non-smoker as baseline category. To make interpretation more meaningful, we rescale age so that \(\texttt{age}=0\) corresponds to 18 years old.
+
+\begin{table}
+
+\caption{\label{tab:coefintercharges}Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+term & estimate & std. error & Wald stat. & p-value\\
+\midrule
+(Intercept) & 2668.7 & 362.7 & 7.36 & < 0.001\\
+age & 265.9 & 15 & 17.7 & < 0.001\\
+obesity [obese] & 115.3 & 510.3 & 0.23 & 0.82\\
+smoker [yes] & 13526.2 & 803.1 & 16.84 & < 0.001\\
+age * obesity [obese] & 1.4 & 20.1 & 0.07 & 0.94\\
+\addlinespace
+age * smoker [yes] & -5.3 & 33.5 & -0.16 & 0.87\\
+obesity [obese] * smoker [yes] & 19308.7 & 1110.5 & 17.39 & < 0.001\\
+age * obesity [obese] * smoker [yes] & 19.1 & 44.8 & 0.43 & 0.67\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for \texttt{age}; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.
+
+\begin{align*}
+\texttt{charges} &= \beta_{0} + \beta_{1}\texttt{age} + \beta_{2}\texttt{obese} + \beta_{3}\texttt{smoker} + 
+\beta_{4}\texttt{age} \cdot \texttt{obese} \\&\quad + \beta_{5}\texttt{age} \cdot \texttt{smoker} + \beta_{6}\texttt{obese} \cdot \texttt{smoker} + \beta_{7}\texttt{age} \cdot \texttt{obese} \cdot \texttt{smoker} + \varepsilon
+\end{align*}
+
+Because of the three-way interaction, it is not possible to recover individual parameters by changing the value of the corresponding covariate and keeping everything else constant: changing the smoker status likely impacts multiple regressors simultaneously. To retrieve the interpretation of the different coefficients, we will need to change one parameter at the time, write the mean equation and then isolate the coefficients. Throughout, \(\texttt{obese}\) is a dummy variable equal to one if the person has a body mass index greater than 30 and likewise \(\texttt{smoker}\) if the person is a smoker.
+
+\begin{align*}
+\texttt{charges}  = 
+\begin{cases}
+\beta_{0} + \beta_{1}\texttt{age}  & (\mathrm{g}_1)\, \texttt{non-obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{4})\texttt{age},  & (\mathrm{g}_2)\,  \texttt{obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{3}) + (\beta_{1} + \beta_{5})\texttt{age},  & (\mathrm{g}_3)\,  \texttt{non-obese}, \texttt{smoker} \\
+(\beta_{0} + \beta_{2} + \beta_{3}+ \beta_{6}) + (\beta_{1} + \beta_{4} +\beta_{5} + \beta_7)\texttt{age},  & (\mathrm{g}_4)\,  \texttt{obese}, \texttt{smoker}
+\end{cases}
+\end{align*}
+
+\begin{itemize}
+\tightlist
+\item
+  The intercept \(\beta_0\) is the average at 18 years old of non-smokers who are not obese.
+\item
+  The slope \(\beta_1\) is the average annual increase in charges for non-smokers who are not obese.
+\item
+  The parameter \(\beta_2\) is a contrast, the difference between the average charges of 18 years old non-smokers who are obese and those who are not.
+\item
+  The parameter \(\beta_3\) is a contrast, the difference between the average premium for non-obese 18 years old who smoke and those who don't.
+\item
+  The parameter \(\beta_4\) is a contrast, the difference in average annual increase for non-smokers between obese and non-obese adults.
+\item
+  The parameter \(\beta_5\) is a contrast, the difference in average annual increase for non-obese between smoker and non-smoker adults.
+\end{itemize}
+
+The other two coefficients, \(\beta_6\) and \(\beta_7\) represent differences of average between groups \(\mathrm{g}_1 + \mathrm{g}_4 - \mathrm{g}_2 - \mathrm{g}_3\) for both intercepts and slopes.
+
+The only \(F\)-test that we should consider in the analysis of variance table (containing the Type III sum of squares decomposition) is the test for the three-way interaction, which corresponds to \(\mathscr{H}_0: \beta_7=0\). The \(p\)-value against the two-sided alternative is \(0.6704\), suggesting no difference in slope. The reason why we do not consider the other tests is that they correspond to irrelevant hypotheses. For example, the test for the two-way interaction term \(\mathscr{H}_0: \beta_4=0\) associated to \(\texttt{age} \cdot \texttt{obese}\) would correspond to merging the intercepts of group \(\mathrm{g}_1\) and \(\mathrm{g}_2\). Changing the baseline category would imply that a different difference in intercept is forced to be zero.
+
+Sometimes, however, specific hypothesis could be of interest because of the problem setting. We could perform bespoke test to check here that \(\mathscr{H}_0: \beta_2=\beta_4=0\), which consists in merging the two non-smoker categories, or even \(\mathscr{H}_0: \beta_2=\beta_4= \beta_5=\beta_7=0\), which amounts to merging non-smokers and the imposing a common slope for \(\texttt{age}\). Such tests are not directly available in the output, but we can implement them manually by fitting two models and then plug-in in the values of residual sum of squares of both model in the formula of the \(F\) statistic. Using the \(F\) null distribution, we get a \(p\)-value of 0.965. This suggests both non-smoker groups are indistinguishable and likewise that there is no evidence that slopes for \(\texttt{age}\) are not equal.
+
+Most interactions include functions of categorical variables together with either other categorical variables (different intercepts / conditional means per subgroups) or else other. Keep in mind that the validity of our tests above depend on the model being correctly specified: there is however evidence of difference in heterogeneity between groups, with unexplained non-smoker records. Plotting the residuals from the model that includes four different intercepts and slopes for \(\texttt{age}\) for each combination of smoker/obesity status misses other features that one would capture in diagnostic plots. in particular, except for some notable outliers, there is evidence that the premiums of smokers also increase with body mass index; as evidenced by Figure \ref{fig:resod}. If we include \texttt{bmi} as additional covariate in the model in addition of \texttt{obese}, the interpretation of changes in obesity will depend on the value of \texttt{bmi} and vice-versa.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/resod-1} 
+
+}
+
+\caption{Residuals from the interaction model for $\texttt{charges}$ with $\texttt{age}$, $\texttt{smoker}$ and $\texttt{obesity}$. There is a notably outlier for a male smoker whose $\texttt{bmi}$ is exactly 30 and other points above. There is indication of a linear trend for both smoker sub-groups as their body mass index increase, which was not apparent previously because of the effect of age.}\label{fig:resod}
+\end{figure}
+
+\hypertarget{two-way-anova}{%
+\subsection{Two-way ANOVA}\label{two-way-anova}}
+
+\begin{quote}
+``We're the same as regression, but we've established a separate persona.'' --- Chelsea Parlett-Pelleriti
+\end{quote}
+
+Two-way analysis of variance is a linear regression model with two categorical variables, and possibly an interaction term between the two. We consider a study on the effect of the type of delay and source of delay on the evaluation of service and on time lost waiting.
+
+\begin{quote}
+Hui, M. K., Thakor, M. V. et Gill, R. (1998). \emph{The Effects of Delay Type and Service Stage on Consumers' Reaction to Waiting}. Journal of Consumer Research \textbf{24}, 469-479.
+\end{quote}
+
+In a university, 120 participants tried a new course registration system. They were actually using a fake registration system where factors of interest could be manipulated, the advancement stage in the registration process and the type of delay. The two levels for stage of advancement were \texttt{close\ to\ end} and \texttt{far\ from\ end}. In stage \texttt{far\ from\ end}, a message indicating a delay appeared immediately at the beginning of the registration process. For the stage \texttt{close\ to\ end}, the delay message appeared after the participant has entered personal information and course choices.
+
+There were three types of delays: \texttt{procedural}, \texttt{correctional}, and \texttt{unknown}. The delay message indicated that the server was currently busy (\texttt{procedural} delay), that there were problems with the terminal and that the system needed to reestablish the connection (\texttt{correctional} delay) or else simply stated ``please wait'' (\texttt{unknown} delay).
+
+At the end of the registration process, the participants were asked to estimate the delay time (in minutes) incurred during the registration process. They were also asked to provide an evaluation of the service using two measurement scales. The simulated data corresponding to this study are found in the \(\texttt{delay}\) database, which contains the following variables
+
+\begin{itemize}
+\tightlist
+\item
+  \(\texttt{time}\): delay time (in minutes) according to the participant.
+\item
+  \(\texttt{eval}\): evaluation of service (standardized score).
+\item
+  \(\texttt{stage}\): stage of advancement, a factor with levels \texttt{close\ to\ end} and \texttt{far\ from\ end}
+\item
+  \(\texttt{delay}\): type of delay, a factor with levels \texttt{procedural}, \texttt{correctional} and \texttt{unknown}.
+\end{itemize}
+
+In the experimental design, the 120 participants were randomly assigned to one of these six conditions, but nine of the 120 participants were removed because they were not able to specify the type of delay that occurred. The dataset is \textbf{unbalanced}, meaning that the number of observations in each cell is unequal. If there had been the same number of observations in each subgroup for factors \(A\), \(B\), the test for the effect of factor \(A\) given that \(B\) is already in the model would be the same as the marginal effect of \(A\) only.
+
+We will evaluate the effect of the factors \(\texttt{delay}\) and \(\texttt{stage}\) on the estimated waiting time.
+
+If there is an interaction between explanatory variables, but the latter is not included in the models, the tests are misleading: one assumption of the linear model being that all of the relevant covariates have been included and their effect properly accounted for. In this example, omitting the interaction leads to effects being averaged and cancelling each other. Fitting an ANOVA model with only additive (main effects, without interaction) for the evaluation of service suggests that the factors \(\texttt{stage}\) and \(\texttt{delay}\) are not significant: the \(p\)-values for the main effects, reported in Table \ref{tab:summaryanovadelaynointer}, are \(0.409\) and \(0.137\). Therefore, there seemingly is no significant difference in delay time between the two stages and the three delay types.
+
+\begin{table}
+
+\caption{\label{tab:summaryanovadelaynointer}Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+variable & sum of square & df & F stat. & p-value\\
+\midrule
+(Intercept) & 0 & 1 & 0.11 & 0.74\\
+stage & 0.3 & 1 & 0.69 & 0.41\\
+delay & 1.6 & 2 & 2.02 & 0.14\\
+Residuals & 41.9 & 105 &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+However, looking at the data and the mean of each sub-class paints a different portrait, as evidenced by the interaction plot of Figure \ref{fig:twowayanovadelay}. The score for service increases for \texttt{correctional} delays when the error occurs close to the end, but the effect is opposite for other delay types. The fact that our \(p\)-values for the effects were not significative merely indicate that the effects cancelled out each other.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/twowayanovadelay-1} 
+
+}
+
+\caption{Interactions plots for the $\texttt{delay}$ data, with jitterd observations: if there was no interaction, the curves should be parallel. These plots seem to indicate an interaction.}\label{fig:twowayanovadelay}
+\end{figure}
+
+There is a significant interaction between the variables \(\texttt{delay}\) and \(\texttt{stage}\) on evaluation. Therefore, the effect of \(\texttt{delay}\) on the variable \(\texttt{eval}\) depends on the level of the variable \(\texttt{stage}\) ance vice-versa. Since there is an interaction term, tests for the main effects of \(\texttt{stage}\) or \(\texttt{delay}\) are not of interest.
+
+\begin{table}
+
+\caption{\label{tab:summarydelaywinteraction}Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+variable & sum of square & df & F stat. & p-value\\
+\midrule
+(Intercept) & 3.8 & 1 & 18.29 & < 0.001\\
+stage & 5.3 & 1 & 25.67 & < 0.001\\
+delay & 8.1 & 2 & 19.64 & < 0.001\\
+stage:delay & 20.5 & 2 & 49.63 & < 0.001\\
+Residuals & 21.3 & 103 &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+If a difference is detected at this stage, one could then proceed to compute all pairwise differences within a given level of the other categorical variable. This is equivalent to running multiple \(t\)-tests, but the linear model assumes equal variance and would thus pool all observations to estimate the latter. For example, we could test if the difference between procedural and correctional delays when the error occurs far from the end of the procedure is significant. The mean differences of a factor for a given level of another factor are called \textbf{simple effects}. If the interaction is significant, there must be at least one pairwise difference which is also significant. However, repeated testing can inflate the Type I error, \href{https://xkcd.com/882/}{as illustrated in this comic strip}: if we conduct 20 independent tests and the null is true in all cases (so there are no difference between any of the sub-groups), we would still expect to reject (by mistake) 1/20 on average for tests performed at level \(\alpha\). There exists method to adjust for multiple testing.
+
+While the normality assumption is less crucial for the reliability of the tests, it requires sufficient sample size in each subgroup for these (say 20), so that the central limit theorem kicks in. The tests and models typically use the pooled variance estimators: in small samples, it makes better use of the data and has higher precision than estimators of the individual variance in each subgroups. If the variance were unequal, comparisons would require extended models covered later in the term and pairwise comparisons could be based on Welch test statistic.
+
+\hypertarget{collinearity}{%
+\section{Collinearity}\label{collinearity}}
+
+The linearity assumption can be interpreted broadly to mean that all relevant covariates have been included and that their effect is correctly specified in the equation of the mean. Adding superfluous covariates to a model has limited impact: if the (partial) correlation between a column vector \(\mathbf{X}_k\) and the response variable \(\boldsymbol{Y}\) is zero, then \(\beta_k=0\) and the estimated coefficient \(\widehat{\beta}_k \approx 0\) because the least square estimators are unbiased. If we include many useless variables, say \(k\), the lack of parsimony can however make interpretation more difficult. The price to pay for including the \(k\) additional covariates is an increase in the variance of the estimators \(\widehat{\boldsymbol{\beta}}\).
+
+It is nevertheless preferable to include more variables than to forget key predictors: if we omit an important predictor, their effect may be picked up by other regressors (termed \textbf{confounders}) in the model with are correlated with the omitted variable. The interpretation of the other effects can be severely affected by confounders. For example, the simple linear model (or two-sample \(t\)-test) for salary as a function of sex for the \texttt{college} data is invalid because sex is a confounder for rank. Since there are more men than women full professor, the mean salary difference between men and women is higher than it truly is. One way to account for this is to include control variables (such as rank), whose effect we need not be interested in, but that are necessary for the model to be adequate. We could also have used stratification, i.e., tested for wage discrimination within each academic rank. This is the reason why sociodemographic variables (sex, age, education level, etc.) are collected as part of studies.
+
+A linear model is not a \href{https://xkcd.com/552/}{causal model}: all it does is capture the linear correlation between an explanatory variable and the response. When there are more than one explanatory, the effect of \(\mathrm{X}_j\) given what has not already been explained by \(\mathbf{X}_{-j}\). Thus, if we fail to reject \(\mathscr{H}_0:\beta_j=0\) in favor of the alternative \(\mathscr{H}_1: \beta_j \neq 0\), we can only say that there is no significant \emph{linear} association between \(\mathrm{X}_j\) and \(Y\) once the effect of other variables included in the model has been accounted for. There are thus two scenarios: either the response is uncorrelated with \(\mathrm{X}_j\) (uninteresting case, but easy to pick up by plotting both or computing linear correlation), or else there is a strong correlation between \(\mathrm{X}_j\) and both the response \(Y\) as well as (some) of the other explanatory variables \(\mathrm{X}_1, \ldots, \mathrm{X}_p\). This problem is termed (multi)collinearity.
+
+One potential harm of collinearity is a decrease in the precision of parameter estimators. With collinear explanatories, many linear combinations of the covariates represent the response nearly as well. Due to the (near) lack of identifiability, the estimated coefficients become numerically unstable and this causes an increase of the standard errors of the parameters. The predicted or fitted values are unaffected. Generally, collinearity leads to high estimated standard errors and the regression coefficients can change drastically when new observations are included in the model, or when we include or remove explanatories. The individual \(\beta\) coefficients may not be statistically significant, but the global \(F\)-test will indicate that some covariates are relevant for explaining the response. This however would also be the case if there are predictors with strong signal, so neither is likely to be useful to detect issues.
+
+The added-variable plot shows the relation between the response \(Y\) and an explanatory \(\mathrm{X}_j\) after accounting for other variables: the slope \(\widehat{\beta}_j\) of the simple linear regression is the same of the full model. A similar idea can be used to see how much of \(\mathrm{X}_j\) is already explained by the other variables. For a given explanatory variable \(\mathrm{X}_j\), we define its \textbf{variance inflation factor} as \(\mathsf{VIF}(j)=(1-R^2(j))^{-1}\), where \(R^2(j)\) is the coefficient of determination of the model obtained by regressing \(\mathrm{X}_j\) on all the other explanatory variables, i.e.,
+\begin{align*}
+\mathrm{X}_j = \beta^{\star}_0 + \beta^{\star}_1 \mathrm{X}_1 + \cdots + \beta^{\star}_{j-1} \mathrm{X}_{j-1} + \beta^{\star}_{j+1} \mathrm{X}_{j+1} + \cdots + \beta^{\star}_p\mathrm{X}_p + \varepsilon^{\star}
+\end{align*}
+By definition, \(R^2(j)\) represents the proportion of the variance of \(\mathrm{X}_j\) that is explained by all the other predictor variables. Large variance inflation factors are indicative of problems (typically covariates with \(\mathsf{VIF}>10\) require scrutinity, and values in the hundreds or more indicate serious problems).
+
+Added-variable plots can also serve as diagnostics, by means of comparison of the partial residuals with a scatterplot of the pair \((Y, \mathrm{X}_j)\); if the latter shows very strong linear relation, but the slope is nearly zero in the added-variable plot, this hints that collinearity is an issue.
+
+What can one do about collinearity? If the goal of the study is to develop a predictive model and we're not interested in the parameters themselves, then we don't need to do anything. Collinearity is not a problem for the overall model: it's only a problem for the individual effects of the variables. Their joint effect is still present in the model, regardless of how the individual effects are combined.
+
+If we are interested in individual parameter estimates, for example,
+to see how (and to what extent) the predictor variables explain the behaviour of \(Y\), then things get more complicated. Collinearity only affects the variables that are strongly correlated with one another, so we only care if it affects one or more of the variables of interest. There sadly is no good solution to the problem. One could
+
+\begin{itemize}
+\tightlist
+\item
+  try to obtain more data, so as to reduce the effects of collinearity appearing in specific samples or that are due to small sample size.
+\item
+  create a composite score by somehow combining the variables showing collinearity.
+\item
+  remove one or more of the collinear variables. You need to be careful when doing this not to end up with a misspecified model.
+\end{itemize}
+
+Whatever the method, it's important to understand that it can be very difficult (and sometimes impossible) to isolate the individual effect of a predictor variable strongly correlated with other predictors.
+
+\hypertarget{graphical-analysis-of-residuals}{%
+\section{Graphical analysis of residuals}\label{graphical-analysis-of-residuals}}
+
+So far, we have fit models and tested significance of the parameters without checking the model assumptions. The correctness of statements about the \(p\)-values and confidence intervals depend on the (approximate) validity of the model assumptions, which all stem from the distributional assumption for the error, assumed to be independent and identically distributed with \(\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{No}(0, \sigma^2)\). This compact mathematical description can be broken down into four assumptions.
+
+\begin{itemize}
+\tightlist
+\item
+  normality of the errors
+\item
+  linearity: the mean of \(Y\) is \(\beta_0 + \beta_1\mathrm{X}_1 + \cdots + \beta_p \mathrm{X}_p\).
+\item
+  homoscedasticity: the error variance is constant
+\item
+  independence of the errors.
+\end{itemize}
+
+This section reviews the assumptions made in order to allow statistical inference using the linear model and different residuals that serve as building blocks for graphical diagnostics. We investigate the consequences of violation of these assumptions and outline potential mitigation strategies, many of which are undertaken in other chapters.
+
+When we perform an hypothesis test, we merely fail to reject the null hypothesis, either because the latter is true or else due to lack of evidence. The same goes for checking the validity of model assumptions: scientific reasoning dictates that we cannot know for certain whether these hold true. Our strategy is therefore to use implications of the linear model assumptions to create graphical diagnostic tools, so as to ensure that there is no gross violation of these hypothesis. However, it is important to beware of over-interpreting diagnostic plots: the human eye is very good at finding spurious patterns.
+
+Other good references for the material in this section is:
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://otexts.com/fpp2/regression-evaluation.html}{Forecasting: Principles and Practice, section 5.3}
+\end{itemize}
+
+\hypertarget{residuals}{%
+\subsection{Residuals}\label{residuals}}
+
+Residuals are predictions of the errors \(\varepsilon\) and represent the difference between the observed value \(Y_i\) and the estimated value on the line.
+The ordinary residuals are
+\begin{align*}
+e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
+\end{align*}
+The sum of the ordinary residuals is always zero by construction if the model includes an intercept, meaning \(\overline{e} = 0\).
+
+Not all observations contribute equally to the adjustment of the fitted hyperplane. The geometry of least squares shows that the residuals are orthogonal to the fitted values, and \(\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y}\), where \(\mathbf{H}_{\mathbf{X}}=\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\) is an \(n \times n\) projection matrix that spans the \(p\)-dimensional linear combination of the columns of \(\mathbf{X}\), \(\mathcal{S}(\mathbf{X})\). If \(\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n\), it follows that \(\mathsf{Va}(\boldsymbol{e})=\sigma^2(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\) because \((\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\) is a projection matrix, therefore idempotent and symmetric. Because the matrix has rank \(n-p\), the ordinary residuals cannot be independent from one another.
+
+If the errors are independent and homoscedastic, the ordinary residual \(e_i\) has variance \(\sigma^2(1-h_{i})\), where the leverage term \(h_i =(\mathbf{H}_{\mathbf{X}})_{ii} = \mathbf{x}_i (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}_i\) is the \(i\)th diagonal entry of the projection matrix \((\mathbf{H}_{\mathbf{X}})\) and \(\mathbf{x}_i\) is the \(i\)th row of the design matrix corresponding to observation \(i\).
+
+We thus conclude that ordinary residuals do not all have the same standard deviation and they are not independent. This is problematic, as we cannot make meaningful comparisons: points with low leverage are bound to deviate more from the fitted model than others. To palliate to this, we can standardize the residuals so each has the same variance under the null of independent homoscedastic errors --- the leverage terms \(h_i\) are readily calculated from the design matrix \(\mathbf{X}\).
+The only remaining question is how to estimate the variance. If we use the \(i\)th observation to estimate both the residual and the variance, we introduce additional dependence. A better way is remove the \(i\)th observation and refit the model with the \(n-1\) remaining observations to get of \(s^2_{(-i)}\) (there are tricks and closed-form expressions for these, so one doesn't need to fit \(n\) different linear models). The jacknife studentized residual \(r_i = e_i/\{s_{(-i)}(1-h_i)\}\), also termed externally studentized residuals, are not independent, but they are identically distributed and follow a Student distribution with \(n-p-2\) degrees of freedom.
+These can be obtained in \textbf{R} with the command \texttt{rstudent}, also in \textbf{SAS}.
+
+When to use which residuals? By construction, the vector of ordinary residuals \(\boldsymbol{e}\) is orthogonal to the fitted values \(\widehat{\boldsymbol{y}}\) and also to each column of the design matrix \(\mathbf{X}\): this means a simple linear regression of \(\boldsymbol{e}\) with any of these as covariate gives zero intercept and zero slope. However, residual patterns due to forgotten interactions, nonlinear terms, etc. could be picked up from pair plots of ordinary residuals against the explanatories.
+
+While the jackknife studentized residuals \(r_i\) are not orthogonal, they are not very different. Use jackknife residuals \(\boldsymbol{r}\) to check for equality of variance and distributional assumptions (e.g., using quantile-quantile plots).
+
+One thus typically uses ordinary residuals \(\boldsymbol{e}\) for plots of fitted values/explanatories against residuals and otherwise jackknife studentized residuals for any other graphical diagnostic plot.
+
+\hypertarget{leverage-and-outliers}{%
+\subsection{Leverage and outliers}\label{leverage-and-outliers}}
+
+The leverage \(h_i\) of observation \(i\) measures its impact on the least square fit, since we can write \(h_i = \partial \widehat{y}_i/\partial y_i\). Leverage values tell us how much each point impacts the fit: they are strictly positive, are bounded below by \(1/n\) and above by \(1\). The sum of the leverage values is \(\sum_{i=1}^n h_i=p+1\): in a good design, each point has approximately the same contribution, with average weight \((p+1)/n\).
+
+Points with high leverage are those that have unusual combinations of explanatories. An influential observation (\(h_i\approx 1\)) pulls the fitted hyperplane towards itself so that \(\hat{y}_i \approx y_i\). As a rule of thumb, points with \(h_i> 2(p+1)/n\) should be scrutinized.
+
+It is important to distinguish betwen \textbf{influential} observations (which have unusual \(\mathbf{x}\) value, i.e., far from the overall mean) and \textbf{outliers} (unusual value of the response \(y\)).
+If an observation is both an outlier and has a high leverage, it is problematic.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/outliers-1} 
+
+}
+
+\caption{Outlier and influential observation. The left panel shows an outlier, whereas the right panel shows an influential variable (rightmost $x$ value).}\label{fig:outliers}
+\end{figure}
+
+If influential observations can be detected by inspecting the leverage of each observation, outliers are more difficult to diagnose.
+
+An outlier stands out from the rest of the observations, either because it has an usual response value, or because it falls far from the regression surface.
+Loosely speaking, an outlier is an unusual values of \(Y\) for a given combination of \(\mathbf{X}\) that ``stand out'\,' from the rest.
+Outliers can be detected during the exploratory data analysis or picked-up in residual plots (large values of \(|e_i|\) in plots of fitted versus residuals) or added-variable plots. One could potentially test whether an jackknife studentized residual is an outlier (adjusting for the fact we would consider only largest values). One can also consider Cook's distance, \(C_j\), a statistic giving the scaled distance between the fitted values \(\hat{\boldsymbol{y}}\) and the fitted values for the model with all but the \(j\)th observation, \(\hat{\boldsymbol{y}}^{(-j)}\),
+\begin{align*}
+C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\right\}^2.
+\end{align*}
+Large values of \(C_j\) indicate that its residual \(e_j\) is large relative to other observations or else its leverage \(h_j\) is high. A rule of thumb is to consider points for which \(C_j > 4/(n-p-1)\). In practice, if two observations are outlying and lie in the same region, their Cook distance will be halved.
+
+Outliers and influential observations should not be disregarded because they don't comply with the model, but require further investigation. They may motivate further modelling for features not accounted for. It is also useful to check for registration errors in the data (which can be safely discarded).
+
+Except in obvious scenarios, unusual observations should not be discarded. In very large samples, the impact of a single outlier is hopefully limited. Transformations of the response may help reduce outlyingness. Otherwise, alternative objective functions (as those employed in robust regression) can be used; these downweight extreme observations, at the cost of efficiency.
+
+\hypertarget{diagnostic-plots}{%
+\subsection{Diagnostic plots}\label{diagnostic-plots}}
+
+We review the assumptions in turn and discuss what happens when the assumptions fail to hold.
+
+\hypertarget{independence-assumption}{%
+\subsubsection{Independence assumption}\label{independence-assumption}}
+
+Usually, the independence of the observations follows directly from the type of sampling used --- this assumption is implicitly true if the observations were taken from a \emph{random sample} from the population. This is generally not the case for longitudinal data, which contains repeated measures from the same individuals across time. Likewise, time series are bound not to have independent observations. If we want to include all the time points in the analysis, we must take into account the possible dependence (correlation) between observations. If we ignore correlation, the estimated standard errors are too small relative to the truth, so the effective sample size is smaller than number of observations.
+
+The first source of dependence is clustered data, meaning measurements taken from subjects that are not independent from one another (family, groups, etc.)
+More generally, correlation between observations arises from time dependence, roughly categorized into
+
+\begin{itemize}
+\tightlist
+\item
+  longitudinal data: repeated measurements are taken from the same subjects (few time points)
+\item
+  time series: observations observed at multiple time periods (many time points). Time series require dedicated models not covered in this course.
+\end{itemize}
+
+Because of autocorrelation, positive errors tend to be followed by positive errors, etc. We can plot the residuals as a function of time, and a scatterplot of lagged residuals \(e_i\) versus \(e_{i-1}\) (\(i=2, \ldots, n\)).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/timeresidplot-1} 
+
+}
+
+\caption{Lagged residual plots (right). The left panel shows lack of evidence against independence, whereas the right panel shows positively correlated residuals.}\label{fig:timeresidplot}
+\end{figure}
+
+However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations \(h\) units apart as a function of the lag \(h\) (Brockwell and Davis, 2016, Defn. 1.4.4).
+
+For \(y_1, \ldots, y_n\) and constant time lags \(h=0, 1, \ldots\) units, the autocorrelation at lag \(h\) is
+\begin{align*}
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y}) 
+\end{align*}
+
+If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in Figure \ref{fig:correlogram}. Presence of autocorrelation requires modelling the correlation between observations explicitly using dedicated tools from the time series literature that are covered in MATH 60638. We will however examine \(\mathsf{AR}(1)\) models as part of the chapter on longitudinal data.
+
+When observations are positively correlated, the estimated standard errors reported by the software are too small. This means we are overconfident and will reject the null hypothesis more often then we should if the null is true (inflated Type I error, or false positive).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/correlogram-1} 
+
+}
+
+\caption{Correlogram of independent observations (left) and the ordinary residuals of the log-linear model fitted to the air passengers data (right). While the mean model of the latter is seemingly correctly specified, there is residual dependence between monthly observations and yearly (at lag 12). The blue lines give approximate pointwise 95\% confidence intervals for white noise (uncorrelated observations).}\label{fig:correlogram}
+\end{figure}
+
+\hypertarget{linearity-assumption}{%
+\subsubsection{Linearity assumption}\label{linearity-assumption}}
+
+The second assumption of the linear model is that of linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified.
+To check that the response surface of the linear model is adequate, we plot \(e_i\) against \(\widehat{y}_i\) or \(\mathrm{X}_{ij}\) (for \(j=1, \ldots, p\)). Since the linear correlation between \(\boldsymbol{e}\) and \(\widehat{\boldsymbol{y}}\) (or \(\boldsymbol{e}\) and \(\mathbf{X}_j\)) is zero by construction, patterns (e.g., quadratic trend, cycles, changepoints) are indicative of misspecification of the mean model. One can add a smoother to detect patterns. Figure \ref{fig:regdiaglin} shows three diagnostics plots, the second of which shows no pattern in the residuals, but skewed fitted values.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/regdiaglin-1} 
+
+}
+
+\caption{Scatterplots of residuals against fitted values. The first two plots show no departure from linearity (mean zero). The third plot shows a clear quadratic pattern, suggesting the mean model is misspecified. Note that the distribution of the fitted value need not be uniform, as in the second panel which shows more high fitted values.}\label{fig:regdiaglin}
+\end{figure}
+
+If there is residual structure in plots of ordinary residuals against either (a) the fitted values or (b) the explanatory variables, a more complex model can be adjusted including interactions, nonlinear functions, \ldots If the effect of an explanatory variable is clearly nonlinear and complicated, smooth terms could be added (we won't cover generalized additive models in this course).
+
+Plotting residuals against left-out explanatory variables can also serve to check that all of the explanatory power of the omitted covariate is already explained by the columns of \(\mathbf{X}\).
+
+If an important variable has been omitted and is not available in the dataset, then the effect of that variable is captured by both the errors (the portion orthogonal to the design matrix \(\mathbf{X}\), i.e., unexplained by the covariates included in the model) and the remaining part is captured by other explanatories of the model that are correlated with the omitted variable. These variables can act as confounders. There is little that can be done in either case unless the data for the omitted variable are available, but subject-specific knowledge may help make sense of the results.
+
+\hypertarget{homoscedasticity-assumption}{%
+\subsubsection{Homoscedasticity assumption}\label{homoscedasticity-assumption}}
+
+If the variance of the errors is the same for all observations, that of the observations \(Y\) is also constant. The most common scenarios for heteroscedasticity are increases in variance with the response, or else variance that depends on explanatory variables \(\mathbf{X}\), most notably categorical variables. For the former, a log-transform (or Box--Cox transformation) can help stabilize the variance, but we need the response to be positive. For the latter, we can explicitly model that variance and we will see how to include different variance per group later on. A popular strategy in the econometrics literature, is to use robust (inflated) estimators of the standard errors such as \href{https://en.wikipedia.org/wiki/Heteroscedasticity-consistent_standard_errors}{White's sandwich estimator of the variance}.
+
+If the residuals (or observations) are heteroscedastic (non constant variance), the estimated effects of the variables (the \(\beta\) parameters) are still valid in the sense that the ordinary least squares estimator \(\widehat{\boldsymbol{\beta}}\) is unbiased. However, the estimated standard errors of the \(\widehat{\beta}\) are no longer reliable and, consequently, the confidence intervals and the hypothesis tests for the model parameters will be incorrect. Indeed, if the variance of the errors differs from one observation to the next, we will estimate an average of the different variance terms. The standard errors of each term are incorrect (too small or too large) and the conclusions of the tests (\(p\)-values) will be off because the formulas of both \(t\)-test and \(F\)-test statistics include estimates of \(\hat{\sigma}^2\).
+
+Looking at the plot of jackknife studentized residuals against regressors (or fitted values) is instructive --- for example, we often see a funnel pattern when there is an increase in variance in the plot of the jackknife studentized residuals against fitted value, or else in boxplots with a categorical variable as in Figure \ref{fig:diagfitvalhomosce}.
+However, if we want to fit a local smoother to observe trends, it is better to plot the absolute value of the jackknife studentized residuals against regressors or observation number.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/residhomoscedastic-1} 
+
+}
+
+\caption{Plot of the absolute value of jackknife studentized residuals against observation number. The left panel is typical of homoscedastic data, whereas the right panel indicates an increase in the variance.}\label{fig:residhomoscedastic}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagfitvalhomosce-1} 
+
+}
+
+\caption{Plot of jackknife studentized residuals against fitted value (left) and categorical explanatory (right). Both clearly display heteroscedasticity.}\label{fig:diagfitvalhomosce}
+\end{figure}
+
+\hypertarget{normality-assumption}{%
+\subsubsection{Normality assumption}\label{normality-assumption}}
+
+The normality assumption is mostly for convenience: if the errors are assumed normally distributed, then the least square and the maximum likelihood estimators of \(\boldsymbol{\beta}\) coincide.
+The maximum likelihood estimators of \(\boldsymbol{\beta}\) are asymptotically normal under mild conditions on the design matrix and \(t\)-tests are robust to departure of the normality assumption. This means that inference is valid in large samples, regardless of the distribution of the errors/residuals (even if the null distribution are not exact). It is important to keep in mind that, for categorical explanatory variables, the sample size in each group must be sufficiently large for the central limit theorem to kick in.
+
+Sometimes, transformations can improve normality: if the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate. This can be assessed by looking at the quantile-quantile plot of the externally studentized residuals. If the response \(Y\) is not continuous (including binary, proportion or count data), linear models give misleading answers and generalized linear models are more suitable.
+
+The inference will be valid for large samples even if the errors are not normally distributed by virtue of the central limit theorem. If the errors \(\varepsilon_i \sim \mathsf{No}(0, \sigma^2)\), then the jacknnife studentized residuals should follow a Student distribution, with \(r_i \sim \mathsf{St}(n-p-2)\), (identically distributed, but not independent). A Student quantile-quantile plot can thus be used to check the assumption (and for \(n\) large, the normal plotting positions could be used as approximation if \(n-p> 50\)). One can also plot a histogram of the residuals. Keep in mind that if the mean model is not correctly specified, some residuals may incorporate effect of leftover covariates.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/qqplotresid-1} 
+
+}
+
+\caption{Histogram (left) and Student quantile-quantile plot (right) of the jackknife studentized residuals. The left panel includes a kernel density estimate (black), with the density of Student distribution (blue) superimposed. The right panel includes pointwise 95\% confidence bands calculated using a bootstrap.}\label{fig:qqplotresid}
+\end{figure}
+
+Quantile-quantile plots are discussed in Section \ref{diagramme-qq}, but their interpretation requires training. For example, Figure \ref{fig:qqplotsbad} shows many common scenarios that can be diagnosed using quantile-quantile plots: discrete data is responsible for staircase patterns, positively skewed data has too high low quantiles and too low high quantiles relative to the plotting positions, heavy tailed data have high observations in either tails and bimodal data leads to jumps in the plot.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/qqplotsbad-1} 
+
+}
+
+\caption{Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed  (top right), skewed (bottom left) and bimodal data (bottom right).}\label{fig:qqplotsbad}
+\end{figure}
 
 \hypertarget{likelihood}{%
 \chapter{Likelihood-based inference}\label{likelihood}}
@@ -1828,11 +2179,11 @@ The likelihood ratio statistic 95\% confidence interval for \(\phi\) can be foun
 \hypertarget{profile-likelihood}{%
 \section{Profile likelihood}\label{profile-likelihood}}
 
+Sometimes, we may want to perform hypothesis test or derive confidence intervals for selected components of the model. For example, we may be interested in obtaining confidence intervals for a single \(\beta_j\) in a logistic regression, treating the other parameters \(\boldsymbol{\beta}_{-j}\) as nuisance In this case, the null hypothesis only restricts part of the space and the other parameters, termed nuisance, are left unspecified --- the question then is what values to use for comparison with the full model. It turns out that the values that maximize the constrained log-likelihood are what one should use for the test, and the particular function in which these nuisance parameters are integrated out is termed a profile likelihood.
+
 Consider a parametric model with log-likelihood function \(\ell(\boldsymbol{\theta})\) whose \(p\)-dimensional parameter vector \(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})\) that can be decomposed into a \(q\)-dimensional parameter of interest \(\boldsymbol{\psi}\) and a \((p-q)\)-dimensional nuisance vector \(\boldsymbol{\lambda}\).
 
-For example, we may be interested in obtaining confidence intervals for a single \(\beta_j\) in a logistic regression, treating the other parameters \(\boldsymbol{\beta}_{-j}\) as nuisance
-
-In these cases, we can consider the profile likelihood \(\ell_{\mathsf{p}}\), a function of \(\boldsymbol{\psi}\) alone, which is obtained by maximizing the likelihood pointwise at each fixed value \(\boldsymbol{\psi}_0\) over the nuisance vector \(\boldsymbol{\varphi}_{\psi_0}\),
+We can consider the profile likelihood \(\ell_{\mathsf{p}}\), a function of \(\boldsymbol{\psi}\) alone, which is obtained by maximizing the likelihood pointwise at each fixed value \(\boldsymbol{\psi}_0\) over the nuisance vector \(\boldsymbol{\varphi}_{\psi_0}\),
 \begin{align*}
 \ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
 \end{align*}
@@ -1925,8 +2276,12 @@ Note that information criteria do not constitute formal hypothesis tests on the 
 \hypertarget{survival}{%
 \chapter{Survival analysis}\label{survival}}
 
+\hypertarget{appendix-appendix}{%
+\appendix}
+
+
 \hypertarget{complement}{%
-\chapter{Basic concepts}\label{complement}}
+\chapter{Additional topics and prerequisites}\label{complement}}
 
 \hypertarget{population-sample}{%
 \section{Population and samples}\label{population-sample}}
@@ -2238,13 +2593,27 @@ using the \href{http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calc
 \end{align*}
 If the \(n \times p\) matrix \(\mathbf{X}\) is full-rank, the quadratic form \(\mathbf{X}^\top \mathbf{X}\) is invertible and we obtain the solution to the least square problems provided in Equation \eqref{eq:ols}.
 
-\hypertarget{appendix-appendix}{%
-\appendix}
+\hypertarget{derivationR2}{%
+\section{Derivation of the coefficient of determination}\label{derivationR2}}
 
+Because of the orthogonal decomposition \(\boldsymbol{y}=\widehat{\boldsymbol{y}} + \boldsymbol{e}\) and provided that the design matrix includes an intercept of \(\mathbf{1}_n \in \mathcal{S}(\mathbf{X})\), then \(\overline{\boldsymbol{e}}=0\) and the average of the response and of the fitted values is the same. Since \(n^{-1}\sum_{i=1}^n \hat{y}_i = n^{-1}\sum_{i=1}^n ({y}_i-e_i)=\overline{y}\),
+\begin{align*}
+\widehat{\mathsf{Cor}}\left(\hat{\boldsymbol{y}}, \boldsymbol{y}\right)
+&= \frac{(\boldsymbol{y} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n) +
+\boldsymbol{e}^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\| - \|\boldsymbol{e}\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \sqrt{\frac{\mathsf{SS}_c-\mathsf{SS}_e}{\mathsf{SS}_c}}= \mathrm{R}.
+\end{align*}
+This justifies the claim of \protect\hyperlink{coefR2}{Section 2.5} that the squared correlation between the fitted values and the response is equal to \(R^2\).
 
 \hypertarget{r}{%
-\chapter*{\texorpdfstring{\textbf{R}}{R}}\label{r}}
-\addcontentsline{toc}{chapter}{\textbf{R}}
+\chapter{\texorpdfstring{\textbf{R}}{R}}\label{r}}
 
 \textbf{R} is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.
 
@@ -2255,12 +2624,14 @@ You may wish to look up the following chapters of the \textbf{R} language defini
 \section{\texorpdfstring{Basics of \textbf{R}}{Basics of R}}\label{basics-of-r}}
 
 \hypertarget{help}{%
-\subsection{Help}\label{help}}
+\subsection*{Help}\label{help}}
+\addcontentsline{toc}{subsection}{Help}
 
 Help can be accessed via \texttt{help} or simply \texttt{?}, e.g., \texttt{help("Normal")}. \href{https://www.r-project.org/help.html}{See \textbf{R} page about help files}.
 
 \hypertarget{basic-commands}{%
-\subsection{Basic commands}\label{basic-commands}}
+\subsection*{Basic commands}\label{basic-commands}}
+\addcontentsline{toc}{subsection}{Basic commands}
 
 Basic \textbf{R} commands are fairly intuitive, especially if you want to use \textbf{R} as a calculator.
 Elementary functions such as \texttt{sum}, \texttt{min}, \texttt{max}, \texttt{sqrt}, \texttt{log}, \texttt{exp}, etc., are self-explanatory.
@@ -2296,7 +2667,8 @@ Besides integers and doubles, the common types are
 Beware! In \textbf{R}, invalid calls will often returns \emph{something} rather than an error. It is therefore good practice to check that the output is sensical.
 
 \hypertarget{linear-algebra-in-r}{%
-\subsection{\texorpdfstring{Linear algebra in \textbf{R}}{Linear algebra in R}}\label{linear-algebra-in-r}}
+\subsection*{\texorpdfstring{Linear algebra in \textbf{R}}{Linear algebra in R}}\label{linear-algebra-in-r}}
+\addcontentsline{toc}{subsection}{Linear algebra in \textbf{R}}
 
 \textbf{R} is an object oriented language, and the basic elements in \textbf{R} are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:
 
@@ -2342,7 +2714,8 @@ then
 For a matrix \texttt{x}, subsetting now involves dimensions: \texttt{{[}1,2{]}} returns the element in the first row, second column. \texttt{x{[},2{]}} will return all of the rows, but only the second column. For lists, you can use \texttt{{[}{[}} for subsetting by index or the \texttt{\$} sign by names.
 
 \hypertarget{packages}{%
-\subsection{Packages}\label{packages}}
+\subsection*{Packages}\label{packages}}
+\addcontentsline{toc}{subsection}{Packages}
 
 The great strength of \textbf{R} comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (\texttt{base}, \texttt{stats}, \texttt{graphics}, etc.) are loaded by default whenever you open a session.
 
@@ -2353,7 +2726,8 @@ There are drawbacks to loading packages: if an object with the same name from an
 \end{rmdcaution}
 
 \hypertarget{datasets}{%
-\subsection{Datasets}\label{datasets}}
+\subsection*{Datasets}\label{datasets}}
+\addcontentsline{toc}{subsection}{Datasets}
 
 \begin{itemize}
 \tightlist
@@ -2441,8 +2815,9 @@ Other common classes of objects:
   \texttt{data.frame} is a special type of list where all the elements are vectors of potentially different type, but of the same length.
 \end{itemize}
 
-\hypertarget{graphics}{%
-\subsection{Graphics}\label{graphics}}
+\hypertarget{base-graphics}{%
+\subsection*{Base graphics}\label{base-graphics}}
+\addcontentsline{toc}{subsection}{Base graphics}
 
 The \texttt{faithful} dataset consists of two variables: the regressand \texttt{waiting} and the regressor \texttt{eruptions}. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables.
 
@@ -2477,8 +2852,7 @@ If you include categorical variables, make sure they are transformed to factors.
 
 By default, the baseline level for a factor is based on the alphabetical order, while \textbf{SAS} uses the first value it encounters. Once the variables are cast to factor, \texttt{summary} will print the counts for each respective categories; these could be likewise be obtained using \texttt{table}.
 
-To fit higher order polynomials or transformations, use the \texttt{I} function to tell \textbf{R} to interpret the input ``as is''.
-Thus, \texttt{lm(y\textasciitilde{}x+I(x\^{}2))}, would fit a linear model with design matrix \((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\). A constant is automatically included in the regression, but can be removed by writing \texttt{-1} or \texttt{+0} on the right hand side of the formula (but don't do that!). The \texttt{lm} function output will display ordinary least squares estimates along with standard errors, \(t\) values for the Wald test of the hypothesis \(\mathrm{H}_0: \beta_i=0\) and the associated \(P\)-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
+To fit higher order polynomials, use \texttt{poly}. For transformations, use the \texttt{I} function to tell \textbf{R} to interpret the input ``as is''. Thus, \texttt{lm(y\textasciitilde{}x+I(x\^{}2))}, would fit a linear model with design matrix \((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\). A constant is automatically included in the regression, but can be removed by writing \texttt{-1} or \texttt{+0} on the right hand side of the formula (but don't do that!). The \texttt{lm} function output will display ordinary least squares estimates along with standard errors, \(t\) values for the Wald test of the hypothesis \(\mathrm{H}_0: \beta_i=0\) and the associated \(P\)-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.
 
 Many methods allow you to extract specific objects from \texttt{lm} objects. For example, the functions \texttt{coef}, \texttt{resid}, \texttt{fitted}, \texttt{model.matrix} will return the coefficients \(\widehat{\boldsymbol{\beta}}\), the ordinary residuals \(\boldsymbol{e}\), the fitted values \(\widehat{\boldsymbol{y}}\) and the design matrix \(\mathbf{X}\), respectively.
 

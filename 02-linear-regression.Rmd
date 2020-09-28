@@ -312,6 +312,7 @@ If we multiply $\texttt{salary}$ by a thousand to get the resulting estimates in
 \texttt{salary}\times 1000 &= \beta_0 + \beta_1 \texttt{sex}_{\texttt{woman}} +\beta_2 \texttt{field}_{\texttt{theoretical}} \\&\quad +\beta_3 \texttt{rank}_{\texttt{associate}}
 +\beta_4 \texttt{rank}_{\texttt{full}}  +\beta_5 \texttt{service} + \varepsilon.
 \end{align*}
+
 ```{r collegecoefs, eval = TRUE, echo = FALSE}
 college$sex <- relevel(x = college$sex, ref = "man")
 college_lm <- lm(salary ~ sex + field + rank + service , data = college)
@@ -392,8 +393,8 @@ For normal linear regression, the likelihood ratio test for comparing models $\m
 
 
 Consider the `college` data example and the associated linear model with `rank`, `sex`, years of `service` and `field` as covariates.
+
 ```{r summarytestslmcollege, echo = FALSE }
-library(kableExtra)
 options(knitr.kable.NA = '')
 library(pixiedust)
 names(college_lm$coefficients)[2:5] <- c("sex [woman]","field [theoretical]","rank [associate]", "rank [full]")
@@ -406,7 +407,7 @@ dust(college_lm) %>%
                      statistic = "Wald stat.", 
                      p.value = "p-value") %>% 
   sprinkle_bookdown() %>%
-  kable(align = "lrrrr", booktabs = TRUE, caption = "Table of linear regression coefficients with associated standard errors, Wald tests and _p_-values based on Student-_t_ distribution")
+  knitr::kable(align = "lrrrr", booktabs = TRUE, caption = "Table of linear regression coefficients with associated standard errors, Wald tests and $p$-values based on Student-$t$ distribution")
 ```
 
 Table \@ref(tab:summarytestslmcollege) shows the estimated coefficients (in thousands of dollars). The coefficients are the least squares estimates $\widehat{\boldsymbol{\beta}}$, the standard errors are the square root of the diagonal elements of $S^2(\mathbf{X}^\top\mathbf{X})^{-1}$. The Wald (or _t_-) statistic is simply $W=\widehat{\beta}/\mathsf{se}(\widehat{\beta})$ for $\mathscr{H}_0: \beta_j=0$: given two of the three estimates, we could easily recover the third using the formula for the test. The $p$-values are for the two-sided alternative test with $\mathscr{H}_a: \beta_j \neq 0$.
@@ -415,18 +416,18 @@ The interpretation is usual: $p$-values that are less than our prescribed level 
 
 
 
-```{r summaryanovalmcollege, echo = FALSE, fig.cap = "Sum of square decomposition comparing nested models with and without covariates: sum of squares, number of parameters, _F_-statistic and _p_-value."}
+```{r summaryanovalmcollege, echo = FALSE}
 dust(car::Anova(college_lm, type=3), 
-     keep_rownames = TRUE) %>% 
-  sprinkle(col = 2, round = 1) %>% 
-  sprinkle(col = 4, round = 2) %>% 
-  sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
-  sprinkle_colnames('.rownames' = "variable",
-                    'Sum Sq' = "sum of square", 
-                     'Df' = "df",
-                     'F value' = "F stat.", 
-                     "Pr(>F)" = "p-value")  %>% 
-knitr::kable(caption = "Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, _F_-statistic and associated _p_-value.", booktabs = TRUE, align = c("lrrrr"))
+keep_rownames = TRUE) %>% 
+sprinkle(col = 2, round = 1) %>% 
+sprinkle(col = 4, round = 2) %>% 
+sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
+sprinkle_colnames('.rownames' = "variable",
+          'Sum Sq' = "sum of square", 
+           'Df' = "df",
+           'F value' = "F stat.", 
+           "Pr(>F)" = "p-value")  %>% 
+knitr::kable(caption = "Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, $F$-statistic and associated $p$-value.", booktabs = TRUE, align = c("lrrrr"))
 ```
 
 Table \@ref(tab:summaryanovalmcollege) gives the $F$-statistics values and the associated $p$-values. The sum of squares represent the difference $\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)$ for various null models $\mathbb{M}_0$, except the last line for residuals which reports $\mathsf{SS}_e(\mathbb{M}_1)$. You can verify that (up to rounding) these $p$-pvalues are identical to those of the Wald test in the output when `df=1`. The only categorical variable here with more than one level is `rank`, and it is strongly significant: removing it from the model leads to a sharp decrease in fit. 
@@ -477,7 +478,7 @@ The two differ only because of the additional variance of individual observation
 
 Figure \@ref(fig:predinterval) shows pointwise uncertainty bands for a simple linear regression of the `intention` data as a function of `fixation`, illustrating the limitations of the linear model in this example: the model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 2 to 14. The middle line gives the prediction of individuals as we vary their fixation time. Looking at the formula for the confidence, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. This is more easily seen by replicating the potential curves that could have happened with different data: I generated new potential slopes from the asymptotic normal distribution of $\widehat{\boldsymbol{\beta}}$ estimators to show the hyperbolic shape is not surprising: we are basically tilting curves from the average fixation/intention, and they have higher potential from deviating far from the range of observations.
 
-```{r predinterval, cache = TRUE, echo = FALSE, fig.cap = "Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions", animation.hook='gifski', interval=0.1}
+```{r predinterval, cache = TRUE, echo = FALSE, fig.cap = "Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions."}
 
 lm_simple <- lm(intention ~ fixation, data = intention)
 predci <- data.frame(cbind(fixation = seq(0, 6, by = 0.1),
@@ -506,7 +507,7 @@ if(out_type == 'html'){
    g1 <- g1 + geom_abline(slope = boot_dat[i,3], intercept =  boot_dat[i,2], col = "red", alpha = 0.4)
    print(g1)
    }
- } else {
+ } else if(out_type == 'pdf'){
   ggplot(data = intention) + 
   geom_point(aes(x=fixation, y=intention), col = "grey", alpha = 0.4) + 
   ylim(c(0,20)) + 
@@ -564,7 +565,7 @@ dust(lm_interaction) %>%
                      statistic = "Wald stat.", 
                      p.value = "p-value") %>% 
   sprinkle_bookdown() %>%
-  kable(align = "lrrrr", booktabs = TRUE, caption = "Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.")
+  knitr::kable(align = "lrrrr", booktabs = TRUE, caption = "Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.")
 ```
 
 The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for `age`; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.
@@ -734,3 +735,287 @@ to see how (and to what extent) the predictor variables explain the behaviour of
 - remove one or more of the collinear variables. You need to be careful when doing this not to end up with a misspecified model. 
 
 Whatever the method, it's important to understand that it can be very difficult (and sometimes impossible) to isolate the individual effect of a predictor variable strongly correlated with other predictors.
+
+
+## Graphical analysis of residuals
+
+So far, we have fit models and tested significance of the parameters without checking the model assumptions. The correctness of statements about the $p$-values and confidence intervals depend on the (approximate) validity of the model assumptions, which all stem from the distributional assumption for the error, assumed to be independent and identically distributed with $\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{No}(0, \sigma^2)$. This compact mathematical description can be broken down into four assumptions.
+
+- normality of the errors
+- linearity: the mean of $Y$ is $\beta_0 + \beta_1\mathrm{X}_1 + \cdots + \beta_p \mathrm{X}_p$.
+- homoscedasticity: the error variance is constant
+- independence of the errors.
+
+This section reviews the assumptions made in order to allow statistical inference using the linear model and different residuals that serve as building blocks for graphical diagnostics. We investigate the consequences of violation of these assumptions and outline potential mitigation strategies, many of which are undertaken in other chapters.
+
+When we perform an hypothesis test, we merely fail to reject the null hypothesis, either because the latter is true or else due to lack of evidence. The same goes for checking the validity of model assumptions: scientific reasoning dictates that we cannot know for certain whether these hold true. Our strategy is therefore to use implications of the linear model assumptions to create graphical diagnostic tools, so as to ensure that there is no gross violation of these hypothesis. However, it is important to beware of over-interpreting diagnostic plots: the human eye is very good at finding spurious patterns. 
+
+Other good references for the material in this section is:
+
+- [Forecasting: Principles and Practice, section 5.3](https://otexts.com/fpp2/regression-evaluation.html)
+
+
+### Residuals
+
+Residuals are predictions of the errors $\varepsilon$ and represent the difference between the observed value $Y_i$ and the estimated value on the line.
+The ordinary residuals are
+\begin{align*}
+e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
+\end{align*}
+The sum of the ordinary residuals is always zero by construction if the model includes an intercept, meaning $\overline{e} = 0$.
+
+Not all observations contribute equally to the adjustment of the fitted hyperplane. The geometry of least squares shows that the residuals are orthogonal to the fitted values, and $\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y}$, where $\mathbf{H}_{\mathbf{X}}=\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$ is an $n \times n$ projection matrix that spans the $p$-dimensional linear combination of the columns of $\mathbf{X}$, $\mathcal{S}(\mathbf{X})$. If $\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n$, it follows that $\mathsf{Va}(\boldsymbol{e})=\sigma^2(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})$ because $(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})$ is a projection matrix, therefore idempotent and symmetric. Because the matrix has rank $n-p$, the ordinary residuals cannot be independent from one another.
+
+If the errors are independent and homoscedastic, the ordinary residual $e_i$ has variance $\sigma^2(1-h_{i})$, where the leverage term $h_i =(\mathbf{H}_{\mathbf{X}})_{ii} = \mathbf{x}_i (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}_i$ is the $i$th diagonal entry of the projection matrix $(\mathbf{H}_{\mathbf{X}})$ and $\mathbf{x}_i$ is the $i$th row of the design matrix corresponding to observation $i$. 
+
+We thus conclude that ordinary residuals do not all have the same standard deviation and they are not independent. This is problematic, as we cannot make meaningful comparisons: points with low leverage are bound to deviate more from the fitted model than others. To palliate to this, we can standardize the residuals so each has the same variance under the null of independent homoscedastic errors --- the leverage terms $h_i$ are readily calculated from the design matrix $\mathbf{X}$.
+The only remaining question is how to estimate the variance. If we use the $i$th observation to estimate both the residual and the variance, we introduce additional dependence. A better way is remove  the $i$th observation and refit the model with the $n-1$ remaining observations to get of $s^2_{(-i)}$ (there are tricks and closed-form expressions for these, so one doesn't need to fit $n$ different linear models). The jacknife studentized residual $r_i = e_i/\{s_{(-i)}(1-h_i)\}$, also termed externally studentized residuals, are not independent, but they are identically distributed and follow a Student distribution with $n-p-2$ degrees of freedom.
+These can be obtained in **R** with the command `rstudent`, also in **SAS**. 
+
+When to use which residuals? By construction, the vector of ordinary residuals $\boldsymbol{e}$ is orthogonal to the fitted values $\widehat{\boldsymbol{y}}$ and also to each column of the design matrix $\mathbf{X}$: this means a simple linear regression of $\boldsymbol{e}$ with any of these as covariate gives zero intercept and zero slope. However, residual patterns due to forgotten interactions, nonlinear terms, etc. could be picked up from pair plots of ordinary residuals against the explanatories. 
+
+While the jackknife studentized residuals $r_i$ are not orthogonal, they are not very different. Use jackknife residuals $\boldsymbol{r}$ to check for equality of variance and distributional assumptions (e.g., using quantile-quantile plots). 
+
+One thus typically uses ordinary residuals $\boldsymbol{e}$ for plots of fitted values/explanatories against residuals and otherwise jackknife studentized residuals for any other graphical diagnostic plot.
+
+### Leverage and outliers
+
+The leverage $h_i$ of observation $i$ measures its impact on the least square fit, since we can write $h_i = \partial \widehat{y}_i/\partial y_i$. Leverage values tell us how much each point impacts the fit: they are strictly positive, are bounded below by $1/n$ and above by $1$. The sum of the leverage values is $\sum_{i=1}^n h_i=p+1$: in a good design, each point has approximately the same contribution, with average weight $(p+1)/n$.
+
+Points with high leverage are those that have unusual combinations of explanatories. An influential observation ($h_i\approx 1$) pulls the fitted hyperplane towards itself so that $\hat{y}_i \approx y_i$. As a rule of thumb, points with $h_i> 2(p+1)/n$ should be scrutinized. 
+
+It is important to distinguish betwen **influential** observations (which have unusual $\mathbf{x}$ value, i.e., far from the overall mean) and **outliers** (unusual value of the response $y$).
+If an observation is both an outlier and has a high leverage, it is problematic.
+
+```{r outliers, echo = FALSE, fig.cap = "Outlier and influential observation. The left panel shows an outlier, whereas the right panel shows an influential variable (rightmost $x$ value)."}
+set.seed(1)
+x <- c(rgamma(99, shape = 5), 20)
+y1 <- 0.4*x+3+rnorm(100, sd = 1)
+y2 <- 0.5*x[-100]+-6+rnorm(99, sd = 0.2)
+dat <- data.frame(x=c(c(x[-100], 5),x), y=c(c(y2, 0), y1), group = factor(rep(1:2, each = 100L)))
+ggplot(data = dat, aes(x=x, y=y), colour=group) +
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE, col=hecblue) +
+  facet_wrap(~group, ncol = 2, scales = "free") + 
+  theme(legend.position = "none", strip.text = element_blank(), ) 
+```
+
+If influential observations can be detected by inspecting the leverage of each observation, outliers are more difficult to diagnose. 
+
+An outlier stands out from the rest of the observations, either because it has an usual response value, or because it falls far from the regression surface.
+Loosely speaking, an outlier is an unusual values of $Y$ for a given combination of $\mathbf{X}$ that ``stand out'' from the rest.
+Outliers can be detected during the exploratory data analysis or picked-up in residual plots (large values of $|e_i|$ in plots of fitted versus residuals) or added-variable plots. One could potentially test whether an jackknife studentized residual is an outlier (adjusting for the fact we would consider only largest values). One can also consider Cook's distance, $C_j$, a statistic giving the scaled distance between the fitted values $\hat{\boldsymbol{y}}$ and the fitted values for the model with all but the $j$th observation, $\hat{\boldsymbol{y}}^{(-j)}$,
+\begin{align*}
+C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\right\}^2.
+\end{align*}
+Large values of $C_j$ indicate that its residual $e_j$ is large relative to other observations or else its  leverage $h_j$ is high. A rule of thumb is to consider points for which $C_j > 4/(n-p-1)$. In practice, if two observations are outlying and lie in the same region, their Cook distance will be halved.
+
+Outliers and influential observations should not be disregarded because they don't comply with the model, but require further investigation. They may motivate further modelling for features not accounted for. It is also useful to check for registration errors in the data (which can be safely discarded). 
+
+
+Except in obvious scenarios, unusual observations should not be discarded. In very large samples, the impact of a single outlier is hopefully limited. Transformations of the response may help reduce outlyingness. Otherwise, alternative objective functions (as those employed in robust regression) can be used; these downweight extreme observations, at the cost of efficiency.
+ 
+
+### Diagnostic plots
+
+We review the assumptions in turn and discuss what happens when the assumptions fail to hold.
+
+#### Independence assumption
+
+Usually, the independence of the observations follows directly from the type of sampling used  --- this assumption is implicitly true if the observations were taken from a *random sample* from the population. This is generally not the case for longitudinal data, which contains repeated measures from the same individuals across time. Likewise, time series are bound not to have independent observations. If we want to include all the time points in the analysis, we must take into account the possible dependence (correlation) between observations. If we ignore correlation, the estimated standard errors are too small relative to the truth, so the effective sample size is smaller than number of observations.
+
+The first source of dependence is clustered data, meaning measurements taken from subjects that are not independent from one another (family, groups, etc.) 
+More generally, correlation between observations arises from time dependence, roughly categorized into
+
+- longitudinal data: repeated measurements are taken from the same subjects (few time points)
+- time series: observations observed at multiple time periods (many time points). Time series require dedicated models not covered in this course.
+
+Because of autocorrelation, positive errors tend to be followed by positive errors, etc. We can plot the residuals as a function of time, and a scatterplot of lagged residuals $e_i$ versus $e_{i-1}$ ($i=2, \ldots, n$).
+
+```{r timeresidplot, echo = FALSE, fig.cap= "Lagged residual plots (right). The left panel shows lack of evidence against independence, whereas the right panel shows positively correlated residuals."}
+lm1 <- lm(intention~emotion+factor(educ)+age+factor(revenue)+marital, data = intention)
+data(airpassengers, package = "hecstatmod")
+ols_airpass <- lm(log(passengers) ~ month + year, data = airpassengers)
+par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
+par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
+par(mfrow=c(1, 2))
+# plot(resid(lm1), ylab = "residuals", xlab = "time index")
+# car::gamLine(1:n, resid(lm1), spread = TRUE, col = hecblue)
+plot(x = resid(lm1)[-1], y = resid(lm1)[-length(resid(lm1))], 
+     ylab = "residuals", xlab = "lagged residuals", main = "")
+car::gamLine(resid(lm1)[-1], resid(lm1)[-length(resid(lm1))], spread = TRUE, col = hecblue)
+# plot(resid(ols_airpass), ylab = "residuals", xlab = "time index")
+# car::gamLine(1:length(ols_airpass$residuals), resid(ols_airpass), spread = TRUE, col = hecblue)
+ plot(x = resid(ols_airpass)[-1], y = resid(ols_airpass)[-length(resid(ols_airpass))], ylab = "residuals", xlab = "lagged residuals", main = "")
+ car::gamLine(resid(ols_airpass)[-1], resid(ols_airpass)[-length(resid(ols_airpass))], spread = TRUE, col = hecblue)
+
+```
+
+
+However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations $h$ units apart as a function of the lag $h$ (Brockwell and Davis, 2016, Defn. 1.4.4).
+
+For $y_1, \ldots, y_n$ and constant time lags $h=0, 1, \ldots$ units, the autocorrelation at lag $h$ is
+\begin{align*}
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y}) 
+\end{align*}
+
+If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in Figure \@ref(fig:correlogram). Presence of autocorrelation requires modelling the correlation  between observations explicitly using dedicated tools from the time series literature that are covered in MATH 60638. We will however examine $\mathsf{AR}(1)$ models as part of the chapter on longitudinal data. 
+
+When observations are positively correlated, the estimated standard errors reported by the software are too small. This means we are overconfident and will reject the null hypothesis more often then we should if the null is true (inflated Type I error, or false positive). 
+
+```{r correlogram, echo = FALSE, fig.cap = "Correlogram of independent observations (left) and the ordinary residuals of the log-linear model fitted to the air passengers data (right). While the mean model of the latter is seemingly correctly specified, there is residual dependence between monthly observations and yearly (at lag 12). The blue lines give approximate pointwise 95\\% confidence intervals for white noise (uncorrelated observations)."}
+library(forecast)
+set.seed(1234)
+g0 <- ggAcf(rnorm(100),lag.max=25) + labs(x = "lag", y ="autocorrelation", title = "")+ ylim(c(-1,1))
+g1 <- ggAcf(resid(ols_airpass),lag.max=25) + labs(x = "lag", y ="autocorrelation", title = "") + ylim(c(-1,1))
+g0 + g1
+```
+
+
+
+
+
+
+
+
+
+#### Linearity assumption
+
+The second assumption of the linear model is that of  linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified. 
+To check that the response surface of the linear model is adequate, we plot $e_i$ against $\widehat{y}_i$ or $\mathrm{X}_{ij}$ (for $j=1, \ldots, p$). Since the linear correlation between $\boldsymbol{e}$ and $\widehat{\boldsymbol{y}}$ (or $\boldsymbol{e}$ and $\mathbf{X}_j$) is zero by construction, patterns (e.g., quadratic trend, cycles, changepoints) are indicative of misspecification of the mean model. One can add a smoother to detect patterns. Figure \@ref(fig:regdiaglin) shows three diagnostics plots, the second of which shows no pattern in the residuals, but skewed fitted values.
+
+```{r regdiaglin, echo = FALSE, fig.cap="Scatterplots of residuals against fitted values. The first two plots show no departure from linearity (mean zero). The third plot shows a clear quadratic pattern, suggesting the mean model is misspecified. Note that the distribution of the fitted value need not be uniform, as in the second panel which shows more high fitted values."}
+par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
+par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
+par(mfrow=c(1, 3))
+x1 <- 1:200
+x2 <- (1:200)^2
+set.seed(1)
+lm1 <- lm(rnorm(200)~x1)
+lm2 <- lm(rnorm(200) ~ x2)
+s1 <- scale(sin(x1/45)*2+rnorm(200))
+lm3 <- lm(s1 ~ x1)
+car::residualPlot(lm1,ylab="residuals", xlab = "fitted values", col.quad = hecblue)
+car::residualPlot(lm2,ylab="residuals", xlab = "fitted values", col.quad = hecblue)
+car::residualPlot(lm3,ylab="residuals", xlab = "fitted values", col.quad = hecblue)
+```
+
+
+If there is residual structure in plots of ordinary residuals against either (a) the fitted values or (b) the explanatory variables, a more complex model can be adjusted including interactions, nonlinear functions, \ldots If the effect of an explanatory variable is clearly nonlinear and complicated, smooth terms could be added (we won't cover generalized additive models in this course). 
+
+
+Plotting residuals against left-out explanatory variables can also serve to check that all of the explanatory power of the omitted covariate is already explained by the columns of $\mathbf{X}$.
+
+If an important variable has been omitted and is not available in the dataset, then the effect of that variable is captured by both the errors (the portion orthogonal to the design matrix $\mathbf{X}$, i.e., unexplained by the covariates included in the model) and the remaining part is captured by other explanatories of the model that are correlated with the omitted variable. These variables can act as confounders. There is little that can be done in either case unless the data for the omitted variable are available, but subject-specific knowledge may help make sense of the results.
+
+
+
+#### Homoscedasticity assumption
+
+If the variance of the errors is the same for all observations, that of the observations $Y$ is also constant. The most common scenarios for heteroscedasticity are increases in variance with the response, or else variance that depends on explanatory variables $\mathbf{X}$, most notably categorical variables. For the former, a log-transform (or Box--Cox transformation) can help stabilize the variance, but we need the response to be positive. For the latter, we can explicitly model that variance and we will see how to include different variance per group later on. A popular strategy in the econometrics literature, is to use robust (inflated) estimators of the standard errors such as [White's sandwich estimator of the variance](https://en.wikipedia.org/wiki/Heteroscedasticity-consistent_standard_errors). 
+
+If the residuals (or observations) are heteroscedastic (non constant variance), the estimated effects of the variables (the $\beta$ parameters) are still valid in the sense that the ordinary least squares estimator $\widehat{\boldsymbol{\beta}}$ is unbiased. However, the estimated standard errors of the $\widehat{\beta}$ are no longer reliable and, consequently, the confidence intervals and the hypothesis tests for the model parameters will be incorrect. Indeed, if the variance of the errors differs from one observation to the next, we will estimate an average of the different variance terms. The standard errors of each term are incorrect (too small or too large) and the conclusions of the tests ($p$-values) will be off because the formulas of both $t$-test and $F$-test statistics include estimates of $\hat{\sigma}^2$. 
+
+
+
+Looking at the plot of jackknife studentized residuals against regressors (or fitted values) is instructive --- for example, we often see a funnel pattern when there is an increase in variance in the plot of the jackknife studentized residuals against fitted value, or else in boxplots with a categorical variable as in Figure \@ref(fig:diagfitvalhomosce).
+However, if we want to fit a local smoother to observe trends, it is better to plot the absolute value of the jackknife studentized residuals against regressors or observation number.
+
+```{r residhomoscedastic, echo = FALSE, fig.cap = "Plot of the absolute value of jackknife studentized residuals against observation number. The left panel is typical of homoscedastic data, whereas the right panel indicates an increase in the variance."}
+x1 <- 1:200
+x2 <- (1:200)^2
+set.seed(1)
+lm1 <- lm(rnorm(200)~x1)
+par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
+par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
+par(mfrow=c(1, 2))
+set.seed(1)
+n <- length(x1)
+y4 <- exp(-2+ 0.01*x1 + rnorm(n, sd = 0.25))
+lm4 <- lm(y4 ~ x1)
+plot(1:n, abs(rstudent(lm1)), xlab="observation number", 
+     ylab="|jackknife studentized residuals|")
+car::gamLine(1:n, abs(rstudent(lm1)), spread = TRUE, col = hecblue)
+# plot(1:n, abs(rstudent(lm3)), xlab="observation number", ylab="|jackknife studentized residuals|")
+plot(1:n, abs(rstudent(lm4)), xlab="observation number", ylab="|jackknife studentized residuals|")
+car::gamLine(1:n, abs(rstudent(lm4)), spread = TRUE, col = hecblue)
+```
+
+
+```{r diagfitvalhomosce, echo = FALSE, fig.cap = "Plot of jackknife studentized residuals against fitted value (left) and categorical explanatory (right). Both clearly display heteroscedasticity."}
+par(mar=c(3.1,3.1,1.6,1),
+    mgp=c(1.7,0.6,0),font.main=1,cex.main=0.8, 
+    mfrow= c(1,2),  pch = 19, bty = "l")
+set.seed(1)
+x1 <- sort(100+3*rnorm(200,0,10))
+s1 <- scale(rnorm(200)*(x1-30)^2)
+fithetero <- rstudent(lm(s1~x1))
+plot(x1,s1,xlab="fitted values",ylab="jackknife studentized residuals")
+
+set.seed(1)
+fitlmh <- lm(c(rnorm(100, sd = 0.5), rnorm(100, sd = 3), rnorm(30, sd = 1.5)) ~ (xcat <- factor(c(rep(1,100), rep(2, 100), rep(3, 30)))))
+boxplot(rstudent(fitlmh) ~ xcat, xlab = "group", ylab="jackknife studentized residuals")
+```
+
+#### Normality assumption
+
+
+The normality assumption is mostly for convenience: if the errors are assumed normally distributed, then the least square and the maximum likelihood estimators of $\boldsymbol{\beta}$ coincide.
+The maximum likelihood estimators of $\boldsymbol{\beta}$ are asymptotically normal under mild conditions on the design matrix and $t$-tests are robust to departure of the normality assumption. This means that inference is valid in large samples, regardless of the distribution of the errors/residuals (even if the null distribution are not exact). It is important to keep in mind that, for categorical explanatory variables, the sample size in each group must be sufficiently large for the central limit theorem to kick in.
+
+Sometimes, transformations can improve normality: if the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate. This can be assessed by looking at the quantile-quantile plot of the externally studentized residuals. If the response $Y$ is not continuous (including binary, proportion or count data), linear models give misleading answers and generalized linear models are more suitable.  
+
+
+
+The inference will be valid for large samples even if the errors are not normally distributed by virtue of the central limit theorem. If the errors $\varepsilon_i \sim \mathsf{No}(0, \sigma^2)$, then the jacknnife studentized residuals should follow a Student distribution, with $r_i \sim \mathsf{St}(n-p-2)$, (identically distributed, but not independent). A Student quantile-quantile plot can thus be used to check the assumption (and for $n$ large, the normal plotting positions could be used as approximation if $n-p> 50$). One can also plot a histogram of the residuals. Keep in mind that if the mean model is not correctly specified, some residuals may incorporate effect of leftover covariates.
+
+```{r qqplotresid, echo = FALSE, fig.cap = "Histogram (left) and Student quantile-quantile plot (right) of the jackknife studentized residuals. The left panel includes a kernel density estimate (black), with the density of Student distribution (blue) superimposed. The right panel includes pointwise 95\\% confidence bands calculated using a bootstrap."}
+par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
+par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
+par(mfrow = c(1,2))
+library(car)
+library(qqplotr, warn.conflicts = FALSE)
+set.seed(1234)
+di <- "t"
+dp <- list(df = lm2$df.residual)
+de <- TRUE
+g2 <- ggplot(data = data.frame(sample = rstudent(lm2)), mapping = aes(sample = sample)) +
+ stat_qq_band(distribution = di, detrend = de, bandType = "boot", B = 9999, dparams = dp) +
+ stat_qq_line(distribution = di, detrend = de) +
+ stat_qq_point(distribution = di, detrend = de) +
+ labs(x = "theoretical t quantiles", y = "jackknife studentized residuals\n minus theoretical quantiles")
+g1 <- ggplot(data = data.frame(x = rstudent(lm2)), aes(x=x)) + 
+  geom_histogram(aes(x=x, y = ..density..)) + 
+  stat_function(fun = "dt", args = list(df = lm2$df.residual), col = hecblue) + 
+  geom_density() + labs(x = "jackknife studentized residuals")
+g1 + g2
+```
+
+
+Quantile-quantile plots are discussed in Section \@ref(diagramme-qq), but their interpretation requires training. For example, Figure \@ref(fig:qqplotsbad) shows many common scenarios that can be diagnosed using quantile-quantile plots: discrete data is responsible for staircase patterns, positively skewed data has too high low quantiles and too low high quantiles relative to the plotting positions, heavy tailed data have high observations in either tails and bimodal data leads to jumps in the plot.
+
+```{r qqplotsbad, echo = FALSE, fig.cap = "Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed  (top right), skewed (bottom left) and bimodal data (bottom right)."}
+set.seed(1234)
+par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
+par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
+par(mfrow= c(2,2))
+qqPlot(scale(rgeom(n = 100, prob = 0.5)), 
+       xlab = "theoretical quantiles", 
+       ylab = "empirical quantiles",
+       col.lines=hecblue, id = FALSE)
+set.seed(123)
+qqPlot(scale(rt(200, df = 3)), 
+       xlab = "theoretical quantiles", 
+       ylab = "empirical quantiles",
+       col.lines=hecblue, id = FALSE)
+set.seed(432)
+qqPlot(scale(rgamma(100,shape = 2)), 
+       xlab = "theoretical quantiles", 
+       ylab = "empirical quantiles",
+       col.lines=hecblue, id = FALSE)
+set.seed(432)
+qqPlot(scale(c(rnorm(100,-3),rnorm(100,3))), 
+       xlab = "theoretical quantiles", 
+       ylab = "empirical quantiles",
+       col.lines=hecblue, id = FALSE)
+```

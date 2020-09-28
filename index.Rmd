@@ -10,8 +10,6 @@ output:
 documentclass: book
 fontsize: 11pt
 papersize: letter
-header-includes:
-  - \usepackage{amsmath,amssymb,mathtools,enumerate,booktabs}
 bibliography: [book.bib, packages.bib, notes60604.bib]
 biblio-style: apalike2
 link-citations: yes
