@@ -19,7 +19,7 @@ Because the individuals are selected at **random** to be part of the sample, the
 
 ```{example, label="Galluppoll", title="Polling for the 1936 USA Presidential Election"}
 
-*The Literary Digest* surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. [Biased sampling and differential non-response are mostly responsible for the error:](https://www.jstor.org/stable/2749114)) the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
+*The Literary Digest* surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. [Biased sampling and differential non-response are mostly responsible for the error:](https://www.jstor.org/stable/2749114) the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
 
 In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. [Read the full story here.](https://medium.com/@ozanozbey/how-not-to-sample-11579793dac)
 ```
@@ -37,7 +37,7 @@ knitr::include_graphics('images/02-ttest-DF_illustration.png')
 ```
 
 
-### Moments 
+### Moments {#moments}
 
 One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
 
@@ -50,17 +50,66 @@ More generally, we can look at the expectation of a function $g(x)$ for $Y$, whi
 \[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
 The **standard deviation** is the square root of the variance and measures the variability of the variable, measured in the same units as $Y$. 
 
+The notion of moments can be extended to higher dimensions. If we assume data are independent, their joint distribution factorizes into the product of the individual mass function/density of each sample point. Otherwise, a multivariate mass function or density function describes the behaviour of the random vector. 
+
+Consider an $n$-vector $\boldsymbol{Y}$. In the regression setting, the response $\boldsymbol{Y}$ would usually comprise repeated measures on an individual, or even observations from a group of individuals. 
+
+The expected value (theoretical mean) of the vector $\boldsymbol{Y}$ is calculated componentwise, i.e., 
+\begin{align*}
+\mathsf{E}(\boldsymbol{Y}) &= \boldsymbol{\mu}=
+\begin{pmatrix}
+\mathsf{E}(Y_1) &
+\cdots  &
+\mathsf{E}(Y_n)
+\end{pmatrix}^\top
+\end{align*}
+whereas the second moment of $\boldsymbol{Y}$ is encoded in the $n \times n$ **covariance** matrix
+\begin{align*}
+\mathsf{Va}(\boldsymbol{Y}) &= \boldsymbol{\Sigma} = \begin{pmatrix} \mathsf{Va}(Y_1) & \mathsf{Co}(Y_1, Y_2)  & \cdots & \mathsf{Co}(Y_1, Y_n) \\
+\mathsf{Co}(Y_2, Y_1) & \mathsf{Va}(Y_2) & \ddots & \vdots \\
+\vdots & \ddots & \ddots & \vdots \\
+\mathsf{Co}(Y_n, Y_1) & \mathsf{Co}(Y_n, Y_2) &\cdots & \mathsf{Va}(Y_n)
+\end{pmatrix}
+\end{align*}
+The $i$th diagonal element of $\boldsymbol{\Sigma}$, $\sigma_{ii}=\sigma_i^2$, is the variance of $Y_i$, whereas the off-diagonal entries $\sigma_{ij}=\sigma_{ji}$ $(i \neq j)$ are the covariance of pairwise entries, with
+\begin{align*}
+\mathsf{Co}(Y_i, Y_j) = \int_{\mathbb{R}^2} (y_i-\mu_i)(y_j-\mu_j) f_{Y_i, Y_j}(y_i, y_j) \mathrm{d} y_i \mathrm{d} y_j.
+\end{align*}
+The covariance matrix $\boldsymbol{\Sigma}$ is thus symmetric. It is customary to normalize the pairwise dependence so they do not depend on the component variance. The linear **correlation** between $Y_i$ and $Y_j$ is 
+\begin{align*}
+\rho_{ij}=\mathsf{Cor}(Y_i,Y_j)=\frac{\mathsf{Co}(Y_i, Y_j)}{\sqrt{\mathsf{Va}(Y_i)}\sqrt{\mathsf{Va}(Y_j)}}=\frac{\sigma_{ij}}{\sigma_i\sigma_j}.
+\end{align*}
+The correlation matrix of $\boldsymbol{Y}$ is an
+$n\times n$ symmetric matrix with ones on the diagonal and the pairwise correlations off the diagonal, 
+\begin{align*}
+\mathsf{Cor}(\boldsymbol{Y})=
+\begin{pmatrix}
+1 & \rho_{12} & \rho_{13} & \cdots & \rho_{1n}\\
+\rho_{21} & 1 & \rho_{23} & \cdots & \rho_{2n} \\
+\rho_{31} & \rho_{32} & 1 & \ddots & \rho_{3n} \\
+\vdots & \vdots & \ddots & \ddots & \vdots \\
+\rho_{n1} & \rho_{n2} & \rho_{n3} & \cdots & 1
+\end{pmatrix}.
+\end{align*}
+One of the most important parts of modelling 
+correlated (or longitudinal) data is the need to account for within-group correlations. This basically comes down to modelling a covariance matrix for observations within the same group (or within the same individual in the case of repeated measures), which is the object of [Chapter 5](correlated-longitudinal-data).
+
+
+### Unbiasedness and mean square error 
 
 An estimator $\hat{\theta}$  for a parameter $\theta$ is unbiased if its bias $\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta$ is zero.
-The unbiased estimator of the mean of $Y$ is $\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i$ and that of the variance is $S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2$. While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!
-
-
-Often, rather, we seek to balance  bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, \[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]
+The unbiased estimator of the mean and the variance of $Y$ are 
+\begin{align*}
+\overline{Y}_n &= n^{-1} \sum_{i=1}^n Y_i\\
+S_n &= (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}
+While unbiasedness is a desirable property, there may be cases where no unbiased estimator exists for a parameter! Often, rather, we seek to balance  bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, \[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]
 The mean squared error is an objective function consisting of the sum of the squared bias and the variance. 
 
 An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation. 
 
-The likelihood of a sample is the joint density of the $n$ observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.
+
+The [likelihood of a sample](likelihood) is the joint density of the $n$ observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.
 
 ### Discrete distributions
 
@@ -107,7 +156,7 @@ For example, we could model the numbers of visits for a house on sale before the
 
 
 ```{example label = "poissondist", name = "Poisson distribution"}
-If the probability of success $\pi$ of a Bernoulli event is small in the sense that $m\pi \to \lambda$ wen the number of trials $m$ increases, then the number of success followss approximately a Poisson distribution with mass function
+If the probability of success $\pi$ of a Bernoulli event is small in the sense that $m\pi \to \lambda$ when the number of trials $m$ increases, then the number of success follows approximately a Poisson distribution with mass function
 \begin{align*}
 \mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
 \end{align*}
@@ -149,7 +198,7 @@ We will also encounter the multivariate normal distribution; for a $n$ dimension
 f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}
 
-The mean vector $\boldsymbol{\mu}$ is the vector of expectation of individual observations. The diagonal of the covariance matrix $\boldsymbol{\Sigma}$ encodes the variance of the components. The diagonal entries are the variance $\sigma_i^2=\sigma_{ii}$ and the off-diagonal entries give the covariance. More commonly, we express the dependence between components between $Y_i$ and $Y_j$ using the linear correlation $\rho_{ij}=\sigma_{ij}/(\sigma_{ii}\sigma_{jj}) \in [-1, 1]$. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if $Y_i$ and $Y_j$ are independent, the $(i,j)$ off-diagonal entry of $\boldsymbol{\Sigma}$ is zero. 
+The mean vector $\boldsymbol{\mu}$ is the vector of expectation of individual observations, whereas $\boldsymbol{\Sigma}$ is the covariance matrix of $\boldsymbol{Y}. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if $Y_i$ and $Y_j$ are independent, the $(i,j)$ off-diagonal entry of $\boldsymbol{\Sigma}$ is zero. 
 ```
 
 ```{example, label = "chisqdist", name = "Chi-square distribution"}

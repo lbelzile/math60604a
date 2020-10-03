@@ -162,7 +162,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3" data-path="likelihood.html"><a href="likelihood.html#profile-likelihood"><i class="fa fa-check"></i><b>3.3</b> Profile likelihood</a></li>
 <li class="chapter" data-level="3.4" data-path="likelihood.html"><a href="likelihood.html#information-criteria"><i class="fa fa-check"></i><b>3.4</b> Information criteria</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a></li>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#basic-principles"><i class="fa fa-check"></i><b>4.1</b> Basic principles</a></li>
+<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a></li>
 <li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
@@ -207,7 +211,104 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="generalized-linear-models" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Generalized linear models</h1>
+<p>Linear models are only suitable for data that are (approximately) normally distributed. However, there are many settings where we may wish to analyze a response variable which is not necessarily continuous, including when <span class="math inline">\(Y\)</span> is binary, a count variable or is continuous, but non-negative. We will consider in particular likelihood-based inference for binary/proportion and counts data.</p>
+<p>Generalized linear models (GLM) combine a model for the conditional mean with a distribution for the response variable and a link function tying predictors and parameters.</p>
+<p>This chapter gives an introduction to generalized linear models and focuses in particular on logistic regression and Poisson regression, but only for the case of independent observations. Extensions of generalized linear models for correlated and longitudinal, the so-called <em>generalized linear mixed models</em> (GLMM, are covered in MATH80621.</p>
+<div id="basic-principles" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Basic principles</h2>
+<p>The starting point is the same as for linear regression: we have a random sample of independent observations <span class="math inline">\((\boldsymbol{Y}, \mathbf{X})\)</span>, where <span class="math inline">\(Y\)</span> is the response variable and <span class="math inline">\(\mathrm{X}_1, \ldots, \mathrm{X}_p\)</span> are <span class="math inline">\(p\)</span> explanatory variables or covariates which are assumed fixed (non-random). The goal is to model the mean of the response variable as a function of the explanatory variables.</p>
+<p>Let <span class="math inline">\(\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)\)</span> denote the conditional expectation of <span class="math inline">\(Y_i\)</span> given covariates and let <span class="math inline">\(\eta_i\)</span> denote the linear combination of the covariates that will be used to model the response variable,
+<span class="math display">\[\begin{align*}
+\eta_i=\beta_0 + \beta_1 \mathrm{X}_{i1} + \cdots + \beta_p \mathrm{X}_{ip}.
+\end{align*}\]</span>
+The building blocks of the generalized linear model are</p>
+<ul>
+<li>A probability distribution for the outcome <span class="math inline">\(Y\)</span> that is a member of the exponential family (normal, binomial, Poisson, gamma, ).</li>
+<li>A set of linear predictors <span class="math inline">\(\mathbf{X} \boldsymbol{\beta}\)</span>, where <span class="math inline">\(\mathbf{X}\)</span> is an <span class="math inline">\(n\times (p+1)\)</span> matrix with columns <span class="math inline">\(\mathbf{1}_n, \mathrm{X}_1, \ldots, \mathrm{X}_p\)</span> and <span class="math inline">\(\boldsymbol{\beta} \in \mathbb{R}^{p+1}\)</span> are coefficients.</li>
+<li>A function <span class="math inline">\(g\)</span>, called <strong>link function</strong>, that links the mean of <span class="math inline">\(Y_i\)</span> to the predictor variables, <span class="math inline">\(g(\mu_i)=\eta_i\)</span>.</li>
+</ul>
+</div>
+<div id="theory-of-generalized-linear-models" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Theory of generalized linear models</h2>
+<p>This section borrows from Chapter 4 of
+&gt; Agresti (2015). * Foundations of Linear and Generalized Linear Models*, Wiley.</p>
+<p>In a generalized linear model, the random component arises from an exponential dispersion family: this choice gives a framework, since test statistics and properties can be derived for general classes of distribution.</p>
+<div id="exponential-dispersion-family-of-distributions" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Exponential-dispersion family of distributions</h3>
+<p>Consider a probability density or mass function for <span class="math inline">\(Y\)</span> with parameters <span class="math inline">\((\theta, \phi)\)</span>,
+<span class="math display">\[\begin{align*}
+f(y; \theta, \phi)&amp;= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y,
+\phi)\right\},
+\end{align*}\]</span>
+where the support, i.e., the set of values taken by <span class="math inline">\(Y\)</span>, doesn’t depend on the parameters. Throughout, we will assume <strong>natural parameter </strong> <span class="math inline">\(\theta\)</span> is unknown, but the <strong>dispersion parameter</strong> <span class="math inline">\(\phi\)</span> may be known (exponential family) or unknown (exponential dispersion family).</p>
+<p>One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log-likelihood <span class="math inline">\(\ell\)</span> of a one-sample with respect to the natural parameter <span class="math inline">\(\theta\)</span> are
+<span class="math display">\[\begin{align*}
+\frac{\partial \ell(y; \theta, \phi)}{\partial \theta} &amp;= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b&#39;(\theta)}{a(\phi)}
+\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2} &amp;= - \frac{b&#39;&#39;(\theta)}{a(\phi)},
+\end{align*}\]</span>
+where <span class="math inline">\(b&#39;(\cdot)\)</span> and <span class="math inline">\(b&#39;&#39;(\cdot)\)</span> are the first two derivatives of <span class="math inline">\(b(\cdot)\)</span> with respect to <span class="math inline">\(\theta\)</span>.
+Under regularity condition, the <a href="https://math.stackexchange.com/q/2027660">Bartlett identities</a> hold and
+<span class="math display">\[\begin{align*}
+\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}=0, \qquad - \mathsf{E}\left\{\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2}\right\} = \left[\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}\right]^2.
+\end{align*}\]</span>
+These two equality give
+<span class="math display">\[\begin{align*}
+\mathsf{E}(Y_i) &amp;= b&#39;(\theta_i) \\
+\mathsf{Va}(Y_i) &amp;= b&#39;&#39;(\theta_i)a(\phi_i)
+\end{align*}\]</span>
+Because of the relation between the mean of <span class="math inline">\(Y_i\)</span>, say <span class="math inline">\(\mu_i\)</span>, and the natural parameter <span class="math inline">\(\theta_i\)</span>, we have <span class="math inline">\(V(\mu)=b&#39;&#39;(\theta)\)</span> and there is an explicit relationship between the mean and the variance parameters unless <span class="math inline">\(V(\mu)=1\)</span>.</p>
 
+<div class="example">
+<span id="exm:poissonglmexpf" class="example"><strong>Example 4.1  (Poisson distribution as exponential family member)  </strong></span>The mass function of the Poisson distribution is
+<span class="math display">\[\begin{align*}
+f(y; \lambda) = \frac{\lambda^y \exp(-\lambda)}{y!} =\exp \left\{ y \ln
+(\lambda) -\lambda-\ln(y!)\right\}, \qquad y=0,1, \ldots
+\end{align*}\]</span>
+The natural parameter is <span class="math inline">\(\theta =\ln(\lambda)\)</span>, the dispersion
+parameter <span class="math inline">\(\phi=1\)</span>, and <span class="math inline">\(b(\theta)=\exp(\theta)\)</span>. Replacing these expressions in the mean-variance formulas, we get <span class="math inline">\(\mathsf{E}(Y)=\exp(\theta)=\mu\)</span> and <span class="math inline">\(\mathsf{Va}(Y)=\exp(\theta)=\mu\)</span>, meaning <span class="math inline">\(V(\mu)=\mu\)</span>.
+</div>
+
+<div class="example">
+<span id="exm:binomialglmexpf" class="example"><strong>Example 4.2  (Binomial distribution as member of the exponential family)  </strong></span>We consider the mass function of a binomial distribution <span class="math inline">\(\mathsf{Bin}(m,\pi)\)</span> with the number of trials <span class="math inline">\(m\)</span> known. The parametrization presented in <a href="complement.html#exm:binomialdist">A.3</a> is not convenient because the mean and the variance both depend on <span class="math inline">\(m\)</span>. We consider thus a different parametrization in which <span class="math inline">\(Y\)</span> represents the fraction of successes, so the mass function takes values in <span class="math inline">\(\{0, 1/m, \ldots, 1\}\)</span> and <span class="math inline">\(mY\)</span> denotes the number of successes. The mass function for <span class="math inline">\(Y\)</span> is then
+<span class="math display">\[\begin{align*}
+f(y, \pi)&amp;=\exp \left\{ my \ln \left( \frac{\pi}{1-\pi} \right) + m \ln
+(1-\pi) + \ln \left[
+\binom{m}{my}\right]\right\}\\&amp; =\exp \left\{
+\frac{y \ln \left( \frac{\pi}{1-\pi} \right) +  \ln
+(1-\pi)}{1/m}+ \ln \left[
+\binom{m}{my}\right]\right\}
+\end{align*}\]</span>
+Set
+<span class="math display">\[\begin{align*}
+\theta= \ln \left( \frac{\pi}{1-\pi}\right)
+\end{align*}\]</span>
+with <span class="math inline">\(b(\theta) = \ln\{1+\exp(\theta)\}\)</span> and <span class="math inline">\(\phi=m^{-1}\)</span>. The expectation and variance are easily derived and
+<span class="math display">\[\begin{align*}
+\mathsf{E}(Y)&amp;=\pi = \mathrm{expit}(\theta)=\frac{\exp(\theta)}{1+\exp(\theta)}=\mu
+\\\mathsf{Va}(Y) &amp;= \frac{\pi(1-\pi)}{m} = \frac{\mu(1-\mu)}{m} = \phi V(\mu)
+\end{align*}\]</span>
+where <span class="math inline">\(V(\mu)=\mu(1-\mu)\)</span>.
+</div>
+</div>
+<div id="link-functions" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Link functions</h3>
+<p>The link between the mean of <span class="math inline">\(Y\)</span> and the <strong>linear predictor</strong> <span class="math inline">\(\eta\)</span> is
+<span class="math display">\[\begin{align*}
+g\left\{\mathsf{E}(Y \mid \mathrm{X}_1, \ldots, \mathrm{X}_p)\right\}=\eta = \beta_0 + \beta_1 \mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
+\end{align*}\]</span>
+The link function thus connects the mean of the random variable <span class="math inline">\(Y\)</span> to the explanatory variables, <span class="math inline">\(g(\mu_i) = \eta_i = \beta_0 + \sum_{j=1}^p\beta_j\mathrm{X}_{ij}\)</span> and likewise <span class="math inline">\(\mu_i = g^{-1}(\eta_i)\)</span>. If the link function is chosen such that <span class="math inline">\(\theta=\eta\)</span>, the link function is termed the canonical link function.</p>
+<p>The need for a link function arises from parameter constraints: for example, the mean <span class="math inline">\(\mu=\pi\)</span> of a Bernoulli distribution is the proportion of successes and must lie in the interval <span class="math inline">\((0, 1)\)</span>. Similarly, the mean <span class="math inline">\(\mu\)</span> of the Poisson distribution must be positive. For the normal distribution of the ordinary linear regression model, we do not impose constraints on the mean <span class="math inline">\(\mu_i\)</span>, so an appropriate link function is the identity, <span class="math inline">\(\mu_i = \eta_i\)</span>.</p>
+<p>An appropriate choice of link function <span class="math inline">\(g\)</span> sets <span class="math inline">\(\mu_i\)</span> equal to a transformation of the linear combination <span class="math inline">\(\eta_i\)</span> so as to avoid imposing parameter constraints on <span class="math inline">\(\boldsymbol{\beta}\)</span>. Certain choices of link functions facilitate interpretation or make the likelihood function convenient for optimization.<br />
+For the Bernoulli and binomial distributions, an appropriate link function <span class="math inline">\(g\)</span> is the logit function,
+<span class="math display">\[\begin{align*}
+\mathsf{logit}(\mu)&amp;=
+\ln \left( \frac{\mu}{1-\mu} \right) =\ln(\mu) - \ln(1-\mu)= \eta,
+\\\mu &amp;= \mathrm{expit}(\eta)= \frac{\exp(\eta)}{1+\exp(\eta)}.
+\end{align*}\]</span>
+For the Poisson distribution, an appropriate link function <span class="math inline">\(g\)</span> is the natural logarithm, <span class="math inline">\(\ln\)</span>, with associated inverse link function <span class="math inline">\(\exp\)</span>.</p>
+
+</div>
+</div>
 </div>
             </section>
 

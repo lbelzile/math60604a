@@ -162,7 +162,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3" data-path="likelihood.html"><a href="likelihood.html#profile-likelihood"><i class="fa fa-check"></i><b>3.3</b> Profile likelihood</a></li>
 <li class="chapter" data-level="3.4" data-path="likelihood.html"><a href="likelihood.html#information-criteria"><i class="fa fa-check"></i><b>3.4</b> Information criteria</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a></li>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#basic-principles"><i class="fa fa-check"></i><b>4.1</b> Basic principles</a></li>
+<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a></li>
 <li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
@@ -220,7 +224,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="example">
 <p><span id="exm:Galluppoll" class="example"><strong>Example A.1  </strong></span>
-<em>The Literary Digest</em> surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57%) over incumbent President Franklin D. Roosevelt (43%). The latter nevertheless won in a landslide election with 62% of votes cast, a 19% forecast error. <a href="https://www.jstor.org/stable/2749114">Biased sampling and differential non-response are mostly responsible for the error:</a>) the sampling frame was built using ``phone number directories, drivers’ registrations, club memberships, etc.’’, all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.</p>
+<em>The Literary Digest</em> surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57%) over incumbent President Franklin D. Roosevelt (43%). The latter nevertheless won in a landslide election with 62% of votes cast, a 19% forecast error. <a href="https://www.jstor.org/stable/2749114">Biased sampling and differential non-response are mostly responsible for the error:</a> the sampling frame was built using ``phone number directories, drivers’ registrations, club memberships, etc.’’, all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.</p>
 In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. <a href="https://medium.com/@ozanozbey/how-not-to-sample-11579793dac">Read the full story here.</a>
 </div>
 </div>
@@ -244,15 +248,63 @@ In the discrete case, we set rather <span class="math inline">\(\mu = \mathsf{E}
 More generally, we can look at the expectation of a function <span class="math inline">\(g(x)\)</span> for <span class="math inline">\(Y\)</span>, which is nothing but the integral (or sum in the discrete case) of <span class="math inline">\(g(x)\)</span> weighted by the density or mass function of <span class="math inline">\(f(x)\)</span>. In the same fashion, provided the integral is finite, the variance is
 <span class="math display">\[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]</span>
 The <strong>standard deviation</strong> is the square root of the variance and measures the variability of the variable, measured in the same units as <span class="math inline">\(Y\)</span>.</p>
+<p>The notion of moments can be extended to higher dimensions. If we assume data are independent, their joint distribution factorizes into the product of the individual mass function/density of each sample point. Otherwise, a multivariate mass function or density function describes the behaviour of the random vector.</p>
+<p>Consider an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\boldsymbol{Y}\)</span>. In the regression setting, the response <span class="math inline">\(\boldsymbol{Y}\)</span> would usually comprise repeated measures on an individual, or even observations from a group of individuals.</p>
+<p>The expected value (theoretical mean) of the vector <span class="math inline">\(\boldsymbol{Y}\)</span> is calculated componentwise, i.e.,
+<span class="math display">\[\begin{align*}
+\mathsf{E}(\boldsymbol{Y}) &amp;= \boldsymbol{\mu}=
+\begin{pmatrix}
+\mathsf{E}(Y_1) &amp;
+\cdots  &amp;
+\mathsf{E}(Y_n)
+\end{pmatrix}^\top
+\end{align*}\]</span>
+whereas the second moment of <span class="math inline">\(\boldsymbol{Y}\)</span> is encoded in the <span class="math inline">\(n \times n\)</span> <strong>covariance</strong> matrix
+<span class="math display">\[\begin{align*}
+\mathsf{Va}(\boldsymbol{Y}) &amp;= \boldsymbol{\Sigma} = \begin{pmatrix} \mathsf{Va}(Y_1) &amp; \mathsf{Co}(Y_1, Y_2)  &amp; \cdots &amp; \mathsf{Co}(Y_1, Y_n) \\
+\mathsf{Co}(Y_2, Y_1) &amp; \mathsf{Va}(Y_2) &amp; \ddots &amp; \vdots \\
+\vdots &amp; \ddots &amp; \ddots &amp; \vdots \\
+\mathsf{Co}(Y_n, Y_1) &amp; \mathsf{Co}(Y_n, Y_2) &amp;\cdots &amp; \mathsf{Va}(Y_n)
+\end{pmatrix}
+\end{align*}\]</span>
+The <span class="math inline">\(i\)</span>th diagonal element of <span class="math inline">\(\boldsymbol{\Sigma}\)</span>, <span class="math inline">\(\sigma_{ii}=\sigma_i^2\)</span>, is the variance of <span class="math inline">\(Y_i\)</span>, whereas the off-diagonal entries <span class="math inline">\(\sigma_{ij}=\sigma_{ji}\)</span> <span class="math inline">\((i \neq j)\)</span> are the covariance of pairwise entries, with
+<span class="math display">\[\begin{align*}
+\mathsf{Co}(Y_i, Y_j) = \int_{\mathbb{R}^2} (y_i-\mu_i)(y_j-\mu_j) f_{Y_i, Y_j}(y_i, y_j) \mathrm{d} y_i \mathrm{d} y_j.
+\end{align*}\]</span>
+The covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is thus symmetric. It is customary to normalize the pairwise dependence so they do not depend on the component variance. The linear <strong>correlation</strong> between <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> is
+<span class="math display">\[\begin{align*}
+\rho_{ij}=\mathsf{Cor}(Y_i,Y_j)=\frac{\mathsf{Co}(Y_i, Y_j)}{\sqrt{\mathsf{Va}(Y_i)}\sqrt{\mathsf{Va}(Y_j)}}=\frac{\sigma_{ij}}{\sigma_i\sigma_j}.
+\end{align*}\]</span>
+The correlation matrix of <span class="math inline">\(\boldsymbol{Y}\)</span> is an
+<span class="math inline">\(n\times n\)</span> symmetric matrix with ones on the diagonal and the pairwise correlations off the diagonal,
+<span class="math display">\[\begin{align*}
+\mathsf{Cor}(\boldsymbol{Y})=
+\begin{pmatrix}
+1 &amp; \rho_{12} &amp; \rho_{13} &amp; \cdots &amp; \rho_{1n}\\
+\rho_{21} &amp; 1 &amp; \rho_{23} &amp; \cdots &amp; \rho_{2n} \\
+\rho_{31} &amp; \rho_{32} &amp; 1 &amp; \ddots &amp; \rho_{3n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \ddots &amp; \vdots \\
+\rho_{n1} &amp; \rho_{n2} &amp; \rho_{n3} &amp; \cdots &amp; 1
+\end{pmatrix}.
+\end{align*}\]</span>
+One of the most important parts of modelling
+correlated (or longitudinal) data is the need to account for within-group correlations. This basically comes down to modelling a covariance matrix for observations within the same group (or within the same individual in the case of repeated measures), which is the object of <a href="correlated-longitudinal-data">Chapter 5</a>.</p>
+</div>
+<div id="unbiasedness-and-mean-square-error" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">A.2.2</span> Unbiasedness and mean square error</h3>
 <p>An estimator <span class="math inline">\(\hat{\theta}\)</span> for a parameter <span class="math inline">\(\theta\)</span> is unbiased if its bias <span class="math inline">\(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\)</span> is zero.
-The unbiased estimator of the mean of <span class="math inline">\(Y\)</span> is <span class="math inline">\(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\)</span> and that of the variance is <span class="math inline">\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\)</span>. While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!</p>
-<p>Often, rather, we seek to balance bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, <span class="math display">\[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]</span>
+The unbiased estimator of the mean and the variance of <span class="math inline">\(Y\)</span> are
+<span class="math display">\[\begin{align*}
+\overline{Y}_n &amp;= n^{-1} \sum_{i=1}^n Y_i\\
+S_n &amp;= (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}\]</span>
+While unbiasedness is a desirable property, there may be cases where no unbiased estimator exists for a parameter! Often, rather, we seek to balance bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, <span class="math display">\[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]</span>
 The mean squared error is an objective function consisting of the sum of the squared bias and the variance.</p>
 <p>An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.</p>
-<p>The likelihood of a sample is the joint density of the <span class="math inline">\(n\)</span> observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.</p>
+<p>The <a href="likelihood">likelihood of a sample</a> is the joint density of the <span class="math inline">\(n\)</span> observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.</p>
 </div>
-<div id="discrete-distributions" class="section level3" number="8.2.2">
-<h3><span class="header-section-number">A.2.2</span> Discrete distributions</h3>
+<div id="discrete-distributions" class="section level3" number="8.2.3">
+<h3><span class="header-section-number">A.2.3</span> Discrete distributions</h3>
 
 <div class="example">
 <p><span id="exm:bernoullidist" class="example"><strong>Example A.2  (Bernoulli distribution)  </strong></span>We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being <span class="math inline">\(\pi\)</span> so <span class="math inline">\(\mathsf{Pr}(Y=1)=\pi\)</span> and <span class="math inline">\(\mathsf{Pr}(Y=0)=1-\pi\)</span> (complementary event). The mass function of the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> is thus
@@ -293,7 +345,7 @@ For example, we could model the numbers of visits for a house on sale before the
 </div>
 
 <div class="example">
-<p><span id="exm:poissondist" class="example"><strong>Example A.5  (Poisson distribution)  </strong></span>If the probability of success <span class="math inline">\(\pi\)</span> of a Bernoulli event is small in the sense that <span class="math inline">\(m\pi \to \lambda\)</span> wen the number of trials <span class="math inline">\(m\)</span> increases, then the number of success followss approximately a Poisson distribution with mass function
+<p><span id="exm:poissondist" class="example"><strong>Example A.5  (Poisson distribution)  </strong></span>If the probability of success <span class="math inline">\(\pi\)</span> of a Bernoulli event is small in the sense that <span class="math inline">\(m\pi \to \lambda\)</span> when the number of trials <span class="math inline">\(m\)</span> increases, then the number of success follows approximately a Poisson distribution with mass function
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
 \end{align*}\]</span>
@@ -314,8 +366,8 @@ where <span class="math inline">\(\Gamma\)</span> is the gamma function and the 
 <span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, where <span class="math inline">\(k=1/r\)</span>. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
 </div>
 </div>
-<div id="continuous-distributions" class="section level3" number="8.2.3">
-<h3><span class="header-section-number">A.2.3</span> Continuous distributions</h3>
+<div id="continuous-distributions" class="section level3" number="8.2.4">
+<h3><span class="header-section-number">A.2.4</span> Continuous distributions</h3>
 <!-- Most of the continuous distributions encountered in this course give the  -->
 <p>We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.</p>
 
@@ -329,7 +381,7 @@ The parameters <span class="math inline">\(\mu\)</span> and <span class="math in
 <span class="math display">\[\begin{align*}
 f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}\]</span></p>
-The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations. The diagonal of the covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span> encodes the variance of the components. The diagonal entries are the variance <span class="math inline">\(\sigma_i^2=\sigma_{ii}\)</span> and the off-diagonal entries give the covariance. More commonly, we express the dependence between components between <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> using the linear correlation <span class="math inline">\(\rho_{ij}=\sigma_{ij}/(\sigma_{ii}\sigma_{jj}) \in [-1, 1]\)</span>. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.
+The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations, whereas <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of $. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.
 </div>
 
 <div class="example">
@@ -351,8 +403,8 @@ the distribution has polynomial tails, is symmetric around <span class="math inl
 For normally distributed data, the centered sample mean divided by the sample variance, <span class="math inline">\((\overline{Y}-\mu)/S^2\)</span> follows a Student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom, which explains the terminology <span class="math inline">\(t\)</span>-tests.
 </div>
 </div>
-<div id="diagramme-qq" class="section level3" number="8.2.4">
-<h3><span class="header-section-number">A.2.4</span> Quantiles-quantiles plots</h3>
+<div id="diagramme-qq" class="section level3" number="8.2.5">
+<h3><span class="header-section-number">A.2.5</span> Quantiles-quantiles plots</h3>
 <p>Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if <span class="math inline">\(Y\)</span> is a continuous random variable with distribution function <span class="math inline">\(F\)</span>, then the mapping <span class="math inline">\(F(Y) \sim \mathsf{U}(0,1)\)</span> yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from <span class="math inline">\(F\)</span>, viz. <span class="math inline">\(F^{-1}(U)\)</span>. Consider then a random sample of size <span class="math inline">\(n\)</span> from the uniform distribution ordered from smallest to largest, with <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}\)</span>. One can show these ranks have marginally a Beta distribution, <span class="math inline">\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\)</span> with expectation <span class="math inline">\(k/(n+1)\)</span>.</p>
 <p>In practice, we don’t know <span class="math inline">\(F\)</span> and, even if we did, one would need to estimate the parameters. We consider some estimator <span class="math inline">\(\widehat{F}\)</span> for the model and apply the inverse transform to an approximate uniform sample <span class="math inline">\(\{i/(n+1)\}_{i=1}^n\)</span>. The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:</p>
 <ul>

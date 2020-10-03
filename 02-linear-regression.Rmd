@@ -274,7 +274,7 @@ The representation in Figure \@ref(fig:autoquad2d) may seem counter-intuitive gi
 knitr::knit_hooks$set(webgl = hook_webgl)
 ```
 
-```{r hyperplan, echo = FALSE, fig.cap = "3D graphical representation of the linear regression model for the $\texttt{auto}$ data.", cache = TRUE}
+```{r hyperplan, echo = FALSE, fig.cap = "3D graphical representation of the linear regression model for the $\\texttt{auto}$ data.", cache = TRUE}
 out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 if(out_type == 'html'){
 library(rgl)
@@ -443,7 +443,7 @@ We define the coefficient of determination, or squared multiple correlation coef
 \begin{align*}
 R^2 = 1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
 \end{align*}
-The coefficient of determination can be interpreted as the square of Pearson's linear correlation between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$; see [the Appendix for a derivation of this fact.](#derivationR2)
+The coefficient of determination can be interpreted as the square of [Pearson's linear correlation](moments) between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$; see [the Appendix for a derivation of this fact.](#derivationR2)
 
 Its important to note that $R^2$ is not a goodness-of-fit criterion: some phenomena are inherently noisy and even a good model will fail to account for much of the response's variability. Moreover, one can inflate the value of $R^2$ by including more explanatory variables: the coefficient is non-decreasing in the dimension of $\mathbf{X}$, so a model with $p+1$ covariate will necessarily have a higher $R^2$ values than only $p$ of the explanatories. For model comparisons, it is better to employ [information criteria](#information-criteria), or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high $R^2$ may imply high correlation, but [the relation may be spurious](http://www.tylervigen.com/spurious-correlations): linear regression does not yield causal models!
 
@@ -478,8 +478,8 @@ The two differ only because of the additional variance of individual observation
 
 Figure \@ref(fig:predinterval) shows pointwise uncertainty bands for a simple linear regression of the `intention` data as a function of `fixation`, illustrating the limitations of the linear model in this example: the model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 2 to 14. The middle line gives the prediction of individuals as we vary their fixation time. Looking at the formula for the confidence, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. This is more easily seen by replicating the potential curves that could have happened with different data: I generated new potential slopes from the asymptotic normal distribution of $\widehat{\boldsymbol{\beta}}$ estimators to show the hyperbolic shape is not surprising: we are basically tilting curves from the average fixation/intention, and they have higher potential from deviating far from the range of observations.
 
-```{r predinterval, cache = TRUE, echo = FALSE, fig.cap = "Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions."}
-
+```{r predinterval, cache = TRUE, echo = FALSE, fig.cap = "Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions.", dev="png"}
+library(gganimate)
 lm_simple <- lm(intention ~ fixation, data = intention)
 predci <- data.frame(cbind(fixation = seq(0, 6, by = 0.1),
                 predict(lm_simple, newdata = data.frame(fixation = seq(0, 6, by = 0.1)), 
@@ -488,36 +488,31 @@ predpi <- data.frame(cbind(fixation = seq(0, 6, by = 0.1),
                 predict(lm_simple, newdata = data.frame(fixation = seq(0, 6, by = 0.1)), 
                         interval = "p")[,-1]))
 nsim <- 25L
-boot_dat <- data.frame(id = factor(1:nsim), 
+boot_dat <- data.frame(id = 1:nsim, 
                      mvtnorm::rmvnorm(n = nsim, mean = coef(lm_simple), sigma = vcov(lm_simple)))
 colnames(boot_dat) <- c("id","intercept", "slope")
-
-
-
 out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 if(out_type == 'html'){
-  g1 <- ggplot(data = intention) + 
-  geom_point(aes(x=fixation, y=intention), col = "grey", alpha = 0.4) + 
+  g1 <- ggplot(data = boot_dat) + 
+  geom_point(data = intention, aes(x=fixation, y=intention), col = "grey", alpha = 0.4) + 
   ylim(c(0,20)) + 
   geom_ribbon(data = predci, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.5) + 
   geom_ribbon(data = predpi, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.2) +
-  geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1])  +
-    geom_abline(data = boot_dat, )
-   for(i in 1:nrow(boot_dat)){
-   g1 <- g1 + geom_abline(slope = boot_dat[i,3], intercept =  boot_dat[i,2], col = "red", alpha = 0.4)
-   print(g1)
-   }
- } else if(out_type == 'pdf'){
+  geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1]) + 
+    labs(x = "fixation time (in seconds)", y = "intention to buy") +
+  geom_abline(mapping = aes(slope = slope, intercept = intercept), col = "red", alpha = 0.4) + transition_manual(frames = id, cumulative = TRUE)
+ g1
+} else if(out_type == 'pdf'){
   ggplot(data = intention) + 
   geom_point(aes(x=fixation, y=intention), col = "grey", alpha = 0.4) + 
   ylim(c(0,20)) + 
   geom_ribbon(data = predci, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.5) + 
   geom_ribbon(data = predpi, aes(x = fixation, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.2) +
   geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1])  + 
+       labs(x = "fixation time (in seconds)", y = "intention to buy") +
      geom_abline(data = boot_dat, aes(slope = slope, intercept = intercept, group = id), 
          color = 'red', alpha = .1, lwd = 1.2)
- }
-
+}
 ```
 
 ## Interactions
@@ -733,9 +728,22 @@ to see how (and to what extent) the predictor variables explain the behaviour of
 - try to obtain more data, so as to reduce the effects of collinearity appearing in specific samples or that are due to small sample size.
 - create a composite score by somehow combining the variables showing collinearity.
 - remove one or more of the collinear variables. You need to be careful when doing this not to end up with a misspecified model. 
+- use penalized regression. If $\mathbf{X}^\top\mathbf{X}$ is (nearly) not invertible, this may restore the uniqueness of the solution. Penalties introduce bias, but can reduce the variance of the estimators $\boldsymbol{\beta}$. Popular choices include ridge regression (with an $l_2$ penalty), lasso ($l_1$ penalty), but these require adjustment in order to get valid inference. 
 
 Whatever the method, it's important to understand that it can be very difficult (and sometimes impossible) to isolate the individual effect of a predictor variable strongly correlated with other predictors.
 
+```{example label ="collegedatcollinear", name = "Collinearity in the $\\texttt{college}$ data"}
+We consider the `college` data analysis and include all the covariates in the database, including `years`, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, `service` and `years` is `r cor(college$service, college$years)`. The variance inflation factor for the five covariates 
+
+
+For categorical variables, the variance inflation factor definition would normally yield for each level a different value. The generalized variance inflation factor of @Fox:1992 are more useful then. Here, we are interested in gender disparities, so the fact that both service and field are 
+strongly correlated is not problematic, since the $\mathsf{VIF}$ for $\texttt{sex}$ is not high and the other variables are there to act as control and avoid confounders.
+```
+
+```{r echo=FALSE}
+vifs <- car::vif(lm(salary ~ service + years + rank + sex+ field, data = college))[,1]
+knitr::kable(t(vifs), caption = "(Generalized) variance inflation factor for the $\\texttt{college}$ data.", booktabs = TRUE, escape = FALSE)
+```
 
 ## Graphical analysis of residuals
 
@@ -832,7 +840,7 @@ More generally, correlation between observations arises from time dependence, ro
 
 Because of autocorrelation, positive errors tend to be followed by positive errors, etc. We can plot the residuals as a function of time, and a scatterplot of lagged residuals $e_i$ versus $e_{i-1}$ ($i=2, \ldots, n$).
 
-```{r timeresidplot, echo = FALSE, fig.cap= "Lagged residual plots (right). The left panel shows lack of evidence against independence, whereas the right panel shows positively correlated residuals."}
+```{r timeresidplot, echo = FALSE, fig.cap= "Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals."}
 lm1 <- lm(intention~emotion+factor(educ)+age+factor(revenue)+marital, data = intention)
 data(airpassengers, package = "hecstatmod")
 ols_airpass <- lm(log(passengers) ~ month + year, data = airpassengers)
@@ -871,14 +879,6 @@ g1 <- ggAcf(resid(ols_airpass),lag.max=25) + labs(x = "lag", y ="autocorrelation
 g0 + g1
 ```
 
-
-
-
-
-
-
-
-
 #### Linearity assumption
 
 The second assumption of the linear model is that of  linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified. 
@@ -908,15 +908,11 @@ Plotting residuals against left-out explanatory variables can also serve to chec
 
 If an important variable has been omitted and is not available in the dataset, then the effect of that variable is captured by both the errors (the portion orthogonal to the design matrix $\mathbf{X}$, i.e., unexplained by the covariates included in the model) and the remaining part is captured by other explanatories of the model that are correlated with the omitted variable. These variables can act as confounders. There is little that can be done in either case unless the data for the omitted variable are available, but subject-specific knowledge may help make sense of the results.
 
-
-
 #### Homoscedasticity assumption
 
 If the variance of the errors is the same for all observations, that of the observations $Y$ is also constant. The most common scenarios for heteroscedasticity are increases in variance with the response, or else variance that depends on explanatory variables $\mathbf{X}$, most notably categorical variables. For the former, a log-transform (or Box--Cox transformation) can help stabilize the variance, but we need the response to be positive. For the latter, we can explicitly model that variance and we will see how to include different variance per group later on. A popular strategy in the econometrics literature, is to use robust (inflated) estimators of the standard errors such as [White's sandwich estimator of the variance](https://en.wikipedia.org/wiki/Heteroscedasticity-consistent_standard_errors). 
 
 If the residuals (or observations) are heteroscedastic (non constant variance), the estimated effects of the variables (the $\beta$ parameters) are still valid in the sense that the ordinary least squares estimator $\widehat{\boldsymbol{\beta}}$ is unbiased. However, the estimated standard errors of the $\widehat{\beta}$ are no longer reliable and, consequently, the confidence intervals and the hypothesis tests for the model parameters will be incorrect. Indeed, if the variance of the errors differs from one observation to the next, we will estimate an average of the different variance terms. The standard errors of each term are incorrect (too small or too large) and the conclusions of the tests ($p$-values) will be off because the formulas of both $t$-test and $F$-test statistics include estimates of $\hat{\sigma}^2$. 
-
-
 
 Looking at the plot of jackknife studentized residuals against regressors (or fitted values) is instructive --- for example, we often see a funnel pattern when there is an increase in variance in the plot of the jackknife studentized residuals against fitted value, or else in boxplots with a categorical variable as in Figure \@ref(fig:diagfitvalhomosce).
 However, if we want to fit a local smoother to observe trends, it is better to plot the absolute value of the jackknife studentized residuals against regressors or observation number.
@@ -958,7 +954,6 @@ boxplot(rstudent(fitlmh) ~ xcat, xlab = "group", ylab="jackknife studentized res
 ```
 
 #### Normality assumption
-
 
 The normality assumption is mostly for convenience: if the errors are assumed normally distributed, then the least square and the maximum likelihood estimators of $\boldsymbol{\beta}$ coincide.
 The maximum likelihood estimators of $\boldsymbol{\beta}$ are asymptotically normal under mild conditions on the design matrix and $t$-tests are robust to departure of the normality assumption. This means that inference is valid in large samples, regardless of the distribution of the errors/residuals (even if the null distribution are not exact). It is important to keep in mind that, for categorical explanatory variables, the sample size in each group must be sufficiently large for the central limit theorem to kick in.
@@ -1019,3 +1014,64 @@ qqPlot(scale(c(rnorm(100,-3),rnorm(100,3))),
        ylab = "empirical quantiles",
        col.lines=hecblue, id = FALSE)
 ```
+
+
+```{example, label = "diagplotcollege", name = "Diagnostic plots for the $\\texttt{college}$ data."}
+We can look at the `college` data to see if the linear model assumptions hold. 
+```
+
+```{r diagplotscollege, echo = FALSE, fig.cap = "Diagnostic plots for the college data example: ordinary residuals against fitted values (top left), absolute value of the jacknnife studentized residuals against fitted values (top right), box and whiskers plot of jacknnife studentized residuals (bottom left) and detrended Student quantile-quantile plot (bottom right). There is clear group heteroscedasticity."}
+
+library(qqplotr, warn.conflicts = FALSE)
+lmcoll <- lm(salary ~ years + service + rank + sex + field, data = college)
+
+resdat <- data.frame(rstudent = rstudent(lmcoll),
+                     resid = resid(lmcoll),
+                     fitted = fitted(lmcoll),
+                     rank = college$rank,
+                     service = college$service)
+gd1 <- ggplot(resdat, aes(x = fitted, y = resid)) + 
+        geom_point() + 
+  labs(x = "fitted values", y = "ordinary residuals") 
+      # geom_smooth(method = "loess", size = 1.5)
+gd2 <- ggplot(resdat, aes(x = fitted, y = abs(rstudent))) + 
+        geom_point() + 
+      labs(x = "fitted values", 
+           y = "|jackknife studentized residuals|")
+gd3 <- ggplot(resdat, aes(x = rank, y = rstudent)) + 
+      geom_boxplot() + labs(y = "jackknife studentized residuals")
+di <- "t"
+dp <- list(df = lmcoll$df.residual-1)
+de <- TRUE
+gd4 <- ggplot(data = resdat, aes(sample = rstudent)) +
+ stat_qq_band(distribution = di, dparams = dp, 
+              detrend = de, identity = TRUE,
+              bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, dparams = dp, 
+              detrend = de, identity = TRUE) +
+ stat_qq_point(distribution = di, dparams = dp, 
+               detrend = de, identity = TRUE) +
+ labs(x = "theoretical quantiles", 
+      y = "empirical minus\n theoretical quantiles")
+
+(gd1 + gd2) / (gd3 + gd4)
+```
+
+Based on the plots of Figure \@ref(fig:diagplotscollege), we find that there is residual heteroscedasticity, due to rank. Since the number of years in the first rank is limited and all assistant professors were hired in the last six years, there is less disparity in their income. It is important not to mistake the pattern on the $x$-axis for the fitted value (due to the large effect of rank and field, both categorical variable) with patterns in the residuals (none apparent). Fixing the heteroscedasticity would correct the residuals and improve the appearance of the quantile-quantile plot.
+
+
+### Model ajustments
+
+
+This ultimate section deals with strategies for fixing the linear model if we detected non-normality. If the response is strictly positive, an option is to use the Box--Cox transformation presented in \@ref(exm:boxcox) and fit a linear model to a transformation of $Y$,
+\begin{align*}
+y_i(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
+\ln(y), & \lambda=0.
+\end{cases}
+\end{align*}
+We then fit a linear model over a grid of $\lambda$, using the profile likelihood to select the optimal value for the transformation. Note that the latter will depend on the covariates present in the model; the example with the $\texttt{college}$ data already shows that the diagnostics of normality is impacted by departures from the other hypothesis. 
+
+If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.
+
+To be continued...

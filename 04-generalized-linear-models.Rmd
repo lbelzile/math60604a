@@ -1,1 +1,114 @@
 # Generalized linear models {#generalized-linear-models}
+
+
+Linear models are only suitable for data that are (approximately) normally distributed. However, there are many settings where we may wish to analyze a response variable which is not necessarily continuous, including when $Y$ is binary, a count variable or is continuous, but non-negative. We will consider in particular likelihood-based inference for binary/proportion and counts data.
+
+Generalized linear models (GLM) combine a model for the conditional mean with a distribution for the response variable and a link function tying predictors and parameters.
+
+This chapter gives an introduction to generalized linear models and focuses in particular on logistic regression and Poisson regression, but only for the case of independent observations.  Extensions of generalized linear models for correlated and longitudinal, the so-called *generalized linear mixed models* (GLMM, are covered in MATH80621.
+
+
+## Basic principles 
+
+The starting point is the same as for linear regression: we have a random sample of independent observations $(\boldsymbol{Y}, \mathbf{X})$, where $Y$ is the response variable and $\mathrm{X}_1, \ldots, \mathrm{X}_p$ are $p$ explanatory variables or covariates which are assumed fixed (non-random). The goal is to model the mean of the response variable as a function of the explanatory variables.
+
+Let $\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)$ denote the conditional expectation of $Y_i$ given covariates and let $\eta_i$ denote the linear combination of the covariates that will be used to model the response variable, 
+\begin{align*}
+\eta_i=\beta_0 + \beta_1 \mathrm{X}_{i1} + \cdots + \beta_p \mathrm{X}_{ip}.
+\end{align*}
+The building blocks of the generalized linear model are
+
+- A probability distribution for the outcome $Y$ that is a member of the exponential family (normal, binomial, Poisson, gamma, \ldots). 
+- A set of linear predictors $\mathbf{X} \boldsymbol{\beta}$, where $\mathbf{X}$ is an $n\times (p+1)$ matrix with columns $\mathbf{1}_n, \mathrm{X}_1, \ldots, \mathrm{X}_p$ and $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ are coefficients. 
+- A function $g$, called **link function**, that links the mean of $Y_i$ to the predictor variables, $g(\mu_i)=\eta_i$. 
+
+
+
+## Theory of generalized linear models
+
+This section borrows from Chapter 4 of 
+> Agresti (2015). * Foundations of Linear and Generalized Linear Models*, Wiley.
+
+In a generalized linear model, the random component arises from an exponential dispersion family: this choice gives a framework, since test statistics and properties can be derived for general classes of distribution.
+
+### Exponential-dispersion family of distributions
+
+Consider a probability density or mass function for $Y$ with parameters $(\theta, \phi)$,
+\begin{align*}
+f(y; \theta, \phi)&= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y,
+\phi)\right\},
+\end{align*}
+where the support, i.e., the set of values taken by $Y$, doesn't depend on the parameters.  Throughout, we will assume **natural parameter ** $\theta$ is unknown, but the **dispersion parameter** $\phi$ may be known (exponential family) or unknown (exponential dispersion family). 
+
+One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log-likelihood $\ell$ of a one-sample with respect to the natural parameter $\theta$ are 
+\begin{align*}
+\frac{\partial \ell(y; \theta, \phi)}{\partial \theta} &= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b'(\theta)}{a(\phi)}
+\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2} &= - \frac{b''(\theta)}{a(\phi)},
+\end{align*}
+where $b'(\cdot)$ and $b''(\cdot)$ are the first two derivatives of $b(\cdot)$ with respect to $\theta$.
+Under regularity condition, the [Bartlett identities](https://math.stackexchange.com/q/2027660) hold and 
+\begin{align*}
+\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}=0, \qquad - \mathsf{E}\left\{\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2}\right\} = \left[\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}\right]^2.
+\end{align*}
+These two equality give
+\begin{align*}
+\mathsf{E}(Y_i) &= b'(\theta_i) \\
+\mathsf{Va}(Y_i) &= b''(\theta_i)a(\phi_i)
+\end{align*}
+Because of the relation between the mean of $Y_i$, say $\mu_i$, and the natural parameter $\theta_i$, we have $V(\mu)=b''(\theta)$ and there is an explicit relationship between the mean and the variance parameters unless $V(\mu)=1$.
+
+
+```{example, label="poissonglmexpf", name = "Poisson distribution as exponential family member"}
+The mass function of the Poisson distribution is 
+\begin{align*}
+f(y; \lambda) = \frac{\lambda^y \exp(-\lambda)}{y!} =\exp \left\{ y \ln
+(\lambda) -\lambda-\ln(y!)\right\}, \qquad y=0,1, \ldots
+\end{align*}
+The natural parameter is $\theta =\ln(\lambda)$, the dispersion
+parameter $\phi=1$, and $b(\theta)=\exp(\theta)$. Replacing these expressions in the mean-variance formulas, we get $\mathsf{E}(Y)=\exp(\theta)=\mu$ and $\mathsf{Va}(Y)=\exp(\theta)=\mu$, meaning $V(\mu)=\mu$.
+```
+
+```{example, label ="binomialglmexpf", name = "Binomial distribution as member of the exponential family"}
+We consider the mass function of a binomial distribution $\mathsf{Bin}(m,\pi)$ with the number of trials $m$ known. The parametrization presented in \@ref(exm:binomialdist) is not convenient because the mean and the variance both depend on $m$. We consider thus a different parametrization in which $Y$ represents the fraction of successes, so the mass function takes values in $\{0, 1/m, \ldots, 1\}$ and $mY$ denotes the number of successes. The mass function for $Y$ is then
+\begin{align*}
+f(y, \pi)&=\exp \left\{ my \ln \left( \frac{\pi}{1-\pi} \right) + m \ln
+(1-\pi) + \ln \left[
+\binom{m}{my}\right]\right\}\\& =\exp \left\{
+\frac{y \ln \left( \frac{\pi}{1-\pi} \right) +  \ln
+(1-\pi)}{1/m}+ \ln \left[
+\binom{m}{my}\right]\right\}
+\end{align*}
+Set
+\begin{align*}
+\theta= \ln \left( \frac{\pi}{1-\pi}\right)
+\end{align*}
+with $b(\theta) = \ln\{1+\exp(\theta)\}$ and $\phi=m^{-1}$. The expectation and variance are easily derived and 
+\begin{align*}
+\mathsf{E}(Y)&=\pi = \mathrm{expit}(\theta)=\frac{\exp(\theta)}{1+\exp(\theta)}=\mu
+\\\mathsf{Va}(Y) &= \frac{\pi(1-\pi)}{m} = \frac{\mu(1-\mu)}{m} = \phi V(\mu)
+\end{align*}
+where $V(\mu)=\mu(1-\mu)$.
+```
+
+### Link functions
+
+The link between the mean of $Y$ and the **linear predictor** $\eta$  is
+\begin{align*}
+g\left\{\mathsf{E}(Y \mid \mathrm{X}_1, \ldots, \mathrm{X}_p)\right\}=\eta = \beta_0 + \beta_1 \mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
+\end{align*}
+The link function thus connects the mean of the random variable $Y$ to the explanatory variables, $g(\mu_i) = \eta_i = \beta_0 + \sum_{j=1}^p\beta_j\mathrm{X}_{ij}$ and likewise $\mu_i  = g^{-1}(\eta_i)$. If the link function is chosen such that $\theta=\eta$, the link function is termed the canonical link function.
+
+The need for a link function arises from parameter constraints: for example, the mean $\mu=\pi$ of a Bernoulli distribution is the proportion of successes and  must lie in the interval $(0, 1)$. Similarly, the mean $\mu$ of the Poisson distribution must be positive. For the normal distribution of the ordinary linear regression model, we do not impose constraints on the mean $\mu_i$, so an appropriate link function is the identity, $\mu_i = \eta_i$.
+
+
+An appropriate choice of link function $g$ sets $\mu_i$ equal to a transformation of the linear combination $\eta_i$ so as to avoid imposing parameter constraints on $\boldsymbol{\beta}$. Certain choices of link functions facilitate interpretation or make the likelihood function convenient for optimization.  
+For the Bernoulli and binomial distributions, an appropriate link function $g$ is the logit function, 
+\begin{align*}
+\mathsf{logit}(\mu)&=
+\ln \left( \frac{\mu}{1-\mu} \right) =\ln(\mu) - \ln(1-\mu)= \eta,
+\\\mathrm{expit}(\eta)&= \frac{\exp(\eta)}{1+\exp(\eta)}=\mu.
+\end{align*}
+For the Poisson distribution, an appropriate link function $g$ is the natural logarithm, $\ln$, with associated inverse link function $\exp$.
+
+
+
