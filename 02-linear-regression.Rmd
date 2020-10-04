@@ -432,7 +432,7 @@ knitr::kable(caption = "Type 3 sum of square decomposition table: sum of square 
 
 Table \@ref(tab:summaryanovalmcollege) gives the $F$-statistics values and the associated $p$-values. The sum of squares represent the difference $\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)$ for various null models $\mathbb{M}_0$, except the last line for residuals which reports $\mathsf{SS}_e(\mathbb{M}_1)$. You can verify that (up to rounding) these $p$-pvalues are identical to those of the Wald test in the output when `df=1`. The only categorical variable here with more than one level is `rank`, and it is strongly significant: removing it from the model leads to a sharp decrease in fit. 
 
-We could have also easily computed the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is `r as.numeric(logLik(college_lm))` and that of the model without rank is `r as.numeric(logLik(update(college_lm, ~.-rank)))`, so the likelihood ratio statistic would be `r 2*(as.numeric(logLik(college_lm))-as.numeric(logLik(update(college_lm, ~.-rank))))` and this is strongly significant when compared to the $\chi^2_2$ distribution (both likelihood ratio test and $F$-test give a $p$-value of $2.2 \times 10^{-16}$).
+We could have also easily computed the likelihood ratio test to compare the models: for example, the log likelihood for the full model is `r as.numeric(logLik(college_lm))` and that of the model without rank is `r as.numeric(logLik(update(college_lm, ~.-rank)))`, so the likelihood ratio statistic would be `r 2*(as.numeric(logLik(college_lm))-as.numeric(logLik(update(college_lm, ~.-rank))))` and this is strongly significant when compared to the $\chi^2_2$ distribution (both likelihood ratio test and $F$-test give a $p$-value of $2.2 \times 10^{-16}$).
 
 ## Coefficient of determination {#coefR2}
 
@@ -478,7 +478,7 @@ The two differ only because of the additional variance of individual observation
 
 Figure \@ref(fig:predinterval) shows pointwise uncertainty bands for a simple linear regression of the `intention` data as a function of `fixation`, illustrating the limitations of the linear model in this example: the model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 2 to 14. The middle line gives the prediction of individuals as we vary their fixation time. Looking at the formula for the confidence, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. This is more easily seen by replicating the potential curves that could have happened with different data: I generated new potential slopes from the asymptotic normal distribution of $\widehat{\boldsymbol{\beta}}$ estimators to show the hyperbolic shape is not surprising: we are basically tilting curves from the average fixation/intention, and they have higher potential from deviating far from the range of observations.
 
-```{r predinterval, cache = TRUE, echo = FALSE, fig.cap = "Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions.", dev="png"}
+```{r predinterval, cache = TRUE, echo = FALSE, fig.cap = "Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95\\% confidence intervals of the mean and the individual predictions.", dev="png"}
 library(gganimate)
 lm_simple <- lm(intention ~ fixation, data = intention)
 predci <- data.frame(cbind(fixation = seq(0, 6, by = 0.1),
@@ -502,7 +502,7 @@ if(out_type == 'html'){
     labs(x = "fixation time (in seconds)", y = "intention to buy") +
   geom_abline(mapping = aes(slope = slope, intercept = intercept), col = "red", alpha = 0.4) + transition_manual(frames = id, cumulative = TRUE)
  g1
-} else if(out_type == 'pdf'){
+} else {
   ggplot(data = intention) + 
   geom_point(aes(x=fixation, y=intention), col = "grey", alpha = 0.4) + 
   ylim(c(0,20)) + 
@@ -736,7 +736,7 @@ Whatever the method, it's important to understand that it can be very difficult 
 We consider the `college` data analysis and include all the covariates in the database, including `years`, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, `service` and `years` is `r cor(college$service, college$years)`. The variance inflation factor for the five covariates 
 
 
-For categorical variables, the variance inflation factor definition would normally yield for each level a different value. The generalized variance inflation factor of @Fox:1992 are more useful then. Here, we are interested in gender disparities, so the fact that both service and field are 
+For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor [@Fox:1992]. Here, we are interested in gender disparities, so the fact that both service and field are 
 strongly correlated is not problematic, since the $\mathsf{VIF}$ for $\texttt{sex}$ is not high and the other variables are there to act as control and avoid confounders.
 ```
 
@@ -840,7 +840,7 @@ More generally, correlation between observations arises from time dependence, ro
 
 Because of autocorrelation, positive errors tend to be followed by positive errors, etc. We can plot the residuals as a function of time, and a scatterplot of lagged residuals $e_i$ versus $e_{i-1}$ ($i=2, \ldots, n$).
 
-```{r timeresidplot, echo = FALSE, fig.cap= "Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals."}
+```{r timeresidplot, cache = TRUE, echo = FALSE, fig.cap= "Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals."}
 lm1 <- lm(intention~emotion+factor(educ)+age+factor(revenue)+marital, data = intention)
 data(airpassengers, package = "hecstatmod")
 ols_airpass <- lm(log(passengers) ~ month + year, data = airpassengers)
@@ -860,7 +860,7 @@ car::gamLine(resid(lm1)[-1], resid(lm1)[-length(resid(lm1))], spread = TRUE, col
 ```
 
 
-However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations $h$ units apart as a function of the lag $h$ (Brockwell and Davis, 2016, Defn. 1.4.4).
+However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations $h$ units apart as a function of the lag $h$ [@Brockwell/Davis:2016, Definition 1.4.4].
 
 For $y_1, \ldots, y_n$ and constant time lags $h=0, 1, \ldots$ units, the autocorrelation at lag $h$ is
 \begin{align*}
@@ -964,7 +964,7 @@ Sometimes, transformations can improve normality: if the data is right-skewed an
 
 The inference will be valid for large samples even if the errors are not normally distributed by virtue of the central limit theorem. If the errors $\varepsilon_i \sim \mathsf{No}(0, \sigma^2)$, then the jacknnife studentized residuals should follow a Student distribution, with $r_i \sim \mathsf{St}(n-p-2)$, (identically distributed, but not independent). A Student quantile-quantile plot can thus be used to check the assumption (and for $n$ large, the normal plotting positions could be used as approximation if $n-p> 50$). One can also plot a histogram of the residuals. Keep in mind that if the mean model is not correctly specified, some residuals may incorporate effect of leftover covariates.
 
-```{r qqplotresid, echo = FALSE, fig.cap = "Histogram (left) and Student quantile-quantile plot (right) of the jackknife studentized residuals. The left panel includes a kernel density estimate (black), with the density of Student distribution (blue) superimposed. The right panel includes pointwise 95\\% confidence bands calculated using a bootstrap."}
+```{r qqplotresid, cache = TRUE, echo = FALSE, fig.cap = "Histogram (left) and Student quantile-quantile plot (right) of the jackknife studentized residuals. The left panel includes a kernel density estimate (black), with the density of Student distribution (blue) superimposed. The right panel includes pointwise 95\\% confidence bands calculated using a bootstrap."}
 par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
 par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
 par(mfrow = c(1,2))
@@ -989,7 +989,7 @@ g1 + g2
 
 Quantile-quantile plots are discussed in Section \@ref(diagramme-qq), but their interpretation requires training. For example, Figure \@ref(fig:qqplotsbad) shows many common scenarios that can be diagnosed using quantile-quantile plots: discrete data is responsible for staircase patterns, positively skewed data has too high low quantiles and too low high quantiles relative to the plotting positions, heavy tailed data have high observations in either tails and bimodal data leads to jumps in the plot.
 
-```{r qqplotsbad, echo = FALSE, fig.cap = "Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed  (top right), skewed (bottom left) and bimodal data (bottom right)."}
+```{r qqplotsbad, cache = TRUE, echo = FALSE, fig.cap = "Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed  (top right), skewed (bottom left) and bimodal data (bottom right)."}
 set.seed(1234)
 par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
 par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
@@ -1020,7 +1020,7 @@ qqPlot(scale(c(rnorm(100,-3),rnorm(100,3))),
 We can look at the `college` data to see if the linear model assumptions hold. 
 ```
 
-```{r diagplotscollege, echo = FALSE, fig.cap = "Diagnostic plots for the college data example: ordinary residuals against fitted values (top left), absolute value of the jacknnife studentized residuals against fitted values (top right), box and whiskers plot of jacknnife studentized residuals (bottom left) and detrended Student quantile-quantile plot (bottom right). There is clear group heteroscedasticity."}
+```{r diagplotscollege, cache = TRUE, echo = FALSE, fig.cap = "Diagnostic plots for the college data example: ordinary residuals against fitted values (top left), absolute value of the jacknnife studentized residuals against fitted values (top right), box and whiskers plot of jacknnife studentized residuals (bottom left) and detrended Student quantile-quantile plot (bottom right). There is clear group heteroscedasticity."}
 
 library(qqplotr, warn.conflicts = FALSE)
 lmcoll <- lm(salary ~ years + service + rank + sex + field, data = college)
@@ -1063,15 +1063,125 @@ Based on the plots of Figure \@ref(fig:diagplotscollege), we find that there is 
 ### Model ajustments
 
 
-This ultimate section deals with strategies for fixing the linear model if we detected non-normality. If the response is strictly positive, an option is to use the Box--Cox transformation presented in \@ref(exm:boxcox) and fit a linear model to a transformation of $Y$,
+This ultimate section deals with strategies for fixing the linear model if we detected non-normality. If the response is strictly positive, an option is to use the Box--Cox transformation presented in Section \@ref(exm:boxcox) and fit a linear model to a transformation of $Y$,
 \begin{align*}
 y_i(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
 \ln(y), & \lambda=0.
 \end{cases}
 \end{align*}
-We then fit a linear model over a grid of $\lambda$, using the profile likelihood to select the optimal value for the transformation. Note that the latter will depend on the covariates present in the model; the example with the $\texttt{college}$ data already shows that the diagnostics of normality is impacted by departures from the other hypothesis. 
+We then fit a linear model over a grid of $\lambda$, using the profile likelihood to select the optimal value for the transformation. Note that the latter will depend on the covariates present in the model; the example with the $\texttt{college}$ data already shows that the diagnostics of normality is impacted by departures from the other hypothesis. The cases $\lambda=1$ (identity) and $\lambda=0$ (log-linear model) are perhaps the most important because they yield interpretable coefficients.
 
 If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.
+Theory sometimes dictates a multiplicative model: for example, the Cobb--Douglas production function in economics is 
+$P=\alpha L^{\beta_1}C^{\beta_2}$, where $P$ stands for production, $L$ for labor and $C$ for capital; all inputs are positive, so taking a log-transform yields a model that is linear in $\beta$, with $\beta_0=\ln(\alpha)$.
 
-To be continued...
+
+We can rewrite the model in the original response scale as
+\begin{align*}
+Y = \exp\left(\beta_0+\sum_{j=1}^p\beta_j\mathrm{X}_j +  \varepsilon \right) = \exp\left(\beta_0+ \sum_{j=1}^p\beta_j\mathrm{X}_j\right)\cdot \exp(\varepsilon),
+\end{align*}
+and thus
+\begin{align*}
+\mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 \mathrm{X}_1 +\cdots + \beta_p\mathrm{X}_p ) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
+\end{align*}
+If $\varepsilon \mid \mathbf{X} \sim \mathsf{No}(\mu,\sigma^2)$, then $\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}= \exp(\mu+\sigma^2/2)$ --- $\exp(\varepsilon)$ follows a log-normal distribution. 
+
+In order to interpret the parameters, we can compare the ratio of $\mathsf{E}(Y \mid \mathrm{X}_1=x+1)$ to $\mathsf{E}(Y \mid \mathrm{X}_1=x)$,
+\begin{align*}
+\frac{\mathsf{E}(Y \mid \mathrm{X}_1=x+1, \mathrm{X}_2, \ldots, \mathrm{X}_p)}{\mathsf{E}(Y \mid \mathrm{X}_1=x,  \mathrm{X}_2, \ldots, \mathrm{X}_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
+\end{align*}
+Thus, $\exp(\beta_1)$ represents the ratio of the mean of $Y$ when $\mathrm{X}_1=x+1$ in comparison to that when $\mathrm{X}_1=x$, *ceteris paribus* (and provided this statement is meaningful). We can interpret $\exp(\beta_1)$ as the multiplicative effect of $\mathrm{X}_1$ on the mean of $Y$: increasing $\mathrm{X}_1$ by one unit causes $Y$ to increase by a factor of $\exp(\beta_1)$, on average. 
+
+```{example, label="poisonboxcox", "Box--Cox transform for the $\\texttt{poison}$ data"}
+
+The paper of Box--Cox consider survival time for 48 animals based on a randomized trial and these are analyzed in Example 8.25 of @SM:2008. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
+
+We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form
+\begin{align*}
+Y &= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &\qquad+ \beta_4\texttt{treatment}_3
++\beta_5\texttt{treatment}_4 + \varepsilon
+\end{align*}
+
+The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables  further point towards non-additivity [@SM:2008, Example 8.24]. All of these factors point towards overall poor fit of the model.
+
+One could ignore the non-constant variance and consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of Figure \@ref(fig:poisonplots) suggests that $\lambda\approx -1$ would be a good choice. This has the benefit of being interpretable, as the reciprocal response $Y^{-1}$ corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.
+
+```
+
+
+```{r poisonplots, echo = FALSE, cache = TRUE, fig.cap = "Diagnostic plots for the poison data. The top panel shows the ordinary residuals for the linear model for survival time as a function of poison and treatment, with jittered observations. The middle left plot shows the fitted values against residuals, which display evidence of trend and increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. The bottom panel shows the profile log likelihood for the Box--Cox transform, suggesting a value of $-1$ would be within the 95\\% confidence interval. After fitting the same additive model with main effect only to the reciprocal survival time, there is no more evidence of residual structure and unequal variance.", fig.height=6}
+
+poisons <- SMPracticals::poisons
+poisonlm1 <- lm(time ~ poison + treat, data = poisons)
+poisonlm2 <- lm(I(1/time) ~ poison + treat, data = poisons)
+
+poisons$resid1 <- resid(poisonlm1)
+poisons$rstudent1 <- rstudent(poisonlm1)
+poisons$resid2 <- resid(poisonlm2)
+poisons$rstudent2 <- rstudent(poisonlm2)
+poisons$fitted1 <- fitted(poisonlm1)
+poisons$fitted2 <- fitted(poisonlm2)
+g1 <- ggplot(data = poisons) + 
+  geom_point(aes(x = poison, y = resid1), position = position_jitter(width = 0.05)) + 
+  labs(y = "ordinary residuals")
+g2 <- ggplot(data = poisons) + 
+  geom_point(aes(x = treat, y = resid1), position = position_jitter(width = 0.05)) + 
+  labs(y = "ordinary residuals", x = "treatment")
+g3 <- ggplot(data = poisons) + 
+  geom_point(aes(x = fitted1, y = resid1), position = position_jitter(width = 0.05)) + 
+  labs(y = "ordinary residuals", x = "fitted values")
+dp <- list(df=poisonlm1$df.residual-1)
+di <- "t"
+de <- TRUE
+library(qqplotr)
+g4 <- ggplot(data = poisons, aes(sample = rstudent1)) + 
+ stat_qq_band(distribution = di, dparams = dp, 
+              detrend = de, identity = TRUE,
+              bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, dparams = dp, 
+              detrend = de, identity = TRUE) +
+ stat_qq_point(distribution = di, dparams = dp, 
+               detrend = de, identity = TRUE) +
+ labs(x = "theoretical quantiles", 
+      y = "empirical minus\n theoretical quantiles")
+g5 <- ggplot(data = poisons) + 
+  geom_point(aes(x = fitted2, y = resid2), position = position_jitter(width = 0.05)) + 
+  labs(y = "ordinary residuals", x = "fitted values")
+boxcox_gg <- function(fitted.lm, showlambda = TRUE, lambdaSF = 3, grid = seq(-2,2, by = 0.1), scale.factor = 0.5) {
+      boxcox_object <- MASS::boxcox(fitted.lm, lambda = grid, plotit = FALSE)
+    x <- unlist(boxcox_object$x)
+    y <- unlist(boxcox_object$y)
+    xstart <- x[-1]
+    ystart <- y[-1]
+    xend <- x[-(length(x))]
+    yend <- y[-(length(y))]
+    boxcox_unlist <- data.frame(xstart, ystart, xend, yend)
+    best_lambda <- x[which.max(y)]
+    rounded_lambda <- round(best_lambda, lambdaSF)
+    min_y <- min(y)
+    accept_inds <- which(y > max(y) - 1/2 * qchisq(0.95, 1))
+    accept_range <- x[accept_inds]
+    conf_lo <- round(min(accept_range), lambdaSF)
+    conf_hi <- round(max(accept_range), lambdaSF)
+    plot <- ggplot(data = boxcox_unlist) + geom_segment(aes(x = xstart, 
+        y = ystart, xend = xend, yend = yend), size = scale.factor) + 
+        labs(x = expression(lambda), y = "profile log likelihood") + 
+        geom_vline(xintercept = best_lambda, linetype = "dotted", 
+            size = scale.factor/2) + geom_vline(xintercept = conf_lo, 
+        linetype = "dotted", size = scale.factor/2) + geom_vline(xintercept = conf_hi, 
+        linetype = "dotted", size = scale.factor/2) + geom_hline(yintercept = y[min(accept_inds)], 
+        linetype = "dotted", size = scale.factor/2)
+    if (showlambda) {
+        return(plot + 
+                 annotate("text", x = best_lambda, label = as.character(rounded_lambda), y = min_y) + 
+              annotate("text", x = conf_lo, label = as.character(conf_lo), y = min_y) + 
+              annotate("text", x = conf_hi, 
+            label = as.character(conf_hi), y = min_y))
+    } else {
+        return(plot)
+    }
+}
+g6 <- boxcox_gg(poisonlm1, grid = seq(-1.5,0.1, by = 0.01))
+(g1 + g2)/ (g3 + g4) / (g6 + g5)
+```

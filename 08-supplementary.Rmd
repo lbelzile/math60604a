@@ -183,7 +183,7 @@ $\mathsf{E}(Y)=\mu$ et $\mathsf{Va}(Y)=\mu+k\mu^2$, where $k=1/r$. The variance 
 ```
 
 ### Continuous distributions
-<!-- Most of the continuous distributions encountered in this course give the  -->
+
 We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics. 
 
 ```{example, label = "normaldist", name = "Normal distribution"}
@@ -198,7 +198,7 @@ We will also encounter the multivariate normal distribution; for a $n$ dimension
 f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}
 
-The mean vector $\boldsymbol{\mu}$ is the vector of expectation of individual observations, whereas $\boldsymbol{\Sigma}$ is the covariance matrix of $\boldsymbol{Y}. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if $Y_i$ and $Y_j$ are independent, the $(i,j)$ off-diagonal entry of $\boldsymbol{\Sigma}$ is zero. 
+The mean vector $\boldsymbol{\mu}$ is the vector of expectation of individual observations, whereas $\boldsymbol{\Sigma}$ is the covariance matrix of $\boldsymbol{Y}$. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if $Y_i$ and $Y_j$ are independent, the $(i,j)$ off-diagonal entry of $\boldsymbol{\Sigma}$ is zero. 
 ```
 
 ```{example, label = "chisqdist", name = "Chi-square distribution"}
@@ -209,7 +209,7 @@ If we consider a sample of $n$ normally distributed observations, the sample var
 ```
 
 
-```{example, label = "studentdist", name = "Student-*t* distribution"}
+```{example, label = "studentdist", name = "Student-$t$ distribution"}
 If $X \sim \mathsf{No}(0,1)$ independent of  $Y \sim \chi^{2}_\nu$, then 
 \begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
@@ -256,7 +256,6 @@ g1 <- ggplot(data = data, mapping = aes(sample = sample)) +
  stat_qq_point(distribution = di, detrend = de) +
  labs(x = "theoretical quantiles", y = "empirical quantiles")
 g1 + g2
-
 ```
 
 Even if we knew the true distribution of the data, the sample variability makes it very difficult to spot if deviations from the model are abnormal or compatible with the model. A simple point estimate with no uncertainty measure can lead to wrong conclusions. As such, we add approximate pointwise or simultaneous confidence intervals. The simplest way to do this is by simulation (using a parametric bootstrap), by repeating the following steps $B$ times:

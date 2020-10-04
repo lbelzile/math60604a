@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-09-27.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-10-04.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -1132,19 +1132,29 @@ Before drafting a model, a quick look at the data is in due order. If salary inc
 
 Salary increases over years of service, but its variability also increases with rank. Note the much smaller number of women in the sample: this will impact our power to detect differences between sex. A contingency table of sex and academic rank can be useful to see if the proportion of women is the same in each rank: women represent 16\% of assistant professors and 16\% of associate profs, but only 7\% of full professors and these are better paid on average.
 
-\begin{table}
+\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.
 
-\caption{\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.}
-\centering
-\begin{tabular}[t]{lrrr}
-\toprule
-  & assistant & associate & full\\
-\midrule
-man & 56 & 54 & 248\\
-woman & 11 & 10 & 18\\
-\bottomrule
-\end{tabular}
-\end{table}
+assistant
+
+associate
+
+full
+
+man
+
+56
+
+54
+
+248
+
+woman
+
+11
+
+10
+
+18
 
 The simple linear regression model only includes a single explanatory variable and defines a straight line linking two variables \(\mathrm{X}\) and \(Y\) by means of an equation of the form \(y=a+bx\); Figure \ref{fig:droitenuage} shows the line passing through the scatterplot for years of service.
 
@@ -1336,7 +1346,7 @@ The representation in Figure \ref{fig:autoquad2d} may seem counter-intuitive giv
 
 }
 
-\caption{3D graphical representation of the linear regression model for the $	exttt{auto}$ data.}\label{fig:hyperplan}
+\caption{3D graphical representation of the linear regression model for the $\texttt{auto}$ data.}\label{fig:hyperplan}
 \end{figure}
 
 \begin{remark}[There are better alternatives to polynomials for modelling nonlinear effects]
@@ -1355,18 +1365,31 @@ If we multiply \(\texttt{salary}\) by a thousand to get the resulting estimates 
 +\beta_4 \texttt{rank}_{\texttt{full}}  +\beta_5 \texttt{service} + \varepsilon.
 \end{align*}
 
-\begin{table}
+\label{tab:collegecoefs}Estimated coefficients of the linear model for the \(\texttt{college}\) (in USD, rounded to the nearest dollar).
 
-\caption{\label{tab:collegecoefs}Estimated coefficients of the linear model for the $\texttt{college}$ (in USD, rounded to the nearest dollar).}
-\centering
-\begin{tabular}[t]{rrrrrr}
-\toprule
-$\widehat{\beta}_0$ & $\widehat{\beta}_1$ & $\widehat{\beta}_2$ & $\widehat{\beta}_3$ & $\widehat{\beta}_4$ & $\widehat{\beta}_5$\\
-\midrule
-86596 & -4771 & -13473 & 14560 & 49160 & -89\\
-\bottomrule
-\end{tabular}
-\end{table}
+\(\widehat{\beta}_0\)
+
+\(\widehat{\beta}_1\)
+
+\(\widehat{\beta}_2\)
+
+\(\widehat{\beta}_3\)
+
+\(\widehat{\beta}_4\)
+
+\(\widehat{\beta}_5\)
+
+86596
+
+-4771
+
+-13473
+
+14560
+
+49160
+
+-89
 
 The interpretation of the coefficients is as follows:
 
@@ -1448,51 +1471,153 @@ For normal linear regression, the likelihood ratio test for comparing models \(\
 
 Consider the \texttt{college} data example and the associated linear model with \texttt{rank}, \texttt{sex}, years of \texttt{service} and \texttt{field} as covariates.
 
-\begin{table}
+\label{tab:summarytestslmcollege}Table of linear regression coefficients with associated standard errors, Wald tests and \(p\)-values based on Student-\(t\) distribution
 
-\caption{\label{tab:summarytestslmcollege}Table of linear regression coefficients with associated standard errors, Wald tests and $p$-values based on Student-$t$ distribution}
-\centering
-\begin{tabular}[t]{lrrrr}
-\toprule
-term & estimate & std. error & Wald stat. & p-value\\
-\midrule
-(Intercept) & 86.596 & 2.96 & 29.25 & < 0.001\\
-sex [woman] & -4.771 & 3.878 & -1.23 & 0.22\\
-field [theoretical] & -13.473 & 2.315 & -5.82 & < 0.001\\
-rank [associate] & 14.56 & 4.098 & 3.55 & < 0.001\\
-rank [full] & 49.16 & 3.834 & 12.82 & < 0.001\\
-\addlinespace
-service & -0.089 & 0.112 & -0.8 & 0.43\\
-\bottomrule
-\end{tabular}
-\end{table}
+term
+
+estimate
+
+std. error
+
+Wald stat.
+
+p-value
+
+(Intercept)
+
+86.596
+
+2.96
+
+29.25
+
+\textless{} 0.001
+
+sex {[}woman{]}
+
+-4.771
+
+3.878
+
+-1.23
+
+0.22
+
+field {[}theoretical{]}
+
+-13.473
+
+2.315
+
+-5.82
+
+\textless{} 0.001
+
+rank {[}associate{]}
+
+14.56
+
+4.098
+
+3.55
+
+\textless{} 0.001
+
+rank {[}full{]}
+
+49.16
+
+3.834
+
+12.82
+
+\textless{} 0.001
+
+service
+
+-0.089
+
+0.112
+
+-0.8
+
+0.43
 
 Table \ref{tab:summarytestslmcollege} shows the estimated coefficients (in thousands of dollars). The coefficients are the least squares estimates \(\widehat{\boldsymbol{\beta}}\), the standard errors are the square root of the diagonal elements of \(S^2(\mathbf{X}^\top\mathbf{X})^{-1}\). The Wald (or \emph{t}-) statistic is simply \(W=\widehat{\beta}/\mathsf{se}(\widehat{\beta})\) for \(\mathscr{H}_0: \beta_j=0\): given two of the three estimates, we could easily recover the third using the formula for the test. The \(p\)-values are for the two-sided alternative test with \(\mathscr{H}_a: \beta_j \neq 0\).
 
 The interpretation is usual: \(p\)-values that are less than our prescribed level \(\alpha\) do not contribute significantly given the other variables already in the model. Neither years of service nor sex are statistically different from zero given all the other variables. The test for \(\beta_{\texttt{sex}}\) is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank.
 
-\begin{table}
+\label{tab:summaryanovalmcollege}Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, \(F\)-statistic and associated \(p\)-value.
 
-\caption{\label{tab:summaryanovalmcollege}Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, $F$-statistic and associated $p$-value.}
-\centering
-\begin{tabular}[t]{lrrrr}
-\toprule
-variable & sum of square & df & F stat. & p-value\\
-\midrule
-(Intercept) & 439059.2 & 1 & 855.71 & < 0.001\\
-sex & 776.7 & 1 & 1.51 & 0.22\\
-field & 17372.5 & 1 & 33.86 & < 0.001\\
-rank & 102883.1 & 2 & 100.26 & < 0.001\\
-service & 324.5 & 1 & 0.63 & 0.43\\
-\addlinespace
-Residuals & 200620.4 & 391 &  & \\
-\bottomrule
-\end{tabular}
-\end{table}
+variable
+
+sum of square
+
+df
+
+F stat.
+
+p-value
+
+(Intercept)
+
+439059.2
+
+1
+
+855.71
+
+\textless{} 0.001
+
+sex
+
+776.7
+
+1
+
+1.51
+
+0.22
+
+field
+
+17372.5
+
+1
+
+33.86
+
+\textless{} 0.001
+
+rank
+
+102883.1
+
+2
+
+100.26
+
+\textless{} 0.001
+
+service
+
+324.5
+
+1
+
+0.63
+
+0.43
+
+Residuals
+
+200620.4
+
+391
 
 Table \ref{tab:summaryanovalmcollege} gives the \(F\)-statistics values and the associated \(p\)-values. The sum of squares represent the difference \(\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\) for various null models \(\mathbb{M}_0\), except the last line for residuals which reports \(\mathsf{SS}_e(\mathbb{M}_1)\). You can verify that (up to rounding) these \(p\)-pvalues are identical to those of the Wald test in the output when \texttt{df=1}. The only categorical variable here with more than one level is \texttt{rank}, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.
 
-We could have also easily computed the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the \(\chi^2_2\) distribution (both likelihood ratio test and \(F\)-test give a \(p\)-value of \(2.2 \times 10^{-16}\)).
+We could have also easily computed the likelihood ratio test to compare the models: for example, the log likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the \(\chi^2_2\) distribution (both likelihood ratio test and \(F\)-test give a \(p\)-value of \(2.2 \times 10^{-16}\)).
 
 \hypertarget{coefR2}{%
 \section{Coefficient of determination}\label{coefR2}}
@@ -1504,7 +1629,7 @@ We define the coefficient of determination, or squared multiple correlation coef
 \begin{align*}
 R^2 = 1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
 \end{align*}
-The coefficient of determination can be interpreted as the square of Pearson's linear correlation between the response \(\boldsymbol{y}\) and the fitted values \(\widehat{\boldsymbol{y}}\); see \protect\hyperlink{derivationR2}{the Appendix for a derivation of this fact.}
+The coefficient of determination can be interpreted as the square of \href{moments}{Pearson's linear correlation} between the response \(\boldsymbol{y}\) and the fitted values \(\widehat{\boldsymbol{y}}\); see \protect\hyperlink{derivationR2}{the Appendix for a derivation of this fact.}
 
 Its important to note that \(R^2\) is not a goodness-of-fit criterion: some phenomena are inherently noisy and even a good model will fail to account for much of the response's variability. Moreover, one can inflate the value of \(R^2\) by including more explanatory variables: the coefficient is non-decreasing in the dimension of \(\mathbf{X}\), so a model with \(p+1\) covariate will necessarily have a higher \(R^2\) values than only \(p\) of the explanatories. For model comparisons, it is better to employ \protect\hyperlink{information-criteria}{information criteria}, or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high \(R^2\) may imply high correlation, but \href{http://www.tylervigen.com/spurious-correlations}{the relation may be spurious}: linear regression does not yield causal models!
 
@@ -1539,6 +1664,15 @@ The two differ only because of the additional variance of individual observation
 
 Figure \ref{fig:predinterval} shows pointwise uncertainty bands for a simple linear regression of the \texttt{intention} data as a function of \texttt{fixation}, illustrating the limitations of the linear model in this example: the model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 2 to 14. The middle line gives the prediction of individuals as we vary their fixation time. Looking at the formula for the confidence, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. This is more easily seen by replicating the potential curves that could have happened with different data: I generated new potential slopes from the asymptotic normal distribution of \(\widehat{\boldsymbol{\beta}}\) estimators to show the hyperbolic shape is not surprising: we are basically tilting curves from the average fixation/intention, and they have higher potential from deviating far from the range of observations.
 
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/predinterval-1} 
+
+}
+
+\caption{Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95\% confidence intervals of the mean and the individual predictions.}\label{fig:predinterval}
+\end{figure}
+
 \hypertarget{interactions}{%
 \section{Interactions}\label{interactions}}
 
@@ -1557,26 +1691,97 @@ A good example of interaction is provided by the \texttt{insurance} dataset. An 
 
 From there, we could create an indicator variable \(\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)\) and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We take non-smoker as baseline category. To make interpretation more meaningful, we rescale age so that \(\texttt{age}=0\) corresponds to 18 years old.
 
-\begin{table}
+\label{tab:coefintercharges}Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.
 
-\caption{\label{tab:coefintercharges}Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.}
-\centering
-\begin{tabular}[t]{lrrrr}
-\toprule
-term & estimate & std. error & Wald stat. & p-value\\
-\midrule
-(Intercept) & 2668.7 & 362.7 & 7.36 & < 0.001\\
-age & 265.9 & 15 & 17.7 & < 0.001\\
-obesity [obese] & 115.3 & 510.3 & 0.23 & 0.82\\
-smoker [yes] & 13526.2 & 803.1 & 16.84 & < 0.001\\
-age * obesity [obese] & 1.4 & 20.1 & 0.07 & 0.94\\
-\addlinespace
-age * smoker [yes] & -5.3 & 33.5 & -0.16 & 0.87\\
-obesity [obese] * smoker [yes] & 19308.7 & 1110.5 & 17.39 & < 0.001\\
-age * obesity [obese] * smoker [yes] & 19.1 & 44.8 & 0.43 & 0.67\\
-\bottomrule
-\end{tabular}
-\end{table}
+term
+
+estimate
+
+std. error
+
+Wald stat.
+
+p-value
+
+(Intercept)
+
+2668.7
+
+362.7
+
+7.36
+
+\textless{} 0.001
+
+age
+
+265.9
+
+15
+
+17.7
+
+\textless{} 0.001
+
+obesity {[}obese{]}
+
+115.3
+
+510.3
+
+0.23
+
+0.82
+
+smoker {[}yes{]}
+
+13526.2
+
+803.1
+
+16.84
+
+\textless{} 0.001
+
+age * obesity {[}obese{]}
+
+1.4
+
+20.1
+
+0.07
+
+0.94
+
+age * smoker {[}yes{]}
+
+-5.3
+
+33.5
+
+-0.16
+
+0.87
+
+obesity {[}obese{]} * smoker {[}yes{]}
+
+19308.7
+
+1110.5
+
+17.39
+
+\textless{} 0.001
+
+age * obesity {[}obese{]} * smoker {[}yes{]}
+
+19.1
+
+44.8
+
+0.43
+
+0.67
 
 The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for \texttt{age}; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.
 
@@ -1667,21 +1872,53 @@ We will evaluate the effect of the factors \(\texttt{delay}\) and \(\texttt{stag
 
 If there is an interaction between explanatory variables, but the latter is not included in the models, the tests are misleading: one assumption of the linear model being that all of the relevant covariates have been included and their effect properly accounted for. In this example, omitting the interaction leads to effects being averaged and cancelling each other. Fitting an ANOVA model with only additive (main effects, without interaction) for the evaluation of service suggests that the factors \(\texttt{stage}\) and \(\texttt{delay}\) are not significant: the \(p\)-values for the main effects, reported in Table \ref{tab:summaryanovadelaynointer}, are \(0.409\) and \(0.137\). Therefore, there seemingly is no significant difference in delay time between the two stages and the three delay types.
 
-\begin{table}
+\label{tab:summaryanovadelaynointer}Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.
 
-\caption{\label{tab:summaryanovadelaynointer}Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.}
-\centering
-\begin{tabular}[t]{lrrrr}
-\toprule
-variable & sum of square & df & F stat. & p-value\\
-\midrule
-(Intercept) & 0 & 1 & 0.11 & 0.74\\
-stage & 0.3 & 1 & 0.69 & 0.41\\
-delay & 1.6 & 2 & 2.02 & 0.14\\
-Residuals & 41.9 & 105 &  & \\
-\bottomrule
-\end{tabular}
-\end{table}
+variable
+
+sum of square
+
+df
+
+F stat.
+
+p-value
+
+(Intercept)
+
+0
+
+1
+
+0.11
+
+0.74
+
+stage
+
+0.3
+
+1
+
+0.69
+
+0.41
+
+delay
+
+1.6
+
+2
+
+2.02
+
+0.14
+
+Residuals
+
+41.9
+
+105
 
 However, looking at the data and the mean of each sub-class paints a different portrait, as evidenced by the interaction plot of Figure \ref{fig:twowayanovadelay}. The score for service increases for \texttt{correctional} delays when the error occurs close to the end, but the effect is opposite for other delay types. The fact that our \(p\)-values for the effects were not significative merely indicate that the effects cancelled out each other.
 
@@ -1696,22 +1933,63 @@ However, looking at the data and the mean of each sub-class paints a different p
 
 There is a significant interaction between the variables \(\texttt{delay}\) and \(\texttt{stage}\) on evaluation. Therefore, the effect of \(\texttt{delay}\) on the variable \(\texttt{eval}\) depends on the level of the variable \(\texttt{stage}\) ance vice-versa. Since there is an interaction term, tests for the main effects of \(\texttt{stage}\) or \(\texttt{delay}\) are not of interest.
 
-\begin{table}
+\label{tab:summarydelaywinteraction}Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.
 
-\caption{\label{tab:summarydelaywinteraction}Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.}
-\centering
-\begin{tabular}[t]{lrrrr}
-\toprule
-variable & sum of square & df & F stat. & p-value\\
-\midrule
-(Intercept) & 3.8 & 1 & 18.29 & < 0.001\\
-stage & 5.3 & 1 & 25.67 & < 0.001\\
-delay & 8.1 & 2 & 19.64 & < 0.001\\
-stage:delay & 20.5 & 2 & 49.63 & < 0.001\\
-Residuals & 21.3 & 103 &  & \\
-\bottomrule
-\end{tabular}
-\end{table}
+variable
+
+sum of square
+
+df
+
+F stat.
+
+p-value
+
+(Intercept)
+
+3.8
+
+1
+
+18.29
+
+\textless{} 0.001
+
+stage
+
+5.3
+
+1
+
+25.67
+
+\textless{} 0.001
+
+delay
+
+8.1
+
+2
+
+19.64
+
+\textless{} 0.001
+
+stage:delay
+
+20.5
+
+2
+
+49.63
+
+\textless{} 0.001
+
+Residuals
+
+21.3
+
+103
 
 If a difference is detected at this stage, one could then proceed to compute all pairwise differences within a given level of the other categorical variable. This is equivalent to running multiple \(t\)-tests, but the linear model assumes equal variance and would thus pool all observations to estimate the latter. For example, we could test if the difference between procedural and correctional delays when the error occurs far from the end of the procedure is significant. The mean differences of a factor for a given level of another factor are called \textbf{simple effects}. If the interaction is significant, there must be at least one pairwise difference which is also significant. However, repeated testing can inflate the Type I error, \href{https://xkcd.com/882/}{as illustrated in this comic strip}: if we conduct 20 independent tests and the null is true in all cases (so there are no difference between any of the sub-groups), we would still expect to reject (by mistake) 1/20 on average for tests performed at level \(\alpha\). There exists method to adjust for multiple testing.
 
@@ -1749,9 +2027,40 @@ to see how (and to what extent) the predictor variables explain the behaviour of
   create a composite score by somehow combining the variables showing collinearity.
 \item
   remove one or more of the collinear variables. You need to be careful when doing this not to end up with a misspecified model.
+\item
+  use penalized regression. If \(\mathbf{X}^\top\mathbf{X}\) is (nearly) not invertible, this may restore the uniqueness of the solution. Penalties introduce bias, but can reduce the variance of the estimators \(\boldsymbol{\beta}\). Popular choices include ridge regression (with an \(l_2\) penalty), lasso (\(l_1\) penalty), but these require adjustment in order to get valid inference.
 \end{itemize}
 
 Whatever the method, it's important to understand that it can be very difficult (and sometimes impossible) to isolate the individual effect of a predictor variable strongly correlated with other predictors.
+
+\begin{example}[Collinearity in the $\texttt{college}$ data]
+\protect\hypertarget{exm:collegedatcollinear}{}{\label{exm:collegedatcollinear} \iffalse (Collinearity in the \(\texttt{college}\) data) \fi{} }We consider the \texttt{college} data analysis and include all the covariates in the database, including \texttt{years}, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, \texttt{service} and \texttt{years} is \texttt{r\ cor(college\$service,\ college\$years)}. The variance inflation factor for the five covariates
+
+For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor \citep{Fox:1992}. Here, we are interested in gender disparities, so the fact that both service and field are
+strongly correlated is not problematic, since the \(\mathsf{VIF}\) for \(\texttt{sex}\) is not high and the other variables are there to act as control and avoid confounders.
+\end{example}
+
+\label{tab:unnamed-chunk-1}(Generalized) variance inflation factor for the \(\texttt{college}\) data.
+
+service
+
+years
+
+rank
+
+sex
+
+field
+
+5.92
+
+7.52
+
+2.01
+
+1.03
+
+1.06
 
 \hypertarget{graphical-analysis-of-residuals}{%
 \section{Graphical analysis of residuals}\label{graphical-analysis-of-residuals}}
@@ -1868,10 +2177,10 @@ Because of autocorrelation, positive errors tend to be followed by positive erro
 
 }
 
-\caption{Lagged residual plots (right). The left panel shows lack of evidence against independence, whereas the right panel shows positively correlated residuals.}\label{fig:timeresidplot}
+\caption{Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals.}\label{fig:timeresidplot}
 \end{figure}
 
-However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations \(h\) units apart as a function of the lag \(h\) (Brockwell and Davis, 2016, Defn. 1.4.4).
+However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations \(h\) units apart as a function of the lag \(h\) \citep[Definition 1.4.4]{Brockwell/Davis:2016}.
 
 For \(y_1, \ldots, y_n\) and constant time lags \(h=0, 1, \ldots\) units, the autocorrelation at lag \(h\) is
 \begin{align*}
@@ -1970,6 +2279,77 @@ Quantile-quantile plots are discussed in Section \ref{diagramme-qq}, but their i
 \caption{Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed  (top right), skewed (bottom left) and bimodal data (bottom right).}\label{fig:qqplotsbad}
 \end{figure}
 
+\begin{example}[Diagnostic plots for the $\texttt{college}$ data.]
+\protect\hypertarget{exm:diagplotcollege}{}{\label{exm:diagplotcollege} \iffalse (Diagnostic plots for the \(\texttt{college}\) data.) \fi{} }We can look at the \texttt{college} data to see if the linear model assumptions hold.
+\end{example}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagplotscollege-1} 
+
+}
+
+\caption{Diagnostic plots for the college data example: ordinary residuals against fitted values (top left), absolute value of the jacknnife studentized residuals against fitted values (top right), box and whiskers plot of jacknnife studentized residuals (bottom left) and detrended Student quantile-quantile plot (bottom right). There is clear group heteroscedasticity.}\label{fig:diagplotscollege}
+\end{figure}
+
+Based on the plots of Figure \ref{fig:diagplotscollege}, we find that there is residual heteroscedasticity, due to rank. Since the number of years in the first rank is limited and all assistant professors were hired in the last six years, there is less disparity in their income. It is important not to mistake the pattern on the \(x\)-axis for the fitted value (due to the large effect of rank and field, both categorical variable) with patterns in the residuals (none apparent). Fixing the heteroscedasticity would correct the residuals and improve the appearance of the quantile-quantile plot.
+
+\hypertarget{model-ajustments}{%
+\subsection{Model ajustments}\label{model-ajustments}}
+
+This ultimate section deals with strategies for fixing the linear model if we detected non-normality. If the response is strictly positive, an option is to use the Box--Cox transformation presented in Section \ref{exm:boxcox} and fit a linear model to a transformation of \(Y\),
+\begin{align*}
+y_i(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
+\ln(y), & \lambda=0.
+\end{cases}
+\end{align*}
+We then fit a linear model over a grid of \(\lambda\), using the profile likelihood to select the optimal value for the transformation. Note that the latter will depend on the covariates present in the model; the example with the \(\texttt{college}\) data already shows that the diagnostics of normality is impacted by departures from the other hypothesis. The cases \(\lambda=1\) (identity) and \(\lambda=0\) (log-linear model) are perhaps the most important because they yield interpretable coefficients.
+
+If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.
+Theory sometimes dictates a multiplicative model: for example, the Cobb--Douglas production function in economics is
+\(P=\alpha L^{\beta_1}C^{\beta_2}\), where \(P\) stands for production, \(L\) for labor and \(C\) for capital; all inputs are positive, so taking a log-transform yields a model that is linear in \(\beta\), with \(\beta_0=\ln(\alpha)\).
+
+We can rewrite the model in the original response scale as
+\begin{align*}
+Y = \exp\left(\beta_0+\sum_{j=1}^p\beta_j\mathrm{X}_j +  \varepsilon \right) = \exp\left(\beta_0+ \sum_{j=1}^p\beta_j\mathrm{X}_j\right)\cdot \exp(\varepsilon),
+\end{align*}
+and thus
+\begin{align*}
+\mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 \mathrm{X}_1 +\cdots + \beta_p\mathrm{X}_p ) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
+\end{align*}
+If \(\varepsilon \mid \mathbf{X} \sim \mathsf{No}(\mu,\sigma^2)\), then \(\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}= \exp(\mu+\sigma^2/2)\) --- \(\exp(\varepsilon)\) follows a log-normal distribution.
+
+In order to interpret the parameters, we can compare the ratio of \(\mathsf{E}(Y \mid \mathrm{X}_1=x+1)\) to \(\mathsf{E}(Y \mid \mathrm{X}_1=x)\),
+\begin{align*}
+\frac{\mathsf{E}(Y \mid \mathrm{X}_1=x+1, \mathrm{X}_2, \ldots, \mathrm{X}_p)}{\mathsf{E}(Y \mid \mathrm{X}_1=x,  \mathrm{X}_2, \ldots, \mathrm{X}_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
+\end{align*}
+Thus, \(\exp(\beta_1)\) represents the ratio of the mean of \(Y\) when \(\mathrm{X}_1=x+1\) in comparison to that when \(\mathrm{X}_1=x\), \emph{ceteris paribus} (and provided this statement is meaningful). We can interpret \(\exp(\beta_1)\) as the multiplicative effect of \(\mathrm{X}_1\) on the mean of \(Y\): increasing \(\mathrm{X}_1\) by one unit causes \(Y\) to increase by a factor of \(\exp(\beta_1)\), on average.
+
+\begin{example}
+\protect\hypertarget{exm:poisonboxcox}{}{\label{exm:poisonboxcox} }
+The paper of Box--Cox consider survival time for 48 animals based on a randomized trial and these are analyzed in Example 8.25 of \citet{SM:2008}. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
+
+We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form
+\begin{align*}
+Y &= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &\qquad+ \beta_4\texttt{treatment}_3
++\beta_5\texttt{treatment}_4 + \varepsilon
+\end{align*}
+
+The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables further point towards non-additivity \citep[Example 8.24]{SM:2008}. All of these factors point towards overall poor fit of the model.
+
+One could ignore the non-constant variance and consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of Figure \ref{fig:poisonplots} suggests that \(\lambda\approx -1\) would be a good choice. This has the benefit of being interpretable, as the reciprocal response \(Y^{-1}\) corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.
+\end{example}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/poisonplots-1} 
+
+}
+
+\caption{Diagnostic plots for the poison data. The top panel shows the ordinary residuals for the linear model for survival time as a function of poison and treatment, with jittered observations. The middle left plot shows the fitted values against residuals, which display evidence of trend and increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. The bottom panel shows the profile log likelihood for the Box--Cox transform, suggesting a value of $-1$ would be within the 95\% confidence interval. After fitting the same additive model with main effect only to the reciprocal survival time, there is no more evidence of residual structure and unequal variance.}\label{fig:poisonplots}
+\end{figure}
+
 \hypertarget{likelihood}{%
 \chapter{Likelihood-based inference}\label{likelihood}}
 
@@ -1985,7 +2365,7 @@ The \textbf{likelihood} \(L(\boldsymbol{\theta})\) is a function of \(\boldsymbo
 L(\boldsymbol{\theta}; \boldsymbol{y}) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}) = f(y_1; \boldsymbol{\theta}) \times \cdots \times f(y_n; \boldsymbol{\theta}).
 \end{align*}
 
-From a pure optimization perspective, the likelihood is a particular choice of objective function that reflects the probability of the observed outcome. One shouldn't however maximize directly the likelihood, since computing the product of a lot of potentially small numbers is subject to numerical overflow and is unstable (for discrete distributions, the mass function gives probabilities that are by definition between zero and one). Instead, one should work with the log-likelihood function, \(\ell(\boldsymbol{\theta}) = \ln\{L(\boldsymbol{\theta})\}\). Since logarithm is a strictly increasing function, maximizing the natural logarithm (denoted \(\ln\)) of the likelihood leads to the same solution. Another reason why working with the log-likelihood is preferable is because product over \(n\) likelihood contributions becomes a sum and this facilitates numerical and analytical derivations of the maximum likelihood estimators (the log of a product is equal to the sum of logs, i.e., \(\ln(ab) =\ln(a) +\ln(b)\) for \(a, b>0\).)
+From a pure optimization perspective, the likelihood is a particular choice of objective function that reflects the probability of the observed outcome. One shouldn't however maximize directly the likelihood, since computing the product of a lot of potentially small numbers is subject to numerical overflow and is unstable (for discrete distributions, the mass function gives probabilities that are by definition between zero and one). Instead, one should work with the log likelihood function, \(\ell(\boldsymbol{\theta}) = \ln\{L(\boldsymbol{\theta})\}\). Since logarithm is a strictly increasing function, maximizing the natural logarithm (denoted \(\ln\)) of the likelihood leads to the same solution. Another reason why working with the log likelihood is preferable is because product over \(n\) likelihood contributions becomes a sum and this facilitates numerical and analytical derivations of the maximum likelihood estimators (the log of a product is equal to the sum of logs, i.e., \(\ln(ab) =\ln(a) +\ln(b)\) for \(a, b>0\).)
 
 The \textbf{maximum likelihood estimator} \(\widehat{\boldsymbol{\theta}}\) is the value of \(\boldsymbol{\theta}\) that maximizes the likelihood, i.e., the value under which the random sample is the most likely to be generated. The scientific reasoning behind this is: ``whatever we observe, we have expected to observe'' so we choose between competing models the one that makes the most sense.
 
@@ -2003,10 +2383,10 @@ Several properties of maximum likelihood estimator makes it appealing for infere
   The maximum likelihood estimator is efficient, meaning it has the smallest asymptotic mean squared error (or the smallest asymptotic variance).
 \end{itemize}
 
-The \textbf{score function} \(U(\boldsymbol{\theta}; \boldsymbol{y}) = \partial \ell(\boldsymbol{\theta}; \boldsymbol{y})/ \partial \boldsymbol{\theta}\) is the gradient of the log-likelihood function and, under regularity conditions, the maximum likelihood estimator solves \(U(\boldsymbol{\theta}; \boldsymbol{Y})=\boldsymbol{0}_p\). This property can be used to derive gradient-based algorithms for optimization and for verifying that the solution found is a global maximum.
+The \textbf{score function} \(U(\boldsymbol{\theta}; \boldsymbol{y}) = \partial \ell(\boldsymbol{\theta}; \boldsymbol{y})/ \partial \boldsymbol{\theta}\) is the gradient of the log likelihood function and, under regularity conditions, the maximum likelihood estimator solves \(U(\boldsymbol{\theta}; \boldsymbol{Y})=\boldsymbol{0}_p\). This property can be used to derive gradient-based algorithms for optimization and for verifying that the solution found is a global maximum.
 
 \begin{remark}
-\iffalse{} {Remark. } \fi{}While least squares admit a closed-form solution, the maximum of the log-likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
+\iffalse{} {Remark. } \fi{}While least squares admit a closed-form solution, the maximum of the log likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
 \end{remark}
 
 The \textbf{observed information matrix} is the hessian \(j(\boldsymbol{\theta}; \boldsymbol{y})=-\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})/\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top\) evaluated at the maximum likelihood estimate \(\widehat{\boldsymbol{\theta}}\).
@@ -2014,9 +2394,9 @@ Under regularity conditions, the Fisher information matrix is
 \begin{align*}
 i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = \mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
 \end{align*}
-The Fisher (or expected) and observed information matrices encodes the curvature of the log-likelihood and provides information about the variability of \(\widehat{\boldsymbol{\theta}}\).
+The Fisher (or expected) and observed information matrices encodes the curvature of the log likelihood and provides information about the variability of \(\widehat{\boldsymbol{\theta}}\).
 
-The properties of the log-likelihood are particularly convenient for inference because they provide omnibus testing procedures that have a known asymptotic distribution. The starting point for the distributional theory surrounding likelihood-based statistics is the asymptotic normality of the score \(U(\boldsymbol{\theta}) \stackrel{\cdot}{\sim}\mathsf{No}(0, i(\boldsymbol{\theta}))\), which follows from a central limit theorem. The variance of \(U(\boldsymbol{\theta}_0)\) is exactly \(i(\boldsymbol{\theta}_0)\), while that of \(\widehat{\boldsymbol{\theta}}\) is approximately \(i(\boldsymbol{\theta}_0)^{-1}\) under the null hypothesis \(\mathscr{H}_0\). This result is particularly useful: we often use the inverse of the observed information as estimate of the covariance matrix of the maximum likelihood estimator. To obtain the standard errors of \(\widehat{\boldsymbol{\theta}}\), one simple computes the square root of the diagonal elements of the inverse of the observed information, i.e., \([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\).
+The properties of the log likelihood are particularly convenient for inference because they provide omnibus testing procedures that have a known asymptotic distribution. The starting point for the distributional theory surrounding likelihood-based statistics is the asymptotic normality of the score \(U(\boldsymbol{\theta}) \stackrel{\cdot}{\sim}\mathsf{No}(0, i(\boldsymbol{\theta}))\), which follows from a central limit theorem. The variance of \(U(\boldsymbol{\theta}_0)\) is exactly \(i(\boldsymbol{\theta}_0)\), while that of \(\widehat{\boldsymbol{\theta}}\) is approximately \(i(\boldsymbol{\theta}_0)^{-1}\) under the null hypothesis \(\mathscr{H}_0\). This result is particularly useful: we often use the inverse of the observed information as estimate of the covariance matrix of the maximum likelihood estimator. To obtain the standard errors of \(\widehat{\boldsymbol{\theta}}\), one simple computes the square root of the diagonal elements of the inverse of the observed information, i.e., \([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\).
 
 \begin{example}[Exponential model for waiting times of the Montreal metro]
 \protect\hypertarget{exm:waitingtime}{}{\label{exm:waitingtime} \iffalse (Exponential model for waiting times of the Montreal metro) \fi{} }Consider the waiting time \(Y\) between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate \(\theta\), denoted \(Y \sim \mathsf{E}(\theta)\). The purpose of statistical inference is to use the information from a random sample of size \(n\) to estimate the unknown parameter \(\theta\). The density of \(Y\) evaluated at \(y\), \(f(y; \theta)=\theta\exp(-\theta y)\), encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing \(y_1, \ldots, y_n\) is the product of probabilities of individual events. The likelihood is thus
@@ -2024,7 +2404,7 @@ The properties of the log-likelihood are particularly convenient for inference b
 L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta\exp(-\theta y_i),\\
 \ell(\theta; \boldsymbol{y}) & = n\ln(\theta) - \theta\sum_{i=1}^n y_i
 \end{align*}
-To find the maximum of the function, we differentiate the log-likelihood \(\ell(\theta; \boldsymbol{y})\) and set the gradient to zero,
+To find the maximum of the function, we differentiate the log likelihood \(\ell(\theta; \boldsymbol{y})\) and set the gradient to zero,
 \begin{align*}
 \frac{\partial \ell(\theta; \boldsymbol{y})}{\partial \theta} & = \frac{n}{\theta} - \sum_{i=1}^n y_i =0.
 \end{align*}
@@ -2054,7 +2434,7 @@ For an \(n\)-sample \(\boldsymbol{y}\), the likelihood is
 L(\mu, \sigma^2; \boldsymbol{y})=&\prod_{i=1}^n\frac{1}{({2\pi \sigma^2})^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(y_i-\mu)^2\right\}\\
 =&(2\pi \sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\mu)^2\right\}.
 \end{align*}
-and the log-likelihood is
+and the log likelihood is
 \begin{align*}
 \ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\ln(2\pi) -\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
 \end{align*}
@@ -2077,16 +2457,16 @@ Recall the linear regression model,
 Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
 \end{align*}
 where the errors \(\varepsilon_i \sim \mathsf{No}(0, \sigma^2)\).
-The linear model has \(p+2\) parameters (\(\boldsymbol{\beta}\) and \(\sigma^2\)) and the log-likelihood is
+The linear model has \(p+2\) parameters (\(\boldsymbol{\beta}\) and \(\sigma^2\)) and the log likelihood is
 \begin{align*}
 \ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
 \end{align*}
-Maximizing the log-likelihood with respect to \(\boldsymbol{\beta}\) is equivalent to
+Maximizing the log likelihood with respect to \(\boldsymbol{\beta}\) is equivalent to
 minimizing the sum of squared errors \(\|\boldsymbol{Y} - \widehat{\boldsymbol{Y}}\|^2\). Since this objective function is the same as that of least squares, it follows that the least-square estimator \(\widehat{\boldsymbol{\beta}}\) for the mean parameters is the maximum likelihood estimator for normal errors with common variance \(\sigma^2\), regardless of the value of the latter. The maximum likelihood estimator \(\widehat{\sigma}^2\) is thus
 \begin{align*}
 \hat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
 \end{align*}
-The log-likelihood, excluding constant terms that don't depend on \(\sigma^2\), is
+The log likelihood, excluding constant terms that don't depend on \(\sigma^2\), is
 \begin{align*}
 \ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
 &\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
@@ -2114,7 +2494,7 @@ The null hypothesis \(\mathscr{H}_0\) tested is: `the reduced model is an \textb
 \begin{itemize}
 \tightlist
 \item
-  likelihood ratio tests statistics, denoted \(R\), which measure the drop in log-likelihood (vertical distance) from \(\ell(\widehat{\boldsymbol{\theta}})\) and \(\ell(\widehat{\boldsymbol{\theta}}_0)\).
+  likelihood ratio tests statistics, denoted \(R\), which measure the drop in log likelihood (vertical distance) from \(\ell(\widehat{\boldsymbol{\theta}})\) and \(\ell(\widehat{\boldsymbol{\theta}}_0)\).
 \item
   Wald tests statistics, denoted \(W\), which consider the standardized horizontal distance between \(\widehat{\boldsymbol{\theta}}\) and \(\widehat{\boldsymbol{\theta}}_0\).
 \item
@@ -2171,7 +2551,7 @@ since \(\mathsf{se}(\phi)=\mathrm{V}^{1/2}_{\phi}=\phi/\sqrt{n}\) and the latter
 
 The hypothesis corresponds also to \(\theta=0.25\) and similar calculations give \(W = \sqrt{n}(0.327 - 0.25)/0.327 = 1.053\). In this case, the null distribution is the same, but the value of the test statistic is not! The confidence interval for \(\theta\) is \([0.184\), \(0.47]\). You can check for yourself that the reciprocal of these confidence intervals do not match those for \(\phi\).
 
-In contrast, the likelihood ratio test is invariant to interest-preserving reparamtrizations, so the test statistic for \(\mathscr{H}_0: \phi=4\) and \(\mathscr{H}_0: \theta = 0.25\) are the same. The log-likelihood at \(\theta=0.25\) is -43.015, the maximum log-likelihood value is -42.354
+In contrast, the likelihood ratio test is invariant to interest-preserving reparamtrizations, so the test statistic for \(\mathscr{H}_0: \phi=4\) and \(\mathscr{H}_0: \theta = 0.25\) are the same. The log likelihood at \(\theta=0.25\) is -43.015, the maximum log likelihood value is -42.354
 and the likelihood ratio statistic \(R=2 \{\ell(\widehat{\theta}) - \ell(4)\}= 1.322\). The statistic should behave like a \(\chi^2_1\) variable in large samples. The 95\% of the \(\chi^2_1\) distribution is \(3.841\), so we fail to reject the null hypothesis that the mean waiting time is 4 minutes.
 
 The likelihood ratio statistic 95\% confidence interval for \(\phi\) can be found by using a root finding algorithm: the confidence interval is \([2.032\), \(4.906]\). By invariance, the 95\% confidence interval for \(\theta\) is \([0.204, 0.492]\).
@@ -2179,15 +2559,15 @@ The likelihood ratio statistic 95\% confidence interval for \(\phi\) can be foun
 \hypertarget{profile-likelihood}{%
 \section{Profile likelihood}\label{profile-likelihood}}
 
-Sometimes, we may want to perform hypothesis test or derive confidence intervals for selected components of the model. For example, we may be interested in obtaining confidence intervals for a single \(\beta_j\) in a logistic regression, treating the other parameters \(\boldsymbol{\beta}_{-j}\) as nuisance In this case, the null hypothesis only restricts part of the space and the other parameters, termed nuisance, are left unspecified --- the question then is what values to use for comparison with the full model. It turns out that the values that maximize the constrained log-likelihood are what one should use for the test, and the particular function in which these nuisance parameters are integrated out is termed a profile likelihood.
+Sometimes, we may want to perform hypothesis test or derive confidence intervals for selected components of the model. For example, we may be interested in obtaining confidence intervals for a single \(\beta_j\) in a logistic regression, treating the other parameters \(\boldsymbol{\beta}_{-j}\) as nuisance In this case, the null hypothesis only restricts part of the space and the other parameters, termed nuisance, are left unspecified --- the question then is what values to use for comparison with the full model. It turns out that the values that maximize the constrained log likelihood are what one should use for the test, and the particular function in which these nuisance parameters are integrated out is termed a profile likelihood.
 
-Consider a parametric model with log-likelihood function \(\ell(\boldsymbol{\theta})\) whose \(p\)-dimensional parameter vector \(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})\) that can be decomposed into a \(q\)-dimensional parameter of interest \(\boldsymbol{\psi}\) and a \((p-q)\)-dimensional nuisance vector \(\boldsymbol{\lambda}\).
+Consider a parametric model with log likelihood function \(\ell(\boldsymbol{\theta})\) whose \(p\)-dimensional parameter vector \(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})\) that can be decomposed into a \(q\)-dimensional parameter of interest \(\boldsymbol{\psi}\) and a \((p-q)\)-dimensional nuisance vector \(\boldsymbol{\lambda}\).
 
 We can consider the profile likelihood \(\ell_{\mathsf{p}}\), a function of \(\boldsymbol{\psi}\) alone, which is obtained by maximizing the likelihood pointwise at each fixed value \(\boldsymbol{\psi}_0\) over the nuisance vector \(\boldsymbol{\varphi}_{\psi_0}\),
 \begin{align*}
 \ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
 \end{align*}
-Figure \ref{fig:profile3d} shows a fictional log-likelihood contour plot with the resulting profile curve (in black), where the log-likelihood value is mapped to colors. If one thinks of these contours lines as those of a topographic map, the profile likelihood corresponds in this case to walking along the ridge of both mountains along the \(\psi\) direction, with the right panel showing the elevation gain/loss.
+Figure \ref{fig:profile3d} shows a fictional log likelihood contour plot with the resulting profile curve (in black), where the log likelihood value is mapped to colors. If one thinks of these contours lines as those of a topographic map, the profile likelihood corresponds in this case to walking along the ridge of both mountains along the \(\psi\) direction, with the right panel showing the elevation gain/loss.
 
 The maximum profile likelihood estimator behaves like a regular likelihood for most quantities of interest and we can derive test statistics and confidence intervals in the usual way. One famous example of profile likelihood is the Cox proportional hazard covered in \protect\hyperlink{survival}{Chapter 7}.
 
@@ -2197,7 +2577,7 @@ The maximum profile likelihood estimator behaves like a regular likelihood for m
 
 }
 
-\caption{Two-dimensional log-likelihood surface with a parameter of interest $\psi$ and a nuisance parameter $\varphi$; the contour plot shows area of higher likelihood, and the black line is the profile log-likelihood, also shown as a function of $\psi$ on the right panel.}\label{fig:profile3d}
+\caption{Two-dimensional log likelihood surface with a parameter of interest $\psi$ and a nuisance parameter $\varphi$; the contour plot shows area of higher likelihood, and the black line is the profile log likelihood, also shown as a function of $\psi$ on the right panel.}\label{fig:profile3d}
 \end{figure}
 
 \begin{example}[Box--Cox transformation]
@@ -2216,7 +2596,7 @@ L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) = (2\pi\sigma
 where \(J\) denotes the Jacobian of the Box--Cox transformation, \(\prod_{i=1}^n y_i^{\lambda-1}\).
 For each given value of \(\lambda\), the maximum likelihood estimator is that of the usual regression model, with \(\boldsymbol{y}\) replaced by \(\boldsymbol{y}(\lambda)\), namely \(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\) and \(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\).
 
-The profile log-likelihood is
+The profile log likelihood is
 \begin{align*}
 \ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
 \end{align*}
@@ -2229,12 +2609,12 @@ The maximum profile likelihood estimator is the value \(\lambda\) minimizes the 
 
 }
 
-\caption{Profile log-likelihood for the Box--Cox transformation for the waiting time data}\label{fig:profileplot}
+\caption{Profile log likelihood for the Box--Cox transformation for the waiting time data}\label{fig:profileplot}
 \end{figure}
 
-Figure \ref{fig:profileplot} shows the profile log-likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately \(0.37\) would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of \(\lambda\), \((0.12, 0.69)\), at which the curve intersects the horizontal grey line drawn at \(-\chi^2_1/2\). The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an \emph{ad hoc} choice of transformation, one could choose a log transformation if the value \(0\) is included within the 95\% confidence interval since this improves interpretability.
+Figure \ref{fig:profileplot} shows the profile log likelihood for the linear model with an intercept-only, rescaled to be zero at the maximum. The function shows that a value of approximately \(0.37\) would provide residuals that are closer to normally distributed. The 95\% profile-likelihood based confidence interval is given by the two values of \(\lambda\), \((0.12, 0.69)\), at which the curve intersects the horizontal grey line drawn at \(-\chi^2_1/2\). The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data (e.g., the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation). Rather than an \emph{ad hoc} choice of transformation, one could choose a log transformation if the value \(0\) is included within the 95\% confidence interval since this improves interpretability.
 
-We could use the profile likelihood ratio test to obtain confidence intervals for the regression coefficients of the mean model. Consider for simplicity the normal simple linear model, \(\boldsymbol{Y} \sim \mathsf{No}_n(\beta_0 + \beta_1\mathbf{X}_1, \sigma^2)\). The profile for the slope parameter \(\beta_1\) can be obtained by maximizing the log-likelihood for fixed \(\beta_1=b\), say: to achieve this, note that this amounts to \(\boldsymbol{Y}-b\mathbf{X}_1 \sim \mathsf{No}_n(\beta_0, \sigma^2)\) and so the estimator would correspond to
+We could use the profile likelihood ratio test to obtain confidence intervals for the regression coefficients of the mean model. Consider for simplicity the normal simple linear model, \(\boldsymbol{Y} \sim \mathsf{No}_n(\beta_0 + \beta_1\mathbf{X}_1, \sigma^2)\). The profile for the slope parameter \(\beta_1\) can be obtained by maximizing the log likelihood for fixed \(\beta_1=b\), say: to achieve this, note that this amounts to \(\boldsymbol{Y}-b\mathbf{X}_1 \sim \mathsf{No}_n(\beta_0, \sigma^2)\) and so the estimator would correspond to
 \begin{align*}
 \widehat{\beta}_{0}^{(b)}&=\frac{1}{n} \sum_{i=1}^n (Y_i-b\mathrm{X}_i)\\
 \widehat{\sigma}^{2(b)} &= \frac{1}{n}\sum_{i=1}^n \left(Y_i-b\mathrm{X}_i-\widehat{\beta}_{0}^{(b)}\right)^2.
@@ -2247,7 +2627,7 @@ With more than one covariate, we could obtain the value of \(\boldsymbol{\beta}_
 
 }
 
-\caption{Profile log-likelihood for $\beta_1$ in the simple linear regression model for simulated data. The function has been so its value at the maximum likelihood estimate is zero. The horizontal cutoff marks minus half the $0.95$ quantile of the $\chi^2_1$ distribution, with vertical lines indicating the maximum likelihood estimate (red) and 95\% confidence interval (dashed gray). Because of the normality assumption of the linear regression model, the sampling distribution is exactly normally distribution, the profile is symmetric and the Wald and profile likelihood ratio based confidence intervals agree.}\label{fig:profilebeta}
+\caption{Profile log likelihood for $\beta_1$ in the simple linear regression model for simulated data. The function has been so its value at the maximum likelihood estimate is zero. The horizontal cutoff marks minus half the $0.95$ quantile of the $\chi^2_1$ distribution, with vertical lines indicating the maximum likelihood estimate (red) and 95\% confidence interval (dashed gray). Because of the normality assumption of the linear regression model, the sampling distribution is exactly normally distribution, the profile is symmetric and the Wald and profile likelihood ratio based confidence intervals agree.}\label{fig:profilebeta}
 \end{figure}
 
 \hypertarget{information-criteria}{%
@@ -2266,6 +2646,134 @@ Note that information criteria do not constitute formal hypothesis tests on the 
 
 \hypertarget{generalized-linear-models}{%
 \chapter{Generalized linear models}\label{generalized-linear-models}}
+
+Linear models are only suitable for data that are (approximately) normally distributed. However, there are many settings where we may wish to analyze a response variable which is not necessarily continuous, including when \(Y\) is binary, a count variable or is continuous, but non-negative. We will consider in particular likelihood-based inference for binary/proportion and counts data.
+
+Generalized linear models (GLM) combine a model for the conditional mean with a distribution for the response variable and a link function tying predictors and parameters.
+
+This chapter gives an introduction to generalized linear models and focuses in particular on logistic regression and Poisson regression, but only for the case of independent observations. Extensions of generalized linear models for correlated and longitudinal, the so-called \emph{generalized linear mixed models} (GLMM, are covered in MATH80621.
+
+\hypertarget{basic-principles}{%
+\section{Basic principles}\label{basic-principles}}
+
+The starting point is the same as for linear regression: we have a random sample of independent observations \((\boldsymbol{Y}, \mathbf{X})\), where \(Y\) is the response variable and \(\mathrm{X}_1, \ldots, \mathrm{X}_p\) are \(p\) explanatory variables or covariates which are assumed fixed (non-random). The goal is to model the mean of the response variable as a function of the explanatory variables.
+
+Let \(\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)\) denote the conditional expectation of \(Y_i\) given covariates and let \(\eta_i\) denote the linear combination of the covariates that will be used to model the response variable,
+\begin{align*}
+\eta_i=\beta_0 + \beta_1 \mathrm{X}_{i1} + \cdots + \beta_p \mathrm{X}_{ip}.
+\end{align*}
+The building blocks of the generalized linear model are
+
+\begin{itemize}
+\tightlist
+\item
+  A random component, consisting of the probability distribution for the outcome \(Y\) that is a member of the exponential family (normal, binomial, Poisson, gamma, \ldots).
+\item
+  A deterministic component, the linear predictors\(\mathbf{X} \boldsymbol{\beta}\), where \(\mathbf{X}\) is an \(n\times (p+1)\) matrix with columns \(\mathbf{1}_n, \mathrm{X}_1, \ldots, \mathrm{X}_p\) and \(\boldsymbol{\beta} \in \mathbb{R}^{p+1}\) are coefficients.
+\item
+  A monotone function \(g\), called \textbf{link function}, that maps the mean of \(Y_i\) to the predictor variables, \(g(\mu_i)=\eta_i\).
+\end{itemize}
+
+\hypertarget{theory-of-generalized-linear-models}{%
+\section{Theory of generalized linear models}\label{theory-of-generalized-linear-models}}
+
+This section borrows from Chapter 4 of
+
+\begin{quote}
+Agresti (2015). * Foundations of Linear and Generalized Linear Models*, Wiley.
+\end{quote}
+
+In a generalized linear model, the random component arises from an exponential dispersion family: this choice gives a framework, since test statistics and properties can be derived for general classes of distribution.
+
+\hypertarget{exponential-dispersion-family-of-distributions}{%
+\subsection{Exponential-dispersion family of distributions}\label{exponential-dispersion-family-of-distributions}}
+
+Consider a probability density or mass function for \(Y\) with parameters \((\theta, \phi)\),
+\begin{align*}
+f(y; \theta, \phi)&= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y,
+\phi)\right\},
+\end{align*}
+where the support, i.e., the set of values taken by \(Y\), doesn't depend on the parameters. Throughout, we will assume \textbf{natural parameter } \(\theta\) is unknown, but the \textbf{dispersion parameter} \(\phi\) may be known (exponential family) or unknown (exponential dispersion family).
+
+One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log likelihood \(\ell\) of a one-sample with respect to the natural parameter \(\theta\) are
+\begin{align*}
+\frac{\partial \ell(y; \theta, \phi)}{\partial \theta} &= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b'(\theta)}{a(\phi)}\\
+\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2} &= - \frac{b''(\theta)}{a(\phi)},
+\end{align*}
+where \(b'(\cdot)\) and \(b''(\cdot)\) are the first two derivatives of \(b(\cdot)\) with respect to \(\theta\).
+Under regularity condition, the \href{https://math.stackexchange.com/q/2027660}{Bartlett identities} hold and
+\begin{align*}
+\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}=0, \qquad - \mathsf{E}\left\{\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2}\right\} = \left[\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}\right]^2.
+\end{align*}
+These two equality give
+\begin{align*}
+\mathsf{E}(Y_i) &= b'(\theta_i) \\
+\mathsf{Va}(Y_i) &= b''(\theta_i)a(\phi_i)
+\end{align*}
+Because of the relation between the mean of \(Y_i\), say \(\mu_i\), and the natural parameter \(\theta_i\), we have \(V(\mu)=b''(\theta)\) and there is an explicit relationship between the mean and the variance parameters unless \(V(\mu)=1\).
+
+\begin{example}[Poisson distribution as exponential family member]
+\protect\hypertarget{exm:poissonglmexpf}{}{\label{exm:poissonglmexpf} \iffalse (Poisson distribution as exponential family member) \fi{} }The mass function of the Poisson distribution is
+\begin{align*}
+f(y; \lambda) = \frac{\lambda^y \exp(-\lambda)}{y!} =\exp \left\{ y \ln
+(\lambda) -\lambda-\ln(y!)\right\}, \qquad y=0,1, \ldots
+\end{align*}
+The natural parameter is \(\theta =\ln(\lambda)\), the dispersion
+parameter \(\phi=1\), and \(b(\theta)=\exp(\theta)\). Replacing these expressions in the mean-variance formulas, we get \(\mathsf{E}(Y)=\exp(\theta)=\mu\) and \(\mathsf{Va}(Y)=\exp(\theta)=\mu\), meaning \(V(\mu)=\mu\).
+\end{example}
+
+\begin{example}[Binomial distribution as member of the exponential family]
+\protect\hypertarget{exm:binomialglmexpf}{}{\label{exm:binomialglmexpf} \iffalse (Binomial distribution as member of the exponential family) \fi{} }We consider the mass function of a binomial distribution \(\mathsf{Bin}(m,\pi)\) with the number of trials \(m\) known. The parametrization presented in \ref{exm:binomialdist} is not convenient because the mean and the variance both depend on \(m\). We consider thus a different parametrization in which \(Y\) represents the fraction of successes, so the mass function takes values in \(\{0, 1/m, \ldots, 1\}\) and \(mY\) denotes the number of successes. The mass function for \(Y\) is then
+\begin{align*}
+f(y, \pi)&=\exp \left\{ my \ln \left( \frac{\pi}{1-\pi} \right) + m \ln
+(1-\pi) + \ln \left[
+\binom{m}{my}\right]\right\}\\& =\exp \left\{
+\frac{y \ln \left( \frac{\pi}{1-\pi} \right) +  \ln
+(1-\pi)}{1/m}+ \ln \left[
+\binom{m}{my}\right]\right\}
+\end{align*}
+Set
+\begin{align*}
+\theta= \ln \left( \frac{\pi}{1-\pi}\right)
+\end{align*}
+with \(b(\theta) = \ln\{1+\exp(\theta)\}\) and \(\phi=m^{-1}\). The expectation and variance are easily derived and
+\begin{align*}
+\mathsf{E}(Y)&=\pi = \mathrm{expit}(\theta)=\frac{\exp(\theta)}{1+\exp(\theta)}=\mu
+\\\mathsf{Va}(Y) &= \frac{\pi(1-\pi)}{m} = \frac{\mu(1-\mu)}{m} = \phi V(\mu)
+\end{align*}
+where \(V(\mu)=\mu(1-\mu)\).
+\end{example}
+
+\begin{example}[Normal distribution as member of the exponential family]
+\protect\hypertarget{exm:normalglmexpf}{}{\label{exm:normalglmexpf} \iffalse (Normal distribution as member of the exponential family) \fi{} }We consider a sample consisting of independent normal observations, \(Y_i \sim \mathsf{No}(\mu_i, \sigma^2)\), with
+\begin{align*}
+f(y_i, \mu_i, \sigma^2)&= (2\pi\sigma^2)^{-1/2} \exp \left\{ -\frac{(y_i-\mu_i)}{2\sigma^2}\right\}
+\\&= \exp \left[ \frac{y\mu - \mu^2/2}{\sigma^2} - \frac{1}{2} \left\{ \frac{y^2}{\sigma^2} + \ln(2\pi\sigma^2)\right\} \right],
+\end{align*}
+meaning \(\theta=\mu\), \(\phi=\sigma^2\) and \(a(\phi)=\phi\), \(b(\theta)=\theta^2/2\).
+\end{example}
+
+\hypertarget{link-functions}{%
+\subsection{Link functions}\label{link-functions}}
+
+The link between the mean of \(Y\) and the \textbf{linear predictor} \(\eta\) is
+\begin{align*}
+g\left\{\mathsf{E}(Y \mid \mathrm{X}_1, \ldots, \mathrm{X}_p)\right\}=\eta = \beta_0 + \beta_1 \mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
+\end{align*}
+The link function thus connects the mean of the random variable \(Y\) to the explanatory variables, \(g(\mu_i) = \eta_i = \beta_0 + \sum_{j=1}^p\beta_j\mathrm{X}_{ij}\) and likewise \(\mu_i = g^{-1}(\eta_i)\). If the link function is chosen such that \(\theta=\eta\), the link function is termed the canonical link function.
+
+The need for a link function arises from parameter constraints: for example, the mean \(\mu=\pi\) of a Bernoulli distribution is the proportion of successes and must lie in the interval \((0, 1)\). Similarly, the mean \(\mu\) of the Poisson distribution must be positive. For the normal distribution of the ordinary linear regression model, we do not impose constraints on the mean \(\mu_i\), so an appropriate link function is the identity, \(\mu_i = \eta_i\).
+
+An appropriate choice of link function \(g\) sets \(\mu_i\) equal to a transformation of the linear combination \(\eta_i\) so as to avoid imposing parameter constraints on \(\boldsymbol{\beta}\). Certain choices of link functions facilitate interpretation or make the likelihood function convenient for optimization.\\
+For the Bernoulli and binomial distributions, an appropriate link function \(g\) is the logit function,
+\begin{align*}
+\mathrm{logit}(\mu)&=
+\ln \left( \frac{\mu}{1-\mu} \right) =\ln(\mu) - \ln(1-\mu)= \eta,
+\\\mathrm{expit}(\eta)&= \frac{\exp(\eta)}{1+\exp(\eta)}=\mu.
+\end{align*}
+The inverse link function is the distribution function of the logistic distribution, hence the name. The choice of link function is far from unique: any quantile function of a continuous random variable supported on \(\mathbb{R}\) could be considered. For the Poisson distribution, the canonical link function \(g\) is the natural logarithm, \(\ln\), with associated inverse link function \(\exp\).
+
+Canonical link functions are natural choices because of their nice statistical properties: choosing the canonical link ensures that \(\mathbf{X}^\top\boldsymbol{y}\) is a minimal sufficient statistic. Other considerations, such as parameter constraints, can be more important in deciding on the choice of \(g\).
 
 \hypertarget{correlated-longitudinal-data}{%
 \chapter{Correlated and longitudinal data}\label{correlated-longitudinal-data}}
@@ -2302,7 +2810,7 @@ Because the individuals are selected at \textbf{random} to be part of the sample
 
 \begin{example}
 \protect\hypertarget{exm:Galluppoll}{}{\label{exm:Galluppoll} }
-\emph{The Literary Digest} surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. \href{https://www.jstor.org/stable/2749114}{Biased sampling and differential non-response are mostly responsible for the error:}) the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'\,', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
+\emph{The Literary Digest} surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. \href{https://www.jstor.org/stable/2749114}{Biased sampling and differential non-response are mostly responsible for the error:} the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'\,', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
 
 In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. \href{https://medium.com/@ozanozbey/how-not-to-sample-11579793dac}{Read the full story here.}
 \end{example}
@@ -2338,15 +2846,65 @@ More generally, we can look at the expectation of a function \(g(x)\) for \(Y\),
 \[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
 The \textbf{standard deviation} is the square root of the variance and measures the variability of the variable, measured in the same units as \(Y\).
 
-An estimator \(\hat{\theta}\) for a parameter \(\theta\) is unbiased if its bias \(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\) is zero.
-The unbiased estimator of the mean of \(Y\) is \(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\) and that of the variance is \(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\). While unbiasedness of an estimator is a desirable property, but may not be optimal. There may even be cases where no unbiased estimator exists for a parameter!
+The notion of moments can be extended to higher dimensions. If we assume data are independent, their joint distribution factorizes into the product of the individual mass function/density of each sample point. Otherwise, a multivariate mass function or density function describes the behaviour of the random vector.
 
-Often, rather, we seek to balance bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, \[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]
+Consider an \(n\)-vector \(\boldsymbol{Y}\). In the regression setting, the response \(\boldsymbol{Y}\) would usually comprise repeated measures on an individual, or even observations from a group of individuals.
+
+The expected value (theoretical mean) of the vector \(\boldsymbol{Y}\) is calculated componentwise, i.e.,
+\begin{align*}
+\mathsf{E}(\boldsymbol{Y}) &= \boldsymbol{\mu}=
+\begin{pmatrix}
+\mathsf{E}(Y_1) &
+\cdots  &
+\mathsf{E}(Y_n)
+\end{pmatrix}^\top
+\end{align*}
+whereas the second moment of \(\boldsymbol{Y}\) is encoded in the \(n \times n\) \textbf{covariance} matrix
+\begin{align*}
+\mathsf{Va}(\boldsymbol{Y}) &= \boldsymbol{\Sigma} = \begin{pmatrix} \mathsf{Va}(Y_1) & \mathsf{Co}(Y_1, Y_2)  & \cdots & \mathsf{Co}(Y_1, Y_n) \\
+\mathsf{Co}(Y_2, Y_1) & \mathsf{Va}(Y_2) & \ddots & \vdots \\
+\vdots & \ddots & \ddots & \vdots \\
+\mathsf{Co}(Y_n, Y_1) & \mathsf{Co}(Y_n, Y_2) &\cdots & \mathsf{Va}(Y_n)
+\end{pmatrix}
+\end{align*}
+The \(i\)th diagonal element of \(\boldsymbol{\Sigma}\), \(\sigma_{ii}=\sigma_i^2\), is the variance of \(Y_i\), whereas the off-diagonal entries \(\sigma_{ij}=\sigma_{ji}\) \((i \neq j)\) are the covariance of pairwise entries, with
+\begin{align*}
+\mathsf{Co}(Y_i, Y_j) = \int_{\mathbb{R}^2} (y_i-\mu_i)(y_j-\mu_j) f_{Y_i, Y_j}(y_i, y_j) \mathrm{d} y_i \mathrm{d} y_j.
+\end{align*}
+The covariance matrix \(\boldsymbol{\Sigma}\) is thus symmetric. It is customary to normalize the pairwise dependence so they do not depend on the component variance. The linear \textbf{correlation} between \(Y_i\) and \(Y_j\) is
+\begin{align*}
+\rho_{ij}=\mathsf{Cor}(Y_i,Y_j)=\frac{\mathsf{Co}(Y_i, Y_j)}{\sqrt{\mathsf{Va}(Y_i)}\sqrt{\mathsf{Va}(Y_j)}}=\frac{\sigma_{ij}}{\sigma_i\sigma_j}.
+\end{align*}
+The correlation matrix of \(\boldsymbol{Y}\) is an
+\(n\times n\) symmetric matrix with ones on the diagonal and the pairwise correlations off the diagonal,
+\begin{align*}
+\mathsf{Cor}(\boldsymbol{Y})=
+\begin{pmatrix}
+1 & \rho_{12} & \rho_{13} & \cdots & \rho_{1n}\\
+\rho_{21} & 1 & \rho_{23} & \cdots & \rho_{2n} \\
+\rho_{31} & \rho_{32} & 1 & \ddots & \rho_{3n} \\
+\vdots & \vdots & \ddots & \ddots & \vdots \\
+\rho_{n1} & \rho_{n2} & \rho_{n3} & \cdots & 1
+\end{pmatrix}.
+\end{align*}
+One of the most important parts of modelling
+correlated (or longitudinal) data is the need to account for within-group correlations. This basically comes down to modelling a covariance matrix for observations within the same group (or within the same individual in the case of repeated measures), which is the object of \href{correlated-longitudinal-data}{Chapter 5}.
+
+\hypertarget{unbiasedness-and-mean-square-error}{%
+\subsection{Unbiasedness and mean square error}\label{unbiasedness-and-mean-square-error}}
+
+An estimator \(\hat{\theta}\) for a parameter \(\theta\) is unbiased if its bias \(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\) is zero.
+The unbiased estimator of the mean and the variance of \(Y\) are
+\begin{align*}
+\overline{Y}_n &= n^{-1} \sum_{i=1}^n Y_i\\
+S_n &= (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}
+While unbiasedness is a desirable property, there may be cases where no unbiased estimator exists for a parameter! Often, rather, we seek to balance bias and variance: recall that an estimator is a function of random variables and thus it is itself random: even if it is unbiased, the numerical value obtained will vary from one sample to the next. We often seek an estimator that minimises the mean squared error, \[\mathsf{MSE}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]
 The mean squared error is an objective function consisting of the sum of the squared bias and the variance.
 
 An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.
 
-The likelihood of a sample is the joint density of the \(n\) observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.
+The \href{likelihood}{likelihood of a sample} is the joint density of the \(n\) observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.
 
 \hypertarget{discrete-distributions}{%
 \subsection{Discrete distributions}\label{discrete-distributions}}
@@ -2404,7 +2962,7 @@ For example, we could model the numbers of visits for a house on sale before the
 \end{example}
 
 \begin{example}[Poisson distribution]
-\protect\hypertarget{exm:poissondist}{}{\label{exm:poissondist} \iffalse (Poisson distribution) \fi{} }If the probability of success \(\pi\) of a Bernoulli event is small in the sense that \(m\pi \to \lambda\) wen the number of trials \(m\) increases, then the number of success followss approximately a Poisson distribution with mass function
+\protect\hypertarget{exm:poissondist}{}{\label{exm:poissondist} \iffalse (Poisson distribution) \fi{} }If the probability of success \(\pi\) of a Bernoulli event is small in the sense that \(m\pi \to \lambda\) when the number of trials \(m\) increases, then the number of success follows approximately a Poisson distribution with mass function
 \begin{align*}
 \mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
 \end{align*}
@@ -2444,7 +3002,7 @@ We will also encounter the multivariate normal distribution; for a \(n\) dimensi
 f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}
 
-The mean vector \(\boldsymbol{\mu}\) is the vector of expectation of individual observations. The diagonal of the covariance matrix \(\boldsymbol{\Sigma}\) encodes the variance of the components. The diagonal entries are the variance \(\sigma_i^2=\sigma_{ii}\) and the off-diagonal entries give the covariance. More commonly, we express the dependence between components between \(Y_i\) and \(Y_j\) using the linear correlation \(\rho_{ij}=\sigma_{ij}/(\sigma_{ii}\sigma_{jj}) \in [-1, 1]\). A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if \(Y_i\) and \(Y_j\) are independent, the \((i,j)\) off-diagonal entry of \(\boldsymbol{\Sigma}\) is zero.
+The mean vector \(\boldsymbol{\mu}\) is the vector of expectation of individual observations, whereas \(\boldsymbol{\Sigma}\) is the covariance matrix of \(\boldsymbol{Y}\). A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if \(Y_i\) and \(Y_j\) are independent, the \((i,j)\) off-diagonal entry of \(\boldsymbol{\Sigma}\) is zero.
 \end{example}
 
 \begin{example}[Chi-square distribution]
@@ -2453,8 +3011,8 @@ The mean vector \(\boldsymbol{\mu}\) is the vector of expectation of individual 
 If we consider a sample of \(n\) normally distributed observations, the sample variance \((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\).
 \end{example}
 
-\begin{example}[Student-*t* distribution]
-\protect\hypertarget{exm:studentdist}{}{\label{exm:studentdist} \iffalse (Student-\emph{t} distribution) \fi{} }If \(X \sim \mathsf{No}(0,1)\) independent of \(Y \sim \chi^{2}_\nu\), then
+\begin{example}[Student-$t$ distribution]
+\protect\hypertarget{exm:studentdist}{}{\label{exm:studentdist} \iffalse (Student-\(t\) distribution) \fi{} }If \(X \sim \mathsf{No}(0,1)\) independent of \(Y \sim \chi^{2}_\nu\), then
 \begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
 \end{align*}

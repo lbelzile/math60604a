@@ -223,15 +223,17 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 \end{align*}\]</span>
 The building blocks of the generalized linear model are</p>
 <ul>
-<li>A probability distribution for the outcome <span class="math inline">\(Y\)</span> that is a member of the exponential family (normal, binomial, Poisson, gamma, ).</li>
-<li>A set of linear predictors <span class="math inline">\(\mathbf{X} \boldsymbol{\beta}\)</span>, where <span class="math inline">\(\mathbf{X}\)</span> is an <span class="math inline">\(n\times (p+1)\)</span> matrix with columns <span class="math inline">\(\mathbf{1}_n, \mathrm{X}_1, \ldots, \mathrm{X}_p\)</span> and <span class="math inline">\(\boldsymbol{\beta} \in \mathbb{R}^{p+1}\)</span> are coefficients.</li>
-<li>A function <span class="math inline">\(g\)</span>, called <strong>link function</strong>, that links the mean of <span class="math inline">\(Y_i\)</span> to the predictor variables, <span class="math inline">\(g(\mu_i)=\eta_i\)</span>.</li>
+<li>A random component, consisting of the probability distribution for the outcome <span class="math inline">\(Y\)</span> that is a member of the exponential family (normal, binomial, Poisson, gamma, ).</li>
+<li>A deterministic component, the linear predictors<span class="math inline">\(\mathbf{X} \boldsymbol{\beta}\)</span>, where <span class="math inline">\(\mathbf{X}\)</span> is an <span class="math inline">\(n\times (p+1)\)</span> matrix with columns <span class="math inline">\(\mathbf{1}_n, \mathrm{X}_1, \ldots, \mathrm{X}_p\)</span> and <span class="math inline">\(\boldsymbol{\beta} \in \mathbb{R}^{p+1}\)</span> are coefficients.</li>
+<li>A monotone function <span class="math inline">\(g\)</span>, called <strong>link function</strong>, that maps the mean of <span class="math inline">\(Y_i\)</span> to the predictor variables, <span class="math inline">\(g(\mu_i)=\eta_i\)</span>.</li>
 </ul>
 </div>
 <div id="theory-of-generalized-linear-models" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Theory of generalized linear models</h2>
-<p>This section borrows from Chapter 4 of
-&gt; Agresti (2015). * Foundations of Linear and Generalized Linear Models*, Wiley.</p>
+<p>This section borrows from Chapter 4 of</p>
+<blockquote>
+<p>Agresti (2015). * Foundations of Linear and Generalized Linear Models*, Wiley.</p>
+</blockquote>
 <p>In a generalized linear model, the random component arises from an exponential dispersion family: this choice gives a framework, since test statistics and properties can be derived for general classes of distribution.</p>
 <div id="exponential-dispersion-family-of-distributions" class="section level3" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Exponential-dispersion family of distributions</h3>
@@ -241,9 +243,9 @@ f(y; \theta, \phi)&amp;= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y
 \phi)\right\},
 \end{align*}\]</span>
 where the support, i.e., the set of values taken by <span class="math inline">\(Y\)</span>, doesn’t depend on the parameters. Throughout, we will assume <strong>natural parameter </strong> <span class="math inline">\(\theta\)</span> is unknown, but the <strong>dispersion parameter</strong> <span class="math inline">\(\phi\)</span> may be known (exponential family) or unknown (exponential dispersion family).</p>
-<p>One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log-likelihood <span class="math inline">\(\ell\)</span> of a one-sample with respect to the natural parameter <span class="math inline">\(\theta\)</span> are
+<p>One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log likelihood <span class="math inline">\(\ell\)</span> of a one-sample with respect to the natural parameter <span class="math inline">\(\theta\)</span> are
 <span class="math display">\[\begin{align*}
-\frac{\partial \ell(y; \theta, \phi)}{\partial \theta} &amp;= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b&#39;(\theta)}{a(\phi)}
+\frac{\partial \ell(y; \theta, \phi)}{\partial \theta} &amp;= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b&#39;(\theta)}{a(\phi)}\\
 \frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2} &amp;= - \frac{b&#39;&#39;(\theta)}{a(\phi)},
 \end{align*}\]</span>
 where <span class="math inline">\(b&#39;(\cdot)\)</span> and <span class="math inline">\(b&#39;&#39;(\cdot)\)</span> are the first two derivatives of <span class="math inline">\(b(\cdot)\)</span> with respect to <span class="math inline">\(\theta\)</span>.
@@ -289,6 +291,15 @@ with <span class="math inline">\(b(\theta) = \ln\{1+\exp(\theta)\}\)</span> and 
 \end{align*}\]</span>
 where <span class="math inline">\(V(\mu)=\mu(1-\mu)\)</span>.
 </div>
+
+<div class="example">
+<span id="exm:normalglmexpf" class="example"><strong>Example 4.3  (Normal distribution as member of the exponential family)  </strong></span>We consider a sample consisting of independent normal observations, <span class="math inline">\(Y_i \sim \mathsf{No}(\mu_i, \sigma^2)\)</span>, with
+<span class="math display">\[\begin{align*}
+f(y_i, \mu_i, \sigma^2)&amp;= (2\pi\sigma^2)^{-1/2} \exp \left\{ -\frac{(y_i-\mu_i)}{2\sigma^2}\right\}
+\\&amp;= \exp \left[ \frac{y\mu - \mu^2/2}{\sigma^2} - \frac{1}{2} \left\{ \frac{y^2}{\sigma^2} + \ln(2\pi\sigma^2)\right\} \right],
+\end{align*}\]</span>
+meaning <span class="math inline">\(\theta=\mu\)</span>, <span class="math inline">\(\phi=\sigma^2\)</span> and <span class="math inline">\(a(\phi)=\phi\)</span>, <span class="math inline">\(b(\theta)=\theta^2/2\)</span>.
+</div>
 </div>
 <div id="link-functions" class="section level3" number="4.2.2">
 <h3><span class="header-section-number">4.2.2</span> Link functions</h3>
@@ -301,11 +312,12 @@ The link function thus connects the mean of the random variable <span class="mat
 <p>An appropriate choice of link function <span class="math inline">\(g\)</span> sets <span class="math inline">\(\mu_i\)</span> equal to a transformation of the linear combination <span class="math inline">\(\eta_i\)</span> so as to avoid imposing parameter constraints on <span class="math inline">\(\boldsymbol{\beta}\)</span>. Certain choices of link functions facilitate interpretation or make the likelihood function convenient for optimization.<br />
 For the Bernoulli and binomial distributions, an appropriate link function <span class="math inline">\(g\)</span> is the logit function,
 <span class="math display">\[\begin{align*}
-\mathsf{logit}(\mu)&amp;=
+\mathrm{logit}(\mu)&amp;=
 \ln \left( \frac{\mu}{1-\mu} \right) =\ln(\mu) - \ln(1-\mu)= \eta,
-\\\mu &amp;= \mathrm{expit}(\eta)= \frac{\exp(\eta)}{1+\exp(\eta)}.
+\\\mathrm{expit}(\eta)&amp;= \frac{\exp(\eta)}{1+\exp(\eta)}=\mu.
 \end{align*}\]</span>
-For the Poisson distribution, an appropriate link function <span class="math inline">\(g\)</span> is the natural logarithm, <span class="math inline">\(\ln\)</span>, with associated inverse link function <span class="math inline">\(\exp\)</span>.</p>
+The inverse link function is the distribution function of the logistic distribution, hence the name. The choice of link function is far from unique: any quantile function of a continuous random variable supported on <span class="math inline">\(\mathbb{R}\)</span> could be considered. For the Poisson distribution, the canonical link function <span class="math inline">\(g\)</span> is the natural logarithm, <span class="math inline">\(\ln\)</span>, with associated inverse link function <span class="math inline">\(\exp\)</span>.</p>
+<p>Canonical link functions are natural choices because of their nice statistical properties: choosing the canonical link ensures that <span class="math inline">\(\mathbf{X}^\top\boldsymbol{y}\)</span> is a minimal sufficient statistic. Other considerations, such as parameter constraints, can be more important in deciding on the choice of <span class="math inline">\(g\)</span>.</p>
 
 </div>
 </div>

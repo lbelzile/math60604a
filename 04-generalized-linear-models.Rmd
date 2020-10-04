@@ -18,15 +18,16 @@ Let $\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)$ denote the conditional expectation
 \end{align*}
 The building blocks of the generalized linear model are
 
-- A probability distribution for the outcome $Y$ that is a member of the exponential family (normal, binomial, Poisson, gamma, \ldots). 
-- A set of linear predictors $\mathbf{X} \boldsymbol{\beta}$, where $\mathbf{X}$ is an $n\times (p+1)$ matrix with columns $\mathbf{1}_n, \mathrm{X}_1, \ldots, \mathrm{X}_p$ and $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ are coefficients. 
-- A function $g$, called **link function**, that links the mean of $Y_i$ to the predictor variables, $g(\mu_i)=\eta_i$. 
+- A random component, consisting of the probability distribution for the outcome $Y$ that is a member of the exponential family (normal, binomial, Poisson, gamma, \ldots). 
+- A deterministic component, the linear predictors$\mathbf{X} \boldsymbol{\beta}$, where $\mathbf{X}$ is an $n\times (p+1)$ matrix with columns $\mathbf{1}_n, \mathrm{X}_1, \ldots, \mathrm{X}_p$ and $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ are coefficients. 
+- A monotone function $g$, called **link function**, that maps the mean of $Y_i$ to the predictor variables, $g(\mu_i)=\eta_i$. 
 
 
 
 ## Theory of generalized linear models
 
 This section borrows from Chapter 4 of 
+
 > Agresti (2015). * Foundations of Linear and Generalized Linear Models*, Wiley.
 
 In a generalized linear model, the random component arises from an exponential dispersion family: this choice gives a framework, since test statistics and properties can be derived for general classes of distribution.
@@ -40,9 +41,9 @@ f(y; \theta, \phi)&= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y,
 \end{align*}
 where the support, i.e., the set of values taken by $Y$, doesn't depend on the parameters.  Throughout, we will assume **natural parameter ** $\theta$ is unknown, but the **dispersion parameter** $\phi$ may be known (exponential family) or unknown (exponential dispersion family). 
 
-One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log-likelihood $\ell$ of a one-sample with respect to the natural parameter $\theta$ are 
+One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log likelihood $\ell$ of a one-sample with respect to the natural parameter $\theta$ are 
 \begin{align*}
-\frac{\partial \ell(y; \theta, \phi)}{\partial \theta} &= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b'(\theta)}{a(\phi)}
+\frac{\partial \ell(y; \theta, \phi)}{\partial \theta} &= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b'(\theta)}{a(\phi)}\\
 \frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2} &= - \frac{b''(\theta)}{a(\phi)},
 \end{align*}
 where $b'(\cdot)$ and $b''(\cdot)$ are the first two derivatives of $b(\cdot)$ with respect to $\theta$.
@@ -90,6 +91,16 @@ with $b(\theta) = \ln\{1+\exp(\theta)\}$ and $\phi=m^{-1}$. The expectation and 
 where $V(\mu)=\mu(1-\mu)$.
 ```
 
+```{example, label ="normalglmexpf", name = "Normal distribution as member of the exponential family"}
+We consider a sample consisting of independent normal observations, $Y_i \sim \mathsf{No}(\mu_i, \sigma^2)$, with
+\begin{align*}
+f(y_i, \mu_i, \sigma^2)&= (2\pi\sigma^2)^{-1/2} \exp \left\{ -\frac{(y_i-\mu_i)}{2\sigma^2}\right\}
+\\&= \exp \left[ \frac{y\mu - \mu^2/2}{\sigma^2} - \frac{1}{2} \left\{ \frac{y^2}{\sigma^2} + \ln(2\pi\sigma^2)\right\} \right],
+\end{align*}
+meaning $\theta=\mu$, $\phi=\sigma^2$ and $a(\phi)=\phi$, $b(\theta)=\theta^2/2$.
+```
+
+
 ### Link functions
 
 The link between the mean of $Y$ and the **linear predictor** $\eta$  is
@@ -104,11 +115,13 @@ The need for a link function arises from parameter constraints: for example, the
 An appropriate choice of link function $g$ sets $\mu_i$ equal to a transformation of the linear combination $\eta_i$ so as to avoid imposing parameter constraints on $\boldsymbol{\beta}$. Certain choices of link functions facilitate interpretation or make the likelihood function convenient for optimization.  
 For the Bernoulli and binomial distributions, an appropriate link function $g$ is the logit function, 
 \begin{align*}
-\mathsf{logit}(\mu)&=
+\mathrm{logit}(\mu)&=
 \ln \left( \frac{\mu}{1-\mu} \right) =\ln(\mu) - \ln(1-\mu)= \eta,
 \\\mathrm{expit}(\eta)&= \frac{\exp(\eta)}{1+\exp(\eta)}=\mu.
 \end{align*}
-For the Poisson distribution, an appropriate link function $g$ is the natural logarithm, $\ln$, with associated inverse link function $\exp$.
+The inverse link function is the distribution function of the logistic distribution, hence the name. The choice of link function is far from unique: any quantile function of a continuous random variable supported on $\mathbb{R}$ could be considered. For the Poisson distribution, the canonical link function $g$ is the natural logarithm, $\ln$, with associated inverse link function $\exp$.
+
+Canonical link functions are natural choices because of their nice statistical properties: choosing the canonical link ensures that $\mathbf{X}^\top\boldsymbol{y}$ is a minimal sufficient statistic. Other considerations, such as parameter constraints, can be more important in deciding on the choice of $g$.
 
 
 

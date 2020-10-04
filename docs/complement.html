@@ -368,7 +368,6 @@ where <span class="math inline">\(\Gamma\)</span> is the gamma function and the 
 </div>
 <div id="continuous-distributions" class="section level3" number="8.2.4">
 <h3><span class="header-section-number">A.2.4</span> Continuous distributions</h3>
-<!-- Most of the continuous distributions encountered in this course give the  -->
 <p>We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.</p>
 
 <div class="example">
@@ -381,7 +380,7 @@ The parameters <span class="math inline">\(\mu\)</span> and <span class="math in
 <span class="math display">\[\begin{align*}
 f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}\]</span></p>
-The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations, whereas <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of $. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.
+The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations, whereas <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of <span class="math inline">\(\boldsymbol{Y}\)</span>. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.
 </div>
 
 <div class="example">
@@ -390,7 +389,7 @@ The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vec
 </div>
 
 <div class="example">
-<p><span id="exm:studentdist" class="example"><strong>Example A.9  (Student-<em>t</em> distribution)  </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
+<p><span id="exm:studentdist" class="example"><strong>Example A.9  (Student-<span class="math inline">\(t\)</span> distribution)  </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
 <span class="math display">\[\begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
 \end{align*}\]</span>

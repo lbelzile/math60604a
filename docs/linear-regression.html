@@ -656,7 +656,7 @@ Under <span class="math inline">\(\mathscr{H}_0\)</span>, the <span class="math 
 </tbody>
 </table>
 <p>Table <a href="linear-regression.html#tab:summaryanovalmcollege">2.4</a> gives the <span class="math inline">\(F\)</span>-statistics values and the associated <span class="math inline">\(p\)</span>-values. The sum of squares represent the difference <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\)</span> for various null models <span class="math inline">\(\mathbb{M}_0\)</span>, except the last line for residuals which reports <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_1)\)</span>. You can verify that (up to rounding) these <span class="math inline">\(p\)</span>-pvalues are identical to those of the Wald test in the output when <code>df=1</code>. The only categorical variable here with more than one level is <code>rank</code>, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.</p>
-<p>We could have also easily computed the likelihood ratio test to compare the models: for example, the log-likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the <span class="math inline">\(\chi^2_2\)</span> distribution (both likelihood ratio test and <span class="math inline">\(F\)</span>-test give a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(2.2 \times 10^{-16}\)</span>).</p>
+<p>We could have also easily computed the likelihood ratio test to compare the models: for example, the log likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the <span class="math inline">\(\chi^2_2\)</span> distribution (both likelihood ratio test and <span class="math inline">\(F\)</span>-test give a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(2.2 \times 10^{-16}\)</span>).</p>
 </div>
 </div>
 <div id="coefR2" class="section level2" number="2.5">
@@ -698,7 +698,7 @@ Similar calculations yield the formula for confidence intervals for the mean,
 The two differ only because of the additional variance of individual observations.</p>
 <p>Figure <a href="linear-regression.html#fig:predinterval">2.8</a> shows pointwise uncertainty bands for a simple linear regression of the <code>intention</code> data as a function of <code>fixation</code>, illustrating the limitations of the linear model in this example: the model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 2 to 14. The middle line gives the prediction of individuals as we vary their fixation time. Looking at the formula for the confidence, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. This is more easily seen by replicating the potential curves that could have happened with different data: I generated new potential slopes from the asymptotic normal distribution of <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> estimators to show the hyperbolic shape is not surprising: we are basically tilting curves from the average fixation/intention, and they have higher potential from deviating far from the range of observations.</p>
 <div class="figure" style="text-align: center"><span id="fig:predinterval"></span>
-<img src="MATH60604A_Statistical_modelling_files/figure-html/predinterval-1.gif" alt="Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions." width="70%" />
+<img src="MATH60604A_Statistical_modelling_files/figure-html/predinterval-1.gif" alt="Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95\% confidence intervals of the mean and the individual predictions." width="70%" />
 <p class="caption">
 Figure 2.8: Prediction for the simple linear regression of buying intention as a function of fixation time. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions.
 </p>
@@ -716,72 +716,164 @@ Figure 2.9: Graph of insurance charges against body mass index. The figure clear
 </div>
 <p>From there, we could create an indicator variable <span class="math inline">\(\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)\)</span> and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We take non-smoker as baseline category. To make interpretation more meaningful, we rescale age so that <span class="math inline">\(\texttt{age}=0\)</span> corresponds to 18 years old.</p>
 <table>
-<caption><span id="tab:coefintercharges">Table 2.5: </span>Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.</caption>
+<caption>
+<span id="tab:coefintercharges">Table 2.5: </span>Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">term</th>
-<th align="right">estimate</th>
-<th align="right">std. error</th>
-<th align="right">Wald stat.</th>
-<th align="right">p-value</th>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std. error
+</th>
+<th style="text-align:right;">
+Wald stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">2668.7</td>
-<td align="right">362.7</td>
-<td align="right">7.36</td>
-<td align="right">&lt; 0.001</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+2668.7
+</td>
+<td style="text-align:right;">
+362.7
+</td>
+<td style="text-align:right;">
+7.36
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
-<tr class="even">
-<td align="left">age</td>
-<td align="right">265.9</td>
-<td align="right">15</td>
-<td align="right">17.7</td>
-<td align="right">&lt; 0.001</td>
+<tr>
+<td style="text-align:left;">
+age
+</td>
+<td style="text-align:right;">
+265.9
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+17.7
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
-<tr class="odd">
-<td align="left">obesity [obese]</td>
-<td align="right">115.3</td>
-<td align="right">510.3</td>
-<td align="right">0.23</td>
-<td align="right">0.82</td>
+<tr>
+<td style="text-align:left;">
+obesity [obese]
+</td>
+<td style="text-align:right;">
+115.3
+</td>
+<td style="text-align:right;">
+510.3
+</td>
+<td style="text-align:right;">
+0.23
+</td>
+<td style="text-align:right;">
+0.82
+</td>
 </tr>
-<tr class="even">
-<td align="left">smoker [yes]</td>
-<td align="right">13526.2</td>
-<td align="right">803.1</td>
-<td align="right">16.84</td>
-<td align="right">&lt; 0.001</td>
+<tr>
+<td style="text-align:left;">
+smoker [yes]
+</td>
+<td style="text-align:right;">
+13526.2
+</td>
+<td style="text-align:right;">
+803.1
+</td>
+<td style="text-align:right;">
+16.84
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
-<tr class="odd">
-<td align="left">age * obesity [obese]</td>
-<td align="right">1.4</td>
-<td align="right">20.1</td>
-<td align="right">0.07</td>
-<td align="right">0.94</td>
+<tr>
+<td style="text-align:left;">
+age * obesity [obese]
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+20.1
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+0.94
+</td>
 </tr>
-<tr class="even">
-<td align="left">age * smoker [yes]</td>
-<td align="right">-5.3</td>
-<td align="right">33.5</td>
-<td align="right">-0.16</td>
-<td align="right">0.87</td>
+<tr>
+<td style="text-align:left;">
+age * smoker [yes]
+</td>
+<td style="text-align:right;">
+-5.3
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+-0.16
+</td>
+<td style="text-align:right;">
+0.87
+</td>
 </tr>
-<tr class="odd">
-<td align="left">obesity [obese] * smoker [yes]</td>
-<td align="right">19308.7</td>
-<td align="right">1110.5</td>
-<td align="right">17.39</td>
-<td align="right">&lt; 0.001</td>
+<tr>
+<td style="text-align:left;">
+obesity [obese] * smoker [yes]
+</td>
+<td style="text-align:right;">
+19308.7
+</td>
+<td style="text-align:right;">
+1110.5
+</td>
+<td style="text-align:right;">
+17.39
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
-<tr class="even">
-<td align="left">age * obesity [obese] * smoker [yes]</td>
-<td align="right">19.1</td>
-<td align="right">44.8</td>
-<td align="right">0.43</td>
-<td align="right">0.67</td>
+<tr>
+<td style="text-align:left;">
+age * obesity [obese] * smoker [yes]
+</td>
+<td style="text-align:right;">
+19.1
+</td>
+<td style="text-align:right;">
+44.8
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+0.67
+</td>
 </tr>
 </tbody>
 </table>
@@ -840,44 +932,94 @@ Figure 2.10: Residuals from the interaction model for <span class="math inline">
 <p>We will evaluate the effect of the factors <span class="math inline">\(\texttt{delay}\)</span> and <span class="math inline">\(\texttt{stage}\)</span> on the estimated waiting time.</p>
 <p>If there is an interaction between explanatory variables, but the latter is not included in the models, the tests are misleading: one assumption of the linear model being that all of the relevant covariates have been included and their effect properly accounted for. In this example, omitting the interaction leads to effects being averaged and cancelling each other. Fitting an ANOVA model with only additive (main effects, without interaction) for the evaluation of service suggests that the factors <span class="math inline">\(\texttt{stage}\)</span> and <span class="math inline">\(\texttt{delay}\)</span> are not significant: the <span class="math inline">\(p\)</span>-values for the main effects, reported in Table <a href="linear-regression.html#tab:summaryanovadelaynointer">2.6</a>, are <span class="math inline">\(0.409\)</span> and <span class="math inline">\(0.137\)</span>. Therefore, there seemingly is no significant difference in delay time between the two stages and the three delay types.</p>
 <table>
-<caption><span id="tab:summaryanovadelaynointer">Table 2.6: </span>Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.</caption>
+<caption>
+<span id="tab:summaryanovadelaynointer">Table 2.6: </span>Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">variable</th>
-<th align="right">sum of square</th>
-<th align="right">df</th>
-<th align="right">F stat.</th>
-<th align="right">p-value</th>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+sum of square
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:right;">
+F stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0.11</td>
-<td align="right">0.74</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+0.74
+</td>
 </tr>
-<tr class="even">
-<td align="left">stage</td>
-<td align="right">0.3</td>
-<td align="right">1</td>
-<td align="right">0.69</td>
-<td align="right">0.41</td>
+<tr>
+<td style="text-align:left;">
+stage
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+<td style="text-align:right;">
+0.41
+</td>
 </tr>
-<tr class="odd">
-<td align="left">delay</td>
-<td align="right">1.6</td>
-<td align="right">2</td>
-<td align="right">2.02</td>
-<td align="right">0.14</td>
+<tr>
+<td style="text-align:left;">
+delay
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2.02
+</td>
+<td style="text-align:right;">
+0.14
+</td>
 </tr>
-<tr class="even">
-<td align="left">Residuals</td>
-<td align="right">41.9</td>
-<td align="right">105</td>
-<td align="right"></td>
-<td align="right"></td>
+<tr>
+<td style="text-align:left;">
+Residuals
+</td>
+<td style="text-align:right;">
+41.9
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+</td>
+<td style="text-align:right;">
+</td>
 </tr>
 </tbody>
 </table>
@@ -890,51 +1032,111 @@ Figure 2.11: Interactions plots for the <span class="math inline">\(\texttt{dela
 </div>
 <p>There is a significant interaction between the variables <span class="math inline">\(\texttt{delay}\)</span> and <span class="math inline">\(\texttt{stage}\)</span> on evaluation. Therefore, the effect of <span class="math inline">\(\texttt{delay}\)</span> on the variable <span class="math inline">\(\texttt{eval}\)</span> depends on the level of the variable <span class="math inline">\(\texttt{stage}\)</span> ance vice-versa. Since there is an interaction term, tests for the main effects of <span class="math inline">\(\texttt{stage}\)</span> or <span class="math inline">\(\texttt{delay}\)</span> are not of interest.</p>
 <table>
-<caption><span id="tab:summarydelaywinteraction">Table 2.7: </span>Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.</caption>
+<caption>
+<span id="tab:summarydelaywinteraction">Table 2.7: </span>Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">variable</th>
-<th align="right">sum of square</th>
-<th align="right">df</th>
-<th align="right">F stat.</th>
-<th align="right">p-value</th>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+sum of square
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:right;">
+F stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">3.8</td>
-<td align="right">1</td>
-<td align="right">18.29</td>
-<td align="right">&lt; 0.001</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+18.29
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
-<tr class="even">
-<td align="left">stage</td>
-<td align="right">5.3</td>
-<td align="right">1</td>
-<td align="right">25.67</td>
-<td align="right">&lt; 0.001</td>
+<tr>
+<td style="text-align:left;">
+stage
+</td>
+<td style="text-align:right;">
+5.3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+25.67
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
-<tr class="odd">
-<td align="left">delay</td>
-<td align="right">8.1</td>
-<td align="right">2</td>
-<td align="right">19.64</td>
-<td align="right">&lt; 0.001</td>
+<tr>
+<td style="text-align:left;">
+delay
+</td>
+<td style="text-align:right;">
+8.1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+19.64
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
-<tr class="even">
-<td align="left">stage:delay</td>
-<td align="right">20.5</td>
-<td align="right">2</td>
-<td align="right">49.63</td>
-<td align="right">&lt; 0.001</td>
+<tr>
+<td style="text-align:left;">
+stage:delay
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+49.63
+</td>
+<td style="text-align:right;">
+&lt; 0.001
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Residuals</td>
-<td align="right">21.3</td>
-<td align="right">103</td>
-<td align="right"></td>
-<td align="right"></td>
+<tr>
+<td style="text-align:left;">
+Residuals
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+103
+</td>
+<td style="text-align:right;">
+</td>
+<td style="text-align:right;">
+</td>
 </tr>
 </tbody>
 </table>
@@ -967,27 +1169,49 @@ to see how (and to what extent) the predictor variables explain the behaviour of
 
 <div class="example">
 <p><span id="exm:collegedatcollinear" class="example"><strong>Example 2.3  (Collinearity in the <span class="math inline">\(\texttt{college}\)</span> data)  </strong></span>We consider the <code>college</code> data analysis and include all the covariates in the database, including <code>years</code>, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, <code>service</code> and <code>years</code> is <code>r cor(college$service, college$years)</code>. The variance inflation factor for the five covariates</p>
-For categorical variables, the variance inflation factor definition would normally yield for each level a different value. The generalized variance inflation factor of <span class="citation">(<span class="citeproc-not-found" data-reference-id="Fox:1992"><strong>???</strong></span>)</span> are more useful then. Here, we are interested in gender disparities, so the fact that both service and field are
+For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor <span class="citation">(Fox and Monette <a href="references.html#ref-Fox:1992" role="doc-biblioref">1992</a>)</span>. Here, we are interested in gender disparities, so the fact that both service and field are
 strongly correlated is not problematic, since the <span class="math inline">\(\mathsf{VIF}\)</span> for <span class="math inline">\(\texttt{sex}\)</span> is not high and the other variables are there to act as control and avoid confounders.
 </div>
 <table>
-<caption><span id="tab:unnamed-chunk-1">Table 2.8: </span>(Generalized) variance inflation factor for the <span class="math inline">\(\texttt{college}\)</span> data.</caption>
+<caption>
+<span id="tab:unnamed-chunk-1">Table 2.8: </span>(Generalized) variance inflation factor for the <span class="math inline">\(\texttt{college}\)</span> data.
+</caption>
 <thead>
-<tr class="header">
-<th align="right">service</th>
-<th align="right">years</th>
-<th align="right">rank</th>
-<th align="right">sex</th>
-<th align="right">field</th>
+<tr>
+<th style="text-align:right;">
+service
+</th>
+<th style="text-align:right;">
+years
+</th>
+<th style="text-align:right;">
+rank
+</th>
+<th style="text-align:right;">
+sex
+</th>
+<th style="text-align:right;">
+field
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">5.92</td>
-<td align="right">7.52</td>
-<td align="right">2.01</td>
-<td align="right">1.03</td>
-<td align="right">1.06</td>
+<tr>
+<td style="text-align:right;">
+5.92
+</td>
+<td style="text-align:right;">
+7.52
+</td>
+<td style="text-align:right;">
+2.01
+</td>
+<td style="text-align:right;">
+1.03
+</td>
+<td style="text-align:right;">
+1.06
+</td>
 </tr>
 </tbody>
 </table>
@@ -1066,7 +1290,7 @@ More generally, correlation between observations arises from time dependence, ro
 Figure 2.13: Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals.
 </p>
 </div>
-<p>However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations <span class="math inline">\(h\)</span> units apart as a function of the lag <span class="math inline">\(h\)</span> (Brockwell and Davis, 2016, Defn. 1.4.4).</p>
+<p>However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations <span class="math inline">\(h\)</span> units apart as a function of the lag <span class="math inline">\(h\)</span> <span class="citation">(Brockwell and Davis <a href="references.html#ref-Brockwell/Davis:2016" role="doc-biblioref">2016</a>, Definition 1.4.4)</span>.</p>
 <p>For <span class="math inline">\(y_1, \ldots, y_n\)</span> and constant time lags <span class="math inline">\(h=0, 1, \ldots\)</span> units, the autocorrelation at lag <span class="math inline">\(h\)</span> is
 <span class="math display">\[\begin{align*}
 r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y}) 
@@ -1147,15 +1371,49 @@ Figure 2.20: Diagnostic plots for the college data example: ordinary residuals a
 </div>
 <div id="model-ajustments" class="section level3" number="2.9.4">
 <h3><span class="header-section-number">2.9.4</span> Model ajustments</h3>
-<p>This ultimate section deals with strategies for fixing the linear model if we detected non-normality. If the response is strictly positive, an option is to use the Box–Cox transformation presented in <a href="likelihood.html#exm:boxcox">3.3</a> and fit a linear model to a transformation of <span class="math inline">\(Y\)</span>,
+<p>This ultimate section deals with strategies for fixing the linear model if we detected non-normality. If the response is strictly positive, an option is to use the Box–Cox transformation presented in Section <a href="likelihood.html#exm:boxcox">3.3</a> and fit a linear model to a transformation of <span class="math inline">\(Y\)</span>,
 <span class="math display">\[\begin{align*}
 y_i(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
 \ln(y), &amp; \lambda=0.
 \end{cases}
 \end{align*}\]</span>
-We then fit a linear model over a grid of <span class="math inline">\(\lambda\)</span>, using the profile likelihood to select the optimal value for the transformation. Note that the latter will depend on the covariates present in the model; the example with the <span class="math inline">\(\texttt{college}\)</span> data already shows that the diagnostics of normality is impacted by departures from the other hypothesis.</p>
-<p>If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.</p>
+We then fit a linear model over a grid of <span class="math inline">\(\lambda\)</span>, using the profile likelihood to select the optimal value for the transformation. Note that the latter will depend on the covariates present in the model; the example with the <span class="math inline">\(\texttt{college}\)</span> data already shows that the diagnostics of normality is impacted by departures from the other hypothesis. The cases <span class="math inline">\(\lambda=1\)</span> (identity) and <span class="math inline">\(\lambda=0\)</span> (log-linear model) are perhaps the most important because they yield interpretable coefficients.</p>
+<p>If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.
+Theory sometimes dictates a multiplicative model: for example, the Cobb–Douglas production function in economics is
+<span class="math inline">\(P=\alpha L^{\beta_1}C^{\beta_2}\)</span>, where <span class="math inline">\(P\)</span> stands for production, <span class="math inline">\(L\)</span> for labor and <span class="math inline">\(C\)</span> for capital; all inputs are positive, so taking a log-transform yields a model that is linear in <span class="math inline">\(\beta\)</span>, with <span class="math inline">\(\beta_0=\ln(\alpha)\)</span>.</p>
+<p>We can rewrite the model in the original response scale as
+<span class="math display">\[\begin{align*}
+Y = \exp\left(\beta_0+\sum_{j=1}^p\beta_j\mathrm{X}_j +  \varepsilon \right) = \exp\left(\beta_0+ \sum_{j=1}^p\beta_j\mathrm{X}_j\right)\cdot \exp(\varepsilon),
+\end{align*}\]</span>
+and thus
+<span class="math display">\[\begin{align*}
+\mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 \mathrm{X}_1 +\cdots + \beta_p\mathrm{X}_p ) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
+\end{align*}\]</span>
+If <span class="math inline">\(\varepsilon \mid \mathbf{X} \sim \mathsf{No}(\mu,\sigma^2)\)</span>, then <span class="math inline">\(\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}= \exp(\mu+\sigma^2/2)\)</span> — <span class="math inline">\(\exp(\varepsilon)\)</span> follows a log-normal distribution.</p>
+<p>In order to interpret the parameters, we can compare the ratio of <span class="math inline">\(\mathsf{E}(Y \mid \mathrm{X}_1=x+1)\)</span> to <span class="math inline">\(\mathsf{E}(Y \mid \mathrm{X}_1=x)\)</span>,
+<span class="math display">\[\begin{align*}
+\frac{\mathsf{E}(Y \mid \mathrm{X}_1=x+1, \mathrm{X}_2, \ldots, \mathrm{X}_p)}{\mathsf{E}(Y \mid \mathrm{X}_1=x,  \mathrm{X}_2, \ldots, \mathrm{X}_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
+\end{align*}\]</span>
+Thus, <span class="math inline">\(\exp(\beta_1)\)</span> represents the ratio of the mean of <span class="math inline">\(Y\)</span> when <span class="math inline">\(\mathrm{X}_1=x+1\)</span> in comparison to that when <span class="math inline">\(\mathrm{X}_1=x\)</span>, <em>ceteris paribus</em> (and provided this statement is meaningful). We can interpret <span class="math inline">\(\exp(\beta_1)\)</span> as the multiplicative effect of <span class="math inline">\(\mathrm{X}_1\)</span> on the mean of <span class="math inline">\(Y\)</span>: increasing <span class="math inline">\(\mathrm{X}_1\)</span> by one unit causes <span class="math inline">\(Y\)</span> to increase by a factor of <span class="math inline">\(\exp(\beta_1)\)</span>, on average.</p>
+
+<div class="example">
+<p><span id="exm:poisonboxcox" class="example"><strong>Example 2.5  </strong></span>
+The paper of Box–Cox consider survival time for 48 animals based on a randomized trial and these are analyzed in Example 8.25 of <span class="citation">Davison (<a href="references.html#ref-SM:2008" role="doc-biblioref">2008</a>)</span>. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.</p>
+<p>We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form
+<span class="math display">\[\begin{align*}
+Y &amp;= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &amp;\qquad+ \beta_4\texttt{treatment}_3
++\beta_5\texttt{treatment}_4 + \varepsilon
+\end{align*}\]</span></p>
+<p>The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables further point towards non-additivity <span class="citation">(Davison <a href="references.html#ref-SM:2008" role="doc-biblioref">2008</a>, Example 8.24)</span>. All of these factors point towards overall poor fit of the model.</p>
+<p>One could ignore the non-constant variance and consider using a Box–Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of Figure <a href="linear-regression.html#fig:poisonplots">2.21</a> suggests that <span class="math inline">\(\lambda\approx -1\)</span> would be a good choice. This has the benefit of being interpretable, as the reciprocal response <span class="math inline">\(Y^{-1}\)</span> corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:poisonplots"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/poisonplots-1.png" alt="Diagnostic plots for the poison data. The top panel shows the ordinary residuals for the linear model for survival time as a function of poison and treatment, with jittered observations. The middle left plot shows the fitted values against residuals, which display evidence of trend and increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. The bottom panel shows the profile log likelihood for the Box--Cox transform, suggesting a value of $-1$ would be within the 95\% confidence interval. After fitting the same additive model with main effect only to the reciprocal survival time, there is no more evidence of residual structure and unequal variance." width="70%" />
+<p class="caption">
+Figure 2.21: Diagnostic plots for the poison data. The top panel shows the ordinary residuals for the linear model for survival time as a function of poison and treatment, with jittered observations. The middle left plot shows the fitted values against residuals, which display evidence of trend and increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. The bottom panel shows the profile log likelihood for the Box–Cox transform, suggesting a value of <span class="math inline">\(-1\)</span> would be within the 95% confidence interval. After fitting the same additive model with main effect only to the reciprocal survival time, there is no more evidence of residual structure and unequal variance.
+</p>
+</div>
 
 </div>
 </div>
