@@ -238,10 +238,10 @@ The building blocks of the generalized linear model are</p>
 <div id="exponential-dispersion-family-of-distributions" class="section level3" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Exponential-dispersion family of distributions</h3>
 <p>Consider a probability density or mass function for <span class="math inline">\(Y\)</span> with parameters <span class="math inline">\((\theta, \phi)\)</span>,
-<span class="math display">\[\begin{align*}
+<span class="math display" id="eq:expofam">\[\begin{align}
 f(y; \theta, \phi)&amp;= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y,
-\phi)\right\},
-\end{align*}\]</span>
+\phi)\right\}, \tag{4.1}
+\end{align}\]</span>
 where the support, i.e., the set of values taken by <span class="math inline">\(Y\)</span>, doesn’t depend on the parameters. Throughout, we will assume <strong>natural parameter </strong> <span class="math inline">\(\theta\)</span> is unknown, but the <strong>dispersion parameter</strong> <span class="math inline">\(\phi\)</span> may be known (exponential family) or unknown (exponential dispersion family).</p>
 <p>One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log likelihood <span class="math inline">\(\ell\)</span> of a one-sample with respect to the natural parameter <span class="math inline">\(\theta\)</span> are
 <span class="math display">\[\begin{align*}
@@ -258,7 +258,7 @@ These two equality give
 \mathsf{E}(Y_i) &amp;= b&#39;(\theta_i) \\
 \mathsf{Va}(Y_i) &amp;= b&#39;&#39;(\theta_i)a(\phi_i)
 \end{align*}\]</span>
-Because of the relation between the mean of <span class="math inline">\(Y_i\)</span>, say <span class="math inline">\(\mu_i\)</span>, and the natural parameter <span class="math inline">\(\theta_i\)</span>, we have <span class="math inline">\(V(\mu)=b&#39;&#39;(\theta)\)</span> and there is an explicit relationship between the mean and the variance parameters unless <span class="math inline">\(V(\mu)=1\)</span>.</p>
+Because of the relation between the mean of <span class="math inline">\(Y_i\)</span>, say <span class="math inline">\(\mu_i\)</span>, and the natural parameter <span class="math inline">\(\theta_i\)</span>, we have <span class="math inline">\(V(\mu)=b&#39;&#39;(\theta)\)</span> and there is an explicit relationship between the mean and the variance parameters unless <span class="math inline">\(V(\mu)=1\)</span>. Often, the term <span class="math inline">\(a_i(\phi)=a_i\phi\)</span>, where <span class="math inline">\(\phi\)</span> is constant over all observations and <span class="math inline">\(a_i\)</span> is a observation-specific weight.</p>
 
 <div class="example">
 <span id="exm:poissonglmexpf" class="example"><strong>Example 4.1  (Poisson distribution as exponential family member)  </strong></span>The mass function of the Poisson distribution is
@@ -298,7 +298,7 @@ where <span class="math inline">\(V(\mu)=\mu(1-\mu)\)</span>.
 f(y_i, \mu_i, \sigma^2)&amp;= (2\pi\sigma^2)^{-1/2} \exp \left\{ -\frac{(y_i-\mu_i)}{2\sigma^2}\right\}
 \\&amp;= \exp \left[ \frac{y\mu - \mu^2/2}{\sigma^2} - \frac{1}{2} \left\{ \frac{y^2}{\sigma^2} + \ln(2\pi\sigma^2)\right\} \right],
 \end{align*}\]</span>
-meaning <span class="math inline">\(\theta=\mu\)</span>, <span class="math inline">\(\phi=\sigma^2\)</span> and <span class="math inline">\(a(\phi)=\phi\)</span>, <span class="math inline">\(b(\theta)=\theta^2/2\)</span>.
+meaning <span class="math inline">\(\theta=\mu\)</span>, <span class="math inline">\(\phi=\sigma^2\)</span> and <span class="math inline">\(a(\phi)=\sigma^2\)</span>, <span class="math inline">\(b(\theta)=\theta^2/2\)</span>.
 </div>
 </div>
 <div id="link-functions" class="section level3" number="4.2.2">
@@ -318,6 +318,84 @@ For the Bernoulli and binomial distributions, an appropriate link function <span
 \end{align*}\]</span>
 The inverse link function is the distribution function of the logistic distribution, hence the name. The choice of link function is far from unique: any quantile function of a continuous random variable supported on <span class="math inline">\(\mathbb{R}\)</span> could be considered. For the Poisson distribution, the canonical link function <span class="math inline">\(g\)</span> is the natural logarithm, <span class="math inline">\(\ln\)</span>, with associated inverse link function <span class="math inline">\(\exp\)</span>.</p>
 <p>Canonical link functions are natural choices because of their nice statistical properties: choosing the canonical link ensures that <span class="math inline">\(\mathbf{X}^\top\boldsymbol{y}\)</span> is a minimal sufficient statistic. Other considerations, such as parameter constraints, can be more important in deciding on the choice of <span class="math inline">\(g\)</span>.</p>
+</div>
+<div id="model-adjustment" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Model adjustment</h3>
+<p>There is generally no closed-form expression for the maximum likelihood estimators <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> in generalized linear models and the score equation is typically nonlinear in <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> must be obtained through iterative numerical routines. The key reason for restricting attention to exponential family is because the likelihood equation depends on the response <span class="math inline">\(Y_i\)</span> only through <span class="math inline">\(\mu_i\)</span>, <span class="math inline">\(\phi\)</span> and <span class="math inline">\(V(\mu)\)</span>. The mean-variance thus characterizes the distribution.</p>
+<p>Starting from Equation <a href="generalized-linear-models.html#eq:expofam">(4.1)</a>, we differentiate the log likelihood function <span class="math inline">\(\ell = \sum_{i=1}^n \ell_i\)</span> with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span>. For simplicity, we consider each likelihood contribution and coefficient in turn. By the chain rule,
+<span class="math display">\[\begin{align*}
+\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial \eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i} \frac{\partial \theta_i}{\partial \mu_i}\frac{\partial \ell_i}{\partial \theta_i}
+\end{align*}\]</span>
+and the earlier derivations show <span class="math inline">\(\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)\)</span> and <span class="math inline">\(\partial \mu_i / \partial \theta_i = b&#39;&#39;(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)\)</span>. The derivative of the linear predictor, <span class="math inline">\(\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}\)</span>. The only missing term, <span class="math inline">\(\partial \mu_i/\partial \eta_i\)</span>, depends on the choice of link function through <span class="math inline">\(\eta_i = g(\mu_i)\)</span>, but is unity for the canonical link function.</p>
+<p>Summing all the likelihood contribution, the score vector <span class="math inline">\(\boldsymbol{U}\)</span> has element
+<span class="math display">\[\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X_{ij}}}{g&#39;(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}\]</span></p>
+<p>Since the maximum likelihood estimator solves the score equation, we can use the latter to derive a Newton–Raphson algorithm.
+<!-- \boldsymbol{U} =  \frac{\partial \ell(\boldsymbol{\beta}; \boldsymbol{y}, \mathbf{X})}{\partial \boldsymbol{\beta}} = \frac{\partial \boldsymbol{\eta}^\top}{\partial \boldsymbol{\beta}} \frac{\partial \boldsymbol{\theta}}{\partial \boldsymbol{\eta}^\top} \frac{\partial \ell}{\partial \boldsymbol{\theta}^\top} --></p>
+<!-- This gives $\mathbf{D} = \mathrm{diag}\{\partial \mu_i/\partial \eta_i\}$ and $\mathbf{W} = \mathrm{diag}\{(\partial \mu_i/\partial \eta_i)^2/\}$ -->
+</div>
+<div id="likelihood-inference" class="section level3" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Likelihood inference</h3>
+<p>Likelihood inference is straightforward, although some care is needed because the asymptotic distribution of test statistics may be a poor approximation in small samples, depending on the distribution. Under regularity conditions, the likelihood ratio statistic will follow a chi-square distribution and the maximum likelihood estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\phi\)</span> will be jointly normally distributed.</p>
+</div>
+<div id="goodness-of-fit-criteria-and-residuals" class="section level3" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> Goodness-of-fit criteria and residuals</h3>
+<p>Goodness-of-fit diagnostics often rely on a variance of the likelihood ratio statistic termed <strong>deviance</strong>. The latter compares the fitted model with parameters <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> with a <strong>saturated</strong> model in which there are <span class="math inline">\(n\)</span> parameters for the mean, as many as there are observations — this amounts to maximizing the log-likelihood contribution of each term <span class="math inline">\(\ell_i\)</span> individually, for which the best value of the linear predictor will be denoted <span class="math inline">\(\widetilde{\eta}_i\)</span> (oftentimes, this is when <span class="math inline">\(\widetilde{\eta}_i=y_i\)</span>). We can then build a likelihood ratio statistic to compare the saturated model with the fitted model, taking
+<span class="math display">\[\begin{align*}
+\frac{D}{\phi}= \sum_{i=1}^n 2\{\ell(\widetilde{\eta}_i; y_i) - \ell(\widehat{\eta}_i; y_i)\}.
+\end{align*}\]</span>
+The deviance <span class="math inline">\(D\)</span> will be small when the quality of the adjustment is roughly the same for both models, whereas large values of <span class="math inline">\(D\)</span> are indicative of poor fit.</p>
+<p>If <span class="math inline">\(\phi\)</span> is unknown, we would replace it throughout by an estimate and the same distributional results hold approximatively.</p>
+
+<div class="example">
+<span id="exm:devglm" class="example"><strong>Example 4.4  (Deviance for common generalized linear models)  </strong></span>Suppose that the design matrix of the model includes an intercept and let <span class="math inline">\(\widehat{\mu}_i\)</span> denote the fitted mean. Then, the deviance for the normal generalized linear model with homoscedastic errors is <span class="math inline">\(D = \sum_{i=1}^n (y_i - \widehat{\mu}_i)^2\)</span>, which is the sum of squared residuals. For Poisson data, the saturated model has <span class="math inline">\(\widetilde{\mu}_i=y_i\)</span> and <span class="math inline">\(D= 2\sum_{i=1}^n y_i \ln(y_i/\widehat{\mu}_i)\)</span>.
+</div>
+<p>Another alternative is found by looking at score test statistic comparing the saturated model with the postulated model with <span class="math inline">\(p+1\)</span> parameters <span class="math inline">\(\boldsymbol{\beta}\)</span>. The Pearson <span class="math inline">\(X^2\)</span> statistic is
+<span class="math display">\[\begin{align*}
+ X^2= \sum_{i=1}^n \frac{(y_i-\widehat{\mu}_i)}{ V(\widehat{\mu}_i)},
+\end{align*}\]</span></p>
+<p>where both expectation and variance are estimated using the model; for Poisson data, <span class="math inline">\(\phi=1\)</span> and the estimated mean and variance are equal, <span class="math inline">\(\widehat{\mu}_i=V(\widehat{\mu}_i)\)</span>.</p>
+<p>Pearson’s <span class="math inline">\(X^2\)</span> statistic measures standardized departures between observations and fitted values. In large samples, both Pearson <span class="math inline">\(X^2/\phi\)</span> and the deviance <span class="math inline">\(D/\phi\)</span> follow approximately a <span class="math inline">\(\chi^2_{n-p-1}\)</span> if the model is correct; however, the quality of the approximation needs to be evaluated on a case-by-case analysis: for example, the Pearson <span class="math inline">\(X^2\)</span> statistic for binary data is always equal to the sample size <span class="math inline">\(n\)</span>. We can use the individual contributions to the deviance and Pearson <span class="math inline">\(X^2\)</span> statistic to build residuals. By considering <span class="math inline">\(D = \sum_{i=1}^n d_i^2\)</span>, where
+<span class="math display">\[\begin{align*}
+d_i &amp;= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\eta}_i; y_i) - 2\ell(\widehat{\eta}_i; y_i)\}^{1/2}
+\end{align*}\]</span> and the calculations simplify upon replacing the formula of the log likelihood for the generic exponential family member,
+<span class="math display">\[\begin{align*}
+d_i^2=2 \left\{y_i (\widetilde{\theta}_i - \widehat{\theta}_i) - b(\widetilde{\theta}_i) + b(\widehat{\theta}_i)\right\}
+\end{align*}\]</span>
+The terms <span class="math inline">\(d_i\)</span> are called deviance residuals, whereas Pearson residuals are based on the score contributions <span class="math inline">\(u_i(\widehat{\beta}) w_i(\widehat{\beta})^{-1/2}\)</span>,
+where the score statistic <span class="math inline">\(u(\boldsymbol{beta})\)</span> and the weights <span class="math inline">\(w_i\)</span> are
+<span class="math display">\[\begin{align*}
+u_i &amp;= \frac{\partial \theta_i}{\partial \eta_i} \frac{\partial \ell_i(\theta_i)}{\partial \theta_i} = \frac{y_i - \mu_i}{g&#39;(\mu_i)a_i(\phi)V(\mu_i)}\\
+w_i &amp;= \left(\frac{\partial \theta_i}{\partial \eta_i}\right)^2 \frac{\partial^2 \ell_i(\theta_i)}{\partial \theta_i^2} = \frac{1}{g&#39;(\mu_i)^2 a_i(\phi)V(\mu_i)}
+\end{align*}\]</span></p>
+<p>In practice, these residuals are heteroscedastic and it is better to standardize them by considering instead
+<span class="math display">\[\begin{align*}
+r_{D_i} = \frac{d_i}{(1-h_{ii})^2}, \qquad r_{P_i} = \frac{u_i(\widehat{\beta})}{\{w_i(\widehat{\beta})(1-h_{ii})\}^{1/2}},
+\end{align*}\]</span>
+both are scaled by <span class="math inline">\((1-h_{ii})^{1/2}\)</span>, a formula remniscent of the linear model framework. In the above formulas, the leverage <span class="math inline">\(h_{ii}\)</span> is the <span class="math inline">\(i\)</span>th diagonal element of the matrix
+<span class="math display">\[\begin{align*}
+\mathbf{H}_{\mathbf{X}} = \mathbf{W}^{1/2}\mathbf{X}(\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{W}^{1/2};
+\end{align*}\]</span>
+since the terms of <span class="math inline">\(\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}\)</span> depend on the unknown coefficient, the latter is estimated by replacing <span class="math inline">\(\boldsymbol{\beta}\)</span> by <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
+<p>The standardized deviance residuals <span class="math inline">\(\{r_{D_i}\}\)</span> and standardized Pearson residuals <span class="math inline">\(\{r_{P_i}\}\)</span> should have approximate normal distribution in large samples, but their distribution can be quite skewed depending on the model.</p>
+<p>Like in the linear regression, we will work with the <strong>jackknifed deviance residuals</strong> for residual plots
+<span class="math display">\[\begin{align*}
+r_{J_i} &amp;= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
+\end{align*}\]</span>
+Also worth mentioning is the more exotic higher-order approximation
+<span class="math display">\[\begin{align*}
+r^{*}_i = r_{D_i} + \frac{1}{r_{D_i}} \log \left( \frac{r_{P_i}}{r_{D_i}}\right);
+\end{align*}\]</span>
+<span class="math inline">\(r^*_i\)</span> is built to have a standard normal distribution to high accuracy.
+For ordinary linear regression, both <span class="math inline">\(r_{D_i}\)</span> and <span class="math inline">\(r_{P_i}\)</span> reduce to the standardized residuals <span class="math inline">\(t_i=e_i\{s^2(1-h_{ii})\}^{-1/2}\)</span>.</p>
+<p>Collinearity is also an issue for generalized linear model; for the latter, we define the Cook statistic as the change in the deviance,
+<span class="math display">\[\begin{align*}
+C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
+\end{align*}\]</span>
+where <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{-j}\)</span> is the estimate obtained by dropping the <span class="math inline">\(j\)</span>th observation from the sample. This requires fitting <span class="math inline">\(n\)</span> different models, which is computationally prohibitive.
+In the linear regression, we can calculate the Cook distance from the formula <span class="math inline">\(C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})\)</span>, where <span class="math inline">\(t_i\)</span> are the standardized residuals defined in the previous section. For generalized linear models, no such expression exists, although a good approximation is <span class="math inline">\(C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})\)</span>.</p>
+<p>Diagnostic plots for generalized linear models are harder to interpret because of the lack of orthogonality. It is customary to plot the jackknife deviance residuals against the linear predictor <span class="math inline">\(\widehat{\eta}_i\)</span>, produce normal quantile-quantile plots of standardized deviance residuals and the approximate Cook statistics against the <span class="math inline">\(h_{ii}/(1-h_{ii})\)</span>.</p>
 
 </div>
 </div>

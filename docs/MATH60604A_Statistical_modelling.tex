@@ -1132,29 +1132,19 @@ Before drafting a model, a quick look at the data is in due order. If salary inc
 
 Salary increases over years of service, but its variability also increases with rank. Note the much smaller number of women in the sample: this will impact our power to detect differences between sex. A contingency table of sex and academic rank can be useful to see if the proportion of women is the same in each rank: women represent 16\% of assistant professors and 16\% of associate profs, but only 7\% of full professors and these are better paid on average.
 
-\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.
+\begin{table}
 
-assistant
-
-associate
-
-full
-
-man
-
-56
-
-54
-
-248
-
-woman
-
-11
-
-10
-
-18
+\caption{\label{tab:tableaucontingence}Contingency table of the number of prof in the college by sex and academic rank.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+  & assistant & associate & full\\
+\midrule
+man & 56 & 54 & 248\\
+woman & 11 & 10 & 18\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The simple linear regression model only includes a single explanatory variable and defines a straight line linking two variables \(\mathrm{X}\) and \(Y\) by means of an equation of the form \(y=a+bx\); Figure \ref{fig:droitenuage} shows the line passing through the scatterplot for years of service.
 
@@ -1365,31 +1355,18 @@ If we multiply \(\texttt{salary}\) by a thousand to get the resulting estimates 
 +\beta_4 \texttt{rank}_{\texttt{full}}  +\beta_5 \texttt{service} + \varepsilon.
 \end{align*}
 
-\label{tab:collegecoefs}Estimated coefficients of the linear model for the \(\texttt{college}\) (in USD, rounded to the nearest dollar).
+\begin{table}
 
-\(\widehat{\beta}_0\)
-
-\(\widehat{\beta}_1\)
-
-\(\widehat{\beta}_2\)
-
-\(\widehat{\beta}_3\)
-
-\(\widehat{\beta}_4\)
-
-\(\widehat{\beta}_5\)
-
-86596
-
--4771
-
--13473
-
-14560
-
-49160
-
--89
+\caption{\label{tab:collegecoefs}Estimated coefficients of the linear model for the $\texttt{college}$ (in USD, rounded to the nearest dollar).}
+\centering
+\begin{tabular}[t]{rrrrrr}
+\toprule
+$\widehat{\beta}_0$ & $\widehat{\beta}_1$ & $\widehat{\beta}_2$ & $\widehat{\beta}_3$ & $\widehat{\beta}_4$ & $\widehat{\beta}_5$\\
+\midrule
+86596 & -4771 & -13473 & 14560 & 49160 & -89\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The interpretation of the coefficients is as follows:
 
@@ -1471,149 +1448,47 @@ For normal linear regression, the likelihood ratio test for comparing models \(\
 
 Consider the \texttt{college} data example and the associated linear model with \texttt{rank}, \texttt{sex}, years of \texttt{service} and \texttt{field} as covariates.
 
-\label{tab:summarytestslmcollege}Table of linear regression coefficients with associated standard errors, Wald tests and \(p\)-values based on Student-\(t\) distribution
+\begin{table}
 
-term
-
-estimate
-
-std. error
-
-Wald stat.
-
-p-value
-
-(Intercept)
-
-86.596
-
-2.96
-
-29.25
-
-\textless{} 0.001
-
-sex {[}woman{]}
-
--4.771
-
-3.878
-
--1.23
-
-0.22
-
-field {[}theoretical{]}
-
--13.473
-
-2.315
-
--5.82
-
-\textless{} 0.001
-
-rank {[}associate{]}
-
-14.56
-
-4.098
-
-3.55
-
-\textless{} 0.001
-
-rank {[}full{]}
-
-49.16
-
-3.834
-
-12.82
-
-\textless{} 0.001
-
-service
-
--0.089
-
-0.112
-
--0.8
-
-0.43
+\caption{\label{tab:summarytestslmcollege}Table of linear regression coefficients with associated standard errors, Wald tests and $p$-values based on Student-$t$ distribution}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+term & estimate & std. error & Wald stat. & p-value\\
+\midrule
+(Intercept) & 86.596 & 2.96 & 29.25 & < 0.001\\
+sex [woman] & -4.771 & 3.878 & -1.23 & 0.22\\
+field [theoretical] & -13.473 & 2.315 & -5.82 & < 0.001\\
+rank [associate] & 14.56 & 4.098 & 3.55 & < 0.001\\
+rank [full] & 49.16 & 3.834 & 12.82 & < 0.001\\
+\addlinespace
+service & -0.089 & 0.112 & -0.8 & 0.43\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Table \ref{tab:summarytestslmcollege} shows the estimated coefficients (in thousands of dollars). The coefficients are the least squares estimates \(\widehat{\boldsymbol{\beta}}\), the standard errors are the square root of the diagonal elements of \(S^2(\mathbf{X}^\top\mathbf{X})^{-1}\). The Wald (or \emph{t}-) statistic is simply \(W=\widehat{\beta}/\mathsf{se}(\widehat{\beta})\) for \(\mathscr{H}_0: \beta_j=0\): given two of the three estimates, we could easily recover the third using the formula for the test. The \(p\)-values are for the two-sided alternative test with \(\mathscr{H}_a: \beta_j \neq 0\).
 
 The interpretation is usual: \(p\)-values that are less than our prescribed level \(\alpha\) do not contribute significantly given the other variables already in the model. Neither years of service nor sex are statistically different from zero given all the other variables. The test for \(\beta_{\texttt{sex}}\) is comparing the model with all covariates (including service), and vice-versa. Note that the conclusion changes depending on the model: both coefficients would be statistically significant had we removed rank from the set of covariates, because they are correlated. The gender imbalance among ranks explains most of the gap between sex, whereas year of service is largely redundant once we account for the jumps due to change of academic rank.
 
-\label{tab:summaryanovalmcollege}Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, \(F\)-statistic and associated \(p\)-value.
+\begin{table}
 
-variable
-
-sum of square
-
-df
-
-F stat.
-
-p-value
-
-(Intercept)
-
-439059.2
-
-1
-
-855.71
-
-\textless{} 0.001
-
-sex
-
-776.7
-
-1
-
-1.51
-
-0.22
-
-field
-
-17372.5
-
-1
-
-33.86
-
-\textless{} 0.001
-
-rank
-
-102883.1
-
-2
-
-100.26
-
-\textless{} 0.001
-
-service
-
-324.5
-
-1
-
-0.63
-
-0.43
-
-Residuals
-
-200620.4
-
-391
+\caption{\label{tab:summaryanovalmcollege}Type 3 sum of square decomposition table: sum of square decomposition comparing nested models with and without covariates, $F$-statistic and associated $p$-value.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+variable & sum of square & df & F stat. & p-value\\
+\midrule
+(Intercept) & 439059.2 & 1 & 855.71 & < 0.001\\
+sex & 776.7 & 1 & 1.51 & 0.22\\
+field & 17372.5 & 1 & 33.86 & < 0.001\\
+rank & 102883.1 & 2 & 100.26 & < 0.001\\
+service & 324.5 & 1 & 0.63 & 0.43\\
+\addlinespace
+Residuals & 200620.4 & 391 &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Table \ref{tab:summaryanovalmcollege} gives the \(F\)-statistics values and the associated \(p\)-values. The sum of squares represent the difference \(\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\) for various null models \(\mathbb{M}_0\), except the last line for residuals which reports \(\mathsf{SS}_e(\mathbb{M}_1)\). You can verify that (up to rounding) these \(p\)-pvalues are identical to those of the Wald test in the output when \texttt{df=1}. The only categorical variable here with more than one level is \texttt{rank}, and it is strongly significant: removing it from the model leads to a sharp decrease in fit.
 
@@ -1691,97 +1566,26 @@ A good example of interaction is provided by the \texttt{insurance} dataset. An 
 
 From there, we could create an indicator variable \(\texttt{obese}=\mathsf{I}(\texttt{bmi} \geq 30)\) and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We take non-smoker as baseline category. To make interpretation more meaningful, we rescale age so that \(\texttt{age}=0\) corresponds to 18 years old.
 
-\label{tab:coefintercharges}Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.
+\begin{table}
 
-term
-
-estimate
-
-std. error
-
-Wald stat.
-
-p-value
-
-(Intercept)
-
-2668.7
-
-362.7
-
-7.36
-
-\textless{} 0.001
-
-age
-
-265.9
-
-15
-
-17.7
-
-\textless{} 0.001
-
-obesity {[}obese{]}
-
-115.3
-
-510.3
-
-0.23
-
-0.82
-
-smoker {[}yes{]}
-
-13526.2
-
-803.1
-
-16.84
-
-\textless{} 0.001
-
-age * obesity {[}obese{]}
-
-1.4
-
-20.1
-
-0.07
-
-0.94
-
-age * smoker {[}yes{]}
-
--5.3
-
-33.5
-
--0.16
-
-0.87
-
-obesity {[}obese{]} * smoker {[}yes{]}
-
-19308.7
-
-1110.5
-
-17.39
-
-\textless{} 0.001
-
-age * obesity {[}obese{]} * smoker {[}yes{]}
-
-19.1
-
-44.8
-
-0.43
-
-0.67
+\caption{\label{tab:coefintercharges}Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+term & estimate & std. error & Wald stat. & p-value\\
+\midrule
+(Intercept) & 2668.7 & 362.7 & 7.36 & < 0.001\\
+age & 265.9 & 15 & 17.7 & < 0.001\\
+obesity [obese] & 115.3 & 510.3 & 0.23 & 0.82\\
+smoker [yes] & 13526.2 & 803.1 & 16.84 & < 0.001\\
+age * obesity [obese] & 1.4 & 20.1 & 0.07 & 0.94\\
+\addlinespace
+age * smoker [yes] & -5.3 & 33.5 & -0.16 & 0.87\\
+obesity [obese] * smoker [yes] & 19308.7 & 1110.5 & 17.39 & < 0.001\\
+age * obesity [obese] * smoker [yes] & 19.1 & 44.8 & 0.43 & 0.67\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for \texttt{age}; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.
 
@@ -1872,53 +1676,21 @@ We will evaluate the effect of the factors \(\texttt{delay}\) and \(\texttt{stag
 
 If there is an interaction between explanatory variables, but the latter is not included in the models, the tests are misleading: one assumption of the linear model being that all of the relevant covariates have been included and their effect properly accounted for. In this example, omitting the interaction leads to effects being averaged and cancelling each other. Fitting an ANOVA model with only additive (main effects, without interaction) for the evaluation of service suggests that the factors \(\texttt{stage}\) and \(\texttt{delay}\) are not significant: the \(p\)-values for the main effects, reported in Table \ref{tab:summaryanovadelaynointer}, are \(0.409\) and \(0.137\). Therefore, there seemingly is no significant difference in delay time between the two stages and the three delay types.
 
-\label{tab:summaryanovadelaynointer}Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.
+\begin{table}
 
-variable
-
-sum of square
-
-df
-
-F stat.
-
-p-value
-
-(Intercept)
-
-0
-
-1
-
-0.11
-
-0.74
-
-stage
-
-0.3
-
-1
-
-0.69
-
-0.41
-
-delay
-
-1.6
-
-2
-
-2.02
-
-0.14
-
-Residuals
-
-41.9
-
-105
+\caption{\label{tab:summaryanovadelaynointer}Analysis of variance table (Type 3 sum of square decomposition table) for the model for evaluation of service without interaction. While both factor appear not to be significant given the other, interaction plots show this is due to cancellation effects. The conclusions of the test are invalid because model assumptions are violated.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+variable & sum of square & df & F stat. & p-value\\
+\midrule
+(Intercept) & 0 & 1 & 0.11 & 0.74\\
+stage & 0.3 & 1 & 0.69 & 0.41\\
+delay & 1.6 & 2 & 2.02 & 0.14\\
+Residuals & 41.9 & 105 &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 However, looking at the data and the mean of each sub-class paints a different portrait, as evidenced by the interaction plot of Figure \ref{fig:twowayanovadelay}. The score for service increases for \texttt{correctional} delays when the error occurs close to the end, but the effect is opposite for other delay types. The fact that our \(p\)-values for the effects were not significative merely indicate that the effects cancelled out each other.
 
@@ -1933,63 +1705,22 @@ However, looking at the data and the mean of each sub-class paints a different p
 
 There is a significant interaction between the variables \(\texttt{delay}\) and \(\texttt{stage}\) on evaluation. Therefore, the effect of \(\texttt{delay}\) on the variable \(\texttt{eval}\) depends on the level of the variable \(\texttt{stage}\) ance vice-versa. Since there is an interaction term, tests for the main effects of \(\texttt{stage}\) or \(\texttt{delay}\) are not of interest.
 
-\label{tab:summarydelaywinteraction}Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.
+\begin{table}
 
-variable
-
-sum of square
-
-df
-
-F stat.
-
-p-value
-
-(Intercept)
-
-3.8
-
-1
-
-18.29
-
-\textless{} 0.001
-
-stage
-
-5.3
-
-1
-
-25.67
-
-\textless{} 0.001
-
-delay
-
-8.1
-
-2
-
-19.64
-
-\textless{} 0.001
-
-stage:delay
-
-20.5
-
-2
-
-49.63
-
-\textless{} 0.001
-
-Residuals
-
-21.3
-
-103
+\caption{\label{tab:summarydelaywinteraction}Analysis of variance table (Type 3 sum of square decomposition table). The only test of interest is that for the interaction, which is highly significant.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+variable & sum of square & df & F stat. & p-value\\
+\midrule
+(Intercept) & 3.8 & 1 & 18.29 & < 0.001\\
+stage & 5.3 & 1 & 25.67 & < 0.001\\
+delay & 8.1 & 2 & 19.64 & < 0.001\\
+stage:delay & 20.5 & 2 & 49.63 & < 0.001\\
+Residuals & 21.3 & 103 &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 If a difference is detected at this stage, one could then proceed to compute all pairwise differences within a given level of the other categorical variable. This is equivalent to running multiple \(t\)-tests, but the linear model assumes equal variance and would thus pool all observations to estimate the latter. For example, we could test if the difference between procedural and correctional delays when the error occurs far from the end of the procedure is significant. The mean differences of a factor for a given level of another factor are called \textbf{simple effects}. If the interaction is significant, there must be at least one pairwise difference which is also significant. However, repeated testing can inflate the Type I error, \href{https://xkcd.com/882/}{as illustrated in this comic strip}: if we conduct 20 independent tests and the null is true in all cases (so there are no difference between any of the sub-groups), we would still expect to reject (by mistake) 1/20 on average for tests performed at level \(\alpha\). There exists method to adjust for multiple testing.
 
@@ -2040,27 +1771,18 @@ For categorical variables, the variance inflation factor definition would normal
 strongly correlated is not problematic, since the \(\mathsf{VIF}\) for \(\texttt{sex}\) is not high and the other variables are there to act as control and avoid confounders.
 \end{example}
 
-\label{tab:unnamed-chunk-1}(Generalized) variance inflation factor for the \(\texttt{college}\) data.
+\begin{table}
 
-service
-
-years
-
-rank
-
-sex
-
-field
-
-5.92
-
-7.52
-
-2.01
-
-1.03
-
-1.06
+\caption{\label{tab:unnamed-chunk-1}(Generalized) variance inflation factor for the $\texttt{college}$ data.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+service & years & rank & sex & field\\
+\midrule
+5.92 & 7.52 & 2.01 & 1.03 & 1.06\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \hypertarget{graphical-analysis-of-residuals}{%
 \section{Graphical analysis of residuals}\label{graphical-analysis-of-residuals}}
@@ -2689,10 +2411,10 @@ In a generalized linear model, the random component arises from an exponential d
 \subsection{Exponential-dispersion family of distributions}\label{exponential-dispersion-family-of-distributions}}
 
 Consider a probability density or mass function for \(Y\) with parameters \((\theta, \phi)\),
-\begin{align*}
+\begin{align}
 f(y; \theta, \phi)&= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y,
-\phi)\right\},
-\end{align*}
+\phi)\right\}, \label{eq:expofam}
+\end{align}
 where the support, i.e., the set of values taken by \(Y\), doesn't depend on the parameters. Throughout, we will assume \textbf{natural parameter } \(\theta\) is unknown, but the \textbf{dispersion parameter} \(\phi\) may be known (exponential family) or unknown (exponential dispersion family).
 
 One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log likelihood \(\ell\) of a one-sample with respect to the natural parameter \(\theta\) are
@@ -2710,7 +2432,7 @@ These two equality give
 \mathsf{E}(Y_i) &= b'(\theta_i) \\
 \mathsf{Va}(Y_i) &= b''(\theta_i)a(\phi_i)
 \end{align*}
-Because of the relation between the mean of \(Y_i\), say \(\mu_i\), and the natural parameter \(\theta_i\), we have \(V(\mu)=b''(\theta)\) and there is an explicit relationship between the mean and the variance parameters unless \(V(\mu)=1\).
+Because of the relation between the mean of \(Y_i\), say \(\mu_i\), and the natural parameter \(\theta_i\), we have \(V(\mu)=b''(\theta)\) and there is an explicit relationship between the mean and the variance parameters unless \(V(\mu)=1\). Often, the term \(a_i(\phi)=a_i\phi\), where \(\phi\) is constant over all observations and \(a_i\) is a observation-specific weight.
 
 \begin{example}[Poisson distribution as exponential family member]
 \protect\hypertarget{exm:poissonglmexpf}{}{\label{exm:poissonglmexpf} \iffalse (Poisson distribution as exponential family member) \fi{} }The mass function of the Poisson distribution is
@@ -2750,7 +2472,7 @@ where \(V(\mu)=\mu(1-\mu)\).
 f(y_i, \mu_i, \sigma^2)&= (2\pi\sigma^2)^{-1/2} \exp \left\{ -\frac{(y_i-\mu_i)}{2\sigma^2}\right\}
 \\&= \exp \left[ \frac{y\mu - \mu^2/2}{\sigma^2} - \frac{1}{2} \left\{ \frac{y^2}{\sigma^2} + \ln(2\pi\sigma^2)\right\} \right],
 \end{align*}
-meaning \(\theta=\mu\), \(\phi=\sigma^2\) and \(a(\phi)=\phi\), \(b(\theta)=\theta^2/2\).
+meaning \(\theta=\mu\), \(\phi=\sigma^2\) and \(a(\phi)=\sigma^2\), \(b(\theta)=\theta^2/2\).
 \end{example}
 
 \hypertarget{link-functions}{%
@@ -2774,6 +2496,97 @@ For the Bernoulli and binomial distributions, an appropriate link function \(g\)
 The inverse link function is the distribution function of the logistic distribution, hence the name. The choice of link function is far from unique: any quantile function of a continuous random variable supported on \(\mathbb{R}\) could be considered. For the Poisson distribution, the canonical link function \(g\) is the natural logarithm, \(\ln\), with associated inverse link function \(\exp\).
 
 Canonical link functions are natural choices because of their nice statistical properties: choosing the canonical link ensures that \(\mathbf{X}^\top\boldsymbol{y}\) is a minimal sufficient statistic. Other considerations, such as parameter constraints, can be more important in deciding on the choice of \(g\).
+
+\hypertarget{model-adjustment}{%
+\subsection{Model adjustment}\label{model-adjustment}}
+
+There is generally no closed-form expression for the maximum likelihood estimators \(\widehat{\boldsymbol{\beta}}\) in generalized linear models and the score equation is typically nonlinear in \(\boldsymbol{\beta}\) and \(\widehat{\boldsymbol{\beta}}\) must be obtained through iterative numerical routines. The key reason for restricting attention to exponential family is because the likelihood equation depends on the response \(Y_i\) only through \(\mu_i\), \(\phi\) and \(V(\mu)\). The mean-variance thus characterizes the distribution.
+
+Starting from Equation \eqref{eq:expofam}, we differentiate the log likelihood function \(\ell = \sum_{i=1}^n \ell_i\) with respect to \(\boldsymbol{\beta}\). For simplicity, we consider each likelihood contribution and coefficient in turn. By the chain rule,
+\begin{align*}
+\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial \eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i} \frac{\partial \theta_i}{\partial \mu_i}\frac{\partial \ell_i}{\partial \theta_i}
+\end{align*}
+and the earlier derivations show \(\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)\) and \(\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)\). The derivative of the linear predictor, \(\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}\). The only missing term, \(\partial \mu_i/\partial \eta_i\), depends on the choice of link function through \(\eta_i = g(\mu_i)\), but is unity for the canonical link function.
+
+Summing all the likelihood contribution, the score vector \(\boldsymbol{U}\) has element
+\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X_{ij}}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}
+
+Since the maximum likelihood estimator solves the score equation, we can use the latter to derive a Newton--Raphson algorithm.
+
+\hypertarget{likelihood-inference}{%
+\subsection{Likelihood inference}\label{likelihood-inference}}
+
+Likelihood inference is straightforward, although some care is needed because the asymptotic distribution of test statistics may be a poor approximation in small samples, depending on the distribution. Under regularity conditions, the likelihood ratio statistic will follow a chi-square distribution and the maximum likelihood estimators of \(\boldsymbol{\beta}\) and \(\phi\) will be jointly normally distributed.
+
+\hypertarget{goodness-of-fit-criteria-and-residuals}{%
+\subsection{Goodness-of-fit criteria and residuals}\label{goodness-of-fit-criteria-and-residuals}}
+
+Goodness-of-fit diagnostics often rely on a variance of the likelihood ratio statistic termed \textbf{deviance}. The latter compares the fitted model with parameters \(\widehat{\boldsymbol{\beta}}\) with a \textbf{saturated} model in which there are \(n\) parameters for the mean, as many as there are observations --- this amounts to maximizing the log-likelihood contribution of each term \(\ell_i\) individually, for which the best value of the linear predictor will be denoted \(\widetilde{\eta}_i\) (oftentimes, this is when \(\widetilde{\eta}_i=y_i\)). We can then build a likelihood ratio statistic to compare the saturated model with the fitted model, taking
+\begin{align*}
+\frac{D}{\phi}= \sum_{i=1}^n 2\{\ell(\widetilde{\eta}_i; y_i) - \ell(\widehat{\eta}_i; y_i)\}.
+\end{align*}
+The deviance \(D\) will be small when the quality of the adjustment is roughly the same for both models, whereas large values of \(D\) are indicative of poor fit.
+
+If \(\phi\) is unknown, we would replace it throughout by an estimate and the same distributional results hold approximatively.
+
+\begin{example}[Deviance for common generalized linear models]
+\protect\hypertarget{exm:devglm}{}{\label{exm:devglm} \iffalse (Deviance for common generalized linear models) \fi{} }Suppose that the design matrix of the model includes an intercept and let \(\widehat{\mu}_i\) denote the fitted mean. Then, the deviance for the normal generalized linear model with homoscedastic errors is \(D = \sum_{i=1}^n (y_i - \widehat{\mu}_i)^2\), which is the sum of squared residuals. For Poisson data, the saturated model has \(\widetilde{\mu}_i=y_i\) and \(D= 2\sum_{i=1}^n y_i \ln(y_i/\widehat{\mu}_i)\).
+\end{example}
+
+Another alternative is found by looking at score test statistic comparing the saturated model with the postulated model with \(p+1\) parameters \(\boldsymbol{\beta}\). The Pearson \(X^2\) statistic is
+\begin{align*}
+ X^2= \sum_{i=1}^n \frac{(y_i-\widehat{\mu}_i)}{ V(\widehat{\mu}_i)},
+\end{align*}
+
+where both expectation and variance are estimated using the model; for Poisson data, \(\phi=1\) and the estimated mean and variance are equal, \(\widehat{\mu}_i=V(\widehat{\mu}_i)\).
+
+Pearson's \(X^2\) statistic measures standardized departures between observations and fitted values. In large samples, both Pearson \(X^2/\phi\) and the deviance \(D/\phi\) follow approximately a \(\chi^2_{n-p-1}\) if the model is correct; however, the quality of the approximation needs to be evaluated on a case-by-case analysis: for example, the Pearson \(X^2\) statistic for binary data is always equal to the sample size \(n\). We can use the individual contributions to the deviance and Pearson \(X^2\) statistic to build residuals. By considering \(D = \sum_{i=1}^n d_i^2\), where
+\begin{align*}
+d_i &= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\eta}_i; y_i) - 2\ell(\widehat{\eta}_i; y_i)\}^{1/2}
+\end{align*} and the calculations simplify upon replacing the formula of the log likelihood for the generic exponential family member,
+\begin{align*}
+d_i^2=2 \left\{y_i (\widetilde{\theta}_i - \widehat{\theta}_i) - b(\widetilde{\theta}_i) + b(\widehat{\theta}_i)\right\}
+\end{align*}
+The terms \(d_i\) are called deviance residuals, whereas Pearson residuals are based on the score contributions \(u_i(\widehat{\beta}) w_i(\widehat{\beta})^{-1/2}\),
+where the score statistic \(u(\boldsymbol{beta})\) and the weights \(w_i\) are
+\begin{align*}
+u_i &= \frac{\partial \theta_i}{\partial \eta_i} \frac{\partial \ell_i(\theta_i)}{\partial \theta_i} = \frac{y_i - \mu_i}{g'(\mu_i)a_i(\phi)V(\mu_i)}\\
+w_i &= \left(\frac{\partial \theta_i}{\partial \eta_i}\right)^2 \frac{\partial^2 \ell_i(\theta_i)}{\partial \theta_i^2} = \frac{1}{g'(\mu_i)^2 a_i(\phi)V(\mu_i)}
+\end{align*}
+
+In practice, these residuals are heteroscedastic and it is better to standardize them by considering instead
+\begin{align*}
+r_{D_i} = \frac{d_i}{(1-h_{ii})^2}, \qquad r_{P_i} = \frac{u_i(\widehat{\beta})}{\{w_i(\widehat{\beta})(1-h_{ii})\}^{1/2}},
+\end{align*}
+both are scaled by \((1-h_{ii})^{1/2}\), a formula remniscent of the linear model framework. In the above formulas, the leverage \(h_{ii}\) is the \(i\)th diagonal element of the matrix
+\begin{align*}
+\mathbf{H}_{\mathbf{X}} = \mathbf{W}^{1/2}\mathbf{X}(\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{W}^{1/2};
+\end{align*}
+since the terms of \(\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}\) depend on the unknown coefficient, the latter is estimated by replacing \(\boldsymbol{\beta}\) by \(\widehat{\boldsymbol{\beta}}\).
+
+The standardized deviance residuals \(\{r_{D_i}\}\) and standardized Pearson residuals \(\{r_{P_i}\}\) should have approximate normal distribution in large samples, but their distribution can be quite skewed depending on the model.
+
+Like in the linear regression, we will work with the \textbf{jackknifed deviance residuals} for residual plots
+\begin{align*}
+r_{J_i} &= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
+\end{align*}
+Also worth mentioning is the more exotic higher-order approximation
+\begin{align*}
+r^{*}_i = r_{D_i} + \frac{1}{r_{D_i}} \log \left( \frac{r_{P_i}}{r_{D_i}}\right);
+\end{align*}
+\(r^*_i\) is built to have a standard normal distribution to high accuracy.
+For ordinary linear regression, both \(r_{D_i}\) and \(r_{P_i}\) reduce to the standardized residuals \(t_i=e_i\{s^2(1-h_{ii})\}^{-1/2}\).
+
+Collinearity is also an issue for generalized linear model; for the latter, we define the Cook statistic as the change in the deviance,
+\begin{align*}
+C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
+\end{align*}
+where \(\widehat{\boldsymbol{\beta}}_{-j}\) is the estimate obtained by dropping the \(j\)th observation from the sample. This requires fitting \(n\) different models, which is computationally prohibitive.
+In the linear regression, we can calculate the Cook distance from the formula \(C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})\), where \(t_i\) are the standardized residuals defined in the previous section. For generalized linear models, no such expression exists, although a good approximation is \(C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})\).
+
+Diagnostic plots for generalized linear models are harder to interpret because of the lack of orthogonality. It is customary to plot the jackknife deviance residuals against the linear predictor \(\widehat{\eta}_i\), produce normal quantile-quantile plots of standardized deviance residuals and the approximate Cook statistics against the \(h_{ii}/(1-h_{ii})\).
 
 \hypertarget{correlated-longitudinal-data}{%
 \chapter{Correlated and longitudinal data}\label{correlated-longitudinal-data}}

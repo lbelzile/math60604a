@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.5.8)  4 OCT 2020 18:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.5.8)  4 OCT 2020 22:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -606,47 +606,47 @@ File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10.95> on input line 3.
 [3]
-Overfull \hbox (0.43774pt too wide) detected at line 49
- []\T1/put/m/n/10.95 109
+Overfull \hbox (0.43774pt too wide) detected at line 52
+ []\T1/put/m/n/10.95 105
  []
 
 
-Overfull \hbox (0.43774pt too wide) detected at line 50
- []\T1/put/m/n/10.95 110
- []
-
-
-Overfull \hbox (0.43774pt too wide) detected at line 56
- []\T1/put/m/n/10.95 118
- []
-
-
-Overfull \hbox (0.43774pt too wide) detected at line 57
- []\T1/put/m/n/10.95 119
+Overfull \hbox (0.43774pt too wide) detected at line 53
+ []\T1/put/m/n/10.95 106
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 59
- []\T1/put/m/n/10.95 123
+ []\T1/put/m/n/10.95 114
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 60
- []\T1/put/m/n/10.95 124
+ []\T1/put/m/n/10.95 115
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 62
- []\T1/put/m/n/10.95 125
+ []\T1/put/m/n/10.95 119
  []
 
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 6
-9.
+
+Overfull \hbox (0.43774pt too wide) detected at line 63
+ []\T1/put/m/n/10.95 120
+ []
+
+
+Overfull \hbox (0.43774pt too wide) detected at line 65
+ []\T1/put/m/n/10.95 121
+ []
+
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
+2.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Overfull \hbox (0.43774pt too wide) detected at line 69
- []\T1/put/m/n/10.95 129
+Overfull \hbox (0.43774pt too wide) detected at line 72
+ []\T1/put/m/n/10.95 125
  []
 
 )
@@ -897,360 +897,361 @@ hic file (type pdf)
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/ed
 acollege-1.pdf  used on input line 1126.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[36] [37 <./MATH60604A_Statistical_modelling_files/figure-latex/edacollege-1.pd
-f>]
-<MATH60604A_Statistical_modelling_files/figure-latex/droitenuage-1.pdf, id=501,
+[36]
+<MATH60604A_Statistical_modelling_files/figure-latex/droitenuage-1.pdf, id=490,
  469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/droitenuage-1.pdf Gra
 phic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/droitenuage-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/dr
-oitenuage-1.pdf  used on input line 1163.
+oitenuage-1.pdf  used on input line 1153.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[38 <./MATH60604A_Statistical_modelling_files/figure-latex/droitenuage-1.pdf>]
-<MATH60604A_Statistical_modelling_files/figure-latex/distancevert-1.pdf, id=517
+[37 <./MATH60604A_Statistical_modelling_files/figure-latex/edacollege-1.pdf>] [
+38 <./MATH60604A_Statistical_modelling_files/figure-latex/droitenuage-1.pdf>]
+<MATH60604A_Statistical_modelling_files/figure-latex/distancevert-1.pdf, id=518
 , 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/distancevert-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/distancevert-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/di
-stancevert-1.pdf  used on input line 1232.
+stancevert-1.pdf  used on input line 1222.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[39] [40 <./MATH60604A_Statistical_modelling_files/figure-latex/distancevert-1.
-pdf>]
+[39 <./MATH60604A_Statistical_modelling_files/figure-latex/distancevert-1.pdf>]
+[40]
 <MATH60604A_Statistical_modelling_files/figure-latex/graphcollegesex-1.pdf, id=
-538, 469.755pt x 325.215pt>
+539, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/graphcollegesex-1.pdf
  Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/graphcollegesex-1.pdf>
 
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/gr
-aphcollegesex-1.pdf  used on input line 1278.
+aphcollegesex-1.pdf  used on input line 1268.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[41] [42 <./MATH60604A_Statistical_modelling_files/figure-latex/graphcollegesex
--1.pdf>]
-<MATH60604A_Statistical_modelling_files/figure-latex/autoquad2d-1.pdf, id=557, 
+[41 <./MATH60604A_Statistical_modelling_files/figure-latex/graphcollegesex-1.pd
+f>] [42]
+<MATH60604A_Statistical_modelling_files/figure-latex/autoquad2d-1.pdf, id=558, 
 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/autoquad2d-1.pdf Grap
 hic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/autoquad2d-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/au
-toquad2d-1.pdf  used on input line 1332.
+toquad2d-1.pdf  used on input line 1322.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[43]
-<images/hyperplane_auto.png, id=570, 437.71075pt x 415.8934pt>
+<images/hyperplane_auto.png, id=563, 437.71075pt x 415.8934pt>
 File: images/hyperplane_auto.png Graphic file (type png)
 <use images/hyperplane_auto.png>
-Package pdftex.def Info: images/hyperplane_auto.png  used on input line 1345.
+Package pdftex.def Info: images/hyperplane_auto.png  used on input line 1335.
 (pdftex.def)             Requested size: 308.60616pt x 293.22392pt.
+[43]
+Underfull \vbox (badness 1436) has occurred while \output is active []
+
 [44 <./MATH60604A_Statistical_modelling_files/figure-latex/autoquad2d-1.pdf>] [
-45 <./images/hyperplane_auto.png (PNG copy)>] [46]
+45 <./images/hyperplane_auto.png (PNG copy)>]
 <MATH60604A_Statistical_modelling_files/figure-latex/avplotcollege-1.pdf, id=59
-7, 469.755pt x 325.215pt>
+5, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/avplotcollege-1.pdf G
 raphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/avplotcollege-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/av
-plotcollege-1.pdf  used on input line 1416.
+plotcollege-1.pdf  used on input line 1393.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[47 <./MATH60604A_Statistical_modelling_files/figure-latex/avplotcollege-1.pdf>
-] [48] [49] [50] [51] [52] [53]
-<MATH60604A_Statistical_modelling_files/figure-latex/predinterval-1.pdf, id=658
+[46 <./MATH60604A_Statistical_modelling_files/figure-latex/avplotcollege-1.pdf>
+] [47] [48] [49] [50] [51]
+<MATH60604A_Statistical_modelling_files/figure-latex/predinterval-1.pdf, id=655
 , 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/predinterval-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/predinterval-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/pr
-edinterval-1.pdf  used on input line 1669.
+edinterval-1.pdf  used on input line 1544.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[54]
+[52 <./MATH60604A_Statistical_modelling_files/figure-latex/predinterval-1.pdf>]
 <MATH60604A_Statistical_modelling_files/figure-latex/insuranceinter1-1.pdf, id=
-665, 469.755pt x 325.215pt>
+673, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/insuranceinter1-1.pdf
  Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/insuranceinter1-1.pdf>
 
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/in
-suranceinter1-1.pdf  used on input line 1685.
+suranceinter1-1.pdf  used on input line 1560.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[55 <./MATH60604A_Statistical_modelling_files/figure-latex/predinterval-1.pdf>]
-[56 <./MATH60604A_Statistical_modelling_files/figure-latex/insuranceinter1-1.pd
-f>] [57] [58]
-<MATH60604A_Statistical_modelling_files/figure-latex/resod-1.pdf, id=703, 469.7
+[53 <./MATH60604A_Statistical_modelling_files/figure-latex/insuranceinter1-1.pd
+f>] [54]
+<MATH60604A_Statistical_modelling_files/figure-latex/resod-1.pdf, id=691, 469.7
 55pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/resod-1.pdf Graphic f
 ile (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/resod-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/re
-sod-1.pdf  used on input line 1831.
+sod-1.pdf  used on input line 1635.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[59] [60 <./MATH60604A_Statistical_modelling_files/figure-latex/resod-1.pdf>] [
-61]
+[55] [56 <./MATH60604A_Statistical_modelling_files/figure-latex/resod-1.pdf>]
 <MATH60604A_Statistical_modelling_files/figure-latex/twowayanovadelay-1.pdf, id
-=727, 469.755pt x 325.215pt>
+=711, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/twowayanovadelay-1.pd
 f Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/twowayanovadelay-1.pdf
 >
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/tw
-owayanovadelay-1.pdf  used on input line 1927.
+owayanovadelay-1.pdf  used on input line 1699.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[62] [63 <./MATH60604A_Statistical_modelling_files/figure-latex/twowayanovadela
-y-1.pdf>] [64] [65] [66] [67] [68]
-<MATH60604A_Statistical_modelling_files/figure-latex/outliers-1.pdf, id=780, 46
+[57] [58 <./MATH60604A_Statistical_modelling_files/figure-latex/twowayanovadela
+y-1.pdf>] [59] [60]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[61] [62] [63]
+<MATH60604A_Statistical_modelling_files/figure-latex/outliers-1.pdf, id=769, 46
 9.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/outliers-1.pdf Graphi
 c file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/outliers-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/ou
-tliers-1.pdf  used on input line 2130.
+tliers-1.pdf  used on input line 1852.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[69] [70 <./MATH60604A_Statistical_modelling_files/figure-latex/outliers-1.pdf>
+[64 <./MATH60604A_Statistical_modelling_files/figure-latex/outliers-1.pdf>] [65
 ]
-<MATH60604A_Statistical_modelling_files/figure-latex/timeresidplot-1.pdf, id=79
-7, 469.755pt x 325.215pt>
+<MATH60604A_Statistical_modelling_files/figure-latex/timeresidplot-1.pdf, id=78
+8, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/timeresidplot-1.pdf G
 raphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/timeresidplot-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/ti
-meresidplot-1.pdf  used on input line 2176.
+meresidplot-1.pdf  used on input line 1898.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[71]
-<MATH60604A_Statistical_modelling_files/figure-latex/correlogram-1.pdf, id=810,
+[66 <./MATH60604A_Statistical_modelling_files/figure-latex/timeresidplot-1.pdf>
+]
+<MATH60604A_Statistical_modelling_files/figure-latex/correlogram-1.pdf, id=808,
  469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/correlogram-1.pdf Gra
 phic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/correlogram-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/co
-rrelogram-1.pdf  used on input line 2196.
+rrelogram-1.pdf  used on input line 1918.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-<MATH60604A_Statistical_modelling_files/figure-latex/regdiaglin-1.pdf, id=812, 
+<MATH60604A_Statistical_modelling_files/figure-latex/regdiaglin-1.pdf, id=810, 
 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/regdiaglin-1.pdf Grap
 hic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/regdiaglin-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/re
-gdiaglin-1.pdf  used on input line 2211.
+gdiaglin-1.pdf  used on input line 1933.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[72 <./MATH60604A_Statistical_modelling_files/figure-latex/timeresidplot-1.pdf>
-]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[73 <./MATH60604A_Statistical_modelling_files/figure-latex/correlogram-1.pdf>]
-Underfull \vbox (badness 1418) has occurred while \output is active []
-
-[74 <./MATH60604A_Statistical_modelling_files/figure-latex/regdiaglin-1.pdf>]
+[67 <./MATH60604A_Statistical_modelling_files/figure-latex/correlogram-1.pdf>] 
+[68 <./MATH60604A_Statistical_modelling_files/figure-latex/regdiaglin-1.pdf>]
 <MATH60604A_Statistical_modelling_files/figure-latex/residhomoscedastic-1.pdf, 
-id=858, 469.755pt x 325.215pt>
+id=841, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/residhomoscedastic-1.
 pdf Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/residhomoscedastic-1.p
 df>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/re
-sidhomoscedastic-1.pdf  used on input line 2236.
+sidhomoscedastic-1.pdf  used on input line 1958.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
 <MATH60604A_Statistical_modelling_files/figure-latex/diagfitvalhomosce-1.pdf, i
-d=859, 469.755pt x 325.215pt>
+d=842, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/diagfitvalhomosce-1.p
 df Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/diagfitvalhomosce-1.pd
 f>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/di
-agfitvalhomosce-1.pdf  used on input line 2245.
+agfitvalhomosce-1.pdf  used on input line 1967.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[75 <./MATH60604A_Statistical_modelling_files/figure-latex/residhomoscedastic-1
-.pdf>]
-<MATH60604A_Statistical_modelling_files/figure-latex/qqplotresid-1.pdf, id=877,
+
+Underfull \vbox (badness 1990) has occurred while \output is active []
+
+[69 <./MATH60604A_Statistical_modelling_files/figure-latex/residhomoscedastic-1
+.pdf>] [70 <./MATH60604A_Statistical_modelling_files/figure-latex/diagfitvalhom
+osce-1.pdf>]
+<MATH60604A_Statistical_modelling_files/figure-latex/qqplotresid-1.pdf, id=869,
  469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/qqplotresid-1.pdf Gra
 phic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/qqplotresid-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/qq
-plotresid-1.pdf  used on input line 2264.
+plotresid-1.pdf  used on input line 1986.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-<MATH60604A_Statistical_modelling_files/figure-latex/qqplotsbad-1.pdf, id=880, 
+<MATH60604A_Statistical_modelling_files/figure-latex/qqplotsbad-1.pdf, id=872, 
 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/qqplotsbad-1.pdf Grap
 hic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/qqplotsbad-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/qq
-plotsbad-1.pdf  used on input line 2275.
+plotsbad-1.pdf  used on input line 1997.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[76 <./MATH60604A_Statistical_modelling_files/figure-latex/diagfitvalhomosce-1.
-pdf>] [77 <./MATH60604A_Statistical_modelling_files/figure-latex/qqplotresid-1.
-pdf> <./MATH60604A_Statistical_modelling_files/figure-latex/qqplotsbad-1.pdf>]
 <MATH60604A_Statistical_modelling_files/figure-latex/diagplotscollege-1.pdf, id
-=915, 469.755pt x 325.215pt>
+=873, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/diagplotscollege-1.pd
 f Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/diagplotscollege-1.pdf
 >
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/di
-agplotscollege-1.pdf  used on input line 2288.
+agplotscollege-1.pdf  used on input line 2010.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[78 <./MATH60604A_Statistical_modelling_files/figure-latex/diagplotscollege-1.p
-df>] [79]
-<MATH60604A_Statistical_modelling_files/figure-latex/poisonplots-1.pdf, id=948,
+[71 <./MATH60604A_Statistical_modelling_files/figure-latex/qqplotresid-1.pdf>] 
+[72 <./MATH60604A_Statistical_modelling_files/figure-latex/qqplotsbad-1.pdf>] [
+73 <./MATH60604A_Statistical_modelling_files/figure-latex/diagplotscollege-1.pd
+f>]
+<MATH60604A_Statistical_modelling_files/figure-latex/poisonplots-1.pdf, id=927,
  469.755pt x 433.62pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/poisonplots-1.pdf Gra
 phic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/poisonplots-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/po
-isonplots-1.pdf  used on input line 2346.
+isonplots-1.pdf  used on input line 2068.
 (pdftex.def)             Requested size: 308.59135pt x 284.85355pt.
-[80] [81 <./MATH60604A_Statistical_modelling_files/figure-latex/poisonplots-1.p
-df>] [82
+[74] [75 <./MATH60604A_Statistical_modelling_files/figure-latex/poisonplots-1.p
+df>] [76
 
 ]
 Chapter 3.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 2363.
-[83] [84]
-<MATH60604A_Statistical_modelling_files/figure-latex/explikelihood-1.pdf, id=98
-5, 469.755pt x 325.215pt>
+(Font)              <9> on input line 2085.
+[77] [78]
+<MATH60604A_Statistical_modelling_files/figure-latex/explikelihood-1.pdf, id=96
+8, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/explikelihood-1.pdf G
 raphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/explikelihood-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/ex
-plikelihood-1.pdf  used on input line 2416.
+plikelihood-1.pdf  used on input line 2138.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[85] [86 <./MATH60604A_Statistical_modelling_files/figure-latex/explikelihood-1
-.pdf>] [87]
-<images/likelihood_tests.png, id=1013, 433.62pt x 252.58365pt>
+[79] [80 <./MATH60604A_Statistical_modelling_files/figure-latex/explikelihood-1
+.pdf>] [81]
+<images/likelihood_tests.png, id=996, 433.62pt x 252.58365pt>
 File: images/likelihood_tests.png Graphic file (type png)
 <use images/likelihood_tests.png>
-Package pdftex.def Info: images/likelihood_tests.png  used on input line 2506.
+Package pdftex.def Info: images/likelihood_tests.png  used on input line 2228.
 (pdftex.def)             Requested size: 308.60678pt x 179.76344pt.
-[88] [89 <./images/likelihood_tests.png>] [90]
-<MATH60604A_Statistical_modelling_files/figure-latex/profile3d-1.pdf, id=1032, 
+[82] [83 <./images/likelihood_tests.png>] [84]
+<MATH60604A_Statistical_modelling_files/figure-latex/profile3d-1.pdf, id=1015, 
 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/profile3d-1.pdf Graph
 ic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/profile3d-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/pr
-ofile3d-1.pdf  used on input line 2576.
+ofile3d-1.pdf  used on input line 2298.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[91]
-<MATH60604A_Statistical_modelling_files/figure-latex/profileplot-1.pdf, id=1043
+[85]
+<MATH60604A_Statistical_modelling_files/figure-latex/profileplot-1.pdf, id=1026
 , 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/profileplot-1.pdf Gra
 phic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/profileplot-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/pr
-ofileplot-1.pdf  used on input line 2608.
+ofileplot-1.pdf  used on input line 2330.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[92 <./MATH60604A_Statistical_modelling_files/figure-latex/profile3d-1.pdf>]
-<MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1.pdf, id=1059
+[86 <./MATH60604A_Statistical_modelling_files/figure-latex/profile3d-1.pdf>]
+<MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1.pdf, id=1042
 , 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1.pdf Gra
 phic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/pr
-ofilebeta-1.pdf  used on input line 2626.
+ofilebeta-1.pdf  used on input line 2348.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[93 <./MATH60604A_Statistical_modelling_files/figure-latex/profileplot-1.pdf>] 
-[94 <./MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1.pdf>] 
-[95] [96
+[87 <./MATH60604A_Statistical_modelling_files/figure-latex/profileplot-1.pdf>] 
+[88 <./MATH60604A_Statistical_modelling_files/figure-latex/profilebeta-1.pdf>] 
+[89] [90
 
 ]
 Chapter 4.
-[97] [98] [99] [100] [101] [102
-
-]
+[91] [92] [93] [94] [95] [96] [97] [98]
 Chapter 5.
-[103] [104
+[99
+
+] [100
 
 ]
 Chapter 6.
-[105] [106
+[101] [102
 
 ]
 Chapter 7.
-[107] [108
+[103] [104
 
 ]
 Appendix A.
-[109]
-<images/02-ttest-DF_illustration.png, id=1168, 303.17265pt x 202.356pt>
+[105]
+<images/02-ttest-DF_illustration.png, id=1169, 303.17265pt x 202.356pt>
 File: images/02-ttest-DF_illustration.png Graphic file (type png)
 <use images/02-ttest-DF_illustration.png>
 Package pdftex.def Info: images/02-ttest-DF_illustration.png  used on input lin
-e 2829.
+e 2642.
 (pdftex.def)             Requested size: 303.18578pt x 202.36476pt.
-[110] [111 <./images/02-ttest-DF_illustration.png>] [112] [113] [114] [115] [11
-6]
+[106] [107 <./images/02-ttest-DF_illustration.png>] [108] [109] [110] [111] [11
+2]
 <MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf, id=123
-7, 469.755pt x 325.215pt>
+8, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/di
-agrammeqq2-1.pdf  used on input line 3048.
+agrammeqq2-1.pdf  used on input line 2861.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[117] [118 <./MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-
+[113] [114 <./MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-
 1.pdf>]
-<MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf, id=1263, 4
+<MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf, id=1264, 4
 33.62pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf Graphi
 c file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/re
-nfeclt-1.pdf  used on input line 3104.
+nfeclt-1.pdf  used on input line 2917.
 (pdftex.def)             Requested size: 308.60678pt x 231.45508pt.
 <MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf, id=126
-5, 578.16pt x 325.215pt>
+6, 578.16pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/re
-nfemeanCLT-1.pdf  used on input line 3117.
+nfemeanCLT-1.pdf  used on input line 2930.
 (pdftex.def)             Requested size: 396.76062pt x 223.17784pt.
-[119] [120 <./MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pd
-f>] [121 <./MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.
-pdf>] [122
+[115] [116 <./MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pd
+f>] [117 <./MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.
+pdf>] [118
 
 ]
 Appendix B.
 
-Underfull \hbox (badness 10000) in paragraph at lines 3141--3143
+Underfull \hbox (badness 10000) in paragraph at lines 2954--2956
 
  []
 
-[123] [124]
+[119] [120]
 Appendix C.
-[125
+[121
 
-] [126]
-<images/caution.png, id=1342, 156.585pt x 144.54pt>
+] [122]
+<images/caution.png, id=1344, 156.585pt x 144.54pt>
 File: images/caution.png Graphic file (type png)
 <use images/caution.png>
-Package pdftex.def Info: images/caution.png  used on input line 3283.
+Package pdftex.def Info: images/caution.png  used on input line 3096.
 (pdftex.def)             Requested size: 32.85036pt x 30.32341pt.
-[127 <./images/caution.png>] [128]
-<images/note.png, id=1359, 62.2325pt x 62.2325pt>
+[123 <./images/caution.png>] [124]
+<images/note.png, id=1360, 62.2325pt x 62.2325pt>
 File: images/note.png Graphic file (type png)
 <use images/note.png>
-Package pdftex.def Info: images/note.png  used on input line 3399.
+Package pdftex.def Info: images/note.png  used on input line 3212.
 (pdftex.def)             Requested size: 32.85011pt x 32.85011pt.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 3403.
-[129 <./images/note.png>] [130] (./MATH60604A_Statistical_modelling.bbl [131] [
-132
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 3216.
+[125 <./images/note.png>] [126] (./MATH60604A_Statistical_modelling.bbl [127] [
+128
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3501.
-[133]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3501.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3314.
+[129]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3314.
 (./MATH60604A_Statistical_modelling.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3501.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 3501.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3314.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 3314.
  ) 
 Here is how much of TeX's memory you used:
- 15506 strings out of 480681
- 240149 string characters out of 5904632
- 519537 words of memory out of 5000000
- 30338 multiletter control sequences out of 15000+600000
- 745785 words of font info for 280 fonts, out of 8000000 for 9000
+ 15526 strings out of 480681
+ 240474 string characters out of 5904632
+ 521634 words of memory out of 5000000
+ 30343 multiletter control sequences out of 15000+600000
+ 745883 words of font info for 281 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,16n,42p,1240b,467s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
@@ -1294,11 +1295,11 @@ b></usr/local/texlive/2020/texmf-dist/fonts/type1/adobe/utopia/putb8a.pfb></usr
 e/2020/texmf-dist/fonts/type1/adobe/utopia/putr8a.pfb></usr/local/texlive/2020/
 texmf-dist/fonts/type1/adobe/utopia/putri8a.pfb></usr/local/texlive/2020/texmf-
 dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on MATH60604A_Statistical_modelling.pdf (133 pages, 1939051 byte
+Output written on MATH60604A_Statistical_modelling.pdf (129 pages, 1952375 byte
 s).
 PDF statistics:
- 1696 PDF objects out of 1728 (max. 8388607)
- 1415 compressed objects within 15 object streams
- 389 named destinations out of 1000 (max. 500000)
+ 1700 PDF objects out of 1728 (max. 8388607)
+ 1423 compressed objects within 15 object streams
+ 402 named destinations out of 1000 (max. 500000)
  23052 words of extra memory for PDF output out of 24883 (max. 10000000)
 
