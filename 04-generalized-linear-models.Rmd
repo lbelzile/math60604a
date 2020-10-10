@@ -5,7 +5,7 @@ Linear models are only suitable for data that are (approximately) normally distr
 
 Generalized linear models (GLM) combine a model for the conditional mean with a distribution for the response variable and a link function tying predictors and parameters.
 
-This chapter gives an introduction to generalized linear models and focuses in particular on logistic regression and Poisson regression, but only for the case of independent observations.  Extensions of generalized linear models for correlated and longitudinal, the so-called *generalized linear mixed models* (GLMM, are covered in MATH80621.
+This chapter gives an introduction to generalized linear models and focuses in particular on logistic regression and Poisson regression, but only for the case of independent observations.  Extensions of generalized linear models for correlated and longitudinal data, the so-called *generalized linear mixed models* (GLMM), are covered in MATH80621.
 
 
 ## Basic principles 
@@ -18,8 +18,8 @@ Let $\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)$ denote the conditional expectation
 \end{align*}
 The building blocks of the generalized linear model are
 
-- A random component, consisting of the probability distribution for the outcome $Y$ that is a member of the exponential family (normal, binomial, Poisson, gamma, \ldots). 
-- A deterministic component, the linear predictors$\mathbf{X} \boldsymbol{\beta}$, where $\mathbf{X}$ is an $n\times (p+1)$ matrix with columns $\mathbf{1}_n, \mathrm{X}_1, \ldots, \mathrm{X}_p$ and $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ are coefficients. 
+- A random component, consisting of the probability distribution for the outcome $Y$ that is a member of the exponential dispersion family (normal, binomial, Poisson, gamma, \ldots). 
+- A deterministic component, the **linear predictor** $\boldsymbol{\eta}=\mathbf{X} \boldsymbol{\beta}$, where $\mathbf{X}$ is an $n\times (p+1)$ matrix with columns $\mathbf{1}_n, \mathbf{X}_1, \ldots, \mathbf{X}_p$ and $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ are coefficients. 
 - A monotone function $g$, called **link function**, that maps the mean of $Y_i$ to the predictor variables, $g(\mu_i)=\eta_i$. 
 
 
@@ -28,23 +28,23 @@ The building blocks of the generalized linear model are
 
 This section borrows from Chapter 4 of 
 
-> Agresti (2015). * Foundations of Linear and Generalized Linear Models*, Wiley.
+> Agresti (2015). *Foundations of Linear and Generalized Linear Models*, Wiley.
 
-In a generalized linear model, the random component arises from an exponential dispersion family: this choice gives a framework, since test statistics and properties can be derived for general classes of distribution.
 
-### Exponential-dispersion family of distributions
 
-Consider a probability density or mass function for $Y$ with parameters $(\theta, \phi)$,
+### Exponential dispersion family of distributions
+
+In a generalized linear model, the random component arises from an exponential dispersion family. Consider a probability density or mass function for $Y$ with parameters $(\theta, \phi)$,
 \begin{align}
 f(y; \theta, \phi)&= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y,
 \phi)\right\}, (\#eq:expofam)
 \end{align}
-where the support, i.e., the set of values taken by $Y$, doesn't depend on the parameters.  Throughout, we will assume **natural parameter ** $\theta$ is unknown, but the **dispersion parameter** $\phi$ may be known (exponential family) or unknown (exponential dispersion family). 
+where the support, i.e., the set of values taken by $Y$, doesn't depend on the parameters.  Throughout, we will assume the **natural parameter** $\theta$ is unknown, but the **dispersion parameter** $\phi$ may be known (exponential family) or unknown (exponential dispersion family). 
 
-One particularity of exponential dispersion models is the explicit mean-variance relationship: the first and second derivative of the log likelihood $\ell$ of a one-sample with respect to the natural parameter $\theta$ are 
+One particularity of exponential dispersion models is that there exists an explicit relationship between mean and variance of $Y$, which the following derivation shows. the first and second derivative of the log likelihood contribution of $Y_i$, say $\ell_i$, with respect to the natural parameter $\theta$ are 
 \begin{align*}
-\frac{\partial \ell(y; \theta, \phi)}{\partial \theta} &= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b'(\theta)}{a(\phi)}\\
-\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2} &= - \frac{b''(\theta)}{a(\phi)},
+\frac{\partial \ell_i(y; \theta, \phi)}{\partial \theta} &= \frac{\partial}{\partial \theta} \left\{\frac{y\theta-b(\theta)}{a(\phi)} + c(y, \phi) \right\} = \frac{y - b'(\theta)}{a(\phi)}\\
+\frac{\partial^2 \ell_i(y; \theta, \phi)}{\partial \theta^2} &= - \frac{b''(\theta)}{a(\phi)},
 \end{align*}
 where $b'(\cdot)$ and $b''(\cdot)$ are the first two derivatives of $b(\cdot)$ with respect to $\theta$.
 Under regularity condition, the [Bartlett identities](https://math.stackexchange.com/q/2027660) hold and 
@@ -56,7 +56,8 @@ These two equality give
 \mathsf{E}(Y_i) &= b'(\theta_i) \\
 \mathsf{Va}(Y_i) &= b''(\theta_i)a(\phi_i)
 \end{align*}
-Because of the relation between the mean of $Y_i$, say $\mu_i$, and the natural parameter $\theta_i$, we have $V(\mu)=b''(\theta)$ and there is an explicit relationship between the mean and the variance parameters unless $V(\mu)=1$. Often, the term $a_i(\phi)=a_i\phi$, where $\phi$ is constant over all observations and $a_i$ is a observation-specific weight.
+Often, the term $a_i(\phi)=a_i\phi$, where $\phi$ is constant over all observations and $a_i$ is an observation-specific weight.
+The mean of $Y_i$, say $\mu_i$, and the natural parameter $\theta_i$ are related through the equation $\mu_i=b'(\theta_i)$. There is also an explicit relationship with the variance through $V(\mu)=b''(\theta)$, unless $V(\mu)=1$. 
 
 
 ```{example, label="poissonglmexpf", name = "Poisson distribution as exponential family member"}
@@ -70,7 +71,7 @@ parameter $\phi=1$, and $b(\theta)=\exp(\theta)$. Replacing these expressions in
 ```
 
 ```{example, label ="binomialglmexpf", name = "Binomial distribution as member of the exponential family"}
-We consider the mass function of a binomial distribution $\mathsf{Bin}(m,\pi)$ with the number of trials $m$ known. The parametrization presented in \@ref(exm:binomialdist) is not convenient because the mean and the variance both depend on $m$. We consider thus a different parametrization in which $Y$ represents the fraction of successes, so the mass function takes values in $\{0, 1/m, \ldots, 1\}$ and $mY$ denotes the number of successes. The mass function for $Y$ is then
+We consider the mass function of a binomial distribution, $\mathsf{Bin}(m, \pi)$, with the number of trials $m$ known. The parametrization presented in \@ref(exm:binomialdist) is not convenient because the mean and the variance both depend on $m$. We consider thus a different parametrization in which $Y$ represents the proportion of successes, so the mass function takes values in $\{0, 1/m, \ldots, 1\}$ and $mY$ denotes the number of successes. The mass function for $Y$ is then
 \begin{align*}
 f(y, \pi)&=\exp \left\{ my \ln \left( \frac{\pi}{1-\pi} \right) + m \ln
 (1-\pi) + \ln \left[
@@ -109,19 +110,26 @@ g\left\{\mathsf{E}(Y \mid \mathrm{X}_1, \ldots, \mathrm{X}_p)\right\}=\eta = \be
 \end{align*}
 The link function thus connects the mean of the random variable $Y$ to the explanatory variables, $g(\mu_i) = \eta_i = \beta_0 + \sum_{j=1}^p\beta_j\mathrm{X}_{ij}$ and likewise $\mu_i  = g^{-1}(\eta_i)$. If the link function is chosen such that $\theta=\eta$, the link function is termed the canonical link function.
 
-The need for a link function arises from parameter constraints: for example, the mean $\mu=\pi$ of a Bernoulli distribution is the proportion of successes and  must lie in the interval $(0, 1)$. Similarly, the mean $\mu$ of the Poisson distribution must be positive. For the normal distribution of the ordinary linear regression model, we do not impose constraints on the mean $\mu_i$, so an appropriate link function is the identity, $\mu_i = \eta_i$.
+The need for a link function often arises from parameter constraints: for example, the mean $\mu=\pi$ of a Bernoulli distribution is the proportion of successes and  must lie in the interval $(0, 1)$. Similarly, the mean $\mu$ of the Poisson distribution must be positive. For the normal distribution (ordinary linear regression model), the mean is unconstrained and the canonical link function is the identity, $\mu_i = \eta_i$.
 
 
 An appropriate choice of link function $g$ sets $\mu_i$ equal to a transformation of the linear combination $\eta_i$ so as to avoid imposing parameter constraints on $\boldsymbol{\beta}$. Certain choices of link functions facilitate interpretation or make the likelihood function convenient for optimization.  
-For the Bernoulli and binomial distributions, an appropriate link function $g$ is the logit function, 
+For the Bernoulli and binomial distributions, the most common link function $g$ is the logit function, 
 \begin{align*}
 \mathrm{logit}(\mu)&=
 \ln \left( \frac{\mu}{1-\mu} \right) =\ln(\mu) - \ln(1-\mu)= \eta,
 \\\mathrm{expit}(\eta)&= \frac{\exp(\eta)}{1+\exp(\eta)}=\mu.
 \end{align*}
-The inverse link function is the distribution function of the logistic distribution, hence the name. The choice of link function is far from unique: any quantile function of a continuous random variable supported on $\mathbb{R}$ could be considered. For the Poisson distribution, the canonical link function $g$ is the natural logarithm, $\ln$, with associated inverse link function $\exp$.
+The inverse link function is the distribution function of the logistic distribution, hence the name **logistic regression**. This choice of link function is far from unique: any quantile function of a continuous random variable supported on $\mathbb{R}$ could be considered. For the Poisson distribution, the canonical link function $g$ is the natural logarithm, $\ln$, with associated inverse link function $\exp$.
 
 Canonical link functions are natural choices because of their nice statistical properties: choosing the canonical link ensures that $\mathbf{X}^\top\boldsymbol{y}$ is a minimal sufficient statistic. Other considerations, such as parameter constraints, can be more important in deciding on the choice of $g$.
+
+```{example, label="inverslinklm", name = "Transforming a nonlinear regression model into a linear model through a link function"}
+
+Consider a linear model for which theory dictates that the mean should be $Y \sim \mathsf{No}\{\alpha_0/(1+\alpha_1x), \sigma^2\}$.
+
+This model is nonlinear in $\alpha_0$, $\alpha_1$. If we opt for the reciprocal link function $g(x)=1/x$, we get $\beta_0+\beta_1 x$, where $\beta_0 = 1/\alpha_0$ and $\beta_1 = \alpha_1/\alpha_0$ provided $\alpha_0 \neq 0$. Since the generalized linear model is estimated using maximum likelihood and the latter are invariant to reparametrization, we get easily the estimated coefficients of interest.
+```
 
 ### Model adjustment
 
@@ -131,46 +139,86 @@ Starting from Equation \@ref(eq:expofam), we differentiate the log likelihood fu
 \begin{align*}
 \frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial \eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i} \frac{\partial \theta_i}{\partial \mu_i}\frac{\partial \ell_i}{\partial \theta_i}
 \end{align*}
-and the earlier derivations show $\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)$ and $\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)$. The derivative of the linear predictor, $\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}$. The only missing term, $\partial \mu_i/\partial \eta_i$, depends on the choice of link function through $\eta_i = g(\mu_i)$, but is unity for the canonical link function.
+and the earlier derivations show $\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)$ and $\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)$. The derivative of the linear predictor, $\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}$. The only missing term, $\partial \mu_i/\partial \eta_i$, depends on the choice of link function through $\eta_i = g(\mu_i)$, but it is unity for the canonical link function.
 
 Summing all the likelihood contribution, the score vector $\boldsymbol{U}$ has element 
 \begin{align*}
-\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X_{ij}}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
 \end{align*}
 
-Since the maximum likelihood estimator solves the score equation, we can use the latter to derive a Newton--Raphson algorithm. 
+Let
+\begin{align*}
+U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}
+\end{align*}
+In general, $\widehat{\boldsymbol{\beta}}$ solves the score equation $U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}$, so we can use a Newton--Raphson algorithm to derive the maximum likelihood estimator. This amounts to a first order Taylor series approximation of the score $U(\widehat{\boldsymbol{\beta}})$ around  $\boldsymbol{\beta}$,
+\begin{align*}
+\boldsymbol{0}_{p+1} = U(\widehat{\boldsymbol{\beta}}) \stackrel{\cdot}{=} U(\beta) - j(\boldsymbol{\beta}) (\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta})
+\end{align*}
+If the $(p+1)$ matrix $j(\boldsymbol{\beta}^{(t)})$ is invertible, we can thus device an iterative algorithm:  starting from some initial value $\boldsymbol{\beta}^{(0)}$, we compute at step $t+1$
+\begin{align*}
+\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + j^{-1}(\boldsymbol{\beta}^{(t)})U(\boldsymbol{\beta}^{(t)}).
+\end{align*}
+and iterate this formula until convergence.
+Most softwares implement a variant of this algorithm, in which the negative hessian $j(\boldsymbol{\beta})$ is replaced by its absolute value $i(\boldsymbol{\beta})$: the resulting algorithm is known as Fisher scoring. For generalized linear models, these recursions can be done by repeatedly computing a variance of least squares known as iteratively reweighted least squares. 
+
+
+<!-- We can find $\widehat{\boldsymbol{\beta}}$ through **iteratively reweighted least squares** (IRLS) procedure. -->
+
+<!-- in which $\mathbf{W} = \mathrm{diag}\{(\partial \mu_i/\partial \eta_i)^2/\}$ -->
+
 <!-- \boldsymbol{U} =  \frac{\partial \ell(\boldsymbol{\beta}; \boldsymbol{y}, \mathbf{X})}{\partial \boldsymbol{\beta}} = \frac{\partial \boldsymbol{\eta}^\top}{\partial \boldsymbol{\beta}} \frac{\partial \boldsymbol{\theta}}{\partial \boldsymbol{\eta}^\top} \frac{\partial \ell}{\partial \boldsymbol{\theta}^\top} -->
 
 <!-- This gives $\mathbf{D} = \mathrm{diag}\{\partial \mu_i/\partial \eta_i\}$ and $\mathbf{W} = \mathrm{diag}\{(\partial \mu_i/\partial \eta_i)^2/\}$ -->
-To be continued...
+<!-- To be continued... -->
 
 ### Likelihood inference
 
-Likelihood inference is straightforward, although some care is needed because the asymptotic distribution of test statistics may be a poor approximation in small samples, depending on the distribution. Under regularity conditions, the likelihood ratio statistic will follow a  chi-square distribution  and the maximum likelihood estimators of $\boldsymbol{\beta}$ and $\phi$ will be jointly normally distributed. 
+Likelihood inference is straightforward, although some care is needed because the asymptotic distribution of test statistics sometimes depend on the model parameters.
+
+
+Under regularity conditions, the maximum likelihood estimators of $\boldsymbol{\beta}$ and $\phi$ are jointly normally distributed under mild regularity conditions, \begin{align*}\widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{No}_{p+1}\{\boldsymbol{\beta}, (\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1}\}
+\end{align*}
+where $\mathbf{W} = \mathrm{diag}\{(\partial \mu_i/\partial \eta_i)^2/\mathsf{Va}(Y_i)\}$ is a diagonal matrix with elements $w_i=\{g'(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}$. 
+<!-- This matrix also appears in the formula of the leverage and in the iteratively reweighted least square recursions. -->
+Since $\mathbf{W}$ depends on the unknown $\boldsymbol{\beta}$ through the expected values $\mu_i$, we can estimate $\widehat{\mathbf{W}}$ by replacing the unknown coefficients by their maximum likelihood estimates at $\widehat{\boldsymbol{\beta}}$.
+
+```{example, label = "weightpois", name = "Elements of the weight matrix for Poisson data"}
+If we consider $Y_i \sim \mathsf{Po}(\mu_i)$ with canonical link function $\mu_i = \exp(\eta_i)$, then $\partial \eta_i / \partial \mu_i = \mu_i^{-1}$ and $w_i=\mu_i$.
+```
+
+The maximum likelihood estimator of the dispersion parameter $\phi$ can have poor properties, so a moment estimator is sometimes used instead. For known $\mu$, $\mathsf{Va}(Y_i) = a_i\phi V(\mu)$ and, since $\phi$ is constant over observations, we can estimate it from the scaled empirical variance,
+\begin{align*}
+\widehat{\phi}=\frac{1}{n-p} \sum_{i=1}^n \frac{(y_i-\widehat{\mu}_i)^2}{a_iV(\widehat{\mu}_i)}.
+\end{align*}
+This gives $\widehat{\phi}=X^2/(n-p)$, a scaled version of the Pearson $X^2$ statistic presented in the next section.
+
+Since we use maximum likelihood estimation, the theory presented in [Chapter 3](likelihood) readily applies. For example, if we want to compare two nested models and test if $q$ of the $\boldsymbol{\beta}$ are jointly zero (corresponding to no effect for the associated covariates), we can fit both null and restricted models and perform a likelihood ratio test.  Under regularity conditions, the likelihood ratio statistic to compare two nested models will follow the usual $\chi^2_q$ distribution. 
+
 
 ### Goodness-of-fit criteria and residuals
 
-Goodness-of-fit diagnostics often rely on a variance of the likelihood ratio statistic termed **deviance**. The latter compares the fitted model with parameters $\widehat{\boldsymbol{\beta}}$ with a **saturated** model in which there are $n$ parameters for the mean, as many as there are observations --- this amounts to maximizing the log-likelihood contribution of each term $\ell_i$ individually, for which the best value of the linear predictor will be denoted $\widetilde{\eta}_i$ (oftentimes, this is when $\widetilde{\eta}_i=y_i$). We can then build a likelihood ratio statistic to compare the saturated model with the fitted model, taking
+Goodness-of-fit diagnostics often rely on test statistics comparing the fitted model with parameters $\widehat{\boldsymbol{\beta}}$ with a **saturated** model in which there are $n$ parameters for the mean, as many as there are observations --- this amounts to maximizing the log-likelihood contribution of each term $\ell_i$ individually, for which the best value of the linear predictor is denoted $\widetilde{\eta}_i$ (oftentimes, this is when $\widetilde{\mu}_i=y_i$). We can then build a likelihood ratio statistic to compare the saturated model with the fitted model, taking
 \begin{align*}
 \frac{D}{\phi}= \sum_{i=1}^n 2\{\ell(\widetilde{\eta}_i; y_i) - \ell(\widehat{\eta}_i; y_i)\}.
 \end{align*}
-The deviance $D$ will be small when the quality of the adjustment is roughly the same for both models, whereas large values of $D$ are indicative of poor fit.
+The **scaled deviance** $D$ will be small when the quality of the adjustment is roughly the same for both models, whereas large values of $D$ are indicative of poor fit.
 
-If $\phi$ is unknown, we would replace it throughout by an estimate and the same distributional results hold approximatively.
 
 ```{example, name = "Deviance for common generalized linear models", label="devglm"}
-Suppose that the design matrix of the model includes an intercept and let $\widehat{\mu}_i$ denote the fitted mean. Then, the deviance for the normal generalized linear model with homoscedastic errors is $D = \sum_{i=1}^n (y_i - \widehat{\mu}_i)^2$, which is the sum of squared residuals. For Poisson data, the saturated model has $\widetilde{\mu}_i=y_i$ and $D= 2\sum_{i=1}^n  y_i \ln(y_i/\widehat{\mu}_i)$.
+Suppose that the model matrix of the model $\mathbf{X}$ includes an intercept and let $\widehat{\mu}_i$ denote the fitted mean. Then, the deviance for the normal generalized linear model with homoscedastic errors is $D = \sum_{i=1}^n (y_i - \widehat{\mu}_i)^2$, which is the sum of squared residuals. For Poisson data, the saturated model has $\widetilde{\mu}_i=y_i$ and $D= 2\sum_{i=1}^n  y_i \ln(y_i/\widehat{\mu}_i)$.
 ```
 
 Another alternative is found by looking at score test statistic comparing the saturated model with the postulated model with $p+1$ parameters $\boldsymbol{\beta}$. The Pearson $X^2$ statistic is
 \begin{align*}
  X^2= \sum_{i=1}^n \frac{(y_i-\widehat{\mu}_i)}{ V(\widehat{\mu}_i)},
 \end{align*}
+where both expectation and variance are estimated using the model; for Poisson data, $\phi=1$ and the estimated mean and variance are equal, meaning $\widehat{\mu}_i=V(\widehat{\mu}_i)$. Pearson's $X^2$ statistic measures standardized departures between observations and fitted values.
+
+ In large samples, both Pearson $X^2/\phi$ and the deviance $D/\phi$ follow approximately a $\chi^2_{n-p-1}$ distribution if the model is correct and $\phi$ is known (but this result doesn't hold for binary data or binomial data unless $m$ is very large and $\boldsymbol{\beta}$ are small).
+If $\phi$ is unknown, we would replace it throughout by an estimate and the same distributional results hold approximatively.
 
 
-where both expectation and variance are estimated using the model; for Poisson data, $\phi=1$ and the estimated mean and variance are equal,  $\widehat{\mu}_i=V(\widehat{\mu}_i)$.
-
-Pearson's $X^2$ statistic measures standardized departures between observations and fitted values. In large samples, both Pearson $X^2/\phi$ and the deviance $D/\phi$ follow approximately a $\chi^2_{n-p-1}$ if the model is correct; however, the quality of the approximation needs to be evaluated on a case-by-case analysis: for example, the Pearson $X^2$ statistic for binary data is always equal to the sample size $n$. We can use the individual contributions to the deviance and Pearson $X^2$ statistic to build residuals. By considering $D = \sum_{i=1}^n d_i^2$, where 
+We can use the individual contributions to the deviance and Pearson $X^2$ statistic to build residuals. By considering $D = \sum_{i=1}^n d_i^2$, where 
 \begin{align*}
 d_i &= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\eta}_i; y_i) - 2\ell(\widehat{\eta}_i; y_i)\}^{1/2}
 \end{align*} and the calculations simplify upon replacing the formula of the log likelihood for the generic exponential family member,
@@ -178,7 +226,7 @@ d_i &= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\
 d_i^2=2 \left\{y_i (\widetilde{\theta}_i - \widehat{\theta}_i) - b(\widetilde{\theta}_i) + b(\widehat{\theta}_i)\right\}
 \end{align*}
 The terms $d_i$ are called deviance residuals, whereas Pearson residuals are based on the score contributions $u_i(\widehat{\beta}) w_i(\widehat{\beta})^{-1/2}$,
-where the score statistic $u(\boldsymbol{beta})$ and the weights $w_i$ are
+where the score statistic $u(\boldsymbol{\beta})$ and the weights $w_i$ are
 \begin{align*}
 u_i &= \frac{\partial \theta_i}{\partial \eta_i} \frac{\partial \ell_i(\theta_i)}{\partial \theta_i} = \frac{y_i - \mu_i}{g'(\mu_i)a_i(\phi)V(\mu_i)}\\
 w_i &= \left(\frac{\partial \theta_i}{\partial \eta_i}\right)^2 \frac{\partial^2 \ell_i(\theta_i)}{\partial \theta_i^2} = \frac{1}{g'(\mu_i)^2 a_i(\phi)V(\mu_i)}
@@ -194,25 +242,40 @@ both are scaled by $(1-h_{ii})^{1/2}$, a formula remniscent of the linear model 
 \end{align*}
 since the terms of $\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}$ depend on the unknown coefficient, the latter is estimated by replacing $\boldsymbol{\beta}$ by $\widehat{\boldsymbol{\beta}}$.
 
-The standardized deviance residuals $\{r_{D_i}\}$ and standardized Pearson residuals $\{r_{P_i}\}$ should have approximate normal distribution in large samples, but their distribution can be quite skewed depending on the model.
-
-Like in the linear regression, we will work with the **jackknifed deviance residuals** for residual plots
+The standardized deviance residuals $\{r_{D_i}\}$ and standardized Pearson residuals $\{r_{P_i}\}$ should have an approximate standard normal distribution in large samples, but their distribution can be skewed. Like in the linear regression, we will work with the **jackknifed deviance residuals** for residual plots
 \begin{align*}
 r_{J_i} &= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
 \end{align*}
- Also worth mentioning is the more exotic higher-order approximation
-\begin{align*}
-r^{*}_i = r_{D_i} + \frac{1}{r_{D_i}} \log \left( \frac{r_{P_i}}{r_{D_i}}\right);
-\end{align*}
-$r^*_i$ is built to have a standard normal distribution to high accuracy.
-For ordinary linear regression, both $r_{D_i}$ and $r_{P_i}$ reduce to the standardized residuals $t_i=e_i\{s^2(1-h_{ii})\}^{-1/2}$.
+<!--  Also worth mentioning is the more exotic higher-order approximation -->
+<!-- \begin{align*} -->
+<!-- r^{*}_i = r_{D_i} + \frac{1}{r_{D_i}} \log \left( \frac{r_{P_i}}{r_{D_i}}\right); -->
+<!-- \end{align*} -->
+<!-- $r^*_i$ is built to have a standard normal distribution to high accuracy.  -->
+For ordinary linear regression, both $r_{D_i}$ and $r_{P_i}$ reduce to the standardized residuals $t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}$.
+
+<!-- Residuals are employed in regression models with Poisson, Gamma, and binomial response for $m$ large.  -->
 
 
-Collinearity is also an issue for generalized linear model; for the latter, we define the Cook statistic as the change in the deviance, 
+There are clear parallels between generalized linear models and linear models: we have so far derived an analog of residuals and leverage. Collinearity is also an issue for generalized linear model; for the latter, we define the Cook statistic as the change in the deviance, 
 \begin{align*}
 C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
 \end{align*}
-where $\widehat{\boldsymbol{\beta}}_{-j}$ is the estimate obtained by dropping the $j$th observation from the sample. This requires fitting $n$ different models, which is computationally prohibitive.
-In the linear regression, we can calculate the Cook distance from the formula $C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})$, where $t_i$ are the standardized residuals defined in the previous section. For generalized linear models, no such expression exists, although a good approximation is $C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})$.
+where $\widehat{\boldsymbol{\beta}}_{-j}$ is the estimate obtained by dropping the $j$th observation from the sample. This requires fitting $n$ different models, which is computationally prohibitive. In the linear regression, we can calculate the Cook distance from the formula $C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})$, where $t_i$ are the standardized residuals defined in the previous section. For generalized linear models, no such expression exists, although a good approximation is $C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})$.
 
-Diagnostic plots for generalized linear models are harder to interpret because of the lack of orthogonality. It is customary to plot the jackknife deviance residuals against the linear predictor $\widehat{\eta}_i$, produce normal quantile-quantile plots of standardized deviance residuals and the approximate Cook statistics against the $h_{ii}/(1-h_{ii})$.
+Diagnostic plots for generalized linear models are harder to interpret because of the lack of orthogonality. It is customary to plot the jackknife deviance residuals against the linear predictor $\widehat{\eta}_i$, produce normal quantile-quantile plots of standardized deviance residuals and the approximate Cook statistics against the $h_{ii}/(1-h_{ii})$. We will show examples of such plots for particular models.
+
+## Binary responses
+
+Binary response data are commonplace, notably due to their role in classification. We begin this section by discussing interpretation of the model in terms of censored observations, than tackle the interpretation of the parameters for the canonical link function and the different scales (probability, odds and log-odds) for this representation. We pursue with issues due to the nature of the data, including non-regular asymptotics and separation of variable. We also present an example of incorrect marginalization that leads to Simpson's paradox. Models for multi-way contingency data and proportions are covered in a dedicated section.
+
+<!-- For binary data, most model checking tools break down due to the nature of the observations. The deviance and Pearson provide no information about the quality of the model adjustment and their null distribution depends on $\widehat{\boldsymbol{\beta}}$. Since observations are 0/1, residuals plots are also useless. One oddity of binary regression is that most of the information in the sample is provided by response whose variance is largest (points that have $\pi$ far from 0 or 1). Thus, if one wants to estimate a coefficient $\beta_j$ of large magnitude, the ratio $|\beta_j|/\mathsf{sd}(\beta_j) \to 0$ as $\beta_j \to \infty$: the power for testing that $\beta_j$ tends to zero using a Wald statistic tends to zero. -->
+
+
+
+<!-- `gre` data: slide with logistic curve, linear predictor and probability with prediction interval -->
+
+<!-- Odds and odds ratio, reiterated -->
+
+<!-- Hierarchical interpretation with probit regression (plot comparing probit and logit) -->
+
+<!-- ### Simpson's paradox -->

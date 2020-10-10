@@ -1,6 +1,6 @@
 
 # (APPENDIX) Appendix {-} 
-# Additional topics and prerequisites {#complement}
+# Complements {#complement}
 
 
 ## Population and samples {#population-sample}

@@ -318,7 +318,7 @@ set.seed(1234)
 n <- 40 #number of observations
 X1 <- rpois(n = n, lambda = 2) # covariate (fixed hereafter)
 
-# The sampling distribution of the ordinary least squares estimatrs is
+# The sampling distribution of the ordinary least squares estimators is
 # beta_hat ~ N(beta, sigma^2*(X^TX)^(-1))
 design_mat <- cbind(1, X1)
 # These are the standard dev for betahat (sigma=1)
