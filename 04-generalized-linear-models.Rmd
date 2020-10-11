@@ -5,12 +5,12 @@ Linear models are only suitable for data that are (approximately) normally distr
 
 Generalized linear models (GLM) combine a model for the conditional mean with a distribution for the response variable and a link function tying predictors and parameters.
 
-This chapter gives an introduction to generalized linear models and focuses in particular on logistic regression and Poisson regression, but only for the case of independent observations.  Extensions of generalized linear models for correlated and longitudinal data, the so-called *generalized linear mixed models* (GLMM), are covered in MATH80621.
+This chapter gives an introduction to generalized linear models and focuses in particular on logistic regpassion and Poisson regpassion, but only for the case of independent observations.  Extensions of generalized linear models for correlated and longitudinal data, the so-called *generalized linear mixed models* (GLMM), are covered in MATH80621.
 
 
 ## Basic principles 
 
-The starting point is the same as for linear regression: we have a random sample of independent observations $(\boldsymbol{Y}, \mathbf{X})$, where $Y$ is the response variable and $\mathrm{X}_1, \ldots, \mathrm{X}_p$ are $p$ explanatory variables or covariates which are assumed fixed (non-random). The goal is to model the mean of the response variable as a function of the explanatory variables.
+The starting point is the same as for linear regpassion: we have a random sample of independent observations $(\boldsymbol{Y}, \mathbf{X})$, where $Y$ is the response variable and $\mathrm{X}_1, \ldots, \mathrm{X}_p$ are $p$ explanatory variables or covariates which are assumed fixed (non-random). The goal is to model the mean of the response variable as a function of the explanatory variables.
 
 Let $\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)$ denote the conditional expectation of $Y_i$ given covariates and let $\eta_i$ denote the linear combination of the covariates that will be used to model the response variable, 
 \begin{align*}
@@ -28,7 +28,7 @@ The building blocks of the generalized linear model are
 
 This section borrows from Chapter 4 of 
 
-> Agresti (2015). *Foundations of Linear and Generalized Linear Models*, Wiley.
+> Agpasti (2015). *Foundations of Linear and Generalized Linear Models*, Wiley.
 
 
 
@@ -71,7 +71,7 @@ parameter $\phi=1$, and $b(\theta)=\exp(\theta)$. Replacing these expressions in
 ```
 
 ```{example, label ="binomialglmexpf", name = "Binomial distribution as member of the exponential family"}
-We consider the mass function of a binomial distribution, $\mathsf{Bin}(m, \pi)$, with the number of trials $m$ known. The parametrization presented in \@ref(exm:binomialdist) is not convenient because the mean and the variance both depend on $m$. We consider thus a different parametrization in which $Y$ represents the proportion of successes, so the mass function takes values in $\{0, 1/m, \ldots, 1\}$ and $mY$ denotes the number of successes. The mass function for $Y$ is then
+We consider the mass function of a binomial distribution, $\mathsf{Bin}(m, \pi)$, with the number of trials $m$ known. The parametrization presented in Example \@ref(exm:binomialdist) is not convenient because the mean and the variance both depend on $m$. We consider thus a different parametrization in which $Y$ represents the proportion of successes, so the mass function takes values in $\{0, 1/m, \ldots, 1\}$ and $mY$ denotes the number of successes. The mass function for $Y$ is then
 \begin{align*}
 f(y, \pi)&=\exp \left\{ my \ln \left( \frac{\pi}{1-\pi} \right) + m \ln
 (1-\pi) + \ln \left[
@@ -110,7 +110,7 @@ g\left\{\mathsf{E}(Y \mid \mathrm{X}_1, \ldots, \mathrm{X}_p)\right\}=\eta = \be
 \end{align*}
 The link function thus connects the mean of the random variable $Y$ to the explanatory variables, $g(\mu_i) = \eta_i = \beta_0 + \sum_{j=1}^p\beta_j\mathrm{X}_{ij}$ and likewise $\mu_i  = g^{-1}(\eta_i)$. If the link function is chosen such that $\theta=\eta$, the link function is termed the canonical link function.
 
-The need for a link function often arises from parameter constraints: for example, the mean $\mu=\pi$ of a Bernoulli distribution is the proportion of successes and  must lie in the interval $(0, 1)$. Similarly, the mean $\mu$ of the Poisson distribution must be positive. For the normal distribution (ordinary linear regression model), the mean is unconstrained and the canonical link function is the identity, $\mu_i = \eta_i$.
+The need for a link function often arises from parameter constraints: for example, the mean $\mu=\pi$ of a Bernoulli distribution is the proportion of successes and  must lie in the interval $(0, 1)$. Similarly, the mean $\mu$ of the Poisson distribution must be positive. For the normal distribution (ordinary linear regpassion model), the mean is unconstrained and the canonical link function is the identity, $\mu_i = \eta_i$.
 
 
 An appropriate choice of link function $g$ sets $\mu_i$ equal to a transformation of the linear combination $\eta_i$ so as to avoid imposing parameter constraints on $\boldsymbol{\beta}$. Certain choices of link functions facilitate interpretation or make the likelihood function convenient for optimization.  
@@ -120,11 +120,11 @@ For the Bernoulli and binomial distributions, the most common link function $g$ 
 \ln \left( \frac{\mu}{1-\mu} \right) =\ln(\mu) - \ln(1-\mu)= \eta,
 \\\mathrm{expit}(\eta)&= \frac{\exp(\eta)}{1+\exp(\eta)}=\mu.
 \end{align*}
-The inverse link function is the distribution function of the logistic distribution, hence the name **logistic regression**. This choice of link function is far from unique: any quantile function of a continuous random variable supported on $\mathbb{R}$ could be considered. For the Poisson distribution, the canonical link function $g$ is the natural logarithm, $\ln$, with associated inverse link function $\exp$.
+The inverse link function is the distribution function of the logistic distribution, hence the name **logistic regpassion**. This choice of link function is far from unique: any quantile function of a continuous random variable supported on $\mathbb{R}$ could be considered. For the Poisson distribution, the canonical link function $g$ is the natural logarithm, $\ln$, with associated inverse link function $\exp$.
 
 Canonical link functions are natural choices because of their nice statistical properties: choosing the canonical link ensures that $\mathbf{X}^\top\boldsymbol{y}$ is a minimal sufficient statistic. Other considerations, such as parameter constraints, can be more important in deciding on the choice of $g$.
 
-```{example, label="inverslinklm", name = "Transforming a nonlinear regression model into a linear model through a link function"}
+```{example, label="inverslinklm", name = "Transforming a nonlinear regpassion model into a linear model through a link function"}
 
 Consider a linear model for which theory dictates that the mean should be $Y \sim \mathsf{No}\{\alpha_0/(1+\alpha_1x), \sigma^2\}$.
 
@@ -186,11 +186,11 @@ Since $\mathbf{W}$ depends on the unknown $\boldsymbol{\beta}$ through the expec
 If we consider $Y_i \sim \mathsf{Po}(\mu_i)$ with canonical link function $\mu_i = \exp(\eta_i)$, then $\partial \eta_i / \partial \mu_i = \mu_i^{-1}$ and $w_i=\mu_i$.
 ```
 
-The maximum likelihood estimator of the dispersion parameter $\phi$ can have poor properties, so a moment estimator is sometimes used instead. For known $\mu$, $\mathsf{Va}(Y_i) = a_i\phi V(\mu)$ and, since $\phi$ is constant over observations, we can estimate it from the scaled empirical variance,
-\begin{align*}
-\widehat{\phi}=\frac{1}{n-p} \sum_{i=1}^n \frac{(y_i-\widehat{\mu}_i)^2}{a_iV(\widehat{\mu}_i)}.
-\end{align*}
-This gives $\widehat{\phi}=X^2/(n-p)$, a scaled version of the Pearson $X^2$ statistic presented in the next section.
+<!-- The maximum likelihood estimator of the dispersion parameter $\phi$ can have poor properties, so a moment estimator is sometimes used instead. For known $\mu$, $\mathsf{Va}(Y_i) = a_i\phi V(\mu)$ and, since $\phi$ is constant over observations, we can estimate it from the scaled empirical variance, -->
+<!-- \begin{align*} -->
+<!-- \widehat{\phi}=\frac{1}{n-p} \sum_{i=1}^n \frac{(y_i-\widehat{\mu}_i)^2}{a_iV(\widehat{\mu}_i)}. -->
+<!-- \end{align*} -->
+<!-- This gives $\widehat{\phi}=X^2/(n-p)$, a scaled version of the Pearson $X^2$ statistic presented in the next section. -->
 
 Since we use maximum likelihood estimation, the theory presented in [Chapter 3](likelihood) readily applies. For example, if we want to compare two nested models and test if $q$ of the $\boldsymbol{\beta}$ are jointly zero (corresponding to no effect for the associated covariates), we can fit both null and restricted models and perform a likelihood ratio test.  Under regularity conditions, the likelihood ratio statistic to compare two nested models will follow the usual $\chi^2_q$ distribution. 
 
@@ -214,8 +214,7 @@ Another alternative is found by looking at score test statistic comparing the sa
 \end{align*}
 where both expectation and variance are estimated using the model; for Poisson data, $\phi=1$ and the estimated mean and variance are equal, meaning $\widehat{\mu}_i=V(\widehat{\mu}_i)$. Pearson's $X^2$ statistic measures standardized departures between observations and fitted values.
 
- In large samples, both Pearson $X^2/\phi$ and the deviance $D/\phi$ follow approximately a $\chi^2_{n-p-1}$ distribution if the model is correct and $\phi$ is known (but this result doesn't hold for binary data or binomial data unless $m$ is very large and $\boldsymbol{\beta}$ are small).
-If $\phi$ is unknown, we would replace it throughout by an estimate and the same distributional results hold approximatively.
+ In large samples, both Pearson $X^2/\phi$ and the deviance $D/\phi$ follow approximately a $\chi^2_{n-p-1}$ distribution if the model is correct and $\phi$ is known (but this result doesn't hold for binary data or binomial data unless $m$ is very large and $\boldsymbol{\beta}$ are small). If $\phi$ is unknown, we would replace it throughout by an estimate and the same distributional results hold approximatively.
 
 
 We can use the individual contributions to the deviance and Pearson $X^2$ statistic to build residuals. By considering $D = \sum_{i=1}^n d_i^2$, where 
@@ -242,7 +241,7 @@ both are scaled by $(1-h_{ii})^{1/2}$, a formula remniscent of the linear model 
 \end{align*}
 since the terms of $\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}$ depend on the unknown coefficient, the latter is estimated by replacing $\boldsymbol{\beta}$ by $\widehat{\boldsymbol{\beta}}$.
 
-The standardized deviance residuals $\{r_{D_i}\}$ and standardized Pearson residuals $\{r_{P_i}\}$ should have an approximate standard normal distribution in large samples, but their distribution can be skewed. Like in the linear regression, we will work with the **jackknifed deviance residuals** for residual plots
+The standardized deviance residuals $\{r_{D_i}\}$ and standardized Pearson residuals $\{r_{P_i}\}$ should have an approximate standard normal distribution in large samples, but their distribution can be skewed. Like in the linear regpassion, we will work with the **jackknifed deviance residuals** for residual plots
 \begin{align*}
 r_{J_i} &= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
 \end{align*}
@@ -251,31 +250,324 @@ r_{J_i} &= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_
 <!-- r^{*}_i = r_{D_i} + \frac{1}{r_{D_i}} \log \left( \frac{r_{P_i}}{r_{D_i}}\right); -->
 <!-- \end{align*} -->
 <!-- $r^*_i$ is built to have a standard normal distribution to high accuracy.  -->
-For ordinary linear regression, both $r_{D_i}$ and $r_{P_i}$ reduce to the standardized residuals $t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}$.
+For ordinary linear regpassion, both $r_{D_i}$ and $r_{P_i}$ reduce to the standardized residuals $t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}$.
 
-<!-- Residuals are employed in regression models with Poisson, Gamma, and binomial response for $m$ large.  -->
+<!-- Residuals are employed in regpassion models with Poisson, Gamma, and binomial response for $m$ large.  -->
 
 
 There are clear parallels between generalized linear models and linear models: we have so far derived an analog of residuals and leverage. Collinearity is also an issue for generalized linear model; for the latter, we define the Cook statistic as the change in the deviance, 
 \begin{align*}
 C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
 \end{align*}
-where $\widehat{\boldsymbol{\beta}}_{-j}$ is the estimate obtained by dropping the $j$th observation from the sample. This requires fitting $n$ different models, which is computationally prohibitive. In the linear regression, we can calculate the Cook distance from the formula $C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})$, where $t_i$ are the standardized residuals defined in the previous section. For generalized linear models, no such expression exists, although a good approximation is $C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})$.
+where $\widehat{\boldsymbol{\beta}}_{-j}$ is the estimate obtained by dropping the $j$th observation from the sample. This requires fitting $n$ different models, which is computationally prohibitive. In the linear regpassion, we can calculate the Cook distance from the formula $C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})$, where $t_i$ are the standardized residuals defined in the previous section. For generalized linear models, no such expression exists, although a good approximation is $C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})$.
 
 Diagnostic plots for generalized linear models are harder to interpret because of the lack of orthogonality. It is customary to plot the jackknife deviance residuals against the linear predictor $\widehat{\eta}_i$, produce normal quantile-quantile plots of standardized deviance residuals and the approximate Cook statistics against the $h_{ii}/(1-h_{ii})$. We will show examples of such plots for particular models.
 
 ## Binary responses
 
-Binary response data are commonplace, notably due to their role in classification. We begin this section by discussing interpretation of the model in terms of censored observations, than tackle the interpretation of the parameters for the canonical link function and the different scales (probability, odds and log-odds) for this representation. We pursue with issues due to the nature of the data, including non-regular asymptotics and separation of variable. We also present an example of incorrect marginalization that leads to Simpson's paradox. Models for multi-way contingency data and proportions are covered in a dedicated section.
+Binary response data are commonplace, notably due to their role in classification. We begin this section by discussing interpretation of the model in terms of censored observations, than tackle the interpretation of the parameters for the canonical link function on different scales (probability, odds and log-odds). We pursue with issues due to the nature of the data, including non-regular asymptotics and separation of variable. We also present an example of incorrect marginalization that leads to Simpson's paradox. Models for multi-way contingency data and proportions are covered in a dedicated section.
 
-<!-- For binary data, most model checking tools break down due to the nature of the observations. The deviance and Pearson provide no information about the quality of the model adjustment and their null distribution depends on $\widehat{\boldsymbol{\beta}}$. Since observations are 0/1, residuals plots are also useless. One oddity of binary regression is that most of the information in the sample is provided by response whose variance is largest (points that have $\pi$ far from 0 or 1). Thus, if one wants to estimate a coefficient $\beta_j$ of large magnitude, the ratio $|\beta_j|/\mathsf{sd}(\beta_j) \to 0$ as $\beta_j \to \infty$: the power for testing that $\beta_j$ tends to zero using a Wald statistic tends to zero. -->
+The logistic model specifies
+\begin{align*}
+\mathsf{P}(Y_i=1 \mid \mathbf{X}_i) = \pi_i = \frac{\exp(\beta_0 + \beta_1 \mathrm{X}_{i1}+ \cdots + \beta_p\mathrm{X}_{ip})}{1 + \exp(\beta_0 + \beta_1 \mathrm{X}_{i1}+ \cdots + \beta_p\mathrm{X}_{ip})},
+\end{align*}
+whereas, on the linear predictor scale $\eta_i$, 
+\begin{align*}
+\eta_i =\log \left(\frac{\pi_i}{1-\pi_i}\right) =  \beta_0 + \beta_1 \mathrm{X}_{i1}+ \cdots + \beta_p\mathrm{X}_{ip}.
+\end{align*}
+
+One way to view binary variables is as censored observations: suppose $Z_i = \eta_i + \varepsilon_i$ where $\varepsilon_i$ is an error term with distribution function $F$ and $\eta_i$ is a fixed linear predictor. Suppose that the variables $Z_i$ are censored:we only observe the binary indicators $Y_i = 1$ if $Z_i > 0$ and $Y_i=0$ otherwise, not the $Z_i$ terms themselves. It follows that 
+\[
+\mathsf{P}(Y_i = 1 \mid \eta_i) = 1-F(-\eta_i)
+\]
+If $F$ is symmetric around zero, then $F(\eta_i) = 1-F(-\eta_i)$. The choice of the logistic distribution for $F$ gives $\pi_i = \mathrm{expit}(\eta_i)$. Another popular alternative is when $F$ is the distribution function of a standard normal distribution, $F(x) = \Phi(x)$, which is the probit regpassion model. Both link functions only differ in the tail, but the parameters of the the logistic model are more readily interpreted since the quantile function $F^{-1}$ of the logistic distribution, $\mathrm{logit}(x)$, is available in closed-form.
+
+```{r probitvslogit, echo = FALSE, fig.cap = "Comparison of logistic (black) and probit (dashed blue) inverse link functions (left) for binary data: both are monotone increasing functions of the linear predictor. The logistic distribution has thicker tails and thus smaller peak at zero. The right panel shows the derivative of both inverse link functions."}
+
+g1 <- ggplot(data.frame(x=seq(-10, 10, length.out = 1001L)),
+       aes(x)) + 
+  stat_function(fun=pnorm, col = "blue", lty = 2) + 
+  stat_function(fun = function(x){exp(x)/(1+exp(x))}) +
+  labs(y = "P(Y=1)", x = expression(eta))
+ g2 <- ggplot(data.frame(x=seq(-10, 10, length.out = 1001L)),
+        aes(x)) + 
+   stat_function(fun=dnorm) + 
+   stat_function(fun = function(x){exp(x)/(1+exp(x))^2}, col = "blue", lty = 2) +
+   labs(y = "density", x = expression(eta))
+#g1
+g1 + g2
+```
+
+The logistic regpassion model is nonlinear in $\boldsymbol{\eta}=\mathbf{X}\boldsymbol{\beta}$ and the left panel of Figure \@ref(fig:probitvslogit) shows how changes in the linear predictor impact the probability of success. As $\eta_i$ increases (for example, if $\mathrm{X}_j$ increases by one unit and $\beta_j$ is positive), so does the estimated probability of success because the function $\mathrm{expit}(x)$ is monotone increasing. This characterization is however not helpful.
+If we exponentiate the linear predictor $\eta$, we get 
+\begin{align*}
+\mathrm{odds}(Y\mid \mathbf{X}) = \frac{\pi(\mathbf{X})}{1-\pi(\mathbf{X})}=\exp(\beta_0+ \beta_1 \mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p),
+\end{align*}
+where $\pi(\mathbf{X})/\{1-\pi(\mathbf{X})\}$ are the odds of $\mathsf{P}(Y=1 \mid \mathbf{X})$ (success) relative to $\mathsf{P}(Y=0 \mid\mathbf{X})$ (failure). If $\pi=0.8$, the odds are $\pi/(1-\pi) = 0 .8/0.2 = 4$: on average, we expect four successes for one failure.
+
+On the odds scale, the logistic regpassion model is multiplicative: for an increase of $\mathrm{X}_j$ of one unit, *ceteris paribus*, the odds are multiplied by $\exp(\beta_j)$. 
+
+```{example, label="gpaexample", name = "GPA score and graduate admission"}
+We consider a simple logistic model for graduate admission (yes/no) in universities across the USA as a function of their grade point average (GPA).
+```
 
 
 
-<!-- `gre` data: slide with logistic curve, linear predictor and probability with prediction interval -->
 
-<!-- Odds and odds ratio, reiterated -->
+```{r figgpa, echo = FALSE, cache = TRUE, fig.cap = "Graduate admission probability as a function of grade point averages (GPA) on the log odds (left), odds (middle) and probability of success scale (right). The line indicates fitted value with pointwise 95\\% profile-based confidence intervals." }
+gpa_dat <- read.csv("https://t.co/4ufswKa2C6?amp=1")
+mod <- glm(admit ~ gpa, 
+    data=gpa_dat, 
+    family=binomial(link="logit"))
+gpa_new <- seq(2.3,4, length.out = 171L)
+predint <- sapply(gpa_new, function(xst){
+  mod1 <- glm(admit ~ I(gpa-xst), 
+    data=gpa_dat, 
+    family=binomial(link="logit"))
+  return(confint(profile(mod1))[1,])
+})
+plot_df <- data.frame(gpa = gpa_new,
+           pred = predict(mod, newdata = data.frame(gpa = gpa_new)),
+           lcl = predint[1,],
+           ucl = predint[2,])
+expit <- function(x){1/(1+exp(-x))}
+g1 <- ggplot(data = plot_df, aes(x = gpa)) + 
+  geom_ribbon(aes(ymin = lcl, ymax = ucl), alpha = 0.2) + 
+  geom_line(aes(y = pred), col = "blue") + 
+  geom_rug(data = gpa_dat,  outside = FALSE) + 
+  labs(y = "log odds")
+g2 <- ggplot(data = plot_df, aes(x = gpa)) + 
+  geom_ribbon(aes(ymin = exp(lcl), ymax = exp(ucl)), alpha = 0.2) + 
+  geom_line(aes(y = exp(pred)), col = "blue") + 
+  geom_rug(data = gpa_dat,  outside = FALSE) + 
+  labs(y = "odds")
+g3 <- ggplot(data = plot_df, aes(x = gpa)) + 
+  geom_ribbon(aes(ymin = expit(lcl), ymax = expit(ucl)), alpha = 0.2) + 
+  geom_line(aes(y = expit(pred)), col = "blue") + 
+  geom_rug(data = gpa_dat,  outside = FALSE) + 
+  labs(y = "P(Y=1)")
+g1 + g2 + g3
+```
 
-<!-- Hierarchical interpretation with probit regression (plot comparing probit and logit) -->
+```{r gpatable, cache = TRUE, echo = FALSE}
+gpa_dat <- read.csv("https://t.co/4ufswKa2C6?amp=1")
+mod <- glm(admit ~ gpa, 
+    data=gpa_dat, 
+    family=binomial(link="logit"))
+names(mod$coefficients)[2] <- c("gpa")
+dust(mod) %>%
+  sprinkle(col = 2:3, round = 2) %>%
+  sprinkle(col = 4, round = 2) %>% 
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames(estimate = "estimate", 
+                     std.error = "std. error",
+                     statistic = "Wald stat.", 
+                     p.value = "p-value") %>% 
+  sprinkle_bookdown() %>%
+  knitr::kable(align = "lrrrr", booktabs = TRUE, caption = "Logistic regression: table of coefficients for the graduate admission data with gpa as only covariate.")
+```
 
-<!-- ### Simpson's paradox -->
+The coefficients of the simple logistic model are reported in Table \@ref(tab:gpatable), showing that the log odds of admission increase by `r round(coef(mod)[2]/10,2)` for each increase in GPA of $0.1$. This translates into $\exp(0.1\widehat{\beta}_{\mathrm{gpa}})=`r round(exp(coef(mod)[2]/10),2)`$ on the odds ratio scale, meaning a `r round(100*(round(exp(coef(mod)[2]/10),2)-1),1)`% increase in odds of admission for every $0.1$ increase in GPA. Of course, this model is simplistic and omits other important factors\ldots Figure \@ref(fig:figgpa) shows the variation on the log odds, odds and probability scale as a function of grade point average. While the probability scale is the most intuitive, the effect of an increase of $0.1$ unit of GPA isn't the same, depending on what is your starting value: according to the model, the absolute increase in the probability of admission for individuals with GPA scores $2.3$ and $2.4$  is
+`r round(100*expit(with(plot_df, pred[which(sapply(gpa, function(i){isTRUE(all.equal(i,2.4))}))]))- 100*expit(with(plot_df, pred[gpa == 2.3])),1)`%, whereas that corresponding to an increase in GPA from 3.9 to 4 is `r round(100*(expit(with(plot_df, pred[gpa == 4]))-expit(with(plot_df, pred[gpa == 3.9]))), 1)`% ; this illustrates how the impact of an increase of $0.1$ points is not the same across the board.
+
+
+
+```{example label="birthweightex", name="Risk factors related to underweight babies at birth"}
+We consider a medical example related to risk factors explaining the birth weight: the birth weight is dichotomized and classified as low if the infant weight is inferior to 2.5 kg (1) and 0 otherwise. The data were collected in a medical center in Massachusetts in 1986.
+```
+
+The data contains the following explanatory variables
+
+- `age`: mother's age in years.
+- `lwt`: mother's weight in pounds at last menstrual period.
+- `race`: mother's race (`white`, `black` or `other`).
+- `smoke`: smoking status during pregnancy (`yes`/`no`).
+- `ptl`: previous premature labours (`none`/`at least one`).
+- `ht`: history of hypertension.
+- `ui`: presence of uterine irritability.
+
+```{r birthweighteda, echo = FALSE, cache = TRUE, fig.cap = "Exploratory data analysis for the birthweight data"}
+data(birthwt, package = "MASS")
+# prepare data
+birthwt$low <- as.factor(birthwt$low)
+birthwt$race <- as.factor(birthwt$race); levels(birthwt$race) <- c('white','black','other')
+birthwt$smoke <- as.factor(birthwt$smoke); levels(birthwt$smoke) <- c('no','yes')
+birthwt$ht <- as.factor(birthwt$ht); levels(birthwt$ht) <- c('no','yes')
+birthwt$ptl <- as.factor(birthwt$ptl>0); levels(birthwt$ptl) <- c('none','at least one')
+birthwt$ui <- as.factor(birthwt$ui); levels(birthwt$ui) <- c('no','yes')
+
+#library(plyr)
+# Function to create frequency tables and label positions
+freq.fun <- function(cat.var,response)
+{
+  k <- as.data.frame(table(cat.var, response),nrow=length(levels(cat.var)))
+  names(k)[2] <- 'low'
+  k <- plyr::ddply(k, plyr::.(cat.var), transform, percent = Freq/sum(Freq) * 100)
+  k <- plyr::ddply(k, plyr::.(cat.var), transform, pos = (cumsum(Freq) - 0.5 * Freq))
+  k$label <- '' #paste0(sprintf("%.0f", k$percent), "%")
+  return(k)
+}
+
+# Function to arrange ggplots in a grid with one legend
+grid_arrange_shared_legend <- function(...) {
+  plots <- list(...)
+  g <- ggplotGrob(plots[[1]] + theme(legend.position="bottom"))$grobs
+  legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
+  lheight <- sum(legend$height)
+  gridExtra::grid.arrange(
+    do.call(gridExtra::arrangeGrob, lapply(plots, function(x) x + theme(legend.position="none"))),
+    legend,
+    ncol = 1,
+    heights = grid::unit.c(grid::unit(1, "npc") - lheight, lheight))
+}
+
+# Creating the plots
+p1 <- ggplot(freq.fun(birthwt$race,birthwt$low), aes(x = cat.var, y = Freq, fill = low)) +
+  geom_bar(stat = "identity", position = "dodge") + xlab(NULL) + ylab(NULL) + coord_flip() +
+  ggtitle('race') + theme(plot.title=element_text(size=10))+
+  geom_text(aes(y = pos, label = label), size=2)
+
+p2 <- ggplot(freq.fun(birthwt$ht,birthwt$low), aes(x = cat.var, y = Freq, fill = low)) +
+  geom_bar(stat = "identity", position = "dodge") + xlab(NULL) + ylab(NULL) + coord_flip() +
+  ggtitle('history of hypertension') + theme(plot.title=element_text(size=10))+
+  geom_text(aes(y = pos, label = label), size=2)
+
+p3 <- ggplot(freq.fun(birthwt$smoke,birthwt$low), aes(x = cat.var, y = Freq, fill = low)) + 
+  geom_bar(stat = "identity", position = "dodge") + xlab(NULL) + ylab(NULL) + coord_flip() +
+  ggtitle('smoke') + theme(plot.title=element_text(size=10))+
+  geom_text(aes(y = pos, label = label), size=2)
+
+p4 <- ggplot(freq.fun(birthwt$ptl,birthwt$low), aes(x = cat.var, y = Freq, fill = low))+
+  geom_bar(stat = "identity", position = "dodge") + xlab(NULL) + ylab(NULL) + coord_flip() +
+  ggtitle('number of previous premature labours') + theme(plot.title=element_text(size=10))+
+  geom_text(aes(y = pos, label = label), size=2)
+
+p5 <- ggplot(freq.fun(birthwt$ui,birthwt$low), aes(x = cat.var, y = Freq, fill = low))+
+  geom_bar(stat = "identity", position = "dodge") + xlab(NULL) + ylab(NULL) + coord_flip() +
+  ggtitle('has uterine irritability') + theme(plot.title=element_text(size=10))+
+  geom_text(aes(y = pos, label = label), size=2)
+
+p6 <- ggplot(freq.fun(birthwt$ftv,birthwt$low), aes(x = cat.var, y = Freq, fill = low))+
+  geom_bar(stat = "identity", position = "dodge") + xlab(NULL) + ylab(NULL) + coord_flip() +
+  ggtitle('number of physician visits the last trimester') + theme(plot.title=element_text(size=10))+
+  geom_text(aes(y = pos, label = label), size=2)
+
+p6 <- ggplot(data = birthwt) +
+  geom_boxplot(aes(x=lwt, col = low)) +
+  ggtitle('weight (lbs)') + 
+  theme(plot.title=element_text(size=10),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())+
+xlab("") + ylab("")
+
+grid_arrange_shared_legend(p1, p2, p3, p4, p5, p6)
+```
+
+The exploratory data analysis suggests that smoking has a large impact, as the relative proportion of women who smoke having underweight babies is significant. Likewise, hypertensions seems an important predictor but there are only a handful in the sample with this condition. Women who previously gave birth to premature babies are more likely to give birth to underweight (and potentially premature) babies, whereas women giving birth to babies under 2.5kg also typically have lower weight. We can use a logistic regression to assess the effect of these explanatories.
+
+
+```{r logistibirthwgt, echo = FALSE}
+logit2 <- glm(formula = low ~ lwt + race + smoke + ptl + ht + ui, family = binomial(link = "logit"), data = birthwt)
+#summary(logit2)
+names(logit2$coefficients)[2:8] <- c("mother's weight (lbs)","race [black]","race [other]","smoker [yes]", "previous premature labours","hypertension [yes]","uterine irritability")
+dust(logit2) %>%
+  sprinkle(col = 2:3, round = 2) %>%
+  sprinkle(col = 4, round = 2) %>% 
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames(estimate = "estimate", 
+                     std.error = "std. error",
+                     statistic = "Wald stat.", 
+                     p.value = "p-value") %>% 
+  sprinkle_bookdown() %>%
+  knitr::kable(align = "lrrrr", booktabs = TRUE, caption = "Logistic regression: table of coefficients for the birth weight data.")
+```
+
+Table \@ref(tab:logistibirthwgt) gives the estimated coefficients $\widehat{\boldsymbol{\beta}}$ on the logs odds scale along with standard errors, Wald statistics and the $p$-values from the normal approximation.
+
+We can interpret the effect of these variables: given the other variables and *ceteris paribus*:
+
+- the odds of giving birth to an underweight babies decrease by `r round((1-exp(coef(logit2)[2]))*100,1)`% for each additional pound pre-pregnancy; this paradoxical interpretation, at odds with Figure \@ref(fig:birthweighteda) is (notably) due to the correlation between smoking and mother's weight.
+- the odds of black women giving birth to an underweight baby are `r round((exp(coef(logit2)[3])-1),2)` times those of white women.
+- the odds of women who smoke of having a baby weighting less than 2.5kg at birth are `r round(100*(exp(coef(logit2)[5])-1),1)`% higher than those of women who do not smoke.
+
+The other parameters are interpreted accordingly. We can also check the parameter significance, by comparing the model with all the covariates and withholding one of the explanatories at the time. The results of the likelihood ratio test are presented in Table \@ref(tab:type3birthwgt). At level 5\% and given the other factors, having previous premature labours history and uterine irritability are not statistically significant. There is no significant correlation between the explanatories, since all the variance inflation factors are inferior to $1.5$. 
+
+```{r type3birthwgt, echo = FALSE}
+tab <- car::Anova(logit2, type = 3)
+rownames(tab) <- c("mother's weight","race","smoker", "previous premature labours","hypertension","uterine irritability")
+dust(tab, 
+     keep_rownames = TRUE) %>% 
+  sprinkle(col = 2, round = 2) %>% 
+  sprinkle(col = 3, round = 2) %>% 
+  sprinkle(col = 4, fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames('.rownames' = "variable",
+                    'LR Chisq' = "lik. ratio", 
+                     'Df' = "df",
+                     "Pr(>Chisq)" = "p-value")  %>% 
+knitr::kable(align = "lrrr", booktabs = TRUE, caption = "Analysis of deviance table (Type 3 decomposition) for the birthweight logistic regression model: the table gives the $p$-value for likelihood ratio tests comparing the full model including all covariates with models in which a single explanatory is removed.")
+```
+
+
+```{r diagplotbirthwgt, eval = FALSE, echo = FALSE}
+# uniform residuals for logit2
+pi <- predict(logit2,type='response')
+ui <- as.numeric(as.character(dat$low))*runif(189,0,pi)+(1-as.numeric(as.character(dat$low)))*runif(189,pi,1)
+
+# CI for the uniform QQplot
+library(boot)
+nboot <- 10000
+M <- matrix(runif(length(ui)*nboot),ncol=length(ui),nrow=nboot)
+M <- t(apply(M,1,sort))
+e <- envelope(mat=M)
+par(mar=c(3.1,3.1,1.6,1.5),mgp=c(1.7,0.6,0),font.main=1,cex.main=0.8, bty = "l")
+par(mfrow=c(2,2))
+plot(x=dat$lwt,ui,xlab="mother's weight",ylab='uniform residuals')  
+plot(x=predict(logit2,type='link'),ui,xlab='log(p/(1-p))',ylab='uniform residuals')  
+hist(ui,xlab='uniform residuals',ylab= "frequency")  
+qqplot(seq(from=1/200,by=1/200,to=189/200),ui,cex=0.5,xlab='theoretical quantiles',ylab='uniform residuals'); abline(0,1)
+points(seq(from=1/200,by=1/200,to=189/200),e$overall[1,],pch='-',col='grey')
+points(seq(from=1/200,by=1/200,to=189/200),e$overall[2,],pch='-',col='grey')
+dev.off()
+```
+
+### Simpson's paradox
+
+
+```{r, eval = FALSE, echo = FALSE}
+dat <- data.frame(dead=c(2,3,14,27,51,29,13,1,5,7,12,40,101,64),total=c(55,124,109,130,115,36,13,62,157,121,78,121,129,64),age=c('18-24','25-34','35-44','45-54','55-64','65-74','75+','18-24','25-34','35-44','45-54','55-64','65-74','75+'),smoker=c(rep('yes',7),rep('no',7)))
+dat$alive <- dat$total-dat$dead
+logit1 <- glm(cbind(dead,alive)~smoker,family=binomial(link ='logit'),data=dat)
+summary(logit1)
+xtable::xtable(logit1)
+
+logit2 <- glm(cbind(dead,alive)~age+smoker-1,family=binomial(link ='logit'),data=dat)
+summary(logit2)
+xtable(logit2)
+
+# illustration pb marginalization
+set.seed(1)
+x1 <- rnorm(20,-1,1)
+y1 <- 5+0.2*x1+rnorm(20,0,0.5)
+x2 <- rnorm(20,1,1)
+y2 <- 1+0.5*x2+rnorm(20,0,0.5)
+x <- c(x1,x2)
+y <- c(y1,y2)
+
+par(mar=c(3.1,3.1,1.6,1.5),mgp=c(1.7,0.6,0),font.main=1,cex.main=0.8, bty = "l")
+par(mfrow=c(1,2))
+plot(x,y,pch=c(rep(1,20),rep(19,20)))
+abline(5,0.2,col=2)
+abline(1,0.5,col=4)
+plot(x,y)
+abline(lm(y~x),col='black')
+dev.off()
+```
+
+### Issues with binary data
+
+For binary data, most model checking tools break down due to the nature of the observations. The deviance and Pearson provide no information about the quality of the model adjustment and their null distribution depends on $\widehat{\boldsymbol{\beta}}$. Since observations are 0/1, residuals plots are also useless. One oddity of binary regpassion is that most of the information in the sample is provided by response whose variance is largest (points that have $\pi$ far from 0 or 1). Thus, if one wants to estimate a coefficient $\beta_j$ of large magnitude, the ratio $|\beta_j|/\mathsf{sd}(\beta_j) \to 0$ as $\beta_j \to \infty$: the power for testing that $\beta_j$ tends to zero using a Wald statistic tends to zero.
+This can be seen by looking at how the probability $\pi$ changes as a function of changes in the $j$th explanatory $\mathrm{X}_j$: if $\pi = \mathrm{expit}(\beta_0 + \beta_1\mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p)$, then $\partial \pi/\partial \mathrm{X}_j = \beta_j \pi(1-\pi)$, so the effect of $\beta_j$ is large when $\pi$ is near $0.5$ and near zero if the probabilities are close to the endpoints $0$ or $1$.
+
+
+
