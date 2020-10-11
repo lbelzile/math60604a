@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-10-10.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-10-11.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -2373,12 +2373,12 @@ Linear models are only suitable for data that are (approximately) normally distr
 
 Generalized linear models (GLM) combine a model for the conditional mean with a distribution for the response variable and a link function tying predictors and parameters.
 
-This chapter gives an introduction to generalized linear models and focuses in particular on logistic regpassion and Poisson regpassion, but only for the case of independent observations. Extensions of generalized linear models for correlated and longitudinal data, the so-called \emph{generalized linear mixed models} (GLMM), are covered in MATH80621.
+This chapter gives an introduction to generalized linear models and focuses in particular on logistic regression and Poisson regression, but only for the case of independent observations. Extensions of generalized linear models for correlated and longitudinal data, the so-called \emph{generalized linear mixed models} (GLMM), are covered in MATH80621.
 
 \hypertarget{basic-principles}{%
 \section{Basic principles}\label{basic-principles}}
 
-The starting point is the same as for linear regpassion: we have a random sample of independent observations \((\boldsymbol{Y}, \mathbf{X})\), where \(Y\) is the response variable and \(\mathrm{X}_1, \ldots, \mathrm{X}_p\) are \(p\) explanatory variables or covariates which are assumed fixed (non-random). The goal is to model the mean of the response variable as a function of the explanatory variables.
+The starting point is the same as for linear regression: we have a random sample of independent observations \((\boldsymbol{Y}, \mathbf{X})\), where \(Y\) is the response variable and \(\mathrm{X}_1, \ldots, \mathrm{X}_p\) are \(p\) explanatory variables or covariates which are assumed fixed (non-random). The goal is to model the mean of the response variable as a function of the explanatory variables.
 
 Let \(\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)\) denote the conditional expectation of \(Y_i\) given covariates and let \(\eta_i\) denote the linear combination of the covariates that will be used to model the response variable,
 \begin{align*}
@@ -2483,7 +2483,7 @@ g\left\{\mathsf{E}(Y \mid \mathrm{X}_1, \ldots, \mathrm{X}_p)\right\}=\eta = \be
 \end{align*}
 The link function thus connects the mean of the random variable \(Y\) to the explanatory variables, \(g(\mu_i) = \eta_i = \beta_0 + \sum_{j=1}^p\beta_j\mathrm{X}_{ij}\) and likewise \(\mu_i = g^{-1}(\eta_i)\). If the link function is chosen such that \(\theta=\eta\), the link function is termed the canonical link function.
 
-The need for a link function often arises from parameter constraints: for example, the mean \(\mu=\pi\) of a Bernoulli distribution is the proportion of successes and must lie in the interval \((0, 1)\). Similarly, the mean \(\mu\) of the Poisson distribution must be positive. For the normal distribution (ordinary linear regpassion model), the mean is unconstrained and the canonical link function is the identity, \(\mu_i = \eta_i\).
+The need for a link function often arises from parameter constraints: for example, the mean \(\mu=\pi\) of a Bernoulli distribution is the proportion of successes and must lie in the interval \((0, 1)\). Similarly, the mean \(\mu\) of the Poisson distribution must be positive. For the normal distribution (ordinary linear regression model), the mean is unconstrained and the canonical link function is the identity, \(\mu_i = \eta_i\).
 
 An appropriate choice of link function \(g\) sets \(\mu_i\) equal to a transformation of the linear combination \(\eta_i\) so as to avoid imposing parameter constraints on \(\boldsymbol{\beta}\). Certain choices of link functions facilitate interpretation or make the likelihood function convenient for optimization.\\
 For the Bernoulli and binomial distributions, the most common link function \(g\) is the logit function,
@@ -2492,12 +2492,12 @@ For the Bernoulli and binomial distributions, the most common link function \(g\
 \ln \left( \frac{\mu}{1-\mu} \right) =\ln(\mu) - \ln(1-\mu)= \eta,
 \\\mathrm{expit}(\eta)&= \frac{\exp(\eta)}{1+\exp(\eta)}=\mu.
 \end{align*}
-The inverse link function is the distribution function of the logistic distribution, hence the name \textbf{logistic regpassion}. This choice of link function is far from unique: any quantile function of a continuous random variable supported on \(\mathbb{R}\) could be considered. For the Poisson distribution, the canonical link function \(g\) is the natural logarithm, \(\ln\), with associated inverse link function \(\exp\).
+The inverse link function is the distribution function of the logistic distribution, hence the name \textbf{logistic regression}. This choice of link function is far from unique: any quantile function of a continuous random variable supported on \(\mathbb{R}\) could be considered. For the Poisson distribution, the canonical link function \(g\) is the natural logarithm, \(\ln\), with associated inverse link function \(\exp\).
 
 Canonical link functions are natural choices because of their nice statistical properties: choosing the canonical link ensures that \(\mathbf{X}^\top\boldsymbol{y}\) is a minimal sufficient statistic. Other considerations, such as parameter constraints, can be more important in deciding on the choice of \(g\).
 
-\begin{example}[Transforming a nonlinear regpassion model into a linear model through a link function]
-\protect\hypertarget{exm:inverslinklm}{}{\label{exm:inverslinklm} \iffalse (Transforming a nonlinear regpassion model into a linear model through a link function) \fi{} }
+\begin{example}[Transforming a nonlinear regression model into a linear model through a link function]
+\protect\hypertarget{exm:inverslinklm}{}{\label{exm:inverslinklm} \iffalse (Transforming a nonlinear regression model into a linear model through a link function) \fi{} }
 Consider a linear model for which theory dictates that the mean should be \(Y \sim \mathsf{No}\{\alpha_0/(1+\alpha_1x), \sigma^2\}\).
 
 This model is nonlinear in \(\alpha_0\), \(\alpha_1\). If we opt for the reciprocal link function \(g(x)=1/x\), we get \(\beta_0+\beta_1 x\), where \(\beta_0 = 1/\alpha_0\) and \(\beta_1 = \alpha_1/\alpha_0\) provided \(\alpha_0 \neq 0\). Since the generalized linear model is estimated using maximum likelihood and the latter are invariant to reparametrization, we get easily the estimated coefficients of interest.
@@ -2595,17 +2595,18 @@ both are scaled by \((1-h_{ii})^{1/2}\), a formula remniscent of the linear mode
 \end{align*}
 since the terms of \(\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}\) depend on the unknown coefficient, the latter is estimated by replacing \(\boldsymbol{\beta}\) by \(\widehat{\boldsymbol{\beta}}\).
 
-The standardized deviance residuals \(\{r_{D_i}\}\) and standardized Pearson residuals \(\{r_{P_i}\}\) should have an approximate standard normal distribution in large samples, but their distribution can be skewed. Like in the linear regpassion, we will work with the \textbf{jackknifed deviance residuals} for residual plots
+The standardized deviance residuals \(\{r_{D_i}\}\) and standardized Pearson residuals \(\{r_{P_i}\}\) should have an approximate standard normal distribution in large samples, but their distribution can be skewed. Like in the linear regression, we will work with the \textbf{jackknifed deviance residuals} for residual plots
 \begin{align*}
 r_{J_i} &= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
 \end{align*}
-For ordinary linear regpassion, both \(r_{D_i}\) and \(r_{P_i}\) reduce to the standardized residuals \(t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}\).
+
+For ordinary linear regression, both \(r_{D_i}\) and \(r_{P_i}\) reduce to the standardized residuals \(t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}\).
 
 There are clear parallels between generalized linear models and linear models: we have so far derived an analog of residuals and leverage. Collinearity is also an issue for generalized linear model; for the latter, we define the Cook statistic as the change in the deviance,
 \begin{align*}
 C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
 \end{align*}
-where \(\widehat{\boldsymbol{\beta}}_{-j}\) is the estimate obtained by dropping the \(j\)th observation from the sample. This requires fitting \(n\) different models, which is computationally prohibitive. In the linear regpassion, we can calculate the Cook distance from the formula \(C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})\), where \(t_i\) are the standardized residuals defined in the previous section. For generalized linear models, no such expression exists, although a good approximation is \(C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})\).
+where \(\widehat{\boldsymbol{\beta}}_{-j}\) is the estimate obtained by dropping the \(j\)th observation from the sample. This requires fitting \(n\) different models, which is computationally prohibitive. In the linear regression, we can calculate the Cook distance from the formula \(C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})\), where \(t_i\) are the standardized residuals defined in the previous section. For generalized linear models, no such expression exists, although a good approximation is \(C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})\).
 
 Diagnostic plots for generalized linear models are harder to interpret because of the lack of orthogonality. It is customary to plot the jackknife deviance residuals against the linear predictor \(\widehat{\eta}_i\), produce normal quantile-quantile plots of standardized deviance residuals and the approximate Cook statistics against the \(h_{ii}/(1-h_{ii})\). We will show examples of such plots for particular models.
 
@@ -2627,7 +2628,7 @@ One way to view binary variables is as censored observations: suppose \(Z_i = \e
 \[
 \mathsf{P}(Y_i = 1 \mid \eta_i) = 1-F(-\eta_i)
 \]
-If \(F\) is symmetric around zero, then \(F(\eta_i) = 1-F(-\eta_i)\). The choice of the logistic distribution for \(F\) gives \(\pi_i = \mathrm{expit}(\eta_i)\). Another popular alternative is when \(F\) is the distribution function of a standard normal distribution, \(F(x) = \Phi(x)\), which is the probit regpassion model. Both link functions only differ in the tail, but the parameters of the the logistic model are more readily interpreted since the quantile function \(F^{-1}\) of the logistic distribution, \(\mathrm{logit}(x)\), is available in closed-form.
+If \(F\) is symmetric around zero, then \(F(\eta_i) = 1-F(-\eta_i)\). The choice of the logistic distribution for \(F\) gives \(\pi_i = \mathrm{expit}(\eta_i)\). Another popular alternative is when \(F\) is the distribution function of a standard normal distribution, \(F(x) = \Phi(x)\), which is the probit regression model. Both link functions only differ in the tail, but the parameters of the the logistic model are more readily interpreted since the quantile function \(F^{-1}\) of the logistic distribution, \(\mathrm{logit}(x)\), is available in closed-form.
 
 \begin{figure}
 
@@ -2638,14 +2639,14 @@ If \(F\) is symmetric around zero, then \(F(\eta_i) = 1-F(-\eta_i)\). The choice
 \caption{Comparison of logistic (black) and probit (dashed blue) inverse link functions (left) for binary data: both are monotone increasing functions of the linear predictor. The logistic distribution has thicker tails and thus smaller peak at zero. The right panel shows the derivative of both inverse link functions.}\label{fig:probitvslogit}
 \end{figure}
 
-The logistic regpassion model is nonlinear in \(\boldsymbol{\eta}=\mathbf{X}\boldsymbol{\beta}\) and the left panel of Figure \ref{fig:probitvslogit} shows how changes in the linear predictor impact the probability of success. As \(\eta_i\) increases (for example, if \(\mathrm{X}_j\) increases by one unit and \(\beta_j\) is positive), so does the estimated probability of success because the function \(\mathrm{expit}(x)\) is monotone increasing. This characterization is however not helpful.
+The logistic regression model is nonlinear in \(\boldsymbol{\eta}=\mathbf{X}\boldsymbol{\beta}\) and the left panel of Figure \ref{fig:probitvslogit} shows how changes in the linear predictor impact the probability of success. As \(\eta_i\) increases (for example, if \(\mathrm{X}_j\) increases by one unit and \(\beta_j\) is positive), so does the estimated probability of success because the function \(\mathrm{expit}(x)\) is monotone increasing. This characterization is however not helpful.
 If we exponentiate the linear predictor \(\eta\), we get
 \begin{align*}
 \mathrm{odds}(Y\mid \mathbf{X}) = \frac{\pi(\mathbf{X})}{1-\pi(\mathbf{X})}=\exp(\beta_0+ \beta_1 \mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p),
 \end{align*}
 where \(\pi(\mathbf{X})/\{1-\pi(\mathbf{X})\}\) are the odds of \(\mathsf{P}(Y=1 \mid \mathbf{X})\) (success) relative to \(\mathsf{P}(Y=0 \mid\mathbf{X})\) (failure). If \(\pi=0.8\), the odds are \(\pi/(1-\pi) = 0 .8/0.2 = 4\): on average, we expect four successes for one failure.
 
-On the odds scale, the logistic regpassion model is multiplicative: for an increase of \(\mathrm{X}_j\) of one unit, \emph{ceteris paribus}, the odds are multiplied by \(\exp(\beta_j)\).
+On the odds scale, the logistic regression model is multiplicative: for an increase of \(\mathrm{X}_j\) of one unit, \emph{ceteris paribus}, the odds are multiplied by \(\exp(\beta_j)\).
 
 \begin{example}[GPA score and graduate admission]
 \protect\hypertarget{exm:gpaexample}{}{\label{exm:gpaexample} \iffalse (GPA score and graduate admission) \fi{} }We consider a simple logistic model for graduate admission (yes/no) in universities across the USA as a function of their grade point average (GPA).
@@ -2674,7 +2675,7 @@ gpa & 1.05 & 0.3 & 3.52 & < 0.001\\
 \end{tabular}
 \end{table}
 
-The coefficients of the simple logistic model are reported in Table \ref{tab:gpatable}, showing that the log odds of admission increase by 0.11 for each increase in GPA of \(0.1\). This translates into \(\exp(0.1\widehat{\beta}_{\mathrm{gpa}})=1.11\) on the odds ratio scale, meaning a 11\% increase in odds of admission for every \(0.1\) increase in GPA. Of course, this model is simplistic and omits other important factors\ldots Figure \ref{fig:figgpa} shows the variation on the log odds, odds and probability scale as a function of grade point average. While the probability scale is the most intuitive, the effect of an increase of \(0.1\) unit of GPA isn't the same, depending on what is your starting value: according to the model, the absolute increase in the probability of admission for individuals with GPA scores \(2.3\) and \(2.4\) is
+The coefficients of the simple logistic model are reported in Table \ref{tab:gpatable}, showing that the log odds of admission increase by 0.11 for each increase in GPA of \(0.1\). This translates into \(\exp(0.1\widehat{\beta}_{\mathrm{gpa}})=1.11\) on the odds ratio scale, meaning a 11\% increase in odds of admission for every \(0.1\) increase in GPA. Of course, this model is simplistic and omits other important factors\ldots{} Figure \ref{fig:figgpa} shows the variation on the log odds, odds and probability scale as a function of grade point average. While the probability scale is the most intuitive, the effect of an increase of \(0.1\) unit of GPA isn't the same, depending on what is your starting value: according to the model, the absolute increase in the probability of admission for individuals with GPA scores \(2.3\) and \(2.4\) is
 1.2\%, whereas that corresponding to an increase in GPA from 3.9 to 4 is 2.6\% ; this illustrates how the impact of an increase of \(0.1\) points is not the same across the board.
 
 \begin{example}[Risk factors related to underweight babies at birth]
@@ -2768,14 +2769,65 @@ uterine irritability & 2.63 & 1 & 0.1\\
 \end{tabular}
 \end{table}
 
-\hypertarget{simpsons-paradox}{%
-\subsection{Simpson's paradox}\label{simpsons-paradox}}
-
 \hypertarget{issues-with-binary-data}{%
 \subsection{Issues with binary data}\label{issues-with-binary-data}}
 
-For binary data, most model checking tools break down due to the nature of the observations. The deviance and Pearson provide no information about the quality of the model adjustment and their null distribution depends on \(\widehat{\boldsymbol{\beta}}\). Since observations are 0/1, residuals plots are also useless. One oddity of binary regpassion is that most of the information in the sample is provided by response whose variance is largest (points that have \(\pi\) far from 0 or 1). Thus, if one wants to estimate a coefficient \(\beta_j\) of large magnitude, the ratio \(|\beta_j|/\mathsf{sd}(\beta_j) \to 0\) as \(\beta_j \to \infty\): the power for testing that \(\beta_j\) tends to zero using a Wald statistic tends to zero.
-This can be seen by looking at how the probability \(\pi\) changes as a function of changes in the \(j\)th explanatory \(\mathrm{X}_j\): if \(\pi = \mathrm{expit}(\beta_0 + \beta_1\mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p)\), then \(\partial \pi/\partial \mathrm{X}_j = \beta_j \pi(1-\pi)\), so the effect of \(\beta_j\) is large when \(\pi\) is near \(0.5\) and near zero if the probabilities are close to the endpoints \(0\) or \(1\).
+One oddity of regression models for binary data is that most of the information in the sample is provided by response whose variance is largest (points that have \(\pi\) far from 0 or 1). This can be seen by looking at how the probability \(\pi\) changes as a function of changes in the \(j\)th explanatory \(\mathrm{X}_j\): if \(\pi = \mathrm{expit}(\beta_0 + \beta_1\mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p)\), then \(\partial \pi/\partial \mathrm{X}_j = \beta_j \pi(1-\pi)\), so the effect of \(\beta_j\) is large when \(\pi\) is near \(0.5\) and near zero if the probabilities are close to the endpoints \(0\) or \(1\). Thus, if one wants to estimate a coefficient \(\beta_j\) of large magnitude, the ratio \(|\beta_j|/\mathsf{sd}(\beta_j) \to 0\) as \(\beta_j \to \infty\): the power for testing that \(\beta_j=0\) using a Wald statistic tends to zero. Wald statistics are not recommended for Bernoulli data: the following simple example illustrates why.
+
+\begin{example}[Incoherent results for Wald tests]
+\protect\hypertarget{exm:waldgarbage}{}{\label{exm:waldgarbage} \iffalse (Incoherent results for Wald tests) \fi{} }Suppose we consider a simple binary model and \(n=100\) observations and the null hypothesis \(\mathscr{H}_0:\pi = 0.5\) and equivalently for the logistic model \(Y_i \sim \mathsf{Bin}\{m, \mathrm{expit}(\beta_0)\}\), where this same hypothesis amounts to \(\mathscr{H}_0:\beta_0=0\). Figure \ref{fig:WaldgarbageR} clearly shows that lack of invariance of the Wald statistic to reparametrization. When \(\widehat{\beta}_0\) increases and \(m\) is large, the Wald statistic for \(\beta_0\) decreases as we approach \(m\) successes, because the standard error of \(\widehat{\beta}_0\) increases faster than the difference \(\widehat{\beta}-0\). Both statistics are asymptotically normal if the null hypothesis holds true, so the two-sided test would reject if the value of the Wald statistic is greater than 1.96. Depending on the parametrization, however, they give different results: the statistic increases monotonically for \(\pi\), but would converge to zero for \(\beta_0\) when \(m\) is large (allowing thereby larger values of \(\widehat{\beta}_0\)). No such problem arises when considering score and likelihood ratio tests.
+\end{example}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/WaldgarbageR-1} 
+
+}
+
+\caption{Wald test statistic for $Y_i \sim \mathsf{Bin}(m=500, \pi)$ (left)  for $\pi=0.5$ and the same hypothesis test on the logistic scale with $Y_i \sim \mathsf{Bin}(m=500, \mathrm{expit}(\beta_0))$ and $\mathscr{H}_0:\beta_0=0$ (right) as a function of the number of success out of 500 trials.}\label{fig:WaldgarbageR}
+\end{figure}
+
+Thus, information about the coefficients only accumulates if the true regression coefficients \(\boldsymbol{\beta}\) are small. The deviance and Pearson provide little to no information about the quality of the model adjustment and their null distribution depends on \(\widehat{\boldsymbol{\beta}}\): with large coefficients, the asymptotic \(\chi^2\) distribution is not a good approximation and relying on these to determine goodness-of-fit is not recommended.
+
+\hypertarget{diagnostic-plots-for-binary-data-star}{%
+\subsubsection{\texorpdfstring{Diagnostic plots for binary data (\(\star\))}{Diagnostic plots for binary data (\textbackslash star)}}\label{diagnostic-plots-for-binary-data-star}}
+
+There are also other issues arising from the discreteness of the observations. Since observations are 0/1, residuals are often separated. Figure \ref{fig:diagplotsbirthwt1}
+shows residual plots for Example \ref{exm:birthweightex}: both plots are of limited use to assess goodness-of-fit and model assumptions.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagplotsbirthwt1-1} 
+
+}
+
+\caption{Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right).}\label{fig:diagplotsbirthwt1}
+\end{figure}
+
+Another strategy is use of quantile residuals \citep{Brillinger/Preisler:1983}. If \(Y \sim F\), the quantile transform gives \(U=F(Y) \sim \mathsf{U}(0,1)\), meaning uniformly distributed on \((0,1)\). Replacing the unknown distribution \(F\) by \(\widehat{F}\) should yield approximately uniform observations. With \(\widehat{\pi}_i\) denoting the probability of success, we take
+\[
+U_i = U_{i1} Y_i + U_{i2}(1-Y_i), \qquad U_{i1} \sim \mathsf{U}(0, \widehat{\pi}_i), \quad U_{i2} \sim \mathsf{U}(\widehat{\pi}_i, 1)
+\]
+and the resulting \textbf{uniform residuals} will be, as their name hints, approximately uniform on \((0,1)\). The drawback of this approach lies in the randomness of the residuals.
+Figure \ref{fig:diagplotbirthwgt} shows the diagnostic plots based on the uniform residuals (top two rows): there is no overall indication of poor fit, except for seemingly too few low/high residuals. The two observations with high leverage correspond to non-smoker mothers with no premature labour record: one with hypertension and a weight of 95lbs (unusual combination), the other weighting 200 lbs, with no hypertension and presence of uterine irritability.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagplotbirthwgt-1} 
+
+}
+
+\caption{Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey's quantile-quantile plot, Cook statistic against weighted leverage and case number. }\label{fig:diagplotbirthwgt}
+\end{figure}
+
+\hypertarget{count-data}{%
+\section{Count data}\label{count-data}}
+
+\hypertarget{modelling-proportions}{%
+\section{Modelling proportions}\label{modelling-proportions}}
+
+\hypertarget{simpsons-paradox}{%
+\subsection{Simpson's paradox}\label{simpsons-paradox}}
 
 \hypertarget{correlated-longitudinal-data}{%
 \chapter{Correlated and longitudinal data}\label{correlated-longitudinal-data}}
