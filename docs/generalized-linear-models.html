@@ -696,14 +696,79 @@ Figure 4.4: Wald test statistic for <span class="math inline">\(Y_i \sim \mathsf
 </p>
 </div>
 <p>Thus, information about the coefficients only accumulates if the true regression coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span> are small. The deviance and Pearson provide little to no information about the quality of the model adjustment and their null distribution depends on <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>: with large coefficients, the asymptotic <span class="math inline">\(\chi^2\)</span> distribution is not a good approximation and relying on these to determine goodness-of-fit is not recommended.</p>
-<div id="diagnostic-plots-for-binary-data-star" class="section level4" number="4.3.1.1">
-<h4><span class="header-section-number">4.3.1.1</span> Diagnostic plots for binary data (<span class="math inline">\(\star\)</span>)</h4>
-<p>There are also other issues arising from the discreteness of the observations. Since observations are 0/1, residuals are often separated. Figure <a href="generalized-linear-models.html#fig:diagplotsbirthwt1">4.5</a>
+</div>
+<div id="quasi-separation-of-variables" class="section level3" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Quasi-separation of variables</h3>
+<p>One common problem with binary data is the problem of complete separation of variables: in this scenario, a linear combination of the explanatories allows to perfectly categorize <span class="math inline">\(Y_i\)</span> into <span class="math inline">\(0/1\)</span> depending on the value of the covariates and the predicted probabilities will be exactly zero or one. While this is not a problem for prediction, the coefficients that yield such a sharp transition are near infinite, as displayed in Figure <a href="generalized-linear-models.html#fig:sepvarplot">4.5</a>; software may or not pick up such error, but in any case Wald tests for individual coefficients are rubbish. This is problematic for inference because we cannot meaningfully interpret the resulting parameters.</p>
+<table class="kable_wrapper">
+<caption>
+<span id="tab:quasisepvar">Table 4.4: </span>Logistic regression: simulated dataset exhibiting separation of variables with standard logistic model and Wald tests (left) and Firth’s regression with likelihood ratio tests (right). The large coefficients and standard errors, combined with near zero residuals, are all indicative of separation of variable.
+</caption>
+<tbody>
+<tr>
+<td>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std. error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-829</td>
+<td align="right">311291</td>
+</tr>
+<tr class="even">
+<td align="left">x</td>
+<td align="right">92.5</td>
+<td align="right">34781</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table>
+<thead>
+<tr class="header">
+<th align="left">estimate</th>
+<th align="right">std. error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">-5.6</td>
+<td align="right">2.8</td>
+</tr>
+<tr class="even">
+<td align="left">0.6</td>
+<td align="right">0.3</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Inspection of the coefficients and their standard errors is a good way to detect such problems: parameters that are large (with standardized explanatories with mean zero variance one inputs) with <span class="math inline">\(|\widehat{\beta}_j| &gt; 36\)</span> are particularly suspicious; the number of iterations for the optimization routine is also often abnormally large. While the Wald statistic for <span class="math inline">\(\beta_1=0\)</span> is nearly zero and the <span class="math inline">\(p\)</span>-value 1, the likelihood ratio test yields a statistic of 20.016 with a negligible associated <span class="math inline">\(p\)</span>-value.</p>
+<p>One way to restore finiteness of the <span class="math inline">\(\boldsymbol{\beta}\)</span> is to impose a penalty term that prevents near infinite parameter values. Firth’s penalty is the most popular solution (option <code>firth</code> in the <strong>SAS</strong> procedure <code>logistic</code> and <code>logistf::logistf</code> function in <strong>R</strong>.</p>
+<div class="figure" style="text-align: center"><span id="fig:sepvarplot"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/sepvarplot-1.png" alt="Illustration of complete separation of variable on simulated observations. Parameters are near infinite to yield a sharp transition at $x=9$. Quasi-complete separation of variable occurs if both outcomes are observed at the cutoff point." width="70%" />
+<p class="caption">
+Figure 4.5: Illustration of complete separation of variable on simulated observations. Parameters are near infinite to yield a sharp transition at <span class="math inline">\(x=9\)</span>. Quasi-complete separation of variable occurs if both outcomes are observed at the cutoff point.
+</p>
+</div>
+</div>
+<div id="diagnostic-plots-for-binary-data-star" class="section level3" number="4.3.3">
+<h3><span class="header-section-number">4.3.3</span> Diagnostic plots for binary data (<span class="math inline">\(\star\)</span>)</h3>
+<p>There are also other issues arising from the discreteness of the observations. Since observations are 0/1, residuals are often separated. Figure <a href="generalized-linear-models.html#fig:diagplotsbirthwt1">4.6</a>
 shows residual plots for Example <a href="generalized-linear-models.html#exm:birthweightex">4.8</a>: both plots are of limited use to assess goodness-of-fit and model assumptions.</p>
 <div class="figure" style="text-align: center"><span id="fig:diagplotsbirthwt1"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/diagplotsbirthwt1-1.png" alt="Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right)." width="70%" />
 <p class="caption">
-Figure 4.5: Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right).
+Figure 4.6: Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right).
 </p>
 </div>
 <!-- One possible mitigation strategy for the quantile-quantile plot is to look at higher-order approximations, like -->
@@ -716,18 +781,24 @@ Figure 4.5: Diagnostic plots for the binary regression for the birth weight data
 U_i = U_{i1} Y_i + U_{i2}(1-Y_i), \qquad U_{i1} \sim \mathsf{U}(0, \widehat{\pi}_i), \quad U_{i2} \sim \mathsf{U}(\widehat{\pi}_i, 1)
 \]</span>
 and the resulting <strong>uniform residuals</strong> will be, as their name hints, approximately uniform on <span class="math inline">\((0,1)\)</span>. The drawback of this approach lies in the randomness of the residuals.
-Figure <a href="generalized-linear-models.html#fig:diagplotbirthwgt">4.6</a> shows the diagnostic plots based on the uniform residuals (top two rows): there is no overall indication of poor fit, except for seemingly too few low/high residuals. The two observations with high leverage correspond to non-smoker mothers with no premature labour record: one with hypertension and a weight of 95lbs (unusual combination), the other weighting 200 lbs, with no hypertension and presence of uterine irritability.</p>
+Figure <a href="generalized-linear-models.html#fig:diagplotbirthwgt">4.7</a> shows the diagnostic plots based on the uniform residuals (top two rows): there is no overall indication of poor fit, except for seemingly too few low/high residuals. The two observations with high leverage correspond to non-smoker mothers with no premature labour record: one with hypertension and a weight of 95lbs (unusual combination), the other weighting 200 lbs, with no hypertension and presence of uterine irritability.</p>
 <div class="figure" style="text-align: center"><span id="fig:diagplotbirthwgt"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/diagplotbirthwgt-1.png" alt="Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey's quantile-quantile plot, Cook statistic against weighted leverage and case number. " width="70%" />
 <p class="caption">
-Figure 4.6: Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey’s quantile-quantile plot, Cook statistic against weighted leverage and case number.
+Figure 4.7: Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey’s quantile-quantile plot, Cook statistic against weighted leverage and case number.
 </p>
-</div>
 </div>
 </div>
 </div>
 <div id="count-data" class="section level2" number="4.4">
 <h2><span class="header-section-number">4.4</span> Count data</h2>
+<p>If a response is integer value, the linear model is seldom appropriate because the variable is skewed, which even the log-linear model may fail to capture. It may thus be appropriate to look at generalized linear models for discrete data.</p>
+<p>The most widespread model for count data is the Poisson regression. The Poisson distribution arises as the limit of binomial data with a small probability of success as the number of attempts becomes large: examples include rare medical conditions, number of accidents, or goals in a soccer (aka football) match. The mean and variance of the Poisson distribution are both <span class="math inline">\(\lambda\)</span>, so the model imposes stringent constraints on the observations. Extensions that deal with zero-inflation, underdispersed and overdispersed data are widespread. Most count data are found in contingency tables, in which the cells give the counts, while the dimensions of the table represent categorical variables. Such data format are convenient for storage and display, but must be transformed to long format for model fitting.</p>
+<p>The canonical link of the Poisson model is the natural logarithm <span class="math inline">\(\ln(x)\)</span> and the interpretation will be similar to that of the <a href="transformation-response">log-linear model</a>. Specifically, suppose the mean model is
+<span class="math display">\[\begin{align*}
+\mu = \exp(\beta_0 + \beta_1 \mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}),
+\end{align*}\]</span>
+so the mean is multiplied by <span class="math inline">\(\exp(\beta_j)\)</span> for an increase of one unit of <span class="math inline">\(\mathrm{X}_{j}\)</span>, <em>ceteris paribus</em>. If <span class="math inline">\(\beta_j &lt; 0\)</span>, <span class="math inline">\(\exp(\beta_j) &lt; 1\)</span> and so we have a decrease of <span class="math inline">\(100\cdot(1-\exp(\beta_j))\)</span>% of the mean response. Likewise, if <span class="math inline">\(\beta_j&gt;0\)</span>, the mean number increases by <span class="math inline">\(100\cdot(\exp(\beta_j)-1)\)</span>%. The interpretation of interactions between categorical and continuous/categorical variables is similar to that of multiplicative (log-linear) models.</p>
 </div>
 <div id="modelling-proportions" class="section level2" number="4.5">
 <h2><span class="header-section-number">4.5</span> Modelling proportions</h2>

@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-10-11.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-10-12.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -2789,8 +2789,49 @@ One oddity of regression models for binary data is that most of the information 
 
 Thus, information about the coefficients only accumulates if the true regression coefficients \(\boldsymbol{\beta}\) are small. The deviance and Pearson provide little to no information about the quality of the model adjustment and their null distribution depends on \(\widehat{\boldsymbol{\beta}}\): with large coefficients, the asymptotic \(\chi^2\) distribution is not a good approximation and relying on these to determine goodness-of-fit is not recommended.
 
+\hypertarget{quasi-separation-of-variables}{%
+\subsection{Quasi-separation of variables}\label{quasi-separation-of-variables}}
+
+One common problem with binary data is the problem of complete separation of variables: in this scenario, a linear combination of the explanatories allows to perfectly categorize \(Y_i\) into \(0/1\) depending on the value of the covariates and the predicted probabilities will be exactly zero or one. While this is not a problem for prediction, the coefficients that yield such a sharp transition are near infinite, as displayed in Figure \ref{fig:sepvarplot}; software may or not pick up such error, but in any case Wald tests for individual coefficients are rubbish. This is problematic for inference because we cannot meaningfully interpret the resulting parameters.
+
+\begin{table}
+\caption{\label{tab:quasisepvar}Logistic regression: simulated dataset exhibiting separation of variables with standard logistic model and Wald tests (left) and Firth's regression with likelihood ratio tests (right). The large coefficients and standard errors, combined with near zero residuals, are all indicative of separation of variable.}
+
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+term & estimate & std. error\\
+\midrule
+(Intercept) & -829 & 311291\\
+x & 92.5 & 34781\\
+\bottomrule
+\end{tabular}
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+estimate & std. error\\
+\midrule
+-5.6 & 2.8\\
+0.6 & 0.3\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Inspection of the coefficients and their standard errors is a good way to detect such problems: parameters that are large (with standardized explanatories with mean zero variance one inputs) with \(|\widehat{\beta}_j| > 36\) are particularly suspicious; the number of iterations for the optimization routine is also often abnormally large. While the Wald statistic for \(\beta_1=0\) is nearly zero and the \(p\)-value 1, the likelihood ratio test yields a statistic of 20.016 with a negligible associated \(p\)-value.
+
+One way to restore finiteness of the \(\boldsymbol{\beta}\) is to impose a penalty term that prevents near infinite parameter values. Firth's penalty is the most popular solution (option \texttt{firth} in the \textbf{SAS} procedure \texttt{logistic} and \texttt{logistf::logistf} function in \textbf{R}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/sepvarplot-1} 
+
+}
+
+\caption{Illustration of complete separation of variable on simulated observations. Parameters are near infinite to yield a sharp transition at $x=9$. Quasi-complete separation of variable occurs if both outcomes are observed at the cutoff point.}\label{fig:sepvarplot}
+\end{figure}
+
 \hypertarget{diagnostic-plots-for-binary-data-star}{%
-\subsubsection{\texorpdfstring{Diagnostic plots for binary data (\(\star\))}{Diagnostic plots for binary data (\textbackslash star)}}\label{diagnostic-plots-for-binary-data-star}}
+\subsection{\texorpdfstring{Diagnostic plots for binary data (\(\star\))}{Diagnostic plots for binary data (\textbackslash star)}}\label{diagnostic-plots-for-binary-data-star}}
 
 There are also other issues arising from the discreteness of the observations. Since observations are 0/1, residuals are often separated. Figure \ref{fig:diagplotsbirthwt1}
 shows residual plots for Example \ref{exm:birthweightex}: both plots are of limited use to assess goodness-of-fit and model assumptions.
@@ -2822,6 +2863,16 @@ Figure \ref{fig:diagplotbirthwgt} shows the diagnostic plots based on the unifor
 
 \hypertarget{count-data}{%
 \section{Count data}\label{count-data}}
+
+If a response is integer value, the linear model is seldom appropriate because the variable is skewed, which even the log-linear model may fail to capture. It may thus be appropriate to look at generalized linear models for discrete data.
+
+The most widespread model for count data is the Poisson regression. The Poisson distribution arises as the limit of binomial data with a small probability of success as the number of attempts becomes large: examples include rare medical conditions, number of accidents, or goals in a soccer (aka football) match. The mean and variance of the Poisson distribution are both \(\lambda\), so the model imposes stringent constraints on the observations. Extensions that deal with zero-inflation, underdispersed and overdispersed data are widespread. Most count data are found in contingency tables, in which the cells give the counts, while the dimensions of the table represent categorical variables. Such data format are convenient for storage and display, but must be transformed to long format for model fitting.
+
+The canonical link of the Poisson model is the natural logarithm \(\ln(x)\) and the interpretation will be similar to that of the \href{transformation-response}{log-linear model}. Specifically, suppose the mean model is
+\begin{align*}
+\mu = \exp(\beta_0 + \beta_1 \mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}),
+\end{align*}
+so the mean is multiplied by \(\exp(\beta_j)\) for an increase of one unit of \(\mathrm{X}_{j}\), \emph{ceteris paribus}. If \(\beta_j < 0\), \(\exp(\beta_j) < 1\) and so we have a decrease of \(100\cdot(1-\exp(\beta_j))\)\% of the mean response. Likewise, if \(\beta_j>0\), the mean number increases by \(100\cdot(\exp(\beta_j)-1)\)\%. The interpretation of interactions between categorical and continuous/categorical variables is similar to that of multiplicative (log-linear) models.
 
 \hypertarget{modelling-proportions}{%
 \section{Modelling proportions}\label{modelling-proportions}}

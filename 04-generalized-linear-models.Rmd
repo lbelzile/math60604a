@@ -528,7 +528,45 @@ a2 + a1
 ```
 Thus, information about the coefficients only accumulates if the true regression coefficients $\boldsymbol{\beta}$ are small.  The deviance and Pearson provide little to no information about the quality of the model adjustment and their null distribution depends on $\widehat{\boldsymbol{\beta}}$: with large coefficients, the asymptotic $\chi^2$ distribution is not a good approximation and relying on these to determine goodness-of-fit is not recommended.
 
-#### Diagnostic plots for binary data ($\star$)
+### Quasi-separation of variables
+
+One common problem with binary data is the problem of complete separation of variables: in this scenario, a linear combination of the explanatories allows to perfectly categorize $Y_i$ into $0/1$ depending on the value of the covariates and the predicted probabilities will be exactly zero or one. While this is not a problem for prediction, the coefficients that yield such a sharp transition are near infinite, as displayed in Figure \@ref(fig:sepvarplot); software may or not pick up such error, but in any case Wald tests for individual coefficients are rubbish. This is problematic for inference because we cannot meaningfully interpret the resulting parameters.
+
+
+```{r quasisepvar, echo = FALSE}
+set.seed(1234)
+x <- sort(rexp(20, rate = 0.2))
+y <- as.integer(x>9)
+m1 <- glm(y~ x, family=binomial)
+m2 <- logistf::logistf(y~x, family=binomial)
+tab1 <- dust(data.frame("term" = c("(Intercept)", "x"), estimate = as.numeric(m1$coefficients), "std.error" = as.numeric(sqrt(diag(vcov(m1)))))) %>%
+  sprinkle(col = 2, round = 1) %>%
+  sprinkle(col = 3, round = 0) %>% 
+   sprinkle_colnames(estimate = "estimate", 
+                     std.error = "std. error") %>% 
+  sprinkle_bookdown() 
+tab2 <- dust(data.frame(estimate = as.numeric(m2$coef), "std.error" = as.numeric(sqrt(diag(m2$var))))) %>%
+  sprinkle(col = 1:2, round = 1) %>%
+   sprinkle_colnames(estimate = "estimate", 
+                     std.error = "std. error") %>% 
+  sprinkle_bookdown() 
+knitr::kable(x = list(tab1, tab2), align = "lrrrr", booktabs = TRUE, caption = "Logistic regression: simulated dataset exhibiting separation of variables with standard logistic model (left) and Firth's regression (right). The large coefficients and standard errors, combined with near zero residuals, are all indicative of separation of variable.")
+```
+
+Inspection of the coefficients and their standard errors is a good way to detect such problems: parameters that are large (with standardized explanatories with mean zero variance one inputs) with $|\widehat{\beta}_j| > 36$ are particularly suspicious; the number of iterations for the optimization routine is also often abnormally large. While the Wald statistic for $\beta_1=0$ is nearly zero and the $p$-value 1, the likelihood ratio test yields a statistic of `r as.numeric(car::Anova(m1, type=3)[1])` with a negligible associated $p$-value.
+
+
+One way to restore finiteness of the $\boldsymbol{\beta}$ is to impose a penalty term that prevents near infinite parameter values. Firth's penalty is the most popular solution (option `firth` in the **SAS** procedure `logistic` and `logistf::logistf` function in **R**.
+
+```{r sepvarplot, echo = FALSE,fig.cap= "Illustration of complete separation of variable on simulated observations. Parameters are near infinite to yield a sharp transition at $x=9$. Quasi-complete separation of variable occurs if both outcomes are observed at the cutoff point."}
+fittedsepmod <- function(x){1/(1+exp(-coef(m1)[1] - x*coef(m1)[2]))}
+ggplot(data.frame(x, y), aes(x=x,y=y)) +
+  geom_point() +
+  stat_function(fun = fittedsepmod, xlim = c(min(x),max(x)), n = 1001L)
+```
+
+
+### Diagnostic plots for binary data ($\star$)
 
 There are also other issues arising from the discreteness of the observations. Since observations are 0/1, residuals are often separated.  Figure \@ref(fig:diagplotsbirthwt1)
 shows residual plots for Example \@ref(exm:birthweightex):  both plots are of limited use to assess goodness-of-fit and model assumptions.
@@ -618,6 +656,20 @@ g6 <- ggplot(data.frame(x=1:189, y = glmdiag$cook)) +
 
 
 ## Count data
+
+If a response is integer value, the linear model is seldom appropriate because the variable is skewed, which even the log-linear model may fail to capture. It may thus be appropriate to look at generalized linear models for discrete data. 
+
+The most widespread model for count data is the Poisson regression. The Poisson distribution arises as the limit of binomial data with a small probability of success as the number of attempts becomes large: examples include rare medical conditions, number of accidents, or goals in a soccer (aka football) match. The mean and variance of the Poisson distribution are both $\lambda$, so the model imposes stringent constraints on the observations. Extensions that deal with zero-inflation, underdispersed and overdispersed data are widespread. Most count data are found in contingency tables, in which the cells give the counts, while the dimensions of the table represent categorical variables. Such data format are convenient for storage and display, but must be transformed to long format for model fitting.
+
+The canonical link of the Poisson model is the natural logarithm $\ln(x)$ and the interpretation will be similar to that of the [log-linear model](transformation-response). Specifically, suppose the mean model is 
+\begin{align*}
+\mu = \exp(\beta_0 + \beta_1 \mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}),
+\end{align*}
+so the mean is multiplied by $\exp(\beta_j)$ for an increase of one unit of $\mathrm{X}_{j}$, *ceteris paribus*. If $\beta_j < 0$, $\exp(\beta_j) < 1$ and so we have a decrease of $100\cdot(1-\exp(\beta_j))$% of the mean response. Likewise, if $\beta_j>0$, the mean number increases by $100\cdot(\exp(\beta_j)-1)$%. The interpretation of interactions between categorical and continuous/categorical variables is similar to that of multiplicative (log-linear) models.
+
+
+
+
 
 
 ## Modelling proportions
