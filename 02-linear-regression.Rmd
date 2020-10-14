@@ -1085,7 +1085,7 @@ and thus
 \begin{align*}
 \mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 \mathrm{X}_1 +\cdots + \beta_p\mathrm{X}_p ) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
 \end{align*}
-If $\varepsilon \mid \mathbf{X} \sim \mathsf{No}(\mu,\sigma^2)$, then $\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}= \exp(\mu+\sigma^2/2)$ --- $\exp(\varepsilon)$ follows a log-normal distribution. 
+If $\varepsilon \mid \mathbf{X} \sim \mathsf{No}(\mu,\sigma^2)$, then $\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}= \exp(\mu+\sigma^2/2)$ and $\exp(\varepsilon)$ follows a log-normal distribution. 
 
 In order to interpret the parameters, we can compare the ratio of $\mathsf{E}(Y \mid \mathrm{X}_1=x+1)$ to $\mathsf{E}(Y \mid \mathrm{X}_1=x)$,
 \begin{align*}
@@ -1095,7 +1095,7 @@ Thus, $\exp(\beta_1)$ represents the ratio of the mean of $Y$ when $\mathrm{X}_1
 
 ```{example, label="poisonboxcox", "Box--Cox transform for the $\\texttt{poison}$ data"}
 
-The paper of Box--Cox consider survival time for 48 animals based on a randomized trial and these are analyzed in Example 8.25 of @SM:2008. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
+The paper of Box and Cox consider survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of @SM:2008. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
 
 We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form
 \begin{align*}
@@ -1103,9 +1103,9 @@ Y &= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\te
 +\beta_5\texttt{treatment}_4 + \varepsilon
 \end{align*}
 
-The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables  further point towards non-additivity [@SM:2008, Example 8.24]. All of these factors point towards overall poor fit of the model.
+The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables  further point towards non-additivity [@SM:2008, Example 8.24]. Overall, the model fit is poor and any conclusion drawn from it dubious.
 
-One could ignore the non-constant variance and consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of Figure \@ref(fig:poisonplots) suggests that $\lambda\approx -1$ would be a good choice. This has the benefit of being interpretable, as the reciprocal response $Y^{-1}$ corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.
+One could consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of Figure \@ref(fig:poisonplots) suggests that $\lambda\approx -1$ would be a good choice. This has the benefit of being interpretable, as the reciprocal response $Y^{-1}$ corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.
 
 ```
 

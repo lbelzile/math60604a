@@ -245,7 +245,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-10-12.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-10-13.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -2040,7 +2040,7 @@ and thus
 \begin{align*}
 \mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 \mathrm{X}_1 +\cdots + \beta_p\mathrm{X}_p ) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
 \end{align*}
-If \(\varepsilon \mid \mathbf{X} \sim \mathsf{No}(\mu,\sigma^2)\), then \(\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}= \exp(\mu+\sigma^2/2)\) --- \(\exp(\varepsilon)\) follows a log-normal distribution.
+If \(\varepsilon \mid \mathbf{X} \sim \mathsf{No}(\mu,\sigma^2)\), then \(\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}= \exp(\mu+\sigma^2/2)\) and \(\exp(\varepsilon)\) follows a log-normal distribution.
 
 In order to interpret the parameters, we can compare the ratio of \(\mathsf{E}(Y \mid \mathrm{X}_1=x+1)\) to \(\mathsf{E}(Y \mid \mathrm{X}_1=x)\),
 \begin{align*}
@@ -2050,7 +2050,7 @@ Thus, \(\exp(\beta_1)\) represents the ratio of the mean of \(Y\) when \(\mathrm
 
 \begin{example}
 \protect\hypertarget{exm:poisonboxcox}{}{\label{exm:poisonboxcox} }
-The paper of Box--Cox consider survival time for 48 animals based on a randomized trial and these are analyzed in Example 8.25 of \citet{SM:2008}. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
+The paper of Box and Cox consider survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of \citet{SM:2008}. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
 
 We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form
 \begin{align*}
@@ -2058,9 +2058,9 @@ Y &= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\te
 +\beta_5\texttt{treatment}_4 + \varepsilon
 \end{align*}
 
-The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables further point towards non-additivity \citep[Example 8.24]{SM:2008}. All of these factors point towards overall poor fit of the model.
+The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables further point towards non-additivity \citep[Example 8.24]{SM:2008}. Overall, the model fit is poor and any conclusion drawn from it dubious.
 
-One could ignore the non-constant variance and consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of Figure \ref{fig:poisonplots} suggests that \(\lambda\approx -1\) would be a good choice. This has the benefit of being interpretable, as the reciprocal response \(Y^{-1}\) corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.
+One could consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of Figure \ref{fig:poisonplots} suggests that \(\lambda\approx -1\) would be a good choice. This has the benefit of being interpretable, as the reciprocal response \(Y^{-1}\) corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.
 \end{example}
 
 \begin{figure}
@@ -2613,7 +2613,7 @@ Diagnostic plots for generalized linear models are harder to interpret because o
 \hypertarget{binary-responses}{%
 \section{Binary responses}\label{binary-responses}}
 
-Binary response data are commonplace, notably due to their role in classification. We begin this section by discussing interpretation of the model in terms of censored observations, than tackle the interpretation of the parameters for the canonical link function on different scales (probability, odds and log-odds). We pursue with issues due to the nature of the data, including non-regular asymptotics and separation of variable. We also present an example of incorrect marginalization that leads to Simpson's paradox. Models for multi-way contingency data and proportions are covered in a dedicated section.
+Binary response data are commonplace, notably due to their role in classification. We begin this section by discussing interpretation of the model in terms of censored observations, than tackle the interpretation of the parameters for the canonical link function on different scales (probability, odds and log-odds). We pursue with issues due to the nature of the data, including non-regular asymptotics and separation of variable.
 
 The logistic model specifies
 \begin{align*}
@@ -2629,6 +2629,8 @@ One way to view binary variables is as censored observations: suppose \(Z_i = \e
 \mathsf{P}(Y_i = 1 \mid \eta_i) = 1-F(-\eta_i)
 \]
 If \(F\) is symmetric around zero, then \(F(\eta_i) = 1-F(-\eta_i)\). The choice of the logistic distribution for \(F\) gives \(\pi_i = \mathrm{expit}(\eta_i)\). Another popular alternative is when \(F\) is the distribution function of a standard normal distribution, \(F(x) = \Phi(x)\), which is the probit regression model. Both link functions only differ in the tail, but the parameters of the the logistic model are more readily interpreted since the quantile function \(F^{-1}\) of the logistic distribution, \(\mathrm{logit}(x)\), is available in closed-form.
+
+Dichotomization leads to a loss of information relative to the underlying continuous data, which translates into more variability in the parameter estimates.
 
 \begin{figure}
 
@@ -2795,7 +2797,7 @@ Thus, information about the coefficients only accumulates if the true regression
 One common problem with binary data is the problem of complete separation of variables: in this scenario, a linear combination of the explanatories allows to perfectly categorize \(Y_i\) into \(0/1\) depending on the value of the covariates and the predicted probabilities will be exactly zero or one. While this is not a problem for prediction, the coefficients that yield such a sharp transition are near infinite, as displayed in Figure \ref{fig:sepvarplot}; software may or not pick up such error, but in any case Wald tests for individual coefficients are rubbish. This is problematic for inference because we cannot meaningfully interpret the resulting parameters.
 
 \begin{table}
-\caption{\label{tab:quasisepvar}Logistic regression: simulated dataset exhibiting separation of variables with standard logistic model and Wald tests (left) and Firth's regression with likelihood ratio tests (right). The large coefficients and standard errors, combined with near zero residuals, are all indicative of separation of variable.}
+\caption{\label{tab:quasisepvar}Logistic regression: simulated dataset exhibiting separation of variables with standard logistic model (left) and Firth's regression (right). The large coefficients and standard errors, combined with near zero residuals, are all indicative of separation of variable.}
 
 \centering
 \begin{tabular}[t]{lrr}
@@ -2874,8 +2876,37 @@ The canonical link of the Poisson model is the natural logarithm \(\ln(x)\) and 
 \end{align*}
 so the mean is multiplied by \(\exp(\beta_j)\) for an increase of one unit of \(\mathrm{X}_{j}\), \emph{ceteris paribus}. If \(\beta_j < 0\), \(\exp(\beta_j) < 1\) and so we have a decrease of \(100\cdot(1-\exp(\beta_j))\)\% of the mean response. Likewise, if \(\beta_j>0\), the mean number increases by \(100\cdot(\exp(\beta_j)-1)\)\%. The interpretation of interactions between categorical and continuous/categorical variables is similar to that of multiplicative (log-linear) models.
 
+\begin{example}[Road accidents and speed limits on the motorway in Sweden]
+\protect\hypertarget{exm:roadsweden}{}{\label{exm:roadsweden} \iffalse (Road accidents and speed limits on the motorway in Sweden) \fi{} }Sweden is a worlwide leader in road safety and has a long history of countermeasures to increase road traffic safety, including the Vision Zero program. Back in the 1960s, a study was conducted by the authorities to investigate the potential of speed limits on motorways to reduce the number of accidents. The \texttt{sweden} data contains the number of accidents on 92 matching days in both 1961 and 1962 \citep{Svensson:1981}; speed limits were in place on selected days in either year.
+\end{example}
+
+To study the impact of the restrictions we can fit a Poisson model. Let \(Y_{i1}\) (respectively \(Y_{i2}\)) denote the number of accidents in 1961 (1962) on day \(i\) and let \(\texttt{limit}_{ij}\) denote a binary indicator equal to one if speed limits were enforced on day \(i\) of year \(j\). We set
+\begin{align*}
+Y_{i1} \sim \mathsf{Po}(\lambda_i + \alpha \texttt{limit}_{i1}), \quad Y_{i2} \sim\mathsf{Po}(\lambda_i + \delta +  \alpha \texttt{limit}_{i2}), \qquad i=1, \ldots, 92. 
+\end{align*}
+The terms \(\lambda_1, \ldots, \lambda_{92}\) are terms (indicators) that control for changes in background number of accidents, while \(\delta\) denotes the change from 1961 to 1962. We are interested here in assessing changes in the number of accidents due to the policy, \(\alpha\); of secondary interest is to determine whether there has been a decrease in the number of accident relative to 1961.
+
+\begin{table}
+
+\caption{\label{tab:swedenglm}Analysis of deviance table (Type 3 decomposition) for the Poisson regression model fitted to the Sweden traffic restrictions data: the table gives the $p$-value for likelihood ratio tests comparing the full model including all covariates with models in which a single explanatory is removed.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+variable & lik. ratio & df & p-value\\
+\midrule
+day & 9395.22 & 92 & < 0.001\\
+limit & 46.29 & 1 & < 0.001\\
+year & 0.7 & 1 & 0.4\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The residual deviance is 107.95 for 90 degrees of freedom, suggests the overall fit is good, despite the large number of nuisance parameters \(\lambda_1, \ldots, \lambda_{92}\). The coefficient associated to limit is strongly significant: the estimated coefficient is \(\widehat{\alpha}=-0.292\), indicates that speed limits reduce the mean number of accidents by 25.3\% on average. In contrast, the likelihood ratio test reported in Table \ref{tab:swedenglm} shows that the change in the yearly number of accident from 1961 to 1962 is not significant.
+
 \hypertarget{modelling-proportions}{%
 \section{Modelling proportions}\label{modelling-proportions}}
+
+We present an example of incorrect marginalization that leads to Simpson's paradox. Models for multi-way contingency data and proportions are covered in a dedicated section.
 
 \hypertarget{simpsons-paradox}{%
 \subsection{Simpson's paradox}\label{simpsons-paradox}}

@@ -435,7 +435,7 @@ where <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{-j}\)</span> is 
 </div>
 <div id="binary-responses" class="section level2" number="4.3">
 <h2><span class="header-section-number">4.3</span> Binary responses</h2>
-<p>Binary response data are commonplace, notably due to their role in classification. We begin this section by discussing interpretation of the model in terms of censored observations, than tackle the interpretation of the parameters for the canonical link function on different scales (probability, odds and log-odds). We pursue with issues due to the nature of the data, including non-regular asymptotics and separation of variable. We also present an example of incorrect marginalization that leads to Simpson’s paradox. Models for multi-way contingency data and proportions are covered in a dedicated section.</p>
+<p>Binary response data are commonplace, notably due to their role in classification. We begin this section by discussing interpretation of the model in terms of censored observations, than tackle the interpretation of the parameters for the canonical link function on different scales (probability, odds and log-odds). We pursue with issues due to the nature of the data, including non-regular asymptotics and separation of variable.</p>
 <p>The logistic model specifies
 <span class="math display">\[\begin{align*}
 \mathsf{P}(Y_i=1 \mid \mathbf{X}_i) = \pi_i = \frac{\exp(\beta_0 + \beta_1 \mathrm{X}_{i1}+ \cdots + \beta_p\mathrm{X}_{ip})}{1 + \exp(\beta_0 + \beta_1 \mathrm{X}_{i1}+ \cdots + \beta_p\mathrm{X}_{ip})},
@@ -449,6 +449,7 @@ whereas, on the linear predictor scale <span class="math inline">\(\eta_i\)</spa
 \mathsf{P}(Y_i = 1 \mid \eta_i) = 1-F(-\eta_i)
 \]</span>
 If <span class="math inline">\(F\)</span> is symmetric around zero, then <span class="math inline">\(F(\eta_i) = 1-F(-\eta_i)\)</span>. The choice of the logistic distribution for <span class="math inline">\(F\)</span> gives <span class="math inline">\(\pi_i = \mathrm{expit}(\eta_i)\)</span>. Another popular alternative is when <span class="math inline">\(F\)</span> is the distribution function of a standard normal distribution, <span class="math inline">\(F(x) = \Phi(x)\)</span>, which is the probit regression model. Both link functions only differ in the tail, but the parameters of the the logistic model are more readily interpreted since the quantile function <span class="math inline">\(F^{-1}\)</span> of the logistic distribution, <span class="math inline">\(\mathrm{logit}(x)\)</span>, is available in closed-form.</p>
+<p>Dichotomization leads to a loss of information relative to the underlying continuous data, which translates into more variability in the parameter estimates.</p>
 <div class="figure" style="text-align: center"><span id="fig:probitvslogit"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/probitvslogit-1.png" alt="Comparison of logistic (black) and probit (dashed blue) inverse link functions (left) for binary data: both are monotone increasing functions of the linear predictor. The logistic distribution has thicker tails and thus smaller peak at zero. The right panel shows the derivative of both inverse link functions." width="70%" />
 <p class="caption">
@@ -702,7 +703,7 @@ Figure 4.4: Wald test statistic for <span class="math inline">\(Y_i \sim \mathsf
 <p>One common problem with binary data is the problem of complete separation of variables: in this scenario, a linear combination of the explanatories allows to perfectly categorize <span class="math inline">\(Y_i\)</span> into <span class="math inline">\(0/1\)</span> depending on the value of the covariates and the predicted probabilities will be exactly zero or one. While this is not a problem for prediction, the coefficients that yield such a sharp transition are near infinite, as displayed in Figure <a href="generalized-linear-models.html#fig:sepvarplot">4.5</a>; software may or not pick up such error, but in any case Wald tests for individual coefficients are rubbish. This is problematic for inference because we cannot meaningfully interpret the resulting parameters.</p>
 <table class="kable_wrapper">
 <caption>
-<span id="tab:quasisepvar">Table 4.4: </span>Logistic regression: simulated dataset exhibiting separation of variables with standard logistic model and Wald tests (left) and Firth’s regression with likelihood ratio tests (right). The large coefficients and standard errors, combined with near zero residuals, are all indicative of separation of variable.
+<span id="tab:quasisepvar">Table 4.4: </span>Logistic regression: simulated dataset exhibiting separation of variables with standard logistic model (left) and Firth’s regression (right). The large coefficients and standard errors, combined with near zero residuals, are all indicative of separation of variable.
 </caption>
 <tbody>
 <tr>
@@ -799,9 +800,51 @@ Figure 4.7: Diagnostic plots based on uniform residuals for the birth weight dat
 \mu = \exp(\beta_0 + \beta_1 \mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}),
 \end{align*}\]</span>
 so the mean is multiplied by <span class="math inline">\(\exp(\beta_j)\)</span> for an increase of one unit of <span class="math inline">\(\mathrm{X}_{j}\)</span>, <em>ceteris paribus</em>. If <span class="math inline">\(\beta_j &lt; 0\)</span>, <span class="math inline">\(\exp(\beta_j) &lt; 1\)</span> and so we have a decrease of <span class="math inline">\(100\cdot(1-\exp(\beta_j))\)</span>% of the mean response. Likewise, if <span class="math inline">\(\beta_j&gt;0\)</span>, the mean number increases by <span class="math inline">\(100\cdot(\exp(\beta_j)-1)\)</span>%. The interpretation of interactions between categorical and continuous/categorical variables is similar to that of multiplicative (log-linear) models.</p>
+
+<div class="example">
+<span id="exm:roadsweden" class="example"><strong>Example 4.10  (Road accidents and speed limits on the motorway in Sweden)  </strong></span>Sweden is a worlwide leader in road safety and has a long history of countermeasures to increase road traffic safety, including the Vision Zero program. Back in the 1960s, a study was conducted by the authorities to investigate the potential of speed limits on motorways to reduce the number of accidents. The <code>sweden</code> data contains the number of accidents on 92 matching days in both 1961 and 1962 <span class="citation">(Svensson <a href="references.html#ref-Svensson:1981" role="doc-biblioref">1981</a>)</span>; speed limits were in place on selected days in either year.
+</div>
+<p>To study the impact of the restrictions we can fit a Poisson model. Let <span class="math inline">\(Y_{i1}\)</span> (respectively <span class="math inline">\(Y_{i2}\)</span>) denote the number of accidents in 1961 (1962) on day <span class="math inline">\(i\)</span> and let <span class="math inline">\(\texttt{limit}_{ij}\)</span> denote a binary indicator equal to one if speed limits were enforced on day <span class="math inline">\(i\)</span> of year <span class="math inline">\(j\)</span>. We set
+<span class="math display">\[\begin{align*}
+Y_{i1} \sim \mathsf{Po}(\lambda_i + \alpha \texttt{limit}_{i1}), \quad Y_{i2} \sim\mathsf{Po}(\lambda_i + \delta +  \alpha \texttt{limit}_{i2}), \qquad i=1, \ldots, 92. 
+\end{align*}\]</span>
+The terms <span class="math inline">\(\lambda_1, \ldots, \lambda_{92}\)</span> are terms (indicators) that control for changes in background number of accidents, while <span class="math inline">\(\delta\)</span> denotes the change from 1961 to 1962. We are interested here in assessing changes in the number of accidents due to the policy, <span class="math inline">\(\alpha\)</span>; of secondary interest is to determine whether there has been a decrease in the number of accident relative to 1961.</p>
+<table>
+<caption><span id="tab:swedenglm">Table 4.5: </span>Analysis of deviance table (Type 3 decomposition) for the Poisson regression model fitted to the Sweden traffic restrictions data: the table gives the <span class="math inline">\(p\)</span>-value for likelihood ratio tests comparing the full model including all covariates with models in which a single explanatory is removed.</caption>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="right">lik. ratio</th>
+<th align="right">df</th>
+<th align="right">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">day</td>
+<td align="right">9395.22</td>
+<td align="right">92</td>
+<td align="right">&lt; 0.001</td>
+</tr>
+<tr class="even">
+<td align="left">limit</td>
+<td align="right">46.29</td>
+<td align="right">1</td>
+<td align="right">&lt; 0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">year</td>
+<td align="right">0.7</td>
+<td align="right">1</td>
+<td align="right">0.4</td>
+</tr>
+</tbody>
+</table>
+<p>The residual deviance is 107.95 for 90 degrees of freedom, suggests the overall fit is good, despite the large number of nuisance parameters <span class="math inline">\(\lambda_1, \ldots, \lambda_{92}\)</span>. The coefficient associated to limit is strongly significant: the estimated coefficient is <span class="math inline">\(\widehat{\alpha}=-0.292\)</span>, indicates that speed limits reduce the mean number of accidents by 25.3% on average. In contrast, the likelihood ratio test reported in Table <a href="generalized-linear-models.html#tab:swedenglm">4.5</a> shows that the change in the yearly number of accident from 1961 to 1962 is not significant.</p>
 </div>
 <div id="modelling-proportions" class="section level2" number="4.5">
 <h2><span class="header-section-number">4.5</span> Modelling proportions</h2>
+<p>We present an example of incorrect marginalization that leads to Simpson’s paradox. Models for multi-way contingency data and proportions are covered in a dedicated section.</p>
 <div id="simpsons-paradox" class="section level3" number="4.5.1">
 <h3><span class="header-section-number">4.5.1</span> Simpson’s paradox</h3>
 

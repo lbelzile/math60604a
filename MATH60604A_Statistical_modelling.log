@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.5.8)  12 OCT 2020 13:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.5.8)  13 OCT 2020 22:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -612,42 +612,42 @@ Overfull \hbox (0.43774pt too wide) detected at line 52
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 53
- []\T1/put/m/n/10.95 108
+ []\T1/put/m/n/10.95 109
  []
 
 [3]
 Overfull \hbox (0.43774pt too wide) detected at line 59
- []\T1/put/m/n/10.95 115
+ []\T1/put/m/n/10.95 117
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 60
- []\T1/put/m/n/10.95 116
+ []\T1/put/m/n/10.95 118
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 66
- []\T1/put/m/n/10.95 124
+ []\T1/put/m/n/10.95 126
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 67
- []\T1/put/m/n/10.95 125
+ []\T1/put/m/n/10.95 127
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 69
- []\T1/put/m/n/10.95 129
+ []\T1/put/m/n/10.95 131
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 70
- []\T1/put/m/n/10.95 130
+ []\T1/put/m/n/10.95 132
  []
 
 
 Overfull \hbox (0.43774pt too wide) detected at line 72
- []\T1/put/m/n/10.95 131
+ []\T1/put/m/n/10.95 133
  []
 
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
@@ -656,7 +656,7 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Overfull \hbox (0.43774pt too wide) detected at line 79
- []\T1/put/m/n/10.95 135
+ []\T1/put/m/n/10.95 137
  []
 
 )
@@ -1181,7 +1181,7 @@ File: MATH60604A_Statistical_modelling_files/figure-latex/probitvslogit-1.pdf G
 raphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/probitvslogit-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/pr
-obitvslogit-1.pdf  used on input line 2635.
+obitvslogit-1.pdf  used on input line 2637.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
 [99]
 <MATH60604A_Statistical_modelling_files/figure-latex/figgpa-1.pdf, id=1152, 469
@@ -1190,7 +1190,7 @@ File: MATH60604A_Statistical_modelling_files/figure-latex/figgpa-1.pdf Graphic
 file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/figgpa-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/fi
-ggpa-1.pdf  used on input line 2657.
+ggpa-1.pdf  used on input line 2659.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
 [100 <./MATH60604A_Statistical_modelling_files/figure-latex/probitvslogit-1.pdf
 >] [101 <./MATH60604A_Statistical_modelling_files/figure-latex/figgpa-1.pdf>]
@@ -1200,7 +1200,7 @@ File: MATH60604A_Statistical_modelling_files/figure-latex/birthweighteda-1.pdf
 Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/birthweighteda-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/bi
-rthweighteda-1.pdf  used on input line 2707.
+rthweighteda-1.pdf  used on input line 2709.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
 [102 <./MATH60604A_Statistical_modelling_files/figure-latex/birthweighteda-1.pd
 f>] [103]
@@ -1210,7 +1210,7 @@ File: MATH60604A_Statistical_modelling_files/figure-latex/WaldgarbageR-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/WaldgarbageR-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/Wa
-ldgarbageR-1.pdf  used on input line 2783.
+ldgarbageR-1.pdf  used on input line 2785.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
 [104]
 Underfull \vbox (badness 3029) has occurred while \output is active []
@@ -1223,7 +1223,7 @@ File: MATH60604A_Statistical_modelling_files/figure-latex/sepvarplot-1.pdf Grap
 hic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/sepvarplot-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/se
-pvarplot-1.pdf  used on input line 2826.
+pvarplot-1.pdf  used on input line 2828.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
 <MATH60604A_Statistical_modelling_files/figure-latex/diagplotsbirthwt1-1.pdf, i
 d=1235, 469.755pt x 325.215pt>
@@ -1232,7 +1232,7 @@ df Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/diagplotsbirthwt1-1.pd
 f>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/di
-agplotsbirthwt1-1.pdf  used on input line 2841.
+agplotsbirthwt1-1.pdf  used on input line 2843.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
 [106 <./MATH60604A_Statistical_modelling_files/figure-latex/sepvarplot-1.pdf>]
 <MATH60604A_Statistical_modelling_files/figure-latex/diagplotbirthwgt-1.pdf, id
@@ -1242,106 +1242,106 @@ f Graphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/diagplotbirthwgt-1.pdf
 >
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/di
-agplotbirthwgt-1.pdf  used on input line 2857.
+agplotbirthwgt-1.pdf  used on input line 2859.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
 [107 <./MATH60604A_Statistical_modelling_files/figure-latex/diagplotsbirthwt1-1
 .pdf>] [108 <./MATH60604A_Statistical_modelling_files/figure-latex/diagplotbirt
-hwgt-1.pdf>]
-Chapter 5.
-[109
-
-] [110
+hwgt-1.pdf>] [109] [110
 
 ]
-Chapter 6.
+Chapter 5.
 [111] [112
 
 ]
-Chapter 7.
+Chapter 6.
 [113] [114
 
 ]
+Chapter 7.
+[115] [116
+
+]
 Appendix A.
-[115]
-<images/02-ttest-DF_illustration.png, id=1319, 303.17265pt x 202.356pt>
+[117]
+<images/02-ttest-DF_illustration.png, id=1334, 303.17265pt x 202.356pt>
 File: images/02-ttest-DF_illustration.png Graphic file (type png)
 <use images/02-ttest-DF_illustration.png>
 Package pdftex.def Info: images/02-ttest-DF_illustration.png  used on input lin
-e 2934.
+e 2965.
 (pdftex.def)             Requested size: 303.18578pt x 202.36476pt.
-[116] [117 <./images/02-ttest-DF_illustration.png>] [118] [119] [120] [121] [12
-2]
-<MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf, id=138
-7, 469.755pt x 325.215pt>
+[118] [119 <./images/02-ttest-DF_illustration.png>] [120] [121] [122] [123] [12
+4]
+<MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf, id=140
+2, 469.755pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/di
-agrammeqq2-1.pdf  used on input line 3153.
+agrammeqq2-1.pdf  used on input line 3184.
 (pdftex.def)             Requested size: 308.59135pt x 213.64015pt.
-[123] [124 <./MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-
+[125] [126 <./MATH60604A_Statistical_modelling_files/figure-latex/diagrammeqq2-
 1.pdf>]
-<MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf, id=1413, 4
+<MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf, id=1429, 4
 33.62pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf Graphi
 c file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/re
-nfeclt-1.pdf  used on input line 3209.
+nfeclt-1.pdf  used on input line 3240.
 (pdftex.def)             Requested size: 308.60678pt x 231.45508pt.
-<MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf, id=141
-5, 578.16pt x 325.215pt>
+<MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf, id=143
+1, 578.16pt x 325.215pt>
 File: MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.pdf>
 Package pdftex.def Info: MATH60604A_Statistical_modelling_files/figure-latex/re
-nfemeanCLT-1.pdf  used on input line 3222.
+nfemeanCLT-1.pdf  used on input line 3253.
 (pdftex.def)             Requested size: 396.76062pt x 223.17784pt.
-[125] [126 <./MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pd
-f>] [127 <./MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.
-pdf>] [128
+[127] [128 <./MATH60604A_Statistical_modelling_files/figure-latex/renfeclt-1.pd
+f>] [129 <./MATH60604A_Statistical_modelling_files/figure-latex/renfemeanCLT-1.
+pdf>] [130
 
 ]
 Appendix B.
 
-Underfull \hbox (badness 10000) in paragraph at lines 3246--3248
+Underfull \hbox (badness 10000) in paragraph at lines 3277--3279
 
  []
 
-[129] [130]
+[131] [132]
 Appendix C.
-[131
+[133
 
-] [132]
-<images/caution.png, id=1492, 156.585pt x 144.54pt>
+] [134]
+<images/caution.png, id=1508, 156.585pt x 144.54pt>
 File: images/caution.png Graphic file (type png)
 <use images/caution.png>
-Package pdftex.def Info: images/caution.png  used on input line 3388.
+Package pdftex.def Info: images/caution.png  used on input line 3419.
 (pdftex.def)             Requested size: 32.85036pt x 30.32341pt.
-[133 <./images/caution.png>] [134]
-<images/note.png, id=1509, 62.2325pt x 62.2325pt>
+[135 <./images/caution.png>] [136]
+<images/note.png, id=1524, 62.2325pt x 62.2325pt>
 File: images/note.png Graphic file (type png)
 <use images/note.png>
-Package pdftex.def Info: images/note.png  used on input line 3504.
+Package pdftex.def Info: images/note.png  used on input line 3535.
 (pdftex.def)             Requested size: 32.85011pt x 32.85011pt.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 3508.
-[135 <./images/note.png>] [136] (./MATH60604A_Statistical_modelling.bbl [137] [
-138
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 3539.
+[137 <./images/note.png>] [138] (./MATH60604A_Statistical_modelling.bbl [139] [
+140
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3606.
-[139]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3606.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3637.
+[141]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3637.
 (./MATH60604A_Statistical_modelling.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3606.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 3606.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3637.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 3637.
  ) 
 Here is how much of TeX's memory you used:
- 15668 strings out of 480681
- 245262 string characters out of 5904632
- 525079 words of memory out of 5000000
- 30423 multiletter control sequences out of 15000+600000
+ 15679 strings out of 480681
+ 245425 string characters out of 5904632
+ 525445 words of memory out of 5000000
+ 30428 multiletter control sequences out of 15000+600000
  752742 words of font info for 289 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,16n,42p,1312b,467s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1387,11 +1387,11 @@ live/2020/texmf-dist/fonts/type1/adobe/utopia/putbi8a.pfb></usr/local/texlive/2
 mf-dist/fonts/type1/adobe/utopia/putr8a.pfb></usr/local/texlive/2020/texmf-dist
 /fonts/type1/adobe/utopia/putri8a.pfb></usr/local/texlive/2020/texmf-dist/fonts
 /type1/public/rsfs/rsfs10.pfb>
-Output written on MATH60604A_Statistical_modelling.pdf (139 pages, 2115323 byte
+Output written on MATH60604A_Statistical_modelling.pdf (141 pages, 2119861 byte
 s).
 PDF statistics:
- 1874 PDF objects out of 2073 (max. 8388607)
- 1571 compressed objects within 16 object streams
- 448 named destinations out of 1000 (max. 500000)
+ 1890 PDF objects out of 2073 (max. 8388607)
+ 1585 compressed objects within 16 object streams
+ 454 named destinations out of 1000 (max. 500000)
  25167 words of extra memory for PDF output out of 29859 (max. 10000000)
 
