@@ -1131,7 +1131,7 @@ g4 <- ggplot(data = data.frame(sample = sort(pchisq(result[[4]]$positive,1)),
 ```
 
 The percentage of likelihood ratio statistics that are zero is $`r round(100*result[[1]]$ptmass,0)`$%, 
-$`r round(100*result[[2]]$ptmass,0)`$%,  $`r round(100*result[[3]]$ptmass,0)`$% and $`r round(100*result[[4]]$ptmass,0)`$% for respectively $n=100$, $500$, $1000$ and $2000$. We can also see from the quantile-quantile plots that the empirical distribution of the positive values are left-skewed relative to a $\chi^2_1$ variable, even if the range seems accurate. This strongly suggest that  asymptotic null distribution, consisting of a point mass with probability half at $0$ and $\chi^2_1$ with probability half is seemingly valid only for very large samples; bear in mind that these findings also don't account for model misspecification.
+$`r round(100*result[[2]]$ptmass,0)`$%,  $`r round(100*result[[3]]$ptmass,0)`$% and $`r round(100*result[[4]]$ptmass,0)`$% for respectively $n=100$, $500$, $1000$ and $2000$. We can also see from the quantile-quantile plots that the empirical distribution of the positive values is right skewed relative to the $\chi^2_1$ reference. This strongly suggest that  asymptotic null distribution, consisting of a point mass with probability half at $0$ and $\chi^2_1$ with probability half is seemingly valid only for very large samples; bear in mind that these findings also don't account for model misspecification.
 
 ## Modelling proportions
 
