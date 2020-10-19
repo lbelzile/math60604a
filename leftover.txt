@@ -1,0 +1,27 @@
+
+We can find $\widehat{\boldsymbol{\beta}}$ through **iteratively reweighted least squares** (IRLS) procedure.
+
+in which $\mathbf{W} = \mathrm{diag}\{(\partial \mu_i/\partial \eta_i)^2/\}$
+
+\boldsymbol{U} =  \frac{\partial \ell(\boldsymbol{\beta}; \boldsymbol{y}, \mathbf{X})}{\partial \boldsymbol{\beta}} = \frac{\partial \boldsymbol{\eta}^\top}{\partial \boldsymbol{\beta}} \frac{\partial \boldsymbol{\theta}}{\partial \boldsymbol{\eta}^\top} \frac{\partial \ell}{\partial \boldsymbol{\theta}^\top}
+
+This gives $\mathbf{D} = \mathrm{diag}\{\partial \mu_i/\partial \eta_i\}$ and $\mathbf{W} = \mathrm{diag}\{(\partial \mu_i/\partial \eta_i)^2/\}$
+
+To be continued...
+
+
+One possible mitigation strategy for the quantile-quantile plot is to look at higher-order approximations, like
+\begin{align*}
+ r^{*}_i = r_{D_i} + \frac{1}{r_{D_i}} \log \left( \frac{r_{P_i}}{r_{D_i}}\right);
+\end{align*}
+$r^*_i$ is built to have a standard normal distribution to high accuracy.
+
+The maximum likelihood estimator of the dispersion parameter $\phi$ can have poor properties, so a moment estimator is sometimes used instead. For known $\mu$, $\mathsf{Va}(Y_i) = a_i\phi V(\mu)$ and, since $\phi$ is constant over observations, we can estimate it from the scaled empirical variance,
+
+\begin{align*}
+
+\widehat{\phi}=\frac{1}{n-p} \sum_{i=1}^n \frac{(y_i-\widehat{\mu}_i)^2}{a_iV(\widehat{\mu}_i)}.
+
+\end{align*}
+
+This gives $\widehat{\phi}=X^2/(n-p)$, a scaled version of the Pearson $X^2$ statistic presented in the next section.
