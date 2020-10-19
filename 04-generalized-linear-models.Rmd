@@ -451,7 +451,7 @@ predictor $\eta$, we get
 \begin{align*}
 \mathrm{odds}(Y\mid \mathbf{X}) =
 \frac{\pi(\mathbf{X})}{1-\pi(\mathbf{X})}=\exp(\beta_0+ \beta_1
-\mathrm{X}\_1 + \cdots + \beta_p\mathrm{X}\_p),
+\mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p),
 \end{align*}
 where $\pi(\mathbf{X})/\{1-\pi(\mathbf{X})\}$ are the odds of $\mathsf{P}(Y=1 \mid \mathbf{X})$ (success) relative to $\mathsf{P}(Y=0 \mid\mathbf{X})$ (failure). If $\pi=0.8$, the odds are $\pi/(1-\pi)=0.8/0.2=4$: on average, we expect four successes for one failure.
 

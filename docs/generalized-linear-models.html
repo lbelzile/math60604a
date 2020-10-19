@@ -629,7 +629,7 @@ predictor <span class="math inline">\(\eta\)</span>, we get
 <span class="math display">\[\begin{align*}
 \mathrm{odds}(Y\mid \mathbf{X}) =
 \frac{\pi(\mathbf{X})}{1-\pi(\mathbf{X})}=\exp(\beta_0+ \beta_1
-\mathrm{X}\_1 + \cdots + \beta_p\mathrm{X}\_p),
+\mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p),
 \end{align*}\]</span>
 where <span class="math inline">\(\pi(\mathbf{X})/\{1-\pi(\mathbf{X})\}\)</span> are the odds of <span class="math inline">\(\mathsf{P}(Y=1 \mid \mathbf{X})\)</span> (success) relative to <span class="math inline">\(\mathsf{P}(Y=0 \mid\mathbf{X})\)</span> (failure). If <span class="math inline">\(\pi=0.8\)</span>, the odds are <span class="math inline">\(\pi/(1-\pi)=0.8/0.2=4\)</span>: on average, we expect four successes for one failure.</p>
 <p>On the odds scale, the logistic regression model is multiplicative: for an increase of <span class="math inline">\(\mathrm{X}_j\)</span> of one unit, <em>ceteris paribus</em>, the odds are multiplied by <span class="math inline">\(\exp(\beta_j)\)</span>.</p>
