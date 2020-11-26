@@ -1,1 +1,53 @@
 # Correlated and longitudinal data {#correlated-longitudinal-data}
+
+```{r dependencyfig, eval = TRUE, echo = FALSE, fig.cap="Dependency graph of covariance models for longitudinal data. Arrows indicate nested models."}
+```
+
+Violations of the hypothesis of the linear model impact the validity of statistical inference. Whereas the last chapter followed on generalizations of the linear regression to handle non-normality of the response, we consider now extensions of the linear regression model in order to account for dependence or group heteroscedasticity. 
+
+We derived the ordinary least squares estimator using maximum likelihood under the assumption of independent and homoscedastic normal errors. An alternative way of deriving the maximum likelihood estimator is to consider the $n$ sample as a single realization of an $n$ dimensional random vector with $\boldsymbol{Y} \sim \mathsf{No}_n(\mathbf{X}\boldsymbol{\beta}, \sigma^2, \mathbf{I}_n)$. In the case of normally distributed data, the covariance matrix $\boldsymbol{\Sigma}$ encodes the dependence between observations: off-diagonal elements of the covariance matrix are zero for independent observations, whereas the diagonal elements, which encode the variance, are equal for homoscedastic observations. One way to relax these assumptions is thus to parametrize $\boldsymbol{\Sigma}$ in terms of few parameter $\boldsymbol{\psi}$ and to obtain the likelihood-based estimators of $\boldsymbol{\beta}$ and $\boldsymbol{\psi}$. 
+
+## Longitudinal data
+
+The parametrization of the covariance matrix requires some more insight into the dependence structure of the data. Most of the dependence arises from time dependence between observations. This section focuses on **longitudinal** data, or **repeated measurements**. These consist of short time series which are collected over different individuals: the assumption of independence could thus hold for measurements between different individuals, but not for measurements of the same individual.  
+
+
+```{r spaghettiplots, echo = FALSE, fig.cap="Spaghetti plots of longitudinal data: spirometry data from the Six Cities Study of Air Pollution and Health (left), clinical trial data for the 'Beat the Blues'  cognitive behavioural program (middle) and orthodontic measurements of children (bottom).", fig.height = 9, fig.width = 6, eval = TRUE}
+data(fev1, package = "hecstatmod")
+g1 <- ggplot(data=fev1, aes(x = age, y = exp(logfev1))) +
+  geom_line(aes(group = id), alpha = 0.1) + 
+  ylab("FEV(1)") 
+
+data(beattheblues, package = "hecstatmod")
+btb_long <- tidyr::pivot_longer(data = beattheblues, 
+                    cols = tidyselect::starts_with("bdi"),
+                    names_to = "month", 
+                    names_prefix = "bdi",
+                    values_to = "bdi",
+                    values_drop_na = TRUE)
+levels(btb_long$treatment) <- c("beat the blues", "treatment as usual")
+g3 <- ggplot(data = btb_long, aes(x = month, y=bdi, group=id, col = treatment)) + 
+  geom_line(alpha = 0.4) + 
+  ylab("Beck depression index II") + 
+  xlab("month since start of treatment") + 
+  theme(legend.position = c(0.8, 0.9)) +
+  scale_x_discrete(expand = c(0,0)) + 
+  scale_y_continuous(limits = c(0,65), expand = c(0,0))
+data(dental, package = "hecstatmod")
+dental_long <- tidyr::pivot_longer(data = dental, 
+                    cols = tidyselect::starts_with("dist"),
+                    names_to = "age", 
+                    names_prefix = "dist",
+                    values_to = "dist"
+                    )
+g4 <- ggplot(data = dental_long, aes(x = age, y=dist, group=id, col = gender)) + 
+  geom_line(alpha = 0.4) + 
+  ylab("orthodontic distance measurements (in mm)") + 
+  xlab("age") + 
+  theme(legend.position = c(0.8, 0.1)) +
+  scale_x_discrete(expand = c(0,0)) + 
+  scale_y_continuous(limits = c(0,35), expand = c(0,0))
+g1 / g3 / g4
+```
+
+We can see from Figure \@ref(fig:spaghettiplots) that there are a handful of observations per patient and that the overall increase in lung capacity as measured by FEV(1) increases with age. In the `fev1` database, the number of observations per individual varies from 1 to 12. 

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Correlated and longitudinal data | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Correlated and longitudinal data | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,7 +31,6 @@
   
 <link rel="prev" href="generalized-linear-models.html"/>
 <link rel="next" href="linear-mixed-models.html"/>
-<script src="libs/header-attrs-2.4/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -49,6 +48,9 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
 <script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
@@ -59,17 +61,18 @@
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -89,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -138,13 +141,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a>
-<ul>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a><ul>
 <li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a></li>
 <li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a>
-<ul>
+<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a><ul>
 <li class="chapter" data-level="2.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
 <li class="chapter" data-level="2.2" data-path="linear-regression.html"><a href="linear-regression.html#ordinary-least-squares"><i class="fa fa-check"></i><b>2.2</b> Ordinary least squares</a></li>
 <li class="chapter" data-level="2.3" data-path="linear-regression.html"><a href="linear-regression.html#interpretation-of-the-model-parameters"><i class="fa fa-check"></i><b>2.3</b> Interpretation of the model parameters</a></li>
@@ -156,40 +157,40 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a></li>
 <li class="chapter" data-level="2.10" data-path="linear-regression.html"><a href="linear-regression.html#transformation-response"><i class="fa fa-check"></i><b>2.10</b> Transformation of the response</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a>
-<ul>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a><ul>
 <li class="chapter" data-level="3.1" data-path="likelihood.html"><a href="likelihood.html#maximum-likelihood"><i class="fa fa-check"></i><b>3.1</b> Maximum likelihood</a></li>
 <li class="chapter" data-level="3.2" data-path="likelihood.html"><a href="likelihood.html#liktests"><i class="fa fa-check"></i><b>3.2</b> Likelihood-based tests</a></li>
 <li class="chapter" data-level="3.3" data-path="likelihood.html"><a href="likelihood.html#profile-likelihood"><i class="fa fa-check"></i><b>3.3</b> Profile likelihood</a></li>
 <li class="chapter" data-level="3.4" data-path="likelihood.html"><a href="likelihood.html#information-criteria"><i class="fa fa-check"></i><b>3.4</b> Information criteria</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a>
-<ul>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a><ul>
 <li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#basic-principles"><i class="fa fa-check"></i><b>4.1</b> Basic principles</a></li>
 <li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a></li>
 <li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a></li>
 <li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a></li>
 <li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a></li>
+<li class="chapter" data-level="4.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#rates"><i class="fa fa-check"></i><b>4.6</b> Rates</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a></li>
-<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a></li>
+<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a><ul>
+<li class="chapter" data-level="5.1" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html#longitudinal-data"><i class="fa fa-check"></i><b>5.1</b> Longitudinal data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a><ul>
+<li class="chapter" data-level="6.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#partial-pooling"><i class="fa fa-check"></i><b>6.1</b> Partial pooling</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a>
-<ul>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a><ul>
 <li class="chapter" data-level="A.1" data-path="complement.html"><a href="complement.html#population-sample"><i class="fa fa-check"></i><b>A.1</b> Population and samples</a></li>
 <li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a></li>
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
-<ul>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a><ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
 <li class="chapter" data-level="B.3" data-path="math.html"><a href="math.html#restricted-estimation-maximum-likelihood"><i class="fa fa-check"></i><b>B.3</b> Restricted estimation maximum likelihood</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a>
-<ul>
+<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a><ul>
 <li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a></li>
 <li class="chapter" data-level="C.2" data-path="r.html"><a href="r.html#rlmfunc"><i class="fa fa-check"></i><b>C.2</b> Linear models in <strong>R</strong> using the <code>lm</code> function</a></li>
 </ul></li>
@@ -214,9 +215,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="correlated-longitudinal-data" class="section level1" number="5">
+<div id="correlated-longitudinal-data" class="section level1">
 <h1><span class="header-section-number">5</span> Correlated and longitudinal data</h1>
+<p>Violations of the hypothesis of the linear model impact the validity of statistical inference. Whereas the last chapter followed on generalizations of the linear regression to handle non-normality of the response, we consider now extensions of the linear regression model in order to account for dependence or group heteroscedasticity.</p>
+<p>We derived the ordinary least squares estimator using maximum likelihood under the assumption of independent and homoscedastic normal errors. An alternative way of deriving the maximum likelihood estimator is to consider the <span class="math inline">\(n\)</span> sample as a single realization of an <span class="math inline">\(n\)</span> dimensional random vector with <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_n(\mathbf{X}\boldsymbol{\beta}, \sigma^2, \mathbf{I}_n)\)</span>. In the case of normally distributed data, the covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span> encodes the dependence between observations: off-diagonal elements of the covariance matrix are zero for independent observations, whereas the diagonal elements, which encode the variance, are equal for homoscedastic observations. One way to relax these assumptions is thus to parametrize <span class="math inline">\(\boldsymbol{\Sigma}\)</span> in terms of few parameter <span class="math inline">\(\boldsymbol{\psi}\)</span> and to obtain the likelihood-based estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{\psi}\)</span>.</p>
+<div id="longitudinal-data" class="section level2">
+<h2><span class="header-section-number">5.1</span> Longitudinal data</h2>
+<p>The parametrization of the covariance matrix requires some more insight into the dependence structure of the data. Most of the dependence arises from time dependence between observations. This section focuses on <strong>longitudinal</strong> data, or <strong>repeated measurements</strong>. These consist of short time series which are collected over different individuals: the assumption of independence could thus hold for measurements between different individuals, but not for measurements of the same individual.</p>
+<div class="figure" style="text-align: center"><span id="fig:spaghettiplots"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/spaghettiplots-1.png" alt="Spaghetti plots of longitudinal data: spirometry data from the Six Cities Study of Air Pollution and Health (left), clinical trial data for the 'Beat the Blues'  cognitive behavioural program (middle) and orthodontic measurements of children (bottom)." width="70%" />
+<p class="caption">
+Figure 5.1: Spaghetti plots of longitudinal data: spirometry data from the Six Cities Study of Air Pollution and Health (left), clinical trial data for the ‘Beat the Blues’ cognitive behavioural program (middle) and orthodontic measurements of children (bottom).
+</p>
+</div>
+<p>We can see from Figure <a href="correlated-longitudinal-data.html#fig:spaghettiplots">5.1</a> that there are a handful of observations per patient and that the overall increase in lung capacity as measured by FEV(1) increases with age. In the <code>fev1</code> database, the number of observations per individual varies from 1 to 12.</p>
 
+</div>
 </div>
             </section>
 

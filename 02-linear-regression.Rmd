@@ -4,7 +4,7 @@ A linear regression is a model for the conditional mean of a response variable $
 \begin{align}
 \mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}. (\#eq:linearreg)
 \end{align}
-The mean of $Y$ is conditional on the values of the observed covariate $\mathbf{X}$; this amounts to treating them as non-random,  known in advance.
+The mean of $Y$ is conditional on the values of the observed covariate $\mathbf{X}$; this amounts to treating them as non-random, known in advance.
 
 In practice, any model is an approximation of reality. An error term is included to take into account the fact that no exact linear relationship links $\mathbf{X}$ and $Y$ (otherwise this wouldn't be a statistical problem), or that measurements of $Y$ are subject to error. The random error term $\varepsilon$ will be the source of information for our inference, as it will quantify the goodness of fit of the model.
 
@@ -1092,6 +1092,24 @@ In order to interpret the parameters, we can compare the ratio of $\mathsf{E}(Y 
 \frac{\mathsf{E}(Y \mid \mathrm{X}_1=x+1, \mathrm{X}_2, \ldots, \mathrm{X}_p)}{\mathsf{E}(Y \mid \mathrm{X}_1=x,  \mathrm{X}_2, \ldots, \mathrm{X}_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
 \end{align*}
 Thus, $\exp(\beta_1)$ represents the ratio of the mean of $Y$ when $\mathrm{X}_1=x+1$ in comparison to that when $\mathrm{X}_1=x$, *ceteris paribus* (and provided this statement is meaningful). We can interpret $\exp(\beta_1)$ as the multiplicative effect of $\mathrm{X}_1$ on the mean of $Y$: increasing $\mathrm{X}_1$ by one unit causes $Y$ to increase by a factor of $\exp(\beta_1)$, on average. 
+
+
+Sometimes, we may wish to consider a log transformation of both the response and some of the continuous positive explanatories, when this make sense. 
+
+Consider the case where both $Y$ and $\mathrm{X}_1$ is log-transformed, so the equation for the mean on the original data scale reads
+\begin{align*}
+Y= \mathrm{X}_1^{\beta_1}\exp(\beta_0 + \beta_2\mathrm{X}_2 + \cdots + \beta_p\mathrm{X}_p + \varepsilon)
+\end{align*}
+Taking the derivative of the left hand side with respect to $\mathrm{X}_1>0$, we get 
+\begin{align*}
+\frac{\partial Y}{\partial \mathrm{X}_1}&= \beta_1 \mathrm{X}_1^{\beta_1-1}\exp(\beta_0 + \beta_2\mathrm{X}_2 + \cdots + \beta_p\mathrm{X}_p + \varepsilon)
+\\&= \frac{\beta_1 Y}{\mathrm{X}_1}
+\end{align*}
+and thus we can rearrange the expression so that 
+\begin{align*}
+\frac{\partial \mathrm{X}_1}{\mathrm{X}_1}\beta_1 = \frac{\partial Y}{Y};
+\end{align*}
+this is a partial **elasticity**, so $\beta_1$ is interpreted as a $\beta_1$ percentage change in $Y$ for each percentage increase of $\mathrm{X}_1$, *ceteris paribus*.
 
 ```{example, label="poisonboxcox", "Box--Cox transform for the $\\texttt{poison}$ data"}
 

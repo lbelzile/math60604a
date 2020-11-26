@@ -1,1 +1,102 @@
 # Linear mixed models {#linear-mixed-models}
+
+
+A linear mixed model is a two-level hierarchical model of the form 
+
+\begin{align}
+\mathcal{B}_i &\sim \mathsf{No}_q(\boldsymbol{0}_q, \boldsymbol{\Omega}) \nonumber\\
+\boldsymbol{Y}_i \mid \mathcal{B}_i=\boldsymbol{b}_i &\sim \mathsf{No}_{n_i}(\mathbf{X}_i\boldsymbol{\beta} + \mathbf{Z}_i\boldsymbol{b}_i, \mathbf{R}_i) (\#eq:mixedmod)
+\end{align}
+where $i$ is the identifier of the group (clustered data) or individual (longitudinal data).
+
+The $n_i \times q$ model matrix $\mathbf{Z}_i$ contains a subset of the columns of $\mathbf{X}_i$. We term $\mathbf{X}_i\boldsymbol{\beta}$ **fixed effects** and $\mathbf{Z}_i\boldsymbol{b}$ **random effects**.
+The specification of \@ref(eq:mixedmod) is particularly convenient for simulation: first sample a random effect vector $\boldsymbol{b}_i$ common to the group, then simulate new responses whose mean is shifted by $\mathbf{Z}_i\boldsymbol{b}_i$ relative to the linear regression. The matrix $\mathbf{R}_i$ is typically the identity matrix $\sigma^2\mathbf{I}_{n_i}$, but we could include slightly more general settings, including autoregressive errors.
+
+Because the multivariate normal distribution, one can show that the joint distribution of $(\boldsymbol{Y}, \mathcal{B})$ is jointly normal, that the marginal response $\boldsymbol{Y}_i$ is also normal. If we integrate out the random effect, 
+\begin{align}
+\boldsymbol{Y}_i \sim \mathsf{No}_{n_i}( \mathbf{X}_i \boldsymbol{\beta}, \mathbf{Z}_i\boldsymbol{\Omega}\mathbf{Z}_i^\top + \mathbf{R}_i)  (\#eq:margmodmixed)
+\end{align}
+
+In practice, we do not observe the random effect terms $\boldsymbol{b}_i$, so the inclusion of random effects translates into a more complex covariance structure which is additive: one component, $\mathbf{R}_i$, represents the covariance matrix of the random errors, while $\mathbf{Z}_i\boldsymbol{\Omega}\mathbf{Z}_i^\top$ is the additional variability induced by random effects. We denote by $\boldsymbol{\psi}$ the covariance parameters of $\boldsymbol{\Sigma}_i= \mathbf{Z}_i\boldsymbol{\Omega}\mathbf{Z}_i^\top + \mathbf{R}_i$ and the fixed effect parameters $\boldsymbol{\beta}$.
+
+Parameter estimates are obtained from the likelihood of  \@ref(eq:margmixedmod) and estimated using restricted estimation maximum likelihood (REML) or via maximum likelihood. In both cases, the optimization problems reduce to finding estimates of  $\boldsymbol{\psi}$ given that we an explicit solution for the restricted maximum likelihood parameters 
+\begin{align*}
+\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} = (\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\boldsymbol{Y}
+\end{align*}
+which is the generalized least square solutions. 
+
+
+## Partial pooling
+
+Random effects naturally induce correlation between observations and the conditional mean of $\boldsymbol{Y}_i \mid \mathcal{B}_i$ includes a group-effect. The alternative is to include another fixed effect via an binary indicator of group, $g_i$. There are many disadvantages to using this latter specification, since new observation or slope for incomplete records cannot be reliably estimated, in addition to having an overparametrized model with in addition no coefficients for explanatory variables that do not change within group.
+
+
+
+
+```{r partialpool1, echo = FALSE, eval = TRUE}
+
+library(ggplot2)
+data(ChickWeight)
+xlab <- "days since birth"
+ylab <- "body weight of chick (in grams)"
+sub <- ChickWeight$Chick %in% 
+  c(18, 16, 15, 9, 11,
+  24, 30, 25, 29, 21,
+  33, 37, 31, 32, 40,
+  44, 43, 41, 48, 50)
+CWsub <- ChickWeight[sub,]
+colnames(CWsub) <- c("weight","time","chick","diet")
+# CWsub$chick <- factor(CWsub$chick, ordered = FALSE)
+ggplot(data = CWsub) + 
+  aes(x = time, y = weight) + 
+  stat_smooth(method = "lm", se = FALSE,
+              aes(col=diet), 
+              formula = 'y ~ x', 
+              fullrange = TRUE) +
+  # Put the points on top of lines
+  geom_point() +
+  facet_wrap("chick") +
+  labs(x = xlab, y = ylab) 
+
+```
+
+There are four diets, and individuals are ordered by their initial weight. We can see that some chicks are lost to follow-up, possibly dead. While this is potentially a form of informative censoring, we will omit it from further analyses.
+
+```{r partialpool2, eval = TRUE, echo = FALSE, fig.cap = "Fitted regression lines for the model with a single common slope (complete pooling) and model with chick-specific intercept and slopes"}
+df_no_pooling <- nlme::lmList(weight ~ time | chick, data = CWsub) %>% 
+  coef() %>% 
+  # Subject IDs are stored as row-names. Make them an explicit column
+  tibble::rownames_to_column("chick") %>% 
+  dplyr::rename(intercept = `(Intercept)`, 
+                slope = time) %>% 
+  tibble::add_column(model = "no pooling")
+m_pooled <- lm(weight ~ time, data = CWsub) 
+
+# Repeat the intercept and slope terms for each participant
+df_pooled <- tibble::tibble(
+  model = "complete pooling",
+  chick = unique(CWsub$chick),
+  intercept = coef(m_pooled)[1], 
+  slope = coef(m_pooled)[2])
+
+df_models <- dplyr::bind_rows(df_pooled, df_no_pooling) %>%
+  dplyr::left_join(CWsub, by = "chick")
+
+p_model_comparison <- ggplot(df_models) + 
+  aes(x = time, y = weight) + 
+  # Set the color mapping in this layer so the points don't get a color
+  geom_abline(aes(intercept = intercept, 
+                  slope = slope, 
+                  color = model),
+              size = .75) + 
+  geom_point() +
+  facet_wrap("chick") +
+  labs(x = xlab, y = ylab) + 
+  scale_x_continuous(breaks = 0:4 * 5) + 
+  theme(legend.position = "top")
+
+p_model_comparison
+
+```
+
+We can compare the group effect obtained by including in the model matrix $\mathbf{X}$ 

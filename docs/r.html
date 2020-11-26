@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>C R | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="C R | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,7 +31,6 @@
   
 <link rel="prev" href="math.html"/>
 <link rel="next" href="references.html"/>
-<script src="libs/header-attrs-2.4/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -49,6 +48,9 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
 <script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
@@ -59,17 +61,18 @@
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -89,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -138,13 +141,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a>
-<ul>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a><ul>
 <li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a></li>
 <li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a>
-<ul>
+<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a><ul>
 <li class="chapter" data-level="2.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
 <li class="chapter" data-level="2.2" data-path="linear-regression.html"><a href="linear-regression.html#ordinary-least-squares"><i class="fa fa-check"></i><b>2.2</b> Ordinary least squares</a></li>
 <li class="chapter" data-level="2.3" data-path="linear-regression.html"><a href="linear-regression.html#interpretation-of-the-model-parameters"><i class="fa fa-check"></i><b>2.3</b> Interpretation of the model parameters</a></li>
@@ -156,40 +157,40 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a></li>
 <li class="chapter" data-level="2.10" data-path="linear-regression.html"><a href="linear-regression.html#transformation-response"><i class="fa fa-check"></i><b>2.10</b> Transformation of the response</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a>
-<ul>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a><ul>
 <li class="chapter" data-level="3.1" data-path="likelihood.html"><a href="likelihood.html#maximum-likelihood"><i class="fa fa-check"></i><b>3.1</b> Maximum likelihood</a></li>
 <li class="chapter" data-level="3.2" data-path="likelihood.html"><a href="likelihood.html#liktests"><i class="fa fa-check"></i><b>3.2</b> Likelihood-based tests</a></li>
 <li class="chapter" data-level="3.3" data-path="likelihood.html"><a href="likelihood.html#profile-likelihood"><i class="fa fa-check"></i><b>3.3</b> Profile likelihood</a></li>
 <li class="chapter" data-level="3.4" data-path="likelihood.html"><a href="likelihood.html#information-criteria"><i class="fa fa-check"></i><b>3.4</b> Information criteria</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a>
-<ul>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a><ul>
 <li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#basic-principles"><i class="fa fa-check"></i><b>4.1</b> Basic principles</a></li>
 <li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a></li>
 <li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a></li>
 <li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a></li>
 <li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a></li>
+<li class="chapter" data-level="4.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#rates"><i class="fa fa-check"></i><b>4.6</b> Rates</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a></li>
-<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a></li>
+<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a><ul>
+<li class="chapter" data-level="5.1" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html#longitudinal-data"><i class="fa fa-check"></i><b>5.1</b> Longitudinal data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a><ul>
+<li class="chapter" data-level="6.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#partial-pooling"><i class="fa fa-check"></i><b>6.1</b> Partial pooling</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a>
-<ul>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a><ul>
 <li class="chapter" data-level="A.1" data-path="complement.html"><a href="complement.html#population-sample"><i class="fa fa-check"></i><b>A.1</b> Population and samples</a></li>
 <li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a></li>
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
-<ul>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a><ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
 <li class="chapter" data-level="B.3" data-path="math.html"><a href="math.html#restricted-estimation-maximum-likelihood"><i class="fa fa-check"></i><b>B.3</b> Restricted estimation maximum likelihood</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a>
-<ul>
+<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a><ul>
 <li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a></li>
 <li class="chapter" data-level="C.2" data-path="r.html"><a href="r.html#rlmfunc"><i class="fa fa-check"></i><b>C.2</b> Linear models in <strong>R</strong> using the <code>lm</code> function</a></li>
 </ul></li>
@@ -214,12 +215,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="r" class="section level1" number="10">
+<div id="r" class="section level1">
 <h1><span class="header-section-number">C</span> <strong>R</strong></h1>
 <p><strong>R</strong> is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.</p>
 <p>You can find several introductions to <strong>R</strong> online. Have a look at the <a href="https://cran.r-project.org/manuals.html"><strong>R</strong> manuals</a> or better at <a href="https://cran.r-project.org/other-docs.html">contributed manuals</a>. A nice official reference is <a href="http://colinfay.me/intro-to-r/index.html">An introduction to <strong>R</strong></a>.
 You may wish to look up the following chapters of the <strong>R</strong> language definition (<a href="http://colinfay.me/r-language-definition/evaluation-of-expressions.html">Evaluation of expressions</a> and part of the <a href="http://colinfay.me/r-language-definition/objects.html"><em>Objects</em> chapter</a>). Another good (small reference) is the cheatsheet <a href="https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf">Getting started in <strong>R</strong></a>.</p>
-<div id="basics-of-r" class="section level2" number="10.1">
+<div id="basics-of-r" class="section level2">
 <h2><span class="header-section-number">C.1</span> Basics of <strong>R</strong></h2>
 <div id="help" class="section level3 unnumbered">
 <h3>Help</h3>
@@ -278,6 +279,7 @@ then</p>
 <div class="rmdcaution">
 <p>There are drawbacks to loading packages: if an object with the same name from another package is already present in your environment, it will be hidden. Use the double-colon operator <code>::</code> to access a single object from an installed package (<code>package::object</code>).</p>
 </div>
+
 </div>
 <div id="datasets" class="section level3 unnumbered">
 <h3>Datasets</h3>
@@ -295,12 +297,12 @@ then</p>
 <li><code>head</code> (<code>tail</code>) prints the first (last) <span class="math inline">\(n\)</span> lines of the object to the console (default is <span class="math inline">\(n=6\)</span>).</li>
 </ul>
 <p>We start by loading a dataset of the Old Faithful Geyser of Yellowstone National park and looking at its entries.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r.html#cb21-1" aria-hidden="true"></a><span class="co"># Load Old faithful dataset</span></span>
-<span id="cb21-2"><a href="r.html#cb21-2" aria-hidden="true"></a><span class="kw">data</span>(faithful, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
-<span id="cb21-3"><a href="r.html#cb21-3" aria-hidden="true"></a><span class="co"># Query the database for documentation</span></span>
-<span id="cb21-4"><a href="r.html#cb21-4" aria-hidden="true"></a>?faithful</span>
-<span id="cb21-5"><a href="r.html#cb21-5" aria-hidden="true"></a><span class="co"># look at first entries</span></span>
-<span id="cb21-6"><a href="r.html#cb21-6" aria-hidden="true"></a><span class="kw">head</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r.html#cb21-1"></a><span class="co"># Load Old faithful dataset</span></span>
+<span id="cb21-2"><a href="r.html#cb21-2"></a><span class="kw">data</span>(faithful, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
+<span id="cb21-3"><a href="r.html#cb21-3"></a><span class="co"># Query the database for documentation</span></span>
+<span id="cb21-4"><a href="r.html#cb21-4"></a>?faithful</span>
+<span id="cb21-5"><a href="r.html#cb21-5"></a><span class="co"># look at first entries</span></span>
+<span id="cb21-6"><a href="r.html#cb21-6"></a><span class="kw">head</span>(faithful)</span></code></pre></div>
 <pre><code>##   eruptions waiting
 ## 1      3.60      79
 ## 2      1.80      54
@@ -308,12 +310,12 @@ then</p>
 ## 4      2.28      62
 ## 5      4.53      85
 ## 6      2.88      55</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="r.html#cb23-1" aria-hidden="true"></a><span class="kw">str</span>(faithful)</span></code></pre></div>
-<pre><code>## &#39;data.frame&#39;:	272 obs. of  2 variables:
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="r.html#cb23-1"></a><span class="kw">str</span>(faithful)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    272 obs. of  2 variables:
 ##  $ eruptions: num  3.6 1.8 3.33 2.28 4.53 ...
 ##  $ waiting  : num  79 54 74 62 85 55 88 85 51 85 ...</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="r.html#cb25-1" aria-hidden="true"></a><span class="co"># What kind of object is faithful? </span></span>
-<span id="cb25-2"><a href="r.html#cb25-2" aria-hidden="true"></a><span class="kw">class</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="r.html#cb25-1"></a><span class="co"># What kind of object is faithful? </span></span>
+<span id="cb25-2"><a href="r.html#cb25-2"></a><span class="kw">class</span>(faithful)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <p>Other common classes of objects:</p>
 <ul>
@@ -338,9 +340,10 @@ then</p>
 <div class="rmdnote">
 <p>There are two options for basic graphics: the base graphics package and the package <code>ggplot2</code>. The latter is a more recent proposal that builds on a modular approach and is more easily customizable — I suggest you stick to either and <code>ggplot2</code> is a good option if you don’t know <strong>R</strong> already, as the learning curve will be about the same. Even if the display from <code>ggplot2</code> is nicer, this is no excuse for not making proper graphics. Always label the axis and include measurement units!</p>
 </div>
+
 </div>
 </div>
-<div id="rlmfunc" class="section level2" number="10.2">
+<div id="rlmfunc" class="section level2">
 <h2><span class="header-section-number">C.2</span> Linear models in <strong>R</strong> using the <code>lm</code> function</h2>
 <p>The function <code>lm</code> is the workshorse for fitting linear models in <strong>R</strong>. It takes as input a formula: suppose you have a data frame containing columns <code>x</code> (a regressor) and <code>y</code> (the regressand); you can then call <code>lm(y ~ x)</code> to fit the linear model <span class="math inline">\(y = \beta_0 + \beta_1 x + \varepsilon\)</span>. The explanatory variable <code>y</code> is on the left hand side,
 while the right hand side should contain the predictors, separated by a <code>+</code> sign if there are more than one.
@@ -379,18 +382,18 @@ If you provide the data frame name using <code>data</code>, then the shorthand <
 <!-- We can compute the correlation coefficient using `cor`; we get 0.43 for `intention` and `fixation` and 0.23 for `intention` and `emotion`. If we specify a matrix with more than two columns or a data frame (with numeric values), we get a correlation matrix with ones on the diagonal. For factor variables, we would need to map these back to binary, but we saw that the $R^2$ value is equal to the squared correlation coefficient, so we can extract this from the output of the linear model fit.  -->
 <p>To fit higher order polynomials, use <code>poly</code>. For transformations, use the <code>I</code> function to tell <strong>R</strong> to interpret the input “as is”. Thus, <code>lm(y~x+I(x^2))</code>, would fit a linear model with design matrix <span class="math inline">\((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\)</span>. A constant is automatically included in the regression, but can be removed by writing <code>-1</code> or <code>+0</code> on the right hand side of the formula (but don’t do that!). The <code>lm</code> function output will display ordinary least squares estimates along with standard errors, <span class="math inline">\(t\)</span> values for the Wald test of the hypothesis <span class="math inline">\(\mathrm{H}_0: \beta_i=0\)</span> and the associated <span class="math inline">\(P\)</span>-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.</p>
 <p>Many methods allow you to extract specific objects from <code>lm</code> objects. For example, the functions <code>coef</code>, <code>resid</code>, <code>fitted</code>, <code>model.matrix</code> will return the coefficients <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>, the ordinary residuals <span class="math inline">\(\boldsymbol{e}\)</span>, the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> and the design matrix <span class="math inline">\(\mathbf{X}\)</span>, respectively.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="r.html#cb27-1" aria-hidden="true"></a><span class="kw">data</span>(college, <span class="dt">package =</span> <span class="st">&quot;hecstatmod&quot;</span>) <span class="co">#load data</span></span>
-<span id="cb27-2"><a href="r.html#cb27-2" aria-hidden="true"></a><span class="kw">class</span>(college<span class="op">$</span>rank) <span class="co">#check that rank is a factor</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="r.html#cb27-1"></a><span class="kw">data</span>(college, <span class="dt">package =</span> <span class="st">&quot;hecstatmod&quot;</span>) <span class="co">#load data</span></span>
+<span id="cb27-2"><a href="r.html#cb27-2"></a><span class="kw">class</span>(college<span class="op">$</span>rank) <span class="co">#check that rank is a factor</span></span></code></pre></div>
 <pre><code>## [1] &quot;factor&quot;</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="r.html#cb29-1" aria-hidden="true"></a><span class="co">#if not, use the following &quot;&lt;-&quot; to assign, &quot;$&quot; to access the column of a data.frame/list</span></span>
-<span id="cb29-2"><a href="r.html#cb29-2" aria-hidden="true"></a><span class="co"># college$rank &lt;- factor(college$rank, labels = c(&quot;assistant&quot;,&quot;associate&quot;,&quot;full&quot;))</span></span>
-<span id="cb29-3"><a href="r.html#cb29-3" aria-hidden="true"></a>linmod &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>rank <span class="op">+</span><span class="st"> </span>service <span class="op">+</span><span class="st"> </span>field, <span class="dt">data =</span> college)</span>
-<span id="cb29-4"><a href="r.html#cb29-4" aria-hidden="true"></a><span class="kw">coef</span>(linmod) <span class="co">#coefficients</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="r.html#cb29-1"></a><span class="co">#if not, use the following &quot;&lt;-&quot; to assign, &quot;$&quot; to access the column of a data.frame/list</span></span>
+<span id="cb29-2"><a href="r.html#cb29-2"></a><span class="co"># college$rank &lt;- factor(college$rank, labels = c(&quot;assistant&quot;,&quot;associate&quot;,&quot;full&quot;))</span></span>
+<span id="cb29-3"><a href="r.html#cb29-3"></a>linmod &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>rank <span class="op">+</span><span class="st"> </span>service <span class="op">+</span><span class="st"> </span>field, <span class="dt">data =</span> college)</span>
+<span id="cb29-4"><a href="r.html#cb29-4"></a><span class="kw">coef</span>(linmod) <span class="co">#coefficients</span></span></code></pre></div>
 <pre><code>##      (Intercept)         sexwoman    rankassociate         rankfull 
 ##          86.5963          -4.7712          14.5604          49.1596 
 ##          service fieldtheoretical 
 ##          -0.0888         -13.4734</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="r.html#cb31-1" aria-hidden="true"></a><span class="kw">summary</span>(linmod) <span class="co">#summary table</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="r.html#cb31-1"></a><span class="kw">summary</span>(linmod) <span class="co">#summary table</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = salary ~ sex + rank + service + field, data = college)
@@ -411,9 +414,9 @@ If you provide the data frame name using <code>data</code>, then the shorthand <
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 22.7 on 391 degrees of freedom
-## Multiple R-squared:  0.448,	Adjusted R-squared:  0.441 
+## Multiple R-squared:  0.448,  Adjusted R-squared:  0.441 
 ## F-statistic: 63.4 on 5 and 391 DF,  p-value: &lt;2e-16</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="r.html#cb33-1" aria-hidden="true"></a><span class="kw">confint</span>(linmod) <span class="co">#confidence intervals for model parameters</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="r.html#cb33-1"></a><span class="kw">confint</span>(linmod) <span class="co">#confidence intervals for model parameters</span></span></code></pre></div>
 <pre><code>##                    2.5 % 97.5 %
 ## (Intercept)       80.776 92.416
 ## sexwoman         -12.396  2.853
@@ -421,8 +424,8 @@ If you provide the data frame name using <code>data</code>, then the shorthand <
 ## rankfull          41.621 56.698
 ## service           -0.308  0.131
 ## fieldtheoretical -18.026 -8.921</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="r.html#cb35-1" aria-hidden="true"></a>yhat &lt;-<span class="st"> </span><span class="kw">fitted</span>(linmod) <span class="co">#fitted values</span></span>
-<span id="cb35-2"><a href="r.html#cb35-2" aria-hidden="true"></a>e &lt;-<span class="st"> </span><span class="kw">resid</span>(linmod) <span class="co">#ordinary residuals</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="r.html#cb35-1"></a>yhat &lt;-<span class="st"> </span><span class="kw">fitted</span>(linmod) <span class="co">#fitted values</span></span>
+<span id="cb35-2"><a href="r.html#cb35-2"></a>e &lt;-<span class="st"> </span><span class="kw">resid</span>(linmod) <span class="co">#ordinary residuals</span></span></code></pre></div>
 <!-- The estimated intercept $\widehat{\beta}_0$ is 6.92 and the estimated slope $\widehat{\beta}_1$ is 1.29 The table gives the $p$-values for the null hypotheses $\beta_0=0$ and $\beta_1=0$, which are negligible. The estimated variance $\widehat{\sigma}^2$, given by the `Residual standard error` is 2.86. -->
 <!-- To obtain predicted values for combination of explanatories not present in the dataset, we need to first create a new data frame, with the same column names as those of the explanatory. In this case, the only $\mathrm{X}$ variable is `fixation`. We can get confidence intervals for the mean value with `interval = "conf"` or prediction intervals for the new observations with `interval = "pred"`. -->
 <!-- ```{r plotfitted} -->

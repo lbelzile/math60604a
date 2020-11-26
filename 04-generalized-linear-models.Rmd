@@ -36,7 +36,7 @@ variable,
 \end{align*}
 The building blocks of the generalized linear model are
 
-- A random component, consisting of the probability distribution for the outcome $Y$ that is a member of the exponential dispersion family (normal, binomial, Poisson, gamma, \ldots).
+- A random component, consisting of the probability distribution for the outcome $Y$ that is a member of the exponential dispersion family (normal, binomial, Poisson, gamma, $\ldots$).
 - A deterministic component, the **linear predictor** $\boldsymbol{\eta}=\mathbf{X} \boldsymbol{\beta}$, where $\mathbf{X}$ is an $n\times (p+1)$ matrix with columns   $\mathbf{1}_n, \mathbf{X}_1, \ldots, \mathbf{X}_p$ and $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ are coefficients.
 - A monotone function $g$, called **link function**, that maps the mean of $Y_i$ to the predictor variables, $g(\mu_i)=\eta_i$.
 
@@ -50,7 +50,8 @@ This section borrows from Chapter 4 of
 
 In a generalized linear model, the random component arises from an
 exponential dispersion family. Consider a probability density or mass
-function for $Y$ with parameters $(\theta, \phi)$, \begin{align}
+function for $Y$ with parameters $(\theta, \phi)$, 
+\begin{align}
 f(y; \theta, \phi)&= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y, \phi)\right\}, 
 (\#eq:expofam)
 \end{align}
@@ -71,8 +72,7 @@ natural parameter $\theta$ are
 \end{align*}
 where $b'(\cdot)$ and $b''(\cdot)$ are the first two
 derivatives of $b(\cdot)$ with respect to $\theta$. Under regularity
-condition, the [Bartlett
-identities](https://math.stackexchange.com/q/2027660) hold and
+condition, the [Bartlett identities](https://math.stackexchange.com/q/2027660) hold and
 \begin{align*}
 \mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}=0, \qquad - \mathsf{E}\left\{\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2}\right\} = \left[\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}\right]^2.
 \end{align*}
@@ -183,7 +183,7 @@ Consider a linear model for which theory dictates that the mean should be $Y \si
 This model is nonlinear in $\alpha_0$, $\alpha_1$. If we opt for the reciprocal link function $g(x)=1/x$, we get $\beta_0+\beta_1 x$, where $\beta_0 = 1/\alpha_0$ and $\beta_1 = \alpha_1/\alpha_0$ provided $\alpha_0 \neq 0$. Since the generalized linear model is estimated using maximum likelihood and the latter are invariant to reparametrization, we get easily the estimated coefficients of interest.
 ```
 
-### Model adjustment
+### Model adjustment ($\star$)
 
 There is generally no closed-form expression for the maximum likelihood
 estimators $\widehat{\boldsymbol{\beta}}$ in generalized linear models
@@ -204,17 +204,15 @@ contribution and coefficient in turn. By the chain rule, \begin{align*}
 and the earlier derivations show $\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)$ and $\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)$.
 The derivative of the linear predictor,$\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}$. The only missing term, $\partial \mu_i/\partial \eta_i$, depends on the choice of link function through $\eta_i = g(\mu_i)$, but it is unity for the canonical link function.
 
-Summing all the likelihood contribution, the score vector
-$\boldsymbol{U}$ has element 
-\begin{align*}
-\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
-\end{align*}
-
 Let 
 \begin{align*}
 U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}
 \end{align*}
-
+denote respectively the gradient and the hessian of the log likelihood function; summing all the likelihood contribution, the $j$th element of the score vector
+$\boldsymbol{U}$ is
+\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}
 In general, $\widehat{\boldsymbol{\beta}}$ solves the score equation $U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}$, so we can use a Newton--Raphson algorithm to derive the maximum likelihood
 estimator. This amounts to a first order Taylor series approximation of
 the score $U(\widehat{\boldsymbol{\beta}})$ around $\boldsymbol{\beta}$,
@@ -232,25 +230,18 @@ implement a variant of this algorithm, in which the negative hessian
 $j(\boldsymbol{\beta})$ is replaced by its absolute value
 $i(\boldsymbol{\beta})$: the resulting algorithm is known as Fisher
 scoring. For generalized linear models, these recursions can be done by
-repeatedly computing a variance of least squares known as iteratively
+repeatedly computing a variant of least squares known as iteratively
 reweighted least squares.
 
 ### Likelihood inference
 
-Likelihood inference is straightforward, although some care is needed
-because the asymptotic distribution of test statistics sometimes depend
-on the model parameters.
-
-Under regularity conditions, the maximum likelihood estimators of
-$\boldsymbol{\beta}$ and $\phi$ are jointly normally distributed under
-mild regularity conditions,
+Likelihood inference is straightforward, although some care is needed because the asymptotic distribution of test statistics sometimes depend on the model parameters. Under regularity conditions, the maximum likelihood estimators of $\boldsymbol{\beta}$ and $\phi$ are jointly normally distributed,
 \begin{align*}
 \widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{No}_{p+1}\{\boldsymbol{\beta}, (\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1}\}
 \end{align*}
 where
-$\mathbf{W} = \mathrm{diag}\{(\partial \mu_i/\partial \eta_i)^2/\mathsf{Va}(Y_i)\}$
-is a diagonal matrix with elements
-$w_i=\{g'(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}$.
+\[\mathbf{W} = \mathrm{diag}\{w_1,\ldots, w_n\}, \qquad w_i = \frac{\partial \mu_i/\partial \eta_i)^2}{\mathsf{Va}(Y_i)}=\{g'(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}.
+\]
 
 Since $\mathbf{W}$ depends on the unknown $\boldsymbol{\beta}$ through
 the expected values $\mu_i$, we can estimate $\widehat{\mathbf{W}}$ by
@@ -259,6 +250,7 @@ at $\widehat{\boldsymbol{\beta}}$.
 
 ```{example, label = "weightpois", name = "Elements of the weight matrix for Poisson data"}
 If we consider $Y_i \sim \mathsf{Po}(\mu_i)$ with canonical link function $\mu_i = \exp(\eta_i)$, then $\partial \eta_i / \partial \mu_i = \mu_i^{-1}$ and $w_i=\mu_i$.
+
 ```
 
 
@@ -272,7 +264,7 @@ likelihood ratio test. Under regularity conditions, the likelihood ratio
 statistic to compare two nested models will follow the usual $\chi^2_q$
 distribution.
 
-### Goodness-of-fit criteria and residuals
+### Goodness-of-fit criteria 
 
 Goodness-of-fit diagnostics often rely on test statistics comparing the
 fitted model with parameters $\widehat{\boldsymbol{\beta}}$ with a
@@ -312,6 +304,9 @@ correct and $\phi$ is known (but this result doesn't hold for binary
 data or binomial data unless $m$ is very large and $\boldsymbol{\beta}$
 are small). If $\phi$ is unknown, we would replace it throughout by an
 estimate and the same distributional results hold approximatively.
+
+
+### Residuals $(\star)$ {#residuals-glm}
 
 We can use the individual contributions to the deviance and Pearson
 $X^2$ statistic to build residuals. By considering
@@ -514,7 +509,7 @@ dust(mod) %>%
   knitr::kable(align = "lrrrr", booktabs = TRUE, caption = "Logistic regression: table of coefficients for the graduate admission data with gpa as only covariate.")
 ```
 
-The coefficients of the simple logistic model are reported in Table \@ref(tab:gpatable), showing that the log odds of admission increase by `r round(coef(mod)[2]/10,2)` for each increase in GPA of $0.1$. This translates into $\exp(0.1\widehat{\beta}_{\mathrm{gpa}})=`r round(exp(coef(mod)[2]/10),2)`$ on the odds ratio scale, meaning a `r round(100*(round(exp(coef(mod)[2]/10),2)-1),1)`% increase in odds of admission for every $0.1$ increase in GPA. Of course, this  model is simplistic and omits other important factors... Figure \@ref(fig:figgpa) shows the variation on the log odds, odds and probability scale as a function of grade point average. While the probability scale is the most intuitive, the effect of an increase of $0.1$ unit of GPA isn't the same, depending on what is your starting value: according to the model, the absolute increase in the probability of admission for individuals with GPA scores $2.3$ and $2.4$ is `r round(100*expit(with(plot_df, pred[which(sapply(gpa, function(i){isTRUE(all.equal(i,2.4))}))]))-100*expit(with(plot_df, pred[gpa == 2.3])),1)`%, whereas that corresponding to an increase in GPA from 3.9 to 4 is `r round(100*(expit(with(plot_df, pred[gpa == 4]))-expit(with(plot_df, pred[gpa == 3.9]))), 1)`%; this illustrates how the impact of an increase of $0.1$ points is not the same across the board.
+The coefficients of the simple logistic model are reported in Table \@ref(tab:gpatable), showing that the log odds of admission increase by `r round(coef(mod)[2]/10,2)` for each increase in GPA of $0.1$. This translates into $\exp(0.1\widehat{\beta}_{\mathrm{gpa}})=`r round(exp(coef(mod)[2]/10),2)`$ on the odds ratio scale, meaning a `r round(100*(round(exp(coef(mod)[2]/10),2)-1),1)`% increase in odds of admission for every $0.1$ increase in GPA. Of course, this  model is simplistic and omits other important factors$\ldots$ Figure \@ref(fig:figgpa) shows the variation on the log odds, odds and probability scale as a function of grade point average. While the probability scale is the most intuitive, the effect of an increase of $0.1$ unit of GPA isn't the same, depending on what is your starting value: according to the model, the absolute increase in the probability of admission for individuals with GPA scores $2.3$ and $2.4$ is `r round(100*expit(with(plot_df, pred[which(sapply(gpa, function(i){isTRUE(all.equal(i,2.4))}))]))-100*expit(with(plot_df, pred[gpa == 2.3])),1)`%, whereas that corresponding to an increase in GPA from 3.9 to 4 is `r round(100*(expit(with(plot_df, pred[gpa == 4]))-expit(with(plot_df, pred[gpa == 3.9]))), 1)`%; this illustrates how the impact of an increase of $0.1$ points is not the same across the board.
 
 ```{example label="birthweightex", name="Risk factors related to underweight babies at birth"}
 We consider a medical example related to risk factors explaining the birth weight: the birth weight is dichotomized and classified as low if the infant weight is inferior to 2.5 kg (1) and 0 otherwise. The data were collected in a medical center in Massachusetts in 1986.
@@ -729,7 +724,7 @@ tab2 <- dust(data.frame(estimate = as.numeric(m2$coef), "std.error" = as.numeric
 knitr::kable(x = list(tab1, tab2), align = "lrrrr", booktabs = TRUE, caption = "Logistic regression: simulated dataset exhibiting separation of variables with standard logistic model (left) and Firth's regression (right). The large coefficients and standard errors, combined with near zero residuals, are all indicative of separation of variable.")
 ```
 
-Inspection of the coefficients and their standard errors is a good way to detect such problems: parameters that are large (with standardized explanatories with mean zero variance one inputs) with $|\widehat{\beta}_j| > 36$ are particularly suspicious; the number of iterations for the optimization routine is also often abnormally large. While the Wald statistic for $\beta_1=0$ is nearly zero and the $p$-value 1, the likelihood ratio test yields a statistic of `r as.numeric(car::Anova(m1, type=3)[1])` with a  negligible associated $p$-value.
+Inspection of the coefficients and their standard errors is a good way to detect such problems: parameters that are large (with standardized explanatories with mean zero variance one inputs) with $|\widehat{\beta}_j| > 36$ are particularly suspicious; the number of iterations for the optimization routine is also often abnormally large. While the Wald statistic for $\beta_1=0$ is nearly zero and the $p$-value 1, the likelihood ratio test yields a statistic of $`r as.numeric(car::Anova(m1, type=3)[1])`$ with a negligible associated $p$-value.
 
 One way to restore finiteness of the $\boldsymbol{\beta}$ is to impose a penalty term that prevents near infinite parameter values. Firth's penalty is the most popular solution (option `firth` in the **SAS** procedure `logistic` and `logistf::logistf` function in **R**.
 
@@ -740,7 +735,7 @@ ggplot(data.frame(x, y), aes(x=x,y=y)) +
   stat_function(fun = fittedsepmod, xlim = c(min(x),max(x)), n = 1001L)
 ```
 
-### Diagnostic plots for binary data ($\star$)
+### Diagnostic plots for binary data ($\star$) {#diag-plots-binary}
 
 There are also other issues arising from the discreteness of the
 observations. Since observations are 0/1, residuals are often separated.
@@ -832,7 +827,7 @@ g6 <- ggplot(data.frame(x=1:189, y = glmdiag$cook)) +
 
 If a response is integer value, the linear model is seldom appropriate because the variable is skewed, which even the log-linear model may fail to capture. It may thus be appropriate to look at generalized linear models for discrete data.
 
-The most widespread model for count data is the Poisson regression. The Poisson distribution arises as the limit of binomial data with a small probability of success as the number of attempts becomes large: examples include rare medical conditions, number of accidents, or goals in a soccer (football) match. The mean and variance of the Poisson distribution are both $\lambda$, so the model imposes stringent constraints on the observations. Extensions that deal with zero-inflation, underdispersed and overdispersed data are widespread. Most count data are found in contingency tables, in which the cells give the counts, while the dimensions of the table represent categorical variables. Such data format are convenient for storage and display, but must be transformed to long format for model fitting.
+The most widespread model for count data is the Poisson regression. The Poisson distribution arises as the limit of binomial data with a small probability of success as the number of attempts becomes large: examples include rare medical conditions, number of accidents, or goals in a soccer (football) match. The mean and variance of the Poisson distribution are both $\lambda$, so the model imposes stringent constraints on the observations. Extensions that deal with zero-inflation, underdispersed and overdispersed data are widespread. 
 
 The canonical link of the Poisson model is the natural logarithm $\ln(x)$ and the interpretation will be similar to that of the [log-linear model](transformation-response). Specifically, suppose the
 mean model is 
@@ -884,11 +879,11 @@ Overdispersion is not the only problem encountered in practice: sometimes, the v
 \mathsf{E}(Y) &= \mathsf{E}_{\Lambda}\{\mathsf{E}(Y \mid \Lambda\} = \mathsf{E}(\Lambda) = \mu\\
 \mathsf{Va}(Y) &= \mathsf{E}_{\Lambda}\{\mathsf{Va}(Y \mid \Lambda)\} + \mathsf{Va}_{\Lambda}\{\mathsf{E}(Y \mid \Lambda)\} = \mathsf{E}(\Lambda) + \mathsf{Va}(\Lambda) = \mu + \mathsf{Va}(\Lambda).
 \end{align*}
-This hierarchical model thus necessarily yield a model in which the variance is higher than the mean. If $\Lambda$ follows a [gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution) with scale $k\mu$ and rate $k>0$, $\Lambda \sim \mathsf{Ga}(k\mu, k)$. This yields a marginal distribution for the response $Y$ which follows a negative binomial distribution, whose mean and variance are
+This hierarchical model thus necessarily yield a model in which the variance is higher than the mean. If $\Lambda$ follows a [gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution) with scale $k\mu$ and rate $k>0$, $\Lambda \sim \mathsf{Ga}(k\mu, k)$, the marginal distribution for the response $Y$ follows a negative binomial distribution, whose mean and variance are
 \begin{align*}
 \mathsf{E}(Y) = \mu, \qquad \mathsf{Va}(Y) = \mu + k \mu^2.
 \end{align*}
-The term $k$ is a dispersion parameter, which is fixed for all observations. As $k \to 0$, the distribution of $\Lambda$ degenerates to a constant at $\mu$ and we recover th e Poisson model. While both negative binomial and Poisson models are nested, the likelihood ratio test is non-regular because the restriction we test lies on the boundary of the parameter space, as $k \in (0, \infty)$. The consequence is that, in large samples, if the data are truly Poisson and we fit a negative binomial, we expect the maximum likelihood estimator of the dispersion parameter $k$ to be exactly zero half of the time and
+The term $k$ is a dispersion parameter, which is fixed for all observations. As $k \to 0$, the distribution of $\Lambda$ degenerates to a constant at $\mu$ and we recover the Poisson model. While both negative binomial and Poisson models are nested, the likelihood ratio test is non-regular because the restriction we test lies on the boundary of the parameter space, as $k \in (0, \infty)$. The consequence is that, in large samples, if the data are truly Poisson and we fit a negative binomial, we expect the maximum likelihood estimator of the dispersion parameter $k$ to be exactly zero half of the time and
 to be positive and behave like a $\chi_1^2$ random variable the other half of the time.
 
 Strictly speaking, the negative binomial expansion presented above is not a generalized linear model unless $k$ is known, but we can write down the log-likelihood and fit the model by alternating maximization of $\boldsymbol{\beta}$ and $k$ and perform likelihood-based inference as usual.
@@ -987,16 +982,178 @@ g4 <- ggplot(data = data.frame(sample = sort(pchisq(result[[4]]$positive,1)),
 
 The percentage of likelihood ratio statistics that are zero is $`r round(100*result[[1]]$ptmass,0)`$%, $`r round(100*result[[2]]$ptmass,0)`$%,  $`r round(100*result[[3]]$ptmass,0)`$% and $`r round(100*result[[4]]$ptmass,0)`$% for respectively $n=100$, $500$, $1000$ and $2000$. We can also see from the quantile-quantile plots that the empirical distribution of the positive values is right skewed relative to the $\chi^2_1$ reference. This strongly suggest that  asymptotic null distribution, consisting of a point mass with probability half at $0$ and $\chi^2_1$ with probability half is seemingly valid only for very large samples; bear in mind that these findings also don't account for model misspecification.
 
+### Contingency tables
+
+Most count data are found in contingency tables, in which the cells give the counts for each combination of factors and the dimensions of the table represent categorical variables. Such data format are convenient for storage and display, but must be transformed to long format for model fitting.
+
+An $m$ dimensional contingency table corresponds to a data frame with $m$ categorical variables and the saturated model is the model with all main effects and all of the $k$ ($2 \leq k \leq m)$ interactions. The saturated model has as many coefficients as observations (here the product of the contingency table dimensions).
+Since the fitted value from this model are equal to the observed counts, it is unnecessary to fit the model: the likelihood ratio statistic for comparing the saturated model with a simpler alternative is simply the deviance statistic reported in the output, whereas the score test is given by Pearson $X^2$ statistic. Inference proceeds as usual.
+
+```{example, name = "Poisson log-linear model for drug history in Dayton", label="poissonconting"}
+We consider data from @Agresti:2019 on history of high school students near Dayton, Ohio. A survey asked students from grade 12 about their previous consumption of alcohol, cigarettes and marijuana (yes/no). The $2 \times 2 \times 2$ table corresponds to a 12 by 4 data frame with three binary variables and one integer-valued response giving the counts.
+```
+
+
+```{r contingencydayton, echo = FALSE, eval = TRUE}
+
+dayton <- data.frame(alcohol = rep(c("yes","no"), each = 4),
+                     cigarette = rep(rep(c("yes","no"), each = 2), length.out = 8),
+                     marijuana = rep(c("yes","no"), length.out = 8),
+                     count = c(911, 538, 44, 456, 3, 43, 2, 279))
+table1 <- ftable(xtabs(data = dayton, count ~ alcohol + cigarette + marijuana))
+
+out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+if(out_type == 'html'){
+  knitr::asis_output(htmltools::htmlPreserve(
+   memisc::format_html(table1,
+               show.titles=TRUE,
+               digits=0,
+               format="f",
+               toprule=2,midrule=1,bottomrule=2,
+               split.dec=TRUE,
+               style = memisc::ftable_format_stdstyle,
+               margin="2ex auto", 
+               varontop,varinfront)))
+} else {
+memisc:::toLatex.ftable(table1, digits = 0, useBooktabs = TRUE)
+}
+```
+
+With contingency tables, only categorical explanatory variables are available. The most complicated model, the saturated model with the three-way and all of two-way interactions, returns the observed counts. One can thus fit the model with all of the two-way interactions (with one parameter for the intercept, two for the main effects and three for the two-way interactions). Other models include selected two-way interactions and main effects.
+
+
+```{r contingencytabledayton, eval = TRUE, echo = FALSE}
+mod1 <- glm(data = dayton, count ~ (alcohol + cigarette + marijuana)^2, family=poisson)
+mod2 <- glm(data = dayton, count ~ alcohol*cigarette + alcohol*marijuana, family=poisson)
+mod3 <- glm(data = dayton, count ~ alcohol*cigarette + cigarette*marijuana, family=poisson)
+mod4 <- glm(data = dayton, count ~ alcohol*marijuana + cigarette*marijuana, family=poisson)
+fittedvals <- cbind(
+      fitted(mod4),
+      fitted(mod3),
+      fitted(mod2),
+      fitted(mod1),
+      dayton$count)
+colnames(fittedvals) <- c("AM CM","AC CM","AC AM","AC AM CM","ACM")
+knitr::kable(fittedvals, digits = 1, caption = "Prediction from the Poisson model with selected two-way interactions including alcohol (A), marijuana (M) and cigarette (C) consumption, compared to the saturated model ACM.", label="daytonpred")
+```
+
+We can test for restrictions from the saturated model. The likelihood ratio test statistic is the deviance statistic `r round(deviance(mod1), 2)` whose value is far lower than the 0.95 quantile of the $\chi^2_1$ distribution, $`r round(qchisq(0.95,1),2)`$. We thus fail to reject the null hypothesis $\mathscr{H}_0:\beta_{\mathrm{ACM}}=0$, corresponding to no three-way interaction or equivalently to the hypothesis that the model with all two way interactions is an adequate simplification of the saturated model. Additional likelihood ratio tests reveal that further simplifications lead to significant decrease in goodness-of-fit. This is not surprising in light of the fitted value from each model, reported in Table \@ref(tab:daytonpred): while the counts are not much off for the selected model, there is significant discrepancies between observed and predicted counts for the simpler alternatives.
 
 
 ## Modelling proportions
 
-Proportions arise when we condition on the total number of observations for a scenario. With Poisson counts, this gives rise to a multinomial distribution for the proportions. We can also consider counts as the fraction of total population, including the total population if counts are not comparable using an offset term.
+Oftentimes, binary response are aggregated and we have access to a sample of $n_i$ response with the same explanatory variables: we have multiple successes and failures observed for each combination of the covariates $\mathbf{x}_i$. The response $Y_i$ is the total number of success out of $n_i$ trials, so $Y_i \sim \mathsf{Bin}(n_i, \pi_i)$ where $\pi_i = \mathrm{expit}(\mathbf{x}_i^\top\boldsymbol{\beta})$, say. Since the log likelihood of the Bernoulli distribution and that of the binomial are equal up to an additive constant factor, log likelihood and information criteria values will also differ by a constant factor, but the latter does not matter when making comparisons between models.
 
-For the first instance, we can consider $D$ individual counts as Poisson. There is a direct link with (multinomial) logistic model: if we condition on the sum of the counts, we recover a multinomial distribution; for simplicity, we restrict attention to the binomial case when $D=2$.
 
-Consider independent Poisson counts $Y_1, Y_2$ with respective means $\lambda_1, \lambda_2$. Suppose the total counts $Y_1 + Y_2 = m$. 
-The distribution of $Y_2  \mid Y_1 + Y_2=m \sim \mathsf{Bin}\{m, \lambda_2/(\lambda_1 + \lambda_2)\}$.
+We can use a logistic model to estimate the probability of success; the only difference is that we need to provide the software with the number of success/failures or else success/trials.  The data could also be un-grouped, then fitted using a Bernoulli model.
+
+```{example, label="smokingSimpson", name = "Smoking and the Grim Reaper"}
+We consider survey data for a study conducted in 1972--1974 near Newcastle, UK. Information about smoking habits of women were collected; A follow-up of the same subjects was conducted 20 years later to evaluate how smoking habits affected survival. 162 women had smoked before 1972 but had stopped by 1972, and smoking habits were unknown for 18 women: these 180 women were excluded.
+The data consists of the remaining 1314 women. The smoker and non-smoker columns contain the number of dead/total (% dead).
+```
+
+
+```{r simpsonlogist, eval = TRUE, echo = FALSE}
+smoker <- data.frame(freq = c(2,3,14,27,51,29,13,1,5,7,12,40,101,64), #number of death
+                  total = c(55,124,109,130,115,36,13,62,157,121,78,121,129,64),
+                  age = c('18-24','25-34','35-44','45-54','55-64','65-74','75+',
+                        '18-24','25-34','35-44','45-54','55-64','65-74','75+'),
+                  smoker = rep(c('yes','no'), each = 7))
+smoker <- cbind(rbind(smoker[,-1], smoker[,-1]), 
+             "survive" = rep(c("alive","dead"), each= nrow(smoker)),
+             freq = c(smoker$total-smoker$freq, smoker$freq))
+
+logit1 <- glm(cbind(freq, total-freq) ~ smoker, 
+              family = binomial(link = 'logit'), 
+              data = smoker, subset = 1:14)
+# summary(logit1)
+# xtable::xtable(logit1)
+logit2 <- glm(cbind(freq, total-freq) ~ smoker + age, 
+              family = binomial(link = 'logit'), 
+              data = smoker, subset = 1:14)
+# summary(logit2)
+# xtable(logit2)
+lrtest_simpson <- anova(logit1, logit2, test = "LR")
+expit <- function(x){1/(1+exp(-x))}
+```
+
+Based on raw numbers, 582 women were smokers and 
+139 died ($`r 100*expit(sum(coef(logit1)))`$\% survival rate), whereas 230 of the of the 732 smokers died ($`r round(100*as.numeric(expit(coef(logit1)[1])), 1)`$\% survival rate). A logistic model for the number of survivors out of the total, based on smoking status,
+\[\mathsf{P}(\texttt{survive=yes} \mid \texttt{smoking}) = \mathrm{expit}(\beta_0+\beta_1 \mathsf{I}_{\texttt{smoking=yes}}), \]
+would return precisely these two probabilities of survival. The marginal odds of survival after twenty years are $\exp(`r round(coef(logit1)[2],3)`) = `r round((exp(coef(logit1)[2])-1)*100, 0)`$\%
+higher for smokers.  It seems puzzling that smoking would lead to higher survival after twenty years and be effective at hiding from the Grim reaper, but this analysis omits an important fact: the smokers in the study were much younger than the non-smokers. In this situation, averaging over all age groups, a confounder, lead to an incorrect assessment of the effect of smoking since most non-smokers recruited were above the age of 64 and thus had lower survival probability of surviving 20 years to begin with. The breakdown of death is depicted in the mosaic plot of Figure \@ref(fig:mosaicplots). We see that more younger people were smoking, so the confounding effects leads unsurprisingly to smaller proportion of death in this group.
+ 
+```{r mosaicplots, echo = FALSE, eval = TRUE, fig.cap="Mosaic plots for the smoker survival data: the left panel shows sample proportions of survivors depending on smoking status, whereas the right panel gives the sample proportion within each strata. Most of the people above 75 are non-smokers, and their probability of surviving beyond 95 years is small."} 
+library(ggmosaic)
+smoker <- smoker %>% 
+  mutate(age = factor(age), 
+         smoker = factor(smoker), 
+         survive = factor(survive))
+g1 <- ggplot(data = smoker) + 
+  geom_mosaic(aes(weight = freq, x=product(survive,smoker), fill=survive)) +
+  labs(y = "Still alive after 20 years?", 
+       x = "smoking status")
+g2 <- ggplot(data = smoker) + 
+  geom_mosaic(aes(weight = freq, x=product(survive,smoker), fill=survive)) +
+  labs(y = "Still alive after 20 years?", 
+       x = "smoking status") + facet_grid(age~.)
+g1 + g2 + plot_layout(guides = "collect") & theme(legend.position = 'bottom')
+
+
+# smoker %>% filter(smoker == "yes") %>%
+#   select(c("freq","survive")) %>% 
+#   group_by(survive) %>% 
+#   summarise(sum = sum(freq))
+# 
+# smoker %>% filter(smoker == "no") %>%
+#   select(c("freq","survive")) %>% 
+#   group_by(survive) %>% 
+#   summarise(sum = sum(freq))
+```   
+
+```{r tablesmoker, eval = TRUE, echo = FALSE}
+tab_coefs_smoker <- broom::tidy(logit2)[,2:3]
+class(tab_coefs_smoker) <- "data.frame"
+rownames(tab_coefs_smoker) <- c("(Intercept)", "smoker [yes]","age [25-34]","age [35-44]","age [45-54]", "age [55-64]","age [65-74]","age [75+]")
+tab_coefs_smoker %>% dust(keep_rownames = TRUE) %>% 
+  sprinkle(col = 2:3, round = 2) %>%
+  sprinkle_colnames( .rownames = "coefficient",
+                     estimate = "estimate", 
+                     std.error = "std. error") %>% 
+  sprinkle_bookdown() %>%
+  knitr::kable(align = "lrr", booktabs = TRUE, caption = "Logistic regression model for the proportion of survivors for the smoker survival data.")
+confints_smok <- round(exp(confint(logit2,parm = "smokeryes",trace = 0)),2)
+```
+
+Table \@ref(tab:tablesmoker) gives the estimated coefficients of the logistic regression model for survival, where the baseline is survival for people aged 18-24; there is a steady decline in survival as age increases, with separation of variable for the last category (because everyone aged 75 and above were dead at follow-up). Age is strongly significant, leading to a likelihood ratio statistic of $`r  car::Anova(logit2, type = 3)[2,1]`$ for `r car::Anova(logit2, type = 3)[2,2]` degrees of freedom. The estimated effect of smoking is negative, so conditional on an age group, the estimated survival is multiplied by $\exp(`r  round(as.numeric(coef(logit2)[2]), 3)`$) with 95\% likelihood ratio confidence intervals for this coefficient of [$`r confints_smok[1]`$, $`r confints_smok[2]`$] on the odds scale. The point estimate corresponds to a $`r round(100*(1-exp(logit2$coef[2])), 1)`$\% decrease.
+
+This phenomenon is termed **Simpson's paradox** and is further illustrated in Figure \@ref(fig:marginalizationpicture): an incorrect marginalization over a confounder can lead to reverse effects, even when analysis withing subgroups leads to opposition conclusions for the effect of that variable. 
+
+```{r marginalizationpicture, eval = TRUE, echo = FALSE, fig.cap = "Illustration of the marginalization problem: within each subgroup, there is a clear positive correlation between explanatory and response, but averaging over all groups leads to incorrect estimates and a negative trend."}
+# illustration pb marginalization
+set.seed(1)
+x1 <- rnorm(20,-1,1)
+y1 <- 5+0.2*x1+rnorm(20,0,0.5)
+x2 <- rnorm(20,1,1)
+y2 <- 1+0.5*x2+rnorm(20,0,0.5)
+x <- c(x1,x2)
+y <- c(y1,y2)
+
+data_simpson <- data.frame(x = x, y = y, group = factor(rep(1:2, each = 20)))
+lm_simpson <- lm(y ~ x, data = data_simpson)
+g1 <- ggplot(data = data_simpson, aes(x=x,y=y,col=group)) +
+ geom_point(show.legend = FALSE) + 
+  geom_abline(intercept = 5, slope =0.2) + 
+  geom_abline(intercept = 1, slope =0.5) 
+g2 <- ggplot(data = data_simpson, aes(x=x,y=y,col=group)) + geom_point(show.legend = FALSE) + 
+  geom_abline(intercept = coef(lm_simpson)[1], 
+              slope = coef(lm_simpson)[2]) + labs(y="")
+g1 + g2
+```
+
+### Conditional binomial likelihood for Poisson counts
+
+Consider independent Poisson counts $Y_1, Y_2$ with respective means $\lambda_1, \lambda_2$. Suppose the total counts $Y_1 + Y_2 = m$ and we condition on this quantity: the distribution of $Y_2  \mid Y_1 + Y_2=m \sim \mathsf{Bin}\{m, \lambda_2/(\lambda_1 + \lambda_2)\}$.
 If we model each mean parameter as, $\ln(\lambda_i) = \alpha + \mathbf{x}_i^\top\boldsymbol{\beta}$ where $\mathbf{x}_i$ is a $p$ row vector, then
 \begin{align*}
 \frac{\lambda_2}{\lambda_1 + \lambda_2} = \frac{\exp\{(\mathbf{x}_2-\mathbf{x}_1)^\top\boldsymbol{\beta}\}}{1+\exp\{(\mathbf{x}_2-\mathbf{x}_1)^\top\boldsymbol{\beta}\}}.
@@ -1014,41 +1171,66 @@ Recall
 \end{align*}
 
 In this case, we were not interested in the nuisance parameters $\delta_1, \ldots, \delta_{92}$, which were there merely for the sake of controlling for daily changes. The binomial logistic model has only two parameters, but 92 observations rather than 184 since we regroup the counts.
-The parameter estimates (standard errors) based on the logistic regression are $\widehat{\alpha} = -0.292 (0.043)$ and $\widehat{\gamma}=-0.029(0.035)$, so enforcing a speed limit reduces the accident rate by $\exp(-0.292)=0.75$, corresponding to a 25% decrease. The 95\% profile likelihood confidence interval for this reduction, $\exp(\alpha)$, is $[0.60, 0.81]$, and there are thus strong evidence that the reduction in the number of accident is real. The confidence interval for $\gamma$, on the other hand, is $[-0.097,	0.039]$ includes zero; the yearly change is not significative. Since the inference are exactly the same, one may wonder what the benefit of using the logistic model is; it mostly lies in the fact our model has 2 parameters and not 94...
+The parameter estimates (standard errors) based on the logistic regression are $\widehat{\alpha} = -0.292 (0.043)$ and $\widehat{\gamma}=-0.029(0.035)$, so enforcing a speed limit reduces the accident rate by $\exp(-0.292)=0.75$, corresponding to a 25% decrease. The 95\% profile likelihood confidence interval for this reduction, $\exp(\alpha)$, is $[0.60, 0.81]$, and there are thus strong evidence that the reduction in the number of accident is real. The confidence interval for $\gamma$, on the other hand, is $[-0.097,	0.039]$ includes zero; the yearly change is not significative. Since the inference are exactly the same, one may wonder what the benefit of using the logistic model is; it mostly lies in the fact our model has 2 parameters and not 94$\ldots$
 
 
 
 
-We present an example of incorrect marginalization that leads to Simpson's paradox. Models for multi-way contingency tables and proportions are covered in a dedicated section.
 
-### Simpson's paradox
+## Rates
 
-```{r, eval = FALSE, echo = FALSE}
-dat <- data.frame(dead=c(2,3,14,27,51,29,13,1,5,7,12,40,101,64),total=c(55,124,109,130,115,36,13,62,157,121,78,121,129,64),age=c('18-24','25-34','35-44','45-54','55-64','65-74','75+','18-24','25-34','35-44','45-54','55-64','65-74','75+'),smoker=c(rep('yes',7),rep('no',7)))
-dat$alive <- dat$total-dat$dead
-logit1 <- glm(cbind(dead,alive)~smoker,family=binomial(link ='logit'),data=dat)
-summary(logit1)
-xtable::xtable(logit1)
+Poisson model naturally arises from two scenarios. In the first, we consider a Poisson point process, whereby 
 
-logit2 <- glm(cbind(dead,alive)~age+smoker-1,family=binomial(link ='logit'),data=dat)
-summary(logit2)
-xtable(logit2)
+- the number of events over short disjoint intervals of times are independent
+- the probability of an event is proportional to the length of the time interval and 
+- the probability of more than one occurrence is negligible for short intervals.
 
-# illustration pb marginalization
-set.seed(1)
-x1 <- rnorm(20,-1,1)
-y1 <- 5+0.2*x1+rnorm(20,0,0.5)
-x2 <- rnorm(20,1,1)
-y2 <- 1+0.5*x2+rnorm(20,0,0.5)
-x <- c(x1,x2)
-y <- c(y1,y2)
+These requirements translate into a distributional limit for the number of events in an interval of length $t$, where $N_t \sim \mathsf{Po}(\lambda t)$. 
+Examples of counting processes include the number of buses at a particular stop, 
+The longer the time spent waiting, the more chance a bus will pass by. Likewise, the number of children per women depends on age, the number of failures of equipment depends on lifetime, etc. 
 
-par(mar=c(3.1,3.1,1.6,1.5),mgp=c(1.7,0.6,0),font.main=1,cex.main=0.8, bty = "l")
-par(mfrow=c(1,2))
-plot(x,y,pch=c(rep(1,20),rep(19,20)))
-abline(5,0.2,col=2)
-abline(1,0.5,col=4)
-plot(x,y)
-abline(lm(y~x),col='black')
-dev.off()
+The Poisson distribution also emerges as the limiting distribution for the number of successes of  rare events. If $Y_i \sim \mathsf{Bin}(n_i, \pi_i)$ with $n_i$ large and $\pi_i$ small, then $Y_i \stackrel{\cdot}{\sim} \mathsf{Po}(\mu_i)$, where $\mu_i = n_i\pi_i$. We could therefore consider a Poisson log-linear model with $\ln(\mu_i)=\ln(n_i) + \ln(\pi_i)$; since the number of trials $n_i$ is fixed, we are implicitly considering the proportion of success
+\[\mathsf{E}\left( {Y_i}\right) = \exp\{\beta_0 + \cdots + \beta_p\mathrm{X}_p + \ln(n_i)\}.\]
+Since the Poisson likelihood is defined for integer-valued response only, the **offset** term $\ln(n_i)$ is part of the mean model. It thus acts as a predictor variable whose coefficient is known to be unity and thus not estimated alongside with $\boldsymbol{\beta}$.
+
+```{example, name = "Wage damage to cargo ships", label="waveoffset"}
+We consider damage to cargo ships from the Lloyd's Register of Shipping; these data are extracted from Section 6.3.2 of @McCullagh/Nelder:1989. The response is the aggregated number of damage incidents to vessels with a particular design due to waves. Three explanatory variables are available: ship type, construction period and operation period. For each combination of factors, we have a measure of the aggregate months of service: the more usage, the higher the number of incidents.
 ```
+
+The data includes
+
+- `type`: ship type, one of five designs (A to E)
+- `construction`: year of construction, either 1960--1964, 1965--1969, 1970--1974 or 1975--1979
+- `operation`: period of operation, either 1960--1974 or 1975--1979.
+
+Our model for ship type $i$, construction period $j$ and period of operation $k$ is thus
+\[Y_{ijk} \sim \mathsf{Po}\left\{\exp\left(\beta_0 + \alpha_i+\kappa_j + \gamma_k + \ln n_{ijk}\right)\right\},\]
+where we set the identifiability constraints $\alpha_1=0$ for ship type A, $\kappa_1=0$ for period of operation 1960--1974 and finally $\gamma_1=0$ for year of construction 1960--1964. Note that ships constructed in early periods may still be operating in the second period (and may also suffer
+
+```{r shipsoffset, echo = FALSE}
+data(ships, package = "MASS")
+ships <- ships[ships$service > 0,]
+ships <- ships %>%
+  mutate(type = factor(type),
+         period = factor(period),
+         year = factor(year))
+ship_glm <- glm(data = ships, incidents ~ offset(log(service)) + type + period + year, family=poisson)
+ship_glm2 <- glm(data = ships, incidents ~ log(service) + type + period + year, family=poisson)
+
+
+tab_coefs_ships <- broom::tidy(ship_glm)[,2:3]
+class(tab_coefs_ships) <- "data.frame"
+rownames(tab_coefs_ships) <- c("(Intercept)", "type [B]","type [C]","type [D]","type [E]", "period [1975-79]","construction [1965-69]","construction [1970-74]","construction [1975-79]")
+tab_coefs_ships %>% dust(keep_rownames = TRUE) %>% 
+  sprinkle(col = 2:3, round = 2) %>%
+  sprinkle_colnames( .rownames = "coefficient",
+                     estimate = "estimate", 
+                     std.error = "std. error") %>% 
+  sprinkle_bookdown() %>%
+  knitr::kable(align = "lrr", booktabs = TRUE, caption = "Poisson log-linear model for ship damage example.")
+```
+
+By including an offset, we are assuming that the number of incidents is proportional to the number of months of service. We could also have included the log aggregate months of service as explanatory variable and estimated the coefficient: we get $\widehat{\beta}_{\texttt{service}}=`r  round(as.numeric(coef(ship_glm2)[2]), 3)`$ with estimated standard error `r  round(sqrt(diag(vcov(ship_glm2))[2]), 2)`: the likelihood ratio test comparing the model with an offset corresponds to the null model $\mathscr{H}_0: \beta_{\texttt{service}}=1$ and the full model includes a coefficient: the $p$-value based on the $\chi^2_1$ null distribution is $`r round(anova(ship_glm, ship_glm2, test = "LR")[2,5],2)`$, suggesting our assumption of proportionality is adequate.
+
+All of the three main effects are highly significant, as evidenced by Type 3 likelihood ratio tests comparing models (output not shown). There is mild evidence of overdispersion, meaning $\mathsf{Va}(Y_{ijk}) > \mathsf{E}(Y_{ijk})$: the deviance is $`r round(deviance(ship_glm), 2)`$ with $`r df.residual(ship_glm)`$ residual degrees of freedom, leading to a ratio of deviance/degrees of freedom of $`r round(deviance(ship_glm)/df.residual(ship_glm), 2)`$ and a $p$-value for the likelihood ratio test comparing the saturated model ($\mathscr{H}_a$) to the fitted model ($\mathscr{H}_0$) of $`r round(df.residual(ship_glm), 2)`$. This in particular means that the quoted standard errors for the coefficients are too small. The negative binomial does not seem to fit better, so use of quasi-likelihood would be necessary to handle overdispersion.
+

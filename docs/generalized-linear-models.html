@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Generalized linear models | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Generalized linear models | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,7 +31,6 @@
   
 <link rel="prev" href="likelihood.html"/>
 <link rel="next" href="correlated-longitudinal-data.html"/>
-<script src="libs/header-attrs-2.4/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -49,6 +48,9 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
 <script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
@@ -59,17 +61,18 @@
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -89,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -138,13 +141,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a>
-<ul>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a><ul>
 <li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a></li>
 <li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a>
-<ul>
+<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a><ul>
 <li class="chapter" data-level="2.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
 <li class="chapter" data-level="2.2" data-path="linear-regression.html"><a href="linear-regression.html#ordinary-least-squares"><i class="fa fa-check"></i><b>2.2</b> Ordinary least squares</a></li>
 <li class="chapter" data-level="2.3" data-path="linear-regression.html"><a href="linear-regression.html#interpretation-of-the-model-parameters"><i class="fa fa-check"></i><b>2.3</b> Interpretation of the model parameters</a></li>
@@ -156,40 +157,40 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a></li>
 <li class="chapter" data-level="2.10" data-path="linear-regression.html"><a href="linear-regression.html#transformation-response"><i class="fa fa-check"></i><b>2.10</b> Transformation of the response</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a>
-<ul>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a><ul>
 <li class="chapter" data-level="3.1" data-path="likelihood.html"><a href="likelihood.html#maximum-likelihood"><i class="fa fa-check"></i><b>3.1</b> Maximum likelihood</a></li>
 <li class="chapter" data-level="3.2" data-path="likelihood.html"><a href="likelihood.html#liktests"><i class="fa fa-check"></i><b>3.2</b> Likelihood-based tests</a></li>
 <li class="chapter" data-level="3.3" data-path="likelihood.html"><a href="likelihood.html#profile-likelihood"><i class="fa fa-check"></i><b>3.3</b> Profile likelihood</a></li>
 <li class="chapter" data-level="3.4" data-path="likelihood.html"><a href="likelihood.html#information-criteria"><i class="fa fa-check"></i><b>3.4</b> Information criteria</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a>
-<ul>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a><ul>
 <li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#basic-principles"><i class="fa fa-check"></i><b>4.1</b> Basic principles</a></li>
 <li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a></li>
 <li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a></li>
 <li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a></li>
 <li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a></li>
+<li class="chapter" data-level="4.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#rates"><i class="fa fa-check"></i><b>4.6</b> Rates</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a></li>
-<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a></li>
+<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a><ul>
+<li class="chapter" data-level="5.1" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html#longitudinal-data"><i class="fa fa-check"></i><b>5.1</b> Longitudinal data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a><ul>
+<li class="chapter" data-level="6.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#partial-pooling"><i class="fa fa-check"></i><b>6.1</b> Partial pooling</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a>
-<ul>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a><ul>
 <li class="chapter" data-level="A.1" data-path="complement.html"><a href="complement.html#population-sample"><i class="fa fa-check"></i><b>A.1</b> Population and samples</a></li>
 <li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a></li>
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
-<ul>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a><ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
 <li class="chapter" data-level="B.3" data-path="math.html"><a href="math.html#restricted-estimation-maximum-likelihood"><i class="fa fa-check"></i><b>B.3</b> Restricted estimation maximum likelihood</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a>
-<ul>
+<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a><ul>
 <li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a></li>
 <li class="chapter" data-level="C.2" data-path="r.html"><a href="r.html#rlmfunc"><i class="fa fa-check"></i><b>C.2</b> Linear models in <strong>R</strong> using the <code>lm</code> function</a></li>
 </ul></li>
@@ -214,7 +215,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="generalized-linear-models" class="section level1" number="4">
+<div id="generalized-linear-models" class="section level1">
 <h1><span class="header-section-number">4</span> Generalized linear models</h1>
 <p>Linear models are only suitable for data that are (approximately)
 normally distributed. However, there are many settings where we may wish
@@ -230,7 +231,7 @@ focuses in particular on logistic regression and Poisson regression, but
 only for the case of independent observations. Extensions of generalized
 linear models for correlated and longitudinal data, the so-called
 <em>generalized linear mixed models</em> (GLMM), are covered in MATH80621.</p>
-<div id="basic-principles" class="section level2" number="4.1">
+<div id="basic-principles" class="section level2">
 <h2><span class="header-section-number">4.1</span> Basic principles</h2>
 <p>The starting point is the same as for linear regression: we have a
 random sample of independent observations
@@ -248,24 +249,25 @@ variable,
 \end{align*}\]</span>
 The building blocks of the generalized linear model are</p>
 <ul>
-<li>A random component, consisting of the probability distribution for the outcome <span class="math inline">\(Y\)</span> that is a member of the exponential dispersion family (normal, binomial, Poisson, gamma, ).</li>
+<li>A random component, consisting of the probability distribution for the outcome <span class="math inline">\(Y\)</span> that is a member of the exponential dispersion family (normal, binomial, Poisson, gamma, <span class="math inline">\(\ldots\)</span>).</li>
 <li>A deterministic component, the <strong>linear predictor</strong> <span class="math inline">\(\boldsymbol{\eta}=\mathbf{X} \boldsymbol{\beta}\)</span>, where <span class="math inline">\(\mathbf{X}\)</span> is an <span class="math inline">\(n\times (p+1)\)</span> matrix with columns <span class="math inline">\(\mathbf{1}_n, \mathbf{X}_1, \ldots, \mathbf{X}_p\)</span> and <span class="math inline">\(\boldsymbol{\beta} \in \mathbb{R}^{p+1}\)</span> are coefficients.</li>
 <li>A monotone function <span class="math inline">\(g\)</span>, called <strong>link function</strong>, that maps the mean of <span class="math inline">\(Y_i\)</span> to the predictor variables, <span class="math inline">\(g(\mu_i)=\eta_i\)</span>.</li>
 </ul>
 </div>
-<div id="theory-of-generalized-linear-models" class="section level2" number="4.2">
+<div id="theory-of-generalized-linear-models" class="section level2">
 <h2><span class="header-section-number">4.2</span> Theory of generalized linear models</h2>
 <p>This section borrows from Chapter 4 of</p>
 <blockquote>
 <p>Agresti (2015). <em>Foundations of Linear and Generalized Linear Models</em>, Wiley.</p>
 </blockquote>
-<div id="exponential-dispersion-family-of-distributions" class="section level3" number="4.2.1">
+<div id="exponential-dispersion-family-of-distributions" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> Exponential dispersion family of distributions</h3>
 <p>In a generalized linear model, the random component arises from an
 exponential dispersion family. Consider a probability density or mass
-function for <span class="math inline">\(Y\)</span> with parameters <span class="math inline">\((\theta, \phi)\)</span>, <span class="math display">\[\begin{align}
+function for <span class="math inline">\(Y\)</span> with parameters <span class="math inline">\((\theta, \phi)\)</span>,
+<span class="math display" id="eq:expofam">\[\begin{align}
 f(y; \theta, \phi)&amp;= \exp \left\{  \frac{y \theta -b(\theta)}{a(\phi)} + c(y, \phi)\right\}, 
-(\#eq:expofam)
+\tag{4.1}
 \end{align}\]</span>
 where the support, i.e., the set of values taken by <span class="math inline">\(Y\)</span>,
 doesn’t depend on the parameters. Throughout, we will assume the
@@ -283,8 +285,7 @@ natural parameter <span class="math inline">\(\theta\)</span> are
 \end{align*}\]</span>
 where <span class="math inline">\(b&#39;(\cdot)\)</span> and <span class="math inline">\(b&#39;&#39;(\cdot)\)</span> are the first two
 derivatives of <span class="math inline">\(b(\cdot)\)</span> with respect to <span class="math inline">\(\theta\)</span>. Under regularity
-condition, the <a href="https://math.stackexchange.com/q/2027660">Bartlett
-identities</a> hold and
+condition, the <a href="https://math.stackexchange.com/q/2027660">Bartlett identities</a> hold and
 <span class="math display">\[\begin{align*}
 \mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}=0, \qquad - \mathsf{E}\left\{\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2}\right\} = \left[\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}\right]^2.
 \end{align*}\]</span>
@@ -310,6 +311,7 @@ The natural parameter is <span class="math inline">\(\theta =\ln(\lambda)\)</spa
 parameter <span class="math inline">\(\phi=1\)</span>, and <span class="math inline">\(b(\theta)=\exp(\theta)\)</span>. Replacing these expressions in the mean-variance formulas, we get <span class="math inline">\(\mathsf{E}(Y)=\exp(\theta)=\mu\)</span> and <span class="math inline">\(\mathsf{Va}(Y)=\exp(\theta)=\mu\)</span>, meaning <span class="math inline">\(V(\mu)=\mu\)</span>.
 </div>
 
+
 <div class="example">
 <span id="exm:binomialglmexpf" class="example"><strong>Example 4.2  (Binomial distribution as member of the exponential family)  </strong></span>We consider the mass function of a binomial distribution, <span class="math inline">\(\mathsf{Bin}(m, \pi)\)</span>, with the number of trials <span class="math inline">\(m\)</span> known. The parametrization presented in Example <a href="complement.html#exm:binomialdist">A.3</a> is not convenient because the mean and the variance both depend on <span class="math inline">\(m\)</span>. We consider thus a different parametrization in which <span class="math inline">\(Y\)</span> represents the proportion of successes, so the mass function takes values in <span class="math inline">\(\{0, 1/m, \ldots, 1\}\)</span> and <span class="math inline">\(mY\)</span> denotes the number of successes. The mass function for <span class="math inline">\(Y\)</span> is then
 <span class="math display">\[\begin{align*}
@@ -332,6 +334,7 @@ with <span class="math inline">\(b(\theta) = \ln\{1+\exp(\theta)\}\)</span> and 
 where <span class="math inline">\(V(\mu)=\mu(1-\mu)\)</span>.
 </div>
 
+
 <div class="example">
 <span id="exm:normalglmexpf" class="example"><strong>Example 4.3  (Normal distribution as member of the exponential family)  </strong></span>We consider a sample consisting of independent normal observations, <span class="math inline">\(Y_i \sim \mathsf{No}(\mu_i, \sigma^2)\)</span>, with
 <span class="math display">\[\begin{align*}
@@ -340,8 +343,9 @@ f(y_i, \mu_i, \sigma^2)&amp;= (2\pi\sigma^2)^{-1/2} \exp \left\{ -\frac{(y_i-\mu
 \end{align*}\]</span>
 meaning <span class="math inline">\(\theta=\mu\)</span>, <span class="math inline">\(\phi=\sigma^2\)</span> and <span class="math inline">\(a(\phi)=\sigma^2\)</span>, <span class="math inline">\(b(\theta)=\theta^2/2\)</span>.
 </div>
+
 </div>
-<div id="link-functions" class="section level3" number="4.2.2">
+<div id="link-functions" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Link functions</h3>
 <p>The link between the mean of <span class="math inline">\(Y\)</span> and the <strong>linear predictor</strong> <span class="math inline">\(\eta\)</span> is
 <span class="math display">\[\begin{align*}
@@ -390,9 +394,10 @@ deciding on the choice of <span class="math inline">\(g\)</span>.</p>
 Consider a linear model for which theory dictates that the mean should be <span class="math inline">\(Y \sim \mathsf{No}\{\alpha_0/(1+\alpha_1x), \sigma^2\}\)</span>.</p>
 This model is nonlinear in <span class="math inline">\(\alpha_0\)</span>, <span class="math inline">\(\alpha_1\)</span>. If we opt for the reciprocal link function <span class="math inline">\(g(x)=1/x\)</span>, we get <span class="math inline">\(\beta_0+\beta_1 x\)</span>, where <span class="math inline">\(\beta_0 = 1/\alpha_0\)</span> and <span class="math inline">\(\beta_1 = \alpha_1/\alpha_0\)</span> provided <span class="math inline">\(\alpha_0 \neq 0\)</span>. Since the generalized linear model is estimated using maximum likelihood and the latter are invariant to reparametrization, we get easily the estimated coefficients of interest.
 </div>
+
 </div>
-<div id="model-adjustment" class="section level3" number="4.2.3">
-<h3><span class="header-section-number">4.2.3</span> Model adjustment</h3>
+<div id="model-adjustment-star" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Model adjustment (<span class="math inline">\(\star\)</span>)</h3>
 <p>There is generally no closed-form expression for the maximum likelihood
 estimators <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> in generalized linear models
 and the score equation is typically nonlinear in <span class="math inline">\(\boldsymbol{\beta}\)</span>
@@ -400,7 +405,7 @@ and <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> must be ob
 numerical routines. The key reason for restricting attention to
 exponential family is because the likelihood equation depends on the
 response <span class="math inline">\(Y_i\)</span> only through <span class="math inline">\(\mu_i\)</span>, <span class="math inline">\(\phi\)</span> and <span class="math inline">\(V(\mu)\)</span>. The mean-variance thus characterizes the distribution.</p>
-<p>Starting from Equation <a href="#eq:expofam">(<strong>??</strong>)</a>, we differentiate the log likelihood function <span class="math inline">\(\ell = \sum_{i=1}^n \ell_i\)</span> with respect to
+<p>Starting from Equation <a href="generalized-linear-models.html#eq:expofam">(4.1)</a>, we differentiate the log likelihood function <span class="math inline">\(\ell = \sum_{i=1}^n \ell_i\)</span> with respect to
 <span class="math inline">\(\boldsymbol{\beta}\)</span>. For simplicity, we consider each likelihood
 contribution and coefficient in turn. By the chain rule, <span class="math display">\[\begin{align*}
 \frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial
@@ -410,16 +415,16 @@ contribution and coefficient in turn. By the chain rule, <span class="math displ
 \end{align*}\]</span>
 and the earlier derivations show <span class="math inline">\(\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)\)</span> and <span class="math inline">\(\partial \mu_i / \partial \theta_i = b&#39;&#39;(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)\)</span>.
 The derivative of the linear predictor,<span class="math inline">\(\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}\)</span>. The only missing term, <span class="math inline">\(\partial \mu_i/\partial \eta_i\)</span>, depends on the choice of link function through <span class="math inline">\(\eta_i = g(\mu_i)\)</span>, but it is unity for the canonical link function.</p>
-<p>Summing all the likelihood contribution, the score vector
-<span class="math inline">\(\boldsymbol{U}\)</span> has element
-<span class="math display">\[\begin{align*}
-\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g&#39;(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
-\end{align*}\]</span></p>
 <p>Let
 <span class="math display">\[\begin{align*}
 U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}
-\end{align*}\]</span></p>
-<p>In general, <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> solves the score equation <span class="math inline">\(U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}\)</span>, so we can use a Newton–Raphson algorithm to derive the maximum likelihood
+\end{align*}\]</span>
+denote respectively the gradient and the hessian of the log likelihood function; summing all the likelihood contribution, the <span class="math inline">\(j\)</span>th element of the score vector
+<span class="math inline">\(\boldsymbol{U}\)</span> is
+<span class="math display">\[\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g&#39;(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}\]</span>
+In general, <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> solves the score equation <span class="math inline">\(U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}\)</span>, so we can use a Newton–Raphson algorithm to derive the maximum likelihood
 estimator. This amounts to a first order Taylor series approximation of
 the score <span class="math inline">\(U(\widehat{\boldsymbol{\beta}})\)</span> around <span class="math inline">\(\boldsymbol{\beta}\)</span>,
 <span class="math display">\[\begin{align*}
@@ -436,32 +441,27 @@ implement a variant of this algorithm, in which the negative hessian
 <span class="math inline">\(j(\boldsymbol{\beta})\)</span> is replaced by its absolute value
 <span class="math inline">\(i(\boldsymbol{\beta})\)</span>: the resulting algorithm is known as Fisher
 scoring. For generalized linear models, these recursions can be done by
-repeatedly computing a variance of least squares known as iteratively
+repeatedly computing a variant of least squares known as iteratively
 reweighted least squares.</p>
 </div>
-<div id="likelihood-inference" class="section level3" number="4.2.4">
+<div id="likelihood-inference" class="section level3">
 <h3><span class="header-section-number">4.2.4</span> Likelihood inference</h3>
-<p>Likelihood inference is straightforward, although some care is needed
-because the asymptotic distribution of test statistics sometimes depend
-on the model parameters.</p>
-<p>Under regularity conditions, the maximum likelihood estimators of
-<span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\phi\)</span> are jointly normally distributed under
-mild regularity conditions,
+<p>Likelihood inference is straightforward, although some care is needed because the asymptotic distribution of test statistics sometimes depend on the model parameters. Under regularity conditions, the maximum likelihood estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\phi\)</span> are jointly normally distributed,
 <span class="math display">\[\begin{align*}
 \widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{No}_{p+1}\{\boldsymbol{\beta}, (\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1}\}
 \end{align*}\]</span>
 where
-<span class="math inline">\(\mathbf{W} = \mathrm{diag}\{(\partial \mu_i/\partial \eta_i)^2/\mathsf{Va}(Y_i)\}\)</span>
-is a diagonal matrix with elements
-<span class="math inline">\(w_i=\{g&#39;(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}\)</span>.</p>
+<span class="math display">\[\mathbf{W} = \mathrm{diag}\{w_1,\ldots, w_n\}, \qquad w_i = \frac{\partial \mu_i/\partial \eta_i)^2}{\mathsf{Va}(Y_i)}=\{g&#39;(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}.
+\]</span></p>
 <p>Since <span class="math inline">\(\mathbf{W}\)</span> depends on the unknown <span class="math inline">\(\boldsymbol{\beta}\)</span> through
 the expected values <span class="math inline">\(\mu_i\)</span>, we can estimate <span class="math inline">\(\widehat{\mathbf{W}}\)</span> by
 replacing the unknown coefficients by their maximum likelihood estimates
 at <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
 
 <div class="example">
-<span id="exm:weightpois" class="example"><strong>Example 4.5  (Elements of the weight matrix for Poisson data)  </strong></span>If we consider <span class="math inline">\(Y_i \sim \mathsf{Po}(\mu_i)\)</span> with canonical link function <span class="math inline">\(\mu_i = \exp(\eta_i)\)</span>, then <span class="math inline">\(\partial \eta_i / \partial \mu_i = \mu_i^{-1}\)</span> and <span class="math inline">\(w_i=\mu_i\)</span>.
+<p><span id="exm:weightpois" class="example"><strong>Example 4.5  (Elements of the weight matrix for Poisson data)  </strong></span>If we consider <span class="math inline">\(Y_i \sim \mathsf{Po}(\mu_i)\)</span> with canonical link function <span class="math inline">\(\mu_i = \exp(\eta_i)\)</span>, then <span class="math inline">\(\partial \eta_i / \partial \mu_i = \mu_i^{-1}\)</span> and <span class="math inline">\(w_i=\mu_i\)</span>.</p>
 </div>
+
 <p>Since we use maximum likelihood estimation, the theory presented in
 <a href="likelihood">Chapter 3</a> readily applies. For example, if we want to
 compare two nested models and test if <span class="math inline">\(q\)</span> of the <span class="math inline">\(\boldsymbol{\beta}\)</span>
@@ -471,8 +471,8 @@ likelihood ratio test. Under regularity conditions, the likelihood ratio
 statistic to compare two nested models will follow the usual <span class="math inline">\(\chi^2_q\)</span>
 distribution.</p>
 </div>
-<div id="goodness-of-fit-criteria-and-residuals" class="section level3" number="4.2.5">
-<h3><span class="header-section-number">4.2.5</span> Goodness-of-fit criteria and residuals</h3>
+<div id="goodness-of-fit-criteria" class="section level3">
+<h3><span class="header-section-number">4.2.5</span> Goodness-of-fit criteria</h3>
 <p>Goodness-of-fit diagnostics often rely on test statistics comparing the
 fitted model with parameters <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> with a
 <strong>saturated</strong> model in which there are <span class="math inline">\(n\)</span> parameters for the mean, as
@@ -492,6 +492,7 @@ values of <span class="math inline">\(D\)</span> are indicative of poor fit.</p>
 <div class="example">
 <span id="exm:devglm" class="example"><strong>Example 4.6  (Deviance for common generalized linear models)  </strong></span>Suppose that the model matrix of the model <span class="math inline">\(\mathbf{X}\)</span> includes an intercept and let <span class="math inline">\(\widehat{\mu}_i\)</span> denote the fitted mean. Then, the deviance for the normal generalized linear model with homoscedastic errors is <span class="math inline">\(D = \sum_{i=1}^n (y_i - \widehat{\mu}_i)^2\)</span>, which is the sum of squared residuals. For Poisson data, the saturated model has <span class="math inline">\(\widetilde{\mu}_i=y_i\)</span> and <span class="math inline">\(D= 2\sum_{i=1}^n y_i \ln(y_i/\widehat{\mu}_i)\)</span>.
 </div>
+
 <p>Another alternative is found by looking at score test statistic
 comparing the saturated model with the postulated model with <span class="math inline">\(p+1\)</span>
 parameters <span class="math inline">\(\boldsymbol{\beta}\)</span>. The Pearson <span class="math inline">\(X^2\)</span> statistic is
@@ -509,6 +510,9 @@ correct and <span class="math inline">\(\phi\)</span> is known (but this result 
 data or binomial data unless <span class="math inline">\(m\)</span> is very large and <span class="math inline">\(\boldsymbol{\beta}\)</span>
 are small). If <span class="math inline">\(\phi\)</span> is unknown, we would replace it throughout by an
 estimate and the same distributional results hold approximatively.</p>
+</div>
+<div id="residuals-glm" class="section level3">
+<h3><span class="header-section-number">4.2.6</span> Residuals <span class="math inline">\((\star)\)</span></h3>
 <p>We can use the individual contributions to the deviance and Pearson
 <span class="math inline">\(X^2\)</span> statistic to build residuals. By considering
 <span class="math inline">\(D = \sum_{i=1}^n d_i^2\)</span>, where
@@ -575,7 +579,7 @@ against the <span class="math inline">\(h_{ii}/(1-h_{ii})\)</span>. We will show
 particular models.</p>
 </div>
 </div>
-<div id="binary-responses" class="section level2" number="4.3">
+<div id="binary-responses" class="section level2">
 <h2><span class="header-section-number">4.3</span> Binary responses</h2>
 <p>Binary response data are commonplace, notably due to their role in
 classification. We begin this section by discussing interpretation of
@@ -637,6 +641,7 @@ where <span class="math inline">\(\pi(\mathbf{X})/\{1-\pi(\mathbf{X})\}\)</span>
 <div class="example">
 <span id="exm:gpaexample" class="example"><strong>Example 4.7  (GPA score and graduate admission)  </strong></span>We consider a simple logistic model for graduate admission (yes/no) in universities across the USA as a function of their grade point average (GPA).
 </div>
+
 <div class="figure" style="text-align: center"><span id="fig:figgpa"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/figgpa-1.png" alt="Graduate admission probability as a function of grade point averages (GPA) on the log odds (left), odds (middle) and probability of success scale (right). The line indicates fitted value with pointwise 95\% profile-based confidence intervals." width="70%" />
 <p class="caption">
@@ -703,11 +708,12 @@ gpa
 </tr>
 </tbody>
 </table>
-<p>The coefficients of the simple logistic model are reported in Table <a href="generalized-linear-models.html#tab:gpatable">4.1</a>, showing that the log odds of admission increase by 0.11 for each increase in GPA of <span class="math inline">\(0.1\)</span>. This translates into <span class="math inline">\(\exp(0.1\widehat{\beta}_{\mathrm{gpa}})=1.11\)</span> on the odds ratio scale, meaning a 11% increase in odds of admission for every <span class="math inline">\(0.1\)</span> increase in GPA. Of course, this model is simplistic and omits other important factors… Figure <a href="generalized-linear-models.html#fig:figgpa">4.2</a> shows the variation on the log odds, odds and probability scale as a function of grade point average. While the probability scale is the most intuitive, the effect of an increase of <span class="math inline">\(0.1\)</span> unit of GPA isn’t the same, depending on what is your starting value: according to the model, the absolute increase in the probability of admission for individuals with GPA scores <span class="math inline">\(2.3\)</span> and <span class="math inline">\(2.4\)</span> is 1.2%, whereas that corresponding to an increase in GPA from 3.9 to 4 is 2.6%; this illustrates how the impact of an increase of <span class="math inline">\(0.1\)</span> points is not the same across the board.</p>
+<p>The coefficients of the simple logistic model are reported in Table <a href="generalized-linear-models.html#tab:gpatable">4.1</a>, showing that the log odds of admission increase by 0.11 for each increase in GPA of <span class="math inline">\(0.1\)</span>. This translates into <span class="math inline">\(\exp(0.1\widehat{\beta}_{\mathrm{gpa}})=1.11\)</span> on the odds ratio scale, meaning a 11% increase in odds of admission for every <span class="math inline">\(0.1\)</span> increase in GPA. Of course, this model is simplistic and omits other important factors<span class="math inline">\(\ldots\)</span> Figure <a href="generalized-linear-models.html#fig:figgpa">4.2</a> shows the variation on the log odds, odds and probability scale as a function of grade point average. While the probability scale is the most intuitive, the effect of an increase of <span class="math inline">\(0.1\)</span> unit of GPA isn’t the same, depending on what is your starting value: according to the model, the absolute increase in the probability of admission for individuals with GPA scores <span class="math inline">\(2.3\)</span> and <span class="math inline">\(2.4\)</span> is 1.2%, whereas that corresponding to an increase in GPA from 3.9 to 4 is 2.6%; this illustrates how the impact of an increase of <span class="math inline">\(0.1\)</span> points is not the same across the board.</p>
 
 <div class="example">
 <span id="exm:birthweightex" class="example"><strong>Example 4.8  (Risk factors related to underweight babies at birth)  </strong></span>We consider a medical example related to risk factors explaining the birth weight: the birth weight is dichotomized and classified as low if the infant weight is inferior to 2.5 kg (1) and 0 otherwise. The data were collected in a medical center in Massachusetts in 1986.
 </div>
+
 <p>The data contains the following explanatory variables</p>
 <ul>
 <li><code>age</code>: mother’s age in years.</li>
@@ -853,7 +859,7 @@ At level 5% and given the other factors, having previous premature labours histo
 </tr>
 </tbody>
 </table>
-<div id="issues-with-binary-data" class="section level3" number="4.3.1">
+<div id="issues-with-binary-data" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Issues with binary data</h3>
 <p>One oddity of regression models for binary data is that most of the
 information in the sample is provided by response whose variance is
@@ -873,6 +879,7 @@ simple example illustrates why.</p>
 <div class="example">
 <span id="exm:waldgarbage" class="example"><strong>Example 4.9  (Incoherent results for Wald tests)  </strong></span>Suppose we consider a simple binary model and <span class="math inline">\(n=100\)</span> observations and the null hypothesis <span class="math inline">\(\mathscr{H}_0:\pi = 0.5\)</span> and equivalently for the logistic model <span class="math inline">\(Y_i \sim \mathsf{Bin}\{m, \mathrm{expit}(\beta_0)\}\)</span>, where this same hypothesis amounts to <span class="math inline">\(\mathscr{H}_0:\beta_0=0\)</span>. Figure <a href="generalized-linear-models.html#fig:WaldgarbageR">4.4</a> clearly shows that lack of invariance of the Wald statistic to reparametrization. When <span class="math inline">\(\widehat{\beta}_0\)</span> increases and <span class="math inline">\(m\)</span> is large, the Wald statistic for <span class="math inline">\(\beta_0\)</span> decreases as we approach <span class="math inline">\(m\)</span> successes, because the standard error of <span class="math inline">\(\widehat{\beta}_0\)</span> increases faster than the difference <span class="math inline">\(\widehat{\beta}-0\)</span>. Both statistics are asymptotically normal if the null hypothesis holds true, so the two-sided test would reject if the value of the Wald statistic is greater than 1.96. Depending on the parametrization, however, they give different results: the statistic increases monotonically for <span class="math inline">\(\pi\)</span>, but would converge to zero for <span class="math inline">\(\beta_0\)</span> when <span class="math inline">\(m\)</span> is large (allowing thereby larger values of <span class="math inline">\(\widehat{\beta}_0\)</span>). No such problem arises when considering score and likelihood ratio tests.
 </div>
+
 <div class="figure" style="text-align: center"><span id="fig:WaldgarbageR"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/WaldgarbageR-1.png" alt="Wald test statistic for $Y_i \sim \mathsf{Bin}(m=500, \pi)$ (left)  for $\pi=0.5$ and the same hypothesis test on the logistic scale with $Y_i \sim \mathsf{Bin}(m=500, \mathrm{expit}(\beta_0))$ and $\mathscr{H}_0:\beta_0=0$ (right) as a function of the number of success out of 500 trials." width="70%" />
 <p class="caption">
@@ -887,7 +894,7 @@ adjustment and their null distribution depends on
 <span class="math inline">\(\chi^2\)</span> distribution is not a good approximation and relying on these
 to determine goodness-of-fit is not recommended.</p>
 </div>
-<div id="quasi-separation-of-variables" class="section level3" number="4.3.2">
+<div id="quasi-separation-of-variables" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Quasi-separation of variables</h3>
 <p>One common problem with binary data is the problem of complete
 separation of variables: in this scenario, a linear combination of the
@@ -951,7 +958,7 @@ meaningfully interpret the resulting parameters.</p>
 </tr>
 </tbody>
 </table>
-<p>Inspection of the coefficients and their standard errors is a good way to detect such problems: parameters that are large (with standardized explanatories with mean zero variance one inputs) with <span class="math inline">\(|\widehat{\beta}_j| &gt; 36\)</span> are particularly suspicious; the number of iterations for the optimization routine is also often abnormally large. While the Wald statistic for <span class="math inline">\(\beta_1=0\)</span> is nearly zero and the <span class="math inline">\(p\)</span>-value 1, the likelihood ratio test yields a statistic of 20.016 with a negligible associated <span class="math inline">\(p\)</span>-value.</p>
+<p>Inspection of the coefficients and their standard errors is a good way to detect such problems: parameters that are large (with standardized explanatories with mean zero variance one inputs) with <span class="math inline">\(|\widehat{\beta}_j| &gt; 36\)</span> are particularly suspicious; the number of iterations for the optimization routine is also often abnormally large. While the Wald statistic for <span class="math inline">\(\beta_1=0\)</span> is nearly zero and the <span class="math inline">\(p\)</span>-value 1, the likelihood ratio test yields a statistic of <span class="math inline">\(20.016\)</span> with a negligible associated <span class="math inline">\(p\)</span>-value.</p>
 <p>One way to restore finiteness of the <span class="math inline">\(\boldsymbol{\beta}\)</span> is to impose a penalty term that prevents near infinite parameter values. Firth’s penalty is the most popular solution (option <code>firth</code> in the <strong>SAS</strong> procedure <code>logistic</code> and <code>logistf::logistf</code> function in <strong>R</strong>.</p>
 <div class="figure" style="text-align: center"><span id="fig:sepvarplot"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/sepvarplot-1.png" alt="Illustration of complete separation of variable on simulated observations. Parameters are near infinite to yield a sharp transition at $x=9$. Quasi-complete separation of variable occurs if both outcomes are observed at the cutoff point." width="70%" />
@@ -960,7 +967,7 @@ Figure 4.5: Illustration of complete separation of variable on simulated observa
 </p>
 </div>
 </div>
-<div id="diagnostic-plots-for-binary-data-star" class="section level3" number="4.3.3">
+<div id="diag-plots-binary" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Diagnostic plots for binary data (<span class="math inline">\(\star\)</span>)</h3>
 <p>There are also other issues arising from the discreteness of the
 observations. Since observations are 0/1, residuals are often separated.
@@ -988,10 +995,10 @@ Figure 4.7: Diagnostic plots based on uniform residuals for the birth weight dat
 </div>
 </div>
 </div>
-<div id="count-data" class="section level2" number="4.4">
+<div id="count-data" class="section level2">
 <h2><span class="header-section-number">4.4</span> Count data</h2>
 <p>If a response is integer value, the linear model is seldom appropriate because the variable is skewed, which even the log-linear model may fail to capture. It may thus be appropriate to look at generalized linear models for discrete data.</p>
-<p>The most widespread model for count data is the Poisson regression. The Poisson distribution arises as the limit of binomial data with a small probability of success as the number of attempts becomes large: examples include rare medical conditions, number of accidents, or goals in a soccer (football) match. The mean and variance of the Poisson distribution are both <span class="math inline">\(\lambda\)</span>, so the model imposes stringent constraints on the observations. Extensions that deal with zero-inflation, underdispersed and overdispersed data are widespread. Most count data are found in contingency tables, in which the cells give the counts, while the dimensions of the table represent categorical variables. Such data format are convenient for storage and display, but must be transformed to long format for model fitting.</p>
+<p>The most widespread model for count data is the Poisson regression. The Poisson distribution arises as the limit of binomial data with a small probability of success as the number of attempts becomes large: examples include rare medical conditions, number of accidents, or goals in a soccer (football) match. The mean and variance of the Poisson distribution are both <span class="math inline">\(\lambda\)</span>, so the model imposes stringent constraints on the observations. Extensions that deal with zero-inflation, underdispersed and overdispersed data are widespread.</p>
 <p>The canonical link of the Poisson model is the natural logarithm <span class="math inline">\(\ln(x)\)</span> and the interpretation will be similar to that of the <a href="transformation-response">log-linear model</a>. Specifically, suppose the
 mean model is
 <span class="math display">\[\begin{align*}
@@ -1002,6 +1009,7 @@ so the mean is multiplied by <span class="math inline">\(\exp(\beta_j)\)</span> 
 <div class="example">
 <span id="exm:roadsweden" class="example"><strong>Example 4.10  (Road accidents and speed limits on the motorway in Sweden)  </strong></span>Sweden is a worlwide leader in road safety and has a long history of countermeasures to increase road traffic safety, including the Vision Zero program. Back in the 1960s, a study was conducted by the authorities to investigate the potential of speed limits on motorways to reduce the number of accidents. The <code>sweden</code> data contains the number of accidents on 92 matching days in both 1961 and 1962 <span class="citation">(Svensson <a href="references.html#ref-Svensson:1981" role="doc-biblioref">1981</a>)</span>; speed limits were in place on selected days in either year.
 </div>
+
 <p>We consider an example from Section 4.5 of <span class="citation">Brazzale, Davison, and Reid (<a href="references.html#ref-Brazzale/Davison/Reid:2007" role="doc-biblioref">2007</a>)</span>.
 To study the impact of the restrictions we can fit a Poisson model. Let
 <span class="math inline">\(Y_{i1}\)</span> (respectively <span class="math inline">\(Y_{i2}\)</span>) denote the number of accidents in 1961
@@ -1078,7 +1086,7 @@ year
 </tbody>
 </table>
 <p>The residual deviance is 107.95 for 90 degrees of freedom, suggests the overall fit is good, despite the large number of nuisance parameters <span class="math inline">\(\delta_1, \ldots, \delta_{92}\)</span>. The coefficient associated to limit is strongly significant: the estimated coefficient is <span class="math inline">\(\widehat{\alpha}=-0.292\)</span>, indicates that speed limits reduce the mean number of accidents by <span class="math inline">\(25.3\)</span>% on average. In contrast, the likelihood ratio test reported in Table <a href="generalized-linear-models.html#tab:swedenglm">4.5</a> shows that the change in the yearly number of accident from 1961 to 1962, <span class="math inline">\(\gamma\)</span>, is not significantly different from zero.</p>
-<div id="overdispersion" class="section level3" number="4.4.1">
+<div id="overdispersion" class="section level3">
 <h3><span class="header-section-number">4.4.1</span> Overdispersion</h3>
 <p>One restriction of the Poisson model is that the restriction on its moments is often unrealistic. We tackle the problem of <strong>overdispersion</strong>, for which the variability in the counts is larger than that implied by a Poisson distribution.</p>
 <p>Overdispersion is not the only problem encountered in practice: sometimes, the variance is smaller than the mean, typically due to excess of zeros. Hurdle models and zero-inflated models can be used to deal with this issue. The most common framework for handling overdispersion is to consider that the mean <span class="math inline">\(\lambda\)</span> of the Poisson distribution is itself a positive random variable with mean <span class="math inline">\(\mu\)</span>. By the laws of iterated expectation and iterative variance,
@@ -1086,17 +1094,18 @@ year
 \mathsf{E}(Y) &amp;= \mathsf{E}_{\Lambda}\{\mathsf{E}(Y \mid \Lambda\} = \mathsf{E}(\Lambda) = \mu\\
 \mathsf{Va}(Y) &amp;= \mathsf{E}_{\Lambda}\{\mathsf{Va}(Y \mid \Lambda)\} + \mathsf{Va}_{\Lambda}\{\mathsf{E}(Y \mid \Lambda)\} = \mathsf{E}(\Lambda) + \mathsf{Va}(\Lambda) = \mu + \mathsf{Va}(\Lambda).
 \end{align*}\]</span>
-This hierarchical model thus necessarily yield a model in which the variance is higher than the mean. If <span class="math inline">\(\Lambda\)</span> follows a <a href="https://en.wikipedia.org/wiki/Gamma_distribution">gamma distribution</a> with scale <span class="math inline">\(k\mu\)</span> and rate <span class="math inline">\(k&gt;0\)</span>, <span class="math inline">\(\Lambda \sim \mathsf{Ga}(k\mu, k)\)</span>. This yields a marginal distribution for the response <span class="math inline">\(Y\)</span> which follows a negative binomial distribution, whose mean and variance are
+This hierarchical model thus necessarily yield a model in which the variance is higher than the mean. If <span class="math inline">\(\Lambda\)</span> follows a <a href="https://en.wikipedia.org/wiki/Gamma_distribution">gamma distribution</a> with scale <span class="math inline">\(k\mu\)</span> and rate <span class="math inline">\(k&gt;0\)</span>, <span class="math inline">\(\Lambda \sim \mathsf{Ga}(k\mu, k)\)</span>, the marginal distribution for the response <span class="math inline">\(Y\)</span> follows a negative binomial distribution, whose mean and variance are
 <span class="math display">\[\begin{align*}
 \mathsf{E}(Y) = \mu, \qquad \mathsf{Va}(Y) = \mu + k \mu^2.
 \end{align*}\]</span>
-The term <span class="math inline">\(k\)</span> is a dispersion parameter, which is fixed for all observations. As <span class="math inline">\(k \to 0\)</span>, the distribution of <span class="math inline">\(\Lambda\)</span> degenerates to a constant at <span class="math inline">\(\mu\)</span> and we recover th e Poisson model. While both negative binomial and Poisson models are nested, the likelihood ratio test is non-regular because the restriction we test lies on the boundary of the parameter space, as <span class="math inline">\(k \in (0, \infty)\)</span>. The consequence is that, in large samples, if the data are truly Poisson and we fit a negative binomial, we expect the maximum likelihood estimator of the dispersion parameter <span class="math inline">\(k\)</span> to be exactly zero half of the time and
+The term <span class="math inline">\(k\)</span> is a dispersion parameter, which is fixed for all observations. As <span class="math inline">\(k \to 0\)</span>, the distribution of <span class="math inline">\(\Lambda\)</span> degenerates to a constant at <span class="math inline">\(\mu\)</span> and we recover the Poisson model. While both negative binomial and Poisson models are nested, the likelihood ratio test is non-regular because the restriction we test lies on the boundary of the parameter space, as <span class="math inline">\(k \in (0, \infty)\)</span>. The consequence is that, in large samples, if the data are truly Poisson and we fit a negative binomial, we expect the maximum likelihood estimator of the dispersion parameter <span class="math inline">\(k\)</span> to be exactly zero half of the time and
 to be positive and behave like a <span class="math inline">\(\chi_1^2\)</span> random variable the other half of the time.</p>
 <p>Strictly speaking, the negative binomial expansion presented above is not a generalized linear model unless <span class="math inline">\(k\)</span> is known, but we can write down the log-likelihood and fit the model by alternating maximization of <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(k\)</span> and perform likelihood-based inference as usual.</p>
 
 <div class="example">
 <span id="exm:unnamed-chunk-2" class="example"><strong>Example 4.11  </strong></span>We can ascertain the finite sample properties of the likelihood ratio test by simulating repeatedly from a Poisson regression model, fitting the negative binomial model and calculating the likelihood ratio statistic. Since the negative binomial model yields <span class="math inline">\(k&gt;0\)</span>, we include <span class="math inline">\(k=0\)</span> by fitting a Poisson model and keeping the latter whenever it yields a higher log likelihood than the one found by maximizing the negative binomial model.
 </div>
+
 <div class="figure" style="text-align: center"><span id="fig:simunb"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/simunb-1.png" alt="Simulated null distribution of the likelihood ratio test comparing the Poisson and negative binomial regression models. The quantile-quantile plot show the distribution of positive statistics for sizes $n=100, 500, 1000, 2000$ relative to the asymptotic $\frac{1}{2}\chi^2_1$." width="70%" />
 <p class="caption">
@@ -1105,13 +1114,183 @@ Figure 4.8: Simulated null distribution of the likelihood ratio test comparing t
 </div>
 <p>The percentage of likelihood ratio statistics that are zero is <span class="math inline">\(69\)</span>%, <span class="math inline">\(60\)</span>%, <span class="math inline">\(59\)</span>% and <span class="math inline">\(54\)</span>% for respectively <span class="math inline">\(n=100\)</span>, <span class="math inline">\(500\)</span>, <span class="math inline">\(1000\)</span> and <span class="math inline">\(2000\)</span>. We can also see from the quantile-quantile plots that the empirical distribution of the positive values is right skewed relative to the <span class="math inline">\(\chi^2_1\)</span> reference. This strongly suggest that asymptotic null distribution, consisting of a point mass with probability half at <span class="math inline">\(0\)</span> and <span class="math inline">\(\chi^2_1\)</span> with probability half is seemingly valid only for very large samples; bear in mind that these findings also don’t account for model misspecification.</p>
 </div>
+<div id="contingency-tables" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Contingency tables</h3>
+<p>Most count data are found in contingency tables, in which the cells give the counts for each combination of factors and the dimensions of the table represent categorical variables. Such data format are convenient for storage and display, but must be transformed to long format for model fitting.</p>
+<p>An <span class="math inline">\(m\)</span> dimensional contingency table corresponds to a data frame with <span class="math inline">\(m\)</span> categorical variables and the saturated model is the model with all main effects and all of the <span class="math inline">\(k\)</span> (<span class="math inline">\(2 \leq k \leq m)\)</span> interactions. The saturated model has as many coefficients as observations (here the product of the contingency table dimensions).
+Since the fitted value from this model are equal to the observed counts, it is unnecessary to fit the model: the likelihood ratio statistic for comparing the saturated model with a simpler alternative is simply the deviance statistic reported in the output, whereas the score test is given by Pearson <span class="math inline">\(X^2\)</span> statistic. Inference proceeds as usual.</p>
+
+<div class="example">
+<span id="exm:poissonconting" class="example"><strong>Example 4.12  (Poisson log-linear model for drug history in Dayton)  </strong></span>We consider data from <span class="citation">Agresti (<a href="references.html#ref-Agresti:2019" role="doc-biblioref">2019</a>)</span> on history of high school students near Dayton, Ohio. A survey asked students from grade 12 about their previous consumption of alcohol, cigarettes and marijuana (yes/no). The <span class="math inline">\(2 \times 2 \times 2\)</span> table corresponds to a 12 by 4 data frame with three binary variables and one integer-valued response giving the counts.
 </div>
-<div id="modelling-proportions" class="section level2" number="4.5">
+
+<table class="ftable" style="border-collapse: collapse; border-style: none; margin: 2ex auto;">
+<tr style="border-style: none;"><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; border-top: 1px solid;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; border-top: 1px solid;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; border-top: 1px solid;"></td><td colspan="6" style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; border-bottom: 1px solid; border-top: 1px solid;">marijuana</td></tr>
+<tr style="border-style: none;"><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; border-bottom: 1px solid;">alcohol</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; border-bottom: 1px solid;">cigarette</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; border-bottom: 1px solid;"></td><td colspan="3" style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; border-bottom: 1px solid;">no</td><td colspan="3" style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.3em; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; border-bottom: 1px solid;">yes</td></tr>
+<tr style="border-style: none;"><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;">no</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;">no</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: right; margin-right: 0px; padding-right: 0px; padding-left: 0.3em;">279</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px; width: 1px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; margin-left: 0px; padding-left: 0px; padding-right: 0.3em;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: right; margin-right: 0px; padding-right: 0px; padding-left: 0.3em;">2</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px; width: 1px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; margin-left: 0px; padding-left: 0px; padding-right: 0.3em;"></td></tr>
+<tr style="border-style: none;"><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;"><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;">yes</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: right; margin-right: 0px; padding-right: 0px; padding-left: 0.3em;">43</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px; width: 1px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; margin-left: 0px; padding-left: 0px; padding-right: 0.3em;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: right; margin-right: 0px; padding-right: 0px; padding-left: 0.3em;">3</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px; width: 1px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; margin-left: 0px; padding-left: 0px; padding-right: 0.3em;"></td></tr>
+<tr style="border-style: none;"><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;">yes</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;">no</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: right; margin-right: 0px; padding-right: 0px; padding-left: 0.3em;">456</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px; width: 1px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; margin-left: 0px; padding-left: 0px; padding-right: 0.3em;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: right; margin-right: 0px; padding-right: 0px; padding-left: 0.3em;">44</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px; width: 1px;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; margin-left: 0px; padding-left: 0px; padding-right: 0.3em;"></td></tr>
+<tr style="border-style: none;"><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; border-bottom: 1px solid;"><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; border-bottom: 1px solid;">yes</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.3em; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; border-bottom: 1px solid;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: right; margin-right: 0px; padding-right: 0px; padding-left: 0.3em; border-bottom: 1px solid;">538</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px; width: 1px; border-bottom: 1px solid;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; margin-left: 0px; padding-left: 0px; padding-right: 0.3em; border-bottom: 1px solid;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: right; margin-right: 0px; padding-right: 0px; padding-left: 0.3em; border-bottom: 1px solid;">911</td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: center; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px; width: 1px; border-bottom: 1px solid;"></td><td style="padding-top: 3px; padding-bottom: 0px; padding-left: 0.5ex; padding-right: 0.5ex; margin-top: 0px; margin-bottom: 0px; border-style: none; border-width: 0px; text-align: left; margin-left: 0px; padding-left: 0px; padding-right: 0.3em; border-bottom: 1px solid;"></td></tr>
+</table>
+
+<p>With contingency tables, only categorical explanatory variables are available. The most complicated model, the saturated model with the three-way and all of two-way interactions, returns the observed counts. One can thus fit the model with all of the two-way interactions (with one parameter for the intercept, two for the main effects and three for the two-way interactions). Other models include selected two-way interactions and main effects.</p>
+<table>
+<caption><span id="tab:daytonpred">Table 4.6: </span>Prediction from the Poisson model with selected two-way interactions including alcohol (A), marijuana (M) and cigarette (C) consumption, compared to the saturated model ACM.</caption>
+<thead>
+<tr class="header">
+<th align="right">AM CM</th>
+<th align="right">AC CM</th>
+<th align="right">AC AM</th>
+<th align="right">AC AM CM</th>
+<th align="right">ACM</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">909.2</td>
+<td align="right">885.9</td>
+<td align="right">710.0</td>
+<td align="right">910.4</td>
+<td align="right">911</td>
+</tr>
+<tr class="even">
+<td align="right">438.8</td>
+<td align="right">563.1</td>
+<td align="right">739.0</td>
+<td align="right">538.6</td>
+<td align="right">538</td>
+</tr>
+<tr class="odd">
+<td align="right">45.8</td>
+<td align="right">29.4</td>
+<td align="right">245.0</td>
+<td align="right">44.6</td>
+<td align="right">44</td>
+</tr>
+<tr class="even">
+<td align="right">555.2</td>
+<td align="right">470.6</td>
+<td align="right">255.0</td>
+<td align="right">455.4</td>
+<td align="right">456</td>
+</tr>
+<tr class="odd">
+<td align="right">4.8</td>
+<td align="right">28.1</td>
+<td align="right">0.7</td>
+<td align="right">3.6</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">142.2</td>
+<td align="right">17.9</td>
+<td align="right">45.3</td>
+<td align="right">42.4</td>
+<td align="right">43</td>
+</tr>
+<tr class="odd">
+<td align="right">0.2</td>
+<td align="right">16.6</td>
+<td align="right">4.3</td>
+<td align="right">1.4</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">179.8</td>
+<td align="right">264.4</td>
+<td align="right">276.7</td>
+<td align="right">279.6</td>
+<td align="right">279</td>
+</tr>
+</tbody>
+</table>
+<p>We can test for restrictions from the saturated model. The likelihood ratio test statistic is the deviance statistic 0.37 whose value is far lower than the 0.95 quantile of the <span class="math inline">\(\chi^2_1\)</span> distribution, <span class="math inline">\(3.84\)</span>. We thus fail to reject the null hypothesis <span class="math inline">\(\mathscr{H}_0:\beta_{\mathrm{ACM}}=0\)</span>, corresponding to no three-way interaction or equivalently to the hypothesis that the model with all two way interactions is an adequate simplification of the saturated model. Additional likelihood ratio tests reveal that further simplifications lead to significant decrease in goodness-of-fit. This is not surprising in light of the fitted value from each model, reported in Table <a href="generalized-linear-models.html#tab:daytonpred">4.6</a>: while the counts are not much off for the selected model, there is significant discrepancies between observed and predicted counts for the simpler alternatives.</p>
+</div>
+</div>
+<div id="modelling-proportions" class="section level2">
 <h2><span class="header-section-number">4.5</span> Modelling proportions</h2>
-<p>Proportions arise when we condition on the total number of observations for a scenario. With Poisson counts, this gives rise to a multinomial distribution for the proportions. We can also consider counts as the fraction of total population, including the total population if counts are not comparable using an offset term.</p>
-<p>For the first instance, we can consider <span class="math inline">\(D\)</span> individual counts as Poisson. There is a direct link with (multinomial) logistic model: if we condition on the sum of the counts, we recover a multinomial distribution; for simplicity, we restrict attention to the binomial case when <span class="math inline">\(D=2\)</span>.</p>
-<p>Consider independent Poisson counts <span class="math inline">\(Y_1, Y_2\)</span> with respective means <span class="math inline">\(\lambda_1, \lambda_2\)</span>. Suppose the total counts <span class="math inline">\(Y_1 + Y_2 = m\)</span>.
-The distribution of <span class="math inline">\(Y_2 \mid Y_1 + Y_2=m \sim \mathsf{Bin}\{m, \lambda_2/(\lambda_1 + \lambda_2)\}\)</span>.
+<p>Oftentimes, binary response are aggregated and we have access to a sample of <span class="math inline">\(n_i\)</span> response with the same explanatory variables: we have multiple successes and failures observed for each combination of the covariates <span class="math inline">\(\mathbf{x}_i\)</span>. The response <span class="math inline">\(Y_i\)</span> is the total number of success out of <span class="math inline">\(n_i\)</span> trials, so <span class="math inline">\(Y_i \sim \mathsf{Bin}(n_i, \pi_i)\)</span> where <span class="math inline">\(\pi_i = \mathrm{expit}(\mathbf{x}_i^\top\boldsymbol{\beta})\)</span>, say. Since the log likelihood of the Bernoulli distribution and that of the binomial are equal up to an additive constant factor, log likelihood and information criteria values will also differ by a constant factor, but the latter does not matter when making comparisons between models.</p>
+<p>We can use a logistic model to estimate the probability of success; the only difference is that we need to provide the software with the number of success/failures or else success/trials. The data could also be un-grouped, then fitted using a Bernoulli model.</p>
+
+<div class="example">
+<span id="exm:smokingSimpson" class="example"><strong>Example 4.13  (Smoking and the Grim Reaper)  </strong></span>We consider survey data for a study conducted in 1972–1974 near Newcastle, UK. Information about smoking habits of women were collected; A follow-up of the same subjects was conducted 20 years later to evaluate how smoking habits affected survival. 162 women had smoked before 1972 but had stopped by 1972, and smoking habits were unknown for 18 women: these 180 women were excluded.
+The data consists of the remaining 1314 women. The smoker and non-smoker columns contain the number of dead/total (% dead).
+</div>
+
+<p>Based on raw numbers, 582 women were smokers and
+139 died (<span class="math inline">\(76.117\)</span>% survival rate), whereas 230 of the of the 732 smokers died (<span class="math inline">\(68.6\)</span>% survival rate). A logistic model for the number of survivors out of the total, based on smoking status,
+<span class="math display">\[\mathsf{P}(\texttt{survive=yes} \mid \texttt{smoking}) = \mathrm{expit}(\beta_0+\beta_1 \mathsf{I}_{\texttt{smoking=yes}}), \]</span>
+would return precisely these two probabilities of survival. The marginal odds of survival after twenty years are <span class="math inline">\(\exp(0.379) = 46\)</span>%
+higher for smokers. It seems puzzling that smoking would lead to higher survival after twenty years and be effective at hiding from the Grim reaper, but this analysis omits an important fact: the smokers in the study were much younger than the non-smokers. In this situation, averaging over all age groups, a confounder, lead to an incorrect assessment of the effect of smoking since most non-smokers recruited were above the age of 64 and thus had lower survival probability of surviving 20 years to begin with. The breakdown of death is depicted in the mosaic plot of Figure <a href="generalized-linear-models.html#fig:mosaicplots">4.9</a>. We see that more younger people were smoking, so the confounding effects leads unsurprisingly to smaller proportion of death in this group.</p>
+<div class="figure" style="text-align: center"><span id="fig:mosaicplots"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/mosaicplots-1.png" alt="Mosaic plots for the smoker survival data: the left panel shows sample proportions of survivors depending on smoking status, whereas the right panel gives the sample proportion within each strata. Most of the people above 75 are non-smokers, and their probability of surviving beyond 95 years is small." width="70%" />
+<p class="caption">
+Figure 4.9: Mosaic plots for the smoker survival data: the left panel shows sample proportions of survivors depending on smoking status, whereas the right panel gives the sample proportion within each strata. Most of the people above 75 are non-smokers, and their probability of surviving beyond 95 years is small.
+</p>
+</div>
+<table>
+<caption><span id="tab:tablesmoker">Table 4.7: </span>Logistic regression model for the proportion of survivors for the smoker survival data.</caption>
+<thead>
+<tr class="header">
+<th align="left">coefficient</th>
+<th align="right">estimate</th>
+<th align="right">std. error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">3.86</td>
+<td align="right">0.59</td>
+</tr>
+<tr class="even">
+<td align="left">smoker [yes]</td>
+<td align="right">-0.43</td>
+<td align="right">0.18</td>
+</tr>
+<tr class="odd">
+<td align="left">age [25-34]</td>
+<td align="right">-0.12</td>
+<td align="right">0.69</td>
+</tr>
+<tr class="even">
+<td align="left">age [35-44]</td>
+<td align="right">-1.34</td>
+<td align="right">0.63</td>
+</tr>
+<tr class="odd">
+<td align="left">age [45-54]</td>
+<td align="right">-2.11</td>
+<td align="right">0.61</td>
+</tr>
+<tr class="even">
+<td align="left">age [55-64]</td>
+<td align="right">-3.18</td>
+<td align="right">0.6</td>
+</tr>
+<tr class="odd">
+<td align="left">age [65-74]</td>
+<td align="right">-5.09</td>
+<td align="right">0.62</td>
+</tr>
+<tr class="even">
+<td align="left">age [75+]</td>
+<td align="right">-27.81</td>
+<td align="right">11293.14</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="generalized-linear-models.html#tab:tablesmoker">4.7</a> gives the estimated coefficients of the logistic regression model for survival, where the baseline is survival for people aged 18-24; there is a steady decline in survival as age increases, with separation of variable for the last category (because everyone aged 75 and above were dead at follow-up). Age is strongly significant, leading to a likelihood ratio statistic of <span class="math inline">\(629.915\)</span> for 6 degrees of freedom. The estimated effect of smoking is negative, so conditional on an age group, the estimated survival is multiplied by <span class="math inline">\(\exp(-0.427\)</span>) with 95% likelihood ratio confidence intervals for this coefficient of [<span class="math inline">\(0.46\)</span>, <span class="math inline">\(0.92\)</span>] on the odds scale. The point estimate corresponds to a <span class="math inline">\(34.8\)</span>% decrease.</p>
+<p>This phenomenon is termed <strong>Simpson’s paradox</strong> and is further illustrated in Figure <a href="generalized-linear-models.html#fig:marginalizationpicture">4.10</a>: an incorrect marginalization over a confounder can lead to reverse effects, even when analysis withing subgroups leads to opposition conclusions for the effect of that variable.</p>
+<div class="figure" style="text-align: center"><span id="fig:marginalizationpicture"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/marginalizationpicture-1.png" alt="Illustration of the marginalization problem: within each subgroup, there is a clear positive correlation between explanatory and response, but averaging over all groups leads to incorrect estimates and a negative trend." width="70%" />
+<p class="caption">
+Figure 4.10: Illustration of the marginalization problem: within each subgroup, there is a clear positive correlation between explanatory and response, but averaging over all groups leads to incorrect estimates and a negative trend.
+</p>
+</div>
+<div id="conditional-binomial-likelihood-for-poisson-counts" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> Conditional binomial likelihood for Poisson counts</h3>
+<p>Consider independent Poisson counts <span class="math inline">\(Y_1, Y_2\)</span> with respective means <span class="math inline">\(\lambda_1, \lambda_2\)</span>. Suppose the total counts <span class="math inline">\(Y_1 + Y_2 = m\)</span> and we condition on this quantity: the distribution of <span class="math inline">\(Y_2 \mid Y_1 + Y_2=m \sim \mathsf{Bin}\{m, \lambda_2/(\lambda_1 + \lambda_2)\}\)</span>.
 If we model each mean parameter as, <span class="math inline">\(\ln(\lambda_i) = \alpha + \mathbf{x}_i^\top\boldsymbol{\beta}\)</span> where <span class="math inline">\(\mathbf{x}_i\)</span> is a <span class="math inline">\(p\)</span> row vector, then
 <span class="math display">\[\begin{align*}
 \frac{\lambda_2}{\lambda_1 + \lambda_2} = \frac{\exp\{(\mathbf{x}_2-\mathbf{x}_1)^\top\boldsymbol{\beta}\}}{1+\exp\{(\mathbf{x}_2-\mathbf{x}_1)^\top\boldsymbol{\beta}\}}.
@@ -1119,21 +1298,107 @@ If we model each mean parameter as, <span class="math inline">\(\ln(\lambda_i) =
 We could thus estimate <span class="math inline">\(\boldsymbol{\beta}\)</span> using a logistic regression, but the common intercept <span class="math inline">\(\alpha\)</span> that appears in the mean of the Poisson counts is not estimable based on this conditional likelihood.</p>
 
 <div class="example">
-<span id="exm:swedenex2" class="example"><strong>Example 4.12  </strong></span>
+<span id="exm:swedenex2" class="example"><strong>Example 4.14  </strong></span>
 Looking again at the data in Example <a href="generalized-linear-models.html#exm:roadsweden">4.10</a>, we condition on the sum of the number of accidents in 1961 and 1962, <span class="math inline">\(Y_{i1} + Y_{i2}\)</span>, and adjust the same mean model for the Poisson data.
 </div>
+
 <p>Recall
 <span class="math display">\[\begin{align*}
 \frac{\lambda_{i2}}{
 \lambda_{i1} + \lambda_{i2}} &amp;= \frac{\exp(\delta_i + \gamma + \alpha \texttt{limit}_{i2})}{(\exp(\delta_i + \gamma + \alpha \texttt{limit}_{i2}) + \exp(\delta_i + \alpha \texttt{limit}_{i1})} \\&amp;= \frac{\exp\{\gamma + \alpha(\texttt{limit}_{i2}-\texttt{limit}_{i1})\}}{1+{\exp\{\gamma + \alpha(\texttt{limit}_{i2}-\texttt{limit}_{i1})\}}}, \qquad i=1, \ldots, 92. 
 \end{align*}\]</span></p>
 <p>In this case, we were not interested in the nuisance parameters <span class="math inline">\(\delta_1, \ldots, \delta_{92}\)</span>, which were there merely for the sake of controlling for daily changes. The binomial logistic model has only two parameters, but 92 observations rather than 184 since we regroup the counts.
-The parameter estimates (standard errors) based on the logistic regression are <span class="math inline">\(\widehat{\alpha} = -0.292 (0.043)\)</span> and <span class="math inline">\(\widehat{\gamma}=-0.029(0.035)\)</span>, so enforcing a speed limit reduces the accident rate by <span class="math inline">\(\exp(-0.292)=0.75\)</span>, corresponding to a 25% decrease. The 95% profile likelihood confidence interval for this reduction, <span class="math inline">\(\exp(\alpha)\)</span>, is <span class="math inline">\([0.60, 0.81]\)</span>, and there are thus strong evidence that the reduction in the number of accident is real. The confidence interval for <span class="math inline">\(\gamma\)</span>, on the other hand, is <span class="math inline">\([-0.097, 0.039]\)</span> includes zero; the yearly change is not significative. Since the inference are exactly the same, one may wonder what the benefit of using the logistic model is; it mostly lies in the fact our model has 2 parameters and not 94…</p>
-<p>We present an example of incorrect marginalization that leads to Simpson’s paradox. Models for multi-way contingency tables and proportions are covered in a dedicated section.</p>
-<div id="simpsons-paradox" class="section level3" number="4.5.1">
-<h3><span class="header-section-number">4.5.1</span> Simpson’s paradox</h3>
-
+The parameter estimates (standard errors) based on the logistic regression are <span class="math inline">\(\widehat{\alpha} = -0.292 (0.043)\)</span> and <span class="math inline">\(\widehat{\gamma}=-0.029(0.035)\)</span>, so enforcing a speed limit reduces the accident rate by <span class="math inline">\(\exp(-0.292)=0.75\)</span>, corresponding to a 25% decrease. The 95% profile likelihood confidence interval for this reduction, <span class="math inline">\(\exp(\alpha)\)</span>, is <span class="math inline">\([0.60, 0.81]\)</span>, and there are thus strong evidence that the reduction in the number of accident is real. The confidence interval for <span class="math inline">\(\gamma\)</span>, on the other hand, is <span class="math inline">\([-0.097, 0.039]\)</span> includes zero; the yearly change is not significative. Since the inference are exactly the same, one may wonder what the benefit of using the logistic model is; it mostly lies in the fact our model has 2 parameters and not 94<span class="math inline">\(\ldots\)</span></p>
 </div>
+</div>
+<div id="rates" class="section level2">
+<h2><span class="header-section-number">4.6</span> Rates</h2>
+<p>Poisson model naturally arises from two scenarios. In the first, we consider a Poisson point process, whereby</p>
+<ul>
+<li>the number of events over short disjoint intervals of times are independent</li>
+<li>the probability of an event is proportional to the length of the time interval and</li>
+<li>the probability of more than one occurrence is negligible for short intervals.</li>
+</ul>
+<p>These requirements translate into a distributional limit for the number of events in an interval of length <span class="math inline">\(t\)</span>, where <span class="math inline">\(N_t \sim \mathsf{Po}(\lambda t)\)</span>.
+Examples of counting processes include the number of buses at a particular stop,
+The longer the time spent waiting, the more chance a bus will pass by. Likewise, the number of children per women depends on age, the number of failures of equipment depends on lifetime, etc.</p>
+<p>The Poisson distribution also emerges as the limiting distribution for the number of successes of rare events. If <span class="math inline">\(Y_i \sim \mathsf{Bin}(n_i, \pi_i)\)</span> with <span class="math inline">\(n_i\)</span> large and <span class="math inline">\(\pi_i\)</span> small, then <span class="math inline">\(Y_i \stackrel{\cdot}{\sim} \mathsf{Po}(\mu_i)\)</span>, where <span class="math inline">\(\mu_i = n_i\pi_i\)</span>. We could therefore consider a Poisson log-linear model with <span class="math inline">\(\ln(\mu_i)=\ln(n_i) + \ln(\pi_i)\)</span>; since the number of trials <span class="math inline">\(n_i\)</span> is fixed, we are implicitly considering the proportion of success
+<span class="math display">\[\mathsf{E}\left( {Y_i}\right) = \exp\{\beta_0 + \cdots + \beta_p\mathrm{X}_p + \ln(n_i)\}.\]</span>
+Since the Poisson likelihood is defined for integer-valued response only, the <strong>offset</strong> term <span class="math inline">\(\ln(n_i)\)</span> is part of the mean model. It thus acts as a predictor variable whose coefficient is known to be unity and thus not estimated alongside with <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
+
+<div class="example">
+<span id="exm:waveoffset" class="example"><strong>Example 4.15  (Wage damage to cargo ships)  </strong></span>We consider damage to cargo ships from the Lloyd’s Register of Shipping; these data are extracted from Section 6.3.2 of <span class="citation">McCullagh and Nelder (<a href="references.html#ref-McCullagh/Nelder:1989" role="doc-biblioref">1989</a>)</span>. The response is the aggregated number of damage incidents to vessels with a particular design due to waves. Three explanatory variables are available: ship type, construction period and operation period. For each combination of factors, we have a measure of the aggregate months of service: the more usage, the higher the number of incidents.
+</div>
+
+<p>The data includes</p>
+<ul>
+<li><code>type</code>: ship type, one of five designs (A to E)</li>
+<li><code>construction</code>: year of construction, either 1960–1964, 1965–1969, 1970–1974 or 1975–1979</li>
+<li><code>operation</code>: period of operation, either 1960–1974 or 1975–1979.</li>
+</ul>
+<p>Our model for ship type <span class="math inline">\(i\)</span>, construction period <span class="math inline">\(j\)</span> and period of operation <span class="math inline">\(k\)</span> is thus
+<span class="math display">\[Y_{ijk} \sim \mathsf{Po}\left\{\exp\left(\beta_0 + \alpha_i+\kappa_j + \gamma_k + \ln n_{ijk}\right)\right\},\]</span>
+where we set the identifiability constraints <span class="math inline">\(\alpha_1=0\)</span> for ship type A, <span class="math inline">\(\kappa_1=0\)</span> for period of operation 1960–1974 and finally <span class="math inline">\(\gamma_1=0\)</span> for year of construction 1960–1964. Note that ships constructed in early periods may still be operating in the second period (and may also suffer</p>
+<table>
+<caption><span id="tab:shipsoffset">Table 4.8: </span>Poisson log-linear model for ship damage example.</caption>
+<thead>
+<tr class="header">
+<th align="left">coefficient</th>
+<th align="right">estimate</th>
+<th align="right">std. error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-6.41</td>
+<td align="right">0.22</td>
+</tr>
+<tr class="even">
+<td align="left">type [B]</td>
+<td align="right">-0.54</td>
+<td align="right">0.18</td>
+</tr>
+<tr class="odd">
+<td align="left">type [C]</td>
+<td align="right">-0.69</td>
+<td align="right">0.33</td>
+</tr>
+<tr class="even">
+<td align="left">type [D]</td>
+<td align="right">-0.08</td>
+<td align="right">0.29</td>
+</tr>
+<tr class="odd">
+<td align="left">type [E]</td>
+<td align="right">0.33</td>
+<td align="right">0.24</td>
+</tr>
+<tr class="even">
+<td align="left">period [1975-79]</td>
+<td align="right">0.38</td>
+<td align="right">0.12</td>
+</tr>
+<tr class="odd">
+<td align="left">construction [1965-69]</td>
+<td align="right">0.7</td>
+<td align="right">0.15</td>
+</tr>
+<tr class="even">
+<td align="left">construction [1970-74]</td>
+<td align="right">0.82</td>
+<td align="right">0.17</td>
+</tr>
+<tr class="odd">
+<td align="left">construction [1975-79]</td>
+<td align="right">0.45</td>
+<td align="right">0.23</td>
+</tr>
+</tbody>
+</table>
+<p>By including an offset, we are assuming that the number of incidents is proportional to the number of months of service. We could also have included the log aggregate months of service as explanatory variable and estimated the coefficient: we get <span class="math inline">\(\widehat{\beta}_{\texttt{service}}=0.903\)</span> with estimated standard error 0.1: the likelihood ratio test comparing the model with an offset corresponds to the null model <span class="math inline">\(\mathscr{H}_0: \beta_{\texttt{service}}=1\)</span> and the full model includes a coefficient: the <span class="math inline">\(p\)</span>-value based on the <span class="math inline">\(\chi^2_1\)</span> null distribution is <span class="math inline">\(0.35\)</span>, suggesting our assumption of proportionality is adequate.</p>
+<p>All of the three main effects are highly significant, as evidenced by Type 3 likelihood ratio tests comparing models (output not shown). There is mild evidence of overdispersion, meaning <span class="math inline">\(\mathsf{Va}(Y_{ijk}) &gt; \mathsf{E}(Y_{ijk})\)</span>: the deviance is <span class="math inline">\(38.7\)</span> with <span class="math inline">\(25\)</span> residual degrees of freedom, leading to a ratio of deviance/degrees of freedom of <span class="math inline">\(1.55\)</span> and a <span class="math inline">\(p\)</span>-value for the likelihood ratio test comparing the saturated model (<span class="math inline">\(\mathscr{H}_a\)</span>) to the fitted model (<span class="math inline">\(\mathscr{H}_0\)</span>) of <span class="math inline">\(25\)</span>. This in particular means that the quoted standard errors for the coefficients are too small. The negative binomial does not seem to fit better, so use of quasi-likelihood would be necessary to handle overdispersion.</p>
+
 </div>
 </div>
             </section>
