@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Likelihood-based inference | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21.4 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Likelihood-based inference | Statistical Modelling" />
   <meta property="og:type" content="book" />
   
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="github-repo" content="lbelzile/math60604" />
+  <meta name="github-repo" content="lbelzile/math60604a" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="3 Likelihood-based inference | Statistical Modelling" />
@@ -31,6 +31,7 @@
   
 <link rel="prev" href="linear-regression.html"/>
 <link rel="next" href="generalized-linear-models.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -48,9 +49,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
 <script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
@@ -61,18 +61,17 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +91,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -124,6 +123,7 @@ code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body>
@@ -136,110 +136,76 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Statistical Modelling</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a><ul>
-<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="1.1.1" data-path="intro.html"><a href="intro.html#hypothesis"><i class="fa fa-check"></i><b>1.1.1</b> Hypothesis</a></li>
-<li class="chapter" data-level="1.1.2" data-path="intro.html"><a href="intro.html#test-statistic"><i class="fa fa-check"></i><b>1.1.2</b> Test statistic</a></li>
-<li class="chapter" data-level="1.1.3" data-path="intro.html"><a href="intro.html#null-distribution-and-p-value"><i class="fa fa-check"></i><b>1.1.3</b> Null distribution and <em>p</em>-value</a></li>
-<li class="chapter" data-level="1.1.4" data-path="intro.html"><a href="intro.html#conclusion"><i class="fa fa-check"></i><b>1.1.4</b> Conclusion</a></li>
-<li class="chapter" data-level="1.1.5" data-path="intro.html"><a href="intro.html#power"><i class="fa fa-check"></i><b>1.1.5</b> Power</a></li>
-<li class="chapter" data-level="1.1.6" data-path="intro.html"><a href="intro.html#confidence-interval"><i class="fa fa-check"></i><b>1.1.6</b> Confidence interval</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#polish-your-work"><i class="fa fa-check"></i><b>1.2.1</b> Polish your work</a></li>
-<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#variable-type"><i class="fa fa-check"></i><b>1.2.2</b> Variable type</a></li>
-<li class="chapter" data-level="1.2.3" data-path="intro.html"><a href="intro.html#graphs"><i class="fa fa-check"></i><b>1.2.3</b> Graphs</a></li>
-<li class="chapter" data-level="1.2.4" data-path="intro.html"><a href="intro.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>1.2.4</b> Exploratory data analysis</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a><ul>
+<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
 <li class="chapter" data-level="2.2" data-path="linear-regression.html"><a href="linear-regression.html#ordinary-least-squares"><i class="fa fa-check"></i><b>2.2</b> Ordinary least squares</a></li>
 <li class="chapter" data-level="2.3" data-path="linear-regression.html"><a href="linear-regression.html#interpretation-of-the-model-parameters"><i class="fa fa-check"></i><b>2.3</b> Interpretation of the model parameters</a></li>
-<li class="chapter" data-level="2.4" data-path="linear-regression.html"><a href="linear-regression.html#test-lm"><i class="fa fa-check"></i><b>2.4</b> Tests for parameters of the linear model</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="linear-regression.html"><a href="linear-regression.html#ftestslm"><i class="fa fa-check"></i><b>2.4.1</b> <em>F</em>-tests for comparison of nested linear models</a></li>
-</ul></li>
+<li class="chapter" data-level="2.4" data-path="linear-regression.html"><a href="linear-regression.html#test-lm"><i class="fa fa-check"></i><b>2.4</b> Tests for parameters of the linear model</a></li>
 <li class="chapter" data-level="2.5" data-path="linear-regression.html"><a href="linear-regression.html#coefR2"><i class="fa fa-check"></i><b>2.5</b> Coefficient of determination</a></li>
 <li class="chapter" data-level="2.6" data-path="linear-regression.html"><a href="linear-regression.html#predictions-lm"><i class="fa fa-check"></i><b>2.6</b> Predictions</a></li>
-<li class="chapter" data-level="2.7" data-path="linear-regression.html"><a href="linear-regression.html#interactions"><i class="fa fa-check"></i><b>2.7</b> Interactions</a><ul>
-<li class="chapter" data-level="2.7.1" data-path="linear-regression.html"><a href="linear-regression.html#two-way-anova"><i class="fa fa-check"></i><b>2.7.1</b> Two-way ANOVA</a></li>
-</ul></li>
+<li class="chapter" data-level="2.7" data-path="linear-regression.html"><a href="linear-regression.html#interactions"><i class="fa fa-check"></i><b>2.7</b> Interactions</a></li>
 <li class="chapter" data-level="2.8" data-path="linear-regression.html"><a href="linear-regression.html#collinearity"><i class="fa fa-check"></i><b>2.8</b> Collinearity</a></li>
-<li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a><ul>
-<li class="chapter" data-level="2.9.1" data-path="linear-regression.html"><a href="linear-regression.html#residuals"><i class="fa fa-check"></i><b>2.9.1</b> Residuals</a></li>
-<li class="chapter" data-level="2.9.2" data-path="linear-regression.html"><a href="linear-regression.html#leverage-and-outliers"><i class="fa fa-check"></i><b>2.9.2</b> Leverage and outliers</a></li>
-<li class="chapter" data-level="2.9.3" data-path="linear-regression.html"><a href="linear-regression.html#diagnostic-plots"><i class="fa fa-check"></i><b>2.9.3</b> Diagnostic plots</a></li>
-</ul></li>
+<li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a></li>
 <li class="chapter" data-level="2.10" data-path="linear-regression.html"><a href="linear-regression.html#transformation-response"><i class="fa fa-check"></i><b>2.10</b> Transformation of the response</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a><ul>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="likelihood.html"><a href="likelihood.html#maximum-likelihood"><i class="fa fa-check"></i><b>3.1</b> Maximum likelihood</a></li>
 <li class="chapter" data-level="3.2" data-path="likelihood.html"><a href="likelihood.html#liktests"><i class="fa fa-check"></i><b>3.2</b> Likelihood-based tests</a></li>
 <li class="chapter" data-level="3.3" data-path="likelihood.html"><a href="likelihood.html#profile-likelihood"><i class="fa fa-check"></i><b>3.3</b> Profile likelihood</a></li>
 <li class="chapter" data-level="3.4" data-path="likelihood.html"><a href="likelihood.html#information-criteria"><i class="fa fa-check"></i><b>3.4</b> Information criteria</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a><ul>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#basic-principles"><i class="fa fa-check"></i><b>4.1</b> Basic principles</a></li>
-<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exponential-dispersion-family-of-distributions"><i class="fa fa-check"></i><b>4.2.1</b> Exponential dispersion family of distributions</a></li>
-<li class="chapter" data-level="4.2.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#link-functions"><i class="fa fa-check"></i><b>4.2.2</b> Link functions</a></li>
-<li class="chapter" data-level="4.2.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-adjustment-star"><i class="fa fa-check"></i><b>4.2.3</b> Model adjustment (<span class="math inline">\(\star\)</span>)</a></li>
-<li class="chapter" data-level="4.2.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#likelihood-inference"><i class="fa fa-check"></i><b>4.2.4</b> Likelihood inference</a></li>
-<li class="chapter" data-level="4.2.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#goodness-of-fit-criteria"><i class="fa fa-check"></i><b>4.2.5</b> Goodness-of-fit criteria</a></li>
-<li class="chapter" data-level="4.2.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#residuals-glm"><i class="fa fa-check"></i><b>4.2.6</b> Residuals <span class="math inline">\((\star)\)</span></a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#issues-with-binary-data"><i class="fa fa-check"></i><b>4.3.1</b> Issues with binary data</a></li>
-<li class="chapter" data-level="4.3.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-separation-of-variables"><i class="fa fa-check"></i><b>4.3.2</b> Quasi-separation of variables</a></li>
-<li class="chapter" data-level="4.3.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#diag-plots-binary"><i class="fa fa-check"></i><b>4.3.3</b> Diagnostic plots for binary data (<span class="math inline">\(\star\)</span>)</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#overdispersion"><i class="fa fa-check"></i><b>4.4.1</b> Overdispersion</a></li>
-<li class="chapter" data-level="4.4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#contingency-tables"><i class="fa fa-check"></i><b>4.4.2</b> Contingency tables</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a><ul>
-<li class="chapter" data-level="4.5.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#conditional-binomial-likelihood-for-poisson-counts"><i class="fa fa-check"></i><b>4.5.1</b> Conditional binomial likelihood for Poisson counts</a></li>
-</ul></li>
+<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a></li>
+<li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a></li>
+<li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a></li>
+<li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a></li>
 <li class="chapter" data-level="4.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#rates"><i class="fa fa-check"></i><b>4.6</b> Rates</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a><ul>
+<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html#longitudinal-data"><i class="fa fa-check"></i><b>5.1</b> Longitudinal data</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a><ul>
+<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#partial-pooling"><i class="fa fa-check"></i><b>6.1</b> Partial pooling</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a><ul>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a>
+<ul>
 <li class="chapter" data-level="A.1" data-path="complement.html"><a href="complement.html#population-sample"><i class="fa fa-check"></i><b>A.1</b> Population and samples</a></li>
-<li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a><ul>
-<li class="chapter" data-level="A.2.1" data-path="complement.html"><a href="complement.html#moments"><i class="fa fa-check"></i><b>A.2.1</b> Moments</a></li>
-<li class="chapter" data-level="A.2.2" data-path="complement.html"><a href="complement.html#unbiasedness-and-mean-square-error"><i class="fa fa-check"></i><b>A.2.2</b> Unbiasedness and mean square error</a></li>
-<li class="chapter" data-level="A.2.3" data-path="complement.html"><a href="complement.html#discrete-distributions"><i class="fa fa-check"></i><b>A.2.3</b> Discrete distributions</a></li>
-<li class="chapter" data-level="A.2.4" data-path="complement.html"><a href="complement.html#continuous-distributions"><i class="fa fa-check"></i><b>A.2.4</b> Continuous distributions</a></li>
-<li class="chapter" data-level="A.2.5" data-path="complement.html"><a href="complement.html#diagramme-qq"><i class="fa fa-check"></i><b>A.2.5</b> Quantiles-quantiles plots</a></li>
-</ul></li>
+<li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a></li>
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a><ul>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
+<ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
 <li class="chapter" data-level="B.3" data-path="math.html"><a href="math.html#restricted-estimation-maximum-likelihood"><i class="fa fa-check"></i><b>B.3</b> Restricted estimation maximum likelihood</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a><ul>
-<li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a><ul>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#help"><i class="fa fa-check"></i>Help</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#basic-commands"><i class="fa fa-check"></i>Basic commands</a></li>
-<li><a href="r.html#linear-algebra-in-r">Linear algebra in <strong>R</strong></a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#packages"><i class="fa fa-check"></i>Packages</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#datasets"><i class="fa fa-check"></i>Datasets</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#base-graphics"><i class="fa fa-check"></i>Base graphics</a></li>
-</ul></li>
+<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a></li>
 <li class="chapter" data-level="C.2" data-path="r.html"><a href="r.html#rlmfunc"><i class="fa fa-check"></i><b>C.2</b> Linear models in <strong>R</strong> using the <code>lm</code> function</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -257,11 +223,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="likelihood" class="section level1">
+<div id="likelihood" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Likelihood-based inference</h1>
 <p>The goal of this chapter is to familiarize you with likelihood-based inference.</p>
 <p>The starting point of likelihood-based inference is a statistical model: we postulate that (a function of) the data has been generated from a probability distribution with <span class="math inline">\(p\)</span>-dimensional parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span>. The purpose of the analyst is to estimate these unknown parameters on the basis of a sample and make inference about them.</p>
-<div id="maximum-likelihood" class="section level2">
+<div id="maximum-likelihood" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Maximum likelihood</h2>
 <p>The <strong>likelihood</strong> <span class="math inline">\(L(\boldsymbol{\theta})\)</span> is a function of <span class="math inline">\(\boldsymbol{\theta}\)</span> that gives the probability (or density) of observing a sample under a postulated distribution, treating the observations as fixed. In most settings we consider, observations are independent and so the joint probability of the sample values is the product of the probability of the individual observations: for <span class="math inline">\(y_1, \ldots, y_n\)</span> assuming <span class="math inline">\(Y_i\)</span> (<span class="math inline">\(i=1, \ldots, n\)</span>) follows a distribution whose mass function or density is <span class="math inline">\(f(y; \boldsymbol{\theta})\)</span>, this is just
 <span class="math display">\[\begin{align*}
@@ -281,7 +247,6 @@ L(\boldsymbol{\theta}; \boldsymbol{y}) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta
 <div class="remark">
  <span class="remark"><em>Remark. </em></span> While least squares admit a closed-form solution, the maximum of the log likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
 </div>
-
 <p>The <strong>observed information matrix</strong> is the hessian <span class="math inline">\(j(\boldsymbol{\theta}; \boldsymbol{y})=-\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})/\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top\)</span> evaluated at the maximum likelihood estimate <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span>.
 Under regularity conditions, the Fisher information matrix is
 <span class="math display">\[\begin{align*}
@@ -302,7 +267,6 @@ To find the maximum of the function, we differentiate the log likelihood <span c
 \end{align*}\]</span>
 Solving for <span class="math inline">\(\theta\)</span> gives <span class="math inline">\(\widehat{\theta} = \overline{y}^{-1}\)</span>, so the maximum likelihood estimator is the reciprocal of the sample mean <span class="math inline">\(\overline{Y}\)</span>. The observed information is <span class="math inline">\(j(\theta) = n\theta^{-2}\)</span> and likewise <span class="math inline">\(i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}\)</span>.</p>
 </div>
-
 <div class="figure" style="text-align: center"><span id="fig:explikelihood"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/explikelihood-1.png" alt="Log-likelihood for a sample of size 20 of waiting times (in minutes)" width="70%" />
 <p class="caption">
@@ -362,12 +326,11 @@ Differentiating each term with respect to <span class="math inline">\(\sigma^2\)
 \end{align*}\]</span>
 where <span class="math inline">\(\mathsf{SS}_e\)</span> is the sum of squared residuals. The usual unbiased estimator of <span class="math inline">\(\sigma^2\)</span> calculated by software is <span class="math inline">\(S^2=\mathsf{SS}_e/(n-p-1)\)</span>, where the denominator is the sample size <span class="math inline">\(n\)</span> minus the number of mean parameters <span class="math inline">\(\boldsymbol{\beta}\)</span>, <span class="math inline">\(p+1\)</span>.
 </div>
-
 <p>Sometimes, the <span class="math inline">\(p\)</span>-parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span> of the likelihood is not the quantity of interest. Suppose for simplicity we are interested in a scalar function <span class="math inline">\(\phi = g(\boldsymbol{\theta})\)</span>. The maximum likelihood estimate of <span class="math inline">\(\phi\)</span> is <span class="math inline">\(\widehat{\phi}=g(\widehat{\boldsymbol{\theta}})\)</span>. This property of maximum likelihood estimators justifies their widespread use. In large samples, <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is centered at the true value <span class="math inline">\(\boldsymbol{\theta}_0\)</span> and is approximately multivariate normal with <span class="math inline">\(\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{No}_p(\boldsymbol{\theta}_0, \mathbf{V}_{\boldsymbol{\theta}})\)</span>, then
 <span class="math inline">\(\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{No}(\phi_0, \mathrm{V}_\phi)\)</span>, with <span class="math inline">\(\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi\)</span>, where <span class="math inline">\(\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top\)</span>. In applications, the variance matrix and the gradient vector are evaluated at the maximum likelihood estimate <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span></p>
 <p>Consider the metro waiting time example. The quantity of interest is the reciprocal mean <span class="math inline">\(\phi = 1/\theta\)</span>, so the scalar function of interest is <span class="math inline">\(g(x) = 1/x\)</span> and the maximum likelihood estimate <span class="math inline">\(\hat{\phi}=3.058\)</span> is the sample mean of waiting times. The gradient of the transformation is <span class="math inline">\(\nabla \phi = -1/x^2\)</span>, which gives <span class="math inline">\(\mathrm{V}_\phi = (\theta^2/n)/\theta^4 = 1/(n\theta^2) = \phi^2/n\)</span> and the standard error of the maximum likelihood estimator is thus approximately <span class="math inline">\(\widehat{\phi}/\sqrt{n}\)</span> in large samples.</p>
 </div>
-<div id="liktests" class="section level2">
+<div id="liktests" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Likelihood-based tests</h2>
 <p>Oftentimes, we wish to compare two models: the model implied by the null hypothesis, which is a restriction or simpler version of the full model. Models are said to be <strong>nested</strong> if we can obtain one from the other by imposing restrictions on the parameters.</p>
 <p>We consider a null hypothesis <span class="math inline">\(\mathscr{H}_0\)</span> that imposes restrictions on the possible values of <span class="math inline">\(\boldsymbol{\theta}\)</span> can take, relative to an unconstrained alternative <span class="math inline">\(\mathscr{H}_1\)</span>. We need two <strong>nested</strong> models: a <em>full</em> model, and a <em>reduced</em> model that is a subset of the full model where we impose <span class="math inline">\(q\)</span> restrictions. For example, the full model could be a regression model with four predictor variables and the reduced model could include only the first two predictor variables, which is equivalent to setting <span class="math inline">\(\mathscr{H}_0: \beta_3=\beta_4=0\)</span>. The testing procedure involves fitting the two models and obtaining the maximum likelihood estimators of each of <span class="math inline">\(\mathscr{H}_1\)</span> and <span class="math inline">\(\mathscr{H}_0\)</span>, respectively <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span> for the parameters under <span class="math inline">\(\mathscr{H}_0\)</span>.
@@ -422,7 +385,7 @@ since <span class="math inline">\(\mathsf{se}(\phi)=\mathrm{V}^{1/2}_{\phi}=\phi
 and the likelihood ratio statistic <span class="math inline">\(R=2 \{\ell(\widehat{\theta}) - \ell(4)\}= 1.322\)</span>. The statistic should behave like a <span class="math inline">\(\chi^2_1\)</span> variable in large samples. The 95% of the <span class="math inline">\(\chi^2_1\)</span> distribution is <span class="math inline">\(3.841\)</span>, so we fail to reject the null hypothesis that the mean waiting time is 4 minutes.</p>
 <p>The likelihood ratio statistic 95% confidence interval for <span class="math inline">\(\phi\)</span> can be found by using a root finding algorithm: the confidence interval is <span class="math inline">\([2.032\)</span>, <span class="math inline">\(4.906]\)</span>. By invariance, the 95% confidence interval for <span class="math inline">\(\theta\)</span> is <span class="math inline">\([0.204, 0.492]\)</span>.</p>
 </div>
-<div id="profile-likelihood" class="section level2">
+<div id="profile-likelihood" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Profile likelihood</h2>
 <p>Sometimes, we may want to perform hypothesis test or derive confidence intervals for selected components of the model. For example, we may be interested in obtaining confidence intervals for a single <span class="math inline">\(\beta_j\)</span> in a logistic regression, treating the other parameters <span class="math inline">\(\boldsymbol{\beta}_{-j}\)</span> as nuisance In this case, the null hypothesis only restricts part of the space and the other parameters, termed nuisance, are left unspecified — the question then is what values to use for comparison with the full model. It turns out that the values that maximize the constrained log likelihood are what one should use for the test, and the particular function in which these nuisance parameters are integrated out is termed a profile likelihood.</p>
 <p>Consider a parametric model with log likelihood function <span class="math inline">\(\ell(\boldsymbol{\theta})\)</span> whose <span class="math inline">\(p\)</span>-dimensional parameter vector <span class="math inline">\(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})\)</span> that can be decomposed into a <span class="math inline">\(q\)</span>-dimensional parameter of interest <span class="math inline">\(\boldsymbol{\psi}\)</span> and a <span class="math inline">\((p-q)\)</span>-dimensional nuisance vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>.</p>
@@ -473,7 +436,6 @@ The profile log likelihood is
 \end{align*}\]</span>
 The maximum profile likelihood estimator is the value <span class="math inline">\(\lambda\)</span> minimizes the sum of squared residuals from the linear model with <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span> as response.
 </div>
-
 <div class="figure" style="text-align: center"><span id="fig:profileplot"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/profileplot-1.png" alt="Profile log likelihood for the Box--Cox transformation for the waiting time data" width="70%" />
 <p class="caption">
@@ -494,7 +456,7 @@ Figure 3.5: Profile log likelihood for <span class="math inline">\(\beta_1\)</sp
 </p>
 </div>
 </div>
-<div id="information-criteria" class="section level2">
+<div id="information-criteria" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Information criteria</h2>
 <p>The likelihood can also serve as building block for model comparison: the larger <span class="math inline">\(\ell(\boldsymbol{\widehat{\theta}})\)</span>, the better the fit. However, the likelihood doesn’t account for model complexity in the sense that more complex models with more parameters lead to higher likelihood. This is not a problem for comparison of nested models using the likelihood ratio test because we look only at relative improvement in fit. There is a danger of <strong>overfitting</strong> if we only consider the likelihood of a model.</p>
 <!-- Software often reports $-2\ell(\boldsymbol{\widehat{\theta}})$, often (improperly) termed **deviance**. -->
@@ -530,16 +492,7 @@ where <span class="math inline">\(k\)</span> is the number of parameters in the 
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
+"sharing": null,
 "fontsettings": {
 "theme": "white",
 "family": "sans",
@@ -557,9 +510,11 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["MATH60604A_Statistical_modelling.pdf"],
 "toc": {
-"collapse": "subsection"
+"collapse": "section",
+"split_by": "section",
+"scroll_highlight": true
 }
 });
 });

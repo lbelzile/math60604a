@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Linear mixed models | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21.4 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Linear mixed models | Statistical Modelling" />
   <meta property="og:type" content="book" />
   
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="github-repo" content="lbelzile/math60604" />
+  <meta name="github-repo" content="lbelzile/math60604a" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="6 Linear mixed models | Statistical Modelling" />
@@ -31,6 +31,7 @@
   
 <link rel="prev" href="correlated-longitudinal-data.html"/>
 <link rel="next" href="survival.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -48,9 +49,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
 <script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
@@ -61,18 +61,17 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +91,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -124,6 +123,7 @@ code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body>
@@ -136,110 +136,76 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Statistical Modelling</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a><ul>
-<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="1.1.1" data-path="intro.html"><a href="intro.html#hypothesis"><i class="fa fa-check"></i><b>1.1.1</b> Hypothesis</a></li>
-<li class="chapter" data-level="1.1.2" data-path="intro.html"><a href="intro.html#test-statistic"><i class="fa fa-check"></i><b>1.1.2</b> Test statistic</a></li>
-<li class="chapter" data-level="1.1.3" data-path="intro.html"><a href="intro.html#null-distribution-and-p-value"><i class="fa fa-check"></i><b>1.1.3</b> Null distribution and <em>p</em>-value</a></li>
-<li class="chapter" data-level="1.1.4" data-path="intro.html"><a href="intro.html#conclusion"><i class="fa fa-check"></i><b>1.1.4</b> Conclusion</a></li>
-<li class="chapter" data-level="1.1.5" data-path="intro.html"><a href="intro.html#power"><i class="fa fa-check"></i><b>1.1.5</b> Power</a></li>
-<li class="chapter" data-level="1.1.6" data-path="intro.html"><a href="intro.html#confidence-interval"><i class="fa fa-check"></i><b>1.1.6</b> Confidence interval</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#polish-your-work"><i class="fa fa-check"></i><b>1.2.1</b> Polish your work</a></li>
-<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#variable-type"><i class="fa fa-check"></i><b>1.2.2</b> Variable type</a></li>
-<li class="chapter" data-level="1.2.3" data-path="intro.html"><a href="intro.html#graphs"><i class="fa fa-check"></i><b>1.2.3</b> Graphs</a></li>
-<li class="chapter" data-level="1.2.4" data-path="intro.html"><a href="intro.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>1.2.4</b> Exploratory data analysis</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a><ul>
+<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
 <li class="chapter" data-level="2.2" data-path="linear-regression.html"><a href="linear-regression.html#ordinary-least-squares"><i class="fa fa-check"></i><b>2.2</b> Ordinary least squares</a></li>
 <li class="chapter" data-level="2.3" data-path="linear-regression.html"><a href="linear-regression.html#interpretation-of-the-model-parameters"><i class="fa fa-check"></i><b>2.3</b> Interpretation of the model parameters</a></li>
-<li class="chapter" data-level="2.4" data-path="linear-regression.html"><a href="linear-regression.html#test-lm"><i class="fa fa-check"></i><b>2.4</b> Tests for parameters of the linear model</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="linear-regression.html"><a href="linear-regression.html#ftestslm"><i class="fa fa-check"></i><b>2.4.1</b> <em>F</em>-tests for comparison of nested linear models</a></li>
-</ul></li>
+<li class="chapter" data-level="2.4" data-path="linear-regression.html"><a href="linear-regression.html#test-lm"><i class="fa fa-check"></i><b>2.4</b> Tests for parameters of the linear model</a></li>
 <li class="chapter" data-level="2.5" data-path="linear-regression.html"><a href="linear-regression.html#coefR2"><i class="fa fa-check"></i><b>2.5</b> Coefficient of determination</a></li>
 <li class="chapter" data-level="2.6" data-path="linear-regression.html"><a href="linear-regression.html#predictions-lm"><i class="fa fa-check"></i><b>2.6</b> Predictions</a></li>
-<li class="chapter" data-level="2.7" data-path="linear-regression.html"><a href="linear-regression.html#interactions"><i class="fa fa-check"></i><b>2.7</b> Interactions</a><ul>
-<li class="chapter" data-level="2.7.1" data-path="linear-regression.html"><a href="linear-regression.html#two-way-anova"><i class="fa fa-check"></i><b>2.7.1</b> Two-way ANOVA</a></li>
-</ul></li>
+<li class="chapter" data-level="2.7" data-path="linear-regression.html"><a href="linear-regression.html#interactions"><i class="fa fa-check"></i><b>2.7</b> Interactions</a></li>
 <li class="chapter" data-level="2.8" data-path="linear-regression.html"><a href="linear-regression.html#collinearity"><i class="fa fa-check"></i><b>2.8</b> Collinearity</a></li>
-<li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a><ul>
-<li class="chapter" data-level="2.9.1" data-path="linear-regression.html"><a href="linear-regression.html#residuals"><i class="fa fa-check"></i><b>2.9.1</b> Residuals</a></li>
-<li class="chapter" data-level="2.9.2" data-path="linear-regression.html"><a href="linear-regression.html#leverage-and-outliers"><i class="fa fa-check"></i><b>2.9.2</b> Leverage and outliers</a></li>
-<li class="chapter" data-level="2.9.3" data-path="linear-regression.html"><a href="linear-regression.html#diagnostic-plots"><i class="fa fa-check"></i><b>2.9.3</b> Diagnostic plots</a></li>
-</ul></li>
+<li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a></li>
 <li class="chapter" data-level="2.10" data-path="linear-regression.html"><a href="linear-regression.html#transformation-response"><i class="fa fa-check"></i><b>2.10</b> Transformation of the response</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a><ul>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="likelihood.html"><a href="likelihood.html#maximum-likelihood"><i class="fa fa-check"></i><b>3.1</b> Maximum likelihood</a></li>
 <li class="chapter" data-level="3.2" data-path="likelihood.html"><a href="likelihood.html#liktests"><i class="fa fa-check"></i><b>3.2</b> Likelihood-based tests</a></li>
 <li class="chapter" data-level="3.3" data-path="likelihood.html"><a href="likelihood.html#profile-likelihood"><i class="fa fa-check"></i><b>3.3</b> Profile likelihood</a></li>
 <li class="chapter" data-level="3.4" data-path="likelihood.html"><a href="likelihood.html#information-criteria"><i class="fa fa-check"></i><b>3.4</b> Information criteria</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a><ul>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#basic-principles"><i class="fa fa-check"></i><b>4.1</b> Basic principles</a></li>
-<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exponential-dispersion-family-of-distributions"><i class="fa fa-check"></i><b>4.2.1</b> Exponential dispersion family of distributions</a></li>
-<li class="chapter" data-level="4.2.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#link-functions"><i class="fa fa-check"></i><b>4.2.2</b> Link functions</a></li>
-<li class="chapter" data-level="4.2.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-adjustment-star"><i class="fa fa-check"></i><b>4.2.3</b> Model adjustment (<span class="math inline">\(\star\)</span>)</a></li>
-<li class="chapter" data-level="4.2.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#likelihood-inference"><i class="fa fa-check"></i><b>4.2.4</b> Likelihood inference</a></li>
-<li class="chapter" data-level="4.2.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#goodness-of-fit-criteria"><i class="fa fa-check"></i><b>4.2.5</b> Goodness-of-fit criteria</a></li>
-<li class="chapter" data-level="4.2.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#residuals-glm"><i class="fa fa-check"></i><b>4.2.6</b> Residuals <span class="math inline">\((\star)\)</span></a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#issues-with-binary-data"><i class="fa fa-check"></i><b>4.3.1</b> Issues with binary data</a></li>
-<li class="chapter" data-level="4.3.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-separation-of-variables"><i class="fa fa-check"></i><b>4.3.2</b> Quasi-separation of variables</a></li>
-<li class="chapter" data-level="4.3.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#diag-plots-binary"><i class="fa fa-check"></i><b>4.3.3</b> Diagnostic plots for binary data (<span class="math inline">\(\star\)</span>)</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#overdispersion"><i class="fa fa-check"></i><b>4.4.1</b> Overdispersion</a></li>
-<li class="chapter" data-level="4.4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#contingency-tables"><i class="fa fa-check"></i><b>4.4.2</b> Contingency tables</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a><ul>
-<li class="chapter" data-level="4.5.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#conditional-binomial-likelihood-for-poisson-counts"><i class="fa fa-check"></i><b>4.5.1</b> Conditional binomial likelihood for Poisson counts</a></li>
-</ul></li>
+<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a></li>
+<li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a></li>
+<li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a></li>
+<li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a></li>
 <li class="chapter" data-level="4.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#rates"><i class="fa fa-check"></i><b>4.6</b> Rates</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a><ul>
+<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html#longitudinal-data"><i class="fa fa-check"></i><b>5.1</b> Longitudinal data</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a><ul>
+<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#partial-pooling"><i class="fa fa-check"></i><b>6.1</b> Partial pooling</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a><ul>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a>
+<ul>
 <li class="chapter" data-level="A.1" data-path="complement.html"><a href="complement.html#population-sample"><i class="fa fa-check"></i><b>A.1</b> Population and samples</a></li>
-<li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a><ul>
-<li class="chapter" data-level="A.2.1" data-path="complement.html"><a href="complement.html#moments"><i class="fa fa-check"></i><b>A.2.1</b> Moments</a></li>
-<li class="chapter" data-level="A.2.2" data-path="complement.html"><a href="complement.html#unbiasedness-and-mean-square-error"><i class="fa fa-check"></i><b>A.2.2</b> Unbiasedness and mean square error</a></li>
-<li class="chapter" data-level="A.2.3" data-path="complement.html"><a href="complement.html#discrete-distributions"><i class="fa fa-check"></i><b>A.2.3</b> Discrete distributions</a></li>
-<li class="chapter" data-level="A.2.4" data-path="complement.html"><a href="complement.html#continuous-distributions"><i class="fa fa-check"></i><b>A.2.4</b> Continuous distributions</a></li>
-<li class="chapter" data-level="A.2.5" data-path="complement.html"><a href="complement.html#diagramme-qq"><i class="fa fa-check"></i><b>A.2.5</b> Quantiles-quantiles plots</a></li>
-</ul></li>
+<li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a></li>
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a><ul>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
+<ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
 <li class="chapter" data-level="B.3" data-path="math.html"><a href="math.html#restricted-estimation-maximum-likelihood"><i class="fa fa-check"></i><b>B.3</b> Restricted estimation maximum likelihood</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a><ul>
-<li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a><ul>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#help"><i class="fa fa-check"></i>Help</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#basic-commands"><i class="fa fa-check"></i>Basic commands</a></li>
-<li><a href="r.html#linear-algebra-in-r">Linear algebra in <strong>R</strong></a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#packages"><i class="fa fa-check"></i>Packages</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#datasets"><i class="fa fa-check"></i>Datasets</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#base-graphics"><i class="fa fa-check"></i>Base graphics</a></li>
-</ul></li>
+<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a></li>
 <li class="chapter" data-level="C.2" data-path="r.html"><a href="r.html#rlmfunc"><i class="fa fa-check"></i><b>C.2</b> Linear models in <strong>R</strong> using the <code>lm</code> function</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -257,7 +223,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="linear-mixed-models" class="section level1">
+<div id="linear-mixed-models" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Linear mixed models</h1>
 <p>A linear mixed model is a two-level hierarchical model of the form</p>
 <p><span class="math display" id="eq:mixedmod">\[\begin{align}
@@ -277,18 +243,36 @@ The specification of <a href="linear-mixed-models.html#eq:mixedmod">(6.1)</a> is
 \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} = (\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\boldsymbol{Y}
 \end{align*}\]</span>
 which is the generalized least square solutions.</p>
-<div id="partial-pooling" class="section level2">
+<div id="partial-pooling" class="section level2" number="6.1">
 <h2><span class="header-section-number">6.1</span> Partial pooling</h2>
-<p>Random effects naturally induce correlation between observations and the conditional mean of <span class="math inline">\(\boldsymbol{Y}_i \mid \mathcal{B}_i\)</span> includes a group-effect. The alternative is to include another fixed effect via an binary indicator of group, <span class="math inline">\(g_i\)</span>. There are many disadvantages to using this latter specification, since new observation or slope for incomplete records cannot be reliably estimated, in addition to having an overparametrized model with in addition no coefficients for explanatory variables that do not change within group.</p>
-<p><img src="MATH60604A_Statistical_modelling_files/figure-html/partialpool1-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<p>There are four diets, and individuals are ordered by their initial weight. We can see that some chicks are lost to follow-up, possibly dead. While this is potentially a form of informative censoring, we will omit it from further analyses.</p>
-<div class="figure" style="text-align: center"><span id="fig:partialpool2"></span>
-<img src="MATH60604A_Statistical_modelling_files/figure-html/partialpool2-1.png" alt="Fitted regression lines for the model with a single common slope (complete pooling) and model with chick-specific intercept and slopes" width="70%" />
+<p>Random effects naturally induce correlation between observations and the conditional mean of <span class="math inline">\(\boldsymbol{Y}_i \mid \mathcal{B}_i\)</span> includes a group-effect. The alternative is to include another fixed effect via an binary indicator of group, <span class="math inline">\(g_i\)</span> and an interaction between time and group indicators, viz. <span class="math inline">\(g_i\cdot \texttt{time}\)</span>. There are many disadvantages to using this latter specification, since new observation or slope for incomplete records cannot be reliably estimated, in addition to having an overparametrized model with in addition no coefficients for explanatory variables that do not change within group.</p>
+<p><a href="https://www.tjmahr.com/plotting-partial-pooling-in-mixed-effects-models/">Tristan Mahr masterfully illustrated in a blog post</a> the shrinkage of random effects. The following section is adapted from his code (with the code hidden to streamline the argument).</p>
+
+<div class="example">
+<span id="exm:chickcurve" class="example"><strong>Example 6.1  (Chicken growth curve)  </strong></span>We consider for illustration the growth curves of chicken who are administered four different diets. The purpose of the study was to determine which diet was most effective for weight gain.
+</div>
+<div class="figure" style="text-align: center"><span id="fig:partialpool1"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/partialpool1-1.png" alt="Chicken weight growth curve, ordered by weight. Each row corresponds to a different diet." width="70%" />
 <p class="caption">
-Figure 6.1: Fitted regression lines for the model with a single common slope (complete pooling) and model with chick-specific intercept and slopes
+Figure 6.1: Chicken weight growth curve, ordered by weight. Each row corresponds to a different diet.
 </p>
 </div>
-<p>We can compare the group effect obtained by including in the model matrix <span class="math inline">\(\mathbf{X}\)</span></p>
+<p>The spaghetti plot of Figure <a href="linear-mixed-models.html#fig:partialpool1">6.1</a> shows selected individuals, ordered by their initial weight. We can see that some chicks are lost to follow-up, possibly dead, for the first diet type. While this is potentially a form of informative censoring, we will omit it from further analyses due to lack of additional information. Overall, the slopes seem steeper on average for diets 3–4. We omit diet from subsequent analyses, but including an interaction between age and diet, in addition to main effects, seems an adequate way to capture these differences. There are also variability within diet, as not all chicks have the same daily weight gain.</p>
+<p>We can compare the group effect to a linear model with no pooling obtained by including a common slope for <span class="math inline">\(\texttt{time}\)</span> in the model matrix <span class="math inline">\(\mathbf{X}\)</span> and no group-specific intercept. This scenario corresponds to no pooling or “one size fits all.” This solution would differ slightly from the mixed model because it would simply pool all observations at a given time, whereas the mixed model account for the fact individuals are repeated within individuals.</p>
+<p>The main remaining question is related to discrepancies between conditional predictions from the mixed model with random intercepts and slopes and the model that includes fixed effects with different intercepts and slopes for each chick. It turns out that the specification of the normal random effects induces <strong>shrinkage</strong> towards zero of the random effect, and thus the conditional predictions (predictions of the random effects added to the fixed effects) are closer than their fixed effects counterparts, which is itself close to the global average intercept/slope. Most of the time, this effect is barely distinguishable in plots, as shown in Figure <a href="linear-mixed-models.html#fig:partpooldf">6.2</a>. The only exception seems to be in cases where the number of observations per group is small, in which case the conditional and marginal predictions are close.</p>
+<div class="figure" style="text-align: center"><span id="fig:partpooldf"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/partpooldf-1.png" alt="Partial pooling of coefficients for chicken data. Fitted regression lines for the model with a single common slope (complete pooling) and model with chick-specific intercept and slopes (no pooling). The conditional predictions are very close to individual slopes and barely distinguishable, except for chicken with fewer data points were they lie closer to the overall mean, one-size-fits-all model (i.e., complete pooling)." width="70%" />
+<p class="caption">
+Figure 6.2: Partial pooling of coefficients for chicken data. Fitted regression lines for the model with a single common slope (complete pooling) and model with chick-specific intercept and slopes (no pooling). The conditional predictions are very close to individual slopes and barely distinguishable, except for chicken with fewer data points were they lie closer to the overall mean, one-size-fits-all model (i.e., complete pooling).
+</p>
+</div>
+<p>To better visualize this effect, we look at contour lines from the bivariate normal distribution of the random effects. This highlight the impact of having independent slope and intercept (circular contour curves for the bivariate normal distribution of the random effects). The arrows on Figure <a href="linear-mixed-models.html#fig:topomap">6.3</a> illustrate this shrinkage effect: the points move towards region of higher density according to the random effect estimated density.</p>
+<div class="figure" style="text-align: center"><span id="fig:topomap"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/topomap-1.png" alt="Graph of conditional predictions for the model with correlated (left) and independent (right) random effects on the intercept and slope of the chicken weight data. The conditional predictions, which include the predicted random effect specific to each chick, are shrunk towards the fixed effect, located in regions. The normal specification on the random errors induces a penalty for the estimates, which explains shrinkage. Adding correlation changes the shape of the penalty region (ellipsoidal rather than circular), thus inducing different constraints. Shorter series (fewer observations by chicken) are shrunk more towards the global estimated average." width="70%" />
+<p class="caption">
+Figure 6.3: Graph of conditional predictions for the model with correlated (left) and independent (right) random effects on the intercept and slope of the chicken weight data. The conditional predictions, which include the predicted random effect specific to each chick, are shrunk towards the fixed effect, located in regions. The normal specification on the random errors induces a penalty for the estimates, which explains shrinkage. Adding correlation changes the shape of the penalty region (ellipsoidal rather than circular), thus inducing different constraints. Shorter series (fewer observations by chicken) are shrunk more towards the global estimated average.
+</p>
+</div>
 
 </div>
 </div>
@@ -313,16 +297,7 @@ Figure 6.1: Fitted regression lines for the model with a single common slope (co
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
+"sharing": null,
 "fontsettings": {
 "theme": "white",
 "family": "sans",
@@ -340,9 +315,11 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["MATH60604A_Statistical_modelling.pdf"],
 "toc": {
-"collapse": "subsection"
+"collapse": "section",
+"split_by": "section",
+"scroll_highlight": true
 }
 });
 });

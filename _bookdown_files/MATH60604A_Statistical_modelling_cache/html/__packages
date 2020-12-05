@@ -15,3 +15,6 @@ forecast
 carData
 car
 boot
+ggmosaic
+Matrix
+lme4

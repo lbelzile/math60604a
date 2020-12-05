@@ -13,7 +13,7 @@ papersize: letter
 bibliography: [book.bib, packages.bib, notes60604.bib]
 biblio-style: apalike2
 link-citations: yes
-github-repo: lbelzile/math60604
+github-repo: lbelzile/math60604a
 always_allow_html: yes
 links-as-notes: false
 description: "This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics)  at HEC Montréal."

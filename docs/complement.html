@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>A Complements | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21.4 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="A Complements | Statistical Modelling" />
   <meta property="og:type" content="book" />
   
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="github-repo" content="lbelzile/math60604" />
+  <meta name="github-repo" content="lbelzile/math60604a" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="A Complements | Statistical Modelling" />
@@ -31,6 +31,7 @@
   
 <link rel="prev" href="survival.html"/>
 <link rel="next" href="math.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -48,9 +49,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
 <script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
@@ -61,18 +61,17 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +91,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -124,6 +123,7 @@ code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body>
@@ -136,110 +136,76 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Statistical Modelling</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a><ul>
-<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="1.1.1" data-path="intro.html"><a href="intro.html#hypothesis"><i class="fa fa-check"></i><b>1.1.1</b> Hypothesis</a></li>
-<li class="chapter" data-level="1.1.2" data-path="intro.html"><a href="intro.html#test-statistic"><i class="fa fa-check"></i><b>1.1.2</b> Test statistic</a></li>
-<li class="chapter" data-level="1.1.3" data-path="intro.html"><a href="intro.html#null-distribution-and-p-value"><i class="fa fa-check"></i><b>1.1.3</b> Null distribution and <em>p</em>-value</a></li>
-<li class="chapter" data-level="1.1.4" data-path="intro.html"><a href="intro.html#conclusion"><i class="fa fa-check"></i><b>1.1.4</b> Conclusion</a></li>
-<li class="chapter" data-level="1.1.5" data-path="intro.html"><a href="intro.html#power"><i class="fa fa-check"></i><b>1.1.5</b> Power</a></li>
-<li class="chapter" data-level="1.1.6" data-path="intro.html"><a href="intro.html#confidence-interval"><i class="fa fa-check"></i><b>1.1.6</b> Confidence interval</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to statistical inference</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#tests"><i class="fa fa-check"></i><b>1.1</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#eda"><i class="fa fa-check"></i><b>1.2</b> Exploratory Data Analysis</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#polish-your-work"><i class="fa fa-check"></i><b>1.2.1</b> Polish your work</a></li>
-<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#variable-type"><i class="fa fa-check"></i><b>1.2.2</b> Variable type</a></li>
-<li class="chapter" data-level="1.2.3" data-path="intro.html"><a href="intro.html#graphs"><i class="fa fa-check"></i><b>1.2.3</b> Graphs</a></li>
-<li class="chapter" data-level="1.2.4" data-path="intro.html"><a href="intro.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>1.2.4</b> Exploratory data analysis</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a><ul>
+<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
 <li class="chapter" data-level="2.2" data-path="linear-regression.html"><a href="linear-regression.html#ordinary-least-squares"><i class="fa fa-check"></i><b>2.2</b> Ordinary least squares</a></li>
 <li class="chapter" data-level="2.3" data-path="linear-regression.html"><a href="linear-regression.html#interpretation-of-the-model-parameters"><i class="fa fa-check"></i><b>2.3</b> Interpretation of the model parameters</a></li>
-<li class="chapter" data-level="2.4" data-path="linear-regression.html"><a href="linear-regression.html#test-lm"><i class="fa fa-check"></i><b>2.4</b> Tests for parameters of the linear model</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="linear-regression.html"><a href="linear-regression.html#ftestslm"><i class="fa fa-check"></i><b>2.4.1</b> <em>F</em>-tests for comparison of nested linear models</a></li>
-</ul></li>
+<li class="chapter" data-level="2.4" data-path="linear-regression.html"><a href="linear-regression.html#test-lm"><i class="fa fa-check"></i><b>2.4</b> Tests for parameters of the linear model</a></li>
 <li class="chapter" data-level="2.5" data-path="linear-regression.html"><a href="linear-regression.html#coefR2"><i class="fa fa-check"></i><b>2.5</b> Coefficient of determination</a></li>
 <li class="chapter" data-level="2.6" data-path="linear-regression.html"><a href="linear-regression.html#predictions-lm"><i class="fa fa-check"></i><b>2.6</b> Predictions</a></li>
-<li class="chapter" data-level="2.7" data-path="linear-regression.html"><a href="linear-regression.html#interactions"><i class="fa fa-check"></i><b>2.7</b> Interactions</a><ul>
-<li class="chapter" data-level="2.7.1" data-path="linear-regression.html"><a href="linear-regression.html#two-way-anova"><i class="fa fa-check"></i><b>2.7.1</b> Two-way ANOVA</a></li>
-</ul></li>
+<li class="chapter" data-level="2.7" data-path="linear-regression.html"><a href="linear-regression.html#interactions"><i class="fa fa-check"></i><b>2.7</b> Interactions</a></li>
 <li class="chapter" data-level="2.8" data-path="linear-regression.html"><a href="linear-regression.html#collinearity"><i class="fa fa-check"></i><b>2.8</b> Collinearity</a></li>
-<li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a><ul>
-<li class="chapter" data-level="2.9.1" data-path="linear-regression.html"><a href="linear-regression.html#residuals"><i class="fa fa-check"></i><b>2.9.1</b> Residuals</a></li>
-<li class="chapter" data-level="2.9.2" data-path="linear-regression.html"><a href="linear-regression.html#leverage-and-outliers"><i class="fa fa-check"></i><b>2.9.2</b> Leverage and outliers</a></li>
-<li class="chapter" data-level="2.9.3" data-path="linear-regression.html"><a href="linear-regression.html#diagnostic-plots"><i class="fa fa-check"></i><b>2.9.3</b> Diagnostic plots</a></li>
-</ul></li>
+<li class="chapter" data-level="2.9" data-path="linear-regression.html"><a href="linear-regression.html#graphical-analysis-of-residuals"><i class="fa fa-check"></i><b>2.9</b> Graphical analysis of residuals</a></li>
 <li class="chapter" data-level="2.10" data-path="linear-regression.html"><a href="linear-regression.html#transformation-response"><i class="fa fa-check"></i><b>2.10</b> Transformation of the response</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a><ul>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> Likelihood-based inference</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="likelihood.html"><a href="likelihood.html#maximum-likelihood"><i class="fa fa-check"></i><b>3.1</b> Maximum likelihood</a></li>
 <li class="chapter" data-level="3.2" data-path="likelihood.html"><a href="likelihood.html#liktests"><i class="fa fa-check"></i><b>3.2</b> Likelihood-based tests</a></li>
 <li class="chapter" data-level="3.3" data-path="likelihood.html"><a href="likelihood.html#profile-likelihood"><i class="fa fa-check"></i><b>3.3</b> Profile likelihood</a></li>
 <li class="chapter" data-level="3.4" data-path="likelihood.html"><a href="likelihood.html#information-criteria"><i class="fa fa-check"></i><b>3.4</b> Information criteria</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a><ul>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized linear models</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#basic-principles"><i class="fa fa-check"></i><b>4.1</b> Basic principles</a></li>
-<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exponential-dispersion-family-of-distributions"><i class="fa fa-check"></i><b>4.2.1</b> Exponential dispersion family of distributions</a></li>
-<li class="chapter" data-level="4.2.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#link-functions"><i class="fa fa-check"></i><b>4.2.2</b> Link functions</a></li>
-<li class="chapter" data-level="4.2.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-adjustment-star"><i class="fa fa-check"></i><b>4.2.3</b> Model adjustment (<span class="math inline">\(\star\)</span>)</a></li>
-<li class="chapter" data-level="4.2.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#likelihood-inference"><i class="fa fa-check"></i><b>4.2.4</b> Likelihood inference</a></li>
-<li class="chapter" data-level="4.2.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#goodness-of-fit-criteria"><i class="fa fa-check"></i><b>4.2.5</b> Goodness-of-fit criteria</a></li>
-<li class="chapter" data-level="4.2.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#residuals-glm"><i class="fa fa-check"></i><b>4.2.6</b> Residuals <span class="math inline">\((\star)\)</span></a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#issues-with-binary-data"><i class="fa fa-check"></i><b>4.3.1</b> Issues with binary data</a></li>
-<li class="chapter" data-level="4.3.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#quasi-separation-of-variables"><i class="fa fa-check"></i><b>4.3.2</b> Quasi-separation of variables</a></li>
-<li class="chapter" data-level="4.3.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#diag-plots-binary"><i class="fa fa-check"></i><b>4.3.3</b> Diagnostic plots for binary data (<span class="math inline">\(\star\)</span>)</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#overdispersion"><i class="fa fa-check"></i><b>4.4.1</b> Overdispersion</a></li>
-<li class="chapter" data-level="4.4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#contingency-tables"><i class="fa fa-check"></i><b>4.4.2</b> Contingency tables</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a><ul>
-<li class="chapter" data-level="4.5.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#conditional-binomial-likelihood-for-poisson-counts"><i class="fa fa-check"></i><b>4.5.1</b> Conditional binomial likelihood for Poisson counts</a></li>
-</ul></li>
+<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#theory-of-generalized-linear-models"><i class="fa fa-check"></i><b>4.2</b> Theory of generalized linear models</a></li>
+<li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-responses"><i class="fa fa-check"></i><b>4.3</b> Binary responses</a></li>
+<li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>4.4</b> Count data</a></li>
+<li class="chapter" data-level="4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#modelling-proportions"><i class="fa fa-check"></i><b>4.5</b> Modelling proportions</a></li>
 <li class="chapter" data-level="4.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#rates"><i class="fa fa-check"></i><b>4.6</b> Rates</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a><ul>
+<li class="chapter" data-level="5" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html"><i class="fa fa-check"></i><b>5</b> Correlated and longitudinal data</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="correlated-longitudinal-data.html"><a href="correlated-longitudinal-data.html#longitudinal-data"><i class="fa fa-check"></i><b>5.1</b> Longitudinal data</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a><ul>
+<li class="chapter" data-level="6" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html"><i class="fa fa-check"></i><b>6</b> Linear mixed models</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="linear-mixed-models.html"><a href="linear-mixed-models.html#partial-pooling"><i class="fa fa-check"></i><b>6.1</b> Partial pooling</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7</b> Survival analysis</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a><ul>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Complements</a>
+<ul>
 <li class="chapter" data-level="A.1" data-path="complement.html"><a href="complement.html#population-sample"><i class="fa fa-check"></i><b>A.1</b> Population and samples</a></li>
-<li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a><ul>
-<li class="chapter" data-level="A.2.1" data-path="complement.html"><a href="complement.html#moments"><i class="fa fa-check"></i><b>A.2.1</b> Moments</a></li>
-<li class="chapter" data-level="A.2.2" data-path="complement.html"><a href="complement.html#unbiasedness-and-mean-square-error"><i class="fa fa-check"></i><b>A.2.2</b> Unbiasedness and mean square error</a></li>
-<li class="chapter" data-level="A.2.3" data-path="complement.html"><a href="complement.html#discrete-distributions"><i class="fa fa-check"></i><b>A.2.3</b> Discrete distributions</a></li>
-<li class="chapter" data-level="A.2.4" data-path="complement.html"><a href="complement.html#continuous-distributions"><i class="fa fa-check"></i><b>A.2.4</b> Continuous distributions</a></li>
-<li class="chapter" data-level="A.2.5" data-path="complement.html"><a href="complement.html#diagramme-qq"><i class="fa fa-check"></i><b>A.2.5</b> Quantiles-quantiles plots</a></li>
-</ul></li>
+<li class="chapter" data-level="A.2" data-path="complement.html"><a href="complement.html#random-variable"><i class="fa fa-check"></i><b>A.2</b> Random variable</a></li>
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a><ul>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
+<ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
 <li class="chapter" data-level="B.3" data-path="math.html"><a href="math.html#restricted-estimation-maximum-likelihood"><i class="fa fa-check"></i><b>B.3</b> Restricted estimation maximum likelihood</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a><ul>
-<li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a><ul>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#help"><i class="fa fa-check"></i>Help</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#basic-commands"><i class="fa fa-check"></i>Basic commands</a></li>
-<li><a href="r.html#linear-algebra-in-r">Linear algebra in <strong>R</strong></a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#packages"><i class="fa fa-check"></i>Packages</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#datasets"><i class="fa fa-check"></i>Datasets</a></li>
-<li class="chapter" data-level="" data-path="r.html"><a href="r.html#base-graphics"><i class="fa fa-check"></i>Base graphics</a></li>
-</ul></li>
+<li class="chapter" data-level="C" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>C</b> <strong>R</strong></a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="r.html"><a href="r.html#basics-of-r"><i class="fa fa-check"></i><b>C.1</b> Basics of <strong>R</strong></a></li>
 <li class="chapter" data-level="C.2" data-path="r.html"><a href="r.html#rlmfunc"><i class="fa fa-check"></i><b>C.2</b> Linear models in <strong>R</strong> using the <code>lm</code> function</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -257,9 +223,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="complement" class="section level1">
+<div id="complement" class="section level1" number="8">
 <h1><span class="header-section-number">A</span> Complements</h1>
-<div id="population-sample" class="section level2">
+<div id="population-sample" class="section level2" number="8.1">
 <h2><span class="header-section-number">A.1</span> Population and samples</h2>
 <p>Statistics is the science of uncertainty quantification: of paramount importance is the notion of randomness. Generally, we will seek to estimate characteristics of a population using only a sample (a sub-group of the population of smaller size).</p>
 <p>The <strong>population of interest</strong> is a collection of individuals which the study targets. For example, the Labour Force Survey (LFS) is a monthly study conducted by Statistics Canada, who define the target population as “all members of the selected household who are 15 years old and older, whether they work or not.” Asking every Canadian meeting this definition would be costly and the process would be long: the characteristic of interest (employment) is also a snapshot in time and can vary when the person leaves a job, enters the job market or become unemployed.</p>
@@ -275,9 +241,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <em>The Literary Digest</em> surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57%) over incumbent President Franklin D. Roosevelt (43%). The latter nevertheless won in a landslide election with 62% of votes cast, a 19% forecast error. <a href="https://www.jstor.org/stable/2749114">Biased sampling and differential non-response are mostly responsible for the error:</a> the sampling frame was built using ``phone number directories, drivers’ registrations, club memberships, etc.’’, all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.</p>
 In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. <a href="https://medium.com/@ozanozbey/how-not-to-sample-11579793dac">Read the full story here.</a>
 </div>
-
 </div>
-<div id="random-variable" class="section level2">
+<div id="random-variable" class="section level2" number="8.2">
 <h2><span class="header-section-number">A.2</span> Random variable</h2>
 <p>Suppose we wish to describe the behaviour of a stochastic phenomenon. To this effect, one should enumerate the set of possible values taken by the variable of interest and their probability: this is what is encoded in the distribution. We will distinguish between two cases: discrete and continuous variables. Random variables are denoted using capital letters: for example <span class="math inline">\(Y \sim \mathsf{No}(\mu, \sigma^2)\)</span> indicates that <span class="math inline">\(Y\)</span> follows a normal distribution with parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>, which represent respectively the expectation and variance of <span class="math inline">\(Y\)</span>.</p>
 <p>The (cumulative) distribution function <span class="math inline">\(F(y)\)</span> gives the cumulative probability that an event doesn’t exceed a given numerical value <span class="math inline">\(y\)</span>, <span class="math inline">\(F(y) = \mathsf{Pr}(Y \leq y)\)</span>.</p>
@@ -288,7 +253,7 @@ In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabi
 Figure A.1: (Cumulative) distribution functions (top) and density/mass functions (bottom) of continuous (left) and discrete (right) random variables.
 </p>
 </div>
-<div id="moments" class="section level3">
+<div id="moments" class="section level3" number="8.2.1">
 <h3><span class="header-section-number">A.2.1</span> Moments</h3>
 <p>One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.</p>
 <p>Let <span class="math inline">\(Y\)</span> be a random variable with density (or mass) function <span class="math inline">\(f(x)\)</span>. This function is non-negative and satisfies <span class="math inline">\(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\)</span>: the integral over a set <span class="math inline">\(B\)</span> gives the probability of <span class="math inline">\(Y\)</span> falling inside <span class="math inline">\(B \in \mathbb{R}\)</span>.</p>
@@ -339,7 +304,7 @@ The correlation matrix of <span class="math inline">\(\boldsymbol{Y}\)</span> is
 One of the most important parts of modelling
 correlated (or longitudinal) data is the need to account for within-group correlations. This basically comes down to modelling a covariance matrix for observations within the same group (or within the same individual in the case of repeated measures), which is the object of <a href="correlated-longitudinal-data">Chapter 5</a>.</p>
 </div>
-<div id="unbiasedness-and-mean-square-error" class="section level3">
+<div id="unbiasedness-and-mean-square-error" class="section level3" number="8.2.2">
 <h3><span class="header-section-number">A.2.2</span> Unbiasedness and mean square error</h3>
 <p>An estimator <span class="math inline">\(\hat{\theta}\)</span> for a parameter <span class="math inline">\(\theta\)</span> is unbiased if its bias <span class="math inline">\(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\)</span> is zero.
 The unbiased estimator of the mean and the variance of <span class="math inline">\(Y\)</span> are
@@ -352,7 +317,7 @@ The mean squared error is an objective function consisting of the sum of the squ
 <p>An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.</p>
 <p>The <a href="likelihood">likelihood of a sample</a> is the joint density of the <span class="math inline">\(n\)</span> observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.</p>
 </div>
-<div id="discrete-distributions" class="section level3">
+<div id="discrete-distributions" class="section level3" number="8.2.3">
 <h3><span class="header-section-number">A.2.3</span> Discrete distributions</h3>
 
 <div class="example">
@@ -378,7 +343,6 @@ Many research questions have binary responses, for example:</p>
 The likelihood of a sample from a binomial distribution is (up to a normalizing constant that doesn’t depend on <span class="math inline">\(\pi\)</span>) the same as that of <span class="math inline">\(m\)</span>independent Bernoulli trials. The expectation of the binomial random variable is <span class="math inline">\(\mathsf{E}(Y)=m\pi\)</span> and its variance <span class="math inline">\(\mathsf{Va}(Y)=m\pi(1-\pi)\)</span>.</p>
 <p>As examples, we could consider the number of successful candidates out of <span class="math inline">\(m\)</span> who passed their driving license test or the number of customers out of <span class="math inline">\(m\)</span> total which spent more than 10$ in a store.</p>
 </div>
-
 <p>More generally, we can also consider count variables whose realizations are integer-valued, for examples the number of</p>
 <ul>
 <li>insurance claims made by a policyholder over a year,</li>
@@ -394,7 +358,6 @@ The likelihood of a sample from a binomial distribution is (up to a normalizing 
 For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.
 </div>
 
-
 <div class="example">
 <p><span id="exm:poissondist" class="example"><strong>Example A.5  (Poisson distribution)  </strong></span>If the probability of success <span class="math inline">\(\pi\)</span> of a Bernoulli event is small in the sense that <span class="math inline">\(m\pi \to \lambda\)</span> when the number of trials <span class="math inline">\(m\)</span> increases, then the number of success follows approximately a Poisson distribution with mass function
 <span class="math display">\[\begin{align*}
@@ -402,7 +365,6 @@ For example, we could model the numbers of visits for a house on sale before the
 \end{align*}\]</span>
 where <span class="math inline">\(\Gamma(\cdot)\)</span> denotes the gamma function. The parameter <span class="math inline">\(\lambda\)</span> of the Poisson distribution is both the expectation and the variance of the distribution, meaning <span class="math inline">\(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\)</span>.</p>
 </div>
-
 
 <div class="example">
 <p><span id="exm:negbindist" class="example"><strong>Example A.6  (Negative binomial distribution)  </strong></span>The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> until we obtain <span class="math inline">\(m\)</span> success. Let <span class="math inline">\(Y\)</span> denote the number of failures: the order of success and failure doesn’t matter, but for the latest trial which is a success. The mass function is thus
@@ -417,9 +379,8 @@ In the context of generalized linear models, we will employ yet another parametr
 where <span class="math inline">\(\Gamma\)</span> is the gamma function and the parameter <span class="math inline">\(r&gt;0\)</span> is not anymore integer valued. The expectation and variance of <span class="math inline">\(Y\)</span> are
 <span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, where <span class="math inline">\(k=1/r\)</span>. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
 </div>
-
 </div>
-<div id="continuous-distributions" class="section level3">
+<div id="continuous-distributions" class="section level3" number="8.2.4">
 <h3><span class="header-section-number">A.2.4</span> Continuous distributions</h3>
 <p>We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.</p>
 
@@ -436,12 +397,10 @@ f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \f
 The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations, whereas <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of <span class="math inline">\(\boldsymbol{Y}\)</span>. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.
 </div>
 
-
 <div class="example">
 <p><span id="exm:chisqdist" class="example"><strong>Example A.8  (Chi-square distribution)  </strong></span>The chi-square distribution arises as null distribution of likelihood-based test. If <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\)</span>, i.e., all components are independent and centered <span class="math inline">\(Y_i \sim \mathsf{No}(0, 1)\)</span>, then <span class="math inline">\(\sum_{i=1}^p Y_i^2\)</span> follows a chi-square distribution with <span class="math inline">\(p\)</span> degrees of freedom, denote <span class="math inline">\(\chi^2_p\)</span>. The square of a standard normal variate likewise follows a <span class="math inline">\(\chi^2_1\)</span> distribution.</p>
 <p>If we consider a sample of <span class="math inline">\(n\)</span> normally distributed observations, the sample variance <span class="math inline">\((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\)</span>.</p>
 </div>
-
 
 <div class="example">
 <p><span id="exm:studentdist" class="example"><strong>Example A.9  (Student-<span class="math inline">\(t\)</span> distribution)  </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
@@ -456,9 +415,8 @@ f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2
 the distribution has polynomial tails, is symmetric around <span class="math inline">\(0\)</span> and unimodal. As <span class="math inline">\(\nu \to \infty\)</span>, the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first <span class="math inline">\(\nu-1\)</span> moments of the distribution exist, so a Student distribution with <span class="math inline">\(\nu=2\)</span> degrees of freedom has infinite variance.</p>
 For normally distributed data, the centered sample mean divided by the sample variance, <span class="math inline">\((\overline{Y}-\mu)/S^2\)</span> follows a Student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom, which explains the terminology <span class="math inline">\(t\)</span>-tests.
 </div>
-
 </div>
-<div id="diagramme-qq" class="section level3">
+<div id="diagramme-qq" class="section level3" number="8.2.5">
 <h3><span class="header-section-number">A.2.5</span> Quantiles-quantiles plots</h3>
 <p>Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if <span class="math inline">\(Y\)</span> is a continuous random variable with distribution function <span class="math inline">\(F\)</span>, then the mapping <span class="math inline">\(F(Y) \sim \mathsf{U}(0,1)\)</span> yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from <span class="math inline">\(F\)</span>, viz. <span class="math inline">\(F^{-1}(U)\)</span>. Consider then a random sample of size <span class="math inline">\(n\)</span> from the uniform distribution ordered from smallest to largest, with <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}\)</span>. One can show these ranks have marginally a Beta distribution, <span class="math inline">\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\)</span> with expectation <span class="math inline">\(k/(n+1)\)</span>.</p>
 <p>In practice, we don’t know <span class="math inline">\(F\)</span> and, even if we did, one would need to estimate the parameters. We consider some estimator <span class="math inline">\(\widehat{F}\)</span> for the model and apply the inverse transform to an approximate uniform sample <span class="math inline">\(\{i/(n+1)\}_{i=1}^n\)</span>. The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:</p>
@@ -484,13 +442,13 @@ Figure A.2: Normal quantile-quantile plot (left) and detrended version (Tukey’
 <p>Interpretation of quantile-quantile plots requires some experience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">this post by <em>Glen_b</em> on StackOverflow</a> nicely summarizes what can be detected (or not) from them.</p>
 </div>
 </div>
-<div id="law-large-numbers" class="section level2">
+<div id="law-large-numbers" class="section level2" number="8.3">
 <h2><span class="header-section-number">A.3</span> Laws of large numbers</h2>
 <p>An estimator for a parameter <span class="math inline">\(\theta\)</span> is <strong>consistent</strong> if the value obtained as the sample size increases (to infinity) converges to the true value of <span class="math inline">\(\theta\)</span>. Mathematically speaking, this translates into convergence in probability, meaning <span class="math inline">\(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta\)</span>. In common language, we say that the probability that <span class="math inline">\(\hat{\theta}\)</span> and <span class="math inline">\(\theta\)</span> differ becomes negligible as <span class="math inline">\(n\)</span> gets large.</p>
 <p>Consistency is the <em>a minima</em> requirement for an estimator: when we collect more information, we should approach the truth. The law of large number states that the sample mean of <span class="math inline">\(n\)</span> (independent) observations with common mean <span class="math inline">\(\mu\)</span>, say <span class="math inline">\(\overline{Y}_n\)</span>, converges to <span class="math inline">\(\mu\)</span>, denoted <span class="math inline">\(\overline{Y}_n \rightarrow \mu\)</span>. Roughly speaking, our approximation becomes less variable and asymptotically unbiased as the sample size (and thus the quantity of information available for the parameter) increases. The law of large number is featured in Monte Carlo experiments: we can approximate the expectation of some (complicated) function <span class="math inline">\(g(x)\)</span> by simulating repeatedly independent draws from <span class="math inline">\(Y\)</span> and calculating the sample mean <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i)\)</span>.</p>
 <p>If the law of large number tells us what happens in the limit (we get a single numerical value), the result doesn’t contain information about the rate of convergence and the uncertainty at finite levels.</p>
 </div>
-<div id="CLT" class="section level2">
+<div id="CLT" class="section level2" number="8.4">
 <h2><span class="header-section-number">A.4</span> Central Limit Theorem</h2>
 <p>The central limit theorem is perhaps the flagship result of probability theory: for a random sample of size <span class="math inline">\(n\)</span> with (independent) random variables whose expectation is <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, then the sample mean converges to <span class="math inline">\(\mu\)</span>, but</p>
 <ul>
@@ -541,16 +499,7 @@ Figure A.4: Graphical representation of the central limit theorem. The upper lef
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
+"sharing": null,
 "fontsettings": {
 "theme": "white",
 "family": "sans",
@@ -568,9 +517,11 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["MATH60604A_Statistical_modelling.pdf"],
 "toc": {
-"collapse": "subsection"
+"collapse": "section",
+"split_by": "section",
+"scroll_highlight": true
 }
 });
 });

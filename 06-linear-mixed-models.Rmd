@@ -28,14 +28,18 @@ which is the generalized least square solutions.
 
 ## Partial pooling
 
-Random effects naturally induce correlation between observations and the conditional mean of $\boldsymbol{Y}_i \mid \mathcal{B}_i$ includes a group-effect. The alternative is to include another fixed effect via an binary indicator of group, $g_i$. There are many disadvantages to using this latter specification, since new observation or slope for incomplete records cannot be reliably estimated, in addition to having an overparametrized model with in addition no coefficients for explanatory variables that do not change within group.
+Random effects naturally induce correlation between observations and the conditional mean of $\boldsymbol{Y}_i \mid \mathcal{B}_i$ includes a group-effect. The alternative is to include another fixed effect via an binary indicator of group, $g_i$ and an interaction between time and group indicators, viz. $g_i\cdot \texttt{time}$. There are many disadvantages to using this latter specification, since new observation or slope for incomplete records cannot be reliably estimated, in addition to having an overparametrized model with in addition no coefficients for explanatory variables that do not change within group.
+
+[Tristan Mahr masterfully illustrated in a blog post](https://www.tjmahr.com/plotting-partial-pooling-in-mixed-effects-models/) the shrinkage of random effects. The following section is adapted from his code (with the code hidden to streamline the argument).
+
+```{example, name = "Chicken growth curve", label='chickcurve'}
+We consider for illustration the growth curves of chicken who are administered four different diets. The purpose of the study was to determine which diet was most effective for weight gain. 
+```
 
 
-
-
-```{r partialpool1, echo = FALSE, eval = TRUE}
-
-library(ggplot2)
+```{r partialpool1, echo = FALSE, eval = TRUE, fig.cap = "Chicken weight growth curve, ordered by weight. Each row corresponds to a different diet.", cache = TRUE}
+library(lme4)
+# library(ggplot2)
 data(ChickWeight)
 xlab <- "days since birth"
 ylab <- "body weight of chick (in grams)"
@@ -60,9 +64,9 @@ ggplot(data = CWsub) +
 
 ```
 
-There are four diets, and individuals are ordered by their initial weight. We can see that some chicks are lost to follow-up, possibly dead. While this is potentially a form of informative censoring, we will omit it from further analyses.
+The spaghetti plot of Figure \@ref(fig:partialpool1) shows selected individuals, ordered by their initial weight. We can see that some chicks are lost to follow-up, possibly dead, for the first diet type. While this is potentially a form of informative censoring, we will omit it from further analyses due to lack of additional information. Overall, the slopes seem steeper on average for diets 3--4. We omit diet from subsequent analyses, but including an interaction between age and diet, in addition to main effects, seems an adequate way to capture these differences. There are also variability within diet, as not all chicks have the same daily weight gain.
 
-```{r partialpool2, eval = TRUE, echo = FALSE, fig.cap = "Fitted regression lines for the model with a single common slope (complete pooling) and model with chick-specific intercept and slopes"}
+```{r partialpool2, eval = TRUE, echo = FALSE,cache = TRUE}
 df_no_pooling <- nlme::lmList(weight ~ time | chick, data = CWsub) %>% 
   coef() %>% 
   # Subject IDs are stored as row-names. Make them an explicit column
@@ -95,8 +99,178 @@ p_model_comparison <- ggplot(df_models) +
   scale_x_continuous(breaks = 0:4 * 5) + 
   theme(legend.position = "top")
 
-p_model_comparison
+# p_model_comparison
 
 ```
 
-We can compare the group effect obtained by including in the model matrix $\mathbf{X}$ 
+We can compare the group effect to a linear model with no pooling obtained by including a common slope for $\texttt{time}$  in the model matrix $\mathbf{X}$ and no group-specific intercept. This scenario corresponds to no pooling or "one size fits all". This solution would differ slightly from the mixed model because it would simply pool all observations at a given time, whereas the mixed model account for the fact individuals are repeated within individuals. 
+
+The main remaining question is related to discrepancies between conditional predictions from the mixed model with random intercepts and slopes and the model that includes fixed effects with different intercepts and slopes for each chick. It turns out that the specification of the normal random effects induces **shrinkage** towards zero of the random effect, and thus the conditional predictions (predictions of the random effects added to the fixed effects) are closer than their fixed effects counterparts, which is itself close to the global average intercept/slope. Most of the time, this effect is barely distinguishable in plots, as shown in Figure \@ref(fig:partpooldf). The only exception seems to be in cases where the number of observations per group is small, in which case the conditional and marginal predictions are close.
+
+```{r partpooldf, echo = FALSE, fig.cap = "Partial pooling of coefficients for chicken data. Fitted regression lines for the model with a single common slope (complete pooling) and model with chick-specific intercept and slopes (no pooling). The conditional predictions are very close to individual slopes and barely distinguishable, except for chicken with fewer data points were they lie closer to the overall mean, one-size-fits-all model (i.e., complete pooling).", cache = TRUE}
+
+m <- lme4::lmer(weight ~ time + (1+time | chick), data = CWsub)
+df_partial_pooling <- coef(m)[["chick"]] %>% 
+  tibble::rownames_to_column("chick") %>% 
+  tibble::as_tibble() %>% 
+  rename(intercept = `(Intercept)`, slope = time) %>% 
+  tibble::add_column(model = "partial pooling")
+
+df_models <- bind_rows(df_pooled, df_no_pooling, df_partial_pooling) %>% 
+  left_join(CWsub, by = "chick")
+
+# Replace the data-set of the last plot
+p_model_comparison %+% df_models
+```
+
+To better visualize this effect, we look at contour lines from the bivariate normal distribution of the random effects. This highlight the impact of having independent slope and intercept (circular contour curves for the bivariate normal distribution of the random effects). The arrows  on Figure \@ref(fig:topomap) illustrate this shrinkage effect: the points move towards region of higher density according to the random effect estimated density.
+
+```{r topomap, echo = FALSE, fig.cap = "Graph of conditional predictions for the model with correlated (left) and independent (right) random effects on the intercept and slope of the chicken weight data. The conditional predictions, which include the predicted random effect specific to each chick, are shrunk towards the fixed effect, located in regions. The normal specification on the random errors induces a penalty for the estimates, which explains shrinkage. Adding correlation changes the shape of the penalty region (ellipsoidal rather than circular), thus inducing different constraints. Shorter series (fewer observations by chicken) are shrunk more towards the global estimated average.", cache = TRUE}
+df_fixef <- tibble::tibble(
+  model = "fixed effect",
+  intercept = fixef(m)[1],
+  slope = fixef(m)[2])
+
+# Complete pooling / fixed effects are center of gravity in the plot
+df_gravity <- 
+  # df_pooled %>% 
+  # dplyr::distinct(model, intercept, slope) %>% 
+  dplyr::bind_rows(df_fixef)
+
+df_pulled <- dplyr::bind_rows(df_no_pooling, df_partial_pooling)
+cov_mat <- VarCorr(m)[["chick"]]
+# Helper function to make a data-frame of ellipse points that 
+# includes the level as a column
+make_ellipse <- function(cov_mat, center, level) {
+  ellipse::ellipse(cov_mat, centre = center, level = level) %>%
+    as.data.frame() %>%
+    tibble::add_column(level = level) %>% 
+    tibble::as_tibble()
+}
+
+make_circ <- function(var, center, level) {
+  ellipse::ellipse(x=0, scale = var, centre = center, level = level) %>%
+    as.data.frame() %>%
+    tibble::add_column(level = level) %>% 
+    tibble::as_tibble()
+}
+
+center <- fixef(m)
+levels <- c(.25, .5, .75)
+
+# Create an ellipse dataframe for each of the levels defined 
+# above and combine them
+df_ellipse <- levels %>%
+  purrr::map_df(~ make_ellipse(cov_mat, center, level = .x)) %>% 
+  rename(intercept = `(Intercept)`, slope = time)
+
+contour_dist <- function(xs, ys, center_x, center_y) {
+  x_diff <- (center_x - xs) ^ 2
+  y_diff <- (center_y - ys) ^ 2
+  sqrt(x_diff + y_diff)
+}
+
+# Find the point to label in each ellipse.
+df_label_locations <- df_ellipse %>% 
+  group_by(level) %>%
+  filter(intercept < quantile(intercept, .5), 
+         slope < quantile(slope, .5)) %>% 
+  # Compute distance from center.
+  mutate(dist = contour_dist(intercept, slope, 
+                             fixef(m)[1], fixef(m)[2])) %>% 
+  # Keep smallest values.
+  dplyr::top_n(-1, wt = dist) %>% 
+  dplyr::ungroup()
+
+# Tweak the last plot one more time!
+g1 <- ggplot(df_pulled) + 
+  aes(x = intercept, y = slope, color = model) + 
+  # Draw contour lines from the distribution of effects
+  geom_path(aes(group = level, color = NULL), data = df_ellipse, 
+            linetype = "dashed", color = "grey40") + 
+  geom_point(data = df_gravity, size = 3) + 
+  geom_point(size = 2) + 
+  geom_path(aes(group = chick, color = NULL), 
+            arrow = arrow(length = unit(.02, "npc"))) + 
+  theme(legend.position = "bottom") + 
+  xlab("intercept") + 
+  ylab("slope") + 
+  coord_cartesian(
+    xlim = range(df_pulled$intercept), 
+    ylim = range(df_pulled$slope),
+    expand = TRUE) +
+  geom_text(aes(label = level, color = NULL), data = df_label_locations, 
+            nudge_x = .5, nudge_y = .8, size = 3.5, color = "grey40")
+
+
+
+
+m2 <- lme4::lmer(weight ~ time + (1 | chick ) + (time - 1| chick), data = CWsub)
+df_partial_pooling2 <- coef(m2)[["chick"]] %>% 
+  tibble::rownames_to_column("chick") %>% 
+  tibble::as_tibble() %>% 
+  rename(intercept = `(Intercept)`, slope = time) %>% 
+  tibble::add_column(model = "partial pooling")
+
+df_models <- bind_rows(df_pooled, df_no_pooling, df_partial_pooling2) %>% 
+  left_join(CWsub, by = "chick")
+
+df_fixef <- tibble::tibble(
+  model = "fixed effect",
+  intercept = fixef(m2)[1],
+  slope = fixef(m2)[2])
+
+# Complete pooling / fixed effects are center of gravity in the plot
+df_gravity <- 
+  # df_pooled %>% 
+  # dplyr::distinct(model, intercept, slope) %>% 
+  dplyr::bind_rows(df_fixef)
+
+df_pulled <- dplyr::bind_rows(df_no_pooling, df_partial_pooling2)
+cov_mat2 <- VarCorr(m2)
+# Helper function to make a data-frame of ellipse points that 
+# includes the level as a column
+
+center <- fixef(m2)
+# Create an ellipse dataframe for each of the levels defined 
+# above and combine them
+df_ellipse <- levels %>%
+  purrr::map_df(~ make_circ(as.data.frame(cov_mat2)$sdcor[1:2], center, level = .x)) %>% 
+  rename(intercept = x, slope = y)
+
+
+# Find the point to label in each ellipse.
+df_label_locations <- df_ellipse %>% 
+  group_by(level) %>%
+  filter(intercept < quantile(intercept, .5), 
+         slope < quantile(slope, .5)) %>% 
+  # Compute distance from center.
+  mutate(dist = contour_dist(intercept, slope, 
+                             fixef(m)[1], fixef(m)[2])) %>% 
+  # Keep smallest values.
+  dplyr::top_n(-1, wt = dist) %>% 
+  dplyr::ungroup()
+
+# Tweak the last plot one more time!
+g2 <- ggplot(df_pulled) + 
+  aes(x = intercept, y = slope, color = model) + 
+  # Draw contour lines from the distribution of effects
+  geom_path(aes(group = level, color = NULL), data = df_ellipse, 
+            linetype = "dashed", color = "grey40") + 
+  geom_point(data = df_gravity, size = 3) + 
+  geom_point(size = 2) + 
+  geom_path(aes(group = chick, color = NULL), 
+            arrow = arrow(length = unit(.02, "npc"))) + 
+  theme(legend.position = "bottom") + 
+  xlab("intercept") + 
+  ylab("slope") + 
+  coord_cartesian(
+    xlim = range(df_pulled$intercept), 
+    ylim = range(df_pulled$slope),
+    expand = TRUE) +
+  geom_text(aes(label = level, color = NULL), data = df_label_locations, 
+            nudge_x = .5, nudge_y = .8, size = 3.5, color = "grey40")
+
+g1 + g2 + patchwork::plot_annotation(title = "Topographic map of conditional prediction") + patchwork::plot_layout(guides= 'collect') &  theme(legend.position = 'bottom')
+
+```
