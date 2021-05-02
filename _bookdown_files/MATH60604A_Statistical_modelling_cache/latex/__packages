@@ -18,3 +18,14 @@ boot
 ggmosaic
 Matrix
 lme4
+knitr
+tidyverse
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+hecmodstat
+nlme

@@ -6,14 +6,13 @@
   11pt,
   letterpaper,
 ]{book}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amsmath}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
-  \usepackage{amssymb}
 \else % if luatex or xetex
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
@@ -83,7 +82,7 @@
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{longtable,booktabs}
+\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -209,7 +208,21 @@
 \DeclareMathAlphabet{\mathcrl}{U}{rsfs}{m}{n}
 \usepackage{utopia}
 \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
-\ifluatex
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 \usepackage[]{natbib}
@@ -231,6 +244,8 @@
 \newtheorem{example}{Example}[chapter]
 \theoremstyle{definition}
 \newtheorem{exercise}{Exercise}[chapter]
+\theoremstyle{definition}
+\newtheorem{hypothesis}{Hypothesis}[chapter]
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 \newtheorem*{solution}{Solution}
@@ -247,11 +262,11 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2020-12-04.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2021-05-02.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
-Why use models? \href{https://krugman.blogs.nytimes.com/2010/11/18/debt-deleveraging-and-the-liquidity-trap/}{Paul Krugman wrote in 2010 on his blog}
+Why use models? \href{https://krugman.blogs.nytimes.com/2010/11/18/debt-deleveraging-and-the-liquidity-trap/}{Paul Krugman wrote in 2010 in his blog}
 
 \begin{quote}
 The answer I'd give is that models are an enormously important tool for clarifying your thought. You don't have to literally believe your model --- in fact, you're a fool if you do --- to believe that putting together a simplified but complete account of how things work, with all the eyes crossed and teas dotted or something, helps you gain a much more sophisticated understanding of the real situation. People who don't use models end up relying on slogans that are much more simplistic than the models
@@ -272,11 +287,7 @@ Modelling in science remains, partly at least, an art. Some principles do exist,
 And this quote by David R. Cox adds to the point:
 
 \begin{quote}
-\ldots it does not seem helpful just to say that all models are wrong. The very word model implies simplification and idealization. The idea that com-
-plex physical, biological or sociological systems can be exactly described
-by a few formulae is patently absurd. The construction of idealized representations that \textbf{capture important stable aspects of such systems}
-is, however, a vital part of general scientific analysis and statistical models, especially substantive ones, do not seem essentially different from
-other kinds of model.
+\ldots it does not seem helpful just to say that all models are wrong. The very word model implies simplification and idealization. The idea that complex physical, biological or sociological systems can be exactly described by a few formulae is patently absurd. The construction of idealized representations that \textbf{capture important stable aspects of such systems} is, however, a vital part of general scientific analysis and statistical models, especially substantive ones, do not seem essentially different from other kinds of model.
 \end{quote}
 
 \newcommand{\bs}[1]{\boldsymbol{#1}}
@@ -366,12 +377,12 @@ A good analogy for hypothesis tests is a trial for murder on which you are appoi
   The final step is the verdict. This is a binary decision, guilty or not guilty. For an hypothesis test performed at level \(\alpha\), one would reject (guilty) if the \emph{p}-value is less than \(\alpha\).
 \end{itemize}
 
-The above description provides some heuristic, but lack crucial details developed in the next section written by Juliana Schulz.
+The above description provides some heuristic, but lacks crucial details. Juliana Schulz goes over these in more details in the next section.
 
 \hypertarget{hypothesis}{%
 \subsection{Hypothesis}\label{hypothesis}}
 
-In statistical tests we have two hypotheses: the null hypothesis (\(H_0\)) and the alternative hypothesis (\(H_1\)). Usually, the null hypothesis is the `status quo' and the alternative is what we're really interested in testing. A statistical hypothesis test allows us to decide whether or not our data provides enough evidence to reject \(H_0\) in favour of \(H_1\), subject to some pre-specified risk of error. Usually, hypothesis tests involve a parameter, say \(\theta\), which characterizes the underlying distribution at the population level ans whose value is unknown. A two-sided hypothesis test regarding a parameter \(\theta\) has the form
+In statistical tests we have two hypotheses: the null hypothesis (\(\mathscr{H}_0\)) and the alternative hypothesis (\(\mathscr{H}_1\)). Usually, the null hypothesis is the `status quo' and the alternative is what we're really interested in testing. A statistical hypothesis test allows us to decide whether or not our data provides enough evidence to reject \(\mathscr{H}_0\) in favour of \(\mathscr{H}_1\), subject to some pre-specified risk of error. Usually, hypothesis tests involve a parameter, say \(\theta\), which characterizes the underlying distribution at the population level ans whose value is unknown. A two-sided hypothesis test regarding a parameter \(\theta\) has the form
 \begin{align*}
 \mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
 \end{align*}
@@ -380,7 +391,7 @@ We are testing whether or not \(\theta\) is precisely equal to the value \(\thet
 For example, for a two-sided test for the regression coefficient \(\beta_j\) associated to an explanatory variable \(\mathrm{X}_j\), the null and alternative hypothesis are
 explicative d'intérêt \(\mathrm{X}_j\), les hypothèses sont
 \begin{align*}
-\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0, 
+\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
 \end{align*}
 where \(\beta_j^0\) is some value that reflects the research question of interest. For example, if \(\beta_j^0=0\), the underlying question is: is covariate \(\mathrm{X}_j\) impacting the response \(Y\) once other variables have been taken into account?
 
@@ -389,16 +400,16 @@ Note that we can impose direction in the hypotheses and consider alternatives of
 \hypertarget{test-statistic}{%
 \subsection{Test statistic}\label{test-statistic}}
 
-A test statistic \(T\) is a functional of the data that summarise the information contained in the sample for \(\theta\). The form of the test statistic is chosen such that we know its underlying distribution under \(H_0\), that is, the potential values taken by \(T\) and their relative probability if \(H_0\) is true. Indeed, \(Y\) is a random variable and its value change from one sample to the next.
-This allows us to determine what values of \(T\) are likely if \(H_0\) is true. Many statistics we will consider are \textbf{Wald statistic}, of the form
+A test statistic \(T\) is a functional of the data that summarise the information contained in the sample for \(\theta\). The form of the test statistic is chosen such that we know its underlying distribution under \(\mathscr{H}_0\), that is, the potential values taken by \(T\) and their relative probability if \(\mathscr{H}_0\) is true. Indeed, \(Y\) is a random variable and its value change from one sample to the next.
+This allows us to determine what values of \(T\) are likely if \(\mathscr{H}_0\) is true. Many statistics we will consider are \textbf{Wald statistic}, of the form
 \begin{align*}
-T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})} 
+T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
 \end{align*}
 where \(\widehat{\theta}\) is an estimator of \(\theta\), \(\theta_0\) is the postulated value of the parameter and \(\mathrm{se}(\widehat{\theta})\) is an estimator of the standard deviation of the test statistic \(\widehat{\theta}\).
 
 For example, to test whether the mean of a population is zero, we set
 \begin{align*}
-\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0, 
+\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0,
 \end{align*}
 and the Wald statistic is
 \begin{align*}
@@ -426,12 +437,12 @@ Its important to distinguish between procedures/formulas and their numerical val
 \hypertarget{null-distribution-and-p-value}{%
 \subsection{\texorpdfstring{Null distribution and \emph{p}-value}{Null distribution and p-value}}\label{null-distribution-and-p-value}}
 
-The \emph{p}-value allows us to decide whether the observed value of the test statistic \(T\) is plausible under \(H_0\). Specifically, the \emph{p}-value is the probability that the test statistic is equal or more extreme to the estimate computed from the data, assuming \(H_0\) is true. Suppose that based on a random sample \(X_1, \ldots, X_n\) we obtain a statistic whose value \(T=t\). For a two-sided test \(\mathscr{H}_0:\theta=\theta_0\) vs.~\(\mathscr{H}_a:\theta \neq \theta_0\), the \emph{p}-value is \(\mathsf{Pr}_0(|T| \geq |t|)\). If the distribution of \(T\) is symmetric around zero, the \emph{p}-value is
+The \emph{p}-value allows us to decide whether the observed value of the test statistic \(T\) is plausible under \(\mathscr{H}_0\). Specifically, the \emph{p}-value is the probability that the test statistic is equal or more extreme to the estimate computed from the data, assuming \(\mathscr{H}_0\) is true. Suppose that based on a random sample \(X_1, \ldots, X_n\) we obtain a statistic whose value \(T=t\). For a two-sided test \(\mathscr{H}_0:\theta=\theta_0\) vs.~\(\mathscr{H}_a:\theta \neq \theta_0\), the \emph{p}-value is \(\mathsf{Pr}_0(|T| \geq |t|)\). If the distribution of \(T\) is symmetric around zero, the \emph{p}-value is
 \begin{align*}
 p = 2 \times \mathsf{Pr}_0(T \geq |t|).
 \end{align*}
 
-Consider the example of a two-sided test involving the population mean \(H_0:\mu=0\) against the alternative \(H_1:\mu \neq 0\). Assuming the random sample comes from a normal (population) \(\mathsf{No}(\mu, \sigma^2)\), it can be shown that if \(H_0\) is true (that is, if \(\mu=0\)), the test statistic
+Consider the example of a two-sided test involving the population mean \(\mathscr{H}_0:\mu=0\) against the alternative \(\mathscr{H}_1:\mu \neq 0\). Assuming the random sample comes from a normal (population) \(\mathsf{No}(\mu, \sigma^2)\), it can be shown that if \(\mathscr{H}_0\) is true (that is, if \(\mu=0\)), the test statistic
 \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}
@@ -440,14 +451,14 @@ follows a Student-\emph{t} distribution with \(n-1\) degrees of freedom, denoted
 \hypertarget{conclusion}{%
 \subsection{Conclusion}\label{conclusion}}
 
-The \emph{p}-value allows us to make a decision about the null hypothesis. If \(\mathscr{H}_0\) is true, the \emph{p}-value follows a uniform distribution. \href{https://xkcd.com/1478/}{Thus, if the \emph{p}-value is small}, this means observing an outcome more extreme than \(T=t\) is unlikely, and so we're inclined to think that \(H_0\) is not true. There's always some underlying risk that we're making a mistake when we make a decision. In statistic, there are \href{https://xkcd.com/2303/}{two type of errors}:
+The \emph{p}-value allows us to make a decision about the null hypothesis. If \(\mathscr{H}_0\) is true, the \emph{p}-value follows a uniform distribution. \href{https://xkcd.com/1478/}{Thus, if the \emph{p}-value is small}, this means observing an outcome more extreme than \(T=t\) is unlikely, and so we're inclined to think that \(\mathscr{H}_0\) is not true. There's always some underlying risk that we're making a mistake when we make a decision. In statistic, there are \href{https://xkcd.com/2303/}{two type of errors}:
 
 \begin{itemize}
 \tightlist
 \item
-  type I error: we reject \(H_0\) when \(H_0\) is true,
+  type I error: we reject \(\mathscr{H}_0\) when \(\mathscr{H}_0\) is true,
 \item
-  type II error: we fail to reject \(H_0\) when \(H_0\) is false.
+  type II error: we fail to reject \(\mathscr{H}_0\) when \(\mathscr{H}_0\) is false.
 \end{itemize}
 
 These hypothesis are not judged equally: we seek to avoid error of type I (judicial errors, corresponding to condamning an innocent). To prevent this, we fix a the level of the test, \(\alpha\), which captures our tolerance to the risk of commiting a type I error: the higher the level of the test \(\alpha\), the more often we will reject the null hypothesis when the latter is true. The value of \(\alpha \in (0, 1)\) is the probability of rejecting \(\mathscr{H}_0\) when \(\mathscr{H}_0\) is in fact true,
@@ -460,11 +471,11 @@ The focus on type I error is best understood by thinking about medical trial: yo
 
 \begin{longtable}[]{@{}lcc@{}}
 \toprule
-\textbf{Decision} \textbackslash{} \textbf{true model} & \(\mathscr{H}_0\) & \(\mathscr{H}_a\)\tabularnewline
+\textbf{Decision} \textbackslash{} \textbf{true model} & \(\mathscr{H}_0\) & \(\mathscr{H}_a\) \\
 \midrule
 \endhead
-fail to reject \(\mathscr{H}_0\) & \(\checkmark\) & type II error\tabularnewline
-reject \(\mathscr{H}_0\) & type I error & \(\checkmark\)\tabularnewline
+fail to reject \(\mathscr{H}_0\) & \(\checkmark\) & type II error \\
+reject \(\mathscr{H}_0\) & type I error & \(\checkmark\) \\
 \bottomrule
 \end{longtable}
 
@@ -586,81 +597,29 @@ The third step consists in obtaining a benchmark to determine if our result is e
 It only remains to compute the \emph{p}-value. If the null distribution is well-specified and \(\mathscr{H}_0\) is true, then the random variable \(P\) is uniform on \([0, 1]\); we thus expect to obtain under the null something larger than 0.95 only 5\% of the time for our one-sided alternative since we consider under \(\mathscr{H}_0\) the event \(\mathsf{Pr}(T > t)\). The \(p\)-value is \(1\) and, at level 5\%, we reject the null hypothesis to conclude that millenials spend significantly than previous generation for monthly online purchases, with an estimated average difference of -16.49.
 
 \begin{example}[Price of Spanish high speed train tickets]
-\protect\hypertarget{exm:price-trains-tests}{}{\label{exm:price-trains-tests} \iffalse (Price of Spanish high speed train tickets) \fi{} }The Spanish national railway company, \href{https://www.renfe.com/}{Renfe}, manages regional and high speed train tickets all over Spain and The Gurus \href{https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing}{harvested} the price of tickets sold by Renfe. We are interested in trips between Madrid and Barcelona and, for now, ask the question: are tickets more expensive one way or another? To answer this, we consider a sample of 10000 tickets, but restrict attention to AVE tickets sold at Promo rate. Our test statistic will again be the mean difference between the price (in euros) for a train ticket for Madrid--Barcelona (\(\mu_1\)) and the price for Barcelona--Madrid (\(\mu_2\)), i.e., \(\mu_1-\mu_2\). The null hypothesis is that there are no difference in price, so \(\mathscr{H}_0: \mu_1-\mu_2=0\). We again use Welch test statistic for two samples.
+\protect\hypertarget{exm:price-trains-tests}{}{\label{exm:price-trains-tests} \iffalse (Price of Spanish high speed train tickets) \fi{} }The Spanish national railway company, \href{https://www.renfe.com/}{Renfe}, manages regional and high speed train tickets all over Spain and The Gurus \href{https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing}{harvested} the price of tickets sold by Renfe. We are interested in trips between Madrid and Barcelona and, for now, ask the question: are tickets more expensive one way or another? To answer this, we consider a sample of 10000 tickets, but restrict attention to AVE tickets sold at Promo rate. Our test statistic will again be the mean difference between the price (in euros) for a train ticket for Madrid--Barcelona (\(\mu_1\)) and the price for Barcelona--Madrid (\(\mu_2\)), i.e., \(\mu_1-\mu_2\). The null hypothesis is that there are no difference in price, so \(\mathscr{H}_0: \mu_1-\mu_2=0\).
 \end{example}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Library for manipulating data, including the pipe operator (\%\textgreater{}\%)}
-\FunctionTok{library}\NormalTok{(poorman)}
-\CommentTok{\# Load data}
-\FunctionTok{data}\NormalTok{(renfe, }\AttributeTok{package =} \StringTok{"hecstatmod"}\NormalTok{)}
-\FunctionTok{head}\NormalTok{(renfe, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-## # A tibble: 5 x 7
-##   price type    class      fare     dest             duration wday 
-##   <dbl> <fct>   <fct>      <fct>    <fct>               <dbl> <fct>
-## 1 143.  AVE     Preferente Promo    Barcelona-Madrid      190 6    
-## 2 182.  AVE     Preferente Flexible Barcelona-Madrid      190 2    
-## 3  86.8 AVE     Preferente Promo    Barcelona-Madrid      165 7    
-## 4  86.8 AVE     Preferente Promo    Barcelona-Madrid      190 7    
-## 5  69.0 AVE-TGV Preferente Promo    Barcelona-Madrid      175 4
-\end{verbatim}
+\caption{\label{tab:renfetest}Glimpse at the $\texttt{renfe}$ data.}
+\centering
+\begin{tabular}[t]{rllllrl}
+\toprule
+price & type & class & fare & dest & duration & wday\\
+\midrule
+143.4 & AVE & Preferente & Promo & Barcelona-Madrid & 190 & 6\\
+181.5 & AVE & Preferente & Flexible & Barcelona-Madrid & 190 & 2\\
+86.8 & AVE & Preferente & Promo & Barcelona-Madrid & 165 & 7\\
+86.8 & AVE & Preferente & Promo & Barcelona-Madrid & 190 & 7\\
+69.0 & AVE-TGV & Preferente & Promo & Barcelona-Madrid & 175 & 4\\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Sub{-}sample with only Promo tickets}
-\NormalTok{renfe\_promo }\OtherTok{\textless{}{-}}\NormalTok{ renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(fare }\SpecialCharTok{==} \StringTok{"Promo"}\NormalTok{)}
-\CommentTok{\# two{-}sample t{-}test and mean difference}
-\NormalTok{ttest }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(price}\SpecialCharTok{\textasciitilde{}}\NormalTok{dest, }\AttributeTok{data =}\NormalTok{ renfe\_promo)}
-\NormalTok{ttest }\CommentTok{\#print result}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 
-##  Welch Two Sample t-test
-## 
-## data:  price by dest
-## t = -1, df = 8040, p-value = 0.2
-## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##  -1.100  0.209
-## sample estimates:
-## mean in group Barcelona-Madrid mean in group Madrid-Barcelona 
-##                           82.1                           82.6
-\end{verbatim}
+We again use Welch test statistic for two samples by filtering the data to keep only Promo fare tickets: the sample mean of the price of Barcelona-Madrid tickets is 82.11 euros, that of Madrid-Barcelona tickets is 82.56 euros and the Welch statistic is worth -1.33. If we use a normal approximation, the \emph{p}-value is 0.18.
 
 Rather than use the asymptotic distribution, whose validity stems from the central limit theorem, we could consider another approximation under the less restrictive assumption that the data are exchangeable: under the null hypothesis, there is no difference between the two destinations and so the label for destination (a binary indicator) is arbitrary. The reasoning underlying \href{https://www.jwilber.me/permutationtest/}{permutation tests} is as follows: to create a benchmark, we will consider observations with the same number in each group, but permuting the labels. We then compute the test statistic on each of these datasets. If there are only a handful in each group (fewer than 10), we could list all possible permutations of the data, but otherwise we can repeat this procedure many times, say 9999, to get a good approximation. This gives an approximate distribution from which we can extract the \emph{p}-value by computing the rank of our statistic relative to the others.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# p{-}value (permutation test)}
-\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(renfe\_promo)}
-\NormalTok{B }\OtherTok{\textless{}{-}} \FloatTok{1e4}
-\NormalTok{ttest\_stats }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B) }
-\NormalTok{ttest\_stats[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ ttest}\SpecialCharTok{$}\NormalTok{statistic}
-\FunctionTok{set.seed}\NormalTok{(}\DecValTok{20200608}\NormalTok{) }\CommentTok{\# set seed of pseudo{-}random number generator}
-\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{B)\{}
-  \CommentTok{\# Recalculate the test statistic, permuting the labels}
-\NormalTok{  ttest\_stats[i] }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(price }\SpecialCharTok{\textasciitilde{}}\NormalTok{ dest[}\FunctionTok{sample.int}\NormalTok{(}\AttributeTok{n =}\NormalTok{ n)], }
-                           \AttributeTok{data =}\NormalTok{ renfe\_promo)}\SpecialCharTok{$}\NormalTok{statistic}
-\NormalTok{\}}
-\CommentTok{\# Graphics library}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\CommentTok{\# Plot the empirical permutation distribution}
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{statistic =}\NormalTok{ ttest\_stats), }
-       \FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{statistic)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{30}\NormalTok{, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{y=}\NormalTok{..density..), }\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_density}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =}\NormalTok{ ttest\_stats[}\DecValTok{1}\NormalTok{]) }\SpecialCharTok{+} 
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"density"}\NormalTok{) }\SpecialCharTok{+} 
-  \FunctionTok{stat\_function}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ dnorm, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{figure}
 
@@ -712,19 +671,6 @@ Pay as much attention to figures and tables than to the main text. These should 
 
 \hypertarget{variable-type}{%
 \subsection{Variable type}\label{variable-type}}
-
-The data we will handled are stored in tables or frames. If the data frame is stocked in long format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.
-
-The alternative is wide format, whereby the columns represent categorical variables and the entries are values of the response for a specific category (notably contingency tables). Figure \ref{fig:longvswide} shows the difference between the two structures. Software typically require long formatted database for modelling purposes.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{images/original-dfs-tidy} 
-
-}
-
-\caption{Long versus wide-format for data tables (illustration by Garrick Aden-Buie).}\label{fig:longvswide}
-\end{figure}
 
 \begin{itemize}
 \tightlist
@@ -818,17 +764,6 @@ Scatterplots are used to represent graphically the co-variation between two cont
 \caption{Scatterplot (left) and hexagonal heatmap of bidimensional bin counts (right) of simulated data.}\label{fig:scatterplot}
 \end{figure}
 
-Sometimes, continuous data have a particular structure, mostly when observations are collected over space or time. Time series are ordered and the response should be plotted on the \(y\)-axis as a function of time (on the \(x\)-axis). It is customary to draw segments between observations, but this display is sometimes misleading.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/seriechrono-1} 
-
-}
-
-\caption{Graphical representation of a time series.}\label{fig:seriechrono}
-\end{figure}
-
 \hypertarget{exploratory-data-analysis}{%
 \subsection{Exploratory data analysis}\label{exploratory-data-analysis}}
 
@@ -872,83 +807,89 @@ We will begin our exploratory analysis with vague questions, for example
   What are the main differences between fares?
 \end{enumerate}
 
-Except for \texttt{price} and \texttt{duration}, all the other (explanatory) variables are categoricals. These need to be cast into factors (\texttt{factor}), especially integer-valued levels such as \texttt{wday}.
+The database is clean and this preliminary preprocessing step has been done already. We could look at variable type and some descriptive statistics.
+Except for \texttt{price} and \texttt{duration}, all the other (explanatory) variables are categoricals. We must keep this in mind, especially since \texttt{wday} has integer-valued levels.
 
-The database is clean and this preliminary preprocessing step has been done already. We can check the type of encoding using the command \texttt{str}, which also shows the data; the function \texttt{summary} is used to obtain descriptive statistics (min, max, mean, quartiles for continuous variables or else frequency for categorical variables); the function also returns the number of missing values (\texttt{NA}) of each column.
+\begin{table}
 
-Data manipulation is often messy and \textbf{R} base syntax is particularly inelegant: data frames are list whose elements are accessed using \texttt{\$}: for example \texttt{renfe\$price}. A more legible and modular alternative is the pipe operator (\texttt{\%\textgreater{}\%}), with which one creates a logical chain of command (this function is not part of \textbf{R} base packages, but the libraries \texttt{tidyverse} and the minimal alternative \texttt{poorman} include it).
+\caption{\label{tab:renfe-aed1a}Number of observations by ticket class for the $\texttt{renfe}$ data.}
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+class & n\\
+\midrule
+Preferente & 809\\
+Turista & 7197\\
+TuristaPlus & 1916\\
+TuristaSolo & 78\\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(class)}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-##         class    n
-## 1  Preferente  809
-## 2     Turista 7197
-## 3 TuristaPlus 1916
-## 4 TuristaSolo   78
-\end{verbatim}
+\caption{\label{tab:renfe-aed1b}Number of observations by ticket type for the $\texttt{renfe}$ data.}
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+type & n\\
+\midrule
+AVE & 9174\\
+AVE-TGV & 429\\
+REXPRESS & 397\\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# \textasciigrave{}count\textasciigrave{} is a shortcut for the following syntax}
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(type) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tally}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-##       type    n
-## 1      AVE 9174
-## 2  AVE-TGV  429
-## 3 REXPRESS  397
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(fare) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tally}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##        fare    n
-## 1 AdultoIda  397
-## 2  Flexible 1544
-## 3     Promo 8059
-\end{verbatim}
+\caption{\label{tab:renfe-aed1c}Number of observations by ticket fare for the $\texttt{renfe}$ data.}
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+fare & n\\
+\midrule
+AdultoIda & 397\\
+Flexible & 1544\\
+Promo & 8059\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 By counting the number of train tickets in each category, we notice there are as many \texttt{REXPRESS} tickets as there are tickets sold at \texttt{AdultoIda} fare. Using a contingency table to get the number in respective sub-categories of each of those variables confirms that all tickets in the database for RegioExpress trains are sold with the \texttt{AdultoIda} fare and that there is only a single class, \texttt{Turista}. There are few such tickets, only 397 out of 10 000. This raises a new question: why are such trains so unpopular?
 
-\begin{verbatim}
-##        fare     type    n
-## 1 AdultoIda REXPRESS  397
-## 2  Flexible      AVE 1446
-## 3  Flexible  AVE-TGV   98
-## 4     Promo      AVE 7728
-## 5     Promo  AVE-TGV  331
-\end{verbatim}
+\begin{table}
+
+\caption{\label{tab:renfe-aed2}Contingency table of ticket fare and type for the $\texttt{renfe}$ data.}
+\centering
+\begin{tabular}[t]{llr}
+\toprule
+fare & type & n\\
+\midrule
+AdultoIda & REXPRESS & 397\\
+Flexible & AVE & 1446\\
+Flexible & AVE-TGV & 98\\
+Promo & AVE & 7728\\
+Promo & AVE-TGV & 331\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 We have only scratched the surface, but one could also notice that there are only 17 duration values on tickets (\texttt{renfe\ \%\textgreater{}\%\ distinct(duration)} or \texttt{unique(renfe\$duration)}). This leads us to think the duration on the ticket (in minutes) is the expected travel time. The majority of those travel time (15 out of 17) are smaller than 3h15, but the other two exceed 9h! Looking at Google Maps, Madrid and Barcelona are 615km apart by car, 500km as the crow flies. this means some trains travel at about 200km/h, while others are closer to 70km/h. What are these slower trains? the variable \texttt{type} is the one most likely to encode this feature, and a quick look shows that the RegioExpress trains fall in the slow category (mystery solved!)
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{subset}\NormalTok{(duration }\SpecialCharTok{\textgreater{}} \DecValTok{200}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{group\_by}\NormalTok{(type, dest) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{summarise}\NormalTok{(}\StringTok{"average duration"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(duration), }
-            \StringTok{"std. dev"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(duration),}
-            \StringTok{"average price"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(price), }
-            \StringTok{"std. dev"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(price)) }
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-##       type             dest average duration std. dev average price std. dev
-## 1 REXPRESS Barcelona-Madrid              544        0          43.2        0
-## 2 REXPRESS Madrid-Barcelona              562        0          43.2        0
-\end{verbatim}
+\caption{\label{tab:renfe-aed3}Descriptive statistics of travel duration and ticket price by destination and ticket type for the $\texttt{renfe}$ data.}
+\centering
+\begin{tabular}[t]{llrrr}
+\toprule
+type & dest & average duration & std. dev & average price\\
+\midrule
+REXPRESS & Barcelona-Madrid & 544 & 0 & 43.2\\
+REXPRESS & Madrid-Barcelona & 562 & 0 & 43.2\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The regular trains running between two cities take more than 9h, but one way (Madrid to Barcelona) is 18 minutes slower than in the other direction. More striking, we see that the price of the RegioExpress tickets is fixed: 43.25 euros regardless of direction. This is the most important finding so far, because these are not a sample for price: there is no variability! Graphics could have lead to the discovery (the boxplot of price as a function of train type would collapse to a single value).
 
@@ -963,43 +904,27 @@ The regular trains running between two cities take more than 9h, but one way (Ma
 
 We could have suspected that trains labeled \texttt{AVE} are faster: after all, it is the acronym of \emph{Alta Velocidad Española}, literally Spanish high speed. What is the distinction between the two high speed train types. According to the \href{https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx}{SNCF website}, AVE-TGV trains are partnership between Renfe and SNCF that operate between France and Spain.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{subset}\NormalTok{(type }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"AVE"}\NormalTok{,}\StringTok{"AVE{-}TGV"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{group\_by}\NormalTok{(type, dest) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{summarise}\NormalTok{(}\StringTok{"average duration"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(duration), }
-            \StringTok{"std. dev"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(duration),}
-            \StringTok{"average price"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(price),}
-            \StringTok{"std. dev"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(price))}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-##      type             dest average duration std. dev average price std. dev
-## 1     AVE Barcelona-Madrid              171     15.9          87.4     19.8
-## 2     AVE Madrid-Barcelona              170     16.6          88.2     20.8
-## 3 AVE-TGV Barcelona-Madrid              175      0.0          87.0     16.8
-## 4 AVE-TGV Madrid-Barcelona              179      0.0          90.6     20.2
-\end{verbatim}
+\caption{\label{tab:renfe-aed5}Descriptive statistics of travel duration and ticket price of high-speed trains by destination and ticket type for the $\texttt{renfe}$ data.}
+\centering
+\begin{tabular}[t]{llrrr}
+\toprule
+type & dest & average duration & std. dev & average price\\
+\midrule
+AVE & Barcelona-Madrid & 171 & 19.8 & 87.4\\
+AVE & Madrid-Barcelona & 170 & 20.8 & 88.2\\
+AVE-TGV & Barcelona-Madrid & 175 & 16.8 & 87.0\\
+AVE-TGV & Madrid-Barcelona & 179 & 20.2 & 90.6\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The price of high speed trains are on average more than twice as expensive as regular trains. There is strong evidence of heterogeneity (standard deviation of 20 euros), which should raise scrutiny and suggests that high speed train tickets are dynamically priced. There is a single duration time for AVE-TGV tickets. We do not see meaningful differences in price depending on the type or the direction, but fares of ticket class availability may differ depending on whether the train is run in partnership with SNCF.
 
 We have not looked at ticket fare and class, except for RegioExpress trains. Figure \ref{fig:renfe-aed7} shows large disparity in the variance of price according to fare: Promo fare takes many more distinct values than AdultoIda (duh) and Flexible fares. First class tickets (\texttt{Preferente}) are more expensive, but there are fewer observations falling in this group. Turista class is the least expensive for high-speed trains and the most popular. \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html}{\texttt{TuristaPlus}} offer an alternative to the latter with more comfort, whereas \texttt{TuristaSolo} gives access to individual seats.
 
 Fare-wise \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html}{Promo} and \href{http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html}{PromoPlus} give access to rebates that can go up to 70\% and 65\%, respectively. Promo tickets cannot be cancelled or exchanged, while both are possible with PromoPlus by paying a penalty amounting to 30-20\% of the ticket price. \href{http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html}{Flexible} fare ticket a sold at the same price as regular high-speed train tickets, but offer additional benefits (and no rebates!)
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(fare  }\SpecialCharTok{!=} \StringTok{"AdultoIda"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ price, }\AttributeTok{x =}\NormalTok{ class, }\AttributeTok{col =}\NormalTok{ fare)) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"price (in euros)"}\NormalTok{,}
-       \AttributeTok{x =} \StringTok{"class"}\NormalTok{,}
-       \AttributeTok{color =} \StringTok{"fare"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{figure}
 
@@ -1010,15 +935,6 @@ Fare-wise \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/v
 \caption{Boxplot of ticket price as a function of fare and class for high-speed Renfe trains.}\label{fig:renfe-aed6}
 \end{figure}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ renfe, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ price, }\AttributeTok{y=}\NormalTok{..density.., }\AttributeTok{fill =}\NormalTok{ fare)) }\SpecialCharTok{+}
-    \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{5}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"price (in euros)"}\NormalTok{, }\AttributeTok{y =} \StringTok{"density"}\NormalTok{) }\SpecialCharTok{+} 
-    \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{figure}
 
 {\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/renfe-aed7-1} 
@@ -1027,26 +943,27 @@ Fare-wise \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/v
 
 \caption{Histograms of ticket price as a function of fare for Renfe trains.}\label{fig:renfe-aed7}
 \end{figure}
+\begin{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Check the spread of Flexible tickets}
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(fare  }\SpecialCharTok{==} \StringTok{"Flexible"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(price, class)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##   price       class    n
-## 1   108     Turista 1050
-## 2   108 TuristaSolo   67
-## 3   127     Turista  285
-## 4   127 TuristaSolo    9
-## 5   129 TuristaPlus   31
-## 6   140  Preferente    2
-## 7   152 TuristaPlus   10
-## 8   182  Preferente   78
-## 9   214  Preferente   12
-\end{verbatim}
+\caption{\label{tab:renfe-aed7}Counts of unique Flexible fare tickets by price and class for the $\texttt{renfe}$ data.}
+\centering
+\begin{tabular}[t]{rlr}
+\toprule
+price & class & n\\
+\midrule
+108 & Turista & 1050\\
+108 & TuristaSolo & 67\\
+127 & Turista & 285\\
+127 & TuristaSolo & 9\\
+129 & TuristaPlus & 31\\
+\addlinespace
+140 & Preferente & 2\\
+152 & TuristaPlus & 10\\
+182 & Preferente & 78\\
+214 & Preferente & 12\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Note how Flexible tickets prices are spread: the boxplot is crushed and the interquartile range seems zero, even if some of the values are larger: this is indicative either constant price or of (too few) tickets in the category. We can find out which of these two possibities is most likely by counting the number of Flexible fare tickets for the different types.
 
@@ -1191,7 +1108,7 @@ Consider the matrices
   Y_1 \\
   Y_2 \\
   \vdots \\
-  Y_n 
+  Y_n
  \end{pmatrix} ,
  \;
  \boldsymbol{\varepsilon} =
@@ -1199,21 +1116,21 @@ Consider the matrices
   \varepsilon_1 \\
   \varepsilon_2 \\
   \vdots \\
-  \varepsilon_n 
+  \varepsilon_n
  \end{pmatrix} ,
  \;
 \mathbf{X} = \begin{pmatrix}
 \mathrm{X}_{11} & \mathrm{X}_{12} & \cdots & \mathrm{X}_{1p} \\
 \mathrm{X}_{21} & \mathrm{X}_{22} & \cdots & \mathrm{X}_{2p} \\
 \vdots & \vdots & \ddots & \vdots \\
-\mathrm{X}_{n1} & \mathrm{X}_{n2} & \cdots & \mathrm{X}_{np} 
+\mathrm{X}_{n1} & \mathrm{X}_{n2} & \cdots & \mathrm{X}_{np}
 \end{pmatrix} , \;
 \boldsymbol{\beta} =
  \begin{pmatrix}
   \beta_1 \\
   \beta_2 \\
   \vdots \\
-  \beta_p 
+  \beta_p
  \end{pmatrix}
 \end{align*}
 The model in compact form is
@@ -1315,7 +1232,7 @@ For categorical variables, this yields the baseline, whereas we fix the continou
 \beta_1 &= \mathsf{E}(Y \mid \mathrm{X}_1=x_1+1,\mathrm{X}_2=x_2,\ldots,\mathrm{X}_p=x_p) \\
 & \qquad \qquad - \mathsf{E}(Y \mid \mathrm{X}_1=x_1,\mathrm{X}_2=x_2,\ldots,\mathrm{X}_p=x_p) \\
 &= \left\{\beta_0 + \beta_1 (x_1+1) + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} \\
-& \qquad \qquad -\left\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} 
+& \qquad \qquad -\left\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\}
 \end{align*}
 It is not always possible to fix the value of an explanatory if multiple columns of \(\mathbf{X}\) contains functions/transformations of it. For example, if we included a polynomial of order \(k\) for some variable \(\mathrm{X}\),
 \begin{align*}
@@ -1354,7 +1271,7 @@ The representation in Figure \ref{fig:autoquad2d} may seem counter-intuitive giv
 \end{figure}
 
 \begin{remark}[There are better alternatives to polynomials for modelling nonlinear effects]
-\iffalse{} {Remark (There are better alternatives to polynomials for modelling nonlinear effects). } \fi{}Generally speaking, one uses flexible basis vectors (splines) rather than polynomials for smoothing when the relation between the response \(Y\) and an explanatory variable \(\mathrm{X}\) is nonlinear; these models involve many covariates and it is customary to add a penalty term to control for overfitting and wiggliness. A better (physical) understanding of the system, or a theoretical model can also guide the choice of functions to use.
+\iffalse{} {Remark (There are better alternatives to polynomials for modelling nonlinear effects). } \fi{}Generally speaking, one uses flexible basis vectors (splines) rather than polynomials for smoothing when the relation between the response \(Y\) and an explanatory variable \(\mathrm{X}\) is nonlinear; one then adds a penalty term to prevent overfitting and control the wiggliness. A better (physical) understanding of the system, or a theoretical model can also guide the choice of functional form to use.
 \end{remark}
 
 The coefficient \(\beta_j\) in Eq. \eqref{eq:linearreg} represents the \emph{marginal} contribution of \(\mathrm{X}_j\) when all the other covariates are included in the model and which is not explained by them. This can be represented graphically by projecting \(Y\) and \(\mathrm{X}_j\) in the orthogonal complement of \(\mathbf{X}_{-j}\) (the matrix containing all but the \(j\)th column \(\mathrm{X}_j\)). The \textbf{added-variable plot} is a graphical tool showing this projection: the residuals from the linear regression of \(Y\) onto \(\mathscr{S}(\mathbf{X}_{-j})\) are mapped to the \(y\)-axis, whereas the residuals from the linear regression of \(\mathrm{X}_j\) as a function of \(\mathbf{X}_{-j}\) are shown on the \(x\)-axis. The regression line passes through (\(0,0\)) and its slope is \(\widehat{\beta}_j\). This graphical diagnostic is useful for detecting collinearity and the impact of outliers.
@@ -1418,7 +1335,7 @@ All other factors taken into account, women get paid less than men. It remains t
 
 We need to make further assumptions in order to carry out inference and build testing procedures for the mean model parameters of the linear model. In order to get a tractable distribution for test statistics, it is customary to assume that the disturbances \(\boldsymbol{\varepsilon}\) are independent normal random variables with mean zero and common variance \(\sigma^2\). It follows that \(Y_1, \ldots, Y_n\) are conditionally \emph{independent} random variables with
 \begin{align*}
-\mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.    
+\mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.
 \end{align*}
 Under this hypothesis, the least square estimators for the mean parameters coincide with the maximum likelihood estimators. The advantage of imposing this (more stringent than necessary) assumption is that we can use our toolbox for testing. The theory underlying likelihood tests is presented in the chapter on \href{likelihood}{likelihood-based inference}. Assuming normal errors leads to exact distributions for the test statistics (which also coincide with the asymptotic ones in large samples).
 
@@ -1534,7 +1451,7 @@ If we want to predict the value of a new observation, say \(Y_{n+1}\), with expl
 However, individual observations vary more than averages (which are themselves based on multiple observations). Intuitively, this is due to the added uncertainty of the error term \(\varepsilon_{n+1}\) appearing in the model equation: the variability of new predictions is the sum of uncertainty due to the estimators (based on random data) and the intrinsic variance of the observations assuming the new observation is independent of those used to estimate the coefficients,
 \begin{align*}
 \mathsf{Va}(Y_{n+1} \mid \mathbf{x}_n) &= \mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} + \varepsilon_{n+1} \mid \mathbf{x}_n)
-\\&=\mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} \mid \mathbf{x}_n) +\mathsf{Va}(\varepsilon_{n+1} \mid \mathbf{x}_n) 
+\\&=\mathsf{Va}(\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}} \mid \mathbf{x}_n) +\mathsf{Va}(\varepsilon_{n+1} \mid \mathbf{x}_n)
 \\& = \sigma^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top + \sigma^2,
 \end{align*}
 where \(S^2\) is the unbiased estimator of the variance \(\sigma^2\). The distribution of \(Y_{n+1}\) is by assumption normal, but since we do not know the variance, we base the prediction interval on the Student distribution, viz.
@@ -1604,14 +1521,14 @@ age * obesity [obese] * smoker [yes] & 19.1 & 44.8 & 0.43 & 0.67\\
 The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for \texttt{age}; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.
 
 \begin{align*}
-\texttt{charges} &= \beta_{0} + \beta_{1}\texttt{age} + \beta_{2}\texttt{obese} + \beta_{3}\texttt{smoker} + 
+\texttt{charges} &= \beta_{0} + \beta_{1}\texttt{age} + \beta_{2}\texttt{obese} + \beta_{3}\texttt{smoker} +
 \beta_{4}\texttt{age} \cdot \texttt{obese} \\&\quad + \beta_{5}\texttt{age} \cdot \texttt{smoker} + \beta_{6}\texttt{obese} \cdot \texttt{smoker} + \beta_{7}\texttt{age} \cdot \texttt{obese} \cdot \texttt{smoker} + \varepsilon
 \end{align*}
 
 Because of the three-way interaction, it is not possible to recover individual parameters by changing the value of the corresponding covariate and keeping everything else constant: changing the smoker status likely impacts multiple regressors simultaneously. To retrieve the interpretation of the different coefficients, we will need to change one parameter at the time, write the mean equation and then isolate the coefficients. Throughout, \(\texttt{obese}\) is a dummy variable equal to one if the person has a body mass index greater than 30 and likewise \(\texttt{smoker}\) if the person is a smoker.
 
 \begin{align*}
-\texttt{charges}  = 
+\texttt{charges}  =
 \begin{cases}
 \beta_{0} + \beta_{1}\texttt{age}  & (\mathrm{g}_1)\, \texttt{non-obese}, \texttt{non-smoker} \\
 (\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{4})\texttt{age},  & (\mathrm{g}_2)\,  \texttt{obese}, \texttt{non-smoker} \\
@@ -1920,7 +1837,7 @@ However, lagged residuals plots only show dependence at lag one between observat
 
 For \(y_1, \ldots, y_n\) and constant time lags \(h=0, 1, \ldots\) units, the autocorrelation at lag \(h\) is
 \begin{align*}
-r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y}) 
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y})
 \end{align*}
 
 If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in Figure \ref{fig:correlogram}. Presence of autocorrelation requires modelling the correlation between observations explicitly using dedicated tools from the time series literature that are covered in MATH 60638. We will however examine \(\mathsf{AR}(1)\) models as part of the chapter on longitudinal data.
@@ -2402,12 +2319,12 @@ A cautionary warning: while you can compare regression models that are not neste
 \hypertarget{generalized-linear-models}{%
 \chapter{Generalized linear models}\label{generalized-linear-models}}
 
-Linear models are only suitable for data that are (approximately)
+Linear models are only suitable for data whose residuals are (approximately)
 normally distributed. However, there are many settings where we may wish
 to analyze a response variable which is not necessarily continuous,
 including when \(Y\) is binary, a count variable or is continuous, but
 non-negative. We will consider in particular likelihood-based inference
-for binary/proportion and counts data.
+for models of binary/proportion and counts data.
 
 Generalized linear models (GLM) combine a model for the conditional mean
 with a distribution for the response variable and a link function tying
@@ -2485,11 +2402,11 @@ natural parameter \(\theta\) are
 \end{align*}
 where \(b'(\cdot)\) and \(b''(\cdot)\) are the first two
 derivatives of \(b(\cdot)\) with respect to \(\theta\). Under regularity
-condition, the \href{https://math.stackexchange.com/q/2027660}{Bartlett identities} hold and
+condition, the \href{https://math.stackexchange.com/q/2027660}{Bartlett identities}
 \begin{align*}
 \mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}=0, \qquad - \mathsf{E}\left\{\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2}\right\} = \left[\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}\right]^2.
 \end{align*}
-These two equality give
+hold and these give
 \begin{align*}
 \mathsf{E}(Y_i) &= b'(\theta_i) \\
 \mathsf{Va}(Y_i) &= b''(\theta_i)a(\phi_i)
@@ -2597,66 +2514,15 @@ Consider a linear model for which theory dictates that the mean should be \(Y \s
 This model is nonlinear in \(\alpha_0\), \(\alpha_1\). If we opt for the reciprocal link function \(g(x)=1/x\), we get \(\beta_0+\beta_1 x\), where \(\beta_0 = 1/\alpha_0\) and \(\beta_1 = \alpha_1/\alpha_0\) provided \(\alpha_0 \neq 0\). Since the generalized linear model is estimated using maximum likelihood and the latter are invariant to reparametrization, we get easily the estimated coefficients of interest.
 \end{example}
 
-\hypertarget{model-adjustment-star}{%
-\subsection{\texorpdfstring{Model adjustment (\(\star\))}{Model adjustment (\textbackslash star)}}\label{model-adjustment-star}}
-
-There is generally no closed-form expression for the maximum likelihood
-estimators \(\widehat{\boldsymbol{\beta}}\) in generalized linear models
-and the score equation is typically nonlinear in \(\boldsymbol{\beta}\)
-and \(\widehat{\boldsymbol{\beta}}\) must be obtained through iterative
-numerical routines. The key reason for restricting attention to
-exponential family is because the likelihood equation depends on the
-response \(Y_i\) only through \(\mu_i\), \(\phi\) and \(V(\mu)\). The mean-variance thus characterizes the distribution.
-
-Starting from Equation \eqref{eq:expofam}, we differentiate the log likelihood function \(\ell = \sum_{i=1}^n \ell_i\) with respect to
-\(\boldsymbol{\beta}\). For simplicity, we consider each likelihood
-contribution and coefficient in turn. By the chain rule, \begin{align*}
-\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial
-\eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i}
-\frac{\partial \theta_i}{\partial \mu_i}\frac{\partial
-\ell_i}{\partial \theta_i}
-\end{align*}
-and the earlier derivations show \(\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)\) and \(\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)\).
-The derivative of the linear predictor,\(\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}\). The only missing term, \(\partial \mu_i/\partial \eta_i\), depends on the choice of link function through \(\eta_i = g(\mu_i)\), but it is unity for the canonical link function.
-
-Let
-\begin{align*}
-U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}
-\end{align*}
-denote respectively the gradient and the hessian of the log likelihood function; summing all the likelihood contribution, the \(j\)th element of the score vector
-\(\boldsymbol{U}\) is
-\begin{align*}
-\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
-\end{align*}
-In general, \(\widehat{\boldsymbol{\beta}}\) solves the score equation \(U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}\), so we can use a Newton--Raphson algorithm to derive the maximum likelihood
-estimator. This amounts to a first order Taylor series approximation of
-the score \(U(\widehat{\boldsymbol{\beta}})\) around \(\boldsymbol{\beta}\),
-\begin{align*}
-\boldsymbol{0}_{p+1} = U(\widehat{\boldsymbol{\beta}}) \stackrel{\cdot}{=} U(\beta) - j(\boldsymbol{\beta}) (\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta})
-\end{align*}
-If the \((p+1)\) matrix \(j(\boldsymbol{\beta}^{(t)})\) is
-invertible, we can thus device an iterative algorithm: starting from
-some initial value \(\boldsymbol{\beta}^{(0)}\), we compute at step \(t+1\)
-\begin{align*}
-\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + j^{-1}(\boldsymbol{\beta}^{(t)})U(\boldsymbol{\beta}^{(t)}).
-\end{align*}
-and iterate this formula until convergence. Most softwares
-implement a variant of this algorithm, in which the negative hessian
-\(j(\boldsymbol{\beta})\) is replaced by its absolute value
-\(i(\boldsymbol{\beta})\): the resulting algorithm is known as Fisher
-scoring. For generalized linear models, these recursions can be done by
-repeatedly computing a variant of least squares known as iteratively
-reweighted least squares.
-
-\hypertarget{likelihood-inference}{%
-\subsection{Likelihood inference}\label{likelihood-inference}}
+\hypertarget{likelihood-inference-for-generalized-linear-models}{%
+\subsection{Likelihood inference for generalized linear models}\label{likelihood-inference-for-generalized-linear-models}}
 
 Likelihood inference is straightforward, although some care is needed because the asymptotic distribution of test statistics sometimes depend on the model parameters. Under regularity conditions, the maximum likelihood estimators of \(\boldsymbol{\beta}\) and \(\phi\) are jointly normally distributed,
 \begin{align*}
 \widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{No}_{p+1}\{\boldsymbol{\beta}, (\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1}\}
 \end{align*}
 where
-\[\mathbf{W} = \mathrm{diag}\{w_1,\ldots, w_n\}, \qquad w_i = \frac{\partial \mu_i/\partial \eta_i)^2}{\mathsf{Va}(Y_i)}=\{g'(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}.
+\[\mathbf{W} = \mathrm{diag}\{w_1,\ldots, w_n\}, \qquad w_i = \frac{\left(\partial \mu_i/\partial \eta_i\right)^2}{\mathsf{Va}(Y_i)}=\{g'(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}.
 \]
 
 Since \(\mathbf{W}\) depends on the unknown \(\boldsymbol{\beta}\) through
@@ -2665,7 +2531,7 @@ replacing the unknown coefficients by their maximum likelihood estimates
 at \(\widehat{\boldsymbol{\beta}}\).
 
 \begin{example}[Elements of the weight matrix for Poisson data]
-\protect\hypertarget{exm:weightpois}{}{\label{exm:weightpois} \iffalse (Elements of the weight matrix for Poisson data) \fi{} }If we consider \(Y_i \sim \mathsf{Po}(\mu_i)\) with canonical link function \(\mu_i = \exp(\eta_i)\), then \(\partial \eta_i / \partial \mu_i = \mu_i^{-1}\) and \(w_i=\mu_i\).
+\protect\hypertarget{exm:weightpois}{}{\label{exm:weightpois} \iffalse (Elements of the weight matrix for Poisson data) \fi{} }If we consider \(Y_i \sim \mathsf{Po}(\mu_i)\) with canonical link function \(\mu_i = \exp(\eta_i)\), then \(\partial \mu_i/\partial \eta_i =\exp(\eta_i)= \mu_i\) and thus \(w_i=\mu_i\).
 \end{example}
 
 Since we use maximum likelihood estimation, the theory presented in
@@ -2718,79 +2584,6 @@ correct and \(\phi\) is known (but this result doesn't hold for binary
 data or binomial data unless \(m\) is very large and \(\boldsymbol{\beta}\)
 are small). If \(\phi\) is unknown, we would replace it throughout by an
 estimate and the same distributional results hold approximatively.
-
-\hypertarget{residuals-glm}{%
-\subsection{\texorpdfstring{Residuals \((\star)\)}{Residuals (\textbackslash star)}}\label{residuals-glm}}
-
-We can use the individual contributions to the deviance and Pearson
-\(X^2\) statistic to build residuals. By considering
-\(D = \sum_{i=1}^n d_i^2\), where
-\begin{align*}
-d_i &= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\eta}_i; y_i) - 2\ell(\widehat{\eta}_i; y_i)\}^{1/2}
-\end{align*}
-and the calculations simplify upon replacing the formula of
-the log likelihood for the generic exponential family member,
-\begin{align*}
-d_i^2=2 \left\{y_i (\widetilde{\theta}_i - \widehat{\theta}_i) - b(\widetilde{\theta}_i) + b(\widehat{\theta}_i)\right\}
-\end{align*}
-The terms \(d_i\) are called deviance residuals, whereas
-Pearson residuals are based on the score contributions
-\(u_i(\widehat{\beta}) w_i(\widehat{\beta})^{-1/2}\), where the score statistic \(u(\boldsymbol{\beta})\) and the weights \(w_i\) are
-\begin{align*}
-u_i &= \frac{\partial \theta_i}{\partial \eta_i} \frac{\partial \ell_i(\theta_i)}{\partial \theta_i} = \frac{y_i - \mu_i}{g'(\mu_i)a_i(\phi)V(\mu_i)}\\
-w_i &= \left(\frac{\partial \theta_i}{\partial \eta_i}\right)^2 \frac{\partial^2 \ell_i(\theta_i)}{\partial \theta_i^2} = \frac{1}{g'(\mu_i)^2 a_i(\phi)V(\mu_i)}
-\end{align*}
-
-In practice, these residuals are heteroscedastic and it is better to
-standardize them by considering instead
-\begin{align*}
-r_{D_i} = \frac{d_i}{(1-h_{ii})^2}, \qquad r_{P_i} = \frac{u_i(\widehat{\beta})}{\{w_i(\widehat{\beta})(1-h_{ii})\}^{1/2}},
-\end{align*}
-both are scaled by \((1-h_{ii})^{1/2}\), a formula remniscent
-of the linear model framework. In the above formulas, the leverage
-\(h_{ii}\) is the \(i\)th diagonal element of the matrix \begin{align*}
-\mathbf{H}_{\mathbf{X}} = \mathbf{W}^{1/2}\mathbf{X}(\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{W}^{1/2};
-\end{align*}
-since the terms of
-\(\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}\) depend on the unknown
-coefficient, the latter is estimated by replacing \(\boldsymbol{\beta}\)
-by \(\widehat{\boldsymbol{\beta}}\).
-
-The standardized deviance residuals \(\{r_{D_i}\}\) and standardized
-Pearson residuals \(\{r_{P_i}\}\) should have an approximate standard
-normal distribution in large samples, but their distribution can be
-skewed. Like in the linear regression, we will work with the
-\textbf{jackknifed deviance residuals} for residual plots \begin{align*}
-r_{J_i} &= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
-\end{align*}
-
-For ordinary linear regression, both \(r_{D_i}\) and \(r_{P_i}\) reduce to
-the standardized residuals \(t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}\).
-
-There are clear parallels between generalized linear models and linear
-models: we have so far derived an analog of residuals and leverage.
-Collinearity is also an issue for generalized linear model; for the
-latter, we define the Cook statistic as the change in the deviance,
-\begin{align*}
-C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
-\end{align*}
-where \(\widehat{\boldsymbol{\beta}}_{-j}\) is the estimate
-obtained by dropping the \(j\)th observation from the sample. This
-requires fitting \(n\) different models, which is computationally
-prohibitive. In the linear regression, we can calculate the Cook
-distance from the formula \(C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})\),
-where \(t_i\) are the standardized residuals defined in the previous
-section. For generalized linear models, no such expression exists,
-although a good approximation is
-\(C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})\).
-
-Diagnostic plots for generalized linear models are harder to interpret
-because of the lack of orthogonality. It is customary to plot the
-jackknife deviance residuals against the linear predictor
-\(\widehat{\eta}_i\), produce normal quantile-quantile plots of
-standardized deviance residuals and the approximate Cook statistics
-against the \(h_{ii}/(1-h_{ii})\). We will show examples of such plots for
-particular models.
 
 \hypertarget{binary-responses}{%
 \section{Binary responses}\label{binary-responses}}
@@ -3068,41 +2861,6 @@ One way to restore finiteness of the \(\boldsymbol{\beta}\) is to impose a penal
 }
 
 \caption{Illustration of complete separation of variable on simulated observations. Parameters are near infinite to yield a sharp transition at $x=9$. Quasi-complete separation of variable occurs if both outcomes are observed at the cutoff point.}\label{fig:sepvarplot}
-\end{figure}
-
-\hypertarget{diag-plots-binary}{%
-\subsection{\texorpdfstring{Diagnostic plots for binary data (\(\star\))}{Diagnostic plots for binary data (\textbackslash star)}}\label{diag-plots-binary}}
-
-There are also other issues arising from the discreteness of the
-observations. Since observations are 0/1, residuals are often separated.
-Figure \ref{fig:diagplotsbirthwt1} shows residual plots for Example
-\ref{exm:birthweightex}: both plots are of limited use to assess
-goodness-of-fit and model assumptions.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagplotsbirthwt1-1} 
-
-}
-
-\caption{Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right).}\label{fig:diagplotsbirthwt1}
-\end{figure}
-
-Another strategy is use of quantile residuals
-\citep{Brillinger/Preisler:1983}. If \(Y \sim F\), the quantile transform gives \(U=F(Y) \sim \mathsf{U}(0,1)\), meaning uniformly distributed on \((0,1)\). Replacing the unknown distribution \(F\) by \(\widehat{F}\) should yield approximately uniform observations. With \(\widehat{\pi}_i\) denoting the probability of success, we take
-\begin{align*}
-U_i = U_{i1} Y_i + U_{i2}(1-Y_i), \qquad U_{i1} \sim \mathsf{U}(0, \widehat{\pi}_i), \quad U_{i2} \sim \mathsf{U}(\widehat{\pi}_i, 1)
-\end{align*}
-and the resulting \textbf{uniform residuals} will be, as their name hints, approximately uniform on \((0,1)\). The drawback of this approach lies in the randomness of the residuals. Figure \ref{fig:diagplotbirthwgt} shows the diagnostic plots based on the uniform residuals (top two rows): there is no overall indication of poor fit, except for seemingly too few low/high residuals. The two observations with high leverage correspond to non-smoker mothers with no premature labour record: one with hypertension and a weight of 95lbs (unusual combination), the other weighting 200 lbs, with no hypertension and presence of uterine
-irritability.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagplotbirthwgt-1} 
-
-}
-
-\caption{Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey's quantile-quantile plot, Cook statistic against weighted leverage and case number. }\label{fig:diagplotbirthwgt}
 \end{figure}
 
 \hypertarget{count-data}{%
@@ -3399,14 +3157,14 @@ All of the three main effects are highly significant, as evidenced by Type 3 lik
 \hypertarget{correlated-longitudinal-data}{%
 \chapter{Correlated and longitudinal data}\label{correlated-longitudinal-data}}
 
-Violations of the hypothesis of the linear model impact the validity of statistical inference. Whereas the last chapter followed on generalizations of the linear regression to handle non-normality of the response, we consider now extensions of the linear regression model in order to account for dependence or group heteroscedasticity.
+Violations of the hypothesis of the linear model impact the validity of statistical inference. Whereas the last chapter followed on generalizations of the linear regression to handle non-normality of the response, we consider now extensions of the linear regression model that account for dependence over time or group heteroscedasticity.
 
-We derived the ordinary least squares estimator using maximum likelihood under the assumption of independent and homoscedastic normal errors. An alternative way of deriving the maximum likelihood estimator is to consider the \(n\) sample as a single realization of an \(n\) dimensional random vector with \(\boldsymbol{Y} \sim \mathsf{No}_n(\mathbf{X}\boldsymbol{\beta}, \sigma^2, \mathbf{I}_n)\). In the case of normally distributed data, the covariance matrix \(\boldsymbol{\Sigma}\) encodes the dependence between observations: off-diagonal elements of the covariance matrix are zero for independent observations, whereas the diagonal elements, which encode the variance, are equal for homoscedastic observations. One way to relax these assumptions is thus to parametrize \(\boldsymbol{\Sigma}\) in terms of few parameter \(\boldsymbol{\psi}\) and to obtain the likelihood-based estimators of \(\boldsymbol{\beta}\) and \(\boldsymbol{\psi}\).
+We derived the ordinary least squares estimator using maximum likelihood under the assumption of independent and homoscedastic normal errors. For normally distributed data, the covariance matrix \(\boldsymbol{\Sigma}\) encodes the dependence between observations: off-diagonal elements of the covariance matrix are zero for independent observations, whereas the diagonal elements, which encode the variance, are equal for homoscedastic observations. An alternative way of writing the likelihood of the \(n\) sample is to view the latter as a single realization of an \(n\) dimensional random vector with \(\boldsymbol{Y} \sim \mathsf{No}_n(\mathbf{X}\boldsymbol{\beta}, \sigma^2, \mathbf{I}_n)\). From there, it is easy to see how one can relax the independence and homoscedasticity assumption by writing the covariance matrix \(\boldsymbol{\Sigma}\) in terms of few parameter \(\boldsymbol{\psi}\) and by obtaining the likelihood-based estimators of \(\boldsymbol{\beta}\) and \(\boldsymbol{\psi}\).
 
 \hypertarget{longitudinal-data}{%
 \section{Longitudinal data}\label{longitudinal-data}}
 
-The parametrization of the covariance matrix requires some more insight into the dependence structure of the data. Most of the dependence arises from time dependence between observations. This section focuses on \textbf{longitudinal} data, or \textbf{repeated measurements}. These consist of short time series which are collected over different individuals: the assumption of independence could thus hold for measurements between different individuals, but not for measurements of the same individual.
+The parametrization of the covariance matrix requires some more insight into the dependence structure of the data. Most of the dependence arises from time dependence between consecutive measurements of an observation. This section focuses on \textbf{longitudinal} data, or \textbf{repeated measurements}. These consist of short time series which are collected over different ``individuals'': the assumption of independence could hold for measurements of different individuals, but not for measurements of the same individual.
 
 \begin{figure}
 
@@ -3418,6 +3176,19 @@ The parametrization of the covariance matrix requires some more insight into the
 \end{figure}
 
 We can see from Figure \ref{fig:spaghettiplots} that there are a handful of observations per patient and that the overall increase in lung capacity as measured by FEV(1) increases with age. In the \texttt{fev1} database, the number of observations per individual varies from 1 to 12.
+
+The data we will handled are stored in tables or frames. If the data frame is stocked in long format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.
+
+The alternative is wide format, whereby the columns represent categorical variables and the entries are values of the response for a specific category (notably contingency tables). Figure \ref{fig:longvswide} shows the difference between the two structures. Software typically require long formatted database for modelling purposes.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/original-dfs-tidy} 
+
+}
+
+\caption{Long versus wide-format for data tables (illustration by Garrick Aden-Buie).}\label{fig:longvswide}
+\end{figure}
 
 \hypertarget{linear-mixed-models}{%
 \chapter{Linear mixed models}\label{linear-mixed-models}}
@@ -3468,7 +3239,7 @@ Random effects naturally induce correlation between observations and the conditi
 
 The spaghetti plot of Figure \ref{fig:partialpool1} shows selected individuals, ordered by their initial weight. We can see that some chicks are lost to follow-up, possibly dead, for the first diet type. While this is potentially a form of informative censoring, we will omit it from further analyses due to lack of additional information. Overall, the slopes seem steeper on average for diets 3--4. We omit diet from subsequent analyses, but including an interaction between age and diet, in addition to main effects, seems an adequate way to capture these differences. There are also variability within diet, as not all chicks have the same daily weight gain.
 
-We can compare the group effect to a linear model with no pooling obtained by including a common slope for \(\texttt{time}\) in the model matrix \(\mathbf{X}\) and no group-specific intercept. This scenario corresponds to no pooling or ``one size fits all''. This solution would differ slightly from the mixed model because it would simply pool all observations at a given time, whereas the mixed model account for the fact individuals are repeated within individuals.
+We can compare the group effect to a linear model with no pooling obtained by including a common slope for \(\texttt{time}\) in the model matrix \(\mathbf{X}\) and no group-specific intercept. This scenario corresponds to no pooling or ``one size fits all''. This solution would differ slightly from the mixed model because it would simply pool all observations at a given time.
 
 The main remaining question is related to discrepancies between conditional predictions from the mixed model with random intercepts and slopes and the model that includes fixed effects with different intercepts and slopes for each chick. It turns out that the specification of the normal random effects induces \textbf{shrinkage} towards zero of the random effect, and thus the conditional predictions (predictions of the random effects added to the fixed effects) are closer than their fixed effects counterparts, which is itself close to the global average intercept/slope. Most of the time, this effect is barely distinguishable in plots, as shown in Figure \ref{fig:partpooldf}. The only exception seems to be in cases where the number of observations per group is small, in which case the conditional and marginal predictions are close.
 
@@ -3547,15 +3318,15 @@ If \(Y\) is discrete, then it has atoms of non-zero probability and the mass fun
 \hypertarget{moments}{%
 \subsection{Moments}\label{moments}}
 
-One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
+One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random variable. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
 
-Let \(Y\) be a random variable with density (or mass) function \(f(x)\). This function is non-negative and satisfies \(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\): the integral over a set \(B\) gives the probability of \(Y\) falling inside \(B \in \mathbb{R}\).
+Let \(Y\) be a random variable with density (or mass) function \(f(x)\). This function is non-negative and satisfies \(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\): the integral over a set \(B\) (the area under the curve) gives the probability of \(Y\) falling inside \(B \in \mathbb{R}\).
 
 The expectation (or theoretical mean) of a continuous random variable \(Y\) is \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]
 In the discrete case, we set rather \(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\), where \(\mathcal{X}\) denotes the support of \(Y\), the set of numerical values at which the probability of \(Y\) is non-zero.
 More generally, we can look at the expectation of a function \(g(x)\) for \(Y\), which is nothing but the integral (or sum in the discrete case) of \(g(x)\) weighted by the density or mass function of \(f(x)\). In the same fashion, provided the integral is finite, the variance is
 \[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
-The \textbf{standard deviation} is the square root of the variance and measures the variability of the variable, measured in the same units as \(Y\).
+The \textbf{standard deviation} is the square root of the variance, \(\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}\): it units are the same as those of \(Y\) and are thus more easily interpreted.
 
 The notion of moments can be extended to higher dimensions. If we assume data are independent, their joint distribution factorizes into the product of the individual mass function/density of each sample point. Otherwise, a multivariate mass function or density function describes the behaviour of the random vector.
 
@@ -3742,7 +3513,7 @@ For normally distributed data, the centered sample mean divided by the sample va
 
 Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if \(Y\) is a continuous random variable with distribution function \(F\), then the mapping \(F(Y) \sim \mathsf{U}(0,1)\) yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from \(F\), viz.~\(F^{-1}(U)\). Consider then a random sample of size \(n\) from the uniform distribution ordered from smallest to largest, with \(U_{(1)} \leq \cdots \leq U_{(n)}\). One can show these ranks have marginally a Beta distribution, \(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\) with expectation \(k/(n+1)\).
 
-In practice, we don't know \(F\) and, even if we did, one would need to estimate the parameters. We consider some estimator \(\widehat{F}\) for the model and apply the inverse transform to an approximate uniform sample \(\{i/(n+1)\}_{i=1}^n\). The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:
+In practice, we don't know \(F\) and, even if we did, one would need to estimate the parameters. We consider some estimator \(\widehat{F}\) for the model and apply the inverse transform to an approximate uniform sample \(\{i/(n+1)\}_{i=1}^n\). The quantile-quantile plot shows the data as a function of the (first moment) of the transformed order statistics:
 
 \begin{itemize}
 \tightlist
@@ -3752,7 +3523,7 @@ In practice, we don't know \(F\) and, even if we did, one would need to estimate
   on the \(y\)-axis, the empirical quantiles \(y_i\)
 \end{itemize}
 
-If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope: the detrended plot is easier to interpret and was proposed by Tukey (but beware of the scale of the \(y\)-axis!). Figure \ref{fig:diagrammeqq2} shows two representations of the same data using simulated samples from a standard normal distribution.
+If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope. Tukey's mean difference plot takes the plotting positions of the quantile-quantile plot, say (\(x_i, y_i\)), and shows instead the mean and difference of these coordinates (\(\{x_i + y_i\}/2, y_i - x_i\)). Figure \ref{fig:diagrammeqq2} shows two representations of the same data using simulated samples from a standard normal distribution.
 
 \begin{figure}
 
@@ -3760,7 +3531,7 @@ If the model is adequate, the ordered values should follow a straight line with 
 
 }
 
-\caption{Normal quantile-quantile plot (left) and detrended version (Tukey's) of the same plot (right).}\label{fig:diagrammeqq2}
+\caption{Normal quantile-quantile plot (left) and Tukey's mean different plot (right) for the same data.}\label{fig:diagrammeqq2}
 \end{figure}
 
 Even if we knew the true distribution of the data, the sample variability makes it very difficult to spot if deviations from the model are abnormal or compatible with the model. A simple point estimate with no uncertainty measure can lead to wrong conclusions. As such, we add approximate pointwise or simultaneous confidence intervals. The simplest way to do this is by simulation (using a parametric bootstrap), by repeating the following steps \(B\) times:
@@ -3776,11 +3547,11 @@ Even if we knew the true distribution of the data, the sample variability makes 
   calculate and save the plotting positions \(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}\).
 \end{enumerate}
 
-The result of this operation is an \(n \times B\) matrix of simulated data. We obtain a symmetric (\(1-\alpha\)) confidence interval by keeping the empirical quantile of order \(\alpha/2\) and \(1-\alpha/2\) from each row. The number \(B\) should be larger than 999, say, and be chosen so that \(B/alpha\) is an integer.
+The result of this operation is an \(n \times B\) matrix of simulated data. We obtain a symmetric (\(1-\alpha\)) confidence interval by keeping the empirical quantile of order \(\alpha/2\) and \(1-\alpha/2\) from each row. The number \(B\) should be larger than 999, say, and be chosen so that \(B/\alpha\) is an integer.
 
-For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately \(\alpha\). However, order statistics are not independent (they are ordered), so its common to see neighboring points falling outside of their respective intervals. {[}It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall \(100(1-\alpha)\)\% of the time inside the bands in repeated samples; \href{https://lbelzile.github.io/lineaRmodels/qqplot.html}{see Section 4.4.3 of these course notes}. The intervals shown in Figure \ref{fig:diagrammeqq2} are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on \(F\).
+For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately \(\alpha\). However, order statistics are not independent (they are ordered), so its common to see neighbouring points falling outside of their respective intervals. {[}It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall \(100(1-\alpha)\)\% of the time inside the bands in repeated samples; \href{https://lbelzile.github.io/lineaRmodels/qqplot.html}{see Section 4.4.3 of these course notes}. The intervals shown in Figure \ref{fig:diagrammeqq2} are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on \(F\).
 
-Interpretation of quantile-quantile plots requires some experience: \href{https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290\#101290}{this post by \emph{Glen\_b} on StackOverflow} nicely summarizes what can be detected (or not) from them.
+Interpretation of quantile-quantile plots requires practice and experience: \href{https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290\#101290}{this post by \emph{Glen\_b} on StackOverflow} nicely summarizes what can be detected (or not) from them.
 
 \hypertarget{law-large-numbers}{%
 \section{Laws of large numbers}\label{law-large-numbers}}
@@ -3794,7 +3565,7 @@ If the law of large number tells us what happens in the limit (we get a single n
 \hypertarget{CLT}{%
 \section{Central Limit Theorem}\label{CLT}}
 
-The central limit theorem is perhaps the flagship result of probability theory: for a random sample of size \(n\) with (independent) random variables whose expectation is \(\mu\) and variance \(\sigma^2\), then the sample mean converges to \(\mu\), but
+The central limit theorem gives the approximate large sample distribution of the sample mean. Consider a random sample of size \(n\) \(\{Y_i\}_{i=1}^n\) of independent random variables with common expectation \(\mu\) and variance \(\sigma^2\). The sample mean \(\overline{Y} = n^{-1}\sum_{i=1}^n Y_i\) converges to \(\mu\) by the law of large number, but we also have that
 
 \begin{itemize}
 \tightlist
@@ -3832,16 +3603,16 @@ Consider now samples of size \(n=10\), drawn repeatedly from the population: in 
 \caption{Graphical representation of the central limit theorem. The upper left panel shows a sample of 20 observations with its sample mean (vertical red). The three other panels show the histograms of the sample mean from repeated samples of size 5 (top right), 20 (bottom left) and 20, 50 and 100 overlaid, with the density approximation provided by the central limit theorem.}\label{fig:renfemeanCLT}
 \end{figure}
 
-We draw \(B=1000\) different samples, each of size \(n=5\), from two millions records, and calculate the sample mean in each of them. The top right panel of \ref{fig:renfemeanCLT} shows the result for \(n=5\), but also for \(n=20\) (bottom left). The last graph of Figure \ref{fig:renfemeanCLT} shows the impact of the increase in sample size: whereas the normal approximation is okay-ish for \(n=5\), it is indistinguishable from the normal approximation for \(n=20\). As \(n\) increases and the sample size gets bigger, the quality of the approximation improves and the curve becomes more concentrated around the true mean. Even if the distribution of the travel time is discrete, the mean is approximately normal.
+We draw \(B=1000\) different samples, each of size \(n=5\), from two millions records, and calculate the sample mean in each of them. The top right panel of \ref{fig:renfemeanCLT} is a histogram of the sample means when \(n=5\), whereas the bottom left panel shows the same thingfor \(n=20\). The last graph of Figure \ref{fig:renfemeanCLT} shows the impact of the increase in sample size: whereas the normal approximation is okay-ish for \(n=5\), it is indistinguishable from the normal approximation for \(n=20\). As \(n\) increases and the sample size gets bigger, the quality of the approximation improves and the curve becomes more concentrated around the true mean. Even if the distribution of the travel time is discrete, the mean is approximately normal.
 
 We considered a single distribution in the example, but you could play with other distributions and vary the sample size to see when the central limit theorem kicks in usng this \href{http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html}{applet}.
 
 The central limit theorem underlies why scaled test statistics which have sample mean zero and sample variance 1 have a standard null distribution in large sample: this is what guarantees the validity of our inference!
 
 \hypertarget{math}{%
-\chapter{Mathematical derivations}\label{math}}
+\chapter{Supplementary material}\label{math}}
 
-This section regroups optional derivations which are provided for the sake of completeness.
+This section regroups optional derivations and additional details which are provided for the sake of completeness.
 
 \hypertarget{ols}{%
 \section{Derivation of the ordinary least squares estimator}\label{ols}}
@@ -3850,7 +3621,7 @@ Consider the optimization problem
 \begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
-We can compute the derivative of the right hand side with respect to \(\boldsymbol{\beta}\), set it to zero and solve for \(\widehat{\boldsymbol{\beta}}\),\\
+We can compute the derivative of the right hand side with respect to \(\boldsymbol{\beta}\), set it to zero and solve for \(\widehat{\boldsymbol{\beta}}\),
 \begin{align*}
 \mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
 \\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
@@ -3881,6 +3652,163 @@ Because of the orthogonal decomposition \(\boldsymbol{y}=\widehat{\boldsymbol{y}
 \end{align*}
 This justifies the claim of \protect\hyperlink{coefR2}{Section 2.5} that the squared correlation between the fitted values and the response is equal to \(R^2\).
 
+\hypertarget{optimization-for-generalized-linear-models}{%
+\subsection{Optimization for generalized linear models}\label{optimization-for-generalized-linear-models}}
+
+There is generally no closed-form expression for the maximum likelihood
+estimators \(\widehat{\boldsymbol{\beta}}\) in generalized linear models
+and the score equation is typically nonlinear in \(\boldsymbol{\beta}\)
+and \(\widehat{\boldsymbol{\beta}}\) must be obtained through iterative
+numerical routines.
+
+Starting from Equation \eqref{eq:expofam}, we differentiate the log likelihood function \(\ell = \sum_{i=1}^n \ell_i\) with respect to
+\(\boldsymbol{\beta}\). For simplicity, we consider each likelihood
+contribution and coefficient in turn. By the chain rule, \begin{align*}
+\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial
+\eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i}
+\frac{\partial \theta_i}{\partial \mu_i}\frac{\partial
+\ell_i}{\partial \theta_i}
+\end{align*}
+and the earlier derivations show \(\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)\) and \(\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)\).
+The derivative of the linear predictor, \(\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}\). The only missing term, \(\partial \mu_i/\partial \eta_i\), depends on the choice of link function through \(\eta_i = g(\mu_i)\), but it is unity for the canonical link function.
+
+Let
+\begin{align*}
+U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}
+\end{align*}
+denote respectively the gradient and the hessian of the log likelihood function; summing all the likelihood contribution, the \(j\)th element of the score vector
+\(\boldsymbol{U}\) is
+\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}
+In general, \(\widehat{\boldsymbol{\beta}}\) solves the score equation \(U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}\), so we can device a Newton--Raphson algorithm to obtain the maximum likelihood
+estimates. This amounts to a first order Taylor series expansion of
+the score vector \(U(\widehat{\boldsymbol{\beta}})\) around \(\boldsymbol{\beta}\),
+\begin{align*}
+\boldsymbol{0}_{p+1} = U(\widehat{\boldsymbol{\beta}}) \stackrel{\cdot}{=} U(\beta) - j(\boldsymbol{\beta}) (\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta})
+\end{align*}
+If the \((p+1)\) matrix \(j(\boldsymbol{\beta}^{(t)})\) is
+invertible, we can thus device an iterative algorithm: starting from
+some initial value \(\boldsymbol{\beta}^{(0)}\), we compute at step \(t+1\)
+\begin{align*}
+\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + j^{-1}(\boldsymbol{\beta}^{(t)})U(\boldsymbol{\beta}^{(t)}).
+\end{align*}
+and iterate this formula until convergence. Most softwares
+implement a variant of this algorithm, in which the negative hessian
+\(j(\boldsymbol{\beta})\) is replaced by its absolute value
+\(i(\boldsymbol{\beta})\): the resulting algorithm is known as Fisher
+scoring. For generalized linear models, these recursions can be done by
+repeatedly computing a variant of least squares known as iteratively
+reweighted least squares.
+
+\hypertarget{residuals-glm}{%
+\subsection{Residuals for generalized linear models}\label{residuals-glm}}
+
+We can use the individual contributions to the deviance and Pearson
+\(X^2\) statistic to build residuals for generalized linear models. By considering
+\(D = \sum_{i=1}^n d_i^2\), where
+\begin{align*}
+d_i &= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\eta}_i; y_i) - 2\ell(\widehat{\eta}_i; y_i)\}^{1/2}
+\end{align*}
+and the calculations simplify upon replacing the formula of
+the log likelihood for the generic exponential family member,
+\begin{align*}
+d_i^2=2 \left\{y_i (\widetilde{\theta}_i - \widehat{\theta}_i) - b(\widetilde{\theta}_i) + b(\widehat{\theta}_i)\right\}
+\end{align*}
+The terms \(d_i\) are called deviance residuals, whereas
+Pearson residuals are based on the score contributions
+\(u_i(\widehat{\beta}) w_i(\widehat{\beta})^{-1/2}\), where the score statistic \(u(\boldsymbol{\beta})\) and the weights \(w_i\) are
+\begin{align*}
+u_i &= \frac{\partial \theta_i}{\partial \eta_i} \frac{\partial \ell_i(\theta_i)}{\partial \theta_i} = \frac{y_i - \mu_i}{g'(\mu_i)a_i(\phi)V(\mu_i)}\\
+w_i &= \left(\frac{\partial \theta_i}{\partial \eta_i}\right)^2 \frac{\partial^2 \ell_i(\theta_i)}{\partial \theta_i^2} = \frac{1}{g'(\mu_i)^2 a_i(\phi)V(\mu_i)}
+\end{align*}
+
+In practice, these residuals are heteroscedastic and it is better to
+standardize them by considering instead
+\begin{align*}
+r_{D_i} = \frac{d_i}{(1-h_{ii})^2}, \qquad r_{P_i} = \frac{u_i(\widehat{\beta})}{\{w_i(\widehat{\beta})(1-h_{ii})\}^{1/2}},
+\end{align*}
+both are scaled by \((1-h_{ii})^{1/2}\), a formula remniscent
+of the linear model framework. In the above formulas, the leverage
+\(h_{ii}\) is the \(i\)th diagonal element of the matrix \begin{align*}
+\mathbf{H}_{\mathbf{X}} = \mathbf{W}^{1/2}\mathbf{X}(\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{W}^{1/2};
+\end{align*}
+since the terms of
+\(\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}\) depend on the unknown
+coefficient, the latter is estimated by replacing \(\boldsymbol{\beta}\)
+by \(\widehat{\boldsymbol{\beta}}\).
+
+The standardized deviance residuals \(\{r_{D_i}\}\) and standardized
+Pearson residuals \(\{r_{P_i}\}\) should have an approximate standard
+normal distribution in large samples, but their distribution can be
+skewed. Like in the linear regression, we will work with the
+\textbf{jackknifed deviance residuals} for residual plots \begin{align*}
+r_{J_i} &= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
+\end{align*}
+
+For ordinary linear regression, both \(r_{D_i}\) and \(r_{P_i}\) reduce to
+the standardized residuals \(t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}\).
+
+There are clear parallels between generalized linear models and linear
+models: we have so far derived an analog of residuals and leverage.
+Collinearity is also an issue for generalized linear model; for the
+latter, we define the Cook statistic as the change in the deviance,
+\begin{align*}
+C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
+\end{align*}
+where \(\widehat{\boldsymbol{\beta}}_{-j}\) is the estimate
+obtained by dropping the \(j\)th observation from the sample. This
+requires fitting \(n\) different models, which is computationally
+prohibitive. In the linear regression, we can calculate the Cook
+distance from the formula \(C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})\),
+where \(t_i\) are the standardized residuals defined in the previous
+section. For generalized linear models, no such expression exists,
+although a good approximation is
+\(C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})\).
+
+Diagnostic plots for generalized linear models are harder to interpret
+because of the lack of orthogonality. It is customary to plot the
+jackknife deviance residuals against the linear predictor
+\(\widehat{\eta}_i\), produce normal quantile-quantile plots of
+standardized deviance residuals and the approximate Cook statistics
+against the \(h_{ii}/(1-h_{ii})\). We will show examples of such plots for
+particular models.
+
+\hypertarget{diag-plots-binary}{%
+\subsection{Diagnostic plots for binary data}\label{diag-plots-binary}}
+
+There are also other issues arising from the discreteness of the
+observations. Since observations are 0/1, residuals are often separated.
+Figure \ref{fig:diagplotsbirthwt1} shows residual plots for Example
+\ref{exm:birthweightex}: both plots are of limited use to assess
+goodness-of-fit and model assumptions.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagplotsbirthwt1-1} 
+
+}
+
+\caption{Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right).}\label{fig:diagplotsbirthwt1}
+\end{figure}
+
+Another strategy is use of quantile residuals
+\citep{Brillinger/Preisler:1983}. If \(Y \sim F\), the quantile transform gives \(U=F(Y) \sim \mathsf{U}(0,1)\), meaning uniformly distributed on \((0,1)\). Replacing the unknown distribution \(F\) by \(\widehat{F}\) should yield approximately uniform observations. With \(\widehat{\pi}_i\) denoting the probability of success, we take
+\begin{align*}
+U_i = U_{i1} Y_i + U_{i2}(1-Y_i), \qquad U_{i1} \sim \mathsf{U}(0, \widehat{\pi}_i), \quad U_{i2} \sim \mathsf{U}(\widehat{\pi}_i, 1)
+\end{align*}
+and the resulting \textbf{uniform residuals} will be, as their name hints, approximately uniform on \((0,1)\). The drawback of this approach lies in the randomness of the residuals. Figure \ref{fig:diagplotbirthwgt} shows the diagnostic plots based on the uniform residuals (top two rows): there is no overall indication of poor fit, except for seemingly too few low/high residuals. The two observations with high leverage correspond to non-smoker mothers with no premature labour record: one with hypertension and a weight of 95lbs (unusual combination), the other weighting 200 lbs, with no hypertension and presence of uterine
+irritability.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604A_Statistical_modelling_files/figure-latex/diagplotbirthwgt-1} 
+
+}
+
+\caption{Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey's quantile-quantile plot, Cook statistic against weighted leverage and case number. }\label{fig:diagplotbirthwgt}
+\end{figure}
+
 \hypertarget{restricted-estimation-maximum-likelihood}{%
 \section{Restricted estimation maximum likelihood}\label{restricted-estimation-maximum-likelihood}}
 
@@ -3891,7 +3819,7 @@ For the linear mixed model, the marginal distribution of the \(n\) response vect
 
 The log likelihood for the model is, up to proportionality constants
 \begin{align*}
-\ell(\boldsymbol{\beta},\boldsymbol{\psi}; \boldsymbol{y}) \propto  \frac{1}{2} \ln |\boldsymbol{\Upsilon}|- \frac{1}{2} (\boldsymbol{y}- \mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}) 
+\ell(\boldsymbol{\beta},\boldsymbol{\psi}; \boldsymbol{y}) \propto  \frac{1}{2} \ln |\boldsymbol{\Upsilon}|- \frac{1}{2} (\boldsymbol{y}- \mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
 \end{align*}
 
 For known \(\boldsymbol{\psi}\), the precision matrix \(\boldsymbol{\Upsilon}\) is fully resolved; the restricted maximum likelihood for the parameters of the mean vector \(\boldsymbol{\beta}\) is
@@ -3900,7 +3828,7 @@ For known \(\boldsymbol{\psi}\), the precision matrix \(\boldsymbol{\Upsilon}\) 
 \end{align*}
 We can show that \(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} \sim \mathsf{No}_{p+1}\{\boldsymbol{\beta}, (\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X})^{-1}\}\) and thus write the joint density of the response given mean and variance parameters as
 \begin{align*}
-f(\boldsymbol{y}; \boldsymbol{\psi}, \boldsymbol{\beta}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) f(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}; \boldsymbol{\psi}, \boldsymbol{\beta}). 
+f(\boldsymbol{y}; \boldsymbol{\psi}, \boldsymbol{\beta}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) f(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}; \boldsymbol{\psi}, \boldsymbol{\beta}).
 \end{align*}
 Given \(\boldsymbol{\psi}\), \(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}\) is a sufficient statistic for \(\boldsymbol{\beta}\), the conditional density depends on \(\boldsymbol{\beta}\) only through \(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}\), so \(f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\psi})\).
 Rather than using the full likelihood, the REML maximizes the conditional log likelihood
@@ -3910,7 +3838,7 @@ Rather than using the full likelihood, the REML maximizes the conditional log li
 The solution thus differs from that of the maximum log likelihood. The log conditional density is
 \begin{align*}
 \ell_{\mathrm{r}}(\boldsymbol{\psi})
- &= \frac{1}{2} \ln |\boldsymbol{\Upsilon}| - \frac{1}{2} (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}) 
+ &= \frac{1}{2} \ln |\boldsymbol{\Upsilon}| - \frac{1}{2} (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
  \\& \quad - \frac{1}{2} \ln \left|\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X}\right| + \frac{1}{2} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)^\top \mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)
 \end{align*}
 and upon simplifying terms using the fact \(\boldsymbol{y} - \mathbf{X}\boldsymbol{\beta} = \boldsymbol{y} - \mathbf{X}\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} + \mathbf{X}(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} - \boldsymbol{\beta})\), we retrieve the REML log likelihood,

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Introduction to statistical inference | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Introduction to statistical inference | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,8 +31,8 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="linear-regression.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,21 +49,24 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-<link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
-<script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
-<script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
-<script src="libs/rglWebGL-binding-0.100.54/rglWebGL.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -121,6 +124,29 @@ code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -191,7 +217,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Supplementary material</a>
 <ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
@@ -258,10 +284,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li>The test statistic (and the choice of test) represents the summary of the proof. The more overwhelming the evidence, the higher the chance the accused will be declared guilty. The prosecutor chooses the proof so as to best outline this: the choice of evidence (statistic) ultimately will maximise the evidence, which parallels the power of the test.</li>
 <li>The final step is the verdict. This is a binary decision, guilty or not guilty. For an hypothesis test performed at level <span class="math inline">\(\alpha\)</span>, one would reject (guilty) if the <em>p</em>-value is less than <span class="math inline">\(\alpha\)</span>.</li>
 </ul>
-<p>The above description provides some heuristic, but lack crucial details developed in the next section written by Juliana Schulz.</p>
+<p>The above description provides some heuristic, but lacks crucial details. Juliana Schulz goes over these in more details in the next section.</p>
 <div id="hypothesis" class="section level3" number="1.1.1">
 <h3><span class="header-section-number">1.1.1</span> Hypothesis</h3>
-<p>In statistical tests we have two hypotheses: the null hypothesis (<span class="math inline">\(H_0\)</span>) and the alternative hypothesis (<span class="math inline">\(H_1\)</span>). Usually, the null hypothesis is the ‘status quo’ and the alternative is what we’re really interested in testing. A statistical hypothesis test allows us to decide whether or not our data provides enough evidence to reject <span class="math inline">\(H_0\)</span> in favour of <span class="math inline">\(H_1\)</span>, subject to some pre-specified risk of error. Usually, hypothesis tests involve a parameter, say <span class="math inline">\(\theta\)</span>, which characterizes the underlying distribution at the population level ans whose value is unknown. A two-sided hypothesis test regarding a parameter <span class="math inline">\(\theta\)</span> has the form
+<p>In statistical tests we have two hypotheses: the null hypothesis (<span class="math inline">\(\mathscr{H}_0\)</span>) and the alternative hypothesis (<span class="math inline">\(\mathscr{H}_1\)</span>). Usually, the null hypothesis is the ‘status quo’ and the alternative is what we’re really interested in testing. A statistical hypothesis test allows us to decide whether or not our data provides enough evidence to reject <span class="math inline">\(\mathscr{H}_0\)</span> in favour of <span class="math inline">\(\mathscr{H}_1\)</span>, subject to some pre-specified risk of error. Usually, hypothesis tests involve a parameter, say <span class="math inline">\(\theta\)</span>, which characterizes the underlying distribution at the population level ans whose value is unknown. A two-sided hypothesis test regarding a parameter <span class="math inline">\(\theta\)</span> has the form
 <span class="math display">\[\begin{align*}
 \mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
 \end{align*}\]</span>
@@ -269,22 +295,22 @@ We are testing whether or not <span class="math inline">\(\theta\)</span> is pre
 <p>For example, for a two-sided test for the regression coefficient <span class="math inline">\(\beta_j\)</span> associated to an explanatory variable <span class="math inline">\(\mathrm{X}_j\)</span>, the null and alternative hypothesis are
 explicative d’intérêt <span class="math inline">\(\mathrm{X}_j\)</span>, les hypothèses sont
 <span class="math display">\[\begin{align*}
-\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0, 
+\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
 \end{align*}\]</span>
 where <span class="math inline">\(\beta_j^0\)</span> is some value that reflects the research question of interest. For example, if <span class="math inline">\(\beta_j^0=0\)</span>, the underlying question is: is covariate <span class="math inline">\(\mathrm{X}_j\)</span> impacting the response <span class="math inline">\(Y\)</span> once other variables have been taken into account?</p>
 <p>Note that we can impose direction in the hypotheses and consider alternatives of the form <span class="math inline">\(\mathscr{H}_a: \theta &gt; \theta_0\)</span> or <span class="math inline">\(\mathscr{H}_a: \theta &lt; \theta_0\)</span>.</p>
 </div>
 <div id="test-statistic" class="section level3" number="1.1.2">
 <h3><span class="header-section-number">1.1.2</span> Test statistic</h3>
-<p>A test statistic <span class="math inline">\(T\)</span> is a functional of the data that summarise the information contained in the sample for <span class="math inline">\(\theta\)</span>. The form of the test statistic is chosen such that we know its underlying distribution under <span class="math inline">\(H_0\)</span>, that is, the potential values taken by <span class="math inline">\(T\)</span> and their relative probability if <span class="math inline">\(H_0\)</span> is true. Indeed, <span class="math inline">\(Y\)</span> is a random variable and its value change from one sample to the next.
-This allows us to determine what values of <span class="math inline">\(T\)</span> are likely if <span class="math inline">\(H_0\)</span> is true. Many statistics we will consider are <strong>Wald statistic</strong>, of the form
+<p>A test statistic <span class="math inline">\(T\)</span> is a functional of the data that summarise the information contained in the sample for <span class="math inline">\(\theta\)</span>. The form of the test statistic is chosen such that we know its underlying distribution under <span class="math inline">\(\mathscr{H}_0\)</span>, that is, the potential values taken by <span class="math inline">\(T\)</span> and their relative probability if <span class="math inline">\(\mathscr{H}_0\)</span> is true. Indeed, <span class="math inline">\(Y\)</span> is a random variable and its value change from one sample to the next.
+This allows us to determine what values of <span class="math inline">\(T\)</span> are likely if <span class="math inline">\(\mathscr{H}_0\)</span> is true. Many statistics we will consider are <strong>Wald statistic</strong>, of the form
 <span class="math display">\[\begin{align*}
-T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})} 
+T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
 \end{align*}\]</span>
 where <span class="math inline">\(\widehat{\theta}\)</span> is an estimator of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\theta_0\)</span> is the postulated value of the parameter and <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> is an estimator of the standard deviation of the test statistic <span class="math inline">\(\widehat{\theta}\)</span>.</p>
 <p>For example, to test whether the mean of a population is zero, we set
 <span class="math display">\[\begin{align*}
-\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0, 
+\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0,
 \end{align*}\]</span>
 and the Wald statistic is
 <span class="math display">\[\begin{align*}
@@ -306,11 +332,11 @@ S^2_n &amp;= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 </div>
 <div id="null-distribution-and-p-value" class="section level3" number="1.1.3">
 <h3><span class="header-section-number">1.1.3</span> Null distribution and <em>p</em>-value</h3>
-<p>The <em>p</em>-value allows us to decide whether the observed value of the test statistic <span class="math inline">\(T\)</span> is plausible under <span class="math inline">\(H_0\)</span>. Specifically, the <em>p</em>-value is the probability that the test statistic is equal or more extreme to the estimate computed from the data, assuming <span class="math inline">\(H_0\)</span> is true. Suppose that based on a random sample <span class="math inline">\(X_1, \ldots, X_n\)</span> we obtain a statistic whose value <span class="math inline">\(T=t\)</span>. For a two-sided test <span class="math inline">\(\mathscr{H}_0:\theta=\theta_0\)</span> vs. <span class="math inline">\(\mathscr{H}_a:\theta \neq \theta_0\)</span>, the <em>p</em>-value is <span class="math inline">\(\mathsf{Pr}_0(|T| \geq |t|)\)</span>. If the distribution of <span class="math inline">\(T\)</span> is symmetric around zero, the <em>p</em>-value is
+<p>The <em>p</em>-value allows us to decide whether the observed value of the test statistic <span class="math inline">\(T\)</span> is plausible under <span class="math inline">\(\mathscr{H}_0\)</span>. Specifically, the <em>p</em>-value is the probability that the test statistic is equal or more extreme to the estimate computed from the data, assuming <span class="math inline">\(\mathscr{H}_0\)</span> is true. Suppose that based on a random sample <span class="math inline">\(X_1, \ldots, X_n\)</span> we obtain a statistic whose value <span class="math inline">\(T=t\)</span>. For a two-sided test <span class="math inline">\(\mathscr{H}_0:\theta=\theta_0\)</span> vs. <span class="math inline">\(\mathscr{H}_a:\theta \neq \theta_0\)</span>, the <em>p</em>-value is <span class="math inline">\(\mathsf{Pr}_0(|T| \geq |t|)\)</span>. If the distribution of <span class="math inline">\(T\)</span> is symmetric around zero, the <em>p</em>-value is
 <span class="math display">\[\begin{align*}
 p = 2 \times \mathsf{Pr}_0(T \geq |t|).
 \end{align*}\]</span></p>
-<p>Consider the example of a two-sided test involving the population mean <span class="math inline">\(H_0:\mu=0\)</span> against the alternative <span class="math inline">\(H_1:\mu \neq 0\)</span>. Assuming the random sample comes from a normal (population) <span class="math inline">\(\mathsf{No}(\mu, \sigma^2)\)</span>, it can be shown that if <span class="math inline">\(H_0\)</span> is true (that is, if <span class="math inline">\(\mu=0\)</span>), the test statistic
+<p>Consider the example of a two-sided test involving the population mean <span class="math inline">\(\mathscr{H}_0:\mu=0\)</span> against the alternative <span class="math inline">\(\mathscr{H}_1:\mu \neq 0\)</span>. Assuming the random sample comes from a normal (population) <span class="math inline">\(\mathsf{No}(\mu, \sigma^2)\)</span>, it can be shown that if <span class="math inline">\(\mathscr{H}_0\)</span> is true (that is, if <span class="math inline">\(\mu=0\)</span>), the test statistic
 <span class="math display">\[\begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}\]</span>
@@ -318,10 +344,10 @@ follows a Student-<em>t</em> distribution with <span class="math inline">\(n-1\)
 </div>
 <div id="conclusion" class="section level3" number="1.1.4">
 <h3><span class="header-section-number">1.1.4</span> Conclusion</h3>
-<p>The <em>p</em>-value allows us to make a decision about the null hypothesis. If <span class="math inline">\(\mathscr{H}_0\)</span> is true, the <em>p</em>-value follows a uniform distribution. <a href="https://xkcd.com/1478/">Thus, if the <em>p</em>-value is small</a>, this means observing an outcome more extreme than <span class="math inline">\(T=t\)</span> is unlikely, and so we’re inclined to think that <span class="math inline">\(H_0\)</span> is not true. There’s always some underlying risk that we’re making a mistake when we make a decision. In statistic, there are <a href="https://xkcd.com/2303/">two type of errors</a>:</p>
+<p>The <em>p</em>-value allows us to make a decision about the null hypothesis. If <span class="math inline">\(\mathscr{H}_0\)</span> is true, the <em>p</em>-value follows a uniform distribution. <a href="https://xkcd.com/1478/">Thus, if the <em>p</em>-value is small</a>, this means observing an outcome more extreme than <span class="math inline">\(T=t\)</span> is unlikely, and so we’re inclined to think that <span class="math inline">\(\mathscr{H}_0\)</span> is not true. There’s always some underlying risk that we’re making a mistake when we make a decision. In statistic, there are <a href="https://xkcd.com/2303/">two type of errors</a>:</p>
 <ul>
-<li>type I error: we reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(H_0\)</span> is true,</li>
-<li>type II error: we fail to reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(H_0\)</span> is false.</li>
+<li>type I error: we reject <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_0\)</span> is true,</li>
+<li>type II error: we fail to reject <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_0\)</span> is false.</li>
 </ul>
 <p>These hypothesis are not judged equally: we seek to avoid error of type I (judicial errors, corresponding to condamning an innocent). To prevent this, we fix a the level of the test, <span class="math inline">\(\alpha\)</span>, which captures our tolerance to the risk of commiting a type I error: the higher the level of the test <span class="math inline">\(\alpha\)</span>, the more often we will reject the null hypothesis when the latter is true. The value of <span class="math inline">\(\alpha \in (0, 1)\)</span> is the probability of rejecting <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_0\)</span> is in fact true,
 <span class="math display">\[\begin{align*}
@@ -432,59 +458,157 @@ where <span class="math inline">\(\overline{X}_i\)</span> is the sample mean, <s
 <p>It only remains to compute the <em>p</em>-value. If the null distribution is well-specified and <span class="math inline">\(\mathscr{H}_0\)</span> is true, then the random variable <span class="math inline">\(P\)</span> is uniform on <span class="math inline">\([0, 1]\)</span>; we thus expect to obtain under the null something larger than 0.95 only 5% of the time for our one-sided alternative since we consider under <span class="math inline">\(\mathscr{H}_0\)</span> the event <span class="math inline">\(\mathsf{Pr}(T &gt; t)\)</span>. The <span class="math inline">\(p\)</span>-value is <span class="math inline">\(1\)</span> and, at level 5%, we reject the null hypothesis to conclude that millenials spend significantly than previous generation for monthly online purchases, with an estimated average difference of -16.49.</p>
 
 <div class="example">
-<span id="exm:price-trains-tests" class="example"><strong>Example 1.2  (Price of Spanish high speed train tickets)  </strong></span>The Spanish national railway company, <a href="https://www.renfe.com/">Renfe</a>, manages regional and high speed train tickets all over Spain and The Gurus <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">harvested</a> the price of tickets sold by Renfe. We are interested in trips between Madrid and Barcelona and, for now, ask the question: are tickets more expensive one way or another? To answer this, we consider a sample of 10000 tickets, but restrict attention to AVE tickets sold at Promo rate. Our test statistic will again be the mean difference between the price (in euros) for a train ticket for Madrid–Barcelona (<span class="math inline">\(\mu_1\)</span>) and the price for Barcelona–Madrid (<span class="math inline">\(\mu_2\)</span>), i.e., <span class="math inline">\(\mu_1-\mu_2\)</span>. The null hypothesis is that there are no difference in price, so <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>. We again use Welch test statistic for two samples.
+<span id="exm:price-trains-tests" class="example"><strong>Example 1.2  (Price of Spanish high speed train tickets)  </strong></span>The Spanish national railway company, <a href="https://www.renfe.com/">Renfe</a>, manages regional and high speed train tickets all over Spain and The Gurus <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">harvested</a> the price of tickets sold by Renfe. We are interested in trips between Madrid and Barcelona and, for now, ask the question: are tickets more expensive one way or another? To answer this, we consider a sample of 10000 tickets, but restrict attention to AVE tickets sold at Promo rate. Our test statistic will again be the mean difference between the price (in euros) for a train ticket for Madrid–Barcelona (<span class="math inline">\(\mu_1\)</span>) and the price for Barcelona–Madrid (<span class="math inline">\(\mu_2\)</span>), i.e., <span class="math inline">\(\mu_1-\mu_2\)</span>. The null hypothesis is that there are no difference in price, so <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>.
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Library for manipulating data, including the pipe operator (%&gt;%)</span></span>
-<span id="cb1-2"><a href="intro.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(poorman)</span>
-<span id="cb1-3"><a href="intro.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb1-4"><a href="intro.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(renfe, <span class="at">package =</span> <span class="st">&quot;hecstatmod&quot;</span>)</span>
-<span id="cb1-5"><a href="intro.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(renfe, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 5 x 7
-##   price type    class      fare     dest             duration wday 
-##   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;      &lt;fct&gt;    &lt;fct&gt;               &lt;dbl&gt; &lt;fct&gt;
-## 1 143.  AVE     Preferente Promo    Barcelona-Madrid      190 6    
-## 2 182.  AVE     Preferente Flexible Barcelona-Madrid      190 2    
-## 3  86.8 AVE     Preferente Promo    Barcelona-Madrid      165 7    
-## 4  86.8 AVE     Preferente Promo    Barcelona-Madrid      190 7    
-## 5  69.0 AVE-TGV Preferente Promo    Barcelona-Madrid      175 4</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="intro.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sub-sample with only Promo tickets</span></span>
-<span id="cb3-2"><a href="intro.html#cb3-2" aria-hidden="true" tabindex="-1"></a>renfe_promo <span class="ot">&lt;-</span> renfe <span class="sc">%&gt;%</span> <span class="fu">subset</span>(fare <span class="sc">==</span> <span class="st">&quot;Promo&quot;</span>)</span>
-<span id="cb3-3"><a href="intro.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># two-sample t-test and mean difference</span></span>
-<span id="cb3-4"><a href="intro.html#cb3-4" aria-hidden="true" tabindex="-1"></a>ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(price<span class="sc">~</span>dest, <span class="at">data =</span> renfe_promo)</span>
-<span id="cb3-5"><a href="intro.html#cb3-5" aria-hidden="true" tabindex="-1"></a>ttest <span class="co">#print result</span></span></code></pre></div>
-<pre><code>## 
-##  Welch Two Sample t-test
-## 
-## data:  price by dest
-## t = -1, df = 8040, p-value = 0.2
-## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##  -1.100  0.209
-## sample estimates:
-## mean in group Barcelona-Madrid mean in group Madrid-Barcelona 
-##                           82.1                           82.6</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:renfetest">Table 1.1: </span>Glimpse at the <span class="math inline">\(\texttt{renfe}\)</span> data.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+price
+</th>
+<th style="text-align:left;">
+type
+</th>
+<th style="text-align:left;">
+class
+</th>
+<th style="text-align:left;">
+fare
+</th>
+<th style="text-align:left;">
+dest
+</th>
+<th style="text-align:right;">
+duration
+</th>
+<th style="text-align:left;">
+wday
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+143.4
+</td>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:left;">
+Promo
+</td>
+<td style="text-align:left;">
+Barcelona-Madrid
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:left;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+181.5
+</td>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:left;">
+Flexible
+</td>
+<td style="text-align:left;">
+Barcelona-Madrid
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:left;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+86.8
+</td>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:left;">
+Promo
+</td>
+<td style="text-align:left;">
+Barcelona-Madrid
+</td>
+<td style="text-align:right;">
+165
+</td>
+<td style="text-align:left;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+86.8
+</td>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:left;">
+Promo
+</td>
+<td style="text-align:left;">
+Barcelona-Madrid
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:left;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+69.0
+</td>
+<td style="text-align:left;">
+AVE-TGV
+</td>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:left;">
+Promo
+</td>
+<td style="text-align:left;">
+Barcelona-Madrid
+</td>
+<td style="text-align:right;">
+175
+</td>
+<td style="text-align:left;">
+4
+</td>
+</tr>
+</tbody>
+</table>
+<p>We again use Welch test statistic for two samples by filtering the data to keep only Promo fare tickets: the sample mean of the price of Barcelona-Madrid tickets is 82.11 euros, that of Madrid-Barcelona tickets is 82.56 euros and the Welch statistic is worth -1.33. If we use a normal approximation, the <em>p</em>-value is 0.18.</p>
 <p>Rather than use the asymptotic distribution, whose validity stems from the central limit theorem, we could consider another approximation under the less restrictive assumption that the data are exchangeable: under the null hypothesis, there is no difference between the two destinations and so the label for destination (a binary indicator) is arbitrary. The reasoning underlying <a href="https://www.jwilber.me/permutationtest/">permutation tests</a> is as follows: to create a benchmark, we will consider observations with the same number in each group, but permuting the labels. We then compute the test statistic on each of these datasets. If there are only a handful in each group (fewer than 10), we could list all possible permutations of the data, but otherwise we can repeat this procedure many times, say 9999, to get a good approximation. This gives an approximate distribution from which we can extract the <em>p</em>-value by computing the rank of our statistic relative to the others.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="intro.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value (permutation test)</span></span>
-<span id="cb5-2"><a href="intro.html#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(renfe_promo)</span>
-<span id="cb5-3"><a href="intro.html#cb5-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
-<span id="cb5-4"><a href="intro.html#cb5-4" aria-hidden="true" tabindex="-1"></a>ttest_stats <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B) </span>
-<span id="cb5-5"><a href="intro.html#cb5-5" aria-hidden="true" tabindex="-1"></a>ttest_stats[<span class="dv">1</span>] <span class="ot">&lt;-</span> ttest<span class="sc">$</span>statistic</span>
-<span id="cb5-6"><a href="intro.html#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20200608</span>) <span class="co"># set seed of pseudo-random number generator</span></span>
-<span id="cb5-7"><a href="intro.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>B){</span>
-<span id="cb5-8"><a href="intro.html#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Recalculate the test statistic, permuting the labels</span></span>
-<span id="cb5-9"><a href="intro.html#cb5-9" aria-hidden="true" tabindex="-1"></a>  ttest_stats[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(price <span class="sc">~</span> dest[<span class="fu">sample.int</span>(<span class="at">n =</span> n)], </span>
-<span id="cb5-10"><a href="intro.html#cb5-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">data =</span> renfe_promo)<span class="sc">$</span>statistic</span>
-<span id="cb5-11"><a href="intro.html#cb5-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-12"><a href="intro.html#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Graphics library</span></span>
-<span id="cb5-13"><a href="intro.html#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-14"><a href="intro.html#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the empirical permutation distribution</span></span>
-<span id="cb5-15"><a href="intro.html#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">statistic =</span> ttest_stats), </span>
-<span id="cb5-16"><a href="intro.html#cb5-16" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>statistic)) <span class="sc">+</span></span>
-<span id="cb5-17"><a href="intro.html#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="fu">aes</span>(<span class="at">y=</span>..density..), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
-<span id="cb5-18"><a href="intro.html#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> </span>
-<span id="cb5-19"><a href="intro.html#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> ttest_stats[<span class="dv">1</span>]) <span class="sc">+</span> </span>
-<span id="cb5-20"><a href="intro.html#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;density&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb5-21"><a href="intro.html#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:renfepermut"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfepermut-1.png" alt="Permutation-based approximation to the null distribution of Welch two-sample t-test statistic (histogram and black curve) with standard normal approximation (blue curve) for the price of AVE tickets at promotional rate between Madrid and Barcelona. The value of the test statistic calculated using the original sample is represented by a vertical line." width="70%" />
 <p class="caption">
@@ -516,14 +640,6 @@ Figure 1.5: Permutation-based approximation to the null distribution of Welch tw
 </div>
 <div id="variable-type" class="section level3" number="1.2.2">
 <h3><span class="header-section-number">1.2.2</span> Variable type</h3>
-<p>The data we will handled are stored in tables or frames. If the data frame is stocked in long format, each line corresponds to an observation and each column to a variable: the entries of the data base contain the (numeric) values.</p>
-<p>The alternative is wide format, whereby the columns represent categorical variables and the entries are values of the response for a specific category (notably contingency tables). Figure <a href="intro.html#fig:longvswide">1.6</a> shows the difference between the two structures. Software typically require long formatted database for modelling purposes.</p>
-<div class="figure" style="text-align: center"><span id="fig:longvswide"></span>
-<img src="images/original-dfs-tidy.png" alt="Long versus wide-format for data tables (illustration by Garrick Aden-Buie)." width="70%" />
-<p class="caption">
-Figure 1.6: Long versus wide-format for data tables (illustration by Garrick Aden-Buie).
-</p>
-</div>
 <ul>
 <li>a <strong>variable</strong> represents a characteristic of the population, for example the sex of an individual, the price of an item, etc.</li>
 <li>an <strong>observation</strong> is a set of measures (variables) collected under identical conditions for an individual or at a given time.</li>
@@ -548,7 +664,7 @@ Figure 1.6: Long versus wide-format for data tables (illustration by Garrick Ade
 <div class="figure" style="text-align: center"><span id="fig:barplotrenfe"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/barplotrenfe-1.png" alt="Bar plot of ticket class for Renfe tickets data" width="70%" />
 <p class="caption">
-Figure 1.7: Bar plot of ticket class for Renfe tickets data
+Figure 1.6: Bar plot of ticket class for Renfe tickets data
 </p>
 </div>
 <p>Continuous variables can take as many distinct values as there are observations, so we cannot simply count the number of occurences by unique values. Instead, we bin them into distinct intervals so as to obtain an histogram. The number of class depends on the number of observations: as a rule of thumb, the number of bins should not exceed <span class="math inline">\(\sqrt{n}\)</span>, where <span class="math inline">\(n\)</span> is the sample size. We can then obtain the frequency in each class, or else normalize the histogram so that the area under the bands equals one: this yields a discrete approximation of the underlying density function. Varying the number of bins can help us detect patterns (rounding, asymmetry, multimodality).</p>
@@ -556,7 +672,7 @@ Figure 1.7: Bar plot of ticket class for Renfe tickets data
 <div class="figure" style="text-align: center"><span id="fig:histrenfe"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/histrenfe-1.png" alt="Histogram of Promo tickets for Renfe ticket data" width="70%" />
 <p class="caption">
-Figure 1.8: Histogram of Promo tickets for Renfe ticket data
+Figure 1.7: Histogram of Promo tickets for Renfe ticket data
 </p>
 </div>
 <p>If we have a lot of data, it sometimes help to focus only on selected summary statistics. A box-and-whiskers plot (or boxplot) represents five numbers</p>
@@ -568,30 +684,24 @@ Figure 1.8: Histogram of Promo tickets for Renfe ticket data
 <div class="figure" style="text-align: center"><span id="fig:boxplot"></span>
 <img src="images/01-intro-boxplot.png" alt="Box-and-whiskers plot" width="70%" />
 <p class="caption">
-Figure 1.9: Box-and-whiskers plot
+Figure 1.8: Box-and-whiskers plot
 </p>
 </div>
-<p>We can represent the distribution of a response variable as a function of a categorical variable by drawing a boxplot for each category and laying them side by side. A third variable, categorical, can be added via a color palette, as shown in Figure <a href="intro.html#fig:histboxplot">1.10</a>.</p>
+<p>We can represent the distribution of a response variable as a function of a categorical variable by drawing a boxplot for each category and laying them side by side. A third variable, categorical, can be added via a color palette, as shown in Figure <a href="intro.html#fig:histboxplot">1.9</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:histboxplot"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/histboxplot-1.png" alt="Box-and-whiskers plots for Promo fare tickets as a function of class and type for the Renfe tickets data." width="70%" />
 <p class="caption">
-Figure 1.10: Box-and-whiskers plots for Promo fare tickets as a function of class and type for the Renfe tickets data.
+Figure 1.9: Box-and-whiskers plots for Promo fare tickets as a function of class and type for the Renfe tickets data.
 </p>
 </div>
-<p>Scatterplots are used to represent graphically the co-variation between two continuous variables: each tuple gives the coordinate of the point. If only a handful of large values are visible on the graph, a transformation may be useful: oftentimes, you will encounter graphs where the <span class="math inline">\(x\)</span>- or <span class="math inline">\(y\)</span>-axis is on the log-scale when the underlying variable is positive. If the number of data points is too large, it is hard to distinguish points because they are overlaid: adding transparency, or binning using a two-dimensional histogram with the frequency represented using color are potential solutions. The left panel of Figure <a href="intro.html#fig:scatterplot">1.11</a> shows the 100 simulated observations, whereas the right-panel shows a larger sample of 10 000 points using hexagonal binning, an analog of the bivariate density.</p>
+<p>Scatterplots are used to represent graphically the co-variation between two continuous variables: each tuple gives the coordinate of the point. If only a handful of large values are visible on the graph, a transformation may be useful: oftentimes, you will encounter graphs where the <span class="math inline">\(x\)</span>- or <span class="math inline">\(y\)</span>-axis is on the log-scale when the underlying variable is positive. If the number of data points is too large, it is hard to distinguish points because they are overlaid: adding transparency, or binning using a two-dimensional histogram with the frequency represented using color are potential solutions. The left panel of Figure <a href="intro.html#fig:scatterplot">1.10</a> shows the 100 simulated observations, whereas the right-panel shows a larger sample of 10 000 points using hexagonal binning, an analog of the bivariate density.</p>
 <div class="figure" style="text-align: center"><span id="fig:scatterplot"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/scatterplot-1.png" alt="Scatterplot (left) and hexagonal heatmap of bidimensional bin counts (right) of simulated data." width="70%" />
 <p class="caption">
-Figure 1.11: Scatterplot (left) and hexagonal heatmap of bidimensional bin counts (right) of simulated data.
+Figure 1.10: Scatterplot (left) and hexagonal heatmap of bidimensional bin counts (right) of simulated data.
 </p>
 </div>
-<p>Sometimes, continuous data have a particular structure, mostly when observations are collected over space or time. Time series are ordered and the response should be plotted on the <span class="math inline">\(y\)</span>-axis as a function of time (on the <span class="math inline">\(x\)</span>-axis). It is customary to draw segments between observations, but this display is sometimes misleading.</p>
-<div class="figure" style="text-align: center"><span id="fig:seriechrono"></span>
-<img src="MATH60604A_Statistical_modelling_files/figure-html/seriechrono-1.png" alt="Graphical representation of a time series." width="70%" />
-<p class="caption">
-Figure 1.12: Graphical representation of a time series.
-</p>
-</div>
+<!-- Sometimes, continuous data have a particular structure, mostly when observations are collected over space or time. Time series are ordered and the response should be plotted on the $y$-axis as a function of time (on the $x$-axis). It is customary to draw segments between observations, but this display is sometimes misleading. -->
 </div>
 <div id="exploratory-data-analysis" class="section level3" number="1.2.4">
 <h3><span class="header-section-number">1.2.4</span> Exploratory data analysis</h3>
@@ -617,102 +727,524 @@ We will begin our exploratory analysis with vague questions, for example</p>
 <li>What are the distinctive features of train types?</li>
 <li>What are the main differences between fares?</li>
 </ol>
-<p>Except for <code>price</code> and <code>duration</code>, all the other (explanatory) variables are categoricals. These need to be cast into factors (<code>factor</code>), especially integer-valued levels such as <code>wday</code>.</p>
-<p>The database is clean and this preliminary preprocessing step has been done already. We can check the type of encoding using the command <code>str</code>, which also shows the data; the function <code>summary</code> is used to obtain descriptive statistics (min, max, mean, quartiles for continuous variables or else frequency for categorical variables); the function also returns the number of missing values (<code>NA</code>) of each column.</p>
-<p>Data manipulation is often messy and <strong>R</strong> base syntax is particularly inelegant: data frames are list whose elements are accessed using <code>$</code>: for example <code>renfe$price</code>. A more legible and modular alternative is the pipe operator (<code>%&gt;%</code>), with which one creates a logical chain of command (this function is not part of <strong>R</strong> base packages, but the libraries <code>tidyverse</code> and the minimal alternative <code>poorman</code> include it).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="intro.html#cb6-1" aria-hidden="true" tabindex="-1"></a>renfe <span class="sc">%&gt;%</span> <span class="fu">count</span>(class)</span></code></pre></div>
-<pre><code>##         class    n
-## 1  Preferente  809
-## 2     Turista 7197
-## 3 TuristaPlus 1916
-## 4 TuristaSolo   78</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="intro.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># `count` is a shortcut for the following syntax</span></span>
-<span id="cb8-2"><a href="intro.html#cb8-2" aria-hidden="true" tabindex="-1"></a>renfe <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span> <span class="fu">tally</span>()</span></code></pre></div>
-<pre><code>##       type    n
-## 1      AVE 9174
-## 2  AVE-TGV  429
-## 3 REXPRESS  397</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="intro.html#cb10-1" aria-hidden="true" tabindex="-1"></a>renfe <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(fare) <span class="sc">%&gt;%</span> <span class="fu">tally</span>()</span></code></pre></div>
-<pre><code>##        fare    n
-## 1 AdultoIda  397
-## 2  Flexible 1544
-## 3     Promo 8059</code></pre>
+<p>The database is clean and this preliminary preprocessing step has been done already. We could look at variable type and some descriptive statistics.
+Except for <code>price</code> and <code>duration</code>, all the other (explanatory) variables are categoricals. We must keep this in mind, especially since <code>wday</code> has integer-valued levels.</p>
+<!-- The database is clean and this preliminary preprocessing step has been done -->
+<!-- already. We can check the type of encoding using the command `str`, which also -->
+<!-- shows the data; the function `summary` is used to obtain descriptive statistics -->
+<!-- (min, max, mean, quartiles for continuous variables or else frequency for -->
+<!-- categorical variables); the function also returns the number of missing values -->
+<!-- (`NA`) of each column. -->
+<!-- Data manipulation is often messy and **R** base syntax is particularly -->
+<!-- inelegant: data frames are list whose elements are accessed using `$`: for -->
+<!-- example `renfe$price`. A more legible and modular alternative is the pipe -->
+<!-- operator (`%>%`), with which one creates a logical chain of command (this -->
+<!-- function is not part of **R** base packages, but the libraries `tidyverse` and -->
+<!-- the minimal alternative `poorman` include it). -->
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:renfe-aed1a">Table 1.2: </span>Number of observations by ticket class for the <span class="math inline">\(\texttt{renfe}\)</span> data.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+class
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:right;">
+809
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Turista
+</td>
+<td style="text-align:right;">
+7197
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TuristaPlus
+</td>
+<td style="text-align:right;">
+1916
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TuristaSolo
+</td>
+<td style="text-align:right;">
+78
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:renfe-aed1b">Table 1.3: </span>Number of observations by ticket type for the <span class="math inline">\(\texttt{renfe}\)</span> data.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+type
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:right;">
+9174
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AVE-TGV
+</td>
+<td style="text-align:right;">
+429
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+REXPRESS
+</td>
+<td style="text-align:right;">
+397
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:renfe-aed1c">Table 1.4: </span>Number of observations by ticket fare for the <span class="math inline">\(\texttt{renfe}\)</span> data.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+fare
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+AdultoIda
+</td>
+<td style="text-align:right;">
+397
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Flexible
+</td>
+<td style="text-align:right;">
+1544
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Promo
+</td>
+<td style="text-align:right;">
+8059
+</td>
+</tr>
+</tbody>
+</table>
 <p>By counting the number of train tickets in each category, we notice there are as many <code>REXPRESS</code> tickets as there are tickets sold at <code>AdultoIda</code> fare. Using a contingency table to get the number in respective sub-categories of each of those variables confirms that all tickets in the database for RegioExpress trains are sold with the <code>AdultoIda</code> fare and that there is only a single class, <code>Turista</code>. There are few such tickets, only 397 out of 10 000. This raises a new question: why are such trains so unpopular?</p>
-<pre><code>##        fare     type    n
-## 1 AdultoIda REXPRESS  397
-## 2  Flexible      AVE 1446
-## 3  Flexible  AVE-TGV   98
-## 4     Promo      AVE 7728
-## 5     Promo  AVE-TGV  331</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:renfe-aed2">Table 1.5: </span>Contingency table of ticket fare and type for the <span class="math inline">\(\texttt{renfe}\)</span> data.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+fare
+</th>
+<th style="text-align:left;">
+type
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+AdultoIda
+</td>
+<td style="text-align:left;">
+REXPRESS
+</td>
+<td style="text-align:right;">
+397
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Flexible
+</td>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:right;">
+1446
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Flexible
+</td>
+<td style="text-align:left;">
+AVE-TGV
+</td>
+<td style="text-align:right;">
+98
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Promo
+</td>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:right;">
+7728
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Promo
+</td>
+<td style="text-align:left;">
+AVE-TGV
+</td>
+<td style="text-align:right;">
+331
+</td>
+</tr>
+</tbody>
+</table>
 <p>We have only scratched the surface, but one could also notice that there are only 17 duration values on tickets (<code>renfe %&gt;% distinct(duration)</code> or <code>unique(renfe$duration)</code>). This leads us to think the duration on the ticket (in minutes) is the expected travel time. The majority of those travel time (15 out of 17) are smaller than 3h15, but the other two exceed 9h! Looking at Google Maps, Madrid and Barcelona are 615km apart by car, 500km as the crow flies. this means some trains travel at about 200km/h, while others are closer to 70km/h. What are these slower trains? the variable <code>type</code> is the one most likely to encode this feature, and a quick look shows that the RegioExpress trains fall in the slow category (mystery solved!)</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="intro.html#cb13-1" aria-hidden="true" tabindex="-1"></a>renfe <span class="sc">%&gt;%</span> </span>
-<span id="cb13-2"><a href="intro.html#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subset</span>(duration <span class="sc">&gt;</span> <span class="dv">200</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-3"><a href="intro.html#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type, dest) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-4"><a href="intro.html#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">&quot;average duration&quot;</span> <span class="ot">=</span> <span class="fu">mean</span>(duration), </span>
-<span id="cb13-5"><a href="intro.html#cb13-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;std. dev&quot;</span> <span class="ot">=</span> <span class="fu">sd</span>(duration),</span>
-<span id="cb13-6"><a href="intro.html#cb13-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;average price&quot;</span> <span class="ot">=</span> <span class="fu">mean</span>(price), </span>
-<span id="cb13-7"><a href="intro.html#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;std. dev&quot;</span> <span class="ot">=</span> <span class="fu">sd</span>(price)) </span></code></pre></div>
-<pre><code>##       type             dest average duration std. dev average price std. dev
-## 1 REXPRESS Barcelona-Madrid              544        0          43.2        0
-## 2 REXPRESS Madrid-Barcelona              562        0          43.2        0</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:renfe-aed3">Table 1.6: </span>Descriptive statistics of travel duration and ticket price by destination and ticket type for the <span class="math inline">\(\texttt{renfe}\)</span> data.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+type
+</th>
+<th style="text-align:left;">
+dest
+</th>
+<th style="text-align:right;">
+average duration
+</th>
+<th style="text-align:right;">
+std. dev
+</th>
+<th style="text-align:right;">
+average price
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+REXPRESS
+</td>
+<td style="text-align:left;">
+Barcelona-Madrid
+</td>
+<td style="text-align:right;">
+544
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+43.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+REXPRESS
+</td>
+<td style="text-align:left;">
+Madrid-Barcelona
+</td>
+<td style="text-align:right;">
+562
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+43.2
+</td>
+</tr>
+</tbody>
+</table>
 <p>The regular trains running between two cities take more than 9h, but one way (Madrid to Barcelona) is 18 minutes slower than in the other direction. More striking, we see that the price of the RegioExpress tickets is fixed: 43.25 euros regardless of direction. This is the most important finding so far, because these are not a sample for price: there is no variability! Graphics could have lead to the discovery (the boxplot of price as a function of train type would collapse to a single value).</p>
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed4"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfe-aed4-1.png" alt="Boxplot of ticket price as a function of destination and train type." width="70%" />
 <p class="caption">
-Figure 1.13: Boxplot of ticket price as a function of destination and train type.
+Figure 1.11: Boxplot of ticket price as a function of destination and train type.
 </p>
 </div>
 <p>We could have suspected that trains labeled <code>AVE</code> are faster: after all, it is the acronym of <em>Alta Velocidad Española</em>, literally Spanish high speed. What is the distinction between the two high speed train types. According to the <a href="https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx">SNCF website</a>, AVE-TGV trains are partnership between Renfe and SNCF that operate between France and Spain.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="intro.html#cb15-1" aria-hidden="true" tabindex="-1"></a>renfe <span class="sc">%&gt;%</span> </span>
-<span id="cb15-2"><a href="intro.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subset</span>(type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;AVE&quot;</span>,<span class="st">&quot;AVE-TGV&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-3"><a href="intro.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type, dest) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-4"><a href="intro.html#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">&quot;average duration&quot;</span> <span class="ot">=</span> <span class="fu">mean</span>(duration), </span>
-<span id="cb15-5"><a href="intro.html#cb15-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;std. dev&quot;</span> <span class="ot">=</span> <span class="fu">sd</span>(duration),</span>
-<span id="cb15-6"><a href="intro.html#cb15-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;average price&quot;</span> <span class="ot">=</span> <span class="fu">mean</span>(price),</span>
-<span id="cb15-7"><a href="intro.html#cb15-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;std. dev&quot;</span> <span class="ot">=</span> <span class="fu">sd</span>(price))</span></code></pre></div>
-<pre><code>##      type             dest average duration std. dev average price std. dev
-## 1     AVE Barcelona-Madrid              171     15.9          87.4     19.8
-## 2     AVE Madrid-Barcelona              170     16.6          88.2     20.8
-## 3 AVE-TGV Barcelona-Madrid              175      0.0          87.0     16.8
-## 4 AVE-TGV Madrid-Barcelona              179      0.0          90.6     20.2</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:renfe-aed5">Table 1.7: </span>Descriptive statistics of travel duration and ticket price of high-speed trains by destination and ticket type for the <span class="math inline">\(\texttt{renfe}\)</span> data.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+type
+</th>
+<th style="text-align:left;">
+dest
+</th>
+<th style="text-align:right;">
+average duration
+</th>
+<th style="text-align:right;">
+std. dev
+</th>
+<th style="text-align:right;">
+average price
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:left;">
+Barcelona-Madrid
+</td>
+<td style="text-align:right;">
+171
+</td>
+<td style="text-align:right;">
+19.8
+</td>
+<td style="text-align:right;">
+87.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AVE
+</td>
+<td style="text-align:left;">
+Madrid-Barcelona
+</td>
+<td style="text-align:right;">
+170
+</td>
+<td style="text-align:right;">
+20.8
+</td>
+<td style="text-align:right;">
+88.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AVE-TGV
+</td>
+<td style="text-align:left;">
+Barcelona-Madrid
+</td>
+<td style="text-align:right;">
+175
+</td>
+<td style="text-align:right;">
+16.8
+</td>
+<td style="text-align:right;">
+87.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AVE-TGV
+</td>
+<td style="text-align:left;">
+Madrid-Barcelona
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:right;">
+20.2
+</td>
+<td style="text-align:right;">
+90.6
+</td>
+</tr>
+</tbody>
+</table>
 <p>The price of high speed trains are on average more than twice as expensive as regular trains. There is strong evidence of heterogeneity (standard deviation of 20 euros), which should raise scrutiny and suggests that high speed train tickets are dynamically priced. There is a single duration time for AVE-TGV tickets. We do not see meaningful differences in price depending on the type or the direction, but fares of ticket class availability may differ depending on whether the train is run in partnership with SNCF.</p>
-<p>We have not looked at ticket fare and class, except for RegioExpress trains. Figure <a href="intro.html#fig:renfe-aed7">1.15</a> shows large disparity in the variance of price according to fare: Promo fare takes many more distinct values than AdultoIda (duh) and Flexible fares. First class tickets (<code>Preferente</code>) are more expensive, but there are fewer observations falling in this group. Turista class is the least expensive for high-speed trains and the most popular. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offer an alternative to the latter with more comfort, whereas <code>TuristaSolo</code> gives access to individual seats.</p>
+<p>We have not looked at ticket fare and class, except for RegioExpress trains. Figure <a href="intro.html#fig:renfe-aed7">1.13</a> shows large disparity in the variance of price according to fare: Promo fare takes many more distinct values than AdultoIda (duh) and Flexible fares. First class tickets (<code>Preferente</code>) are more expensive, but there are fewer observations falling in this group. Turista class is the least expensive for high-speed trains and the most popular. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offer an alternative to the latter with more comfort, whereas <code>TuristaSolo</code> gives access to individual seats.</p>
 <p>Fare-wise <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html">Promo</a> and <a href="http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html">PromoPlus</a> give access to rebates that can go up to 70% and 65%, respectively. Promo tickets cannot be cancelled or exchanged, while both are possible with PromoPlus by paying a penalty amounting to 30-20% of the ticket price. <a href="http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html">Flexible</a> fare ticket a sold at the same price as regular high-speed train tickets, but offer additional benefits (and no rebates!)</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="intro.html#cb17-1" aria-hidden="true" tabindex="-1"></a>renfe <span class="sc">%&gt;%</span> <span class="fu">subset</span>(fare  <span class="sc">!=</span> <span class="st">&quot;AdultoIda&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="intro.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> price, <span class="at">x =</span> class, <span class="at">col =</span> fare)) <span class="sc">+</span> </span>
-<span id="cb17-3"><a href="intro.html#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
-<span id="cb17-4"><a href="intro.html#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;price (in euros)&quot;</span>,</span>
-<span id="cb17-5"><a href="intro.html#cb17-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;class&quot;</span>,</span>
-<span id="cb17-6"><a href="intro.html#cb17-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;fare&quot;</span>) <span class="sc">+</span></span>
-<span id="cb17-7"><a href="intro.html#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed6"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfe-aed6-1.png" alt="Boxplot of ticket price as a function of fare and class for high-speed Renfe trains." width="70%" />
 <p class="caption">
-Figure 1.14: Boxplot of ticket price as a function of fare and class for high-speed Renfe trains.
+Figure 1.12: Boxplot of ticket price as a function of fare and class for high-speed Renfe trains.
 </p>
 </div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="intro.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> renfe, <span class="fu">aes</span>(<span class="at">x =</span> price, <span class="at">y=</span>..density.., <span class="at">fill =</span> fare)) <span class="sc">+</span></span>
-<span id="cb18-2"><a href="intro.html#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href="intro.html#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;price (in euros)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;density&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb18-4"><a href="intro.html#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed7"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfe-aed7-1.png" alt="Histograms of ticket price as a function of fare for Renfe trains." width="70%" />
 <p class="caption">
-Figure 1.15: Histograms of ticket price as a function of fare for Renfe trains.
+Figure 1.13: Histograms of ticket price as a function of fare for Renfe trains.
 </p>
 </div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="intro.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the spread of Flexible tickets</span></span>
-<span id="cb19-2"><a href="intro.html#cb19-2" aria-hidden="true" tabindex="-1"></a>renfe <span class="sc">%&gt;%</span> <span class="fu">subset</span>(fare  <span class="sc">==</span> <span class="st">&quot;Flexible&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">count</span>(price, class)</span></code></pre></div>
-<pre><code>##   price       class    n
-## 1   108     Turista 1050
-## 2   108 TuristaSolo   67
-## 3   127     Turista  285
-## 4   127 TuristaSolo    9
-## 5   129 TuristaPlus   31
-## 6   140  Preferente    2
-## 7   152 TuristaPlus   10
-## 8   182  Preferente   78
-## 9   214  Preferente   12</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:renfe-aed7">Table 1.8: </span>Counts of unique Flexible fare tickets by price and class for the <span class="math inline">\(\texttt{renfe}\)</span> data.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+price
+</th>
+<th style="text-align:left;">
+class
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+108
+</td>
+<td style="text-align:left;">
+Turista
+</td>
+<td style="text-align:right;">
+1050
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+108
+</td>
+<td style="text-align:left;">
+TuristaSolo
+</td>
+<td style="text-align:right;">
+67
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+127
+</td>
+<td style="text-align:left;">
+Turista
+</td>
+<td style="text-align:right;">
+285
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+127
+</td>
+<td style="text-align:left;">
+TuristaSolo
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+129
+</td>
+<td style="text-align:left;">
+TuristaPlus
+</td>
+<td style="text-align:right;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+152
+</td>
+<td style="text-align:left;">
+TuristaPlus
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+182
+</td>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:right;">
+78
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+214
+</td>
+<td style="text-align:left;">
+Preferente
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+</tbody>
+</table>
 <p>Note how Flexible tickets prices are spread: the boxplot is crushed and the interquartile range seems zero, even if some of the values are larger: this is indicative either constant price or of (too few) tickets in the category. We can find out which of these two possibities is most likely by counting the number of Flexible fare tickets for the different types.</p>
 <p>Neither duration, nor type or destination explains why some Flexible tickets are more or less expensive than the average. Promo tickets, on the other hand, are cheaper on average and Preferente more expensive.</p>
 <p>We can summarize our findings:</p>

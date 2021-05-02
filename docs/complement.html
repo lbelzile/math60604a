@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>A Complements | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="A Complements | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,8 +31,8 @@
   
 <link rel="prev" href="survival.html"/>
 <link rel="next" href="math.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,21 +49,24 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-<link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
-<script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
-<script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
-<script src="libs/rglWebGL-binding-0.100.54/rglWebGL.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -121,6 +124,29 @@ code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -191,7 +217,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Supplementary material</a>
 <ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
@@ -255,13 +281,13 @@ Figure A.1: (Cumulative) distribution functions (top) and density/mass functions
 </div>
 <div id="moments" class="section level3" number="8.2.1">
 <h3><span class="header-section-number">A.2.1</span> Moments</h3>
-<p>One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.</p>
-<p>Let <span class="math inline">\(Y\)</span> be a random variable with density (or mass) function <span class="math inline">\(f(x)\)</span>. This function is non-negative and satisfies <span class="math inline">\(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\)</span>: the integral over a set <span class="math inline">\(B\)</span> gives the probability of <span class="math inline">\(Y\)</span> falling inside <span class="math inline">\(B \in \mathbb{R}\)</span>.</p>
+<p>One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random variable. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.</p>
+<p>Let <span class="math inline">\(Y\)</span> be a random variable with density (or mass) function <span class="math inline">\(f(x)\)</span>. This function is non-negative and satisfies <span class="math inline">\(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\)</span>: the integral over a set <span class="math inline">\(B\)</span> (the area under the curve) gives the probability of <span class="math inline">\(Y\)</span> falling inside <span class="math inline">\(B \in \mathbb{R}\)</span>.</p>
 <p>The expectation (or theoretical mean) of a continuous random variable <span class="math inline">\(Y\)</span> is <span class="math display">\[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]</span>
 In the discrete case, we set rather <span class="math inline">\(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\)</span>, where <span class="math inline">\(\mathcal{X}\)</span> denotes the support of <span class="math inline">\(Y\)</span>, the set of numerical values at which the probability of <span class="math inline">\(Y\)</span> is non-zero.
 More generally, we can look at the expectation of a function <span class="math inline">\(g(x)\)</span> for <span class="math inline">\(Y\)</span>, which is nothing but the integral (or sum in the discrete case) of <span class="math inline">\(g(x)\)</span> weighted by the density or mass function of <span class="math inline">\(f(x)\)</span>. In the same fashion, provided the integral is finite, the variance is
 <span class="math display">\[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]</span>
-The <strong>standard deviation</strong> is the square root of the variance and measures the variability of the variable, measured in the same units as <span class="math inline">\(Y\)</span>.</p>
+The <strong>standard deviation</strong> is the square root of the variance, <span class="math inline">\(\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}\)</span>: it units are the same as those of <span class="math inline">\(Y\)</span> and are thus more easily interpreted.</p>
 <p>The notion of moments can be extended to higher dimensions. If we assume data are independent, their joint distribution factorizes into the product of the individual mass function/density of each sample point. Otherwise, a multivariate mass function or density function describes the behaviour of the random vector.</p>
 <p>Consider an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\boldsymbol{Y}\)</span>. In the regression setting, the response <span class="math inline">\(\boldsymbol{Y}\)</span> would usually comprise repeated measures on an individual, or even observations from a group of individuals.</p>
 <p>The expected value (theoretical mean) of the vector <span class="math inline">\(\boldsymbol{Y}\)</span> is calculated componentwise, i.e.,
@@ -419,16 +445,16 @@ For normally distributed data, the centered sample mean divided by the sample va
 <div id="diagramme-qq" class="section level3" number="8.2.5">
 <h3><span class="header-section-number">A.2.5</span> Quantiles-quantiles plots</h3>
 <p>Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if <span class="math inline">\(Y\)</span> is a continuous random variable with distribution function <span class="math inline">\(F\)</span>, then the mapping <span class="math inline">\(F(Y) \sim \mathsf{U}(0,1)\)</span> yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from <span class="math inline">\(F\)</span>, viz. <span class="math inline">\(F^{-1}(U)\)</span>. Consider then a random sample of size <span class="math inline">\(n\)</span> from the uniform distribution ordered from smallest to largest, with <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}\)</span>. One can show these ranks have marginally a Beta distribution, <span class="math inline">\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\)</span> with expectation <span class="math inline">\(k/(n+1)\)</span>.</p>
-<p>In practice, we don’t know <span class="math inline">\(F\)</span> and, even if we did, one would need to estimate the parameters. We consider some estimator <span class="math inline">\(\widehat{F}\)</span> for the model and apply the inverse transform to an approximate uniform sample <span class="math inline">\(\{i/(n+1)\}_{i=1}^n\)</span>. The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:</p>
+<p>In practice, we don’t know <span class="math inline">\(F\)</span> and, even if we did, one would need to estimate the parameters. We consider some estimator <span class="math inline">\(\widehat{F}\)</span> for the model and apply the inverse transform to an approximate uniform sample <span class="math inline">\(\{i/(n+1)\}_{i=1}^n\)</span>. The quantile-quantile plot shows the data as a function of the (first moment) of the transformed order statistics:</p>
 <ul>
 <li>on the <span class="math inline">\(x\)</span>-axis, the theoretical quantiles <span class="math inline">\(\widehat{F}^{-1}\{\mathrm{rank}(y_i)/(n+1)\}\)</span></li>
 <li>on the <span class="math inline">\(y\)</span>-axis, the empirical quantiles <span class="math inline">\(y_i\)</span></li>
 </ul>
-<p>If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope: the detrended plot is easier to interpret and was proposed by Tukey (but beware of the scale of the <span class="math inline">\(y\)</span>-axis!). Figure <a href="complement.html#fig:diagrammeqq2">A.2</a> shows two representations of the same data using simulated samples from a standard normal distribution.</p>
+<p>If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope. Tukey’s mean difference plot takes the plotting positions of the quantile-quantile plot, say (<span class="math inline">\(x_i, y_i\)</span>), and shows instead the mean and difference of these coordinates (<span class="math inline">\(\{x_i + y_i\}/2, y_i - x_i\)</span>). Figure <a href="complement.html#fig:diagrammeqq2">A.2</a> shows two representations of the same data using simulated samples from a standard normal distribution.</p>
 <div class="figure" style="text-align: center"><span id="fig:diagrammeqq2"></span>
-<img src="MATH60604A_Statistical_modelling_files/figure-html/diagrammeqq2-1.png" alt="Normal quantile-quantile plot (left) and detrended version (Tukey's) of the same plot (right)." width="70%" />
+<img src="MATH60604A_Statistical_modelling_files/figure-html/diagrammeqq2-1.png" alt="Normal quantile-quantile plot (left) and Tukey's mean different plot (right) for the same data." width="70%" />
 <p class="caption">
-Figure A.2: Normal quantile-quantile plot (left) and detrended version (Tukey’s) of the same plot (right).
+Figure A.2: Normal quantile-quantile plot (left) and Tukey’s mean different plot (right) for the same data.
 </p>
 </div>
 <p>Even if we knew the true distribution of the data, the sample variability makes it very difficult to spot if deviations from the model are abnormal or compatible with the model. A simple point estimate with no uncertainty measure can lead to wrong conclusions. As such, we add approximate pointwise or simultaneous confidence intervals. The simplest way to do this is by simulation (using a parametric bootstrap), by repeating the following steps <span class="math inline">\(B\)</span> times:</p>
@@ -437,9 +463,9 @@ Figure A.2: Normal quantile-quantile plot (left) and detrended version (Tukey’
 <li>re-estimate the parameters of <span class="math inline">\(F\)</span> to obtain <span class="math inline">\(\widehat{F}_{(b)}\)</span></li>
 <li>calculate and save the plotting positions <span class="math inline">\(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}\)</span>.</li>
 </ol>
-<p>The result of this operation is an <span class="math inline">\(n \times B\)</span> matrix of simulated data. We obtain a symmetric (<span class="math inline">\(1-\alpha\)</span>) confidence interval by keeping the empirical quantile of order <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> from each row. The number <span class="math inline">\(B\)</span> should be larger than 999, say, and be chosen so that <span class="math inline">\(B/alpha\)</span> is an integer.</p>
-<p>For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately <span class="math inline">\(\alpha\)</span>. However, order statistics are not independent (they are ordered), so its common to see neighboring points falling outside of their respective intervals. [It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall <span class="math inline">\(100(1-\alpha)\)</span>% of the time inside the bands in repeated samples; <a href="https://lbelzile.github.io/lineaRmodels/qqplot.html">see Section 4.4.3 of these course notes</a>. The intervals shown in Figure <a href="complement.html#fig:diagrammeqq2">A.2</a> are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on <span class="math inline">\(F\)</span>.</p>
-<p>Interpretation of quantile-quantile plots requires some experience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">this post by <em>Glen_b</em> on StackOverflow</a> nicely summarizes what can be detected (or not) from them.</p>
+<p>The result of this operation is an <span class="math inline">\(n \times B\)</span> matrix of simulated data. We obtain a symmetric (<span class="math inline">\(1-\alpha\)</span>) confidence interval by keeping the empirical quantile of order <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> from each row. The number <span class="math inline">\(B\)</span> should be larger than 999, say, and be chosen so that <span class="math inline">\(B/\alpha\)</span> is an integer.</p>
+<p>For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately <span class="math inline">\(\alpha\)</span>. However, order statistics are not independent (they are ordered), so its common to see neighbouring points falling outside of their respective intervals. [It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall <span class="math inline">\(100(1-\alpha)\)</span>% of the time inside the bands in repeated samples; <a href="https://lbelzile.github.io/lineaRmodels/qqplot.html">see Section 4.4.3 of these course notes</a>. The intervals shown in Figure <a href="complement.html#fig:diagrammeqq2">A.2</a> are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on <span class="math inline">\(F\)</span>.</p>
+<p>Interpretation of quantile-quantile plots requires practice and experience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">this post by <em>Glen_b</em> on StackOverflow</a> nicely summarizes what can be detected (or not) from them.</p>
 </div>
 </div>
 <div id="law-large-numbers" class="section level2" number="8.3">
@@ -450,7 +476,7 @@ Figure A.2: Normal quantile-quantile plot (left) and detrended version (Tukey’
 </div>
 <div id="CLT" class="section level2" number="8.4">
 <h2><span class="header-section-number">A.4</span> Central Limit Theorem</h2>
-<p>The central limit theorem is perhaps the flagship result of probability theory: for a random sample of size <span class="math inline">\(n\)</span> with (independent) random variables whose expectation is <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, then the sample mean converges to <span class="math inline">\(\mu\)</span>, but</p>
+<p>The central limit theorem gives the approximate large sample distribution of the sample mean. Consider a random sample of size <span class="math inline">\(n\)</span> <span class="math inline">\(\{Y_i\}_{i=1}^n\)</span> of independent random variables with common expectation <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. The sample mean <span class="math inline">\(\overline{Y} = n^{-1}\sum_{i=1}^n Y_i\)</span> converges to <span class="math inline">\(\mu\)</span> by the law of large number, but we also have that</p>
 <ul>
 <li>the estimator <span class="math inline">\(\overline{Y}\)</span> is centered around <span class="math inline">\(\mu\)</span>,</li>
 <li>the standard error is <span class="math inline">\(\sigma/\sqrt{n}\)</span>; the rate of convergence is thus <span class="math inline">\(\sqrt{n}\)</span>. For a sample of size 100, the standard error of the sample mean will be 10 times smaller than that of the underlying random variable.</li>
@@ -472,7 +498,7 @@ Figure A.3: Empirical distribution of travel times of high speed trains.
 Figure A.4: Graphical representation of the central limit theorem. The upper left panel shows a sample of 20 observations with its sample mean (vertical red). The three other panels show the histograms of the sample mean from repeated samples of size 5 (top right), 20 (bottom left) and 20, 50 and 100 overlaid, with the density approximation provided by the central limit theorem.
 </p>
 </div>
-<p>We draw <span class="math inline">\(B=1000\)</span> different samples, each of size <span class="math inline">\(n=5\)</span>, from two millions records, and calculate the sample mean in each of them. The top right panel of <a href="complement.html#fig:renfemeanCLT">A.4</a> shows the result for <span class="math inline">\(n=5\)</span>, but also for <span class="math inline">\(n=20\)</span> (bottom left). The last graph of Figure <a href="complement.html#fig:renfemeanCLT">A.4</a> shows the impact of the increase in sample size: whereas the normal approximation is okay-ish for <span class="math inline">\(n=5\)</span>, it is indistinguishable from the normal approximation for <span class="math inline">\(n=20\)</span>. As <span class="math inline">\(n\)</span> increases and the sample size gets bigger, the quality of the approximation improves and the curve becomes more concentrated around the true mean. Even if the distribution of the travel time is discrete, the mean is approximately normal.</p>
+<p>We draw <span class="math inline">\(B=1000\)</span> different samples, each of size <span class="math inline">\(n=5\)</span>, from two millions records, and calculate the sample mean in each of them. The top right panel of <a href="complement.html#fig:renfemeanCLT">A.4</a> is a histogram of the sample means when <span class="math inline">\(n=5\)</span>, whereas the bottom left panel shows the same thingfor <span class="math inline">\(n=20\)</span>. The last graph of Figure <a href="complement.html#fig:renfemeanCLT">A.4</a> shows the impact of the increase in sample size: whereas the normal approximation is okay-ish for <span class="math inline">\(n=5\)</span>, it is indistinguishable from the normal approximation for <span class="math inline">\(n=20\)</span>. As <span class="math inline">\(n\)</span> increases and the sample size gets bigger, the quality of the approximation improves and the curve becomes more concentrated around the true mean. Even if the distribution of the travel time is discrete, the mean is approximately normal.</p>
 <p>We considered a single distribution in the example, but you could play with other distributions and vary the sample size to see when the central limit theorem kicks in usng this <a href="http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html">applet</a>.</p>
 <p>The central limit theorem underlies why scaled test statistics which have sample mean zero and sample variance 1 have a standard null distribution in large sample: this is what guarantees the validity of our inference!</p>
 

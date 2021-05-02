@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Generalized linear models | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Generalized linear models | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,8 +31,8 @@
   
 <link rel="prev" href="likelihood.html"/>
 <link rel="next" href="correlated-longitudinal-data.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,21 +49,24 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-<link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
-<script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
-<script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
-<script src="libs/rglWebGL-binding-0.100.54/rglWebGL.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -121,6 +124,29 @@ code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -191,7 +217,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Supplementary material</a>
 <ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
@@ -225,12 +251,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="generalized-linear-models" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Generalized linear models</h1>
-<p>Linear models are only suitable for data that are (approximately)
+<p>Linear models are only suitable for data whose residuals are (approximately)
 normally distributed. However, there are many settings where we may wish
 to analyze a response variable which is not necessarily continuous,
 including when <span class="math inline">\(Y\)</span> is binary, a count variable or is continuous, but
 non-negative. We will consider in particular likelihood-based inference
-for binary/proportion and counts data.</p>
+for models of binary/proportion and counts data.</p>
 <p>Generalized linear models (GLM) combine a model for the conditional mean
 with a distribution for the response variable and a link function tying
 predictors and parameters.</p>
@@ -293,11 +319,11 @@ natural parameter <span class="math inline">\(\theta\)</span> are
 \end{align*}\]</span>
 where <span class="math inline">\(b&#39;(\cdot)\)</span> and <span class="math inline">\(b&#39;&#39;(\cdot)\)</span> are the first two
 derivatives of <span class="math inline">\(b(\cdot)\)</span> with respect to <span class="math inline">\(\theta\)</span>. Under regularity
-condition, the <a href="https://math.stackexchange.com/q/2027660">Bartlett identities</a> hold and
+condition, the <a href="https://math.stackexchange.com/q/2027660">Bartlett identities</a>
 <span class="math display">\[\begin{align*}
 \mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}=0, \qquad - \mathsf{E}\left\{\frac{\partial^2 \ell(y; \theta, \phi)}{\partial \theta^2}\right\} = \left[\mathsf{E}\left\{\frac{\partial \ell(y; \theta, \phi)}{\partial \theta}\right\}\right]^2.
 \end{align*}\]</span>
-These two equality give
+hold and these give
 <span class="math display">\[\begin{align*}
 \mathsf{E}(Y_i) &amp;= b&#39;(\theta_i) \\
 \mathsf{Va}(Y_i) &amp;= b&#39;&#39;(\theta_i)a(\phi_i)
@@ -400,62 +426,14 @@ Consider a linear model for which theory dictates that the mean should be <span 
 This model is nonlinear in <span class="math inline">\(\alpha_0\)</span>, <span class="math inline">\(\alpha_1\)</span>. If we opt for the reciprocal link function <span class="math inline">\(g(x)=1/x\)</span>, we get <span class="math inline">\(\beta_0+\beta_1 x\)</span>, where <span class="math inline">\(\beta_0 = 1/\alpha_0\)</span> and <span class="math inline">\(\beta_1 = \alpha_1/\alpha_0\)</span> provided <span class="math inline">\(\alpha_0 \neq 0\)</span>. Since the generalized linear model is estimated using maximum likelihood and the latter are invariant to reparametrization, we get easily the estimated coefficients of interest.
 </div>
 </div>
-<div id="model-adjustment-star" class="section level3" number="4.2.3">
-<h3><span class="header-section-number">4.2.3</span> Model adjustment (<span class="math inline">\(\star\)</span>)</h3>
-<p>There is generally no closed-form expression for the maximum likelihood
-estimators <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> in generalized linear models
-and the score equation is typically nonlinear in <span class="math inline">\(\boldsymbol{\beta}\)</span>
-and <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> must be obtained through iterative
-numerical routines. The key reason for restricting attention to
-exponential family is because the likelihood equation depends on the
-response <span class="math inline">\(Y_i\)</span> only through <span class="math inline">\(\mu_i\)</span>, <span class="math inline">\(\phi\)</span> and <span class="math inline">\(V(\mu)\)</span>. The mean-variance thus characterizes the distribution.</p>
-<p>Starting from Equation <a href="generalized-linear-models.html#eq:expofam">(4.1)</a>, we differentiate the log likelihood function <span class="math inline">\(\ell = \sum_{i=1}^n \ell_i\)</span> with respect to
-<span class="math inline">\(\boldsymbol{\beta}\)</span>. For simplicity, we consider each likelihood
-contribution and coefficient in turn. By the chain rule, <span class="math display">\[\begin{align*}
-\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial
-\eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i}
-\frac{\partial \theta_i}{\partial \mu_i}\frac{\partial
-\ell_i}{\partial \theta_i}
-\end{align*}\]</span>
-and the earlier derivations show <span class="math inline">\(\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)\)</span> and <span class="math inline">\(\partial \mu_i / \partial \theta_i = b&#39;&#39;(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)\)</span>.
-The derivative of the linear predictor,<span class="math inline">\(\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}\)</span>. The only missing term, <span class="math inline">\(\partial \mu_i/\partial \eta_i\)</span>, depends on the choice of link function through <span class="math inline">\(\eta_i = g(\mu_i)\)</span>, but it is unity for the canonical link function.</p>
-<p>Let
-<span class="math display">\[\begin{align*}
-U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}
-\end{align*}\]</span>
-denote respectively the gradient and the hessian of the log likelihood function; summing all the likelihood contribution, the <span class="math inline">\(j\)</span>th element of the score vector
-<span class="math inline">\(\boldsymbol{U}\)</span> is
-<span class="math display">\[\begin{align*}
-\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g&#39;(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
-\end{align*}\]</span>
-In general, <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> solves the score equation <span class="math inline">\(U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}\)</span>, so we can use a Newton–Raphson algorithm to derive the maximum likelihood
-estimator. This amounts to a first order Taylor series approximation of
-the score <span class="math inline">\(U(\widehat{\boldsymbol{\beta}})\)</span> around <span class="math inline">\(\boldsymbol{\beta}\)</span>,
-<span class="math display">\[\begin{align*}
-\boldsymbol{0}_{p+1} = U(\widehat{\boldsymbol{\beta}}) \stackrel{\cdot}{=} U(\beta) - j(\boldsymbol{\beta}) (\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta})
-\end{align*}\]</span>
-If the <span class="math inline">\((p+1)\)</span> matrix <span class="math inline">\(j(\boldsymbol{\beta}^{(t)})\)</span> is
-invertible, we can thus device an iterative algorithm: starting from
-some initial value <span class="math inline">\(\boldsymbol{\beta}^{(0)}\)</span>, we compute at step <span class="math inline">\(t+1\)</span>
-<span class="math display">\[\begin{align*}
-\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + j^{-1}(\boldsymbol{\beta}^{(t)})U(\boldsymbol{\beta}^{(t)}).
-\end{align*}\]</span>
-and iterate this formula until convergence. Most softwares
-implement a variant of this algorithm, in which the negative hessian
-<span class="math inline">\(j(\boldsymbol{\beta})\)</span> is replaced by its absolute value
-<span class="math inline">\(i(\boldsymbol{\beta})\)</span>: the resulting algorithm is known as Fisher
-scoring. For generalized linear models, these recursions can be done by
-repeatedly computing a variant of least squares known as iteratively
-reweighted least squares.</p>
-</div>
-<div id="likelihood-inference" class="section level3" number="4.2.4">
-<h3><span class="header-section-number">4.2.4</span> Likelihood inference</h3>
+<div id="likelihood-inference-for-generalized-linear-models" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Likelihood inference for generalized linear models</h3>
 <p>Likelihood inference is straightforward, although some care is needed because the asymptotic distribution of test statistics sometimes depend on the model parameters. Under regularity conditions, the maximum likelihood estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\phi\)</span> are jointly normally distributed,
 <span class="math display">\[\begin{align*}
 \widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{No}_{p+1}\{\boldsymbol{\beta}, (\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1}\}
 \end{align*}\]</span>
 where
-<span class="math display">\[\mathbf{W} = \mathrm{diag}\{w_1,\ldots, w_n\}, \qquad w_i = \frac{\partial \mu_i/\partial \eta_i)^2}{\mathsf{Va}(Y_i)}=\{g&#39;(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}.
+<span class="math display">\[\mathbf{W} = \mathrm{diag}\{w_1,\ldots, w_n\}, \qquad w_i = \frac{\left(\partial \mu_i/\partial \eta_i\right)^2}{\mathsf{Va}(Y_i)}=\{g&#39;(\mu_i)^2a_i(\phi)V(\mu_i)\}^{-1}.
 \]</span></p>
 <p>Since <span class="math inline">\(\mathbf{W}\)</span> depends on the unknown <span class="math inline">\(\boldsymbol{\beta}\)</span> through
 the expected values <span class="math inline">\(\mu_i\)</span>, we can estimate <span class="math inline">\(\widehat{\mathbf{W}}\)</span> by
@@ -463,7 +441,7 @@ replacing the unknown coefficients by their maximum likelihood estimates
 at <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
 
 <div class="example">
-<p><span id="exm:weightpois" class="example"><strong>Example 4.5  (Elements of the weight matrix for Poisson data)  </strong></span>If we consider <span class="math inline">\(Y_i \sim \mathsf{Po}(\mu_i)\)</span> with canonical link function <span class="math inline">\(\mu_i = \exp(\eta_i)\)</span>, then <span class="math inline">\(\partial \eta_i / \partial \mu_i = \mu_i^{-1}\)</span> and <span class="math inline">\(w_i=\mu_i\)</span>.</p>
+<p><span id="exm:weightpois" class="example"><strong>Example 4.5  (Elements of the weight matrix for Poisson data)  </strong></span>If we consider <span class="math inline">\(Y_i \sim \mathsf{Po}(\mu_i)\)</span> with canonical link function <span class="math inline">\(\mu_i = \exp(\eta_i)\)</span>, then <span class="math inline">\(\partial \mu_i/\partial \eta_i =\exp(\eta_i)= \mu_i\)</span> and thus <span class="math inline">\(w_i=\mu_i\)</span>.</p>
 </div>
 <p>Since we use maximum likelihood estimation, the theory presented in
 <a href="likelihood">Chapter 3</a> readily applies. For example, if we want to
@@ -474,8 +452,8 @@ likelihood ratio test. Under regularity conditions, the likelihood ratio
 statistic to compare two nested models will follow the usual <span class="math inline">\(\chi^2_q\)</span>
 distribution.</p>
 </div>
-<div id="goodness-of-fit-criteria" class="section level3" number="4.2.5">
-<h3><span class="header-section-number">4.2.5</span> Goodness-of-fit criteria</h3>
+<div id="goodness-of-fit-criteria" class="section level3" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Goodness-of-fit criteria</h3>
 <p>Goodness-of-fit diagnostics often rely on test statistics comparing the
 fitted model with parameters <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> with a
 <strong>saturated</strong> model in which there are <span class="math inline">\(n\)</span> parameters for the mean, as
@@ -512,73 +490,6 @@ correct and <span class="math inline">\(\phi\)</span> is known (but this result 
 data or binomial data unless <span class="math inline">\(m\)</span> is very large and <span class="math inline">\(\boldsymbol{\beta}\)</span>
 are small). If <span class="math inline">\(\phi\)</span> is unknown, we would replace it throughout by an
 estimate and the same distributional results hold approximatively.</p>
-</div>
-<div id="residuals-glm" class="section level3" number="4.2.6">
-<h3><span class="header-section-number">4.2.6</span> Residuals <span class="math inline">\((\star)\)</span></h3>
-<p>We can use the individual contributions to the deviance and Pearson
-<span class="math inline">\(X^2\)</span> statistic to build residuals. By considering
-<span class="math inline">\(D = \sum_{i=1}^n d_i^2\)</span>, where
-<span class="math display">\[\begin{align*}
-d_i &amp;= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\eta}_i; y_i) - 2\ell(\widehat{\eta}_i; y_i)\}^{1/2}
-\end{align*}\]</span>
-and the calculations simplify upon replacing the formula of
-the log likelihood for the generic exponential family member,
-<span class="math display">\[\begin{align*}
-d_i^2=2 \left\{y_i (\widetilde{\theta}_i - \widehat{\theta}_i) - b(\widetilde{\theta}_i) + b(\widehat{\theta}_i)\right\}
-\end{align*}\]</span>
-The terms <span class="math inline">\(d_i\)</span> are called deviance residuals, whereas
-Pearson residuals are based on the score contributions
-<span class="math inline">\(u_i(\widehat{\beta}) w_i(\widehat{\beta})^{-1/2}\)</span>, where the score statistic <span class="math inline">\(u(\boldsymbol{\beta})\)</span> and the weights <span class="math inline">\(w_i\)</span> are
-<span class="math display">\[\begin{align*}
-u_i &amp;= \frac{\partial \theta_i}{\partial \eta_i} \frac{\partial \ell_i(\theta_i)}{\partial \theta_i} = \frac{y_i - \mu_i}{g&#39;(\mu_i)a_i(\phi)V(\mu_i)}\\
-w_i &amp;= \left(\frac{\partial \theta_i}{\partial \eta_i}\right)^2 \frac{\partial^2 \ell_i(\theta_i)}{\partial \theta_i^2} = \frac{1}{g&#39;(\mu_i)^2 a_i(\phi)V(\mu_i)}
-\end{align*}\]</span></p>
-<p>In practice, these residuals are heteroscedastic and it is better to
-standardize them by considering instead
-<span class="math display">\[\begin{align*}
-r_{D_i} = \frac{d_i}{(1-h_{ii})^2}, \qquad r_{P_i} = \frac{u_i(\widehat{\beta})}{\{w_i(\widehat{\beta})(1-h_{ii})\}^{1/2}},
-\end{align*}\]</span>
-both are scaled by <span class="math inline">\((1-h_{ii})^{1/2}\)</span>, a formula remniscent
-of the linear model framework. In the above formulas, the leverage
-<span class="math inline">\(h_{ii}\)</span> is the <span class="math inline">\(i\)</span>th diagonal element of the matrix <span class="math display">\[\begin{align*}
-\mathbf{H}_{\mathbf{X}} = \mathbf{W}^{1/2}\mathbf{X}(\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{W}^{1/2};
-\end{align*}\]</span>
-since the terms of
-<span class="math inline">\(\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}\)</span> depend on the unknown
-coefficient, the latter is estimated by replacing <span class="math inline">\(\boldsymbol{\beta}\)</span>
-by <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
-<p>The standardized deviance residuals <span class="math inline">\(\{r_{D_i}\}\)</span> and standardized
-Pearson residuals <span class="math inline">\(\{r_{P_i}\}\)</span> should have an approximate standard
-normal distribution in large samples, but their distribution can be
-skewed. Like in the linear regression, we will work with the
-<strong>jackknifed deviance residuals</strong> for residual plots <span class="math display">\[\begin{align*}
-r_{J_i} &amp;= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
-\end{align*}\]</span></p>
-<p>For ordinary linear regression, both <span class="math inline">\(r_{D_i}\)</span> and <span class="math inline">\(r_{P_i}\)</span> reduce to
-the standardized residuals <span class="math inline">\(t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}\)</span>.</p>
-<p>There are clear parallels between generalized linear models and linear
-models: we have so far derived an analog of residuals and leverage.
-Collinearity is also an issue for generalized linear model; for the
-latter, we define the Cook statistic as the change in the deviance,
-<span class="math display">\[\begin{align*}
-C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
-\end{align*}\]</span>
-where <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{-j}\)</span> is the estimate
-obtained by dropping the <span class="math inline">\(j\)</span>th observation from the sample. This
-requires fitting <span class="math inline">\(n\)</span> different models, which is computationally
-prohibitive. In the linear regression, we can calculate the Cook
-distance from the formula <span class="math inline">\(C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})\)</span>,
-where <span class="math inline">\(t_i\)</span> are the standardized residuals defined in the previous
-section. For generalized linear models, no such expression exists,
-although a good approximation is
-<span class="math inline">\(C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})\)</span>.</p>
-<p>Diagnostic plots for generalized linear models are harder to interpret
-because of the lack of orthogonality. It is customary to plot the
-jackknife deviance residuals against the linear predictor
-<span class="math inline">\(\widehat{\eta}_i\)</span>, produce normal quantile-quantile plots of
-standardized deviance residuals and the approximate Cook statistics
-against the <span class="math inline">\(h_{ii}/(1-h_{ii})\)</span>. We will show examples of such plots for
-particular models.</p>
 </div>
 </div>
 <div id="binary-responses" class="section level2" number="4.3">
@@ -732,72 +643,164 @@ Figure 4.3: Exploratory data analysis for the birthweight data
 </div>
 <p>The exploratory data analysis suggests that smoking has a large impact, as the relative proportion of women who smoke having underweight babies is significant. Likewise, hypertension seems to bean important predictor but there are only a handful of women in the sample with this condition. Women who previously gave birth to premature babies are more likely to give birth to underweight (and potentially premature) babies, whereas women giving birth to babies under 2.5kg also typically have lower weight. We can use a logistic regression to assess the effect of these explanatories.</p>
 <table>
-<caption><span id="tab:logistibirthwgt">Table 4.2: </span>Logistic regression: table of coefficients for the birth weight data.</caption>
+<caption>
+<span id="tab:logistibirthwgt">Table 4.2: </span>Logistic regression: table of coefficients for the birth weight data.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">term</th>
-<th align="right">estimate</th>
-<th align="right">std. error</th>
-<th align="right">Wald stat.</th>
-<th align="right">p-value</th>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std. error
+</th>
+<th style="text-align:right;">
+Wald stat.
+</th>
+<th style="text-align:right;">
+p-value
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">-0.13</td>
-<td align="right">0.97</td>
-<td align="right">-0.13</td>
-<td align="right">0.9</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+-0.13
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+-0.13
+</td>
+<td style="text-align:right;">
+0.9
+</td>
 </tr>
-<tr class="even">
-<td align="left">mother’s weight (lbs)</td>
-<td align="right">-0.02</td>
-<td align="right">0.01</td>
-<td align="right">-2.29</td>
-<td align="right">0.022</td>
+<tr>
+<td style="text-align:left;">
+mother’s weight (lbs)
+</td>
+<td style="text-align:right;">
+-0.02
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+-2.29
+</td>
+<td style="text-align:right;">
+0.022
+</td>
 </tr>
-<tr class="odd">
-<td align="left">race [black]</td>
-<td align="right">1.3</td>
-<td align="right">0.53</td>
-<td align="right">2.46</td>
-<td align="right">0.014</td>
+<tr>
+<td style="text-align:left;">
+race [black]
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+0.53
+</td>
+<td style="text-align:right;">
+2.46
+</td>
+<td style="text-align:right;">
+0.014
+</td>
 </tr>
-<tr class="even">
-<td align="left">race [other]</td>
-<td align="right">0.85</td>
-<td align="right">0.44</td>
-<td align="right">1.94</td>
-<td align="right">0.053</td>
+<tr>
+<td style="text-align:left;">
+race [other]
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:right;">
+1.94
+</td>
+<td style="text-align:right;">
+0.053
+</td>
 </tr>
-<tr class="odd">
-<td align="left">smoker [yes]</td>
-<td align="right">0.87</td>
-<td align="right">0.4</td>
-<td align="right">2.14</td>
-<td align="right">0.032</td>
+<tr>
+<td style="text-align:left;">
+smoker [yes]
+</td>
+<td style="text-align:right;">
+0.87
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+2.14
+</td>
+<td style="text-align:right;">
+0.032
+</td>
 </tr>
-<tr class="even">
-<td align="left">previous premature labours</td>
-<td align="right">1.13</td>
-<td align="right">0.45</td>
-<td align="right">2.51</td>
-<td align="right">0.012</td>
+<tr>
+<td style="text-align:left;">
+previous premature labours
+</td>
+<td style="text-align:right;">
+1.13
+</td>
+<td style="text-align:right;">
+0.45
+</td>
+<td style="text-align:right;">
+2.51
+</td>
+<td style="text-align:right;">
+0.012
+</td>
 </tr>
-<tr class="odd">
-<td align="left">hypertension [yes]</td>
-<td align="right">1.87</td>
-<td align="right">0.71</td>
-<td align="right">2.64</td>
-<td align="right">0.008</td>
+<tr>
+<td style="text-align:left;">
+hypertension [yes]
+</td>
+<td style="text-align:right;">
+1.87
+</td>
+<td style="text-align:right;">
+0.71
+</td>
+<td style="text-align:right;">
+2.64
+</td>
+<td style="text-align:right;">
+0.008
+</td>
 </tr>
-<tr class="even">
-<td align="left">uterine irritability</td>
-<td align="right">0.75</td>
-<td align="right">0.46</td>
-<td align="right">1.64</td>
-<td align="right">0.1</td>
+<tr>
+<td style="text-align:left;">
+uterine irritability
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:right;">
+0.46
+</td>
+<td style="text-align:right;">
+1.64
+</td>
+<td style="text-align:right;">
+0.1
+</td>
 </tr>
 </tbody>
 </table>
@@ -811,51 +814,109 @@ Figure 4.3: Exploratory data analysis for the birthweight data
 <p>The other parameters are interpreted accordingly. We can also check the parameter significance, by comparing the model with all the covariates and withholding one of the explanatories at the time. The results of the likelihood ratio test are presented in Table <a href="generalized-linear-models.html#tab:type3birthwgt">4.3</a>.
 At level 5% and given the other factors, having previous premature labours history and uterine irritability are not statistically significant. There is no significant correlation between the explanatories, since all the variance inflation factors are inferior to <span class="math inline">\(1.5\)</span>.</p>
 <table>
-<caption><span id="tab:type3birthwgt">Table 4.3: </span>Analysis of deviance table (Type 3 decomposition) for the birthweight logistic regression model: the table gives the <span class="math inline">\(p\)</span>-value for likelihood ratio tests comparing the full model including all covariates with models in which a single explanatory is removed.</caption>
+<caption>
+<span id="tab:type3birthwgt">Table 4.3: </span>Analysis of deviance table (Type 3 decomposition) for the birthweight logistic regression model: the table gives the <span class="math inline">\(p\)</span>-value for likelihood ratio tests comparing the full model including all covariates with models in which a single explanatory is removed.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">variable</th>
-<th align="right">lik. ratio</th>
-<th align="right">df</th>
-<th align="right">p-value</th>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+lik. ratio
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:right;">
+p-value
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">mother’s weight</td>
-<td align="right">5.96</td>
-<td align="right">1</td>
-<td align="right">0.015</td>
+<tr>
+<td style="text-align:left;">
+mother’s weight
+</td>
+<td style="text-align:right;">
+5.96
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.015
+</td>
 </tr>
-<tr class="even">
-<td align="left">race</td>
-<td align="right">7.61</td>
-<td align="right">2</td>
-<td align="right">0.022</td>
+<tr>
+<td style="text-align:left;">
+race
+</td>
+<td style="text-align:right;">
+7.61
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.022
+</td>
 </tr>
-<tr class="odd">
-<td align="left">smoker</td>
-<td align="right">4.72</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
+<tr>
+<td style="text-align:left;">
+smoker
+</td>
+<td style="text-align:right;">
+4.72
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.03
+</td>
 </tr>
-<tr class="even">
-<td align="left">previous premature labours</td>
-<td align="right">6.37</td>
-<td align="right">1</td>
-<td align="right">0.012</td>
+<tr>
+<td style="text-align:left;">
+previous premature labours
+</td>
+<td style="text-align:right;">
+6.37
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.012
+</td>
 </tr>
-<tr class="odd">
-<td align="left">hypertension</td>
-<td align="right">7.31</td>
-<td align="right">1</td>
-<td align="right">0.007</td>
+<tr>
+<td style="text-align:left;">
+hypertension
+</td>
+<td style="text-align:right;">
+7.31
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.007
+</td>
 </tr>
-<tr class="even">
-<td align="left">uterine irritability</td>
-<td align="right">2.63</td>
-<td align="right">1</td>
-<td align="right">0.1</td>
+<tr>
+<td style="text-align:left;">
+uterine irritability
+</td>
+<td style="text-align:right;">
+2.63
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
 </tr>
 </tbody>
 </table>
@@ -914,22 +975,40 @@ meaningfully interpret the resulting parameters.</p>
 <td>
 <table>
 <thead>
-<tr class="header">
-<th align="left">term</th>
-<th align="right">estimate</th>
-<th align="right">std. error</th>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std. error
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">-829</td>
-<td align="right">311291</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+-829
+</td>
+<td style="text-align:right;">
+311291
+</td>
 </tr>
-<tr class="even">
-<td align="left">x</td>
-<td align="right">92.5</td>
-<td align="right">34781</td>
+<tr>
+<td style="text-align:left;">
+x
+</td>
+<td style="text-align:right;">
+92.5
+</td>
+<td style="text-align:right;">
+34781
+</td>
 </tr>
 </tbody>
 </table>
@@ -937,19 +1016,31 @@ meaningfully interpret the resulting parameters.</p>
 <td>
 <table>
 <thead>
-<tr class="header">
-<th align="left">estimate</th>
-<th align="right">std. error</th>
+<tr>
+<th style="text-align:left;">
+estimate
+</th>
+<th style="text-align:right;">
+std. error
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">-5.6</td>
-<td align="right">2.8</td>
+<tr>
+<td style="text-align:left;">
+-5.6
+</td>
+<td style="text-align:right;">
+2.8
+</td>
 </tr>
-<tr class="even">
-<td align="left">0.6</td>
-<td align="right">0.3</td>
+<tr>
+<td style="text-align:left;">
+0.6
+</td>
+<td style="text-align:right;">
+0.3
+</td>
 </tr>
 </tbody>
 </table>
@@ -963,33 +1054,6 @@ meaningfully interpret the resulting parameters.</p>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/sepvarplot-1.png" alt="Illustration of complete separation of variable on simulated observations. Parameters are near infinite to yield a sharp transition at $x=9$. Quasi-complete separation of variable occurs if both outcomes are observed at the cutoff point." width="70%" />
 <p class="caption">
 Figure 4.5: Illustration of complete separation of variable on simulated observations. Parameters are near infinite to yield a sharp transition at <span class="math inline">\(x=9\)</span>. Quasi-complete separation of variable occurs if both outcomes are observed at the cutoff point.
-</p>
-</div>
-</div>
-<div id="diag-plots-binary" class="section level3" number="4.3.3">
-<h3><span class="header-section-number">4.3.3</span> Diagnostic plots for binary data (<span class="math inline">\(\star\)</span>)</h3>
-<p>There are also other issues arising from the discreteness of the
-observations. Since observations are 0/1, residuals are often separated.
-Figure <a href="generalized-linear-models.html#fig:diagplotsbirthwt1">4.6</a> shows residual plots for Example
-<a href="generalized-linear-models.html#exm:birthweightex">4.8</a>: both plots are of limited use to assess
-goodness-of-fit and model assumptions.</p>
-<div class="figure" style="text-align: center"><span id="fig:diagplotsbirthwt1"></span>
-<img src="MATH60604A_Statistical_modelling_files/figure-html/diagplotsbirthwt1-1.png" alt="Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right)." width="70%" />
-<p class="caption">
-Figure 4.6: Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right).
-</p>
-</div>
-<p>Another strategy is use of quantile residuals
-<span class="citation">(<a href="references.html#ref-Brillinger/Preisler:1983" role="doc-biblioref">Brillinger and Preisler 1983</a>)</span>. If <span class="math inline">\(Y \sim F\)</span>, the quantile transform gives <span class="math inline">\(U=F(Y) \sim \mathsf{U}(0,1)\)</span>, meaning uniformly distributed on <span class="math inline">\((0,1)\)</span>. Replacing the unknown distribution <span class="math inline">\(F\)</span> by <span class="math inline">\(\widehat{F}\)</span> should yield approximately uniform observations. With <span class="math inline">\(\widehat{\pi}_i\)</span> denoting the probability of success, we take
-<span class="math display">\[\begin{align*}
-U_i = U_{i1} Y_i + U_{i2}(1-Y_i), \qquad U_{i1} \sim \mathsf{U}(0, \widehat{\pi}_i), \quad U_{i2} \sim \mathsf{U}(\widehat{\pi}_i, 1)
-\end{align*}\]</span>
-and the resulting <strong>uniform residuals</strong> will be, as their name hints, approximately uniform on <span class="math inline">\((0,1)\)</span>. The drawback of this approach lies in the randomness of the residuals. Figure <a href="generalized-linear-models.html#fig:diagplotbirthwgt">4.7</a> shows the diagnostic plots based on the uniform residuals (top two rows): there is no overall indication of poor fit, except for seemingly too few low/high residuals. The two observations with high leverage correspond to non-smoker mothers with no premature labour record: one with hypertension and a weight of 95lbs (unusual combination), the other weighting 200 lbs, with no hypertension and presence of uterine
-irritability.</p>
-<div class="figure" style="text-align: center"><span id="fig:diagplotbirthwgt"></span>
-<img src="MATH60604A_Statistical_modelling_files/figure-html/diagplotbirthwgt-1.png" alt="Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey's quantile-quantile plot, Cook statistic against weighted leverage and case number. " width="70%" />
-<p class="caption">
-Figure 4.7: Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey’s quantile-quantile plot, Cook statistic against weighted leverage and case number.
 </p>
 </div>
 </div>
@@ -1106,7 +1170,7 @@ to be positive and behave like a <span class="math inline">\(\chi_1^2\)</span> r
 <div class="figure" style="text-align: center"><span id="fig:simunb"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/simunb-1.png" alt="Simulated null distribution of the likelihood ratio test comparing the Poisson and negative binomial regression models. The quantile-quantile plot show the distribution of positive statistics for sizes $n=100, 500, 1000, 2000$ relative to the asymptotic $\frac{1}{2}\chi^2_1$." width="70%" />
 <p class="caption">
-Figure 4.8: Simulated null distribution of the likelihood ratio test comparing the Poisson and negative binomial regression models. The quantile-quantile plot show the distribution of positive statistics for sizes <span class="math inline">\(n=100, 500, 1000, 2000\)</span> relative to the asymptotic <span class="math inline">\(\frac{1}{2}\chi^2_1\)</span>.
+Figure 4.6: Simulated null distribution of the likelihood ratio test comparing the Poisson and negative binomial regression models. The quantile-quantile plot show the distribution of positive statistics for sizes <span class="math inline">\(n=100, 500, 1000, 2000\)</span> relative to the asymptotic <span class="math inline">\(\frac{1}{2}\chi^2_1\)</span>.
 </p>
 </div>
 <p>The percentage of likelihood ratio statistics that are zero is <span class="math inline">\(69\)</span>%, <span class="math inline">\(60\)</span>%, <span class="math inline">\(59\)</span>% and <span class="math inline">\(54\)</span>% for respectively <span class="math inline">\(n=100\)</span>, <span class="math inline">\(500\)</span>, <span class="math inline">\(1000\)</span> and <span class="math inline">\(2000\)</span>. We can also see from the quantile-quantile plots that the empirical distribution of the positive values is right skewed relative to the <span class="math inline">\(\chi^2_1\)</span> reference. This strongly suggest that asymptotic null distribution, consisting of a point mass with probability half at <span class="math inline">\(0\)</span> and <span class="math inline">\(\chi^2_1\)</span> with probability half is seemingly valid only for very large samples; bear in mind that these findings also don’t account for model misspecification.</p>
@@ -1131,72 +1195,164 @@ Since the fitted value from this model are equal to the observed counts, it is u
 
 <p>With contingency tables, only categorical explanatory variables are available. The most complicated model, the saturated model with the three-way and all of two-way interactions, returns the observed counts. One can thus fit the model with all of the two-way interactions (with one parameter for the intercept, two for the main effects and three for the two-way interactions). Other models include selected two-way interactions and main effects.</p>
 <table>
-<caption><span id="tab:daytonpred">Table 4.6: </span>Prediction from the Poisson model with selected two-way interactions including alcohol (A), marijuana (M) and cigarette (C) consumption, compared to the saturated model ACM.</caption>
+<caption>
+<span id="tab:daytonpred">Table 4.6: </span>Prediction from the Poisson model with selected two-way interactions including alcohol (A), marijuana (M) and cigarette (C) consumption, compared to the saturated model ACM.
+</caption>
 <thead>
-<tr class="header">
-<th align="right">AM CM</th>
-<th align="right">AC CM</th>
-<th align="right">AC AM</th>
-<th align="right">AC AM CM</th>
-<th align="right">ACM</th>
+<tr>
+<th style="text-align:right;">
+AM CM
+</th>
+<th style="text-align:right;">
+AC CM
+</th>
+<th style="text-align:right;">
+AC AM
+</th>
+<th style="text-align:right;">
+AC AM CM
+</th>
+<th style="text-align:right;">
+ACM
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">909.2</td>
-<td align="right">885.9</td>
-<td align="right">710.0</td>
-<td align="right">910.4</td>
-<td align="right">911</td>
+<tr>
+<td style="text-align:right;">
+909.2
+</td>
+<td style="text-align:right;">
+885.9
+</td>
+<td style="text-align:right;">
+710.0
+</td>
+<td style="text-align:right;">
+910.4
+</td>
+<td style="text-align:right;">
+911
+</td>
 </tr>
-<tr class="even">
-<td align="right">438.8</td>
-<td align="right">563.1</td>
-<td align="right">739.0</td>
-<td align="right">538.6</td>
-<td align="right">538</td>
+<tr>
+<td style="text-align:right;">
+438.8
+</td>
+<td style="text-align:right;">
+563.1
+</td>
+<td style="text-align:right;">
+739.0
+</td>
+<td style="text-align:right;">
+538.6
+</td>
+<td style="text-align:right;">
+538
+</td>
 </tr>
-<tr class="odd">
-<td align="right">45.8</td>
-<td align="right">29.4</td>
-<td align="right">245.0</td>
-<td align="right">44.6</td>
-<td align="right">44</td>
+<tr>
+<td style="text-align:right;">
+45.8
+</td>
+<td style="text-align:right;">
+29.4
+</td>
+<td style="text-align:right;">
+245.0
+</td>
+<td style="text-align:right;">
+44.6
+</td>
+<td style="text-align:right;">
+44
+</td>
 </tr>
-<tr class="even">
-<td align="right">555.2</td>
-<td align="right">470.6</td>
-<td align="right">255.0</td>
-<td align="right">455.4</td>
-<td align="right">456</td>
+<tr>
+<td style="text-align:right;">
+555.2
+</td>
+<td style="text-align:right;">
+470.6
+</td>
+<td style="text-align:right;">
+255.0
+</td>
+<td style="text-align:right;">
+455.4
+</td>
+<td style="text-align:right;">
+456
+</td>
 </tr>
-<tr class="odd">
-<td align="right">4.8</td>
-<td align="right">28.1</td>
-<td align="right">0.7</td>
-<td align="right">3.6</td>
-<td align="right">3</td>
+<tr>
+<td style="text-align:right;">
+4.8
+</td>
+<td style="text-align:right;">
+28.1
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+3
+</td>
 </tr>
-<tr class="even">
-<td align="right">142.2</td>
-<td align="right">17.9</td>
-<td align="right">45.3</td>
-<td align="right">42.4</td>
-<td align="right">43</td>
+<tr>
+<td style="text-align:right;">
+142.2
+</td>
+<td style="text-align:right;">
+17.9
+</td>
+<td style="text-align:right;">
+45.3
+</td>
+<td style="text-align:right;">
+42.4
+</td>
+<td style="text-align:right;">
+43
+</td>
 </tr>
-<tr class="odd">
-<td align="right">0.2</td>
-<td align="right">16.6</td>
-<td align="right">4.3</td>
-<td align="right">1.4</td>
-<td align="right">2</td>
+<tr>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+16.6
+</td>
+<td style="text-align:right;">
+4.3
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+2
+</td>
 </tr>
-<tr class="even">
-<td align="right">179.8</td>
-<td align="right">264.4</td>
-<td align="right">276.7</td>
-<td align="right">279.6</td>
-<td align="right">279</td>
+<tr>
+<td style="text-align:right;">
+179.8
+</td>
+<td style="text-align:right;">
+264.4
+</td>
+<td style="text-align:right;">
+276.7
+</td>
+<td style="text-align:right;">
+279.6
+</td>
+<td style="text-align:right;">
+279
+</td>
 </tr>
 </tbody>
 </table>
@@ -1216,71 +1372,127 @@ The data consists of the remaining 1314 women. The smoker and non-smoker columns
 139 died (<span class="math inline">\(76.117\)</span>% survival rate), whereas 230 of the of the 732 smokers died (<span class="math inline">\(68.6\)</span>% survival rate). A logistic model for the number of survivors out of the total, based on smoking status,
 <span class="math display">\[\mathsf{P}(\texttt{survive=yes} \mid \texttt{smoking}) = \mathrm{expit}(\beta_0+\beta_1 \mathsf{I}_{\texttt{smoking=yes}}), \]</span>
 would return precisely these two probabilities of survival. The marginal odds of survival after twenty years are <span class="math inline">\(\exp(0.379) = 46\)</span>%
-higher for smokers. It seems puzzling that smoking would lead to higher survival after twenty years and be effective at hiding from the Grim reaper, but this analysis omits an important fact: the smokers in the study were much younger than the non-smokers. In this situation, averaging over all age groups, a confounder, lead to an incorrect assessment of the effect of smoking since most non-smokers recruited were above the age of 64 and thus had lower survival probability of surviving 20 years to begin with. The breakdown of death is depicted in the mosaic plot of Figure <a href="generalized-linear-models.html#fig:mosaicplots">4.9</a>. We see that more younger people were smoking, so the confounding effects leads unsurprisingly to smaller proportion of death in this group.</p>
+higher for smokers. It seems puzzling that smoking would lead to higher survival after twenty years and be effective at hiding from the Grim reaper, but this analysis omits an important fact: the smokers in the study were much younger than the non-smokers. In this situation, averaging over all age groups, a confounder, lead to an incorrect assessment of the effect of smoking since most non-smokers recruited were above the age of 64 and thus had lower survival probability of surviving 20 years to begin with. The breakdown of death is depicted in the mosaic plot of Figure <a href="generalized-linear-models.html#fig:mosaicplots">4.7</a>. We see that more younger people were smoking, so the confounding effects leads unsurprisingly to smaller proportion of death in this group.</p>
 <div class="figure" style="text-align: center"><span id="fig:mosaicplots"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/mosaicplots-1.png" alt="Mosaic plots for the smoker survival data: the left panel shows sample proportions of survivors depending on smoking status, whereas the right panel gives the sample proportion within each strata. Most of the people above 75 are non-smokers, and their probability of surviving beyond 95 years is small." width="70%" />
 <p class="caption">
-Figure 4.9: Mosaic plots for the smoker survival data: the left panel shows sample proportions of survivors depending on smoking status, whereas the right panel gives the sample proportion within each strata. Most of the people above 75 are non-smokers, and their probability of surviving beyond 95 years is small.
+Figure 4.7: Mosaic plots for the smoker survival data: the left panel shows sample proportions of survivors depending on smoking status, whereas the right panel gives the sample proportion within each strata. Most of the people above 75 are non-smokers, and their probability of surviving beyond 95 years is small.
 </p>
 </div>
 <table>
-<caption><span id="tab:tablesmoker">Table 4.7: </span>Logistic regression model for the proportion of survivors for the smoker survival data.</caption>
+<caption>
+<span id="tab:tablesmoker">Table 4.7: </span>Logistic regression model for the proportion of survivors for the smoker survival data.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">coefficient</th>
-<th align="right">estimate</th>
-<th align="right">std. error</th>
+<tr>
+<th style="text-align:left;">
+coefficient
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std. error
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">3.86</td>
-<td align="right">0.59</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+3.86
+</td>
+<td style="text-align:right;">
+0.59
+</td>
 </tr>
-<tr class="even">
-<td align="left">smoker [yes]</td>
-<td align="right">-0.43</td>
-<td align="right">0.18</td>
+<tr>
+<td style="text-align:left;">
+smoker [yes]
+</td>
+<td style="text-align:right;">
+-0.43
+</td>
+<td style="text-align:right;">
+0.18
+</td>
 </tr>
-<tr class="odd">
-<td align="left">age [25-34]</td>
-<td align="right">-0.12</td>
-<td align="right">0.69</td>
+<tr>
+<td style="text-align:left;">
+age [25-34]
+</td>
+<td style="text-align:right;">
+-0.12
+</td>
+<td style="text-align:right;">
+0.69
+</td>
 </tr>
-<tr class="even">
-<td align="left">age [35-44]</td>
-<td align="right">-1.34</td>
-<td align="right">0.63</td>
+<tr>
+<td style="text-align:left;">
+age [35-44]
+</td>
+<td style="text-align:right;">
+-1.34
+</td>
+<td style="text-align:right;">
+0.63
+</td>
 </tr>
-<tr class="odd">
-<td align="left">age [45-54]</td>
-<td align="right">-2.11</td>
-<td align="right">0.61</td>
+<tr>
+<td style="text-align:left;">
+age [45-54]
+</td>
+<td style="text-align:right;">
+-2.11
+</td>
+<td style="text-align:right;">
+0.61
+</td>
 </tr>
-<tr class="even">
-<td align="left">age [55-64]</td>
-<td align="right">-3.18</td>
-<td align="right">0.6</td>
+<tr>
+<td style="text-align:left;">
+age [55-64]
+</td>
+<td style="text-align:right;">
+-3.18
+</td>
+<td style="text-align:right;">
+0.6
+</td>
 </tr>
-<tr class="odd">
-<td align="left">age [65-74]</td>
-<td align="right">-5.09</td>
-<td align="right">0.62</td>
+<tr>
+<td style="text-align:left;">
+age [65-74]
+</td>
+<td style="text-align:right;">
+-5.09
+</td>
+<td style="text-align:right;">
+0.62
+</td>
 </tr>
-<tr class="even">
-<td align="left">age [75+]</td>
-<td align="right">-27.81</td>
-<td align="right">11293.14</td>
+<tr>
+<td style="text-align:left;">
+age [75+]
+</td>
+<td style="text-align:right;">
+-27.81
+</td>
+<td style="text-align:right;">
+11293.14
+</td>
 </tr>
 </tbody>
 </table>
 <p>Table <a href="generalized-linear-models.html#tab:tablesmoker">4.7</a> gives the estimated coefficients of the logistic regression model for survival, where the baseline is survival for people aged 18-24; there is a steady decline in survival as age increases, with separation of variable for the last category (because everyone aged 75 and above were dead at follow-up). Age is strongly significant, leading to a likelihood ratio statistic of <span class="math inline">\(629.915\)</span> for 6 degrees of freedom. The estimated effect of smoking is negative, so conditional on an age group, the estimated survival is multiplied by <span class="math inline">\(\exp(-0.427\)</span>) with 95% likelihood ratio confidence intervals for this coefficient of [<span class="math inline">\(0.46\)</span>, <span class="math inline">\(0.92\)</span>] on the odds scale. The point estimate corresponds to a <span class="math inline">\(34.8\)</span>% decrease.</p>
-<p>This phenomenon is termed <strong>Simpson’s paradox</strong> and is further illustrated in Figure <a href="generalized-linear-models.html#fig:marginalizationpicture">4.10</a>: an incorrect marginalization over a confounder can lead to reverse effects, even when analysis withing subgroups leads to opposition conclusions for the effect of that variable.</p>
+<p>This phenomenon is termed <strong>Simpson’s paradox</strong> and is further illustrated in Figure <a href="generalized-linear-models.html#fig:marginalizationpicture">4.8</a>: an incorrect marginalization over a confounder can lead to reverse effects, even when analysis withing subgroups leads to opposition conclusions for the effect of that variable.</p>
 <div class="figure" style="text-align: center"><span id="fig:marginalizationpicture"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/marginalizationpicture-1.png" alt="Illustration of the marginalization problem: within each subgroup, there is a clear positive correlation between explanatory and response, but averaging over all groups leads to incorrect estimates and a negative trend." width="70%" />
 <p class="caption">
-Figure 4.10: Illustration of the marginalization problem: within each subgroup, there is a clear positive correlation between explanatory and response, but averaging over all groups leads to incorrect estimates and a negative trend.
+Figure 4.8: Illustration of the marginalization problem: within each subgroup, there is a clear positive correlation between explanatory and response, but averaging over all groups leads to incorrect estimates and a negative trend.
 </p>
 </div>
 <div id="conditional-binomial-likelihood-for-poisson-counts" class="section level3" number="4.5.1">
@@ -1333,59 +1545,121 @@ Since the Poisson likelihood is defined for integer-valued response only, the <s
 <span class="math display">\[Y_{ijk} \sim \mathsf{Po}\left\{\exp\left(\beta_0 + \alpha_i+\kappa_j + \gamma_k + \ln n_{ijk}\right)\right\},\]</span>
 where we set the identifiability constraints <span class="math inline">\(\alpha_1=0\)</span> for ship type A, <span class="math inline">\(\kappa_1=0\)</span> for period of operation 1960–1974 and finally <span class="math inline">\(\gamma_1=0\)</span> for year of construction 1960–1964. Note that ships constructed in early periods may still be operating in the second period (and may also suffer</p>
 <table>
-<caption><span id="tab:shipsoffset">Table 4.8: </span>Poisson log-linear model for ship damage example.</caption>
+<caption>
+<span id="tab:shipsoffset">Table 4.8: </span>Poisson log-linear model for ship damage example.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">coefficient</th>
-<th align="right">estimate</th>
-<th align="right">std. error</th>
+<tr>
+<th style="text-align:left;">
+coefficient
+</th>
+<th style="text-align:right;">
+estimate
+</th>
+<th style="text-align:right;">
+std. error
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">-6.41</td>
-<td align="right">0.22</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+-6.41
+</td>
+<td style="text-align:right;">
+0.22
+</td>
 </tr>
-<tr class="even">
-<td align="left">type [B]</td>
-<td align="right">-0.54</td>
-<td align="right">0.18</td>
+<tr>
+<td style="text-align:left;">
+type [B]
+</td>
+<td style="text-align:right;">
+-0.54
+</td>
+<td style="text-align:right;">
+0.18
+</td>
 </tr>
-<tr class="odd">
-<td align="left">type [C]</td>
-<td align="right">-0.69</td>
-<td align="right">0.33</td>
+<tr>
+<td style="text-align:left;">
+type [C]
+</td>
+<td style="text-align:right;">
+-0.69
+</td>
+<td style="text-align:right;">
+0.33
+</td>
 </tr>
-<tr class="even">
-<td align="left">type [D]</td>
-<td align="right">-0.08</td>
-<td align="right">0.29</td>
+<tr>
+<td style="text-align:left;">
+type [D]
+</td>
+<td style="text-align:right;">
+-0.08
+</td>
+<td style="text-align:right;">
+0.29
+</td>
 </tr>
-<tr class="odd">
-<td align="left">type [E]</td>
-<td align="right">0.33</td>
-<td align="right">0.24</td>
+<tr>
+<td style="text-align:left;">
+type [E]
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.24
+</td>
 </tr>
-<tr class="even">
-<td align="left">period [1975-79]</td>
-<td align="right">0.38</td>
-<td align="right">0.12</td>
+<tr>
+<td style="text-align:left;">
+period [1975-79]
+</td>
+<td style="text-align:right;">
+0.38
+</td>
+<td style="text-align:right;">
+0.12
+</td>
 </tr>
-<tr class="odd">
-<td align="left">construction [1965-69]</td>
-<td align="right">0.7</td>
-<td align="right">0.15</td>
+<tr>
+<td style="text-align:left;">
+construction [1965-69]
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+0.15
+</td>
 </tr>
-<tr class="even">
-<td align="left">construction [1970-74]</td>
-<td align="right">0.82</td>
-<td align="right">0.17</td>
+<tr>
+<td style="text-align:left;">
+construction [1970-74]
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+<td style="text-align:right;">
+0.17
+</td>
 </tr>
-<tr class="odd">
-<td align="left">construction [1975-79]</td>
-<td align="right">0.45</td>
-<td align="right">0.23</td>
+<tr>
+<td style="text-align:left;">
+construction [1975-79]
+</td>
+<td style="text-align:right;">
+0.45
+</td>
+<td style="text-align:right;">
+0.23
+</td>
 </tr>
 </tbody>
 </table>

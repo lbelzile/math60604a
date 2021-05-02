@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>C R | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="C R | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,8 +31,8 @@
   
 <link rel="prev" href="math.html"/>
 <link rel="next" href="references.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,21 +49,24 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-<link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
-<script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
-<script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
-<script src="libs/rglWebGL-binding-0.100.54/rglWebGL.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -121,6 +124,29 @@ code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -191,7 +217,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Supplementary material</a>
 <ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
@@ -304,12 +330,12 @@ then</p>
 <li><code>head</code> (<code>tail</code>) prints the first (last) <span class="math inline">\(n\)</span> lines of the object to the console (default is <span class="math inline">\(n=6\)</span>).</li>
 </ul>
 <p>We start by loading a dataset of the Old Faithful Geyser of Yellowstone National park and looking at its entries.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Old faithful dataset</span></span>
-<span id="cb21-2"><a href="r.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
-<span id="cb21-3"><a href="r.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Query the database for documentation</span></span>
-<span id="cb21-4"><a href="r.html#cb21-4" aria-hidden="true" tabindex="-1"></a>?faithful</span>
-<span id="cb21-5"><a href="r.html#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># look at first entries</span></span>
-<span id="cb21-6"><a href="r.html#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="r.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Old faithful dataset</span></span>
+<span id="cb1-2"><a href="r.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">&quot;datasets&quot;</span>)</span>
+<span id="cb1-3"><a href="r.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Query the database for documentation</span></span>
+<span id="cb1-4"><a href="r.html#cb1-4" aria-hidden="true" tabindex="-1"></a>?faithful</span>
+<span id="cb1-5"><a href="r.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># look at first entries</span></span>
+<span id="cb1-6"><a href="r.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(faithful)</span></code></pre></div>
 <pre><code>##   eruptions waiting
 ## 1      3.60      79
 ## 2      1.80      54
@@ -317,12 +343,12 @@ then</p>
 ## 4      2.28      62
 ## 5      4.53      85
 ## 6      2.88      55</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="r.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="r.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(faithful)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    272 obs. of  2 variables:
 ##  $ eruptions: num  3.6 1.8 3.33 2.28 4.53 ...
 ##  $ waiting  : num  79 54 74 62 85 55 88 85 51 85 ...</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="r.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What kind of object is faithful? </span></span>
-<span id="cb25-2"><a href="r.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(faithful)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="r.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What kind of object is faithful? </span></span>
+<span id="cb5-2"><a href="r.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(faithful)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <p>Other common classes of objects:</p>
 <ul>
@@ -388,18 +414,18 @@ If you provide the data frame name using <code>data</code>, then the shorthand <
 <!-- We can compute the correlation coefficient using `cor`; we get 0.43 for `intention` and `fixation` and 0.23 for `intention` and `emotion`. If we specify a matrix with more than two columns or a data frame (with numeric values), we get a correlation matrix with ones on the diagonal. For factor variables, we would need to map these back to binary, but we saw that the $R^2$ value is equal to the squared correlation coefficient, so we can extract this from the output of the linear model fit.  -->
 <p>To fit higher order polynomials, use <code>poly</code>. For transformations, use the <code>I</code> function to tell <strong>R</strong> to interpret the input “as is.” Thus, <code>lm(y~x+I(x^2))</code>, would fit a linear model with design matrix <span class="math inline">\((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\)</span>. A constant is automatically included in the regression, but can be removed by writing <code>-1</code> or <code>+0</code> on the right hand side of the formula (but don’t do that!). The <code>lm</code> function output will display ordinary least squares estimates along with standard errors, <span class="math inline">\(t\)</span> values for the Wald test of the hypothesis <span class="math inline">\(\mathrm{H}_0: \beta_i=0\)</span> and the associated <span class="math inline">\(P\)</span>-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.</p>
 <p>Many methods allow you to extract specific objects from <code>lm</code> objects. For example, the functions <code>coef</code>, <code>resid</code>, <code>fitted</code>, <code>model.matrix</code> will return the coefficients <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>, the ordinary residuals <span class="math inline">\(\boldsymbol{e}\)</span>, the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> and the design matrix <span class="math inline">\(\mathbf{X}\)</span>, respectively.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="r.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(college, <span class="at">package =</span> <span class="st">&quot;hecstatmod&quot;</span>) <span class="co">#load data</span></span>
-<span id="cb27-2"><a href="r.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(college<span class="sc">$</span>rank) <span class="co">#check that rank is a factor</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="r.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(college, <span class="at">package =</span> <span class="st">&quot;hecstatmod&quot;</span>) <span class="co">#load data</span></span>
+<span id="cb7-2"><a href="r.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(college<span class="sc">$</span>rank) <span class="co">#check that rank is a factor</span></span></code></pre></div>
 <pre><code>## [1] &quot;factor&quot;</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="r.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if not, use the following &quot;&lt;-&quot; to assign, &quot;$&quot; to access the column of a data.frame/list</span></span>
-<span id="cb29-2"><a href="r.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># college$rank &lt;- factor(college$rank, labels = c(&quot;assistant&quot;,&quot;associate&quot;,&quot;full&quot;))</span></span>
-<span id="cb29-3"><a href="r.html#cb29-3" aria-hidden="true" tabindex="-1"></a>linmod <span class="ot">&lt;-</span> <span class="fu">lm</span>(salary <span class="sc">~</span> sex <span class="sc">+</span> rank <span class="sc">+</span> service <span class="sc">+</span> field, <span class="at">data =</span> college)</span>
-<span id="cb29-4"><a href="r.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(linmod) <span class="co">#coefficients</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="r.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if not, use the following &quot;&lt;-&quot; to assign, &quot;$&quot; to access the column of a data.frame/list</span></span>
+<span id="cb9-2"><a href="r.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># college$rank &lt;- factor(college$rank, labels = c(&quot;assistant&quot;,&quot;associate&quot;,&quot;full&quot;))</span></span>
+<span id="cb9-3"><a href="r.html#cb9-3" aria-hidden="true" tabindex="-1"></a>linmod <span class="ot">&lt;-</span> <span class="fu">lm</span>(salary <span class="sc">~</span> sex <span class="sc">+</span> rank <span class="sc">+</span> service <span class="sc">+</span> field, <span class="at">data =</span> college)</span>
+<span id="cb9-4"><a href="r.html#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(linmod) <span class="co">#coefficients</span></span></code></pre></div>
 <pre><code>##      (Intercept)         sexwoman    rankassociate         rankfull 
 ##          86.5963          -4.7712          14.5604          49.1596 
 ##          service fieldtheoretical 
 ##          -0.0888         -13.4734</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="r.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linmod) <span class="co">#summary table</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="r.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linmod) <span class="co">#summary table</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = salary ~ sex + rank + service + field, data = college)
@@ -422,7 +448,7 @@ If you provide the data frame name using <code>data</code>, then the shorthand <
 ## Residual standard error: 22.7 on 391 degrees of freedom
 ## Multiple R-squared:  0.448,  Adjusted R-squared:  0.441 
 ## F-statistic: 63.4 on 5 and 391 DF,  p-value: &lt;2e-16</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="r.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(linmod) <span class="co">#confidence intervals for model parameters</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="r.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(linmod) <span class="co">#confidence intervals for model parameters</span></span></code></pre></div>
 <pre><code>##                    2.5 % 97.5 %
 ## (Intercept)       80.776 92.416
 ## sexwoman         -12.396  2.853
@@ -430,8 +456,8 @@ If you provide the data frame name using <code>data</code>, then the shorthand <
 ## rankfull          41.621 56.698
 ## service           -0.308  0.131
 ## fieldtheoretical -18.026 -8.921</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="r.html#cb35-1" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">fitted</span>(linmod) <span class="co">#fitted values</span></span>
-<span id="cb35-2"><a href="r.html#cb35-2" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">resid</span>(linmod) <span class="co">#ordinary residuals</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="r.html#cb15-1" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">fitted</span>(linmod) <span class="co">#fitted values</span></span>
+<span id="cb15-2"><a href="r.html#cb15-2" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">resid</span>(linmod) <span class="co">#ordinary residuals</span></span></code></pre></div>
 <!-- The estimated intercept $\widehat{\beta}_0$ is 6.92 and the estimated slope $\widehat{\beta}_1$ is 1.29 The table gives the $p$-values for the null hypotheses $\beta_0=0$ and $\beta_1=0$, which are negligible. The estimated variance $\widehat{\sigma}^2$, given by the `Residual standard error` is 2.86. -->
 <!-- To obtain predicted values for combination of explanatories not present in the dataset, we need to first create a new data frame, with the same column names as those of the explanatory. In this case, the only $\mathrm{X}$ variable is `fixation`. We can get confidence intervals for the mean value with `interval = "conf"` or prediction intervals for the new observations with `interval = "pred"`. -->
 <!-- ```{r plotfitted} -->

@@ -39,16 +39,16 @@ knitr::include_graphics('images/02-ttest-DF_illustration.png')
 
 ### Moments {#moments}
 
-One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random varaible. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
+One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random variable. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.
 
-Let $Y$ be a random variable with density (or mass) function $f(x)$. This function is non-negative and satisfies $\int_{\mathbb{R}} f(x) \mathrm{d}x=1$: the integral over a set $B$ gives the probability of $Y$ falling inside $B \in \mathbb{R}$.
+Let $Y$ be a random variable with density (or mass) function $f(x)$. This function is non-negative and satisfies $\int_{\mathbb{R}} f(x) \mathrm{d}x=1$: the integral over a set $B$ (the area under the curve) gives the probability of $Y$ falling inside $B \in \mathbb{R}$.
 
 
 The expectation (or theoretical mean) of a continuous random variable $Y$ is \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\] 
 In the discrete case, we set rather $\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)$, where $\mathcal{X}$ denotes the support of $Y$, the set of numerical values at which the probability of $Y$ is non-zero.
 More generally, we can look at the expectation of a function $g(x)$ for $Y$, which is nothing but the integral (or sum in the discrete case) of $g(x)$ weighted by the density or mass function of $f(x)$. In the same fashion, provided the integral is finite, the variance is
 \[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
-The **standard deviation** is the square root of the variance and measures the variability of the variable, measured in the same units as $Y$. 
+The **standard deviation** is the square root of the variance, $\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}$: it units are the same as those of $Y$ and are thus more easily interpreted. 
 
 The notion of moments can be extended to higher dimensions. If we assume data are independent, their joint distribution factorizes into the product of the individual mass function/density of each sample point. Otherwise, a multivariate mass function or density function describes the behaviour of the random vector. 
 
@@ -229,14 +229,14 @@ For normally distributed data, the centered sample mean divided by the sample va
 
 Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if $Y$ is a continuous random variable with distribution function $F$, then the mapping $F(Y) \sim \mathsf{U}(0,1)$ yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from $F$, viz. $F^{-1}(U)$. Consider then a random sample of size $n$ from the uniform distribution ordered from smallest to largest, with  $U_{(1)} \leq \cdots \leq U_{(n)}$. One can show these ranks have marginally a Beta distribution, $U_{(k)} \sim \mathsf{Beta}(k, n+1-k)$ with expectation $k/(n+1)$.
 
-In practice, we don't know $F$ and, even if we did, one would need to estimate the parameters. We consider some estimator $\widehat{F}$ for the model and apply the inverse transform to an approximate uniform sample $\{i/(n+1)\}_{i=1}^n$. The quantile-quantile plot shos the data as a function of the (first moment) of the transformed order statistics:
+In practice, we don't know $F$ and, even if we did, one would need to estimate the parameters. We consider some estimator $\widehat{F}$ for the model and apply the inverse transform to an approximate uniform sample $\{i/(n+1)\}_{i=1}^n$. The quantile-quantile plot shows the data as a function of the (first moment) of the transformed order statistics:
 
 - on the $x$-axis, the theoretical quantiles $\widehat{F}^{-1}\{\mathrm{rank}(y_i)/(n+1)\}$
 - on the $y$-axis, the empirical quantiles $y_i$
 
-If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope: the detrended plot is easier to interpret and was proposed by Tukey (but beware of the scale of the $y$-axis!). Figure \@ref(fig:diagrammeqq2) shows two representations of the same data using simulated samples from a standard normal distribution.
+If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope. Tukey's mean difference plot takes the plotting positions of the quantile-quantile plot, say ($x_i, y_i$), and shows instead the mean and difference of these coordinates ($\{x_i + y_i\}/2, y_i - x_i$). Figure \@ref(fig:diagrammeqq2) shows two representations of the same data using simulated samples from a standard normal distribution.
 
-```{r diagrammeqq2, cache = TRUE, eval = TRUE, echo = FALSE, fig.cap = "Normal quantile-quantile plot (left) and detrended version (Tukey's) of the same plot (right)."}
+```{r diagrammeqq2, cache = TRUE, eval = TRUE, echo = FALSE, fig.cap = "Normal quantile-quantile plot (left) and Tukey's mean different plot (right) for the same data."}
 library(qqplotr, warn.conflicts = FALSE)
 library(patchwork)
 set.seed(1234)
@@ -264,12 +264,12 @@ Even if we knew the true distribution of the data, the sample variability makes 
 2. re-estimate the parameters of $F$ to obtain $\widehat{F}_{(b)}$
 3. calculate and save the plotting positions $\widehat{F}^{-1}_{(b)}\{i/(n+1)\}$.
 
-The result of this operation is an $n \times B$ matrix of simulated data. We obtain a symmetric ($1-\alpha$) confidence interval by keeping the empirical quantile of order $\alpha/2$ and $1-\alpha/2$ from each row. The number $B$ should be larger than 999, say, and be chosen so that $B/alpha$ is an integer.
+The result of this operation is an $n \times B$ matrix of simulated data. We obtain a symmetric ($1-\alpha$) confidence interval by keeping the empirical quantile of order $\alpha/2$ and $1-\alpha/2$ from each row. The number $B$ should be larger than 999, say, and be chosen so that $B/\alpha$ is an integer.
 
-For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately $\alpha$. However, order statistics are not independent (they are ordered), so its common to see neighboring points falling outside of their respective intervals. [It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall $100(1-\alpha)$\% of the time inside the bands in repeated samples; [see Section 4.4.3 of these course notes](https://lbelzile.github.io/lineaRmodels/qqplot.html). The intervals shown in Figure \@ref(fig:diagrammeqq2) are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on $F$.
+For the pointwise interval, each order statistic from the sample is a statistic and so the probability of any single one falling outside the confidence interval is approximately $\alpha$. However, order statistics are not independent (they are ordered), so its common to see neighbouring points falling outside of their respective intervals. [It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall $100(1-\alpha)$\% of the time inside the bands in repeated samples; [see Section 4.4.3 of these course notes](https://lbelzile.github.io/lineaRmodels/qqplot.html). The intervals shown in Figure \@ref(fig:diagrammeqq2) are pointwise and derived (magically) using a simple function. The uniform order statistics have larger variability as we move away from 0.5, but the uncertainty in the quantile-quantile plot largely depends on $F$.
 
 
-Interpretation of quantile-quantile plots requires some experience: [this post by _Glen_b_ on StackOverflow](https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290) nicely summarizes what can be detected (or not) from them.
+Interpretation of quantile-quantile plots requires practice and experience: [this post by _Glen_b_ on StackOverflow](https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290) nicely summarizes what can be detected (or not) from them.
 
 
 ## Laws of large numbers {#law-large-numbers}
@@ -283,7 +283,7 @@ If the law of large number tells us what happens in the limit (we get a single n
 
 ## Central Limit Theorem {#CLT}
 
-The central limit theorem is perhaps the flagship result of probability theory: for a random sample of size $n$ with (independent) random variables whose expectation is  $\mu$ and variance $\sigma^2$, then the sample mean converges to $\mu$, but 
+The central limit theorem gives the approximate large sample distribution of the sample mean. Consider a random sample of size $n$  $\{Y_i\}_{i=1}^n$ of independent random variables with common expectation  $\mu$ and variance $\sigma^2$. The sample mean $\overline{Y} = n^{-1}\sum_{i=1}^n Y_i$ converges to $\mu$ by the law of large number, but we also have that
 
 - the estimator $\overline{Y}$ is centered around $\mu$,
 - the standard error is $\sigma/\sqrt{n}$; the rate of convergence is thus $\sqrt{n}$. For a sample of size 100, the standard error of the sample mean will be 10 times smaller than that of the underlying random variable.
@@ -347,7 +347,7 @@ p3 <- ggplot(data = moy100) +
 cowplot::plot_grid(p0, p1, p2, p3)
 ```
 
-We draw $B=1000$ different samples, each of size $n=5$, from two millions records, and calculate the sample mean in each of them. The top right panel of  \@ref(fig:renfemeanCLT) shows the result for $n=5$, but also for $n=20$ (bottom left). The last graph of Figure \@ref(fig:renfemeanCLT) shows the impact of the increase in sample size: whereas the normal approximation is okay-ish for $n=5$, it is indistinguishable from the normal approximation for $n=20$. As $n$ increases and the sample size gets bigger, the quality of the approximation improves and the curve becomes more concentrated around the true mean. Even if the distribution of the travel time is discrete, the mean is approximately normal.
+We draw $B=1000$ different samples, each of size $n=5$, from two millions records, and calculate the sample mean in each of them. The top right panel of  \@ref(fig:renfemeanCLT) is a histogram of the sample means when $n=5$, whereas the bottom left panel shows the same thingfor $n=20$. The last graph of Figure \@ref(fig:renfemeanCLT) shows the impact of the increase in sample size: whereas the normal approximation is okay-ish for $n=5$, it is indistinguishable from the normal approximation for $n=20$. As $n$ increases and the sample size gets bigger, the quality of the approximation improves and the curve becomes more concentrated around the true mean. Even if the distribution of the travel time is discrete, the mean is approximately normal.
 
 We considered a single distribution in the example, but you could play with other distributions and vary the sample size to see when the central limit theorem kicks in usng this [applet](http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html).
 

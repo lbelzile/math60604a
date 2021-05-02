@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>B Mathematical derivations | Statistical Modelling</title>
+  <title>B Supplementary material | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="B Mathematical derivations | Statistical Modelling" />
+  <meta property="og:title" content="B Supplementary material | Statistical Modelling" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lbelzile/math60604a" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="B Mathematical derivations | Statistical Modelling" />
+  <meta name="twitter:title" content="B Supplementary material | Statistical Modelling" />
   
   <meta name="twitter:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   
@@ -31,8 +31,8 @@
   
 <link rel="prev" href="complement.html"/>
 <link rel="next" href="r.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,21 +49,24 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-<link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
-<script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
-<script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
-<script src="libs/rglWebGL-binding-0.100.54/rglWebGL.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -121,6 +124,29 @@ code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -191,7 +217,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.3" data-path="complement.html"><a href="complement.html#law-large-numbers"><i class="fa fa-check"></i><b>A.3</b> Laws of large numbers</a></li>
 <li class="chapter" data-level="A.4" data-path="complement.html"><a href="complement.html#CLT"><i class="fa fa-check"></i><b>A.4</b> Central Limit Theorem</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Mathematical derivations</a>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Supplementary material</a>
 <ul>
 <li class="chapter" data-level="B.1" data-path="math.html"><a href="math.html#ols"><i class="fa fa-check"></i><b>B.1</b> Derivation of the ordinary least squares estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="math.html"><a href="math.html#derivationR2"><i class="fa fa-check"></i><b>B.2</b> Derivation of the coefficient of determination</a></li>
@@ -224,15 +250,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="math" class="section level1" number="9">
-<h1><span class="header-section-number">B</span> Mathematical derivations</h1>
-<p>This section regroups optional derivations which are provided for the sake of completeness.</p>
+<h1><span class="header-section-number">B</span> Supplementary material</h1>
+<p>This section regroups optional derivations and additional details which are provided for the sake of completeness.</p>
 <div id="ols" class="section level2" number="9.1">
 <h2><span class="header-section-number">B.1</span> Derivation of the ordinary least squares estimator</h2>
 <p>Consider the optimization problem
 <span class="math display">\[\begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}\]</span>
-We can compute the derivative of the right hand side with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span>, set it to zero and solve for <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>,<br />
+We can compute the derivative of the right hand side with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span>, set it to zero and solve for <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>,
 <span class="math display">\[\begin{align*}
 \mathbf{0}_n&amp;=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
 \\&amp;=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
@@ -261,6 +287,146 @@ If the <span class="math inline">\(n \times p\)</span> matrix <span class="math 
 \\&amp;= \sqrt{\frac{\mathsf{SS}_c-\mathsf{SS}_e}{\mathsf{SS}_c}}= \mathrm{R}.
 \end{align*}\]</span>
 This justifies the claim of <a href="linear-regression.html#coefR2">Section 2.5</a> that the squared correlation between the fitted values and the response is equal to <span class="math inline">\(R^2\)</span>.</p>
+<div id="optimization-for-generalized-linear-models" class="section level3" number="9.2.1">
+<h3><span class="header-section-number">B.2.1</span> Optimization for generalized linear models</h3>
+<p>There is generally no closed-form expression for the maximum likelihood
+estimators <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> in generalized linear models
+and the score equation is typically nonlinear in <span class="math inline">\(\boldsymbol{\beta}\)</span>
+and <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> must be obtained through iterative
+numerical routines.</p>
+<p>Starting from Equation <a href="generalized-linear-models.html#eq:expofam">(4.1)</a>, we differentiate the log likelihood function <span class="math inline">\(\ell = \sum_{i=1}^n \ell_i\)</span> with respect to
+<span class="math inline">\(\boldsymbol{\beta}\)</span>. For simplicity, we consider each likelihood
+contribution and coefficient in turn. By the chain rule, <span class="math display">\[\begin{align*}
+\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial
+\eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i}
+\frac{\partial \theta_i}{\partial \mu_i}\frac{\partial
+\ell_i}{\partial \theta_i}
+\end{align*}\]</span>
+and the earlier derivations show <span class="math inline">\(\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)\)</span> and <span class="math inline">\(\partial \mu_i / \partial \theta_i = b&#39;&#39;(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)\)</span>.
+The derivative of the linear predictor, <span class="math inline">\(\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}\)</span>. The only missing term, <span class="math inline">\(\partial \mu_i/\partial \eta_i\)</span>, depends on the choice of link function through <span class="math inline">\(\eta_i = g(\mu_i)\)</span>, but it is unity for the canonical link function.</p>
+<p>Let
+<span class="math display">\[\begin{align*}
+U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}
+\end{align*}\]</span>
+denote respectively the gradient and the hessian of the log likelihood function; summing all the likelihood contribution, the <span class="math inline">\(j\)</span>th element of the score vector
+<span class="math inline">\(\boldsymbol{U}\)</span> is
+<span class="math display">\[\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g&#39;(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}\]</span>
+In general, <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> solves the score equation <span class="math inline">\(U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}\)</span>, so we can device a Newton–Raphson algorithm to obtain the maximum likelihood
+estimates. This amounts to a first order Taylor series expansion of
+the score vector <span class="math inline">\(U(\widehat{\boldsymbol{\beta}})\)</span> around <span class="math inline">\(\boldsymbol{\beta}\)</span>,
+<span class="math display">\[\begin{align*}
+\boldsymbol{0}_{p+1} = U(\widehat{\boldsymbol{\beta}}) \stackrel{\cdot}{=} U(\beta) - j(\boldsymbol{\beta}) (\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta})
+\end{align*}\]</span>
+If the <span class="math inline">\((p+1)\)</span> matrix <span class="math inline">\(j(\boldsymbol{\beta}^{(t)})\)</span> is
+invertible, we can thus device an iterative algorithm: starting from
+some initial value <span class="math inline">\(\boldsymbol{\beta}^{(0)}\)</span>, we compute at step <span class="math inline">\(t+1\)</span>
+<span class="math display">\[\begin{align*}
+\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + j^{-1}(\boldsymbol{\beta}^{(t)})U(\boldsymbol{\beta}^{(t)}).
+\end{align*}\]</span>
+and iterate this formula until convergence. Most softwares
+implement a variant of this algorithm, in which the negative hessian
+<span class="math inline">\(j(\boldsymbol{\beta})\)</span> is replaced by its absolute value
+<span class="math inline">\(i(\boldsymbol{\beta})\)</span>: the resulting algorithm is known as Fisher
+scoring. For generalized linear models, these recursions can be done by
+repeatedly computing a variant of least squares known as iteratively
+reweighted least squares.</p>
+</div>
+<div id="residuals-glm" class="section level3" number="9.2.2">
+<h3><span class="header-section-number">B.2.2</span> Residuals for generalized linear models</h3>
+<p>We can use the individual contributions to the deviance and Pearson
+<span class="math inline">\(X^2\)</span> statistic to build residuals for generalized linear models. By considering
+<span class="math inline">\(D = \sum_{i=1}^n d_i^2\)</span>, where
+<span class="math display">\[\begin{align*}
+d_i &amp;= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\eta}_i; y_i) - 2\ell(\widehat{\eta}_i; y_i)\}^{1/2}
+\end{align*}\]</span>
+and the calculations simplify upon replacing the formula of
+the log likelihood for the generic exponential family member,
+<span class="math display">\[\begin{align*}
+d_i^2=2 \left\{y_i (\widetilde{\theta}_i - \widehat{\theta}_i) - b(\widetilde{\theta}_i) + b(\widehat{\theta}_i)\right\}
+\end{align*}\]</span>
+The terms <span class="math inline">\(d_i\)</span> are called deviance residuals, whereas
+Pearson residuals are based on the score contributions
+<span class="math inline">\(u_i(\widehat{\beta}) w_i(\widehat{\beta})^{-1/2}\)</span>, where the score statistic <span class="math inline">\(u(\boldsymbol{\beta})\)</span> and the weights <span class="math inline">\(w_i\)</span> are
+<span class="math display">\[\begin{align*}
+u_i &amp;= \frac{\partial \theta_i}{\partial \eta_i} \frac{\partial \ell_i(\theta_i)}{\partial \theta_i} = \frac{y_i - \mu_i}{g&#39;(\mu_i)a_i(\phi)V(\mu_i)}\\
+w_i &amp;= \left(\frac{\partial \theta_i}{\partial \eta_i}\right)^2 \frac{\partial^2 \ell_i(\theta_i)}{\partial \theta_i^2} = \frac{1}{g&#39;(\mu_i)^2 a_i(\phi)V(\mu_i)}
+\end{align*}\]</span></p>
+<p>In practice, these residuals are heteroscedastic and it is better to
+standardize them by considering instead
+<span class="math display">\[\begin{align*}
+r_{D_i} = \frac{d_i}{(1-h_{ii})^2}, \qquad r_{P_i} = \frac{u_i(\widehat{\beta})}{\{w_i(\widehat{\beta})(1-h_{ii})\}^{1/2}},
+\end{align*}\]</span>
+both are scaled by <span class="math inline">\((1-h_{ii})^{1/2}\)</span>, a formula remniscent
+of the linear model framework. In the above formulas, the leverage
+<span class="math inline">\(h_{ii}\)</span> is the <span class="math inline">\(i\)</span>th diagonal element of the matrix <span class="math display">\[\begin{align*}
+\mathbf{H}_{\mathbf{X}} = \mathbf{W}^{1/2}\mathbf{X}(\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{W}^{1/2};
+\end{align*}\]</span>
+since the terms of
+<span class="math inline">\(\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}\)</span> depend on the unknown
+coefficient, the latter is estimated by replacing <span class="math inline">\(\boldsymbol{\beta}\)</span>
+by <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
+<p>The standardized deviance residuals <span class="math inline">\(\{r_{D_i}\}\)</span> and standardized
+Pearson residuals <span class="math inline">\(\{r_{P_i}\}\)</span> should have an approximate standard
+normal distribution in large samples, but their distribution can be
+skewed. Like in the linear regression, we will work with the
+<strong>jackknifed deviance residuals</strong> for residual plots <span class="math display">\[\begin{align*}
+r_{J_i} &amp;= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
+\end{align*}\]</span></p>
+<p>For ordinary linear regression, both <span class="math inline">\(r_{D_i}\)</span> and <span class="math inline">\(r_{P_i}\)</span> reduce to
+the standardized residuals <span class="math inline">\(t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}\)</span>.</p>
+<p>There are clear parallels between generalized linear models and linear
+models: we have so far derived an analog of residuals and leverage.
+Collinearity is also an issue for generalized linear model; for the
+latter, we define the Cook statistic as the change in the deviance,
+<span class="math display">\[\begin{align*}
+C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
+\end{align*}\]</span>
+where <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{-j}\)</span> is the estimate
+obtained by dropping the <span class="math inline">\(j\)</span>th observation from the sample. This
+requires fitting <span class="math inline">\(n\)</span> different models, which is computationally
+prohibitive. In the linear regression, we can calculate the Cook
+distance from the formula <span class="math inline">\(C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})\)</span>,
+where <span class="math inline">\(t_i\)</span> are the standardized residuals defined in the previous
+section. For generalized linear models, no such expression exists,
+although a good approximation is
+<span class="math inline">\(C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})\)</span>.</p>
+<p>Diagnostic plots for generalized linear models are harder to interpret
+because of the lack of orthogonality. It is customary to plot the
+jackknife deviance residuals against the linear predictor
+<span class="math inline">\(\widehat{\eta}_i\)</span>, produce normal quantile-quantile plots of
+standardized deviance residuals and the approximate Cook statistics
+against the <span class="math inline">\(h_{ii}/(1-h_{ii})\)</span>. We will show examples of such plots for
+particular models.</p>
+</div>
+<div id="diag-plots-binary" class="section level3" number="9.2.3">
+<h3><span class="header-section-number">B.2.3</span> Diagnostic plots for binary data</h3>
+<p>There are also other issues arising from the discreteness of the
+observations. Since observations are 0/1, residuals are often separated.
+Figure <a href="math.html#fig:diagplotsbirthwt1">B.1</a> shows residual plots for Example
+<a href="generalized-linear-models.html#exm:birthweightex">4.8</a>: both plots are of limited use to assess
+goodness-of-fit and model assumptions.</p>
+<div class="figure" style="text-align: center"><span id="fig:diagplotsbirthwt1"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/diagplotsbirthwt1-1.png" alt="Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right)." width="70%" />
+<p class="caption">
+Figure B.1: Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right).
+</p>
+</div>
+<p>Another strategy is use of quantile residuals
+<span class="citation">(<a href="references.html#ref-Brillinger/Preisler:1983" role="doc-biblioref">Brillinger and Preisler 1983</a>)</span>. If <span class="math inline">\(Y \sim F\)</span>, the quantile transform gives <span class="math inline">\(U=F(Y) \sim \mathsf{U}(0,1)\)</span>, meaning uniformly distributed on <span class="math inline">\((0,1)\)</span>. Replacing the unknown distribution <span class="math inline">\(F\)</span> by <span class="math inline">\(\widehat{F}\)</span> should yield approximately uniform observations. With <span class="math inline">\(\widehat{\pi}_i\)</span> denoting the probability of success, we take
+<span class="math display">\[\begin{align*}
+U_i = U_{i1} Y_i + U_{i2}(1-Y_i), \qquad U_{i1} \sim \mathsf{U}(0, \widehat{\pi}_i), \quad U_{i2} \sim \mathsf{U}(\widehat{\pi}_i, 1)
+\end{align*}\]</span>
+and the resulting <strong>uniform residuals</strong> will be, as their name hints, approximately uniform on <span class="math inline">\((0,1)\)</span>. The drawback of this approach lies in the randomness of the residuals. Figure <a href="math.html#fig:diagplotbirthwgt">B.2</a> shows the diagnostic plots based on the uniform residuals (top two rows): there is no overall indication of poor fit, except for seemingly too few low/high residuals. The two observations with high leverage correspond to non-smoker mothers with no premature labour record: one with hypertension and a weight of 95lbs (unusual combination), the other weighting 200 lbs, with no hypertension and presence of uterine
+irritability.</p>
+<div class="figure" style="text-align: center"><span id="fig:diagplotbirthwgt"></span>
+<img src="MATH60604A_Statistical_modelling_files/figure-html/diagplotbirthwgt-1.png" alt="Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey's quantile-quantile plot, Cook statistic against weighted leverage and case number. " width="70%" />
+<p class="caption">
+Figure B.2: Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey’s quantile-quantile plot, Cook statistic against weighted leverage and case number.
+</p>
+</div>
+</div>
 </div>
 <div id="restricted-estimation-maximum-likelihood" class="section level2" number="9.3">
 <h2><span class="header-section-number">B.3</span> Restricted estimation maximum likelihood</h2>
@@ -269,7 +435,7 @@ This justifies the claim of <a href="linear-regression.html#coefR2">Section 2.5<
 <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_n\{\mathbf{X} \boldsymbol{\beta}, \boldsymbol{\Upsilon}^{-1}(\boldsymbol{\psi})\}\)</span>, where <span class="math inline">\(\boldsymbol{\Upsilon}^{-1}(\boldsymbol{\psi}) = \mathbf{Z}\boldsymbol{\Omega}\mathbf{Z}^\top + \mathbf{R}\)</span> and <span class="math inline">\(\mathbf{R} = \mathrm{blockdiag}(\mathbf{R}_1, \ldots, \mathbf{R}_m)\)</span>, the covariance matrix of the errors, is block-diagonal. The multivariate normal distribution has covariance parameters <span class="math inline">\(\boldsymbol{\psi}\)</span> and mean parameters <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
 <p>The log likelihood for the model is, up to proportionality constants
 <span class="math display">\[\begin{align*}
-\ell(\boldsymbol{\beta},\boldsymbol{\psi}; \boldsymbol{y}) \propto  \frac{1}{2} \ln |\boldsymbol{\Upsilon}|- \frac{1}{2} (\boldsymbol{y}- \mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}) 
+\ell(\boldsymbol{\beta},\boldsymbol{\psi}; \boldsymbol{y}) \propto  \frac{1}{2} \ln |\boldsymbol{\Upsilon}|- \frac{1}{2} (\boldsymbol{y}- \mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
 \end{align*}\]</span></p>
 <p>For known <span class="math inline">\(\boldsymbol{\psi}\)</span>, the precision matrix <span class="math inline">\(\boldsymbol{\Upsilon}\)</span> is fully resolved; the restricted maximum likelihood for the parameters of the mean vector <span class="math inline">\(\boldsymbol{\beta}\)</span> is
 <span class="math display">\[\begin{align*}
@@ -277,7 +443,7 @@ This justifies the claim of <a href="linear-regression.html#coefR2">Section 2.5<
 \end{align*}\]</span>
 We can show that <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} \sim \mathsf{No}_{p+1}\{\boldsymbol{\beta}, (\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X})^{-1}\}\)</span> and thus write the joint density of the response given mean and variance parameters as
 <span class="math display">\[\begin{align*}
-f(\boldsymbol{y}; \boldsymbol{\psi}, \boldsymbol{\beta}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) f(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}; \boldsymbol{\psi}, \boldsymbol{\beta}). 
+f(\boldsymbol{y}; \boldsymbol{\psi}, \boldsymbol{\beta}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) f(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}; \boldsymbol{\psi}, \boldsymbol{\beta}).
 \end{align*}\]</span>
 Given <span class="math inline">\(\boldsymbol{\psi}\)</span>, <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}\)</span> is a sufficient statistic for <span class="math inline">\(\boldsymbol{\beta}\)</span>, the conditional density depends on <span class="math inline">\(\boldsymbol{\beta}\)</span> only through <span class="math inline">\(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}\)</span>, so <span class="math inline">\(f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\psi})\)</span>.
 Rather than using the full likelihood, the REML maximizes the conditional log likelihood
@@ -287,7 +453,7 @@ Rather than using the full likelihood, the REML maximizes the conditional log li
 The solution thus differs from that of the maximum log likelihood. The log conditional density is
 <span class="math display">\[\begin{align*}
 \ell_{\mathrm{r}}(\boldsymbol{\psi})
- &amp;= \frac{1}{2} \ln |\boldsymbol{\Upsilon}| - \frac{1}{2} (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}) 
+ &amp;= \frac{1}{2} \ln |\boldsymbol{\Upsilon}| - \frac{1}{2} (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
  \\&amp; \quad - \frac{1}{2} \ln \left|\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X}\right| + \frac{1}{2} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)^\top \mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)
 \end{align*}\]</span>
 and upon simplifying terms using the fact <span class="math inline">\(\boldsymbol{y} - \mathbf{X}\boldsymbol{\beta} = \boldsymbol{y} - \mathbf{X}\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} + \mathbf{X}(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} - \boldsymbol{\beta})\)</span>, we retrieve the REML log likelihood,

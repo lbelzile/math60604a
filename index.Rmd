@@ -1,4 +1,4 @@
---- 
+---
 title: "Statistical Modelling"
 site: bookdown::bookdown_site
 output:
@@ -22,18 +22,18 @@ description: "This is a web complement to MATH 60604A (Statistical Modelling), a
 
 # Preliminary remarks {-}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/) and were last compiled on `r Sys.Date()`. 
+These notes by Léo Belzile (HEC Montréal) are licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/) and were last compiled on `r Sys.Date()`.
 
 While we show how to implement statistical tests and models in **SAS** in class, these note will illustrate the concepts using  **R**: visit [the R-project website](https://cran.r-project.org/) to download the program. The most popular graphical cross-platform front-end is [RStudio Desktop](https://www.rstudio.com/products/rstudio/download/).
 
 
-Why use models? [Paul Krugman wrote in 2010 on his blog](https://krugman.blogs.nytimes.com/2010/11/18/debt-deleveraging-and-the-liquidity-trap/)
+Why use models? [Paul Krugman wrote in 2010 in his blog](https://krugman.blogs.nytimes.com/2010/11/18/debt-deleveraging-and-the-liquidity-trap/)
 
 > The answer I’d give is that models are an enormously important tool for clarifying your thought. You don’t have to literally believe your model — in fact, you’re a fool if you do — to believe that putting together a simplified but complete account of how things work, with all the eyes crossed and teas dotted or something, helps you gain a much more sophisticated understanding of the real situation. People who don’t use models end up relying on slogans that are much more simplistic than the models
 
 A famous quote attributed to George Box claims that
 
-> All models are wrong, but some are useful. 
+> All models are wrong, but some are useful.
 
 This standpoint is reductive: Peter McCullagh and John Nelder wrote in the preamble of their book (emphasis mine)
 
@@ -41,11 +41,7 @@ This standpoint is reductive: Peter McCullagh and John Nelder wrote in the pream
 
 And this quote by David R. Cox adds to the point:
 
-> ...it does not seem helpful just to say that all models are wrong. The very word model implies simplification and idealization. The idea that com-
-plex physical, biological or sociological systems can be exactly described
-by a few formulae is patently absurd. The construction of idealized representations that **capture important stable aspects of such systems**
-is, however, a vital part of general scientific analysis and statistical models, especially substantive ones, do not seem essentially different from
-other kinds of model.
+> ...it does not seem helpful just to say that all models are wrong. The very word model implies simplification and idealization. The idea that complex physical, biological or sociological systems can be exactly described by a few formulae is patently absurd. The construction of idealized representations that **capture important stable aspects of such systems** is, however, a vital part of general scientific analysis and statistical models, especially substantive ones, do not seem essentially different from other kinds of model.
 
 
 
@@ -71,17 +67,25 @@ other kinds of model.
 
 
 ```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, out.width = '70%', fig.align = 'center')
 options(knitr.graphics.auto_pdf = TRUE)
 options(scipen = 1, digits = 3)
 library(viridis)
 library(ggplot2, warn.conflicts = FALSE, quietly = TRUE)
 library(poorman, quietly = TRUE, warn.conflicts = FALSE)
+library(tidyverse)
+library(hecmodstat, quietly = TRUE, warn.conflicts = FALSE)
+library(nlme)
+library(lme4)
 options(ggplot2.continuous.colour="viridis")
 options(ggplot2.continuous.fill = "viridis")
 scale_colour_discrete <- scale_colour_viridis_d
 scale_fill_discrete <- scale_fill_viridis_d
 theme_set(theme_minimal())
+expit <- function(x){1/(1+exp(-x))}
+logit <- function(x){log(x) - log(1-x)}
 
 hecblue <- rgb(red = 0, green = 60, blue = 113, max = 255)
 heccyan <- rgb(red = 0, green = 159, blue = 223, max = 255)

@@ -1,6 +1,6 @@
-# Mathematical derivations {#math}
+# Supplementary material {#math}
 
-This section regroups optional derivations which are provided for the sake of completeness.
+This section regroups optional derivations and additional details which are provided for the sake of completeness.
 
 ## Derivation of the ordinary least squares estimator {#ols}
 
@@ -8,7 +8,7 @@ Consider the optimization problem
 \begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
-We can compute the derivative of the right hand side with respect to $\boldsymbol{\beta}$, set it to zero and solve for $\widehat{\boldsymbol{\beta}}$,  
+We can compute the derivative of the right hand side with respect to $\boldsymbol{\beta}$, set it to zero and solve for $\widehat{\boldsymbol{\beta}}$,
 \begin{align*}
 \mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
 \\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
@@ -38,16 +38,237 @@ Because of the orthogonal decomposition $\boldsymbol{y}=\widehat{\boldsymbol{y}}
 \end{align*}
 This justifies the claim of [Section 2.5](#coefR2) that the squared correlation between the fitted values and the response is equal to $R^2$.
 
+
+### Optimization for generalized linear models
+
+There is generally no closed-form expression for the maximum likelihood
+estimators $\widehat{\boldsymbol{\beta}}$ in generalized linear models
+and the score equation is typically nonlinear in $\boldsymbol{\beta}$
+and $\widehat{\boldsymbol{\beta}}$ must be obtained through iterative
+numerical routines.
+
+Starting from Equation \@ref(eq:expofam), we differentiate the log likelihood function $\ell = \sum_{i=1}^n \ell_i$ with respect to
+$\boldsymbol{\beta}$. For simplicity, we consider each likelihood
+contribution and coefficient in turn. By the chain rule, \begin{align*}
+\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial
+\eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i}
+\frac{\partial \theta_i}{\partial \mu_i}\frac{\partial
+\ell_i}{\partial \theta_i}
+\end{align*}
+and the earlier derivations show $\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)$ and $\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)$.
+The derivative of the linear predictor, $\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}$. The only missing term, $\partial \mu_i/\partial \eta_i$, depends on the choice of link function through $\eta_i = g(\mu_i)$, but it is unity for the canonical link function.
+
+Let
+\begin{align*}
+U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top}
+\end{align*}
+denote respectively the gradient and the hessian of the log likelihood function; summing all the likelihood contribution, the $j$th element of the score vector
+$\boldsymbol{U}$ is
+\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}
+In general, $\widehat{\boldsymbol{\beta}}$ solves the score equation $U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}$, so we can device a Newton--Raphson algorithm to obtain the maximum likelihood
+estimates. This amounts to a first order Taylor series expansion of
+the score vector $U(\widehat{\boldsymbol{\beta}})$ around $\boldsymbol{\beta}$,
+\begin{align*}
+\boldsymbol{0}_{p+1} = U(\widehat{\boldsymbol{\beta}}) \stackrel{\cdot}{=} U(\beta) - j(\boldsymbol{\beta}) (\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta})
+\end{align*}
+If the $(p+1)$ matrix $j(\boldsymbol{\beta}^{(t)})$ is
+invertible, we can thus device an iterative algorithm: starting from
+some initial value $\boldsymbol{\beta}^{(0)}$, we compute at step $t+1$
+\begin{align*}
+\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + j^{-1}(\boldsymbol{\beta}^{(t)})U(\boldsymbol{\beta}^{(t)}).
+\end{align*}
+and iterate this formula until convergence. Most softwares
+implement a variant of this algorithm, in which the negative hessian
+$j(\boldsymbol{\beta})$ is replaced by its absolute value
+$i(\boldsymbol{\beta})$: the resulting algorithm is known as Fisher
+scoring. For generalized linear models, these recursions can be done by
+repeatedly computing a variant of least squares known as iteratively
+reweighted least squares.
+
+
+### Residuals for generalized linear models  {#residuals-glm}
+
+We can use the individual contributions to the deviance and Pearson
+$X^2$ statistic to build residuals for generalized linear models. By considering
+$D = \sum_{i=1}^n d_i^2$, where
+\begin{align*}
+d_i &= \mathrm{sign}(\widetilde{\eta}_i - \widehat{\eta}_i) \{2\ell(\widetilde{\eta}_i; y_i) - 2\ell(\widehat{\eta}_i; y_i)\}^{1/2}
+\end{align*}
+and the calculations simplify upon replacing the formula of
+the log likelihood for the generic exponential family member,
+\begin{align*}
+d_i^2=2 \left\{y_i (\widetilde{\theta}_i - \widehat{\theta}_i) - b(\widetilde{\theta}_i) + b(\widehat{\theta}_i)\right\}
+\end{align*}
+The terms $d_i$ are called deviance residuals, whereas
+Pearson residuals are based on the score contributions
+$u_i(\widehat{\beta}) w_i(\widehat{\beta})^{-1/2}$, where the score statistic $u(\boldsymbol{\beta})$ and the weights $w_i$ are
+\begin{align*}
+u_i &= \frac{\partial \theta_i}{\partial \eta_i} \frac{\partial \ell_i(\theta_i)}{\partial \theta_i} = \frac{y_i - \mu_i}{g'(\mu_i)a_i(\phi)V(\mu_i)}\\
+w_i &= \left(\frac{\partial \theta_i}{\partial \eta_i}\right)^2 \frac{\partial^2 \ell_i(\theta_i)}{\partial \theta_i^2} = \frac{1}{g'(\mu_i)^2 a_i(\phi)V(\mu_i)}
+\end{align*}
+
+In practice, these residuals are heteroscedastic and it is better to
+standardize them by considering instead
+\begin{align*}
+r_{D_i} = \frac{d_i}{(1-h_{ii})^2}, \qquad r_{P_i} = \frac{u_i(\widehat{\beta})}{\{w_i(\widehat{\beta})(1-h_{ii})\}^{1/2}},
+\end{align*}
+both are scaled by $(1-h_{ii})^{1/2}$, a formula remniscent
+of the linear model framework. In the above formulas, the leverage
+$h_{ii}$ is the $i$th diagonal element of the matrix \begin{align*}
+\mathbf{H}_{\mathbf{X}} = \mathbf{W}^{1/2}\mathbf{X}(\mathbf{X}^\top\mathbf{W}\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{W}^{1/2};
+\end{align*}
+since the terms of
+$\mathbf{W}=\mathrm{diag}\{w_1, \ldots, w_n\}$ depend on the unknown
+coefficient, the latter is estimated by replacing $\boldsymbol{\beta}$
+by $\widehat{\boldsymbol{\beta}}$.
+
+The standardized deviance residuals $\{r_{D_i}\}$ and standardized
+Pearson residuals $\{r_{P_i}\}$ should have an approximate standard
+normal distribution in large samples, but their distribution can be
+skewed. Like in the linear regression, we will work with the
+**jackknifed deviance residuals** for residual plots \begin{align*}
+r_{J_i} &= \mathrm{sign}(y_i - \widehat{\mu}_i) \left\{ (1-{h_ii})r^2_{D_i} + h_{ii}r^2_{P_i}\right\}^{1/2}
+\end{align*}
+
+For ordinary linear regression, both $r_{D_i}$ and $r_{P_i}$ reduce to
+the standardized residuals $t_i=e_i\{S^2(1-h_{ii})\}^{-1/2}$.
+
+There are clear parallels between generalized linear models and linear
+models: we have so far derived an analog of residuals and leverage.
+Collinearity is also an issue for generalized linear model; for the
+latter, we define the Cook statistic as the change in the deviance,
+\begin{align*}
+C = \frac{1}{p} 2\{\ell(\widehat{\boldsymbol{\beta}}) - \ell(\widehat{\boldsymbol{\beta}}_{-j})\},
+\end{align*}
+where $\widehat{\boldsymbol{\beta}}_{-j}$ is the estimate
+obtained by dropping the $j$th observation from the sample. This
+requires fitting $n$ different models, which is computationally
+prohibitive. In the linear regression, we can calculate the Cook
+distance from the formula $C_j = (p+1)^{-1}t_i^2h_{ii}/(1-h_{ii})$,
+where $t_i$ are the standardized residuals defined in the previous
+section. For generalized linear models, no such expression exists,
+although a good approximation is
+$C_j \approx (p+1)^{-1}r_{P_i}^2h_{ii}/(1-h_{ii})$.
+
+Diagnostic plots for generalized linear models are harder to interpret
+because of the lack of orthogonality. It is customary to plot the
+jackknife deviance residuals against the linear predictor
+$\widehat{\eta}_i$, produce normal quantile-quantile plots of
+standardized deviance residuals and the approximate Cook statistics
+against the $h_{ii}/(1-h_{ii})$. We will show examples of such plots for
+particular models.
+
+
+### Diagnostic plots for binary data {#diag-plots-binary}
+
+There are also other issues arising from the discreteness of the
+observations. Since observations are 0/1, residuals are often separated.
+Figure \@ref(fig:diagplotsbirthwt1) shows residual plots for Example
+\@ref(exm:birthweightex): both plots are of limited use to assess
+goodness-of-fit and model assumptions.
+
+```{r diagplotsbirthwt1, echo = FALSE, fig.cap = "Diagnostic plots for the binary regression for the birth weight data: jackknife deviance residuals against linear predictor (left) and quantile-quantile plot of ordered deviance residuals (right)."}
+# glm.diag.plots.ggplot2 <- function(glmfit, which = 1:4){
+  #if(logit2$family[[1]]=="binomial")
+  data(birthwt, package = "MASS")
+  # prepare data
+  birthwt$low <- as.factor(birthwt$low)
+  birthwt$race <- as.factor(birthwt$race); levels(birthwt$race) <- c('white','black','other')
+  birthwt$smoke <- as.factor(birthwt$smoke); levels(birthwt$smoke) <- c('no','yes')
+  birthwt$ht <- as.factor(birthwt$ht); levels(birthwt$ht) <- c('no','yes')
+  birthwt$ptl <- as.factor(birthwt$ptl>0); levels(birthwt$ptl) <- c('none','at least one')
+  birthwt$ui <- as.factor(birthwt$ui); levels(birthwt$ui) <- c('no','yes')
+  logit2 <- glm(formula = low ~ lwt + race + smoke + ptl + ht + ui, family = binomial(link = "logit"), data = birthwt)
+  glmdiag <- boot::glm.diag(logit2)
+  x1 <- predict(logit2)
+  g1 <- ggplot(data.frame(x = x1, y = glmdiag$res)) + geom_point(aes(x = x, y = y)) +
+    xlab("linear predictor") +
+    ylab("jackknife deviance residuals")
+    y2 <- glmdiag$rd
+    x2 <- qnorm(ppoints(length(y2)))[rank(y2)]
+ g2 <- ggplot(data.frame(x=x2, y= y2)) +
+      geom_abline(slope=1, intercept=0) +
+      geom_point(aes(x = x, y = y)) +
+      ylab("ordered deviance residuals") +
+      xlab("theoretical normal quantiles")
+g1 + g2
+```
+
+
+
+
+Another strategy is use of quantile residuals
+[@Brillinger/Preisler:1983]. If $Y \sim F$, the quantile transform gives $U=F(Y) \sim \mathsf{U}(0,1)$, meaning uniformly distributed on $(0,1)$. Replacing the unknown distribution $F$ by $\widehat{F}$  should yield approximately uniform observations. With $\widehat{\pi}_i$ denoting the probability of success, we take
+\begin{align*}
+U_i = U_{i1} Y_i + U_{i2}(1-Y_i), \qquad U_{i1} \sim \mathsf{U}(0, \widehat{\pi}_i), \quad U_{i2} \sim \mathsf{U}(\widehat{\pi}_i, 1)
+\end{align*}
+and the resulting **uniform residuals** will be, as their name hints, approximately uniform on $(0,1)$. The drawback of this approach lies in the randomness of the residuals. Figure \@ref(fig:diagplotbirthwgt) shows the diagnostic plots based on the uniform residuals (top two rows): there is no overall indication of poor fit, except for seemingly too few low/high residuals. The two observations with high leverage correspond to non-smoker mothers with no premature labour record: one with hypertension and a weight of 95lbs (unusual combination), the other weighting 200 lbs, with no hypertension and presence of uterine
+irritability.
+
+```{r diagplotbirthwgt, cache = TRUE, echo = FALSE, fig.cap = "Diagnostic plots based on uniform residuals for the birth weight data. From left to right, top to bottom: residuals against explanatory and linear predictors, histogram of uniform residuals and Tukey's quantile-quantile plot, Cook statistic against weighted leverage and case number. "}
+# uniform residuals for logit2
+set.seed(1234)
+pii <- predict(logit2,type='response')
+ui <- (as.integer(birthwt$low)-1L)*runif(189,0,pii)+(1-as.integer(birthwt$low)+1L)*runif(189,pii,1)
+
+# CI for the uniform QQplot
+library(boot)
+nboot <- 10000
+M <- matrix(runif(length(ui)*nboot),ncol=length(ui),nrow=nboot)
+M <- t(apply(M,1,sort))
+e <- envelope(mat=M)
+
+g1 <- ggplot(data.frame(x=birthwt$lwt,y=ui)) +
+  geom_point(aes(x=x, y=y)) +
+  labs(x="mother's weight",y='uniform residuals')
+g2 <- ggplot(data.frame(x=predict(logit2,type='link'),y= ui)) + geom_point(aes(x=x,y=y)) + labs(x='linear predictor',y='uniform residuals')
+g3 <- ggplot(data.frame(x=ui),aes(x=x)) +
+  geom_histogram(bins=10L) +
+  labs(x='uniform residuals',y= "frequency")
+ppointsU <- ppoints(n = 189)
+g4 <- ggplot(data.frame(x = ppointsU, y =sort(ui)-ppointsU, ymin = e$overall[1,]-ppointsU, ymax = e$overall[2,]-ppointsU)) +
+  geom_ribbon(aes(x=x,ymin =ymin, ymax = ymax), alpha = 0.2) +
+  geom_abline(intercept = 0, slope = 0) +
+  geom_point(aes(x=x, y=y)) +
+  labs(x='theoretical uniform quantiles',
+      y='detrended uniform residuals')
+
+g5 <- ggplot(data.frame(x = glmdiag$h/(1 - glmdiag$h), y = glmdiag$cook)) +
+  geom_point(aes(x=x,y=y)) +
+  labs(x = "h/(1-h)", y= "Cook statistic")
+ry <- range(glmdiag$cook)
+rank.fit <- logit2$rank
+nobs <- rank.fit + logit2$df.residual
+cooky <- 8/(nobs - 2 * rank.fit)
+g6 <- ggplot(data.frame(x=1:189, y = glmdiag$cook)) +
+  geom_point(aes(x=x,y=y)) +
+  geom_hline(yintercept = cooky) +
+  labs(x="case",y="Cook statistic")
+
+ # rstar <- glmdiag$rd + log(glmdiag$rp/glmdiag$rd)/glmdiag$rd
+# g6 <- ggplot(data.frame(x = qnorm(ppointsU), y =sort(rstar))) +
+#   geom_abline(intercept = 0, slope = 1) +
+#   geom_point(aes(x=x, y=y)) +
+#   labs(x='theoretical normal quantiles',
+#       y=expression(paste("", "r", phantom()^{
+#     paste(symbol("*"))
+# }, "", " residuals")))
+ (g1 + g2) / (g3 + g4) / (g5 + g6)
+```
+
+
 ## Restricted estimation maximum likelihood
 
-The most common estimation technique for fitting linear mixed models or fixed effect models in which the variance of the error term is not $\sigma^2\mathbf{I}_n$ is the restricted estimation maximum likelihood (REML) method. 
+The most common estimation technique for fitting linear mixed models or fixed effect models in which the variance of the error term is not $\sigma^2\mathbf{I}_n$ is the restricted estimation maximum likelihood (REML) method.
 
-For the linear mixed model, the marginal distribution of the $n$ response vector is 
+For the linear mixed model, the marginal distribution of the $n$ response vector is
 $\boldsymbol{Y} \sim \mathsf{No}_n\{\mathbf{X} \boldsymbol{\beta}, \boldsymbol{\Upsilon}^{-1}(\boldsymbol{\psi})\}$, where $\boldsymbol{\Upsilon}^{-1}(\boldsymbol{\psi}) = \mathbf{Z}\boldsymbol{\Omega}\mathbf{Z}^\top + \mathbf{R}$ and $\mathbf{R} = \mathrm{blockdiag}(\mathbf{R}_1, \ldots, \mathbf{R}_m)$, the covariance matrix of the errors, is block-diagonal. The multivariate normal distribution has covariance parameters $\boldsymbol{\psi}$ and mean parameters $\boldsymbol{\beta}$.
 
 The log likelihood for the model is, up to proportionality constants
 \begin{align*}
-\ell(\boldsymbol{\beta},\boldsymbol{\psi}; \boldsymbol{y}) \propto  \frac{1}{2} \ln |\boldsymbol{\Upsilon}|- \frac{1}{2} (\boldsymbol{y}- \mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}) 
+\ell(\boldsymbol{\beta},\boldsymbol{\psi}; \boldsymbol{y}) \propto  \frac{1}{2} \ln |\boldsymbol{\Upsilon}|- \frac{1}{2} (\boldsymbol{y}- \mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
 \end{align*}
 
 For known $\boldsymbol{\psi}$, the precision matrix $\boldsymbol{\Upsilon}$ is fully resolved; the restricted maximum likelihood for the parameters of the mean vector $\boldsymbol{\beta}$ is
@@ -56,7 +277,7 @@ For known $\boldsymbol{\psi}$, the precision matrix $\boldsymbol{\Upsilon}$ is f
 \end{align*}
 We can show that $\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} \sim \mathsf{No}_{p+1}\{\boldsymbol{\beta}, (\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X})^{-1}\}$ and thus write the joint density of the response given mean and variance parameters as
 \begin{align*}
-f(\boldsymbol{y}; \boldsymbol{\psi}, \boldsymbol{\beta}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) f(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}; \boldsymbol{\psi}, \boldsymbol{\beta}). 
+f(\boldsymbol{y}; \boldsymbol{\psi}, \boldsymbol{\beta}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) f(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}; \boldsymbol{\psi}, \boldsymbol{\beta}).
 \end{align*}
 Given $\boldsymbol{\psi}$, $\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}$ is a sufficient statistic for $\boldsymbol{\beta}$, the conditional density depends on $\boldsymbol{\beta}$ only through $\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}$, so $f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}, \boldsymbol{\beta}, \boldsymbol{\psi}) = f(\boldsymbol{y}; \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}},  \boldsymbol{\psi})$.
 Rather than using the full likelihood, the REML maximizes the conditional log likelihood
@@ -66,14 +287,14 @@ Rather than using the full likelihood, the REML maximizes the conditional log li
 The solution thus differs from that of the maximum log likelihood. The log conditional density is
 \begin{align*}
 \ell_{\mathrm{r}}(\boldsymbol{\psi})
- &= \frac{1}{2} \ln |\boldsymbol{\Upsilon}| - \frac{1}{2} (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}) 
+ &= \frac{1}{2} \ln |\boldsymbol{\Upsilon}| - \frac{1}{2} (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
  \\& \quad - \frac{1}{2} \ln \left|\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X}\right| + \frac{1}{2} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)^\top \mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)
 \end{align*}
 and upon simplifying terms using the fact $\boldsymbol{y} - \mathbf{X}\boldsymbol{\beta} = \boldsymbol{y} - \mathbf{X}\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} + \mathbf{X}(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} - \boldsymbol{\beta})$, we retrieve the REML log likelihood,
 \begin{align*}
 \ell_{\mathrm{r}}(\boldsymbol{\psi}) = \frac{1}{2}|\boldsymbol{\Upsilon}| - \frac{1}{2} \ln \left|\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X}\right|  - \frac{1}{2}(\boldsymbol{y} -\mathbf{X}\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}})^\top \boldsymbol{\Upsilon}(\boldsymbol{y} -\mathbf{X}\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}})
 \end{align*}
-Once we have obtained $\widehat{\boldsymbol{\psi}}_{\mathrm{r}}= \max_{\boldsymbol{\psi}} \ell_{\mathrm{r}}(\boldsymbol{\psi})$, we replace the resulting $\widehat{\boldsymbol{\Upsilon}}$ value in 
+Once we have obtained $\widehat{\boldsymbol{\psi}}_{\mathrm{r}}= \max_{\boldsymbol{\psi}} \ell_{\mathrm{r}}(\boldsymbol{\psi})$, we replace the resulting $\widehat{\boldsymbol{\Upsilon}}$ value in
 $\widehat{\boldsymbol{\beta}}_{\widehat{\boldsymbol{\psi}}_{\mathrm{r}}}$
 to get the REML estimates.
 Because the estimation of $\boldsymbol{\psi}$ is based on only part of the full likelihood, estimators for the covariance parameter differ from their counterpart based on the full likelihood; in practice, the latter are often more biased, which explains the popularity of REML. The sufficient statistic $\widehat{\boldsymbol{\beta}}_{\widehat{\boldsymbol{\psi}}}$ depends on the particular model matrix $\mathbf{X}$, so models with different fixed effects cannot be compared based on their maximum restricted likelihood values.
