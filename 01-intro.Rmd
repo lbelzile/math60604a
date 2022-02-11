@@ -12,7 +12,7 @@ A stochastic model will comprise two ingredients: a distribution for the random 
 
 A predictive model gives predictions of $Y$ for different combinations of explanatory variables or future data. For example, one could try to forecast the enery consumption of a house as a function of weather, the number of inhabitants and its size. Black boxes used in machine learning are often used solely for prediction: these models are not easily interpreted and they often ignore the data structure.
 
-By constrast, explicative models are often simple and interpretable: regression models are often used for inference purpose and we will focus on these.
+By constrast, explicative models are often simple and interpretable: regression models are often used for inference purpose and we will focus on these. The following examples will be covered in class or as part of the exercices:
 
 - Are consumer ready to spend more when they pay by credit card rather than by cash?
 - Is there wage discrimination towards women in a US college?
@@ -54,13 +54,11 @@ In statistical tests we have two hypotheses: the null hypothesis ($\mathscr{H}_0
 \end{align*}
 We are testing whether or not $\theta$ is precisely equal to the value $\theta_0$. The hypotheses are a statistical representation of our research question.
 
-
-For example, for a two-sided test for the regression coefficient $\beta_j$ associated to an explanatory variable $\mathrm{X}_j$, the null and alternative hypothesis are
-explicative d'intérêt $\mathrm{X}_j$, les hypothèses sont
+A common example of two-sided test is one for the regression coefficient $\beta_j$ associated to an explanatory variable $\mathrm{X}_j$, for which the null and alternative hypothesis are
 \begin{align*}
 \mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
 \end{align*}
-where $\beta_j^0$ is some value that reflects the research question of interest. For example, if $\beta_j^0=0$, the underlying question is: is covariate $\mathrm{X}_j$ impacting the response $Y$ once other variables have been taken into account?
+where $\beta_j^0$ is some value that reflects the research question of interest. For example, if $\beta_j^0=0$, the underlying question is: is covariate $\mathrm{X}_j$ impacting the response $Y$ linearly once other variables have been taken into account?
 
 Note that we can impose direction in the hypotheses and consider alternatives of the form $\mathscr{H}_a: \theta > \theta_0$ or $\mathscr{H}_a: \theta < \theta_0$.
 
