@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Likelihood-based inference | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Likelihood-based inference | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,8 +31,9 @@
   
 <link rel="prev" href="linear-regression.html"/>
 <link rel="next" href="generalized-linear-models.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,18 +49,17 @@
 
 
 
-
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -271,7 +271,7 @@ L(\boldsymbol{\theta}; \boldsymbol{y}) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta
 <p>The <strong>score function</strong> <span class="math inline">\(U(\boldsymbol{\theta}; \boldsymbol{y}) = \partial \ell(\boldsymbol{\theta}; \boldsymbol{y})/ \partial \boldsymbol{\theta}\)</span> is the gradient of the log likelihood function and, under regularity conditions, the maximum likelihood estimator solves <span class="math inline">\(U(\boldsymbol{\theta}; \boldsymbol{Y})=\boldsymbol{0}_p\)</span>. This property can be used to derive gradient-based algorithms for optimization and for verifying that the solution found is a global maximum.</p>
 
 <div class="remark">
- <span class="remark"><em>Remark. </em></span> While least squares admit a closed-form solution, the maximum of the log likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
+\iffalse{} <span class="remark"><em>Remark. </em></span> While least squares admit a closed-form solution, the maximum of the log likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
 </div>
 <p>The <strong>observed information matrix</strong> is the hessian <span class="math inline">\(j(\boldsymbol{\theta}; \boldsymbol{y})=-\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})/\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top\)</span> evaluated at the maximum likelihood estimate <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span>.
 Under regularity conditions, the Fisher information matrix is
@@ -280,9 +280,9 @@ i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y})
 \end{align*}\]</span>
 The Fisher (or expected) and observed information matrices encodes the curvature of the log likelihood and provides information about the variability of <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span>.</p>
 <p>The properties of the log likelihood are particularly convenient for inference because they provide omnibus testing procedures that have a known asymptotic distribution. The starting point for the distributional theory surrounding likelihood-based statistics is the asymptotic normality of the score <span class="math inline">\(U(\boldsymbol{\theta}) \stackrel{\cdot}{\sim}\mathsf{No}(0, i(\boldsymbol{\theta}))\)</span>, which follows from a central limit theorem. The variance of <span class="math inline">\(U(\boldsymbol{\theta}_0)\)</span> is exactly <span class="math inline">\(i(\boldsymbol{\theta}_0)\)</span>, while that of <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is approximately <span class="math inline">\(i(\boldsymbol{\theta}_0)^{-1}\)</span> under the null hypothesis <span class="math inline">\(\mathscr{H}_0\)</span>. This result is particularly useful: we often use the inverse of the observed information as estimate of the covariance matrix of the maximum likelihood estimator. To obtain the standard errors of <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span>, one simple computes the square root of the diagonal elements of the inverse of the observed information, i.e., <span class="math inline">\([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\)</span>.</p>
-
+ffalse{-91-69-120-112-111-110-101-110-116-105-97-108-32-109-111-100-101-108-32-102-111-114-32-119-97-105-116-105-110-103-32-116-105-109-101-115-32-111-102-32-116-104-101-32-77-111-110-116-114-101-97-108-32-109-101-116-114-111-93-}
 <div class="example">
-<p><span id="exm:waitingtime" class="example"><strong>Example 3.1  (Exponential model for waiting times of the Montreal metro)  </strong></span>Consider the waiting time <span class="math inline">\(Y\)</span> between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate <span class="math inline">\(\theta\)</span>, denoted <span class="math inline">\(Y \sim \mathsf{E}(\theta)\)</span>. The purpose of statistical inference is to use the information from a random sample of size <span class="math inline">\(n\)</span> to estimate the unknown parameter <span class="math inline">\(\theta\)</span>. The density of <span class="math inline">\(Y\)</span> evaluated at <span class="math inline">\(y\)</span>, <span class="math inline">\(f(y; \theta)=\theta\exp(-\theta y)\)</span>, encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing <span class="math inline">\(y_1, \ldots, y_n\)</span> is the product of probabilities of individual events. The likelihood is thus
+<p><span id="exm:waitingtime" class="example"><strong>Example 3.1  \iffalse (Exponential model for waiting times of the Montreal metro)  </strong></span>Consider the waiting time <span class="math inline">\(Y\)</span> between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate <span class="math inline">\(\theta\)</span>, denoted <span class="math inline">\(Y \sim \mathsf{E}(\theta)\)</span>. The purpose of statistical inference is to use the information from a random sample of size <span class="math inline">\(n\)</span> to estimate the unknown parameter <span class="math inline">\(\theta\)</span>. The density of <span class="math inline">\(Y\)</span> evaluated at <span class="math inline">\(y\)</span>, <span class="math inline">\(f(y; \theta)=\theta\exp(-\theta y)\)</span>, encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing <span class="math inline">\(y_1, \ldots, y_n\)</span> is the product of probabilities of individual events. The likelihood is thus
 <span class="math display">\[\begin{align*}
 L(\theta; \boldsymbol{y}) &amp;= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta\exp(-\theta y_i),\\
 \ell(\theta; \boldsymbol{y}) &amp; = n\ln(\theta) - \theta\sum_{i=1}^n y_i
@@ -293,16 +293,16 @@ To find the maximum of the function, we differentiate the log likelihood <span c
 \end{align*}\]</span>
 Solving for <span class="math inline">\(\theta\)</span> gives <span class="math inline">\(\widehat{\theta} = \overline{y}^{-1}\)</span>, so the maximum likelihood estimator is the reciprocal of the sample mean <span class="math inline">\(\overline{Y}\)</span>. The observed information is <span class="math inline">\(j(\theta) = n\theta^{-2}\)</span> and likewise <span class="math inline">\(i(\theta)=\mathsf{E}\{j(\theta)\}=n\theta^{-2}\)</span>.</p>
 </div>
-<div class="figure" style="text-align: center"><span id="fig:explikelihood"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:explikelihood"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/explikelihood-1.png" alt="Log-likelihood for a sample of size 20 of waiting times (in minutes)" width="70%" />
 <p class="caption">
 Figure 3.1: Log-likelihood for a sample of size 20 of waiting times (in minutes)
 </p>
 </div>
 <p>For the sample of waiting time in the subway, the maximum likelihood estimate of <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\widehat{\theta}=0.327\)</span>, the observed information is <span class="math inline">\(j(\widehat{\theta})=i(\widehat{\theta})=0.467\)</span> and the standard error of <span class="math inline">\(\widehat{\theta}\)</span> is <span class="math inline">\(j(\widehat{\theta})^{-1/2}=1.463\)</span>.</p>
-
+ffalse{-91-78-111-114-109-97-108-32-115-97-109-112-108-101-115-32-97-110-100-32-111-114-100-105-110-97-114-121-32-108-101-97-115-116-32-115-113-117-97-114-101-115-93-}
 <div class="example">
-<p><span id="exm:normal" class="example"><strong>Example 3.2  (Normal samples and ordinary least squares)  </strong></span>Suppose we have an independent normal sample of size <span class="math inline">\(n\)</span> with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, where
+<p><span id="exm:normal" class="example"><strong>Example 3.2  \iffalse (Normal samples and ordinary least squares)  </strong></span>Suppose we have an independent normal sample of size <span class="math inline">\(n\)</span> with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, where
 <span class="math inline">\(Y_i \sim \mathsf{No}(\mu, \sigma^2)\)</span> are independent.
 Recall that the density of the normal distribution is
 <span class="math display">\[\begin{align*}
@@ -366,7 +366,7 @@ The null hypothesis <span class="math inline">\(\mathscr{H}_0\)</span> tested is
 <li>Wald tests statistics, denoted <span class="math inline">\(W\)</span>, which consider the standardized horizontal distance between <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span>.</li>
 <li>score tests statistics, denoted <span class="math inline">\(S\)</span>, which looks at the scaled gradient of <span class="math inline">\(\ell\)</span>, evaluated <em>only</em> at <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span> (derivative of <span class="math inline">\(\ell\)</span>).</li>
 </ul>
-<div class="figure" style="text-align: center"><span id="fig:variablesquanti"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:variablesquanti"></span>
 <img src="images/likelihood_tests.png" alt="Log-likelihood curve: the three likelihood-based tests, namely Wald, likelihood ratio and score tests, are shown on the curve. The tests use different information about the function." width="70%" />
 <p class="caption">
 Figure 3.2: Log-likelihood curve: the three likelihood-based tests, namely Wald, likelihood ratio and score tests, are shown on the curve. The tests use different information about the function.
@@ -435,15 +435,15 @@ and the likelihood ratio statistic <span class="math inline">\(R=2 \{\ell(\wideh
 \end{align*}\]</span>
 Figure <a href="likelihood.html#fig:profile3d">3.3</a> shows a fictional log likelihood contour plot with the resulting profile curve (in black), where the log likelihood value is mapped to colors. If one thinks of these contours lines as those of a topographic map, the profile likelihood corresponds in this case to walking along the ridge of both mountains along the <span class="math inline">\(\psi\)</span> direction, with the right panel showing the elevation gain/loss.</p>
 <p>The maximum profile likelihood estimator behaves like a regular likelihood for most quantities of interest and we can derive test statistics and confidence intervals in the usual way. One famous example of profile likelihood is the Cox proportional hazard covered in <a href="survival.html#survival">Chapter 7</a>.</p>
-<div class="figure" style="text-align: center"><span id="fig:profile3d"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:profile3d"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/profile3d-1.png" alt="Two-dimensional log likelihood surface with a parameter of interest $\psi$ and a nuisance parameter $\varphi$; the contour plot shows area of higher likelihood, and the black line is the profile log likelihood, also shown as a function of $\psi$ on the right panel." width="70%" />
 <p class="caption">
 Figure 3.3: Two-dimensional log likelihood surface with a parameter of interest <span class="math inline">\(\psi\)</span> and a nuisance parameter <span class="math inline">\(\varphi\)</span>; the contour plot shows area of higher likelihood, and the black line is the profile log likelihood, also shown as a function of <span class="math inline">\(\psi\)</span> on the right panel.
 </p>
 </div>
-
+ffalse{-91-66-111-120-45-45-67-111-120-32-116-114-97-110-115-102-111-114-109-97-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:boxcox" class="example"><strong>Example 3.3  (Box–Cox transformation)  </strong></span>Sometimes, the assumption of normality of the error doesn’t hold. If the data are strictly positive, one can consider a Box–Cox transformation,
+<p><span id="exm:boxcox" class="example"><strong>Example 3.3  \iffalse (Box–Cox transformation)  </strong></span>Sometimes, the assumption of normality of the error doesn’t hold. If the data are strictly positive, one can consider a Box–Cox transformation,
 <span class="math display">\[\begin{align*}
 y_i(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
@@ -462,7 +462,7 @@ The profile log likelihood is
 \end{align*}\]</span>
 The maximum profile likelihood estimator is the value <span class="math inline">\(\lambda\)</span> minimizes the sum of squared residuals from the linear model with <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span> as response.
 </div>
-<div class="figure" style="text-align: center"><span id="fig:profileplot"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:profileplot"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/profileplot-1.png" alt="Profile log likelihood for the Box--Cox transformation for the waiting time data" width="70%" />
 <p class="caption">
 Figure 3.4: Profile log likelihood for the Box–Cox transformation for the waiting time data
@@ -475,7 +475,7 @@ Figure 3.4: Profile log likelihood for the Box–Cox transformation for the wait
 \widehat{\sigma}^{2(b)} &amp;= \frac{1}{n}\sum_{i=1}^n \left(Y_i-b\mathrm{X}_i-\widehat{\beta}_{0}^{(b)}\right)^2.
 \end{align*}\]</span>
 With more than one covariate, we could obtain the value of <span class="math inline">\(\boldsymbol{\beta}_{-j}^{(b)}\)</span> by running least squares and use the residuals to compute the maximum likelihood estimate <span class="math inline">\(\widehat{\sigma}^{2(b)}\)</span> of the variance.</p>
-<div class="figure" style="text-align: center"><span id="fig:profilebeta"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:profilebeta"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/profilebeta-1.png" alt="Profile log likelihood for $\beta_1$ in the simple linear regression model for simulated data. The function has been so its value at the maximum likelihood estimate is zero. The horizontal cutoff marks minus half the $0.95$ quantile of the $\chi^2_1$ distribution, with vertical lines indicating the maximum likelihood estimate (red) and 95\% confidence interval (dashed gray). Because of the normality assumption of the linear regression model, the sampling distribution is exactly normally distribution, the profile is symmetric and the Wald and profile likelihood ratio based confidence intervals agree." width="70%" />
 <p class="caption">
 Figure 3.5: Profile log likelihood for <span class="math inline">\(\beta_1\)</span> in the simple linear regression model for simulated data. The function has been so its value at the maximum likelihood estimate is zero. The horizontal cutoff marks minus half the <span class="math inline">\(0.95\)</span> quantile of the <span class="math inline">\(\chi^2_1\)</span> distribution, with vertical lines indicating the maximum likelihood estimate (red) and 95% confidence interval (dashed gray). Because of the normality assumption of the linear regression model, the sampling distribution is exactly normally distribution, the profile is symmetric and the Wald and profile likelihood ratio based confidence intervals agree.
@@ -507,7 +507,6 @@ where <span class="math inline">\(k\)</span> is the number of parameters in the 
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -537,6 +536,10 @@ gitbook.start({
 "text": null
 },
 "download": ["MATH60604A_Statistical_modelling.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section",
 "split_by": "section",

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>A Complements | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="A Complements | Statistical Modelling" />
   <meta property="og:type" content="book" />
@@ -31,8 +31,9 @@
   
 <link rel="prev" href="survival.html"/>
 <link rel="next" href="math.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,18 +49,17 @@
 
 
 
-
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -273,7 +273,7 @@ In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabi
 <p>Suppose we wish to describe the behaviour of a stochastic phenomenon. To this effect, one should enumerate the set of possible values taken by the variable of interest and their probability: this is what is encoded in the distribution. We will distinguish between two cases: discrete and continuous variables. Random variables are denoted using capital letters: for example <span class="math inline">\(Y \sim \mathsf{No}(\mu, \sigma^2)\)</span> indicates that <span class="math inline">\(Y\)</span> follows a normal distribution with parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>, which represent respectively the expectation and variance of <span class="math inline">\(Y\)</span>.</p>
 <p>The (cumulative) distribution function <span class="math inline">\(F(y)\)</span> gives the cumulative probability that an event doesn’t exceed a given numerical value <span class="math inline">\(y\)</span>, <span class="math inline">\(F(y) = \mathsf{Pr}(Y \leq y)\)</span>.</p>
 <p>If <span class="math inline">\(Y\)</span> is discrete, then it has atoms of non-zero probability and the mass function <span class="math inline">\(f(y)=\mathsf{Pr}(Y=y)\)</span> gives the probability of each outcome <span class="math inline">\(y\)</span>. In the continuous case, no numerical value has non-zero probability and so we consider intervals instead: the density function gives the probability of <span class="math inline">\(Y\)</span> falling in a set <span class="math inline">\(B\)</span>, via <span class="math inline">\(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\)</span>. It follows that the distribution function of a continuous random variable is simply <span class="math inline">\(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x\)</span>.</p>
-<div class="figure" style="text-align: center"><span id="fig:distributions"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:distributions"></span>
 <img src="images/02-ttest-DF_illustration.png" alt="(Cumulative) distribution functions (top) and density/mass functions (bottom) of continuous (left) and discrete (right) random variables." width="70%" />
 <p class="caption">
 Figure A.1: (Cumulative) distribution functions (top) and density/mass functions (bottom) of continuous (left) and discrete (right) random variables.
@@ -345,9 +345,9 @@ The mean squared error is an objective function consisting of the sum of the squ
 </div>
 <div id="discrete-distributions" class="section level3" number="8.2.3">
 <h3><span class="header-section-number">A.2.3</span> Discrete distributions</h3>
-
+ffalse{-91-66-101-114-110-111-117-108-108-105-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:bernoullidist" class="example"><strong>Example A.2  (Bernoulli distribution)  </strong></span>We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being <span class="math inline">\(\pi\)</span> so <span class="math inline">\(\mathsf{Pr}(Y=1)=\pi\)</span> and <span class="math inline">\(\mathsf{Pr}(Y=0)=1-\pi\)</span> (complementary event). The mass function of the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> is thus
+<p><span id="exm:bernoullidist" class="example"><strong>Example A.2  \iffalse (Bernoulli distribution)  </strong></span>We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being <span class="math inline">\(\pi\)</span> so <span class="math inline">\(\mathsf{Pr}(Y=1)=\pi\)</span> and <span class="math inline">\(\mathsf{Pr}(Y=0)=1-\pi\)</span> (complementary event). The mass function of the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> is thus
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
 \end{align*}\]</span>
@@ -360,9 +360,9 @@ Many research questions have binary responses, for example:</p>
 <li><p>did a study participant successfully complete a task?</p>
 </div></li>
 </ul>
-
+ffalse{-91-66-105-110-111-109-105-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:binomialdist" class="example"><strong>Example A.3  (Binomial distribution)  </strong></span>If the data five the sum of independent Bernoulli events, the number of sucessess <span class="math inline">\(Y\)</span> out of <span class="math inline">\(m\)</span> trials is <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial</a>, denoted <span class="math inline">\(\mathsf{Bin}(m, \pi)\)</span>; the mass function of the binomial distribution is
+<p><span id="exm:binomialdist" class="example"><strong>Example A.3  \iffalse (Binomial distribution)  </strong></span>If the data five the sum of independent Bernoulli events, the number of sucessess <span class="math inline">\(Y\)</span> out of <span class="math inline">\(m\)</span> trials is <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial</a>, denoted <span class="math inline">\(\mathsf{Bin}(m, \pi)\)</span>; the mass function of the binomial distribution is
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \binom{m}{y}\pi^y (1-\pi)^{1-y}, \quad y=0, 1.
 \end{align*}\]</span>
@@ -375,25 +375,25 @@ The likelihood of a sample from a binomial distribution is (up to a normalizing 
 <li>purchases made by a client over a month on a website,</li>
 <li>tasks completed by a study participant in a given time frame.</li>
 </ul>
-
+ffalse{-91-71-101-111-109-101-116-114-105-99-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:geomdist" class="example"><strong>Example A.4  (Geometric distribution)  </strong></span>The <a href="https://en.wikipedia.org/wiki/Geometric_distribution">geometric distribution</a> is a model describing the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> required to obtain a first success. The mass function of <span class="math inline">\(Y \sim \mathsf{Geo}(\pi)\)</span> is
+<p><span id="exm:geomdist" class="example"><strong>Example A.4  \iffalse (Geometric distribution)  </strong></span>The <a href="https://en.wikipedia.org/wiki/Geometric_distribution">geometric distribution</a> is a model describing the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> required to obtain a first success. The mass function of <span class="math inline">\(Y \sim \mathsf{Geo}(\pi)\)</span> is
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
 \end{align*}\]</span></p>
 For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.
 </div>
-
+ffalse{-91-80-111-105-115-115-111-110-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:poissondist" class="example"><strong>Example A.5  (Poisson distribution)  </strong></span>If the probability of success <span class="math inline">\(\pi\)</span> of a Bernoulli event is small in the sense that <span class="math inline">\(m\pi \to \lambda\)</span> when the number of trials <span class="math inline">\(m\)</span> increases, then the number of success follows approximately a Poisson distribution with mass function
+<p><span id="exm:poissondist" class="example"><strong>Example A.5  \iffalse (Poisson distribution)  </strong></span>If the probability of success <span class="math inline">\(\pi\)</span> of a Bernoulli event is small in the sense that <span class="math inline">\(m\pi \to \lambda\)</span> when the number of trials <span class="math inline">\(m\)</span> increases, then the number of success follows approximately a Poisson distribution with mass function
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
 \end{align*}\]</span>
 where <span class="math inline">\(\Gamma(\cdot)\)</span> denotes the gamma function. The parameter <span class="math inline">\(\lambda\)</span> of the Poisson distribution is both the expectation and the variance of the distribution, meaning <span class="math inline">\(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\)</span>.</p>
 </div>
-
+ffalse{-91-78-101-103-97-116-105-118-101-32-98-105-110-111-109-105-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:negbindist" class="example"><strong>Example A.6  (Negative binomial distribution)  </strong></span>The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> until we obtain <span class="math inline">\(m\)</span> success. Let <span class="math inline">\(Y\)</span> denote the number of failures: the order of success and failure doesn’t matter, but for the latest trial which is a success. The mass function is thus
+<p><span id="exm:negbindist" class="example"><strong>Example A.6  \iffalse (Negative binomial distribution)  </strong></span>The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> until we obtain <span class="math inline">\(m\)</span> success. Let <span class="math inline">\(Y\)</span> denote the number of failures: the order of success and failure doesn’t matter, but for the latest trial which is a success. The mass function is thus
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y)= \binom{m-1+y}{y} \pi^m (1-\pi)^{y}.
 \end{align*}\]</span></p>
@@ -409,9 +409,9 @@ where <span class="math inline">\(\Gamma\)</span> is the gamma function and the 
 <div id="continuous-distributions" class="section level3" number="8.2.4">
 <h3><span class="header-section-number">A.2.4</span> Continuous distributions</h3>
 <p>We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.</p>
-
+ffalse{-91-78-111-114-109-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:normaldist" class="example"><strong>Example A.7  (Normal distribution)  </strong></span>The normal distribution is ubiquitous in statistics because of the <a href="CLT">central limit theorem</a>. A random variable <span class="math inline">\(Y\)</span> follows a normal distribution if its density function is
+<p><span id="exm:normaldist" class="example"><strong>Example A.7  \iffalse (Normal distribution)  </strong></span>The normal distribution is ubiquitous in statistics because of the <a href="CLT">central limit theorem</a>. A random variable <span class="math inline">\(Y\)</span> follows a normal distribution if its density function is
 <span class="math display">\[\begin{align*}
 f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
 \end{align*}\]</span>
@@ -422,14 +422,14 @@ f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \f
 \end{align*}\]</span></p>
 The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations, whereas <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of <span class="math inline">\(\boldsymbol{Y}\)</span>. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.
 </div>
-
+ffalse{-91-67-104-105-45-115-113-117-97-114-101-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:chisqdist" class="example"><strong>Example A.8  (Chi-square distribution)  </strong></span>The chi-square distribution arises as null distribution of likelihood-based test. If <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\)</span>, i.e., all components are independent and centered <span class="math inline">\(Y_i \sim \mathsf{No}(0, 1)\)</span>, then <span class="math inline">\(\sum_{i=1}^p Y_i^2\)</span> follows a chi-square distribution with <span class="math inline">\(p\)</span> degrees of freedom, denote <span class="math inline">\(\chi^2_p\)</span>. The square of a standard normal variate likewise follows a <span class="math inline">\(\chi^2_1\)</span> distribution.</p>
+<p><span id="exm:chisqdist" class="example"><strong>Example A.8  \iffalse (Chi-square distribution)  </strong></span>The chi-square distribution arises as null distribution of likelihood-based test. If <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\)</span>, i.e., all components are independent and centered <span class="math inline">\(Y_i \sim \mathsf{No}(0, 1)\)</span>, then <span class="math inline">\(\sum_{i=1}^p Y_i^2\)</span> follows a chi-square distribution with <span class="math inline">\(p\)</span> degrees of freedom, denote <span class="math inline">\(\chi^2_p\)</span>. The square of a standard normal variate likewise follows a <span class="math inline">\(\chi^2_1\)</span> distribution.</p>
 <p>If we consider a sample of <span class="math inline">\(n\)</span> normally distributed observations, the sample variance <span class="math inline">\((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\)</span>.</p>
 </div>
-
+ffalse{-91-83-116-117-100-101-110-116-45-36-116-36-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:studentdist" class="example"><strong>Example A.9  (Student-<span class="math inline">\(t\)</span> distribution)  </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
+<p><span id="exm:studentdist" class="example"><strong>Example A.9  \iffalse (Student-<span class="math inline">\(t\)</span> distribution)  </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
 <span class="math display">\[\begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
 \end{align*}\]</span>
@@ -451,7 +451,7 @@ For normally distributed data, the centered sample mean divided by the sample va
 <li>on the <span class="math inline">\(y\)</span>-axis, the empirical quantiles <span class="math inline">\(y_i\)</span></li>
 </ul>
 <p>If the model is adequate, the ordered values should follow a straight line with unit slope passing through the origin. Whether points fall on a 45 degree line is difficult to judge by eye and so it is advisable to ease the interpretation to subtract the slope. Tukey’s mean difference plot takes the plotting positions of the quantile-quantile plot, say (<span class="math inline">\(x_i, y_i\)</span>), and shows instead the mean and difference of these coordinates (<span class="math inline">\(\{x_i + y_i\}/2, y_i - x_i\)</span>). Figure <a href="complement.html#fig:diagrammeqq2">A.2</a> shows two representations of the same data using simulated samples from a standard normal distribution.</p>
-<div class="figure" style="text-align: center"><span id="fig:diagrammeqq2"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:diagrammeqq2"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/diagrammeqq2-1.png" alt="Normal quantile-quantile plot (left) and Tukey's mean different plot (right) for the same data." width="70%" />
 <p class="caption">
 Figure A.2: Normal quantile-quantile plot (left) and Tukey’s mean different plot (right) for the same data.
@@ -484,7 +484,7 @@ Figure A.2: Normal quantile-quantile plot (left) and Tukey’s mean different pl
 </ul>
 <p>Mathematically, the central limit theorem states <span class="math inline">\(\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{No}(0, \sigma^2)\)</span>. If <span class="math inline">\(n\)</span> is large (a rule of thumb is <span class="math inline">\(n&gt;30\)</span>, but this depends on the underlying distribution of <span class="math inline">\(Y\)</span>), then <span class="math inline">\(\overline{Y} \stackrel{\cdot}{\sim} \mathsf{No}(\mu, \sigma^2/n)\)</span>.</p>
 <p>How do we make sense of this result? Let us consider the mean travel time of high speed Spanish trains (AVE) between Madrid and Barcelona that are operated by Renfe.</p>
-<div class="figure" style="text-align: center"><span id="fig:renfeclt"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:renfeclt"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfeclt-1.png" alt="Empirical distribution of travel times of high speed trains." width="70%" />
 <p class="caption">
 Figure A.3: Empirical distribution of travel times of high speed trains.
@@ -492,7 +492,7 @@ Figure A.3: Empirical distribution of travel times of high speed trains.
 </div>
 <p>Our exploratory data analysis showed previously that the duration is the one advertised on the ticket: there are only 15 unique travel time. Based on 9603 observations, we estimate the mean travel time to be 170 minutes and 41 seconds. Figure <a href="complement.html#fig:renfeclt">A.3</a> shows the empirical distribution of the data.</p>
 <p>Consider now samples of size <span class="math inline">\(n=10\)</span>, drawn repeatedly from the population: in the first sample, the sample mean is 170.9 minutes, whereas we get an estimate of 164.5 minutes in our second , 172.3 minutes in the third, etc.</p>
-<div class="figure" style="text-align: center"><span id="fig:renfemeanCLT"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:renfemeanCLT"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/renfemeanCLT-1.png" alt="Graphical representation of the central limit theorem. The upper left panel shows a sample of 20 observations with its sample mean (vertical red). The three other panels show the histograms of the sample mean from repeated samples of size 5 (top right), 20 (bottom left) and 20, 50 and 100 overlaid, with the density approximation provided by the central limit theorem." width="90%" />
 <p class="caption">
 Figure A.4: Graphical representation of the central limit theorem. The upper left panel shows a sample of 20 observations with its sample mean (vertical red). The three other panels show the histograms of the sample mean from repeated samples of size 5 (top right), 20 (bottom left) and 20, 50 and 100 overlaid, with the density approximation provided by the central limit theorem.
@@ -514,7 +514,6 @@ Figure A.4: Graphical representation of the central limit theorem. The upper lef
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -544,6 +543,10 @@ gitbook.start({
 "text": null
 },
 "download": ["MATH60604A_Statistical_modelling.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section",
 "split_by": "section",
