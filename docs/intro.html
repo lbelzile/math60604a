@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Introduction to statistical inference | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Introduction to statistical inference | Statistical Modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604a" />
@@ -31,7 +30,6 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="linear-regression.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,8 +47,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -249,8 +248,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="intro" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Introduction to statistical inference</h1>
+<div id="intro" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> Introduction to statistical inference<a href="intro.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Statistical modelling requires a good graps of statistical inference: as such, we begin with a review of hypothesis testing and graphical exploratory data analysis.</p>
 <p>The purpose of statistical inference is to draw conclusions based on data. Scientific research relies on hypothesis testing: once an hypothesis is formulated, the researcher collects data, performs a test and concludes as to whether there is evidence for the proposed theory.</p>
 <p>There are two main data type: <strong>experimental</strong> data are typically collected in a control environment following a research protocol with a particular experimental design: they serve to answer questions specified ahead of time. This approach is highly desirable to avoid the garden of forking paths <a href="http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf">(researchers unfortunately tend to refine or change their hypothesis in light of data, which invalidates their findings</a> — preregistration alleviates this somewhat). While experimental data are highly desirable, it is not always possible to collect experimental data: for example, an economist cannot modify interest rates to see how it impacts consumer savings. When data have been collected beforehand without intervention (for other purposes), these are called <strong>observational</strong>. These will be the ones most frequently encountered.</p>
@@ -266,8 +265,8 @@ div.csl-indent {
 <li>Are driving tests in the UK easier if you live in a rural area? <a href="https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates">An analysis of <em>The Guardian</em></a> hints that it is the case.</li>
 <li>Does the risk of transmission of Covid19 increase with distancing? <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext">A (bad) meta-analysis says two meters is better than one</a> (or how to draw erroneous conclusions from a bad model).</li>
 </ul>
-<div id="tests" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Hypothesis testing</h2>
+<div id="tests" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Hypothesis testing<a href="intro.html#tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>An hypothesis test is a binary decision rule used to evaluate the statistical evidence provided by a sample to make a decision regarding the underlying population. The main steps involved are:</p>
 <ul>
 <li>define the model parameters</li>
@@ -285,8 +284,8 @@ div.csl-indent {
 <li>The final step is the verdict. This is a binary decision, guilty or not guilty. For an hypothesis test performed at level <span class="math inline">\(\alpha\)</span>, one would reject (guilty) if the <em>p</em>-value is less than <span class="math inline">\(\alpha\)</span>.</li>
 </ul>
 <p>The above description provides some heuristic, but lacks crucial details. Juliana Schulz goes over these in more details in the next section.</p>
-<div id="hypothesis" class="section level3" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Hypothesis</h3>
+<div id="hypothesis" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Hypothesis<a href="intro.html#hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In statistical tests we have two hypotheses: the null hypothesis (<span class="math inline">\(\mathscr{H}_0\)</span>) and the alternative hypothesis (<span class="math inline">\(\mathscr{H}_1\)</span>). Usually, the null hypothesis is the ‘status quo’ and the alternative is what we’re really interested in testing. A statistical hypothesis test allows us to decide whether or not our data provides enough evidence to reject <span class="math inline">\(\mathscr{H}_0\)</span> in favour of <span class="math inline">\(\mathscr{H}_1\)</span>, subject to some pre-specified risk of error. Usually, hypothesis tests involve a parameter, say <span class="math inline">\(\theta\)</span>, which characterizes the underlying distribution at the population level ans whose value is unknown. A two-sided hypothesis test regarding a parameter <span class="math inline">\(\theta\)</span> has the form
 <span class="math display">\[\begin{align*}
 \mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
@@ -299,8 +298,8 @@ We are testing whether or not <span class="math inline">\(\theta\)</span> is pre
 where <span class="math inline">\(\beta_j^0\)</span> is some value that reflects the research question of interest. For example, if <span class="math inline">\(\beta_j^0=0\)</span>, the underlying question is: is covariate <span class="math inline">\(\mathrm{X}_j\)</span> impacting the response <span class="math inline">\(Y\)</span> linearly once other variables have been taken into account?</p>
 <p>Note that we can impose direction in the hypotheses and consider alternatives of the form <span class="math inline">\(\mathscr{H}_a: \theta &gt; \theta_0\)</span> or <span class="math inline">\(\mathscr{H}_a: \theta &lt; \theta_0\)</span>.</p>
 </div>
-<div id="test-statistic" class="section level3" number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> Test statistic</h3>
+<div id="test-statistic" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Test statistic<a href="intro.html#test-statistic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A test statistic <span class="math inline">\(T\)</span> is a functional of the data that summarise the information contained in the sample for <span class="math inline">\(\theta\)</span>. The form of the test statistic is chosen such that we know its underlying distribution under <span class="math inline">\(\mathscr{H}_0\)</span>, that is, the potential values taken by <span class="math inline">\(T\)</span> and their relative probability if <span class="math inline">\(\mathscr{H}_0\)</span> is true. Indeed, <span class="math inline">\(Y\)</span> is a random variable and its value change from one sample to the next.
 This allows us to determine what values of <span class="math inline">\(T\)</span> are likely if <span class="math inline">\(\mathscr{H}_0\)</span> is true. Many statistics we will consider are <strong>Wald statistic</strong>, of the form
 <span class="math display">\[\begin{align*}
@@ -329,8 +328,8 @@ S^2_n &amp;= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 <li>an estimate is the numerical value obtained once we apply the formula to observed data</li>
 </ul>
 </div>
-<div id="null-distribution-and-p-value" class="section level3" number="1.1.3">
-<h3><span class="header-section-number">1.1.3</span> Null distribution and <em>p</em>-value</h3>
+<div id="null-distribution-and-p-value" class="section level3 hasAnchor" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Null distribution and <em>p</em>-value<a href="intro.html#null-distribution-and-p-value" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <em>p</em>-value allows us to decide whether the observed value of the test statistic <span class="math inline">\(T\)</span> is plausible under <span class="math inline">\(\mathscr{H}_0\)</span>. Specifically, the <em>p</em>-value is the probability that the test statistic is equal or more extreme to the estimate computed from the data, assuming <span class="math inline">\(\mathscr{H}_0\)</span> is true. Suppose that based on a random sample <span class="math inline">\(X_1, \ldots, X_n\)</span> we obtain a statistic whose value <span class="math inline">\(T=t\)</span>. For a two-sided test <span class="math inline">\(\mathscr{H}_0:\theta=\theta_0\)</span> vs. <span class="math inline">\(\mathscr{H}_a:\theta \neq \theta_0\)</span>, the <em>p</em>-value is <span class="math inline">\(\mathsf{Pr}_0(|T| \geq |t|)\)</span>. If the distribution of <span class="math inline">\(T\)</span> is symmetric around zero, the <em>p</em>-value is
 <span class="math display">\[\begin{align*}
 p = 2 \times \mathsf{Pr}_0(T \geq |t|).
@@ -341,8 +340,8 @@ T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}\]</span>
 follows a Student-<em>t</em> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom, denoted <span class="math inline">\(\mathsf{St}_{n-1}\)</span>. This allows us to calculate the <em>p</em>-value (either from a table, or using some statistical software). The Student-<em>t</em> distribution is symmetric about zero, so the <em>p</em>-value is <span class="math inline">\(P = 2\times\mathsf{Pr}(T_{n-1} &gt; |t|)\)</span>, where <span class="math inline">\(T \sim \mathsf{St}_{n-1}\)</span>.</p>
 </div>
-<div id="conclusion" class="section level3" number="1.1.4">
-<h3><span class="header-section-number">1.1.4</span> Conclusion</h3>
+<div id="conclusion" class="section level3 hasAnchor" number="1.1.4">
+<h3><span class="header-section-number">1.1.4</span> Conclusion<a href="intro.html#conclusion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <em>p</em>-value allows us to make a decision about the null hypothesis. If <span class="math inline">\(\mathscr{H}_0\)</span> is true, the <em>p</em>-value follows a uniform distribution. <a href="https://xkcd.com/1478/">Thus, if the <em>p</em>-value is small</a>, this means observing an outcome more extreme than <span class="math inline">\(T=t\)</span> is unlikely, and so we’re inclined to think that <span class="math inline">\(\mathscr{H}_0\)</span> is not true. There’s always some underlying risk that we’re making a mistake when we make a decision. In statistic, there are <a href="https://xkcd.com/2303/">two type of errors</a>:</p>
 <ul>
 <li>type I error: we reject <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_0\)</span> is true,</li>
@@ -382,8 +381,8 @@ The level <span class="math inline">\(\alpha\)</span> is fixed beforehand, typic
 </ul>
 <p>Do not mix up level of the test (probability fixed beforehand by the researcher) and the <em>p</em>-value. If you do a test at level 5%, the probability of type I error is by definition <span class="math inline">\(\alpha\)</span> and does not depend on the <em>p</em>-value. The latter is conditional probability of observing a more extreme likelihood given the null distribution <span class="math inline">\(\mathscr{H}_0\)</span> is true.</p>
 </div>
-<div id="power" class="section level3" number="1.1.5">
-<h3><span class="header-section-number">1.1.5</span> Power</h3>
+<div id="power" class="section level3 hasAnchor" number="1.1.5">
+<h3><span class="header-section-number">1.1.5</span> Power<a href="intro.html#power" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are two sides to an hypothesis test: either we want to show it is not unreasonable to assume the null hypothesis, or else we want to show beyond reasonable doubt that a difference or effect is significative: for example, one could wish to demonstrate that a new website design (alternative hypothesis) leads to a significant increase in sales relative to the status quo. Our ability to detect these improvements and make discoveries depends on the power of the test: the larger the power, the greater our ability to reject <span class="math inline">\(\mathscr{H}_0\)</span> when the latter is false.</p>
 <p>Failing to reject <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_a\)</span> is true corresponds to the definition of type II error, the probability of which is <span class="math inline">\(1-\gamma\)</span>, say. The <strong>power of a test</strong> is the probability of rejecting <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_0\)</span> is false, i.e.,
 <span class="math display">\[\begin{align*}
@@ -418,8 +417,8 @@ Figure 1.3: Increase of power due to an increase in the sample size or a decreas
 </ul>
 <p>To calculate the power of a test, we need to single out a specific alternative hypothesis. In very special case, analytic derivations are possible: for example, the one-sample <em>t</em>-test statistic <span class="math inline">\(T=\sqrt{n}(\overline{X}_n-\mu_0)/S_n \sim \mathcal{T}_{n-1}\)</span> for a normal sample follows a noncentral Student-<span class="math inline">\(t\)</span> distribution with noncentrality parameter <span class="math inline">\(\Delta\)</span> if the expectation of the population is <span class="math inline">\(\Delta + \mu_0\)</span>. In general, such closed-form expressions are not easily obtained and we compute instead the power of a test through Monte Carlo methods. For a given alternative, we simulate repeatedly samples from the model, compute the test statistic on these new samples and the associated <em>p</em>-values based on the postulated null hypothesis. We can then calculate the proportion of tests that lead to a rejection of the null hypothesis at level <span class="math inline">\(\alpha\)</span>, namely the percentage of <em>p</em>-values smaller than <span class="math inline">\(\alpha\)</span>.</p>
 </div>
-<div id="confidence-interval" class="section level3" number="1.1.6">
-<h3><span class="header-section-number">1.1.6</span> Confidence interval</h3>
+<div id="confidence-interval" class="section level3 hasAnchor" number="1.1.6">
+<h3><span class="header-section-number">1.1.6</span> Confidence interval<a href="intro.html#confidence-interval" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A <strong>confidence interval</strong> is an alternative way to present the conclusions of an hypothesis test performed at significance level <span class="math inline">\(\alpha\)</span>. It is often combined with a point estimator <span class="math inline">\(\hat{\theta}\)</span> to give an indication of the variability of the estimation procedure. Wald-based <span class="math inline">\((1-\alpha)\)</span> confidence intervals for a parameter <span class="math inline">\(\theta\)</span> are of the form
 <span class="math display">\[\begin{align*}
 \widehat{\theta} \pm \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})
@@ -442,22 +441,19 @@ Figure 1.4: 95% confidence intervals for the mean of a standard normal populatio
 </p>
 </div>
 <p>If we are only interested in the binary decision rule reject/fail to reject <span class="math inline">\(\mathscr{H}_0\)</span>, the confidence interval is equivalent to a <em>p</em>-value since it leads to the same conclusion. Whereas the <span class="math inline">\(1-\alpha\)</span> confidence interval gives the set of all values for which the test statistic doesn’t provide enough evidence to reject <span class="math inline">\(\mathscr{H}_0\)</span> at level <span class="math inline">\(\alpha\)</span>, the <em>p</em>-value gives the probability under the null of obtaning a result more extreme than the postulated value and so is more precise for this particular value. If the <em>p</em>-value is smaller than <span class="math inline">\(\alpha\)</span>, our null value <span class="math inline">\(\theta\)</span> will be outside of the confidence interval and vice-versa.</p>
-ffalse{-91-79-110-108-105-110-101-32-112-117-114-99-104-97-115-101-115-32-111-102-32-109-105-108-108-101-110-105-97-108-115-93-}
 <div class="example">
-<span id="exm:achats-milleniaux" class="example"><strong>Example 1.1  \iffalse (Online purchases of millenials)  </strong></span>
-Suppose a researcher studies the evolution of online sales in Canada. She postulates that generation Y members make more online purchase than older generations. A survey is sent to a simple random sample of <span class="math inline">\(n=500\)</span> individuals from the population with 160 members of generation Y and 340 older people. The response ariable is the total amount of online goods purchased in the previous month (in dollars).
+<p><span id="exm:achats-milleniaux" class="example"><strong>Example 1.1  (Online purchases of millenials) </strong></span>Suppose a researcher studies the evolution of online sales in Canada. She postulates that generation Y members make more online purchase than older generations. A survey is sent to a simple random sample of <span class="math inline">\(n=500\)</span> individuals from the population with 160 members of generation Y and 340 older people. The response ariable is the total amount of online goods purchased in the previous month (in dollars).</p>
 </div>
 <p>In this example, we consider the difference between the average amount spent by Y members and those of previous generations: the mean difference in the samples is -16.49 dollars and thus millenials spend more. However, this in itself is not enough to conclude that the different is significative, nor can we say it is meaningful. The amount spent online varies from one individual to the next (and plausibly from month to month), and so different random samples would yield different mean differences.</p>
 <p>The first step of our analysis is defining the parameters corresponding to quantities of interest and formulating the null and alternative hypothesis as a function of these parameters. We will consider a test for the difference in mean of the two populations, say <span class="math inline">\(\mu_1\)</span> for the expected amount spent by generation Y and <span class="math inline">\(\mu_2\)</span> for older generations, with respective standard errors <span class="math inline">\(\sigma_1\)</span> and <span class="math inline">\(\sigma_2\)</span>. We next write down our hypothesis: the researcher is interested in whether millenials spend more, so this is the alternative hypothesis, <span class="math inline">\(\mathscr{H}_a: \mu_1 &gt; \mu_2\)</span>. The null consists of all other values <span class="math inline">\(\mathscr{H}_0: \mu_1 \leq \mu_2\)</span>, but only <span class="math inline">\(\mu_1=\mu_2\)</span> matters for the purpose of testing (why?)</p>
-<p>The second step is the choice of test statistic. We consider the <span class="citation"><a href="references.html#ref-Welch:1947" role="doc-biblioref">Welch</a> (<a href="references.html#ref-Welch:1947" role="doc-biblioref">1947</a>)</span> statistic for a difference in mean between two samples,
+<p>The second step is the choice of test statistic. We consider the <span class="citation">Welch (<a href="references.html#ref-Welch:1947" role="doc-biblioref">1947</a>)</span> statistic for a difference in mean between two samples,
 <span class="math display">\[\begin{align*}
 T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2} \right)^{1/2}}, \end{align*}\]</span>
 where <span class="math inline">\(\overline{X}_i\)</span> is the sample mean, <span class="math inline">\(S_i^2\)</span> is the unbiased variance estimator and <span class="math inline">\(n_i\)</span> is the sample size for group <span class="math inline">\(i\)</span> (<span class="math inline">\(i=1, 2\)</span>). If the mean difference between the two samples is zero, then <span class="math inline">\(\overline{X}_1-\overline{X}_2\)</span> has mean zero and the difference has variance <span class="math inline">\(\sigma^2_1/n_1+\sigma^2_2/n_2\)</span>. For our sample, the value of statistic is <span class="math inline">\(T=-2.76\)</span> Since the value changes from one sample to the next, we need to determine if this value is compatible with the null hypothesis by comparing it to the null distribution of <span class="math inline">\(T\)</span> (when <span class="math inline">\(\mathscr{H}_0\)</span> is true and <span class="math inline">\(\mu_1-\mu_2=0\)</span>). We perform the test at level <span class="math inline">\(\alpha=0.05\)</span>.</p>
-<p>The third step consists in obtaining a benchmark to determine if our result is extreme or unusual. To make comparisons easier, we standardize the statistic so its has mean zero and variance one under the null hypothesis <span class="math inline">\(\mu_1=\mu_2\)</span>, so as to obtain a dimensionless measure whose behaviour we know for large sample. The (mathematical) derivation of the null distribution is beyond the scope of this course, and will be given in all cases. Asymptotically, <span class="math inline">\(T\)</span> follows a standard normal distribtion <span class="math inline">\(\mathsf{No}(0, 1)\)</span>, but there exists a better finite-sample approximation when <span class="math inline">\(n_1\)</span> or <span class="math inline">\(n_2\)</span> is small; we use <span class="citation"><a href="references.html#ref-Satterthwaite:1946" role="doc-biblioref">Satterthwaite</a> (<a href="references.html#ref-Satterthwaite:1946" role="doc-biblioref">1946</a>)</span> and a Student-<span class="math inline">\(t\)</span> distribution as null distribution.</p>
+<p>The third step consists in obtaining a benchmark to determine if our result is extreme or unusual. To make comparisons easier, we standardize the statistic so its has mean zero and variance one under the null hypothesis <span class="math inline">\(\mu_1=\mu_2\)</span>, so as to obtain a dimensionless measure whose behaviour we know for large sample. The (mathematical) derivation of the null distribution is beyond the scope of this course, and will be given in all cases. Asymptotically, <span class="math inline">\(T\)</span> follows a standard normal distribtion <span class="math inline">\(\mathsf{No}(0, 1)\)</span>, but there exists a better finite-sample approximation when <span class="math inline">\(n_1\)</span> or <span class="math inline">\(n_2\)</span> is small; we use <span class="citation">Satterthwaite (<a href="references.html#ref-Satterthwaite:1946" role="doc-biblioref">1946</a>)</span> and a Student-<span class="math inline">\(t\)</span> distribution as null distribution.</p>
 <p>It only remains to compute the <em>p</em>-value. If the null distribution is well-specified and <span class="math inline">\(\mathscr{H}_0\)</span> is true, then the random variable <span class="math inline">\(P\)</span> is uniform on <span class="math inline">\([0, 1]\)</span>; we thus expect to obtain under the null something larger than 0.95 only 5% of the time for our one-sided alternative since we consider under <span class="math inline">\(\mathscr{H}_0\)</span> the event <span class="math inline">\(\mathsf{Pr}(T &gt; t)\)</span>. The <span class="math inline">\(p\)</span>-value is <span class="math inline">\(1\)</span> and, at level 5%, we reject the null hypothesis to conclude that millenials spend significantly than previous generation for monthly online purchases, with an estimated average difference of -16.49.</p>
-ffalse{-91-80-114-105-99-101-32-111-102-32-83-112-97-110-105-115-104-32-104-105-103-104-32-115-112-101-101-100-32-116-114-97-105-110-32-116-105-99-107-101-116-115-93-}
 <div class="example">
-<span id="exm:price-trains-tests" class="example"><strong>Example 1.2  \iffalse (Price of Spanish high speed train tickets)  </strong></span>The Spanish national railway company, <a href="https://www.renfe.com/">Renfe</a>, manages regional and high speed train tickets all over Spain and The Gurus <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">harvested</a> the price of tickets sold by Renfe. We are interested in trips between Madrid and Barcelona and, for now, ask the question: are tickets more expensive one way or another? To answer this, we consider a sample of 10000 tickets, but restrict attention to AVE tickets sold at Promo rate. Our test statistic will again be the mean difference between the price (in euros) for a train ticket for Madrid–Barcelona (<span class="math inline">\(\mu_1\)</span>) and the price for Barcelona–Madrid (<span class="math inline">\(\mu_2\)</span>), i.e., <span class="math inline">\(\mu_1-\mu_2\)</span>. The null hypothesis is that there are no difference in price, so <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>.
+<p><span id="exm:price-trains-tests" class="example"><strong>Example 1.2  (Price of Spanish high speed train tickets) </strong></span>The Spanish national railway company, <a href="https://www.renfe.com/">Renfe</a>, manages regional and high speed train tickets all over Spain and The Gurus <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">harvested</a> the price of tickets sold by Renfe. We are interested in trips between Madrid and Barcelona and, for now, ask the question: are tickets more expensive one way or another? To answer this, we consider a sample of 10000 tickets, but restrict attention to AVE tickets sold at Promo rate. Our test statistic will again be the mean difference between the price (in euros) for a train ticket for Madrid–Barcelona (<span class="math inline">\(\mu_1\)</span>) and the price for Barcelona–Madrid (<span class="math inline">\(\mu_2\)</span>), i.e., <span class="math inline">\(\mu_1-\mu_2\)</span>. The null hypothesis is that there are no difference in price, so <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>.</p>
 </div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -617,8 +613,8 @@ Figure 1.5: Permutation-based approximation to the null distribution of Welch tw
 <p>The so-called bootstrap approximation to the <em>p</em>-value of the permutation test, <span class="math inline">\(0.186\)</span>, is the proportion of statistics that are more extreme than the one based on the original sample. It is nearly identical to that obtained from the Satterthwaite approximation, <span class="math inline">\(0.182\)</span> (the Student-<span class="math inline">\(t\)</span> distribution is numerically equivalent to a standard normal with that many degrees of freedom), as shown in Figure <a href="intro.html#fig:renfepermut">1.5</a>. Even if our sample is very large (<span class="math inline">\(n=8059\)</span> observations), the difference is not statistically significative. With a bigger sample (the database has more than 2 million tickets), we could estimate more precisely the average difference, up to 1/100 of an euro: the price difference would eventually become statistically significative, but this says nothing about practical difference: <span class="math inline">\(0.28\)</span> euros relative to an Promo ticket priced on average <span class="math inline">\(82.56\)</span> euros is a negligible amount.</p>
 </div>
 </div>
-<div id="eda" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Exploratory Data Analysis</h2>
+<div id="eda" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Exploratory Data Analysis<a href="intro.html#eda" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Before fitting a model, it is advisable to understand the structure of the data to avoid interpretation errors. Basic knowledge of graphs is required and we will spend some time <a href="https://rstudio.cloud/learn/primers/1.1">addressing this</a>. Further references include</p>
 <ul>
 <li><a href="https://r4ds.had.co.nz/exploratory-data-analysis.html">Chapter 3, <em><strong>R</strong> for Data Science</em> by Garrett Grolemund and Hadley Wickham</a></li>
@@ -626,19 +622,19 @@ Figure 1.5: Permutation-based approximation to the null distribution of Welch tw
 <li><a href="https://clauswilke.com/dataviz/"><em>Fundamentals of Data Visualization</em> by Claus O. Wilke</a></li>
 <li><a href="https://socviz.co/lookatdata.html#lookatdata">Chapter 1 of <em>Data Visualization: A practical introduction</em> by Kieran Healy</a></li>
 </ul>
-<p>If exploratory data analysis is often neglected in statistics (perhaps because it has little to no mathematical foundations), it is crucial. More than a rigorous approach, it is an art: Grolemund and Wickham talk of “state of mind.” The purpose of graphical exploratory data analysis is the extraction of useful information, often through a series of preliminary questions that are refined as the analysis progresses. Of particular interest and the relations and interactions between difference variables and the distribution of the variables themselves. The major steps for undertaking an exploratory analysis are:</p>
+<p>If exploratory data analysis is often neglected in statistics (perhaps because it has little to no mathematical foundations), it is crucial. More than a rigorous approach, it is an art: Grolemund and Wickham talk of “state of mind”. The purpose of graphical exploratory data analysis is the extraction of useful information, often through a series of preliminary questions that are refined as the analysis progresses. Of particular interest and the relations and interactions between difference variables and the distribution of the variables themselves. The major steps for undertaking an exploratory analysis are:</p>
 <ol style="list-style-type: decimal">
 <li>Formulate questions about the data</li>
 <li>Look for answers using frequency table, descriptive statistics and graphics.</li>
 <li>Refine the questions in light of the finding</li>
 </ol>
 <p>In a report, you should highlight the most import features in a summary so that the reader can grasp your understanding and so that you guide him or her in the interpretation of the data.</p>
-<div id="polish-your-work" class="section level3" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> Polish your work</h3>
+<div id="polish-your-work" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Polish your work<a href="intro.html#polish-your-work" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Pay as much attention to figures and tables than to the main text. These should always include a legend that describes and summarize the findings in the graph (so that the latter is standalone), name of variables (including units) on the axes, but also proper formatting so that the labels and numbers are readable (good printing quality, not too small). One picture is worth 1000 words, but make sure the graph tells a coherent story and that it is mentioned in the main text. Also ensure that only the necessary information is displayed: superfluous information (spurious digits, useless summary statistics) should not be presented.</p>
 </div>
-<div id="variable-type" class="section level3" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> Variable type</h3>
+<div id="variable-type" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Variable type<a href="intro.html#variable-type" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>a <strong>variable</strong> represents a characteristic of the population, for example the sex of an individual, the price of an item, etc.</li>
 <li>an <strong>observation</strong> is a set of measures (variables) collected under identical conditions for an individual or at a given time.</li>
@@ -657,8 +653,8 @@ Figure 1.5: Permutation-based approximation to the null distribution of Welch tw
 <!-- knitr::include_graphics('images/nominal_ordinal_binary.png') -->
 <!-- ``` -->
 </div>
-<div id="graphs" class="section level3" number="1.2.3">
-<h3><span class="header-section-number">1.2.3</span> Graphs</h3>
+<div id="graphs" class="section level3 hasAnchor" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Graphs<a href="intro.html#graphs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The main type of graph for representing categorical variables is bar plot (and modifications thereof). In a bar plot, the frequency of each category is represented in the <span class="math inline">\(y\)</span>-axis as a function of the (ordered) levels on the <span class="math inline">\(x\)</span>-axis. This representation is superior to the <a href="http://www.perceptualedge.com/articles/08-21-07.pdf">ignominious pie chart</a>, a nuisance that ought to be banned (humans are very bad at comparing areas and a simple rotation changes the perception of the graph)!</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:barplotrenfe"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/barplotrenfe-1.png" alt="Bar plot of ticket class for Renfe tickets data" width="70%" />
@@ -702,12 +698,11 @@ Figure 1.10: Scatterplot (left) and hexagonal heatmap of bidimensional bin count
 </div>
 <!-- Sometimes, continuous data have a particular structure, mostly when observations are collected over space or time. Time series are ordered and the response should be plotted on the $y$-axis as a function of time (on the $x$-axis). It is customary to draw segments between observations, but this display is sometimes misleading. -->
 </div>
-<div id="exploratory-data-analysis" class="section level3" number="1.2.4">
-<h3><span class="header-section-number">1.2.4</span> Exploratory data analysis</h3>
+<div id="exploratory-data-analysis" class="section level3 hasAnchor" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Exploratory data analysis<a href="intro.html#exploratory-data-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Rather than describe in details the exploratory analysis procedure, we proceed with an example that illustrates the process on the Renfe ticket dataset that was introduced previously.</p>
-ffalse{-91-69-120-112-108-111-114-97-116-111-114-121-32-100-97-116-97-32-97-110-97-108-121-115-105-115-32-111-102-32-82-101-110-102-101-32-116-105-99-107-101-116-115-93-}
 <div class="example">
-<span id="exm:renfe-aed" class="example"><strong>Example 1.3  \iffalse (Exploratory data analysis of Renfe tickets)  </strong></span>First, read the documentation accompanying the dataset! The data base <code>renfe</code> contains the following variables:
+<p><span id="exm:renfe-aed" class="example"><strong>Example 1.3  (Exploratory data analysis of Renfe tickets) </strong></span>First, read the documentation accompanying the dataset! The data base <code>renfe</code> contains the following variables:</p>
 </div>
 <ul>
 <li><code>price</code> price of the ticket (in euros);</li>
@@ -1320,7 +1315,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

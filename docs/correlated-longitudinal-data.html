@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Correlated and longitudinal data | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Correlated and longitudinal data | Statistical Modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604a" />
@@ -31,7 +30,6 @@
   
 <link rel="prev" href="generalized-linear-models.html"/>
 <link rel="next" href="linear-mixed-models.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,8 +47,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -249,12 +248,12 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="correlated-longitudinal-data" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Correlated and longitudinal data</h1>
+<div id="correlated-longitudinal-data" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Correlated and longitudinal data<a href="correlated-longitudinal-data.html#correlated-longitudinal-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Violations of the hypothesis of the linear model impact the validity of statistical inference. Whereas the last chapter followed on generalizations of the linear regression to handle non-normality of the response, we consider now extensions of the linear regression model that account for dependence over time or group heteroscedasticity.</p>
 <p>We derived the ordinary least squares estimator using maximum likelihood under the assumption of independent and homoscedastic normal errors. For normally distributed data, the covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span> encodes the dependence between observations: off-diagonal elements of the covariance matrix are zero for independent observations, whereas the diagonal elements, which encode the variance, are equal for homoscedastic observations. An alternative way of writing the likelihood of the <span class="math inline">\(n\)</span> sample is to view the latter as a single realization of an <span class="math inline">\(n\)</span> dimensional random vector with <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_n(\mathbf{X}\boldsymbol{\beta}, \sigma^2, \mathbf{I}_n)\)</span>. From there, it is easy to see how one can relax the independence and homoscedasticity assumption by writing the covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span> in terms of few parameter <span class="math inline">\(\boldsymbol{\psi}\)</span> and by obtaining the likelihood-based estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{\psi}\)</span>.</p>
-<div id="longitudinal-data" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Longitudinal data</h2>
+<div id="longitudinal-data" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Longitudinal data<a href="correlated-longitudinal-data.html#longitudinal-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The parametrization of the covariance matrix requires some more insight into the dependence structure of the data. Most of the dependence arises from time dependence between consecutive measurements of an observation. This section focuses on <strong>longitudinal</strong> data, or <strong>repeated measurements</strong>. These consist of short time series which are collected over different “individuals”: the assumption of independence could hold for measurements of different individuals, but not for measurements of the same individual.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:spaghettiplots"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/spaghettiplots-1.png" alt="Spaghetti plots of longitudinal data: spirometry data from the Six Cities Study of Air Pollution and Health (left), clinical trial data for the 'Beat the Blues'  cognitive behavioural program (middle) and orthodontic measurements of children (bottom)." width="70%" />
@@ -332,7 +331,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

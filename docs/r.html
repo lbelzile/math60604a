@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>C R | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="C R | Statistical Modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604a" />
@@ -31,7 +30,6 @@
   
 <link rel="prev" href="math.html"/>
 <link rel="next" href="references.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,8 +47,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -249,19 +248,19 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="r" class="section level1" number="10">
-<h1><span class="header-section-number">C</span> <strong>R</strong></h1>
+<div id="r" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">C</span> <strong>R</strong><a href="r.html#r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><strong>R</strong> is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses.</p>
 <p>You can find several introductions to <strong>R</strong> online. Have a look at the <a href="https://cran.r-project.org/manuals.html"><strong>R</strong> manuals</a> or better at <a href="https://cran.r-project.org/other-docs.html">contributed manuals</a>. A nice official reference is <a href="http://colinfay.me/intro-to-r/index.html">An introduction to <strong>R</strong></a>.
 You may wish to look up the following chapters of the <strong>R</strong> language definition (<a href="http://colinfay.me/r-language-definition/evaluation-of-expressions.html">Evaluation of expressions</a> and part of the <a href="http://colinfay.me/r-language-definition/objects.html"><em>Objects</em> chapter</a>). Another good (small reference) is the cheatsheet <a href="https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf">Getting started in <strong>R</strong></a>.</p>
-<div id="basics-of-r" class="section level2" number="10.1">
-<h2><span class="header-section-number">C.1</span> Basics of <strong>R</strong></h2>
-<div id="help" class="section level3 unnumbered">
-<h3>Help</h3>
+<div id="basics-of-r" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">C.1</span> Basics of <strong>R</strong><a href="r.html#basics-of-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="help" class="section level3 unnumbered hasAnchor">
+<h3>Help<a href="r.html#help" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Help can be accessed via <code>help</code> or simply <code>?</code>, e.g., <code>help("Normal")</code>. <a href="https://www.r-project.org/help.html">See <strong>R</strong> page about help files</a>.</p>
 </div>
-<div id="basic-commands" class="section level3 unnumbered">
-<h3>Basic commands</h3>
+<div id="basic-commands" class="section level3 unnumbered hasAnchor">
+<h3>Basic commands<a href="r.html#basic-commands" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Basic <strong>R</strong> commands are fairly intuitive, especially if you want to use <strong>R</strong> as a calculator.
 Elementary functions such as <code>sum</code>, <code>min</code>, <code>max</code>, <code>sqrt</code>, <code>log</code>, <code>exp</code>, etc., are self-explanatory.</p>
 <p>Some (unconventional) features of the language:</p>
@@ -280,8 +279,8 @@ Elementary functions such as <code>sum</code>, <code>min</code>, <code>max</code
 </ul>
 <p>Beware! In <strong>R</strong>, invalid calls will often returns <em>something</em> rather than an error. It is therefore good practice to check that the output is sensical.</p>
 </div>
-<div id="linear-algebra-in-r" class="section level3 unnumbered">
-<h3>Linear algebra in <strong>R</strong></h3>
+<div id="linear-algebra-in-r" class="section level3 unnumbered hasAnchor">
+<h3>Linear algebra in <strong>R</strong><a href="r.html#linear-algebra-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>R</strong> is an object oriented language, and the basic elements in <strong>R</strong> are (column) vector. Below is a glossary with some useful commands for performing basic manipulation of vectors and matrix operations:</p>
 <ul>
 <li><code>c</code> concatenates elements to form a vector</li>
@@ -305,8 +304,8 @@ then</p>
 </ul>
 <p>For a matrix <code>x</code>, subsetting now involves dimensions: <code>[1,2]</code> returns the element in the first row, second column. <code>x[,2]</code> will return all of the rows, but only the second column. For lists, you can use <code>[[</code> for subsetting by index or the <code>$</code> sign by names.</p>
 </div>
-<div id="packages" class="section level3 unnumbered">
-<h3>Packages</h3>
+<div id="packages" class="section level3 unnumbered hasAnchor">
+<h3>Packages<a href="r.html#packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The great strength of <strong>R</strong> comes from its contributed libraries (called packages), which contain functions and datasets provided by third parties. Some of these (<code>base</code>, <code>stats</code>, <code>graphics</code>, etc.) are loaded by default whenever you open a session.</p>
 <p>To install a package from CRAN, use <code>install.packages("package")</code>, replacing <code>package</code> by the package name. Once installed, packages can be loaded using <code>library(package)</code>; all the functions in <code>package</code> will be available in the environment.</p>
 
@@ -314,8 +313,8 @@ then</p>
 <p>There are drawbacks to loading packages: if an object with the same name from another package is already present in your environment, it will be hidden. Use the double-colon operator <code>::</code> to access a single object from an installed package (<code>package::object</code>).</p>
 </div>
 </div>
-<div id="datasets" class="section level3 unnumbered">
-<h3>Datasets</h3>
+<div id="datasets" class="section level3 unnumbered hasAnchor">
+<h3>Datasets<a href="r.html#datasets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>datasets are typically stored inside a <code>data.frame</code>, a matrix-like object whose columns contain the variables and the rows the observation vectors.</li>
 <li>The columns can be of different types (<code>integer</code>, <code>double</code>, <code>logical</code>, <code>character</code>), but all the column vectors must be of the same length.</li>
@@ -358,8 +357,8 @@ then</p>
 <li><code>data.frame</code> is a special type of list where all the elements are vectors of potentially different type, but of the same length.</li>
 </ul>
 </div>
-<div id="base-graphics" class="section level3 unnumbered">
-<h3>Base graphics</h3>
+<div id="base-graphics" class="section level3 unnumbered hasAnchor">
+<h3>Base graphics<a href="r.html#base-graphics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>faithful</code> dataset consists of two variables: the regressand <code>waiting</code> and the regressor <code>eruptions</code>. One could postulate that the waiting time between eruptions will be smaller if the eruption time is small, since pressure needs to build up for the eruption to happen. We can look at the data to see if there is a linear relationship between the variables.</p>
 <p>An image is worth a thousand words and in statistics, visualization is crucial. Scatterplots are produced using the function <code>plot</code>. You can control the graphic console options using <code>par</code> — see <code>?plot</code> and <code>?par</code> for a description of the basic and advanced options available.</p>
 <p>Once <code>plot</code> has been called, you can add additional observations as points (lines) to the graph using <code>point</code> (<code>lines</code>) in place of <code>plot</code>. If you want to add a line (horizontal, vertical, or with known intercept and slope), use the function <code>abline</code>.</p>
@@ -375,8 +374,8 @@ then</p>
 </div>
 </div>
 </div>
-<div id="rlmfunc" class="section level2" number="10.2">
-<h2><span class="header-section-number">C.2</span> Linear models in <strong>R</strong> using the <code>lm</code> function</h2>
+<div id="rlmfunc" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">C.2</span> Linear models in <strong>R</strong> using the <code>lm</code> function<a href="r.html#rlmfunc" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The function <code>lm</code> is the workshorse for fitting linear models in <strong>R</strong>. It takes as input a formula: suppose you have a data frame containing columns <code>x</code> (a regressor) and <code>y</code> (the regressand); you can then call <code>lm(y ~ x)</code> to fit the linear model <span class="math inline">\(y = \beta_0 + \beta_1 x + \varepsilon\)</span>. The explanatory variable <code>y</code> is on the left hand side,
 while the right hand side should contain the predictors, separated by a <code>+</code> sign if there are more than one.
 If you provide the data frame name using <code>data</code>, then the shorthand <code>y ~ .</code> fits all the columns of the data frame (but <code>y</code>) as regressors.
@@ -412,7 +411,7 @@ If you provide the data frame name using <code>data</code>, then the shorthand <
 <!-- abline(lm(intention ~ emotion, data = intention)) -->
 <!-- ``` -->
 <!-- We can compute the correlation coefficient using `cor`; we get 0.43 for `intention` and `fixation` and 0.23 for `intention` and `emotion`. If we specify a matrix with more than two columns or a data frame (with numeric values), we get a correlation matrix with ones on the diagonal. For factor variables, we would need to map these back to binary, but we saw that the $R^2$ value is equal to the squared correlation coefficient, so we can extract this from the output of the linear model fit.  -->
-<p>To fit higher order polynomials, use <code>poly</code>. For transformations, use the <code>I</code> function to tell <strong>R</strong> to interpret the input “as is.” Thus, <code>lm(y~x+I(x^2))</code>, would fit a linear model with design matrix <span class="math inline">\((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\)</span>. A constant is automatically included in the regression, but can be removed by writing <code>-1</code> or <code>+0</code> on the right hand side of the formula (but don’t do that!). The <code>lm</code> function output will display ordinary least squares estimates along with standard errors, <span class="math inline">\(t\)</span> values for the Wald test of the hypothesis <span class="math inline">\(\mathrm{H}_0: \beta_i=0\)</span> and the associated <span class="math inline">\(P\)</span>-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.</p>
+<p>To fit higher order polynomials, use <code>poly</code>. For transformations, use the <code>I</code> function to tell <strong>R</strong> to interpret the input “as is”. Thus, <code>lm(y~x+I(x^2))</code>, would fit a linear model with design matrix <span class="math inline">\((\boldsymbol{1}_n, \mathbf{x}^\top, \mathbf{x}^2)^\top\)</span>. A constant is automatically included in the regression, but can be removed by writing <code>-1</code> or <code>+0</code> on the right hand side of the formula (but don’t do that!). The <code>lm</code> function output will display ordinary least squares estimates along with standard errors, <span class="math inline">\(t\)</span> values for the Wald test of the hypothesis <span class="math inline">\(\mathrm{H}_0: \beta_i=0\)</span> and the associated <span class="math inline">\(P\)</span>-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table.</p>
 <p>Many methods allow you to extract specific objects from <code>lm</code> objects. For example, the functions <code>coef</code>, <code>resid</code>, <code>fitted</code>, <code>model.matrix</code> will return the coefficients <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>, the ordinary residuals <span class="math inline">\(\boldsymbol{e}\)</span>, the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> and the design matrix <span class="math inline">\(\mathbf{X}\)</span>, respectively.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="r.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(college, <span class="at">package =</span> <span class="st">&quot;hecstatmod&quot;</span>) <span class="co">#load data</span></span>
 <span id="cb7-2"><a href="r.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(college<span class="sc">$</span>rank) <span class="co">#check that rank is a factor</span></span></code></pre></div>
@@ -614,7 +613,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

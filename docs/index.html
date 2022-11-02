@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Statistical Modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604a" />
@@ -31,7 +30,6 @@
   
 
 <link rel="next" href="intro.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,8 +47,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -252,9 +251,9 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Statistical Modelling</h1>
 </div>
-<div id="preliminary-remarks" class="section level1 unnumbered">
-<h1>Preliminary remarks</h1>
-<p>These notes by Léo Belzile (HEC Montréal) are licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a> and were last compiled on 2022-02-10.</p>
+<div id="preliminary-remarks" class="section level1 unnumbered hasAnchor">
+<h1>Preliminary remarks<a href="index.html#preliminary-remarks" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>These notes by Léo Belzile (HEC Montréal) are licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a> and were last compiled on 2022-11-02.</p>
 <p>While we show how to implement statistical tests and models in <strong>SAS</strong> in class, these note will illustrate the concepts using <strong>R</strong>: visit <a href="https://cran.r-project.org/">the R-project website</a> to download the program. The most popular graphical cross-platform front-end is <a href="https://www.rstudio.com/products/rstudio/download/">RStudio Desktop</a>.</p>
 <p>Why use models? <a href="https://krugman.blogs.nytimes.com/2010/11/18/debt-deleveraging-and-the-liquidity-trap/">Paul Krugman wrote in 2010 in his blog</a></p>
 <blockquote>
@@ -332,7 +331,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Linear mixed models | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Linear mixed models | Statistical Modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604a" />
@@ -31,7 +30,6 @@
   
 <link rel="prev" href="correlated-longitudinal-data.html"/>
 <link rel="next" href="survival.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,8 +47,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -249,8 +248,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="linear-mixed-models" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Linear mixed models</h1>
+<div id="linear-mixed-models" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Linear mixed models<a href="linear-mixed-models.html#linear-mixed-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>A linear mixed model is a two-level hierarchical model of the form</p>
 <p><span class="math display" id="eq:mixedmod">\[\begin{align}
 \mathcal{B}_i &amp;\sim \mathsf{No}_q(\boldsymbol{0}_q, \boldsymbol{\Omega}) \nonumber\\
@@ -269,13 +268,12 @@ The specification of <a href="linear-mixed-models.html#eq:mixedmod">(6.1)</a> is
 \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} = (\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\boldsymbol{Y}
 \end{align*}\]</span>
 which is the generalized least square solutions.</p>
-<div id="partial-pooling" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Partial pooling</h2>
+<div id="partial-pooling" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Partial pooling<a href="linear-mixed-models.html#partial-pooling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Random effects naturally induce correlation between observations and the conditional mean of <span class="math inline">\(\boldsymbol{Y}_i \mid \mathcal{B}_i\)</span> includes a group-effect. The alternative is to include another fixed effect via an binary indicator of group, <span class="math inline">\(g_i\)</span> and an interaction between time and group indicators, viz. <span class="math inline">\(g_i\cdot \texttt{time}\)</span>. There are many disadvantages to using this latter specification, since new observation or slope for incomplete records cannot be reliably estimated, in addition to having an overparametrized model with in addition no coefficients for explanatory variables that do not change within group.</p>
 <p><a href="https://www.tjmahr.com/plotting-partial-pooling-in-mixed-effects-models/">Tristan Mahr masterfully illustrated in a blog post</a> the shrinkage of random effects. The following section is adapted from his code (with the code hidden to streamline the argument).</p>
-ffalse{-91-67-104-105-99-107-101-110-32-103-114-111-119-116-104-32-99-117-114-118-101-93-}
 <div class="example">
-<span id="exm:chickcurve" class="example"><strong>Example 6.1  \iffalse (Chicken growth curve)  </strong></span>We consider for illustration the growth curves of chicken who are administered four different diets. The purpose of the study was to determine which diet was most effective for weight gain.
+<p><span id="exm:chickcurve" class="example"><strong>Example 6.1  (Chicken growth curve) </strong></span>We consider for illustration the growth curves of chicken who are administered four different diets. The purpose of the study was to determine which diet was most effective for weight gain.</p>
 </div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:partialpool1"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/partialpool1-1.png" alt="Chicken weight growth curve, ordered by weight. Each row corresponds to a different diet." width="70%" />
@@ -284,7 +282,7 @@ Figure 6.1: Chicken weight growth curve, ordered by weight. Each row corresponds
 </p>
 </div>
 <p>The spaghetti plot of Figure <a href="linear-mixed-models.html#fig:partialpool1">6.1</a> shows selected individuals, ordered by their initial weight. We can see that some chicks are lost to follow-up, possibly dead, for the first diet type. While this is potentially a form of informative censoring, we will omit it from further analyses due to lack of additional information. Overall, the slopes seem steeper on average for diets 3–4. We omit diet from subsequent analyses, but including an interaction between age and diet, in addition to main effects, seems an adequate way to capture these differences. There are also variability within diet, as not all chicks have the same daily weight gain.</p>
-<p>We can compare the group effect to a linear model with no pooling obtained by including a common slope for <span class="math inline">\(\texttt{time}\)</span> in the model matrix <span class="math inline">\(\mathbf{X}\)</span> and no group-specific intercept. This scenario corresponds to no pooling or “one size fits all.” This solution would differ slightly from the mixed model because it would simply pool all observations at a given time.</p>
+<p>We can compare the group effect to a linear model with no pooling obtained by including a common slope for <span class="math inline">\(\texttt{time}\)</span> in the model matrix <span class="math inline">\(\mathbf{X}\)</span> and no group-specific intercept. This scenario corresponds to no pooling or “one size fits all”. This solution would differ slightly from the mixed model because it would simply pool all observations at a given time.</p>
 <p>The main remaining question is related to discrepancies between conditional predictions from the mixed model with random intercepts and slopes and the model that includes fixed effects with different intercepts and slopes for each chick. It turns out that the specification of the normal random effects induces <strong>shrinkage</strong> towards zero of the random effect, and thus the conditional predictions (predictions of the random effects added to the fixed effects) are closer than their fixed effects counterparts, which is itself close to the global average intercept/slope. Most of the time, this effect is barely distinguishable in plots, as shown in Figure <a href="linear-mixed-models.html#fig:partpooldf">6.2</a>. The only exception seems to be in cases where the number of observations per group is small, in which case the conditional and marginal predictions are close.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:partpooldf"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/partpooldf-1.png" alt="Partial pooling of coefficients for chicken data. Fitted regression lines for the model with a single common slope (complete pooling) and model with chick-specific intercept and slopes (no pooling). The conditional predictions are very close to individual slopes and barely distinguishable, except for chicken with fewer data points were they lie closer to the overall mean, one-size-fits-all model (i.e., complete pooling)." width="70%" />
@@ -360,7 +358,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>A Complements | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="A Complements | Statistical Modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604a" />
@@ -31,7 +30,6 @@
   
 <link rel="prev" href="survival.html"/>
 <link rel="next" href="math.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,8 +47,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -249,10 +248,10 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="complement" class="section level1" number="8">
-<h1><span class="header-section-number">A</span> Complements</h1>
-<div id="population-sample" class="section level2" number="8.1">
-<h2><span class="header-section-number">A.1</span> Population and samples</h2>
+<div id="complement" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">A</span> Complements<a href="complement.html#complement" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="population-sample" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">A.1</span> Population and samples<a href="complement.html#population-sample" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Statistics is the science of uncertainty quantification: of paramount importance is the notion of randomness. Generally, we will seek to estimate characteristics of a population using only a sample (a sub-group of the population of smaller size).</p>
 <p>The <strong>population of interest</strong> is a collection of individuals which the study targets. For example, the Labour Force Survey (LFS) is a monthly study conducted by Statistics Canada, who define the target population as “all members of the selected household who are 15 years old and older, whether they work or not.” Asking every Canadian meeting this definition would be costly and the process would be long: the characteristic of interest (employment) is also a snapshot in time and can vary when the person leaves a job, enters the job market or become unemployed.</p>
 <p>In general, we therefore consider only <strong>samples</strong> to gather the information we seek to obtain. The purpose of <strong>statistical inference</strong> is to draw conclusions about the population, but using only a share of the latter and accounting for sources of variability. George Gallup made this great analogy between sample and population:</p>
@@ -261,15 +260,13 @@ div.csl-indent {
 </blockquote>
 <p>A <strong>sample</strong> is a random sub-group of individuals drawn from the population. Creation of sampling plans is a complex subject and semester-long sampling courses would be required to evens scratch the surface of the topic. Even if we won’t be collecting data, keep in mind the following information: for a sample to be good, it must be representative of the population under study. Selection bias must be avoided, notably samples of friends or of people sharing opinions.</p>
 <p>Because the individuals are selected at <strong>random</strong> to be part of the sample, the measurement of the characteristic of interest will also be random and change from one sample to the next. However, larger samples of the same quality carry more information and our estimator will be more precise. Sample size is not guarantee of quality, as the following example demonstrates.</p>
-
 <div class="example">
-<p><span id="exm:Galluppoll" class="example"><strong>Example A.1  </strong></span>
-<em>The Literary Digest</em> surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57%) over incumbent President Franklin D. Roosevelt (43%). The latter nevertheless won in a landslide election with 62% of votes cast, a 19% forecast error. <a href="https://www.jstor.org/stable/2749114">Biased sampling and differential non-response are mostly responsible for the error:</a> the sampling frame was built using ``phone number directories, drivers’ registrations, club memberships, etc.’’, all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.</p>
-In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. <a href="https://medium.com/@ozanozbey/how-not-to-sample-11579793dac">Read the full story here.</a>
+<p><span id="exm:Galluppoll" class="example"><strong>Example A.1  </strong></span><em>The Literary Digest</em> surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57%) over incumbent President Franklin D. Roosevelt (43%). The latter nevertheless won in a landslide election with 62% of votes cast, a 19% forecast error. <a href="https://www.jstor.org/stable/2749114">Biased sampling and differential non-response are mostly responsible for the error:</a> the sampling frame was built using ``phone number directories, drivers’ registrations, club memberships, etc.’’, all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.</p>
+<p>In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. <a href="https://medium.com/@ozanozbey/how-not-to-sample-11579793dac">Read the full story here.</a></p>
 </div>
 </div>
-<div id="random-variable" class="section level2" number="8.2">
-<h2><span class="header-section-number">A.2</span> Random variable</h2>
+<div id="random-variable" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">A.2</span> Random variable<a href="complement.html#random-variable" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Suppose we wish to describe the behaviour of a stochastic phenomenon. To this effect, one should enumerate the set of possible values taken by the variable of interest and their probability: this is what is encoded in the distribution. We will distinguish between two cases: discrete and continuous variables. Random variables are denoted using capital letters: for example <span class="math inline">\(Y \sim \mathsf{No}(\mu, \sigma^2)\)</span> indicates that <span class="math inline">\(Y\)</span> follows a normal distribution with parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>, which represent respectively the expectation and variance of <span class="math inline">\(Y\)</span>.</p>
 <p>The (cumulative) distribution function <span class="math inline">\(F(y)\)</span> gives the cumulative probability that an event doesn’t exceed a given numerical value <span class="math inline">\(y\)</span>, <span class="math inline">\(F(y) = \mathsf{Pr}(Y \leq y)\)</span>.</p>
 <p>If <span class="math inline">\(Y\)</span> is discrete, then it has atoms of non-zero probability and the mass function <span class="math inline">\(f(y)=\mathsf{Pr}(Y=y)\)</span> gives the probability of each outcome <span class="math inline">\(y\)</span>. In the continuous case, no numerical value has non-zero probability and so we consider intervals instead: the density function gives the probability of <span class="math inline">\(Y\)</span> falling in a set <span class="math inline">\(B\)</span>, via <span class="math inline">\(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\)</span>. It follows that the distribution function of a continuous random variable is simply <span class="math inline">\(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x\)</span>.</p>
@@ -279,8 +276,8 @@ In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabi
 Figure A.1: (Cumulative) distribution functions (top) and density/mass functions (bottom) of continuous (left) and discrete (right) random variables.
 </p>
 </div>
-<div id="moments" class="section level3" number="8.2.1">
-<h3><span class="header-section-number">A.2.1</span> Moments</h3>
+<div id="moments" class="section level3 hasAnchor" number="8.2.1">
+<h3><span class="header-section-number">A.2.1</span> Moments<a href="complement.html#moments" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>One of the first topics covered in introductory statistics is descriptive statistics such as the mean and standard deviation. These are estimators of (centered) moments, which characterise a random variable. In the case of the standard normal distribution, the expectation and variance fully characterize the distribution.</p>
 <p>Let <span class="math inline">\(Y\)</span> be a random variable with density (or mass) function <span class="math inline">\(f(x)\)</span>. This function is non-negative and satisfies <span class="math inline">\(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\)</span>: the integral over a set <span class="math inline">\(B\)</span> (the area under the curve) gives the probability of <span class="math inline">\(Y\)</span> falling inside <span class="math inline">\(B \in \mathbb{R}\)</span>.</p>
 <p>The expectation (or theoretical mean) of a continuous random variable <span class="math inline">\(Y\)</span> is <span class="math display">\[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\]</span>
@@ -330,8 +327,8 @@ The correlation matrix of <span class="math inline">\(\boldsymbol{Y}\)</span> is
 One of the most important parts of modelling
 correlated (or longitudinal) data is the need to account for within-group correlations. This basically comes down to modelling a covariance matrix for observations within the same group (or within the same individual in the case of repeated measures), which is the object of <a href="correlated-longitudinal-data">Chapter 5</a>.</p>
 </div>
-<div id="unbiasedness-and-mean-square-error" class="section level3" number="8.2.2">
-<h3><span class="header-section-number">A.2.2</span> Unbiasedness and mean square error</h3>
+<div id="unbiasedness-and-mean-square-error" class="section level3 hasAnchor" number="8.2.2">
+<h3><span class="header-section-number">A.2.2</span> Unbiasedness and mean square error<a href="complement.html#unbiasedness-and-mean-square-error" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>An estimator <span class="math inline">\(\hat{\theta}\)</span> for a parameter <span class="math inline">\(\theta\)</span> is unbiased if its bias <span class="math inline">\(\mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta\)</span> is zero.
 The unbiased estimator of the mean and the variance of <span class="math inline">\(Y\)</span> are
 <span class="math display">\[\begin{align*}
@@ -343,26 +340,24 @@ The mean squared error is an objective function consisting of the sum of the squ
 <p>An alternative to this criterion is to optimize a function such as the likelihood of the sample: the resulting estimator is termed maximum likelihood estimator. These estimator are asymptotically efficient, in the sense that they have the lowest mean squared error of all estimators for large samples. Other properties of maximum likelihood estimators make them attractive default choice for estimation.</p>
 <p>The <a href="likelihood">likelihood of a sample</a> is the joint density of the <span class="math inline">\(n\)</span> observations, which requires a distribution to be considered. Many such distributions describe simple physical phenomena and can be described using a few parameters: we only cover the most frequently encountered.</p>
 </div>
-<div id="discrete-distributions" class="section level3" number="8.2.3">
-<h3><span class="header-section-number">A.2.3</span> Discrete distributions</h3>
-ffalse{-91-66-101-114-110-111-117-108-108-105-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
+<div id="discrete-distributions" class="section level3 hasAnchor" number="8.2.3">
+<h3><span class="header-section-number">A.2.3</span> Discrete distributions<a href="complement.html#discrete-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="example">
-<p><span id="exm:bernoullidist" class="example"><strong>Example A.2  \iffalse (Bernoulli distribution)  </strong></span>We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being <span class="math inline">\(\pi\)</span> so <span class="math inline">\(\mathsf{Pr}(Y=1)=\pi\)</span> and <span class="math inline">\(\mathsf{Pr}(Y=0)=1-\pi\)</span> (complementary event). The mass function of the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> is thus
+<p><span id="exm:bernoullidist" class="example"><strong>Example A.2  (Bernoulli distribution) </strong></span>We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being <span class="math inline">\(\pi\)</span> so <span class="math inline">\(\mathsf{Pr}(Y=1)=\pi\)</span> and <span class="math inline">\(\mathsf{Pr}(Y=0)=1-\pi\)</span> (complementary event). The mass function of the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> is thus
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
 \end{align*}\]</span>
 A rapid calculation shows that <span class="math inline">\(\mathsf{E}(Y)=\pi\)</span> and <span class="math inline">\(\mathsf{Va}(Y)=\pi(1-\pi)\)</span>.
 Many research questions have binary responses, for example:</p>
 <ul>
-<li><p>did a potential client respond favourably to a promotional offer?</p></li>
-<li><p>is the client satisfied with service provided post-purchase?</p></li>
-<li><p>will a company go bankrupt in the next three years?</p></li>
-<li><p>did a study participant successfully complete a task?</p>
-</div></li>
+<li>did a potential client respond favourably to a promotional offer?</li>
+<li>is the client satisfied with service provided post-purchase?</li>
+<li>will a company go bankrupt in the next three years?</li>
+<li>did a study participant successfully complete a task?</li>
 </ul>
-ffalse{-91-66-105-110-111-109-105-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
+</div>
 <div class="example">
-<p><span id="exm:binomialdist" class="example"><strong>Example A.3  \iffalse (Binomial distribution)  </strong></span>If the data five the sum of independent Bernoulli events, the number of sucessess <span class="math inline">\(Y\)</span> out of <span class="math inline">\(m\)</span> trials is <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial</a>, denoted <span class="math inline">\(\mathsf{Bin}(m, \pi)\)</span>; the mass function of the binomial distribution is
+<p><span id="exm:binomialdist" class="example"><strong>Example A.3  (Binomial distribution) </strong></span>If the data five the sum of independent Bernoulli events, the number of sucessess <span class="math inline">\(Y\)</span> out of <span class="math inline">\(m\)</span> trials is <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial</a>, denoted <span class="math inline">\(\mathsf{Bin}(m, \pi)\)</span>; the mass function of the binomial distribution is
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \binom{m}{y}\pi^y (1-\pi)^{1-y}, \quad y=0, 1.
 \end{align*}\]</span>
@@ -375,43 +370,39 @@ The likelihood of a sample from a binomial distribution is (up to a normalizing 
 <li>purchases made by a client over a month on a website,</li>
 <li>tasks completed by a study participant in a given time frame.</li>
 </ul>
-ffalse{-91-71-101-111-109-101-116-114-105-99-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:geomdist" class="example"><strong>Example A.4  \iffalse (Geometric distribution)  </strong></span>The <a href="https://en.wikipedia.org/wiki/Geometric_distribution">geometric distribution</a> is a model describing the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> required to obtain a first success. The mass function of <span class="math inline">\(Y \sim \mathsf{Geo}(\pi)\)</span> is
+<p><span id="exm:geomdist" class="example"><strong>Example A.4  (Geometric distribution) </strong></span>The <a href="https://en.wikipedia.org/wiki/Geometric_distribution">geometric distribution</a> is a model describing the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> required to obtain a first success. The mass function of <span class="math inline">\(Y \sim \mathsf{Geo}(\pi)\)</span> is
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
 \end{align*}\]</span></p>
-For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.
+<p>For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.</p>
 </div>
-ffalse{-91-80-111-105-115-115-111-110-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:poissondist" class="example"><strong>Example A.5  \iffalse (Poisson distribution)  </strong></span>If the probability of success <span class="math inline">\(\pi\)</span> of a Bernoulli event is small in the sense that <span class="math inline">\(m\pi \to \lambda\)</span> when the number of trials <span class="math inline">\(m\)</span> increases, then the number of success follows approximately a Poisson distribution with mass function
+<p><span id="exm:poissondist" class="example"><strong>Example A.5  (Poisson distribution) </strong></span>If the probability of success <span class="math inline">\(\pi\)</span> of a Bernoulli event is small in the sense that <span class="math inline">\(m\pi \to \lambda\)</span> when the number of trials <span class="math inline">\(m\)</span> increases, then the number of success follows approximately a Poisson distribution with mass function
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
 \end{align*}\]</span>
 where <span class="math inline">\(\Gamma(\cdot)\)</span> denotes the gamma function. The parameter <span class="math inline">\(\lambda\)</span> of the Poisson distribution is both the expectation and the variance of the distribution, meaning <span class="math inline">\(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\)</span>.</p>
 </div>
-ffalse{-91-78-101-103-97-116-105-118-101-32-98-105-110-111-109-105-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:negbindist" class="example"><strong>Example A.6  \iffalse (Negative binomial distribution)  </strong></span>The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> until we obtain <span class="math inline">\(m\)</span> success. Let <span class="math inline">\(Y\)</span> denote the number of failures: the order of success and failure doesn’t matter, but for the latest trial which is a success. The mass function is thus
+<p><span id="exm:negbindist" class="example"><strong>Example A.6  (Negative binomial distribution) </strong></span>The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success <span class="math inline">\(\pi\)</span> until we obtain <span class="math inline">\(m\)</span> success. Let <span class="math inline">\(Y\)</span> denote the number of failures: the order of success and failure doesn’t matter, but for the latest trial which is a success. The mass function is thus
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y)= \binom{m-1+y}{y} \pi^m (1-\pi)^{y}.
 \end{align*}\]</span></p>
 <p>The negative binomial distribution also appears as the unconditional distribution of a two-stage hierarchical gamma-Poisson model, in which the mean of the Poisson distribution is random and follows a gamma distribution. In notation, this is <span class="math inline">\(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\)</span> and <span class="math inline">\(\Lambda\)</span> follows a gamma distribution with shape <span class="math inline">\(r\)</span> and scale <span class="math inline">\(\theta\)</span>, whose density is <span class="math display">\[f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\]</span> The unconditional number of success is then negative binomial.</p>
-In the context of generalized linear models, we will employ yet another parametrisation of the distribution, with the mass function
+<p>In the context of generalized linear models, we will employ yet another parametrisation of the distribution, with the mass function
 <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r &gt;0,
 \end{align*}\]</span>
 where <span class="math inline">\(\Gamma\)</span> is the gamma function and the parameter <span class="math inline">\(r&gt;0\)</span> is not anymore integer valued. The expectation and variance of <span class="math inline">\(Y\)</span> are
-<span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, where <span class="math inline">\(k=1/r\)</span>. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.
+<span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, where <span class="math inline">\(k=1/r\)</span>. The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.</p>
 </div>
 </div>
-<div id="continuous-distributions" class="section level3" number="8.2.4">
-<h3><span class="header-section-number">A.2.4</span> Continuous distributions</h3>
+<div id="continuous-distributions" class="section level3 hasAnchor" number="8.2.4">
+<h3><span class="header-section-number">A.2.4</span> Continuous distributions<a href="complement.html#continuous-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.</p>
-ffalse{-91-78-111-114-109-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:normaldist" class="example"><strong>Example A.7  \iffalse (Normal distribution)  </strong></span>The normal distribution is ubiquitous in statistics because of the <a href="CLT">central limit theorem</a>. A random variable <span class="math inline">\(Y\)</span> follows a normal distribution if its density function is
+<p><span id="exm:normaldist" class="example"><strong>Example A.7  (Normal distribution) </strong></span>The normal distribution is ubiquitous in statistics because of the <a href="CLT">central limit theorem</a>. A random variable <span class="math inline">\(Y\)</span> follows a normal distribution if its density function is
 <span class="math display">\[\begin{align*}
 f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
 \end{align*}\]</span>
@@ -420,16 +411,14 @@ The parameters <span class="math inline">\(\mu\)</span> and <span class="math in
 <span class="math display">\[\begin{align*}
 f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}\]</span></p>
-The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations, whereas <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of <span class="math inline">\(\boldsymbol{Y}\)</span>. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.
+<p>The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations, whereas <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of <span class="math inline">\(\boldsymbol{Y}\)</span>. A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.</p>
 </div>
-ffalse{-91-67-104-105-45-115-113-117-97-114-101-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:chisqdist" class="example"><strong>Example A.8  \iffalse (Chi-square distribution)  </strong></span>The chi-square distribution arises as null distribution of likelihood-based test. If <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\)</span>, i.e., all components are independent and centered <span class="math inline">\(Y_i \sim \mathsf{No}(0, 1)\)</span>, then <span class="math inline">\(\sum_{i=1}^p Y_i^2\)</span> follows a chi-square distribution with <span class="math inline">\(p\)</span> degrees of freedom, denote <span class="math inline">\(\chi^2_p\)</span>. The square of a standard normal variate likewise follows a <span class="math inline">\(\chi^2_1\)</span> distribution.</p>
+<p><span id="exm:chisqdist" class="example"><strong>Example A.8  (Chi-square distribution) </strong></span>The chi-square distribution arises as null distribution of likelihood-based test. If <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\)</span>, i.e., all components are independent and centered <span class="math inline">\(Y_i \sim \mathsf{No}(0, 1)\)</span>, then <span class="math inline">\(\sum_{i=1}^p Y_i^2\)</span> follows a chi-square distribution with <span class="math inline">\(p\)</span> degrees of freedom, denote <span class="math inline">\(\chi^2_p\)</span>. The square of a standard normal variate likewise follows a <span class="math inline">\(\chi^2_1\)</span> distribution.</p>
 <p>If we consider a sample of <span class="math inline">\(n\)</span> normally distributed observations, the sample variance <span class="math inline">\((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\)</span>.</p>
 </div>
-ffalse{-91-83-116-117-100-101-110-116-45-36-116-36-32-100-105-115-116-114-105-98-117-116-105-111-110-93-}
 <div class="example">
-<p><span id="exm:studentdist" class="example"><strong>Example A.9  \iffalse (Student-<span class="math inline">\(t\)</span> distribution)  </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
+<p><span id="exm:studentdist" class="example"><strong>Example A.9  (Student-$t$ distribution) </strong></span>If <span class="math inline">\(X \sim \mathsf{No}(0,1)\)</span> independent of <span class="math inline">\(Y \sim \chi^{2}_\nu\)</span>, then
 <span class="math display">\[\begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
 \end{align*}\]</span>
@@ -439,11 +428,11 @@ f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2
 \sqrt{\nu\pi}}\left(1+\frac{y^{2}}{\nu}\right)^{-\frac{\nu+1}{2}}
 \end{align*}\]</span>
 the distribution has polynomial tails, is symmetric around <span class="math inline">\(0\)</span> and unimodal. As <span class="math inline">\(\nu \to \infty\)</span>, the Student distribution converges to a normal distribution. It has heavier tails than the normal distribution and only the first <span class="math inline">\(\nu-1\)</span> moments of the distribution exist, so a Student distribution with <span class="math inline">\(\nu=2\)</span> degrees of freedom has infinite variance.</p>
-For normally distributed data, the centered sample mean divided by the sample variance, <span class="math inline">\((\overline{Y}-\mu)/S^2\)</span> follows a Student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom, which explains the terminology <span class="math inline">\(t\)</span>-tests.
+<p>For normally distributed data, the centered sample mean divided by the sample variance, <span class="math inline">\((\overline{Y}-\mu)/S^2\)</span> follows a Student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom, which explains the terminology <span class="math inline">\(t\)</span>-tests.</p>
 </div>
 </div>
-<div id="diagramme-qq" class="section level3" number="8.2.5">
-<h3><span class="header-section-number">A.2.5</span> Quantiles-quantiles plots</h3>
+<div id="diagramme-qq" class="section level3 hasAnchor" number="8.2.5">
+<h3><span class="header-section-number">A.2.5</span> Quantiles-quantiles plots<a href="complement.html#diagramme-qq" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent. Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if <span class="math inline">\(Y\)</span> is a continuous random variable with distribution function <span class="math inline">\(F\)</span>, then the mapping <span class="math inline">\(F(Y) \sim \mathsf{U}(0,1)\)</span> yields uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from <span class="math inline">\(F\)</span>, viz. <span class="math inline">\(F^{-1}(U)\)</span>. Consider then a random sample of size <span class="math inline">\(n\)</span> from the uniform distribution ordered from smallest to largest, with <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}\)</span>. One can show these ranks have marginally a Beta distribution, <span class="math inline">\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\)</span> with expectation <span class="math inline">\(k/(n+1)\)</span>.</p>
 <p>In practice, we don’t know <span class="math inline">\(F\)</span> and, even if we did, one would need to estimate the parameters. We consider some estimator <span class="math inline">\(\widehat{F}\)</span> for the model and apply the inverse transform to an approximate uniform sample <span class="math inline">\(\{i/(n+1)\}_{i=1}^n\)</span>. The quantile-quantile plot shows the data as a function of the (first moment) of the transformed order statistics:</p>
 <ul>
@@ -468,14 +457,14 @@ Figure A.2: Normal quantile-quantile plot (left) and Tukey’s mean different pl
 <p>Interpretation of quantile-quantile plots requires practice and experience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">this post by <em>Glen_b</em> on StackOverflow</a> nicely summarizes what can be detected (or not) from them.</p>
 </div>
 </div>
-<div id="law-large-numbers" class="section level2" number="8.3">
-<h2><span class="header-section-number">A.3</span> Laws of large numbers</h2>
+<div id="law-large-numbers" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">A.3</span> Laws of large numbers<a href="complement.html#law-large-numbers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>An estimator for a parameter <span class="math inline">\(\theta\)</span> is <strong>consistent</strong> if the value obtained as the sample size increases (to infinity) converges to the true value of <span class="math inline">\(\theta\)</span>. Mathematically speaking, this translates into convergence in probability, meaning <span class="math inline">\(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta\)</span>. In common language, we say that the probability that <span class="math inline">\(\hat{\theta}\)</span> and <span class="math inline">\(\theta\)</span> differ becomes negligible as <span class="math inline">\(n\)</span> gets large.</p>
 <p>Consistency is the <em>a minima</em> requirement for an estimator: when we collect more information, we should approach the truth. The law of large number states that the sample mean of <span class="math inline">\(n\)</span> (independent) observations with common mean <span class="math inline">\(\mu\)</span>, say <span class="math inline">\(\overline{Y}_n\)</span>, converges to <span class="math inline">\(\mu\)</span>, denoted <span class="math inline">\(\overline{Y}_n \rightarrow \mu\)</span>. Roughly speaking, our approximation becomes less variable and asymptotically unbiased as the sample size (and thus the quantity of information available for the parameter) increases. The law of large number is featured in Monte Carlo experiments: we can approximate the expectation of some (complicated) function <span class="math inline">\(g(x)\)</span> by simulating repeatedly independent draws from <span class="math inline">\(Y\)</span> and calculating the sample mean <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i)\)</span>.</p>
 <p>If the law of large number tells us what happens in the limit (we get a single numerical value), the result doesn’t contain information about the rate of convergence and the uncertainty at finite levels.</p>
 </div>
-<div id="CLT" class="section level2" number="8.4">
-<h2><span class="header-section-number">A.4</span> Central Limit Theorem</h2>
+<div id="CLT" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">A.4</span> Central Limit Theorem<a href="complement.html#CLT" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The central limit theorem gives the approximate large sample distribution of the sample mean. Consider a random sample of size <span class="math inline">\(n\)</span> <span class="math inline">\(\{Y_i\}_{i=1}^n\)</span> of independent random variables with common expectation <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. The sample mean <span class="math inline">\(\overline{Y} = n^{-1}\sum_{i=1}^n Y_i\)</span> converges to <span class="math inline">\(\mu\)</span> by the law of large number, but we also have that</p>
 <ul>
 <li>the estimator <span class="math inline">\(\overline{Y}\)</span> is centered around <span class="math inline">\(\mu\)</span>,</li>
@@ -562,7 +551,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

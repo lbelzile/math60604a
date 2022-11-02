@@ -6,10 +6,6 @@
   11pt,
   letterpaper,
 ]{book}
-\title{Statistical Modelling}
-\author{}
-\date{\vspace{-2.5em}}
-
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -39,13 +35,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Statistical Modelling},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -231,6 +220,17 @@
 \fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike2}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Statistical Modelling},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Statistical Modelling}
+\author{}
+\date{\vspace{-2.5em}}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -262,7 +262,7 @@
 \chapter*{Preliminary remarks}\label{preliminary-remarks}}
 \addcontentsline{toc}{chapter}{Preliminary remarks}
 
-These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2022-02-10.
+These notes by Léo Belzile (HEC Montréal) are licensed under a \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License} and were last compiled on 2022-11-02.
 
 While we show how to implement statistical tests and models in \textbf{SAS} in class, these note will illustrate the concepts using \textbf{R}: visit \href{https://cran.r-project.org/}{the R-project website} to download the program. The most popular graphical cross-platform front-end is \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -469,13 +469,13 @@ The level \(\alpha\) is fixed beforehand, typically \(1\)\%, \(5\)\% or \(10\)\%
 The focus on type I error is best understood by thinking about medical trial: you need to prove a new cure is better than existing alternatives drugs or placebo, to avoid extra costs or harming patients (think of Didier Raoult and his unsubstantiated claims that hydrochloroquine, an antipaludean drug, should be recommended treatment against Covid19).
 
 \begin{longtable}[]{@{}lcc@{}}
-\toprule
+\toprule()
 \textbf{Decision} \textbackslash{} \textbf{true model} & \(\mathscr{H}_0\) & \(\mathscr{H}_a\) \\
-\midrule
+\midrule()
 \endhead
 fail to reject \(\mathscr{H}_0\) & \(\checkmark\) & type II error \\
 reject \(\mathscr{H}_0\) & type I error & \(\checkmark\) \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 To make a decision, we compare our \emph{p}-value \(P\) with the level of the test \(\alpha\):
@@ -577,10 +577,8 @@ Before the interval is calculated, there is a \(1-\alpha\) probability that \(\t
 
 If we are only interested in the binary decision rule reject/fail to reject \(\mathscr{H}_0\), the confidence interval is equivalent to a \emph{p}-value since it leads to the same conclusion. Whereas the \(1-\alpha\) confidence interval gives the set of all values for which the test statistic doesn't provide enough evidence to reject \(\mathscr{H}_0\) at level \(\alpha\), the \emph{p}-value gives the probability under the null of obtaning a result more extreme than the postulated value and so is more precise for this particular value. If the \emph{p}-value is smaller than \(\alpha\), our null value \(\theta\) will be outside of the confidence interval and vice-versa.
 
-\begin{example}{}
-ffalse\{-91-79-110-108-105-110-101-32-112-117-114-99-104-97-115-101-115-32-111-102-32-109-105-108-108-101-110-105-97-108-115-93-\}\fi{}
-\protect\hypertarget{exm:achats-milleniaux}{}{\label{exm:achats-milleniaux} \textbackslash iffalse (Online purchases of millenials) \fi{} }
-Suppose a researcher studies the evolution of online sales in Canada. She postulates that generation Y members make more online purchase than older generations. A survey is sent to a simple random sample of \(n=500\) individuals from the population with 160 members of generation Y and 340 older people. The response ariable is the total amount of online goods purchased in the previous month (in dollars).
+\begin{example}[Online purchases of millenials]
+\protect\hypertarget{exm:achats-milleniaux}{}\label{exm:achats-milleniaux}Suppose a researcher studies the evolution of online sales in Canada. She postulates that generation Y members make more online purchase than older generations. A survey is sent to a simple random sample of \(n=500\) individuals from the population with 160 members of generation Y and 340 older people. The response ariable is the total amount of online goods purchased in the previous month (in dollars).
 \end{example}
 
 In this example, we consider the difference between the average amount spent by Y members and those of previous generations: the mean difference in the samples is -16.49 dollars and thus millenials spend more. However, this in itself is not enough to conclude that the different is significative, nor can we say it is meaningful. The amount spent online varies from one individual to the next (and plausibly from month to month), and so different random samples would yield different mean differences.
@@ -596,9 +594,8 @@ The third step consists in obtaining a benchmark to determine if our result is e
 
 It only remains to compute the \emph{p}-value. If the null distribution is well-specified and \(\mathscr{H}_0\) is true, then the random variable \(P\) is uniform on \([0, 1]\); we thus expect to obtain under the null something larger than 0.95 only 5\% of the time for our one-sided alternative since we consider under \(\mathscr{H}_0\) the event \(\mathsf{Pr}(T > t)\). The \(p\)-value is \(1\) and, at level 5\%, we reject the null hypothesis to conclude that millenials spend significantly than previous generation for monthly online purchases, with an estimated average difference of -16.49.
 
-\begin{example}{}
-ffalse\{-91-80-114-105-99-101-32-111-102-32-83-112-97-110-105-115-104-32-104-105-103-104-32-115-112-101-101-100-32-116-114-97-105-110-32-116-105-99-107-101-116-115-93-\}\fi{}
-\protect\hypertarget{exm:price-trains-tests}{}{\label{exm:price-trains-tests} \textbackslash iffalse (Price of Spanish high speed train tickets) \fi{} }The Spanish national railway company, \href{https://www.renfe.com/}{Renfe}, manages regional and high speed train tickets all over Spain and The Gurus \href{https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing}{harvested} the price of tickets sold by Renfe. We are interested in trips between Madrid and Barcelona and, for now, ask the question: are tickets more expensive one way or another? To answer this, we consider a sample of 10000 tickets, but restrict attention to AVE tickets sold at Promo rate. Our test statistic will again be the mean difference between the price (in euros) for a train ticket for Madrid--Barcelona (\(\mu_1\)) and the price for Barcelona--Madrid (\(\mu_2\)), i.e., \(\mu_1-\mu_2\). The null hypothesis is that there are no difference in price, so \(\mathscr{H}_0: \mu_1-\mu_2=0\).
+\begin{example}[Price of Spanish high speed train tickets]
+\protect\hypertarget{exm:price-trains-tests}{}\label{exm:price-trains-tests}The Spanish national railway company, \href{https://www.renfe.com/}{Renfe}, manages regional and high speed train tickets all over Spain and The Gurus \href{https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing}{harvested} the price of tickets sold by Renfe. We are interested in trips between Madrid and Barcelona and, for now, ask the question: are tickets more expensive one way or another? To answer this, we consider a sample of 10000 tickets, but restrict attention to AVE tickets sold at Promo rate. Our test statistic will again be the mean difference between the price (in euros) for a train ticket for Madrid--Barcelona (\(\mu_1\)) and the price for Barcelona--Madrid (\(\mu_2\)), i.e., \(\mu_1-\mu_2\). The null hypothesis is that there are no difference in price, so \(\mathscr{H}_0: \mu_1-\mu_2=0\).
 \end{example}
 
 \begin{table}
@@ -770,9 +767,8 @@ Scatterplots are used to represent graphically the co-variation between two cont
 
 Rather than describe in details the exploratory analysis procedure, we proceed with an example that illustrates the process on the Renfe ticket dataset that was introduced previously.
 
-\begin{example}{}
-ffalse\{-91-69-120-112-108-111-114-97-116-111-114-121-32-100-97-116-97-32-97-110-97-108-121-115-105-115-32-111-102-32-82-101-110-102-101-32-116-105-99-107-101-116-115-93-\}\fi{}
-\protect\hypertarget{exm:renfe-aed}{}{\label{exm:renfe-aed} \textbackslash iffalse (Exploratory data analysis of Renfe tickets) \fi{} }First, read the documentation accompanying the dataset! The data base \texttt{renfe} contains the following variables:
+\begin{example}[Exploratory data analysis of Renfe tickets]
+\protect\hypertarget{exm:renfe-aed}{}\label{exm:renfe-aed}First, read the documentation accompanying the dataset! The data base \texttt{renfe} contains the following variables:
 \end{example}
 
 \begin{itemize}
@@ -1159,15 +1155,13 @@ What does the solution to the least squares problem represent in two dimensions?
 \caption{Illustration of ordinary residuals added to the regression line (blue vectors).}\label{fig:distancevert}
 \end{figure}
 
-\begin{remark}{}
-ffalse\{-91-71-101-111-109-101-116-114-121-32-111-102-32-108-101-97-115-116-32-115-113-117-97-114-101-115-93-\}\fi{}
-\textbackslash iffalse\{\} {Remark (Geometry of least squares). } \fi{}If we consider the \(n\) observations as a (column) vector, the term \(\mathbf{X} \widehat{\boldsymbol{\beta}}\) is the projection of the response vector \(\boldsymbol{y}\) on the linear span generated by the columns of \(\mathbf{X}\), \(\mathscr{S}_{\mathbf{X}}\). The ordinary residuals are thus orthogonal to \(\mathscr{S}_{\mathbf{X}}\) and to the fitted values, meaning \(\boldsymbol{e}^\top\widehat{\boldsymbol{y}}=0\).
+\begin{remark}[Geometry of least squares]
+If we consider the \(n\) observations as a (column) vector, the term \(\mathbf{X} \widehat{\boldsymbol{\beta}}\) is the projection of the response vector \(\boldsymbol{y}\) on the linear span generated by the columns of \(\mathbf{X}\), \(\mathscr{S}_{\mathbf{X}}\). The ordinary residuals are thus orthogonal to \(\mathscr{S}_{\mathbf{X}}\) and to the fitted values, meaning \(\boldsymbol{e}^\top\widehat{\boldsymbol{y}}=0\).
 A direct consequence of this fact is that the linear correlation between \(\boldsymbol{e}\) and \(\widehat{\boldsymbol{y}}\) is zero; we will use this property to build graphical diagnostics.
 \end{remark}
 
-\begin{remark}{}
-ffalse\{-91-67-111-109-112-108-101-120-105-116-121-32-111-102-32-111-114-100-105-110-97-114-121-32-108-101-97-115-116-32-115-113-117-97-114-101-115-93-\}\fi{}
-\textbackslash iffalse\{\} {Remark (Complexity of ordinary least squares). } \fi{}This is an aside: in machine learning, you will often encounter linear models fitted using a (stochastic) gradient descent algorithm. Unless your sample size \(n\) or the number of covariates \(p\) is significant (think at the Google scale), an approximate should not be prefered to the exact solution! From a numerical perspective, obtaining the least square estimates requires inverting a \((p+1) \times (p+1)\) matrix \(\mathbf{X}^\top\mathbf{X}\), which is the most costly operation. In general, direct inversion should be avoided because it is not the most numerically stable way of obtaining the solution. \textbf{R} uses the QR decomposition, which has a complexity of \(\mathrm{O}(np^2)\). Another more stable alternative, which has the same complexity but is a bit more costly is use of a singular value decomposition.
+\begin{remark}[Complexity of ordinary least squares]
+This is an aside: in machine learning, you will often encounter linear models fitted using a (stochastic) gradient descent algorithm. Unless your sample size \(n\) or the number of covariates \(p\) is significant (think at the Google scale), an approximate should not be prefered to the exact solution! From a numerical perspective, obtaining the least square estimates requires inverting a \((p+1) \times (p+1)\) matrix \(\mathbf{X}^\top\mathbf{X}\), which is the most costly operation. In general, direct inversion should be avoided because it is not the most numerically stable way of obtaining the solution. \textbf{R} uses the QR decomposition, which has a complexity of \(\mathrm{O}(np^2)\). Another more stable alternative, which has the same complexity but is a bit more costly is use of a singular value decomposition.
 \end{remark}
 
 Any good software will calculate ordinary least square estimates for you. Keep in mind that there is an explicit and unique solution provided your model matrix \(\mathbf{X}\) doesn't contain collinear columns. If you have more than one explanatory variable, the fitted values lie on a hyperplan (which is hard to represent graphically). Mastering the language and technical term (fitted values, ordinary residuals, etc.) is necessary for the continuation.
@@ -1244,9 +1238,8 @@ Y=\beta_0+ \beta_1 \mathrm{X}+ \beta_2 \mathrm{X}^2 + \ldots +\beta_k \mathrm{X}
 \end{align*}
 If we include a term of order \(k\), \(\mathrm{X}^k\), we must \emph{always} include the lower order terms \(1, \mathrm{X}, \ldots, \mathrm{X}^{k-1}\) to make sure the resulting model is interpretable (otherwise, it amounts to a particular class of polynomials with some zero coefficients). Interpreting nonlinear effects (even polynomials, for which \(k\leq 3\) in practice), is complicated because the effect of an increase of one unit of \(\mathrm{X}\) \emph{depends of the value of the latter}.
 
-\begin{example}{}
-ffalse\{-91-65-117-116-111-32-100-97-116-97-93-\}\fi{}
-\protect\hypertarget{exm:auto}{}{\label{exm:auto} \textbackslash iffalse (Auto data) \fi{} }We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the \texttt{auto} dataset. The postulated model,
+\begin{example}[Auto data]
+\protect\hypertarget{exm:auto}{}\label{exm:auto}We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the \texttt{auto} dataset. The postulated model,
 \[
 \texttt{mpg}_i = \beta_0 + \beta_1 \texttt{horsepower}_i + \beta_2 \texttt{horsepower}_i^2 + \varepsilon_i,
 \]
@@ -1275,16 +1268,14 @@ The representation in Figure \ref{fig:autoquad2d} may seem counter-intuitive giv
 \caption{3D graphical representation of the linear regression model for the $\texttt{auto}$ data.}\label{fig:hyperplan}
 \end{figure}
 
-\begin{remark}{}
-ffalse\{-91-84-104-101-114-101-32-97-114-101-32-98-101-116-116-101-114-32-97-108-116-101-114-110-97-116-105-118-101-115-32-116-111-32-112-111-108-121-110-111-109-105-97-108-115-32-102-111-114-32-109-111-100-101-108-108-105-110-103-32-110-111-110-108-105-110-101-97-114-32-101-102-102-101-99-116-115-93-\}\fi{}
-\textbackslash iffalse\{\} {Remark (There are better alternatives to polynomials for modelling nonlinear effects). } \fi{}Generally speaking, one uses flexible basis vectors (splines) rather than polynomials for smoothing when the relation between the response \(Y\) and an explanatory variable \(\mathrm{X}\) is nonlinear; one then adds a penalty term to prevent overfitting and control the wiggliness. A better (physical) understanding of the system, or a theoretical model can also guide the choice of functional form to use.
+\begin{remark}[There are better alternatives to polynomials for modelling nonlinear effects]
+Generally speaking, one uses flexible basis vectors (splines) rather than polynomials for smoothing when the relation between the response \(Y\) and an explanatory variable \(\mathrm{X}\) is nonlinear; one then adds a penalty term to prevent overfitting and control the wiggliness. A better (physical) understanding of the system, or a theoretical model can also guide the choice of functional form to use.
 \end{remark}
 
 The coefficient \(\beta_j\) in Eq. \eqref{eq:linearreg} represents the \emph{marginal} contribution of \(\mathrm{X}_j\) when all the other covariates are included in the model and which is not explained by them. This can be represented graphically by projecting \(Y\) and \(\mathrm{X}_j\) in the orthogonal complement of \(\mathbf{X}_{-j}\) (the matrix containing all but the \(j\)th column \(\mathrm{X}_j\)). The \textbf{added-variable plot} is a graphical tool showing this projection: the residuals from the linear regression of \(Y\) onto \(\mathscr{S}(\mathbf{X}_{-j})\) are mapped to the \(y\)-axis, whereas the residuals from the linear regression of \(\mathrm{X}_j\) as a function of \(\mathbf{X}_{-j}\) are shown on the \(x\)-axis. The regression line passes through (\(0,0\)) and its slope is \(\widehat{\beta}_j\). This graphical diagnostic is useful for detecting collinearity and the impact of outliers.
 
-\begin{example}{}
-ffalse\{-91-87-97-103-101-32-105-110-101-113-117-97-108-105-116-121-32-105-110-32-97-110-32-65-109-101-114-105-99-97-110-32-99-111-108-108-101-103-101-93-\}\fi{}
-\protect\hypertarget{exm:inequite-salariale}{}{\label{exm:inequite-salariale} \textbackslash iffalse (Wage inequality in an American college) \fi{} }We consider a multiple regression model for the \texttt{college} data that includes sex, academic rank, field of study and the number of years of service as regressors.
+\begin{example}[Wage inequality in an American college]
+\protect\hypertarget{exm:inequite-salariale}{}\label{exm:inequite-salariale}We consider a multiple regression model for the \texttt{college} data that includes sex, academic rank, field of study and the number of years of service as regressors.
 \end{example}
 
 If we multiply \(\texttt{salary}\) by a thousand to get the resulting estimates in US dollars, the postulated model is
@@ -1702,9 +1693,8 @@ to see how (and to what extent) the predictor variables explain the behaviour of
 
 Whatever the method, it's important to understand that it can be very difficult (and sometimes impossible) to isolate the individual effect of a predictor variable strongly correlated with other predictors.
 
-\begin{example}{}
-ffalse\{-91-67-111-108-108-105-110-101-97-114-105-116-121-32-105-110-32-116-104-101-32-36-92-116-101-120-116-116-116-123-99-111-108-108-101-103-101-125-36-32-100-97-116-97-93-\}\fi{}
-\protect\hypertarget{exm:collegedatcollinear}{}{\label{exm:collegedatcollinear} \textbackslash iffalse (Collinearity in the \(\texttt{college}\) data) \fi{} }We consider the \texttt{college} data analysis and include all the covariates in the database, including \texttt{years}, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, \texttt{service} and \texttt{years} is \texttt{r\ cor(college\$service,\ college\$years)}. The variance inflation factor for the five covariates
+\begin{example}[Collinearity in the $\texttt{college}$ data]
+\protect\hypertarget{exm:collegedatcollinear}{}\label{exm:collegedatcollinear}We consider the \texttt{college} data analysis and include all the covariates in the database, including \texttt{years}, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, \texttt{service} and \texttt{years} is \texttt{r\ cor(college\$service,\ college\$years)}. The variance inflation factor for the five covariates
 
 For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor \citep{Fox:1992}. Here, we are interested in gender disparities, so the fact that both service and field are
 strongly correlated is not problematic, since the \(\mathsf{VIF}\) for \(\texttt{sex}\) is not high and the other variables are there to act as control and avoid confounders.
@@ -1940,9 +1930,8 @@ Quantile-quantile plots are discussed in Section \ref{diagramme-qq}, but their i
 \caption{Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed  (top right), skewed (bottom left) and bimodal data (bottom right).}\label{fig:qqplotsbad}
 \end{figure}
 
-\begin{example}{}
-ffalse\{-91-68-105-97-103-110-111-115-116-105-99-32-112-108-111-116-115-32-102-111-114-32-116-104-101-32-36-92-116-101-120-116-116-116-123-99-111-108-108-101-103-101-125-36-32-100-97-116-97-46-93-\}\fi{}
-\protect\hypertarget{exm:diagplotcollege}{}{\label{exm:diagplotcollege} \textbackslash iffalse (Diagnostic plots for the \(\texttt{college}\) data.) \fi{} }We can look at the \texttt{college} data to see if the linear model assumptions hold.
+\begin{example}[Diagnostic plots for the $\texttt{college}$ data.]
+\protect\hypertarget{exm:diagplotcollege}{}\label{exm:diagplotcollege}We can look at the \texttt{college} data to see if the linear model assumptions hold.
 \end{example}
 
 \begin{figure}
@@ -2006,8 +1995,7 @@ and thus we can rearrange the expression so that
 this is a partial \textbf{elasticity}, so \(\beta_1\) is interpreted as a \(\beta_1\) percentage change in \(Y\) for each percentage increase of \(\mathrm{X}_1\), \emph{ceteris paribus}.
 
 \begin{example}
-\protect\hypertarget{exm:poisonboxcox}{}{\label{exm:poisonboxcox} }
-The paper of Box and Cox consider survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of \citet{SM:2008}. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
+\protect\hypertarget{exm:poisonboxcox}{}\label{exm:poisonboxcox}The paper of Box and Cox consider survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of \citet{SM:2008}. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
 
 We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form
 \begin{align*}
@@ -2065,7 +2053,7 @@ Several properties of maximum likelihood estimator makes it appealing for infere
 The \textbf{score function} \(U(\boldsymbol{\theta}; \boldsymbol{y}) = \partial \ell(\boldsymbol{\theta}; \boldsymbol{y})/ \partial \boldsymbol{\theta}\) is the gradient of the log likelihood function and, under regularity conditions, the maximum likelihood estimator solves \(U(\boldsymbol{\theta}; \boldsymbol{Y})=\boldsymbol{0}_p\). This property can be used to derive gradient-based algorithms for optimization and for verifying that the solution found is a global maximum.
 
 \begin{remark}
-\textbackslash iffalse\{\} {Remark. } \fi{}While least squares admit a closed-form solution, the maximum of the log likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
+While least squares admit a closed-form solution, the maximum of the log likelihood is generally found numerically by solving the score equation. The algorithms used in most software are reliable and efficient for regression models we consider in this course. However, for more complex models, like generalized linear mixed models, the convergence of optimization algorithms is oftentimes problematic and scrutiny is warranted.
 \end{remark}
 
 The \textbf{observed information matrix} is the hessian \(j(\boldsymbol{\theta}; \boldsymbol{y})=-\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})/\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top\) evaluated at the maximum likelihood estimate \(\widehat{\boldsymbol{\theta}}\).
@@ -2077,9 +2065,8 @@ The Fisher (or expected) and observed information matrices encodes the curvature
 
 The properties of the log likelihood are particularly convenient for inference because they provide omnibus testing procedures that have a known asymptotic distribution. The starting point for the distributional theory surrounding likelihood-based statistics is the asymptotic normality of the score \(U(\boldsymbol{\theta}) \stackrel{\cdot}{\sim}\mathsf{No}(0, i(\boldsymbol{\theta}))\), which follows from a central limit theorem. The variance of \(U(\boldsymbol{\theta}_0)\) is exactly \(i(\boldsymbol{\theta}_0)\), while that of \(\widehat{\boldsymbol{\theta}}\) is approximately \(i(\boldsymbol{\theta}_0)^{-1}\) under the null hypothesis \(\mathscr{H}_0\). This result is particularly useful: we often use the inverse of the observed information as estimate of the covariance matrix of the maximum likelihood estimator. To obtain the standard errors of \(\widehat{\boldsymbol{\theta}}\), one simple computes the square root of the diagonal elements of the inverse of the observed information, i.e., \([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\).
 
-\begin{example}{}
-ffalse\{-91-69-120-112-111-110-101-110-116-105-97-108-32-109-111-100-101-108-32-102-111-114-32-119-97-105-116-105-110-103-32-116-105-109-101-115-32-111-102-32-116-104-101-32-77-111-110-116-114-101-97-108-32-109-101-116-114-111-93-\}\fi{}
-\protect\hypertarget{exm:waitingtime}{}{\label{exm:waitingtime} \textbackslash iffalse (Exponential model for waiting times of the Montreal metro) \fi{} }Consider the waiting time \(Y\) between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate \(\theta\), denoted \(Y \sim \mathsf{E}(\theta)\). The purpose of statistical inference is to use the information from a random sample of size \(n\) to estimate the unknown parameter \(\theta\). The density of \(Y\) evaluated at \(y\), \(f(y; \theta)=\theta\exp(-\theta y)\), encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing \(y_1, \ldots, y_n\) is the product of probabilities of individual events. The likelihood is thus
+\begin{example}[Exponential model for waiting times of the Montreal metro]
+\protect\hypertarget{exm:waitingtime}{}\label{exm:waitingtime}Consider the waiting time \(Y\) between consecutive subways arriving at Station Édouard-Montpetit on the blue line in Montreal during rush hour. We postulate that these waiting times follow an exponential distribution with rate \(\theta\), denoted \(Y \sim \mathsf{E}(\theta)\). The purpose of statistical inference is to use the information from a random sample of size \(n\) to estimate the unknown parameter \(\theta\). The density of \(Y\) evaluated at \(y\), \(f(y; \theta)=\theta\exp(-\theta y)\), encodes the probability of the observed waiting time for a given parameter value and, if the records are independent, the probability of observing \(y_1, \ldots, y_n\) is the product of probabilities of individual events. The likelihood is thus
 \begin{align*}
 L(\theta; \boldsymbol{y}) &= \prod_{i=1}^n f(y; \theta)= \prod_{i=1}^n\theta\exp(-\theta y_i),\\
 \ell(\theta; \boldsymbol{y}) & = n\ln(\theta) - \theta\sum_{i=1}^n y_i
@@ -2102,9 +2089,8 @@ Solving for \(\theta\) gives \(\widehat{\theta} = \overline{y}^{-1}\), so the ma
 
 For the sample of waiting time in the subway, the maximum likelihood estimate of \(\theta\) is \(\widehat{\theta}=0.327\), the observed information is \(j(\widehat{\theta})=i(\widehat{\theta})=0.467\) and the standard error of \(\widehat{\theta}\) is \(j(\widehat{\theta})^{-1/2}=1.463\).
 
-\begin{example}{}
-ffalse\{-91-78-111-114-109-97-108-32-115-97-109-112-108-101-115-32-97-110-100-32-111-114-100-105-110-97-114-121-32-108-101-97-115-116-32-115-113-117-97-114-101-115-93-\}\fi{}
-\protect\hypertarget{exm:normal}{}{\label{exm:normal} \textbackslash iffalse (Normal samples and ordinary least squares) \fi{} }Suppose we have an independent normal sample of size \(n\) with mean \(\mu\) and variance \(\sigma^2\), where
+\begin{example}[Normal samples and ordinary least squares]
+\protect\hypertarget{exm:normal}{}\label{exm:normal}Suppose we have an independent normal sample of size \(n\) with mean \(\mu\) and variance \(\sigma^2\), where
 \(Y_i \sim \mathsf{No}(\mu, \sigma^2)\) are independent.
 Recall that the density of the normal distribution is
 \begin{align*}
@@ -2261,9 +2247,8 @@ The maximum profile likelihood estimator behaves like a regular likelihood for m
 \caption{Two-dimensional log likelihood surface with a parameter of interest $\psi$ and a nuisance parameter $\varphi$; the contour plot shows area of higher likelihood, and the black line is the profile log likelihood, also shown as a function of $\psi$ on the right panel.}\label{fig:profile3d}
 \end{figure}
 
-\begin{example}{}
-ffalse\{-91-66-111-120-45-45-67-111-120-32-116-114-97-110-115-102-111-114-109-97-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:boxcox}{}{\label{exm:boxcox} \textbackslash iffalse (Box--Cox transformation) \fi{} }Sometimes, the assumption of normality of the error doesn't hold. If the data are strictly positive, one can consider a Box--Cox transformation,
+\begin{example}[Box--Cox transformation]
+\protect\hypertarget{exm:boxcox}{}\label{exm:boxcox}Sometimes, the assumption of normality of the error doesn't hold. If the data are strictly positive, one can consider a Box--Cox transformation,
 \begin{align*}
 y_i(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
@@ -2430,9 +2415,8 @@ weight. The mean of \(Y_i\), say \(\mu_i\), and the natural parameter
 is also an explicit relationship with the variance through
 \(V(\mu)=b''(\theta)\), unless \(V(\mu)=1\).
 
-\begin{example}{}
-ffalse\{-91-80-111-105-115-115-111-110-32-100-105-115-116-114-105-98-117-116-105-111-110-32-97-115-32-101-120-112-111-110-101-110-116-105-97-108-32-102-97-109-105-108-121-32-109-101-109-98-101-114-93-\}\fi{}
-\protect\hypertarget{exm:poissonglmexpf}{}{\label{exm:poissonglmexpf} \textbackslash iffalse (Poisson distribution as exponential family member) \fi{} }The mass function of the Poisson distribution is
+\begin{example}[Poisson distribution as exponential family member]
+\protect\hypertarget{exm:poissonglmexpf}{}\label{exm:poissonglmexpf}The mass function of the Poisson distribution is
 \begin{align*}
 f(y; \lambda) = \frac{\lambda^y \exp(-\lambda)}{y!} =\exp \left\{ y \ln
 (\lambda) -\lambda-\ln(y!)\right\}, \qquad y=0,1, \ldots
@@ -2441,9 +2425,8 @@ The natural parameter is \(\theta =\ln(\lambda)\), the dispersion
 parameter \(\phi=1\), and \(b(\theta)=\exp(\theta)\). Replacing these expressions in the mean-variance formulas, we get \(\mathsf{E}(Y)=\exp(\theta)=\mu\) and \(\mathsf{Va}(Y)=\exp(\theta)=\mu\), meaning \(V(\mu)=\mu\).
 \end{example}
 
-\begin{example}{}
-ffalse\{-91-66-105-110-111-109-105-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-32-97-115-32-109-101-109-98-101-114-32-111-102-32-116-104-101-32-101-120-112-111-110-101-110-116-105-97-108-32-102-97-109-105-108-121-93-\}\fi{}
-\protect\hypertarget{exm:binomialglmexpf}{}{\label{exm:binomialglmexpf} \textbackslash iffalse (Binomial distribution as member of the exponential family) \fi{} }We consider the mass function of a binomial distribution, \(\mathsf{Bin}(m, \pi)\), with the number of trials \(m\) known. The parametrization presented in Example \ref{exm:binomialdist} is not convenient because the mean and the variance both depend on \(m\). We consider thus a different parametrization in which \(Y\) represents the proportion of successes, so the mass function takes values in \(\{0, 1/m, \ldots, 1\}\) and \(mY\) denotes the number of successes. The mass function for \(Y\) is then
+\begin{example}[Binomial distribution as member of the exponential family]
+\protect\hypertarget{exm:binomialglmexpf}{}\label{exm:binomialglmexpf}We consider the mass function of a binomial distribution, \(\mathsf{Bin}(m, \pi)\), with the number of trials \(m\) known. The parametrization presented in Example \ref{exm:binomialdist} is not convenient because the mean and the variance both depend on \(m\). We consider thus a different parametrization in which \(Y\) represents the proportion of successes, so the mass function takes values in \(\{0, 1/m, \ldots, 1\}\) and \(mY\) denotes the number of successes. The mass function for \(Y\) is then
 \begin{align*}
 f(y, \pi)&=\exp \left\{ my \ln \left( \frac{\pi}{1-\pi} \right) + m \ln
 (1-\pi) + \ln \left[
@@ -2464,9 +2447,8 @@ with \(b(\theta) = \ln\{1+\exp(\theta)\}\) and \(\phi=m^{-1}\). The expectation 
 where \(V(\mu)=\mu(1-\mu)\).
 \end{example}
 
-\begin{example}{}
-ffalse\{-91-78-111-114-109-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-32-97-115-32-109-101-109-98-101-114-32-111-102-32-116-104-101-32-101-120-112-111-110-101-110-116-105-97-108-32-102-97-109-105-108-121-93-\}\fi{}
-\protect\hypertarget{exm:normalglmexpf}{}{\label{exm:normalglmexpf} \textbackslash iffalse (Normal distribution as member of the exponential family) \fi{} }We consider a sample consisting of independent normal observations, \(Y_i \sim \mathsf{No}(\mu_i, \sigma^2)\), with
+\begin{example}[Normal distribution as member of the exponential family]
+\protect\hypertarget{exm:normalglmexpf}{}\label{exm:normalglmexpf}We consider a sample consisting of independent normal observations, \(Y_i \sim \mathsf{No}(\mu_i, \sigma^2)\), with
 \begin{align*}
 f(y_i, \mu_i, \sigma^2)&= (2\pi\sigma^2)^{-1/2} \exp \left\{ -\frac{(y_i-\mu_i)}{2\sigma^2}\right\}
 \\&= \exp \left[ \frac{y\mu - \mu^2/2}{\sigma^2} - \frac{1}{2} \left\{ \frac{y^2}{\sigma^2} + \ln(2\pi\sigma^2)\right\} \right],
@@ -2522,10 +2504,8 @@ statistical properties: choosing the canonical link ensures that
 considerations, such as parameter constraints, can be more important in
 deciding on the choice of \(g\).
 
-\begin{example}{}
-ffalse\{-91-84-114-97-110-115-102-111-114-109-105-110-103-32-97-32-110-111-110-108-105-110-101-97-114-32-114-101-103-114-101-115-115-105-111-110-32-109-111-100-101-108-32-105-110-116-111-32-97-32-108-105-110-101-97-114-32-109-111-100-101-108-32-116-104-114-111-117-103-104-32-97-32-108-105-110-107-32-102-117-110-99-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:inverslinklm}{}{\label{exm:inverslinklm} \textbackslash iffalse (Transforming a nonlinear regression model into a linear model through a link function) \fi{} }
-Consider a linear model for which theory dictates that the mean should be \(Y \sim \mathsf{No}\{\alpha_0/(1+\alpha_1x), \sigma^2\}\).
+\begin{example}[Transforming a nonlinear regression model into a linear model through a link function]
+\protect\hypertarget{exm:inverslinklm}{}\label{exm:inverslinklm}Consider a linear model for which theory dictates that the mean should be \(Y \sim \mathsf{No}\{\alpha_0/(1+\alpha_1x), \sigma^2\}\).
 
 This model is nonlinear in \(\alpha_0\), \(\alpha_1\). If we opt for the reciprocal link function \(g(x)=1/x\), we get \(\beta_0+\beta_1 x\), where \(\beta_0 = 1/\alpha_0\) and \(\beta_1 = \alpha_1/\alpha_0\) provided \(\alpha_0 \neq 0\). Since the generalized linear model is estimated using maximum likelihood and the latter are invariant to reparametrization, we get easily the estimated coefficients of interest.
 \end{example}
@@ -2546,9 +2526,8 @@ the expected values \(\mu_i\), we can estimate \(\widehat{\mathbf{W}}\) by
 replacing the unknown coefficients by their maximum likelihood estimates
 at \(\widehat{\boldsymbol{\beta}}\).
 
-\begin{example}{}
-ffalse\{-91-69-108-101-109-101-110-116-115-32-111-102-32-116-104-101-32-119-101-105-103-104-116-32-109-97-116-114-105-120-32-102-111-114-32-80-111-105-115-115-111-110-32-100-97-116-97-93-\}\fi{}
-\protect\hypertarget{exm:weightpois}{}{\label{exm:weightpois} \textbackslash iffalse (Elements of the weight matrix for Poisson data) \fi{} }If we consider \(Y_i \sim \mathsf{Po}(\mu_i)\) with canonical link function \(\mu_i = \exp(\eta_i)\), then \(\partial \mu_i/\partial \eta_i =\exp(\eta_i)= \mu_i\) and thus \(w_i=\mu_i\).
+\begin{example}[Elements of the weight matrix for Poisson data]
+\protect\hypertarget{exm:weightpois}{}\label{exm:weightpois}If we consider \(Y_i \sim \mathsf{Po}(\mu_i)\) with canonical link function \(\mu_i = \exp(\eta_i)\), then \(\partial \mu_i/\partial \eta_i =\exp(\eta_i)= \mu_i\) and thus \(w_i=\mu_i\).
 \end{example}
 
 Since we use maximum likelihood estimation, the theory presented in
@@ -2579,9 +2558,8 @@ The \textbf{scaled deviance} \(D\) will be small when the quality
 of the adjustment is roughly the same for both models, whereas large
 values of \(D\) are indicative of poor fit.
 
-\begin{example}{}
-ffalse\{-91-68-101-118-105-97-110-99-101-32-102-111-114-32-99-111-109-109-111-110-32-103-101-110-101-114-97-108-105-122-101-100-32-108-105-110-101-97-114-32-109-111-100-101-108-115-93-\}\fi{}
-\protect\hypertarget{exm:devglm}{}{\label{exm:devglm} \textbackslash iffalse (Deviance for common generalized linear models) \fi{} }Suppose that the model matrix of the model \(\mathbf{X}\) includes an intercept and let \(\widehat{\mu}_i\) denote the fitted mean. Then, the deviance for the normal generalized linear model with homoscedastic errors is \(D = \sum_{i=1}^n (y_i - \widehat{\mu}_i)^2\), which is the sum of squared residuals. For Poisson data, the saturated model has \(\widetilde{\mu}_i=y_i\) and \(D= 2\sum_{i=1}^n y_i \ln(y_i/\widehat{\mu}_i)\).
+\begin{example}[Deviance for common generalized linear models]
+\protect\hypertarget{exm:devglm}{}\label{exm:devglm}Suppose that the model matrix of the model \(\mathbf{X}\) includes an intercept and let \(\widehat{\mu}_i\) denote the fitted mean. Then, the deviance for the normal generalized linear model with homoscedastic errors is \(D = \sum_{i=1}^n (y_i - \widehat{\mu}_i)^2\), which is the sum of squared residuals. For Poisson data, the saturated model has \(\widetilde{\mu}_i=y_i\) and \(D= 2\sum_{i=1}^n y_i \ln(y_i/\widehat{\mu}_i)\).
 \end{example}
 
 Another alternative is found by looking at score test statistic
@@ -2671,9 +2649,8 @@ where \(\pi(\mathbf{X})/\{1-\pi(\mathbf{X})\}\) are the odds of \(\mathsf{P}(Y=1
 
 On the odds scale, the logistic regression model is multiplicative: for an increase of \(\mathrm{X}_j\) of one unit, \emph{ceteris paribus}, the odds are multiplied by \(\exp(\beta_j)\).
 
-\begin{example}{}
-ffalse\{-91-71-80-65-32-115-99-111-114-101-32-97-110-100-32-103-114-97-100-117-97-116-101-32-97-100-109-105-115-115-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:gpaexample}{}{\label{exm:gpaexample} \textbackslash iffalse (GPA score and graduate admission) \fi{} }We consider a simple logistic model for graduate admission (yes/no) in universities across the USA as a function of their grade point average (GPA).
+\begin{example}[GPA score and graduate admission]
+\protect\hypertarget{exm:gpaexample}{}\label{exm:gpaexample}We consider a simple logistic model for graduate admission (yes/no) in universities across the USA as a function of their grade point average (GPA).
 \end{example}
 
 \begin{figure}
@@ -2701,9 +2678,8 @@ gpa & 1.05 & 0.3 & 3.52 & < 0.001\\
 
 The coefficients of the simple logistic model are reported in Table \ref{tab:gpatable}, showing that the log odds of admission increase by 0.11 for each increase in GPA of \(0.1\). This translates into \(\exp(0.1\widehat{\beta}_{\mathrm{gpa}})=1.11\) on the odds ratio scale, meaning a 11\% increase in odds of admission for every \(0.1\) increase in GPA. Of course, this model is simplistic and omits other important factors\(\ldots\) Figure \ref{fig:figgpa} shows the variation on the log odds, odds and probability scale as a function of grade point average. While the probability scale is the most intuitive, the effect of an increase of \(0.1\) unit of GPA isn't the same, depending on what is your starting value: according to the model, the absolute increase in the probability of admission for individuals with GPA scores \(2.3\) and \(2.4\) is 1.2\%, whereas that corresponding to an increase in GPA from 3.9 to 4 is 2.6\%; this illustrates how the impact of an increase of \(0.1\) points is not the same across the board.
 
-\begin{example}{}
-ffalse\{-91-82-105-115-107-32-102-97-99-116-111-114-115-32-114-101-108-97-116-101-100-32-116-111-32-117-110-100-101-114-119-101-105-103-104-116-32-98-97-98-105-101-115-32-97-116-32-98-105-114-116-104-93-\}\fi{}
-\protect\hypertarget{exm:birthweightex}{}{\label{exm:birthweightex} \textbackslash iffalse (Risk factors related to underweight babies at birth) \fi{} }We consider a medical example related to risk factors explaining the birth weight: the birth weight is dichotomized and classified as low if the infant weight is inferior to 2.5 kg (1) and 0 otherwise. The data were collected in a medical center in Massachusetts in 1986.
+\begin{example}[Risk factors related to underweight babies at birth]
+\protect\hypertarget{exm:birthweightex}{}\label{exm:birthweightex}We consider a medical example related to risk factors explaining the birth weight: the birth weight is dichotomized and classified as low if the infant weight is inferior to 2.5 kg (1) and 0 otherwise. The data were collected in a medical center in Massachusetts in 1986.
 \end{example}
 
 The data contains the following explanatory variables
@@ -2812,9 +2788,8 @@ power for testing that \(\beta_j=0\) using a Wald statistic tends to zero.
 Wald statistics are not recommended for Bernoulli data: the following
 simple example illustrates why.
 
-\begin{example}{}
-ffalse\{-91-73-110-99-111-104-101-114-101-110-116-32-114-101-115-117-108-116-115-32-102-111-114-32-87-97-108-100-32-116-101-115-116-115-93-\}\fi{}
-\protect\hypertarget{exm:waldgarbage}{}{\label{exm:waldgarbage} \textbackslash iffalse (Incoherent results for Wald tests) \fi{} }Suppose we consider a simple binary model and \(n=100\) observations and the null hypothesis \(\mathscr{H}_0:\pi = 0.5\) and equivalently for the logistic model \(Y_i \sim \mathsf{Bin}\{m, \mathrm{expit}(\beta_0)\}\), where this same hypothesis amounts to \(\mathscr{H}_0:\beta_0=0\). Figure \ref{fig:WaldgarbageR} clearly shows that lack of invariance of the Wald statistic to reparametrization. When \(\widehat{\beta}_0\) increases and \(m\) is large, the Wald statistic for \(\beta_0\) decreases as we approach \(m\) successes, because the standard error of \(\widehat{\beta}_0\) increases faster than the difference \(\widehat{\beta}-0\). Both statistics are asymptotically normal if the null hypothesis holds true, so the two-sided test would reject if the value of the Wald statistic is greater than 1.96. Depending on the parametrization, however, they give different results: the statistic increases monotonically for \(\pi\), but would converge to zero for \(\beta_0\) when \(m\) is large (allowing thereby larger values of \(\widehat{\beta}_0\)). No such problem arises when considering score and likelihood ratio tests.
+\begin{example}[Incoherent results for Wald tests]
+\protect\hypertarget{exm:waldgarbage}{}\label{exm:waldgarbage}Suppose we consider a simple binary model and \(n=100\) observations and the null hypothesis \(\mathscr{H}_0:\pi = 0.5\) and equivalently for the logistic model \(Y_i \sim \mathsf{Bin}\{m, \mathrm{expit}(\beta_0)\}\), where this same hypothesis amounts to \(\mathscr{H}_0:\beta_0=0\). Figure \ref{fig:WaldgarbageR} clearly shows that lack of invariance of the Wald statistic to reparametrization. When \(\widehat{\beta}_0\) increases and \(m\) is large, the Wald statistic for \(\beta_0\) decreases as we approach \(m\) successes, because the standard error of \(\widehat{\beta}_0\) increases faster than the difference \(\widehat{\beta}-0\). Both statistics are asymptotically normal if the null hypothesis holds true, so the two-sided test would reject if the value of the Wald statistic is greater than 1.96. Depending on the parametrization, however, they give different results: the statistic increases monotonically for \(\pi\), but would converge to zero for \(\beta_0\) when \(m\) is large (allowing thereby larger values of \(\widehat{\beta}_0\)). No such problem arises when considering score and likelihood ratio tests.
 \end{example}
 
 \begin{figure}
@@ -2898,9 +2873,8 @@ mean model is
 \end{align*}
 so the mean is multiplied by \(\exp(\beta_j)\) for an increase of one unit of \(\mathrm{X}_{j}\), \emph{ceteris paribus}. If \(\beta_j < 0\), \(\exp(\beta_j) < 1\) and so we have a decrease of \(100\cdot(1-\exp(\beta_j))\)\% of the mean response. Likewise, if \(\beta_j>0\), the mean number increases by \(100\cdot(\exp(\beta_j)-1)\)\%. The interpretation of interactions between categorical and continuous/categorical variables is similar to that of multiplicative (log-linear) models.
 
-\begin{example}{}
-ffalse\{-91-82-111-97-100-32-97-99-99-105-100-101-110-116-115-32-97-110-100-32-115-112-101-101-100-32-108-105-109-105-116-115-32-111-110-32-116-104-101-32-109-111-116-111-114-119-97-121-32-105-110-32-83-119-101-100-101-110-93-\}\fi{}
-\protect\hypertarget{exm:roadsweden}{}{\label{exm:roadsweden} \textbackslash iffalse (Road accidents and speed limits on the motorway in Sweden) \fi{} }Sweden is a worlwide leader in road safety and has a long history of countermeasures to increase road traffic safety, including the Vision Zero program. Back in the 1960s, a study was conducted by the authorities to investigate the potential of speed limits on motorways to reduce the number of accidents. The \texttt{sweden} data contains the number of accidents on 92 matching days in both 1961 and 1962 \citep{Svensson:1981}; speed limits were in place on selected days in either year.
+\begin{example}[Road accidents and speed limits on the motorway in Sweden]
+\protect\hypertarget{exm:roadsweden}{}\label{exm:roadsweden}Sweden is a worlwide leader in road safety and has a long history of countermeasures to increase road traffic safety, including the Vision Zero program. Back in the 1960s, a study was conducted by the authorities to investigate the potential of speed limits on motorways to reduce the number of accidents. The \texttt{sweden} data contains the number of accidents on 92 matching days in both 1961 and 1962 \citep{Svensson:1981}; speed limits were in place on selected days in either year.
 \end{example}
 
 We consider an example from Section 4.5 of \citet{Brazzale/Davison/Reid:2007}.
@@ -2951,7 +2925,7 @@ to be positive and behave like a \(\chi_1^2\) random variable the other half of 
 Strictly speaking, the negative binomial expansion presented above is not a generalized linear model unless \(k\) is known, but we can write down the log-likelihood and fit the model by alternating maximization of \(\boldsymbol{\beta}\) and \(k\) and perform likelihood-based inference as usual.
 
 \begin{example}
-\protect\hypertarget{exm:unnamed-chunk-2}{}{\label{exm:unnamed-chunk-2} }We can ascertain the finite sample properties of the likelihood ratio test by simulating repeatedly from a Poisson regression model, fitting the negative binomial model and calculating the likelihood ratio statistic. Since the negative binomial model yields \(k>0\), we include \(k=0\) by fitting a Poisson model and keeping the latter whenever it yields a higher log likelihood than the one found by maximizing the negative binomial model.
+\protect\hypertarget{exm:unnamed-chunk-2}{}\label{exm:unnamed-chunk-2}We can ascertain the finite sample properties of the likelihood ratio test by simulating repeatedly from a Poisson regression model, fitting the negative binomial model and calculating the likelihood ratio statistic. Since the negative binomial model yields \(k>0\), we include \(k=0\) by fitting a Poisson model and keeping the latter whenever it yields a higher log likelihood than the one found by maximizing the negative binomial model.
 \end{example}
 
 \begin{figure}
@@ -2973,9 +2947,8 @@ Most count data are found in contingency tables, in which the cells give the cou
 An \(m\) dimensional contingency table corresponds to a data frame with \(m\) categorical variables and the saturated model is the model with all main effects and all of the \(k\) (\(2 \leq k \leq m)\) interactions. The saturated model has as many coefficients as observations (here the product of the contingency table dimensions).
 Since the fitted value from this model are equal to the observed counts, it is unnecessary to fit the model: the likelihood ratio statistic for comparing the saturated model with a simpler alternative is simply the deviance statistic reported in the output, whereas the score test is given by Pearson \(X^2\) statistic. Inference proceeds as usual.
 
-\begin{example}{}
-ffalse\{-91-80-111-105-115-115-111-110-32-108-111-103-45-108-105-110-101-97-114-32-109-111-100-101-108-32-102-111-114-32-100-114-117-103-32-104-105-115-116-111-114-121-32-105-110-32-68-97-121-116-111-110-93-\}\fi{}
-\protect\hypertarget{exm:poissonconting}{}{\label{exm:poissonconting} \textbackslash iffalse (Poisson log-linear model for drug history in Dayton) \fi{} }We consider data from \citet{Agresti:2019} on history of high school students near Dayton, Ohio. A survey asked students from grade 12 about their previous consumption of alcohol, cigarettes and marijuana (yes/no). The \(2 \times 2 \times 2\) table corresponds to a 12 by 4 data frame with three binary variables and one integer-valued response giving the counts.
+\begin{example}[Poisson log-linear model for drug history in Dayton]
+\protect\hypertarget{exm:poissonconting}{}\label{exm:poissonconting}We consider data from \citet{Agresti:2019} on history of high school students near Dayton, Ohio. A survey asked students from grade 12 about their previous consumption of alcohol, cigarettes and marijuana (yes/no). The \(2 \times 2 \times 2\) table corresponds to a 12 by 4 data frame with three binary variables and one integer-valued response giving the counts.
 \end{example}
 
 \begin{verbatim}
@@ -3031,9 +3004,8 @@ Oftentimes, binary response are aggregated and we have access to a sample of \(n
 
 We can use a logistic model to estimate the probability of success; the only difference is that we need to provide the software with the number of success/failures or else success/trials. The data could also be un-grouped, then fitted using a Bernoulli model.
 
-\begin{example}{}
-ffalse\{-91-83-109-111-107-105-110-103-32-97-110-100-32-116-104-101-32-71-114-105-109-32-82-101-97-112-101-114-93-\}\fi{}
-\protect\hypertarget{exm:smokingSimpson}{}{\label{exm:smokingSimpson} \textbackslash iffalse (Smoking and the Grim Reaper) \fi{} }We consider survey data for a study conducted in 1972--1974 near Newcastle, UK. Information about smoking habits of women were collected; A follow-up of the same subjects was conducted 20 years later to evaluate how smoking habits affected survival. 162 women had smoked before 1972 but had stopped by 1972, and smoking habits were unknown for 18 women: these 180 women were excluded.
+\begin{example}[Smoking and the Grim Reaper]
+\protect\hypertarget{exm:smokingSimpson}{}\label{exm:smokingSimpson}We consider survey data for a study conducted in 1972--1974 near Newcastle, UK. Information about smoking habits of women were collected; A follow-up of the same subjects was conducted 20 years later to evaluate how smoking habits affected survival. 162 women had smoked before 1972 but had stopped by 1972, and smoking habits were unknown for 18 women: these 180 women were excluded.
 The data consists of the remaining 1314 women. The smoker and non-smoker columns contain the number of dead/total (\% dead).
 \end{example}
 
@@ -3097,9 +3069,9 @@ If we model each mean parameter as, \(\ln(\lambda_i) = \alpha + \mathbf{x}_i^\to
 We could thus estimate \(\boldsymbol{\beta}\) using a logistic regression, but the common intercept \(\alpha\) that appears in the mean of the Poisson counts is not estimable based on this conditional likelihood.
 
 \begin{example}
-\protect\hypertarget{exm:swedenex2}{}{\label{exm:swedenex2} }
-Looking again at the data in Example \ref{exm:roadsweden}, we condition on the sum of the number of accidents in 1961 and 1962, \(Y_{i1} + Y_{i2}\), and adjust the same mean model for the Poisson data.
+\protect\hypertarget{exm:swedenex2}{}\label{exm:swedenex2}Looking again at the data in Example \ref{exm:roadsweden}, we condition on the sum of the number of accidents in 1961 and 1962, \(Y_{i1} + Y_{i2}\), and adjust the same mean model for the Poisson data.
 \end{example}
+
 Recall
 \begin{align*}
 \frac{\lambda_{i2}}{
@@ -3132,9 +3104,8 @@ The Poisson distribution also emerges as the limiting distribution for the numbe
 \[\mathsf{E}\left( {Y_i}\right) = \exp\{\beta_0 + \cdots + \beta_p\mathrm{X}_p + \ln(n_i)\}.\]
 Since the Poisson likelihood is defined for integer-valued response only, the \textbf{offset} term \(\ln(n_i)\) is part of the mean model. It thus acts as a predictor variable whose coefficient is known to be unity and thus not estimated alongside with \(\boldsymbol{\beta}\).
 
-\begin{example}{}
-ffalse\{-91-87-97-103-101-32-100-97-109-97-103-101-32-116-111-32-99-97-114-103-111-32-115-104-105-112-115-93-\}\fi{}
-\protect\hypertarget{exm:waveoffset}{}{\label{exm:waveoffset} \textbackslash iffalse (Wage damage to cargo ships) \fi{} }We consider damage to cargo ships from the Lloyd's Register of Shipping; these data are extracted from Section 6.3.2 of \citet{McCullagh/Nelder:1989}. The response is the aggregated number of damage incidents to vessels with a particular design due to waves. Three explanatory variables are available: ship type, construction period and operation period. For each combination of factors, we have a measure of the aggregate months of service: the more usage, the higher the number of incidents.
+\begin{example}[Wage damage to cargo ships]
+\protect\hypertarget{exm:waveoffset}{}\label{exm:waveoffset}We consider damage to cargo ships from the Lloyd's Register of Shipping; these data are extracted from Section 6.3.2 of \citet{McCullagh/Nelder:1989}. The response is the aggregated number of damage incidents to vessels with a particular design due to waves. Three explanatory variables are available: ship type, construction period and operation period. For each combination of factors, we have a measure of the aggregate months of service: the more usage, the higher the number of incidents.
 \end{example}
 
 The data includes
@@ -3249,9 +3220,8 @@ Random effects naturally induce correlation between observations and the conditi
 
 \href{https://www.tjmahr.com/plotting-partial-pooling-in-mixed-effects-models/}{Tristan Mahr masterfully illustrated in a blog post} the shrinkage of random effects. The following section is adapted from his code (with the code hidden to streamline the argument).
 
-\begin{example}{}
-ffalse\{-91-67-104-105-99-107-101-110-32-103-114-111-119-116-104-32-99-117-114-118-101-93-\}\fi{}
-\protect\hypertarget{exm:chickcurve}{}{\label{exm:chickcurve} \textbackslash iffalse (Chicken growth curve) \fi{} }We consider for illustration the growth curves of chicken who are administered four different diets. The purpose of the study was to determine which diet was most effective for weight gain.
+\begin{example}[Chicken growth curve]
+\protect\hypertarget{exm:chickcurve}{}\label{exm:chickcurve}We consider for illustration the growth curves of chicken who are administered four different diets. The purpose of the study was to determine which diet was most effective for weight gain.
 \end{example}
 
 \begin{figure}
@@ -3317,8 +3287,7 @@ A \textbf{sample} is a random sub-group of individuals drawn from the population
 Because the individuals are selected at \textbf{random} to be part of the sample, the measurement of the characteristic of interest will also be random and change from one sample to the next. However, larger samples of the same quality carry more information and our estimator will be more precise. Sample size is not guarantee of quality, as the following example demonstrates.
 
 \begin{example}
-\protect\hypertarget{exm:Galluppoll}{}{\label{exm:Galluppoll} }
-\emph{The Literary Digest} surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. \href{https://www.jstor.org/stable/2749114}{Biased sampling and differential non-response are mostly responsible for the error:} the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'\,', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
+\protect\hypertarget{exm:Galluppoll}{}\label{exm:Galluppoll}\emph{The Literary Digest} surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. \href{https://www.jstor.org/stable/2749114}{Biased sampling and differential non-response are mostly responsible for the error:} the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'\,', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
 
 In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. \href{https://medium.com/@ozanozbey/how-not-to-sample-11579793dac}{Read the full story here.}
 \end{example}
@@ -3417,9 +3386,10 @@ The \href{likelihood}{likelihood of a sample} is the joint density of the \(n\) 
 \hypertarget{discrete-distributions}{%
 \subsection{Discrete distributions}\label{discrete-distributions}}
 
-\begin{example}{}
-ffalse\{-91-66-101-114-110-111-117-108-108-105-32-100-105-115-116-114-105-98-117-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:bernoullidist}{}{\label{exm:bernoullidist} \textbackslash iffalse (Bernoulli distribution) \fi{} }We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being \(\pi\) so \(\mathsf{Pr}(Y=1)=\pi\) and \(\mathsf{Pr}(Y=0)=1-\pi\) (complementary event). The mass function of the \href{https://en.wikipedia.org/wiki/Bernoulli_distribution}{Bernoulli distribution} is thus
+\begin{example}[Bernoulli distribution]
+\protect\hypertarget{exm:bernoullidist}{}\label{exm:bernoullidist}
+
+We consider a binary event such as coin toss (heads/tails). In general, the two events are associated with success/failure. By convention, failures are denoted by zeros and successes by ones, the probability of success being \(\pi\) so \(\mathsf{Pr}(Y=1)=\pi\) and \(\mathsf{Pr}(Y=0)=1-\pi\) (complementary event). The mass function of the \href{https://en.wikipedia.org/wiki/Bernoulli_distribution}{Bernoulli distribution} is thus
 \begin{align*}
 \mathsf{Pr}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
 \end{align*}
@@ -3437,11 +3407,11 @@ Many research questions have binary responses, for example:
 \item
   did a study participant successfully complete a task?
 \end{itemize}
+
 \end{example}
 
-\begin{example}{}
-ffalse\{-91-66-105-110-111-109-105-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:binomialdist}{}{\label{exm:binomialdist} \textbackslash iffalse (Binomial distribution) \fi{} }If the data five the sum of independent Bernoulli events, the number of sucessess \(Y\) out of \(m\) trials is \href{https://en.wikipedia.org/wiki/Binomial_distribution}{binomial}, denoted \(\mathsf{Bin}(m, \pi)\); the mass function of the binomial distribution is
+\begin{example}[Binomial distribution]
+\protect\hypertarget{exm:binomialdist}{}\label{exm:binomialdist}If the data five the sum of independent Bernoulli events, the number of sucessess \(Y\) out of \(m\) trials is \href{https://en.wikipedia.org/wiki/Binomial_distribution}{binomial}, denoted \(\mathsf{Bin}(m, \pi)\); the mass function of the binomial distribution is
 \begin{align*}
 \mathsf{Pr}(Y=y) = \binom{m}{y}\pi^y (1-\pi)^{1-y}, \quad y=0, 1.
 \end{align*}
@@ -3462,9 +3432,8 @@ More generally, we can also consider count variables whose realizations are inte
   tasks completed by a study participant in a given time frame.
 \end{itemize}
 
-\begin{example}{}
-ffalse\{-91-71-101-111-109-101-116-114-105-99-32-100-105-115-116-114-105-98-117-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:geomdist}{}{\label{exm:geomdist} \textbackslash iffalse (Geometric distribution) \fi{} }The \href{https://en.wikipedia.org/wiki/Geometric_distribution}{geometric distribution} is a model describing the number of Bernoulli trials with probability of success \(\pi\) required to obtain a first success. The mass function of \(Y \sim \mathsf{Geo}(\pi)\) is
+\begin{example}[Geometric distribution]
+\protect\hypertarget{exm:geomdist}{}\label{exm:geomdist}The \href{https://en.wikipedia.org/wiki/Geometric_distribution}{geometric distribution} is a model describing the number of Bernoulli trials with probability of success \(\pi\) required to obtain a first success. The mass function of \(Y \sim \mathsf{Geo}(\pi)\) is
 \begin{align*}
 \mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
 \end{align*}
@@ -3472,18 +3441,16 @@ ffalse\{-91-71-101-111-109-101-116-114-105-99-32-100-105-115-116-114-105-98-117-
 For example, we could model the numbers of visits for a house on sale before the first offer is made using a geometric distribution.
 \end{example}
 
-\begin{example}{}
-ffalse\{-91-80-111-105-115-115-111-110-32-100-105-115-116-114-105-98-117-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:poissondist}{}{\label{exm:poissondist} \textbackslash iffalse (Poisson distribution) \fi{} }If the probability of success \(\pi\) of a Bernoulli event is small in the sense that \(m\pi \to \lambda\) when the number of trials \(m\) increases, then the number of success follows approximately a Poisson distribution with mass function
+\begin{example}[Poisson distribution]
+\protect\hypertarget{exm:poissondist}{}\label{exm:poissondist}If the probability of success \(\pi\) of a Bernoulli event is small in the sense that \(m\pi \to \lambda\) when the number of trials \(m\) increases, then the number of success follows approximately a Poisson distribution with mass function
 \begin{align*}
 \mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
 \end{align*}
 where \(\Gamma(\cdot)\) denotes the gamma function. The parameter \(\lambda\) of the Poisson distribution is both the expectation and the variance of the distribution, meaning \(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\).
 \end{example}
 
-\begin{example}{}
-ffalse\{-91-78-101-103-97-116-105-118-101-32-98-105-110-111-109-105-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:negbindist}{}{\label{exm:negbindist} \textbackslash iffalse (Negative binomial distribution) \fi{} }The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success \(\pi\) until we obtain \(m\) success. Let \(Y\) denote the number of failures: the order of success and failure doesn't matter, but for the latest trial which is a success. The mass function is thus
+\begin{example}[Negative binomial distribution]
+\protect\hypertarget{exm:negbindist}{}\label{exm:negbindist}The negative binomial distribution arises as a natural generalization of the geometric distribution if we consider the number of Bernoulli trials with probability of success \(\pi\) until we obtain \(m\) success. Let \(Y\) denote the number of failures: the order of success and failure doesn't matter, but for the latest trial which is a success. The mass function is thus
 \begin{align*}
 \mathsf{Pr}(Y=y)= \binom{m-1+y}{y} \pi^m (1-\pi)^{y}.
 \end{align*}
@@ -3503,9 +3470,8 @@ where \(\Gamma\) is the gamma function and the parameter \(r>0\) is not anymore 
 
 We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics.
 
-\begin{example}{}
-ffalse\{-91-78-111-114-109-97-108-32-100-105-115-116-114-105-98-117-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:normaldist}{}{\label{exm:normaldist} \textbackslash iffalse (Normal distribution) \fi{} }The normal distribution is ubiquitous in statistics because of the \href{CLT}{central limit theorem}. A random variable \(Y\) follows a normal distribution if its density function is
+\begin{example}[Normal distribution]
+\protect\hypertarget{exm:normaldist}{}\label{exm:normaldist}The normal distribution is ubiquitous in statistics because of the \href{CLT}{central limit theorem}. A random variable \(Y\) follows a normal distribution if its density function is
 \begin{align*}
 f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
 \end{align*}
@@ -3519,16 +3485,14 @@ f(\boldsymbol{x}) = (2\pi)^{-p/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \f
 The mean vector \(\boldsymbol{\mu}\) is the vector of expectation of individual observations, whereas \(\boldsymbol{\Sigma}\) is the covariance matrix of \(\boldsymbol{Y}\). A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if \(Y_i\) and \(Y_j\) are independent, the \((i,j)\) off-diagonal entry of \(\boldsymbol{\Sigma}\) is zero.
 \end{example}
 
-\begin{example}{}
-ffalse\{-91-67-104-105-45-115-113-117-97-114-101-32-100-105-115-116-114-105-98-117-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:chisqdist}{}{\label{exm:chisqdist} \textbackslash iffalse (Chi-square distribution) \fi{} }The chi-square distribution arises as null distribution of likelihood-based test. If \(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\), i.e., all components are independent and centered \(Y_i \sim \mathsf{No}(0, 1)\), then \(\sum_{i=1}^p Y_i^2\) follows a chi-square distribution with \(p\) degrees of freedom, denote \(\chi^2_p\). The square of a standard normal variate likewise follows a \(\chi^2_1\) distribution.
+\begin{example}[Chi-square distribution]
+\protect\hypertarget{exm:chisqdist}{}\label{exm:chisqdist}The chi-square distribution arises as null distribution of likelihood-based test. If \(\boldsymbol{Y} \sim \mathsf{No}_p(\boldsymbol{0}_p, \mathbf{I}_p)\), i.e., all components are independent and centered \(Y_i \sim \mathsf{No}(0, 1)\), then \(\sum_{i=1}^p Y_i^2\) follows a chi-square distribution with \(p\) degrees of freedom, denote \(\chi^2_p\). The square of a standard normal variate likewise follows a \(\chi^2_1\) distribution.
 
 If we consider a sample of \(n\) normally distributed observations, the sample variance \((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\).
 \end{example}
 
-\begin{example}{}
-ffalse\{-91-83-116-117-100-101-110-116-45-36-116-36-32-100-105-115-116-114-105-98-117-116-105-111-110-93-\}\fi{}
-\protect\hypertarget{exm:studentdist}{}{\label{exm:studentdist} \textbackslash iffalse (Student-\(t\) distribution) \fi{} }If \(X \sim \mathsf{No}(0,1)\) independent of \(Y \sim \chi^{2}_\nu\), then
+\begin{example}[Student-$t$ distribution]
+\protect\hypertarget{exm:studentdist}{}\label{exm:studentdist}If \(X \sim \mathsf{No}(0,1)\) independent of \(Y \sim \chi^{2}_\nu\), then
 \begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
 \end{align*}

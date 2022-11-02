@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>B Supplementary material | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="B Supplementary material | Statistical Modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604a" />
@@ -31,7 +30,6 @@
   
 <link rel="prev" href="complement.html"/>
 <link rel="next" href="r.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,8 +47,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -249,11 +248,11 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="math" class="section level1" number="9">
-<h1><span class="header-section-number">B</span> Supplementary material</h1>
+<div id="math" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">B</span> Supplementary material<a href="math.html#math" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>This section regroups optional derivations and additional details which are provided for the sake of completeness.</p>
-<div id="ols" class="section level2" number="9.1">
-<h2><span class="header-section-number">B.1</span> Derivation of the ordinary least squares estimator</h2>
+<div id="ols" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">B.1</span> Derivation of the ordinary least squares estimator<a href="math.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Consider the optimization problem
 <span class="math display">\[\begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
@@ -262,16 +261,16 @@ We can compute the derivative of the right hand side with respect to <span class
 <span class="math display">\[\begin{align*}
 \mathbf{0}_n&amp;=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
 \\&amp;=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
- \\&amp;=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\\&amp;=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
 \end{align*}\]</span>
 using the <a href="http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf">chain rule</a>. Distributing the terms leads to the so-called <em>normal equation</em>
 <span class="math display">\[\begin{align*}
- \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&amp;=\mathbf{X}^\top \boldsymbol{y}.
+\mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&amp;=\mathbf{X}^\top \boldsymbol{y}.
 \end{align*}\]</span>
 If the <span class="math inline">\(n \times p\)</span> matrix <span class="math inline">\(\mathbf{X}\)</span> is full-rank, the quadratic form <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> is invertible and we obtain the solution to the least square problems provided in Equation <a href="linear-regression.html#eq:ols">(2.3)</a>.</p>
 </div>
-<div id="derivationR2" class="section level2" number="9.2">
-<h2><span class="header-section-number">B.2</span> Derivation of the coefficient of determination</h2>
+<div id="derivationR2" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">B.2</span> Derivation of the coefficient of determination<a href="math.html#derivationR2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Because of the orthogonal decomposition <span class="math inline">\(\boldsymbol{y}=\widehat{\boldsymbol{y}} + \boldsymbol{e}\)</span> and provided that the design matrix includes an intercept of <span class="math inline">\(\mathbf{1}_n \in \mathcal{S}(\mathbf{X})\)</span>, then <span class="math inline">\(\overline{\boldsymbol{e}}=0\)</span> and the average of the response and of the fitted values is the same. Since <span class="math inline">\(n^{-1}\sum_{i=1}^n \widehat{y}_i = n^{-1}\sum_{i=1}^n ({y}_i-e_i)=\overline{y}\)</span>,
 <span class="math display">\[\begin{align*}
 \widehat{\mathsf{Cor}}\left(\widehat{\boldsymbol{y}}, \boldsymbol{y}\right)
@@ -287,8 +286,8 @@ If the <span class="math inline">\(n \times p\)</span> matrix <span class="math 
 \\&amp;= \sqrt{\frac{\mathsf{SS}_c-\mathsf{SS}_e}{\mathsf{SS}_c}}= \mathrm{R}.
 \end{align*}\]</span>
 This justifies the claim of <a href="linear-regression.html#coefR2">Section 2.5</a> that the squared correlation between the fitted values and the response is equal to <span class="math inline">\(R^2\)</span>.</p>
-<div id="optimization-for-generalized-linear-models" class="section level3" number="9.2.1">
-<h3><span class="header-section-number">B.2.1</span> Optimization for generalized linear models</h3>
+<div id="optimization-for-generalized-linear-models" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">B.2.1</span> Optimization for generalized linear models<a href="math.html#optimization-for-generalized-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There is generally no closed-form expression for the maximum likelihood
 estimators <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> in generalized linear models
 and the score equation is typically nonlinear in <span class="math inline">\(\boldsymbol{\beta}\)</span>
@@ -333,8 +332,8 @@ scoring. For generalized linear models, these recursions can be done by
 repeatedly computing a variant of least squares known as iteratively
 reweighted least squares.</p>
 </div>
-<div id="residuals-glm" class="section level3" number="9.2.2">
-<h3><span class="header-section-number">B.2.2</span> Residuals for generalized linear models</h3>
+<div id="residuals-glm" class="section level3 hasAnchor" number="9.2.2">
+<h3><span class="header-section-number">B.2.2</span> Residuals for generalized linear models<a href="math.html#residuals-glm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can use the individual contributions to the deviance and Pearson
 <span class="math inline">\(X^2\)</span> statistic to build residuals for generalized linear models. By considering
 <span class="math inline">\(D = \sum_{i=1}^n d_i^2\)</span>, where
@@ -400,8 +399,8 @@ standardized deviance residuals and the approximate Cook statistics
 against the <span class="math inline">\(h_{ii}/(1-h_{ii})\)</span>. We will show examples of such plots for
 particular models.</p>
 </div>
-<div id="diag-plots-binary" class="section level3" number="9.2.3">
-<h3><span class="header-section-number">B.2.3</span> Diagnostic plots for binary data</h3>
+<div id="diag-plots-binary" class="section level3 hasAnchor" number="9.2.3">
+<h3><span class="header-section-number">B.2.3</span> Diagnostic plots for binary data<a href="math.html#diag-plots-binary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are also other issues arising from the discreteness of the
 observations. Since observations are 0/1, residuals are often separated.
 Figure <a href="math.html#fig:diagplotsbirthwt1">B.1</a> shows residual plots for Example
@@ -428,8 +427,8 @@ Figure B.2: Diagnostic plots based on uniform residuals for the birth weight dat
 </div>
 </div>
 </div>
-<div id="restricted-estimation-maximum-likelihood" class="section level2" number="9.3">
-<h2><span class="header-section-number">B.3</span> Restricted estimation maximum likelihood</h2>
+<div id="restricted-estimation-maximum-likelihood" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">B.3</span> Restricted estimation maximum likelihood<a href="math.html#restricted-estimation-maximum-likelihood" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The most common estimation technique for fitting linear mixed models or fixed effect models in which the variance of the error term is not <span class="math inline">\(\sigma^2\mathbf{I}_n\)</span> is the restricted estimation maximum likelihood (REML) method.</p>
 <p>For the linear mixed model, the marginal distribution of the <span class="math inline">\(n\)</span> response vector is
 <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{No}_n\{\mathbf{X} \boldsymbol{\beta}, \boldsymbol{\Upsilon}^{-1}(\boldsymbol{\psi})\}\)</span>, where <span class="math inline">\(\boldsymbol{\Upsilon}^{-1}(\boldsymbol{\psi}) = \mathbf{Z}\boldsymbol{\Omega}\mathbf{Z}^\top + \mathbf{R}\)</span> and <span class="math inline">\(\mathbf{R} = \mathrm{blockdiag}(\mathbf{R}_1, \ldots, \mathbf{R}_m)\)</span>, the covariance matrix of the errors, is block-diagonal. The multivariate normal distribution has covariance parameters <span class="math inline">\(\boldsymbol{\psi}\)</span> and mean parameters <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
@@ -453,8 +452,8 @@ Rather than using the full likelihood, the REML maximizes the conditional log li
 The solution thus differs from that of the maximum log likelihood. The log conditional density is
 <span class="math display">\[\begin{align*}
 \ell_{\mathrm{r}}(\boldsymbol{\psi})
- &amp;= \frac{1}{2} \ln |\boldsymbol{\Upsilon}| - \frac{1}{2} (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
- \\&amp; \quad - \frac{1}{2} \ln \left|\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X}\right| + \frac{1}{2} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)^\top \mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)
+&amp;= \frac{1}{2} \ln |\boldsymbol{\Upsilon}| - \frac{1}{2} (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top\boldsymbol{\Upsilon}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\\&amp; \quad - \frac{1}{2} \ln \left|\mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X}\right| + \frac{1}{2} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)^\top \mathbf{X}^\top\boldsymbol{\Upsilon}\mathbf{X} \left(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}}-\boldsymbol{\beta}\right)
 \end{align*}\]</span>
 and upon simplifying terms using the fact <span class="math inline">\(\boldsymbol{y} - \mathbf{X}\boldsymbol{\beta} = \boldsymbol{y} - \mathbf{X}\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} + \mathbf{X}(\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} - \boldsymbol{\beta})\)</span>, we retrieve the REML log likelihood,
 <span class="math display">\[\begin{align*}
@@ -526,7 +525,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Linear regression | Statistical Modelling</title>
   <meta name="description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Linear regression | Statistical Modelling" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a web complement to MATH 60604A (Statistical Modelling), a course given in the M.Sc. in management (Data Science and Business Analytics) at HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604a" />
@@ -31,7 +30,6 @@
   
 <link rel="prev" href="intro.html"/>
 <link rel="next" href="likelihood.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,8 +47,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -249,8 +248,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="linear-regression" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Linear regression</h1>
+<div id="linear-regression" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Linear regression<a href="linear-regression.html#linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>A linear regression is a model for the conditional mean of a response variable <span class="math inline">\(Y\)</span> as a function of <span class="math inline">\(p\)</span> explanatory variables (also termed regressors or covariates),
 <span class="math display" id="eq:linearreg">\[\begin{align}
 \mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}. \tag{2.1}
@@ -270,8 +269,8 @@ of <span class="math inline">\(Y\)</span>.</li>
 response and test for their significance.</li>
 <li>Predict the response for new sets of explanatories <span class="math inline">\(\mathbf{X}\)</span>.</li>
 </ol>
-<div id="introduction" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Introduction</h2>
+<div id="introduction" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introduction<a href="linear-regression.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Linear regression is the most famous and the most widely used statistical model around. The name may appear reductive, but many tests statistics (<em>t</em>-tests, ANOVA, Wilcoxon, Kruskal–Wallis) <a href="https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf">can be formulated using a linear regression</a>, while <a href="https://threadreaderapp.com/thread/1286420597505892352.html">models as diverse as trees, principal components and deep neural networks are just linear regression model in disguise</a>. What changes under the hood between one fancy model to the next are the optimization method (e.g., ordinary least squares, constrained optimization or stochastic gradient descent) and the choice of variables entering the model (spline basis for nonparametric regression, indicator variable selected via a greedy search for trees, activation functions for neural networks).</p>
 <p>This chapter explores the basics of linear regression, parameter interpretation and testing for coefficients and sub-models. Analysis of variance will be presented as special case of linear regression.</p>
 <p>To make concepts and theoretical notions more concrete, we will use data from a study performed in a college in the United States. The goal of the administration who collected these information was to investigate potential gender inequality in the salary of faculty members. The data contains the following variables:</p>
@@ -349,11 +348,11 @@ Figure 2.2: Simple linear regression model for the salary of professors as a fun
 </p>
 </div>
 </div>
-<div id="ordinary-least-squares" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Ordinary least squares</h2>
+<div id="ordinary-least-squares" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Ordinary least squares<a href="linear-regression.html#ordinary-least-squares" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The ordinary least square estimators <span class="math inline">\(\widehat{\boldsymbol{\beta}}=(\widehat{\beta}_0, \ldots, \widehat{\beta}_p)\)</span> are the values that simultaneously minimize the Euclidean distance between the random observations <span class="math inline">\(Y_i\)</span> and the <strong>fitted values</strong>
 <span class="math display">\[\begin{align*}
- \widehat{Y}_i &amp;= \widehat{\beta}_0 + \widehat{\beta}_1 \mathrm{X}_{i1} + \cdots + \widehat{\beta}_p \mathrm{X}_{ip}, \qquad i =1, \ldots, n.
+\widehat{Y}_i &amp;= \widehat{\beta}_0 + \widehat{\beta}_1 \mathrm{X}_{i1} + \cdots + \widehat{\beta}_p \mathrm{X}_{ip}, \qquad i =1, \ldots, n.
 \end{align*}\]</span>
 In other words, the least square estimators are the solution of the convex optimization problem
 <span class="math display">\[\begin{align*}
@@ -363,21 +362,21 @@ This system of equations has an explicit solution which is better expressed usin
 <p>Consider the matrices
 <span class="math display">\[\begin{align*}
 \boldsymbol{Y} =
- \begin{pmatrix}
+\begin{pmatrix}
   Y_1 \\
   Y_2 \\
   \vdots \\
   Y_n
- \end{pmatrix} ,
- \;
- \boldsymbol{\varepsilon} =
- \begin{pmatrix}
+\end{pmatrix} ,
+\;
+\boldsymbol{\varepsilon} =
+\begin{pmatrix}
   \varepsilon_1 \\
   \varepsilon_2 \\
   \vdots \\
   \varepsilon_n
- \end{pmatrix} ,
- \;
+\end{pmatrix} ,
+\;
 \mathbf{X} = \begin{pmatrix}
 \mathrm{X}_{11} &amp; \mathrm{X}_{12} &amp; \cdots &amp; \mathrm{X}_{1p} \\
 \mathrm{X}_{21} &amp; \mathrm{X}_{22} &amp; \cdots &amp; \mathrm{X}_{2p} \\
@@ -385,12 +384,12 @@ This system of equations has an explicit solution which is better expressed usin
 \mathrm{X}_{n1} &amp; \mathrm{X}_{n2} &amp; \cdots &amp; \mathrm{X}_{np}
 \end{pmatrix} , \;
 \boldsymbol{\beta} =
- \begin{pmatrix}
+\begin{pmatrix}
   \beta_1 \\
   \beta_2 \\
   \vdots \\
   \beta_p
- \end{pmatrix}
+\end{pmatrix}
 \end{align*}\]</span>
 The model in compact form is
 <span class="math display">\[\begin{align*}
@@ -411,19 +410,17 @@ and a proof is provided <a href="math.html#ols">in the Appendix</a>. If the <spa
 Figure 2.3: Illustration of ordinary residuals added to the regression line (blue vectors).
 </p>
 </div>
-ffalse{-91-71-101-111-109-101-116-114-121-32-111-102-32-108-101-97-115-116-32-115-113-117-97-114-101-115-93-}
 <div class="remark">
-\iffalse{} <span class="remark"><em>Remark</em> (Geometry of least squares). </span> If we consider the <span class="math inline">\(n\)</span> observations as a (column) vector, the term <span class="math inline">\(\mathbf{X} \widehat{\boldsymbol{\beta}}\)</span> is the projection of the response vector <span class="math inline">\(\boldsymbol{y}\)</span> on the linear span generated by the columns of <span class="math inline">\(\mathbf{X}\)</span>, <span class="math inline">\(\mathscr{S}_{\mathbf{X}}\)</span>. The ordinary residuals are thus orthogonal to <span class="math inline">\(\mathscr{S}_{\mathbf{X}}\)</span> and to the fitted values, meaning <span class="math inline">\(\boldsymbol{e}^\top\widehat{\boldsymbol{y}}=0\)</span>.
-A direct consequence of this fact is that the linear correlation between <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> is zero; we will use this property to build graphical diagnostics.
+<p><span id="unlabeled-div-1" class="remark"><em>Remark</em> (Geometry of least squares). </span>If we consider the <span class="math inline">\(n\)</span> observations as a (column) vector, the term <span class="math inline">\(\mathbf{X} \widehat{\boldsymbol{\beta}}\)</span> is the projection of the response vector <span class="math inline">\(\boldsymbol{y}\)</span> on the linear span generated by the columns of <span class="math inline">\(\mathbf{X}\)</span>, <span class="math inline">\(\mathscr{S}_{\mathbf{X}}\)</span>. The ordinary residuals are thus orthogonal to <span class="math inline">\(\mathscr{S}_{\mathbf{X}}\)</span> and to the fitted values, meaning <span class="math inline">\(\boldsymbol{e}^\top\widehat{\boldsymbol{y}}=0\)</span>.
+A direct consequence of this fact is that the linear correlation between <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> is zero; we will use this property to build graphical diagnostics.</p>
 </div>
-ffalse{-91-67-111-109-112-108-101-120-105-116-121-32-111-102-32-111-114-100-105-110-97-114-121-32-108-101-97-115-116-32-115-113-117-97-114-101-115-93-}
 <div class="remark">
-\iffalse{} <span class="remark"><em>Remark</em> (Complexity of ordinary least squares). </span> This is an aside: in machine learning, you will often encounter linear models fitted using a (stochastic) gradient descent algorithm. Unless your sample size <span class="math inline">\(n\)</span> or the number of covariates <span class="math inline">\(p\)</span> is significant (think at the Google scale), an approximate should not be prefered to the exact solution! From a numerical perspective, obtaining the least square estimates requires inverting a <span class="math inline">\((p+1) \times (p+1)\)</span> matrix <span class="math inline">\(\mathbf{X}^\top\mathbf{X}\)</span>, which is the most costly operation. In general, direct inversion should be avoided because it is not the most numerically stable way of obtaining the solution. <strong>R</strong> uses the QR decomposition, which has a complexity of <span class="math inline">\(\mathrm{O}(np^2)\)</span>. Another more stable alternative, which has the same complexity but is a bit more costly is use of a singular value decomposition.
+<p><span id="unlabeled-div-2" class="remark"><em>Remark</em> (Complexity of ordinary least squares). </span>This is an aside: in machine learning, you will often encounter linear models fitted using a (stochastic) gradient descent algorithm. Unless your sample size <span class="math inline">\(n\)</span> or the number of covariates <span class="math inline">\(p\)</span> is significant (think at the Google scale), an approximate should not be prefered to the exact solution! From a numerical perspective, obtaining the least square estimates requires inverting a <span class="math inline">\((p+1) \times (p+1)\)</span> matrix <span class="math inline">\(\mathbf{X}^\top\mathbf{X}\)</span>, which is the most costly operation. In general, direct inversion should be avoided because it is not the most numerically stable way of obtaining the solution. <strong>R</strong> uses the QR decomposition, which has a complexity of <span class="math inline">\(\mathrm{O}(np^2)\)</span>. Another more stable alternative, which has the same complexity but is a bit more costly is use of a singular value decomposition.</p>
 </div>
 <p>Any good software will calculate ordinary least square estimates for you. Keep in mind that there is an explicit and unique solution provided your model matrix <span class="math inline">\(\mathbf{X}\)</span> doesn’t contain collinear columns. If you have more than one explanatory variable, the fitted values lie on a hyperplan (which is hard to represent graphically). Mastering the language and technical term (fitted values, ordinary residuals, etc.) is necessary for the continuation.</p>
 </div>
-<div id="interpretation-of-the-model-parameters" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Interpretation of the model parameters</h2>
+<div id="interpretation-of-the-model-parameters" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Interpretation of the model parameters<a href="linear-regression.html#interpretation-of-the-model-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>What do the <span class="math inline">\(\boldsymbol{\beta}\)</span> parameters of the linear model represent? In the simple case presented in Figure <a href="linear-regression.html#fig:droitenuage">2.2</a>, the equation of the line is <span class="math inline">\(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1\mathrm{X}_1\)</span>, <span class="math inline">\(\beta_0\)</span> is the intercept (the mean value of <span class="math inline">\(Y\)</span> when <span class="math inline">\(\mathrm{X}_1=0\)</span>) and <span class="math inline">\(\beta_1\)</span> is the slope, i.e., the average increase of <span class="math inline">\(Y\)</span> when <span class="math inline">\(\mathrm{X}_1\)</span> increases by one unit.</p>
 <p>In some cases, the intercept is <strong>meaningless</strong> because the value <span class="math inline">\(\mathrm{X}_1=0\)</span> is impossible (e.g., <span class="math inline">\(\mathrm{X}_1\)</span> represents the height of a human). In the same vein, there may be no observation in a neighborhood of <span class="math inline">\(\mathrm{X}_1=0\)</span>, even if this value is plausible, in which case the intercept is an <strong>extrapolation</strong>.</p>
 <p>If the columns of <span class="math inline">\(\mathbf{X}\)</span> are arbitrary, it is customary to include an intercept: this amounts to including <span class="math inline">\(\mathbf{1}_n\)</span> as column of the model matrix <span class="math inline">\(\mathbf{X}\)</span>. Because the residuals are orthogonal to the columns of <span class="math inline">\(\mathbf{X}\)</span>, their mean is zero, since <span class="math inline">\(n^{-1}\mathbf{1}_n^\top\boldsymbol{e}=\bar{\boldsymbol{e}}=0\)</span>. In general, we could also obtain mean zero residuals by including a set of vectors in <span class="math inline">\(\mathbf{X}\)</span> that span <span class="math inline">\(\mathbf{1}_n\)</span>.</p>
@@ -482,13 +479,12 @@ It is not always possible to fix the value of an explanatory if multiple columns
 Y=\beta_0+ \beta_1 \mathrm{X}+ \beta_2 \mathrm{X}^2 + \ldots +\beta_k \mathrm{X}^k + \varepsilon.
 \end{align*}\]</span>
 If we include a term of order <span class="math inline">\(k\)</span>, <span class="math inline">\(\mathrm{X}^k\)</span>, we must <em>always</em> include the lower order terms <span class="math inline">\(1, \mathrm{X}, \ldots, \mathrm{X}^{k-1}\)</span> to make sure the resulting model is interpretable (otherwise, it amounts to a particular class of polynomials with some zero coefficients). Interpreting nonlinear effects (even polynomials, for which <span class="math inline">\(k\leq 3\)</span> in practice), is complicated because the effect of an increase of one unit of <span class="math inline">\(\mathrm{X}\)</span> <em>depends of the value of the latter</em>.</p>
-ffalse{-91-65-117-116-111-32-100-97-116-97-93-}
 <div class="example">
-<span id="exm:auto" class="example"><strong>Example 2.1  \iffalse (Auto data)  </strong></span>We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the <code>auto</code> dataset. The postulated model,
+<p><span id="exm:auto" class="example"><strong>Example 2.1  (Auto data) </strong></span>We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the <code>auto</code> dataset. The postulated model,
 <span class="math display">\[
 \texttt{mpg}_i = \beta_0 + \beta_1 \texttt{horsepower}_i + \beta_2 \texttt{horsepower}_i^2 + \varepsilon_i,
 \]</span>
-includes a quadratic term. Figure <a href="linear-regression.html#fig:autoquad2d">2.5</a> shows the scatterplot with the fitted regression line, above which the line for the simple linear regression for horsepower is added.
+includes a quadratic term. Figure <a href="linear-regression.html#fig:autoquad2d">2.5</a> shows the scatterplot with the fitted regression line, above which the line for the simple linear regression for horsepower is added.</p>
 </div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:autoquad2d"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/autoquad2d-1.png" alt="Linear regression models for the fuel autonomy of cars as a function of motor power" width="70%" />
@@ -505,14 +501,12 @@ Figure 2.5: Linear regression models for the fuel autonomy of cars as a function
 Figure 2.6: 3D graphical representation of the linear regression model for the <span class="math inline">\(\texttt{auto}\)</span> data.
 </p>
 </div>
-ffalse{-91-84-104-101-114-101-32-97-114-101-32-98-101-116-116-101-114-32-97-108-116-101-114-110-97-116-105-118-101-115-32-116-111-32-112-111-108-121-110-111-109-105-97-108-115-32-102-111-114-32-109-111-100-101-108-108-105-110-103-32-110-111-110-108-105-110-101-97-114-32-101-102-102-101-99-116-115-93-}
 <div class="remark">
-\iffalse{} <span class="remark"><em>Remark</em> (There are better alternatives to polynomials for modelling nonlinear effects). </span> Generally speaking, one uses flexible basis vectors (splines) rather than polynomials for smoothing when the relation between the response <span class="math inline">\(Y\)</span> and an explanatory variable <span class="math inline">\(\mathrm{X}\)</span> is nonlinear; one then adds a penalty term to prevent overfitting and control the wiggliness. A better (physical) understanding of the system, or a theoretical model can also guide the choice of functional form to use.
+<p><span id="unlabeled-div-3" class="remark"><em>Remark</em> (There are better alternatives to polynomials for modelling nonlinear effects). </span>Generally speaking, one uses flexible basis vectors (splines) rather than polynomials for smoothing when the relation between the response <span class="math inline">\(Y\)</span> and an explanatory variable <span class="math inline">\(\mathrm{X}\)</span> is nonlinear; one then adds a penalty term to prevent overfitting and control the wiggliness. A better (physical) understanding of the system, or a theoretical model can also guide the choice of functional form to use.</p>
 </div>
 <p>The coefficient <span class="math inline">\(\beta_j\)</span> in Eq. <a href="linear-regression.html#eq:linearreg">(2.1)</a> represents the <em>marginal</em> contribution of <span class="math inline">\(\mathrm{X}_j\)</span> when all the other covariates are included in the model and which is not explained by them. This can be represented graphically by projecting <span class="math inline">\(Y\)</span> and <span class="math inline">\(\mathrm{X}_j\)</span> in the orthogonal complement of <span class="math inline">\(\mathbf{X}_{-j}\)</span> (the matrix containing all but the <span class="math inline">\(j\)</span>th column <span class="math inline">\(\mathrm{X}_j\)</span>). The <strong>added-variable plot</strong> is a graphical tool showing this projection: the residuals from the linear regression of <span class="math inline">\(Y\)</span> onto <span class="math inline">\(\mathscr{S}(\mathbf{X}_{-j})\)</span> are mapped to the <span class="math inline">\(y\)</span>-axis, whereas the residuals from the linear regression of <span class="math inline">\(\mathrm{X}_j\)</span> as a function of <span class="math inline">\(\mathbf{X}_{-j}\)</span> are shown on the <span class="math inline">\(x\)</span>-axis. The regression line passes through (<span class="math inline">\(0,0\)</span>) and its slope is <span class="math inline">\(\widehat{\beta}_j\)</span>. This graphical diagnostic is useful for detecting collinearity and the impact of outliers.</p>
-ffalse{-91-87-97-103-101-32-105-110-101-113-117-97-108-105-116-121-32-105-110-32-97-110-32-65-109-101-114-105-99-97-110-32-99-111-108-108-101-103-101-93-}
 <div class="example">
-<span id="exm:inequite-salariale" class="example"><strong>Example 2.2  \iffalse (Wage inequality in an American college)  </strong></span>We consider a multiple regression model for the <code>college</code> data that includes sex, academic rank, field of study and the number of years of service as regressors.
+<p><span id="exm:inequite-salariale" class="example"><strong>Example 2.2  (Wage inequality in an American college) </strong></span>We consider a multiple regression model for the <code>college</code> data that includes sex, academic rank, field of study and the number of years of service as regressors.</p>
 </div>
 <p>If we multiply <span class="math inline">\(\texttt{salary}\)</span> by a thousand to get the resulting estimates in US dollars, the postulated model is
 <span class="math display">\[\begin{align*}
@@ -586,8 +580,8 @@ Figure 2.7: Added-variable plot for years of service in the linear regression mo
 </div>
 <p><a href="r.html#rlmfunc">Details about implementation of linear models using <strong>R</strong> are provided in the Appendix</a>.</p>
 </div>
-<div id="test-lm" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Tests for parameters of the linear model</h2>
+<div id="test-lm" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Tests for parameters of the linear model<a href="linear-regression.html#test-lm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We need to make further assumptions in order to carry out inference and build testing procedures for the mean model parameters of the linear model. In order to get a tractable distribution for test statistics, it is customary to assume that the disturbances <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> are independent normal random variables with mean zero and common variance <span class="math inline">\(\sigma^2\)</span>. It follows that <span class="math inline">\(Y_1, \ldots, Y_n\)</span> are conditionally <em>independent</em> random variables with
 <span class="math display">\[\begin{align*}
 \mathsf{E}(Y_i \mid \mathbf{X}_i)=\beta_0 + \sum_{j=1}^p \mathrm{X}_{ij}\beta_j, \quad  \mathsf{Va}(Y_i\mid \mathbf{X}_i)= \sigma^2, \quad i=1, \ldots, n.
@@ -600,8 +594,8 @@ Under this hypothesis, the least square estimators for the mean parameters coinc
 for sufficiently large sample size. One can thus easily estimate the standard errors from the matrix upon replacing <span class="math inline">\(\sigma^2\)</span> by an estimator, typically the unbiased estimator of the variance.</p>
 <p>In an inferential setting, it’s often important to test whether the effect of an explanatory variable is significant: if <span class="math inline">\(\mathrm{X}_j\)</span> is binary or continuous, the test for <span class="math inline">\(\mathscr{H}_0: \beta_j=0\)</span> corresponds to a null marginal effect for <span class="math inline">\(\mathrm{X}_j\)</span>. The null model is a linear regression in which we remove the <span class="math inline">\((j+1)\)</span>st column of <span class="math inline">\(\mathbf{X}\)</span>, so both models are nested. The Wald test statistic is reported by most software <span class="math inline">\(W=\widehat{\beta}_j/\mathsf{se}(\widehat{\beta}_j)\)</span> and the null distribution is Student-<em>t</em> with <span class="math inline">\(n-p-1\)</span> degrees of freedom, which explains the terminology (<span class="math inline">\(t\)</span> values). In addition to coefficient estimates, it is possible to obtain confidence intervals for <span class="math inline">\(\beta_j\)</span>, which are the usual <span class="math inline">\(\widehat{\beta}_j \pm t_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)\)</span>, with <span class="math inline">\(t_{n-p-1,\alpha/2}\)</span> denoting the <span class="math inline">\(1-\alpha/2\)</span> quantile of the <span class="math inline">\(\mathsf{St}_{n-p-1}\)</span> distribution.</p>
 <p>For categorical variables with more than two levels, testing if <span class="math inline">\(\beta_j=0\)</span> is typically not of interest because the contrast represent the different between the category <span class="math inline">\(\mathrm{X}_j\)</span> and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories. The hypothesis of zero contrast is awkward because it implies a null model in which selected categories are merged.</p>
-<div id="ftestslm" class="section level3" number="2.4.1">
-<h3><span class="header-section-number">2.4.1</span> <em>F</em>-tests for comparison of nested linear models</h3>
+<div id="ftestslm" class="section level3 hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> <em>F</em>-tests for comparison of nested linear models<a href="linear-regression.html#ftestslm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Consider the <em>full</em> linear model which contains <span class="math inline">\(p\)</span> predictors,
 <span class="math display">\[\begin{align*}
 \mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
@@ -884,8 +878,8 @@ Residuals
 <p>We could have also easily computed the likelihood ratio test to compare the models: for example, the log likelihood for the full model is -1799.027 and that of the model without rank is -1881.202, so the likelihood ratio statistic would be 164.349 and this is strongly significant when compared to the <span class="math inline">\(\chi^2_2\)</span> distribution (both likelihood ratio test and <span class="math inline">\(F\)</span>-test give a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(2.2 \times 10^{-16}\)</span>).</p>
 </div>
 </div>
-<div id="coefR2" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Coefficient of determination</h2>
+<div id="coefR2" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Coefficient of determination<a href="linear-regression.html#coefR2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>When we specify a model, the error term <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn’t need statistic to begin with). Once we have fitted a model, we estimate the variance <span class="math inline">\(\sigma^2\)</span>; one may then wonder which share of the total variance in the sample is explained by the model.</p>
 <p>The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison — the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, <span class="math inline">\(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\)</span>. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix <span class="math inline">\(\mathbf{X}\)</span>, defined as <span class="math inline">\(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\)</span> with <span class="math inline">\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_j\mathrm{X}_j\)</span>.
 We define the coefficient of determination, or squared multiple correlation coefficient of the model, <span class="math inline">\(R^2\)</span>, as
@@ -895,8 +889,8 @@ R^2 = 1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overli
 The coefficient of determination can be interpreted as the square of <a href="moments">Pearson’s linear correlation</a> between the response <span class="math inline">\(\boldsymbol{y}\)</span> and the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>; see <a href="math.html#derivationR2">the Appendix for a derivation of this fact.</a></p>
 <p>Its important to note that <span class="math inline">\(R^2\)</span> is not a goodness-of-fit criterion: some phenomena are inherently noisy and even a good model will fail to account for much of the response’s variability. Moreover, one can inflate the value of <span class="math inline">\(R^2\)</span> by including more explanatory variables: the coefficient is non-decreasing in the dimension of <span class="math inline">\(\mathbf{X}\)</span>, so a model with <span class="math inline">\(p+1\)</span> covariate will necessarily have a higher <span class="math inline">\(R^2\)</span> values than only <span class="math inline">\(p\)</span> of the explanatories. For model comparisons, it is better to employ <a href="likelihood.html#information-criteria">information criteria</a>, or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high <span class="math inline">\(R^2\)</span> may imply high correlation, but <a href="http://www.tylervigen.com/spurious-correlations">the relation may be spurious</a>: linear regression does not yield causal models!</p>
 </div>
-<div id="predictions-lm" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Predictions</h2>
+<div id="predictions-lm" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Predictions<a href="linear-regression.html#predictions-lm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>When we compute least square estimates, we obtain fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> as <span class="math inline">\(\mathbf{X}\widehat{\boldsymbol{\beta}}\)</span>, where <span class="math inline">\(\mathbf{X}\)</span> denotes the <span class="math inline">\(n \times (p+1)\)</span> matrix of original observations. Recalling that <span class="math inline">\(\mathsf{E}(Y_i \mid \mathbf{X}_i) = \beta_0 + \sum_{j=1}^p \beta_j \mathrm{X}_{ij}\)</span>, we can obtain an estimate of the mean surface for any value of <span class="math inline">\(\mathbf{x}_{n+1} \in \mathbb{R}^p\)</span> by replacing the unknown coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span> by our estimates <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> – this actually yields the best linear unbiased predictor of the mean.</p>
 <p>If we want to predict the value of a new observation, say <span class="math inline">\(Y_{n+1}\)</span>, with explanatories <span class="math inline">\(\mathbf{x}_{n+1} = (1, x_1, \ldots, x_p)\)</span>, the prediction of the value will also be <span class="math inline">\(\widehat{y}_{n+1} = \mathbf{x}_{n+1}\widehat{\boldsymbol{\beta}}\)</span> because
 <span class="math display">\[\begin{align*}
@@ -929,8 +923,8 @@ Figure 2.8: Prediction for the simple linear regression of buying intention as a
 </p>
 </div>
 </div>
-<div id="interactions" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> Interactions</h2>
+<div id="interactions" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Interactions<a href="linear-regression.html#interactions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In the interpretation of the linear model, the effect of an explanatory variable is assumed to be the same, regardless of the other explanatory variables (<em>ceteris paribus</em>). To isolate the effect of <span class="math inline">\(\beta_j\)</span>, we indeed fix the value of the other explanatories and increase by one the variable <span class="math inline">\(\mathrm{X}_j\)</span> (whenever this makes sense) to obtain the slope coefficient. However, the effect of a covariate may sometimes depend on another explanatory.</p>
 <p>A good example of interaction is provided by the <code>insurance</code> dataset. An exploratory data analysis suggested that premiums depended on age, smoker status and body mass index, but through obesity status. It can be best represented graphically by looking at body mass index.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:insuranceinter1"></span>
@@ -1135,8 +1129,8 @@ age * obesity [obese] * smoker [yes]
 Figure 2.10: Residuals from the interaction model for <span class="math inline">\(\texttt{charges}\)</span> with <span class="math inline">\(\texttt{age}\)</span>, <span class="math inline">\(\texttt{smoker}\)</span> and <span class="math inline">\(\texttt{obesity}\)</span>. There is a notably outlier for a male smoker whose <span class="math inline">\(\texttt{bmi}\)</span> is exactly 30 and other points above. There is indication of a linear trend for both smoker sub-groups as their body mass index increase, which was not apparent previously because of the effect of age.
 </p>
 </div>
-<div id="two-way-anova" class="section level3" number="2.7.1">
-<h3><span class="header-section-number">2.7.1</span> Two-way ANOVA</h3>
+<div id="two-way-anova" class="section level3 hasAnchor" number="2.7.1">
+<h3><span class="header-section-number">2.7.1</span> Two-way ANOVA<a href="linear-regression.html#two-way-anova" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <blockquote>
 <p>“We’re the same as regression, but we’ve established a separate persona.” — Chelsea Parlett-Pelleriti</p>
 </blockquote>
@@ -1369,8 +1363,8 @@ Residuals
 <p>While the normality assumption is less crucial for the reliability of the tests, it requires sufficient sample size in each subgroup for these (say 20), so that the central limit theorem kicks in. The tests and models typically use the pooled variance estimators: in small samples, it makes better use of the data and has higher precision than estimators of the individual variance in each subgroups. If the variance were unequal, comparisons would require extended models covered later in the term and pairwise comparisons could be based on Welch test statistic.</p>
 </div>
 </div>
-<div id="collinearity" class="section level2" number="2.8">
-<h2><span class="header-section-number">2.8</span> Collinearity</h2>
+<div id="collinearity" class="section level2 hasAnchor" number="2.8">
+<h2><span class="header-section-number">2.8</span> Collinearity<a href="linear-regression.html#collinearity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The linearity assumption can be interpreted broadly to mean that all relevant covariates have been included and that their effect is correctly specified in the equation of the mean. Adding superfluous covariates to a model has limited impact: if the (partial) correlation between a column vector <span class="math inline">\(\mathbf{X}_k\)</span> and the response variable <span class="math inline">\(\boldsymbol{Y}\)</span> is zero, then <span class="math inline">\(\beta_k=0\)</span> and the estimated coefficient <span class="math inline">\(\widehat{\beta}_k \approx 0\)</span> because the least square estimators are unbiased. If we include many useless variables, say <span class="math inline">\(k\)</span>, the lack of parsimony can however make interpretation more difficult. The price to pay for including the <span class="math inline">\(k\)</span> additional covariates is an increase in the variance of the estimators <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
 <p>It is nevertheless preferable to include more variables than to forget key predictors: if we omit an important predictor, their effect may be picked up by other regressors (termed <strong>confounders</strong>) in the model with are correlated with the omitted variable. The interpretation of the other effects can be severely affected by confounders. For example, the simple linear model (or two-sample <span class="math inline">\(t\)</span>-test) for salary as a function of sex for the <code>college</code> data is invalid because sex is a confounder for rank. Since there are more men than women full professor, the mean salary difference between men and women is higher than it truly is. One way to account for this is to include control variables (such as rank), whose effect we need not be interested in, but that are necessary for the model to be adequate. We could also have used stratification, i.e., tested for wage discrimination within each academic rank. This is the reason why sociodemographic variables (sex, age, education level, etc.) are collected as part of studies.</p>
 <p>A linear model is not a <a href="https://xkcd.com/552/">causal model</a>: all it does is capture the linear correlation between an explanatory variable and the response. When there are more than one explanatory, the effect of <span class="math inline">\(\mathrm{X}_j\)</span> given what has not already been explained by <span class="math inline">\(\mathbf{X}_{-j}\)</span>. Thus, if we fail to reject <span class="math inline">\(\mathscr{H}_0:\beta_j=0\)</span> in favor of the alternative <span class="math inline">\(\mathscr{H}_1: \beta_j \neq 0\)</span>, we can only say that there is no significant <em>linear</em> association between <span class="math inline">\(\mathrm{X}_j\)</span> and <span class="math inline">\(Y\)</span> once the effect of other variables included in the model has been accounted for. There are thus two scenarios: either the response is uncorrelated with <span class="math inline">\(\mathrm{X}_j\)</span> (uninteresting case, but easy to pick up by plotting both or computing linear correlation), or else there is a strong correlation between <span class="math inline">\(\mathrm{X}_j\)</span> and both the response <span class="math inline">\(Y\)</span> as well as (some) of the other explanatory variables <span class="math inline">\(\mathrm{X}_1, \ldots, \mathrm{X}_p\)</span>. This problem is termed (multi)collinearity.</p>
@@ -1391,11 +1385,10 @@ to see how (and to what extent) the predictor variables explain the behaviour of
 <li>use penalized regression. If <span class="math inline">\(\mathbf{X}^\top\mathbf{X}\)</span> is (nearly) not invertible, this may restore the uniqueness of the solution. Penalties introduce bias, but can reduce the variance of the estimators <span class="math inline">\(\boldsymbol{\beta}\)</span>. Popular choices include ridge regression (with an <span class="math inline">\(l_2\)</span> penalty), lasso (<span class="math inline">\(l_1\)</span> penalty), but these require adjustment in order to get valid inference.</li>
 </ul>
 <p>Whatever the method, it’s important to understand that it can be very difficult (and sometimes impossible) to isolate the individual effect of a predictor variable strongly correlated with other predictors.</p>
-ffalse{-91-67-111-108-108-105-110-101-97-114-105-116-121-32-105-110-32-116-104-101-32-36-92-116-101-120-116-116-116-123-99-111-108-108-101-103-101-125-36-32-100-97-116-97-93-}
 <div class="example">
-<p><span id="exm:collegedatcollinear" class="example"><strong>Example 2.3  \iffalse (Collinearity in the <span class="math inline">\(\texttt{college}\)</span> data)  </strong></span>We consider the <code>college</code> data analysis and include all the covariates in the database, including <code>years</code>, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, <code>service</code> and <code>years</code> is <code>r cor(college$service, college$years)</code>. The variance inflation factor for the five covariates</p>
-For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor <span class="citation">(<a href="references.html#ref-Fox:1992" role="doc-biblioref">Fox and Monette 1992</a>)</span>. Here, we are interested in gender disparities, so the fact that both service and field are
-strongly correlated is not problematic, since the <span class="math inline">\(\mathsf{VIF}\)</span> for <span class="math inline">\(\texttt{sex}\)</span> is not high and the other variables are there to act as control and avoid confounders.
+<p><span id="exm:collegedatcollinear" class="example"><strong>Example 2.3  (Collinearity in the $\texttt{college}$ data) </strong></span>We consider the <code>college</code> data analysis and include all the covariates in the database, including <code>years</code>, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, <code>service</code> and <code>years</code> is <code>r cor(college$service, college$years)</code>. The variance inflation factor for the five covariates</p>
+<p>For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor <span class="citation">(<a href="references.html#ref-Fox:1992" role="doc-biblioref">Fox and Monette 1992</a>)</span>. Here, we are interested in gender disparities, so the fact that both service and field are
+strongly correlated is not problematic, since the <span class="math inline">\(\mathsf{VIF}\)</span> for <span class="math inline">\(\texttt{sex}\)</span> is not high and the other variables are there to act as control and avoid confounders.</p>
 </div>
 <table>
 <caption>
@@ -1441,8 +1434,8 @@ field
 </tbody>
 </table>
 </div>
-<div id="graphical-analysis-of-residuals" class="section level2" number="2.9">
-<h2><span class="header-section-number">2.9</span> Graphical analysis of residuals</h2>
+<div id="graphical-analysis-of-residuals" class="section level2 hasAnchor" number="2.9">
+<h2><span class="header-section-number">2.9</span> Graphical analysis of residuals<a href="linear-regression.html#graphical-analysis-of-residuals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>So far, we have fit models and tested significance of the parameters without checking the model assumptions. The correctness of statements about the <span class="math inline">\(p\)</span>-values and confidence intervals depend on the (approximate) validity of the model assumptions, which all stem from the distributional assumption for the error, assumed to be independent and identically distributed with <span class="math inline">\(\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{No}(0, \sigma^2)\)</span>. This compact mathematical description can be broken down into four assumptions.</p>
 <ul>
 <li>normality of the errors</li>
@@ -1456,8 +1449,8 @@ field
 <ul>
 <li><a href="https://otexts.com/fpp2/regression-evaluation.html">Forecasting: Principles and Practice, section 5.3</a></li>
 </ul>
-<div id="residuals" class="section level3" number="2.9.1">
-<h3><span class="header-section-number">2.9.1</span> Residuals</h3>
+<div id="residuals" class="section level3 hasAnchor" number="2.9.1">
+<h3><span class="header-section-number">2.9.1</span> Residuals<a href="linear-regression.html#residuals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Residuals are predictions of the errors <span class="math inline">\(\varepsilon\)</span> and represent the difference between the observed value <span class="math inline">\(Y_i\)</span> and the estimated value on the line.
 The ordinary residuals are
 <span class="math display">\[\begin{align*}
@@ -1473,8 +1466,8 @@ These can be obtained in <strong>R</strong> with the command <code>rstudent</cod
 <p>While the jackknife studentized residuals <span class="math inline">\(r_i\)</span> are not orthogonal, they are not very different. Use jackknife residuals <span class="math inline">\(\boldsymbol{r}\)</span> to check for equality of variance and distributional assumptions (e.g., using quantile-quantile plots).</p>
 <p>One thus typically uses ordinary residuals <span class="math inline">\(\boldsymbol{e}\)</span> for plots of fitted values/explanatories against residuals and otherwise jackknife studentized residuals for any other graphical diagnostic plot.</p>
 </div>
-<div id="leverage-and-outliers" class="section level3" number="2.9.2">
-<h3><span class="header-section-number">2.9.2</span> Leverage and outliers</h3>
+<div id="leverage-and-outliers" class="section level3 hasAnchor" number="2.9.2">
+<h3><span class="header-section-number">2.9.2</span> Leverage and outliers<a href="linear-regression.html#leverage-and-outliers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The leverage <span class="math inline">\(h_i\)</span> of observation <span class="math inline">\(i\)</span> measures its impact on the least square fit, since we can write <span class="math inline">\(h_i = \partial \widehat{y}_i/\partial y_i\)</span>. Leverage values tell us how much each point impacts the fit: they are strictly positive, are bounded below by <span class="math inline">\(1/n\)</span> and above by <span class="math inline">\(1\)</span>. The sum of the leverage values is <span class="math inline">\(\sum_{i=1}^n h_i=p+1\)</span>: in a good design, each point has approximately the same contribution, with average weight <span class="math inline">\((p+1)/n\)</span>.</p>
 <p>Points with high leverage are those that have unusual combinations of explanatories. An influential observation (<span class="math inline">\(h_i\approx 1\)</span>) pulls the fitted hyperplane towards itself so that <span class="math inline">\(\hat{y}_i \approx y_i\)</span>. As a rule of thumb, points with <span class="math inline">\(h_i&gt; 2(p+1)/n\)</span> should be scrutinized.</p>
 <p>It is important to distinguish betwen <strong>influential</strong> observations (which have unusual <span class="math inline">\(\mathbf{x}\)</span> value, i.e., far from the overall mean) and <strong>outliers</strong> (unusual value of the response <span class="math inline">\(y\)</span>).
@@ -1496,11 +1489,11 @@ Large values of <span class="math inline">\(C_j\)</span> indicate that its resid
 <p>Outliers and influential observations should not be disregarded because they don’t comply with the model, but require further investigation. They may motivate further modelling for features not accounted for. It is also useful to check for registration errors in the data (which can be safely discarded).</p>
 <p>Except in obvious scenarios, unusual observations should not be discarded. In very large samples, the impact of a single outlier is hopefully limited. Transformations of the response may help reduce outlyingness. Otherwise, alternative objective functions (as those employed in robust regression) can be used; these downweight extreme observations, at the cost of efficiency.</p>
 </div>
-<div id="diagnostic-plots" class="section level3" number="2.9.3">
-<h3><span class="header-section-number">2.9.3</span> Diagnostic plots</h3>
+<div id="diagnostic-plots" class="section level3 hasAnchor" number="2.9.3">
+<h3><span class="header-section-number">2.9.3</span> Diagnostic plots<a href="linear-regression.html#diagnostic-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We review the assumptions in turn and discuss what happens when the assumptions fail to hold.</p>
-<div id="independence-assumption" class="section level4" number="2.9.3.1">
-<h4><span class="header-section-number">2.9.3.1</span> Independence assumption</h4>
+<div id="independence-assumption" class="section level4 hasAnchor" number="2.9.3.1">
+<h4><span class="header-section-number">2.9.3.1</span> Independence assumption<a href="linear-regression.html#independence-assumption" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Usually, the independence of the observations follows directly from the type of sampling used — this assumption is implicitly true if the observations were taken from a <em>random sample</em> from the population. This is generally not the case for longitudinal data, which contains repeated measures from the same individuals across time. Likewise, time series are bound not to have independent observations. If we want to include all the time points in the analysis, we must take into account the possible dependence (correlation) between observations. If we ignore correlation, the estimated standard errors are too small relative to the truth, so the effective sample size is smaller than number of observations.</p>
 <p>The first source of dependence is clustered data, meaning measurements taken from subjects that are not independent from one another (family, groups, etc.)
 More generally, correlation between observations arises from time dependence, roughly categorized into</p>
@@ -1529,8 +1522,8 @@ Figure 2.14: Correlogram of independent observations (left) and the ordinary res
 </p>
 </div>
 </div>
-<div id="linearity-assumption" class="section level4" number="2.9.3.2">
-<h4><span class="header-section-number">2.9.3.2</span> Linearity assumption</h4>
+<div id="linearity-assumption" class="section level4 hasAnchor" number="2.9.3.2">
+<h4><span class="header-section-number">2.9.3.2</span> Linearity assumption<a href="linear-regression.html#linearity-assumption" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The second assumption of the linear model is that of linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified.
 To check that the response surface of the linear model is adequate, we plot <span class="math inline">\(e_i\)</span> against <span class="math inline">\(\widehat{y}_i\)</span> or <span class="math inline">\(\mathrm{X}_{ij}\)</span> (for <span class="math inline">\(j=1, \ldots, p\)</span>). Since the linear correlation between <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> (or <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\mathbf{X}_j\)</span>) is zero by construction, patterns (e.g., quadratic trend, cycles, changepoints) are indicative of misspecification of the mean model. One can add a smoother to detect patterns. Figure <a href="linear-regression.html#fig:regdiaglin">2.15</a> shows three diagnostics plots, the second of which shows no pattern in the residuals, but skewed fitted values.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:regdiaglin"></span>
@@ -1543,8 +1536,8 @@ Figure 2.15: Scatterplots of residuals against fitted values. The first two plot
 <p>Plotting residuals against left-out explanatory variables can also serve to check that all of the explanatory power of the omitted covariate is already explained by the columns of <span class="math inline">\(\mathbf{X}\)</span>.</p>
 <p>If an important variable has been omitted and is not available in the dataset, then the effect of that variable is captured by both the errors (the portion orthogonal to the model matrix <span class="math inline">\(\mathbf{X}\)</span>, i.e., unexplained by the covariates included in the model) and the remaining part is captured by other explanatories of the model that are correlated with the omitted variable. These variables can act as confounders. There is little that can be done in either case unless the data for the omitted variable are available, but subject-specific knowledge may help make sense of the results.</p>
 </div>
-<div id="homoscedasticity-assumption" class="section level4" number="2.9.3.3">
-<h4><span class="header-section-number">2.9.3.3</span> Homoscedasticity assumption</h4>
+<div id="homoscedasticity-assumption" class="section level4 hasAnchor" number="2.9.3.3">
+<h4><span class="header-section-number">2.9.3.3</span> Homoscedasticity assumption<a href="linear-regression.html#homoscedasticity-assumption" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>If the variance of the errors is the same for all observations, that of the observations <span class="math inline">\(Y\)</span> is also constant. The most common scenarios for heteroscedasticity are increases in variance with the response, or else variance that depends on explanatory variables <span class="math inline">\(\mathbf{X}\)</span>, most notably categorical variables. For the former, a log-transform (or Box–Cox transformation) can help stabilize the variance, but we need the response to be positive. For the latter, we can explicitly model that variance and we will see how to include different variance per group later on. A popular strategy in the econometrics literature, is to use robust (inflated) estimators of the standard errors such as <a href="https://en.wikipedia.org/wiki/Heteroscedasticity-consistent_standard_errors">White’s sandwich estimator of the variance</a>.</p>
 <p>If the residuals (or observations) are heteroscedastic (non constant variance), the estimated effects of the variables (the <span class="math inline">\(\beta\)</span> parameters) are still valid in the sense that the ordinary least squares estimator <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> is unbiased. However, the estimated standard errors of the <span class="math inline">\(\widehat{\beta}\)</span> are no longer reliable and, consequently, the confidence intervals and the hypothesis tests for the model parameters will be incorrect. Indeed, if the variance of the errors differs from one observation to the next, we will estimate an average of the different variance terms. The standard errors of each term are incorrect (too small or too large) and the conclusions of the tests (<span class="math inline">\(p\)</span>-values) will be off because the formulas of both <span class="math inline">\(t\)</span>-test and <span class="math inline">\(F\)</span>-test statistics include estimates of <span class="math inline">\(\hat{\sigma}^2\)</span>.</p>
 <p>Looking at the plot of jackknife studentized residuals against regressors (or fitted values) is instructive — for example, we often see a funnel pattern when there is an increase in variance in the plot of the jackknife studentized residuals against fitted value, or else in boxplots with a categorical variable as in Figure <a href="linear-regression.html#fig:diagfitvalhomosce">2.17</a>.
@@ -1562,8 +1555,8 @@ Figure 2.17: Plot of jackknife studentized residuals against fitted value (left)
 </p>
 </div>
 </div>
-<div id="normality-assumption" class="section level4" number="2.9.3.4">
-<h4><span class="header-section-number">2.9.3.4</span> Normality assumption</h4>
+<div id="normality-assumption" class="section level4 hasAnchor" number="2.9.3.4">
+<h4><span class="header-section-number">2.9.3.4</span> Normality assumption<a href="linear-regression.html#normality-assumption" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The normality assumption is mostly for convenience: if the errors are assumed normally distributed, then the least square and the maximum likelihood estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> coincide.
 The maximum likelihood estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> are asymptotically normal under mild conditions on the model matrix and <span class="math inline">\(t\)</span>-tests are robust to departure of the normality assumption. This means that inference is valid in large samples, regardless of the distribution of the errors/residuals (even if the null distribution are not exact). It is important to keep in mind that, for categorical explanatory variables, the sample size in each group must be sufficiently large for the central limit theorem to kick in.</p>
 <p>Sometimes, transformations can improve normality: if the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate. This can be assessed by looking at the quantile-quantile plot of the externally studentized residuals. If the response <span class="math inline">\(Y\)</span> is not continuous (including binary, proportion or count data), linear models give misleading answers and generalized linear models are more suitable.</p>
@@ -1581,9 +1574,8 @@ Figure 2.18: Histogram (left) and Student quantile-quantile plot (right) of the 
 Figure 2.19: Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed (top right), skewed (bottom left) and bimodal data (bottom right).
 </p>
 </div>
-ffalse{-91-68-105-97-103-110-111-115-116-105-99-32-112-108-111-116-115-32-102-111-114-32-116-104-101-32-36-92-116-101-120-116-116-116-123-99-111-108-108-101-103-101-125-36-32-100-97-116-97-46-93-}
 <div class="example">
-<span id="exm:diagplotcollege" class="example"><strong>Example 2.4  \iffalse (Diagnostic plots for the <span class="math inline">\(\texttt{college}\)</span> data.)  </strong></span>We can look at the <code>college</code> data to see if the linear model assumptions hold.
+<p><span id="exm:diagplotcollege" class="example"><strong>Example 2.4  (Diagnostic plots for the $\texttt{college}$ data.) </strong></span>We can look at the <code>college</code> data to see if the linear model assumptions hold.</p>
 </div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:diagplotscollege"></span>
 <img src="MATH60604A_Statistical_modelling_files/figure-html/diagplotscollege-1.png" alt="Diagnostic plots for the college data example: ordinary residuals against fitted values (top left), absolute value of the jacknnife studentized residuals against fitted values (top right), box and whiskers plot of jacknnife studentized residuals (bottom left) and detrended Student quantile-quantile plot (bottom right). There is clear group heteroscedasticity." width="70%" />
@@ -1595,8 +1587,8 @@ Figure 2.20: Diagnostic plots for the college data example: ordinary residuals a
 </div>
 </div>
 </div>
-<div id="transformation-response" class="section level2" number="2.10">
-<h2><span class="header-section-number">2.10</span> Transformation of the response</h2>
+<div id="transformation-response" class="section level2 hasAnchor" number="2.10">
+<h2><span class="header-section-number">2.10</span> Transformation of the response<a href="linear-regression.html#transformation-response" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This ultimate section deals with strategies for fixing the linear model if we detected non-normality. If the response is strictly positive, an option is to use the Box–Cox transformation presented in Section <a href="likelihood.html#exm:boxcox">3.3</a> and fit a linear model to a transformation of <span class="math inline">\(Y\)</span>,
 <span class="math display">\[\begin{align*}
 y_i(\lambda)= \begin{cases}
@@ -1637,10 +1629,8 @@ and thus we can rearrange the expression so that
 \frac{\partial \mathrm{X}_1}{\mathrm{X}_1}\beta_1 = \frac{\partial Y}{Y};
 \end{align*}\]</span>
 this is a partial <strong>elasticity</strong>, so <span class="math inline">\(\beta_1\)</span> is interpreted as a <span class="math inline">\(\beta_1\)</span> percentage change in <span class="math inline">\(Y\)</span> for each percentage increase of <span class="math inline">\(\mathrm{X}_1\)</span>, <em>ceteris paribus</em>.</p>
-
 <div class="example">
-<p><span id="exm:poisonboxcox" class="example"><strong>Example 2.5  </strong></span>
-The paper of Box and Cox consider survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of <span class="citation"><a href="references.html#ref-SM:2008" role="doc-biblioref">Davison</a> (<a href="references.html#ref-SM:2008" role="doc-biblioref">2008</a>)</span>. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.</p>
+<p><span id="exm:poisonboxcox" class="example"><strong>Example 2.5  </strong></span>The paper of Box and Cox consider survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of <span class="citation">Davison (<a href="references.html#ref-SM:2008" role="doc-biblioref">2008</a>)</span>. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.</p>
 <p>We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form
 <span class="math display">\[\begin{align*}
 Y &amp;= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &amp;\qquad+ \beta_4\texttt{treatment}_3
@@ -1716,7 +1706,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
