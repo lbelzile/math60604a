@@ -321,23 +321,23 @@ p0 <- ggplot(data = (df20 <- data.frame(duree = sample(duree, 20))), aes(x=duree
   ylab("frequency")
 
 p1 <- ggplot(data = moy5) + 
-  geom_histogram(bins = 30, aes(x=moy, y=..density..), alpha = 0.2) + 
+  geom_histogram(bins = 30, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
   stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/sqrt(5)), n = 1000) + 
   xlab("average duration (in minutes)") +
   ylab("density")
 
 p2 <- ggplot(data = moy20) + 
-  geom_histogram(data = moy20, bins = 30, aes(x=moy, y=..density..), alpha = 0.2) + 
+  geom_histogram(data = moy20, bins = 30, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
   stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/sqrt(20)), n = 1000) + 
   xlab("average duration (in minutes)") +
   ylab("density")
 
 p3 <- ggplot(data = moy100) + 
-  geom_histogram(bins = 50, aes(x=moy, y=..density..), alpha = 0.2) + 
+  geom_histogram(bins = 50, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
   stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/10), n = 1000)  + 
-  geom_histogram(data = moy20, bins = 30, aes(x=moy, y=..density..), alpha = 0.2) + 
+  geom_histogram(data = moy20, bins = 30, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
   stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/sqrt(20)), n = 1000) + 
-   geom_histogram(bins = 30, aes(x=moy, y=..density..), alpha = 0.2) + 
+   geom_histogram(bins = 30, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
   stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/sqrt(5)), n = 1000) + 
   xlim(c(142,198)) + 
   xlab("average duration (in minutes)") +

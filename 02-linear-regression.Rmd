@@ -1016,7 +1016,7 @@ g2 <- ggplot(data = data.frame(sample = rstudent(lm2)), mapping = aes(sample = s
  stat_qq_point(distribution = di, detrend = de) +
  labs(x = "theoretical t quantiles", y = "jackknife studentized residuals\n minus theoretical quantiles")
 g1 <- ggplot(data = data.frame(x = rstudent(lm2)), aes(x=x)) +
-  geom_histogram(aes(x=x, y = ..density..)) +
+  geom_histogram(aes(x=x, y = after_stat(density))) +
   stat_function(fun = "dt", args = list(df = lm2$df.residual), col = hecblue) +
   geom_density() + labs(x = "jackknife studentized residuals")
 g1 + g2

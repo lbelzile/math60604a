@@ -325,7 +325,7 @@ library(ggplot2)
 # Plot the empirical permutation distribution
 ggplot(data = data.frame(statistic = ttest_stats),
        aes(x=statistic)) +
-  geom_histogram(bins = 30, aes(y=..density..), alpha = 0.2) +
+  geom_histogram(bins = 30, aes(y=after_stat(density)), alpha = 0.2) +
   geom_density() +
   geom_vline(xintercept = ttest_stats[1]) +
   ylab("density") +
@@ -401,7 +401,7 @@ Since we bin observations together, it is sometimes difficult to see where they 
 ```{r histrenfe, cache = TRUE, echo = FALSE, fig.cap = "Histogram of Promo tickets for Renfe ticket data"}
 renfe %>% subset(fare == "Promo") %>%
   ggplot(aes(x = price)) +
-    geom_histogram(aes(y = ..density..), bins = 30) +
+    geom_histogram(aes(y = after_stat(density)), bins = 30) +
     geom_rug(sides = "b") +
     labs(x = "price of Promo fare tickets (in euros)",
          y = "density")
@@ -577,7 +577,7 @@ ggplot(aes(y = price, x = class, col = fare)) +
 ```
 
 ```{r renfe-aed7, cache = TRUE,echo = FALSE, fig.cap = "Histograms of ticket price as a function of fare for Renfe trains."}
-ggplot(data = renfe, aes(x = price, y=..density.., fill = fare)) +
+ggplot(data = renfe, aes(x = price, y=after_stat(density), fill = fare)) +
     geom_histogram(binwidth = 5) +
     labs(x = "price (in euros)", y = "density") +
     theme(legend.position = "bottom")
