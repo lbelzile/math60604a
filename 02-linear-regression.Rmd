@@ -201,8 +201,9 @@ ggplot(data = college, aes(x = sexbin, y = salary, group = sex)) +
    scale_x_continuous(breaks = 0:1,
                      limits = c(-0.1,1.5),
                      labels = 0:1) +
-  theme(legend.position = c(.95, .95),
-    legend.justification = c("right", "top")) +
+  theme(legend.position = "inside", 
+        legend.position.inside = c(.95, .95),
+        legend.justification = c("right", "top")) +
   labs(x = "sex", y = "salary (in thousand USD)") +
   stat_summary(fun = mean, aes(col = sex))
 ```
