@@ -628,7 +628,7 @@ mean model is
 so the mean is multiplied by $\exp(\beta_j)$ for an increase of one unit of $\mathrm{X}_{j}$, *ceteris  paribus*. If $\beta_j < 0$, $\exp(\beta_j) < 1$ and so we have a decrease of $100\cdot(1-\exp(\beta_j))$% of the mean response. Likewise, if $\beta_j>0$, the mean number increases by $100\cdot(\exp(\beta_j)-1)$%. The interpretation of interactions between categorical and continuous/categorical variables is similar to that of multiplicative (log-linear) models.
 
 ```{example, name="Road accidents and speed limits on the motorway in Sweden", label="roadsweden"}
-Sweden is a worlwide leader in road safety and has a long history of countermeasures to increase road traffic safety, including the Vision Zero program. Back in the 1960s, a study was conducted by the authorities to investigate the potential of speed limits on motorways to reduce the number of accidents. The `sweden` data contains the number of accidents on 92 matching days in both 1961 and 1962 [@Svensson:1981]; speed limits were in place on selected days in either year. 
+Sweden is a worldwide leader in road safety and has a long history of countermeasures to increase road traffic safety, including the Vision Zero program. Back in the 1960s, a study was conducted by the authorities to investigate the potential of speed limits on motorways to reduce the number of accidents. The `sweden` data contains the number of accidents on 92 matching days in both 1961 and 1962 [@Svensson:1981]; speed limits were in place on selected days in either year. 
 ```
 
 We consider an example from Section 4.5 of @Brazzale/Davison/Reid:2007. 
@@ -638,7 +638,7 @@ $Y_{i1}$ (respectively $Y_{i2}$) denote the number of accidents in 1961
 indicator equal to one if speed limits were enforced on day $i$ of year
 $j$. We set 
 \begin{align*}
-Y_{i1} \sim \mathsf{Po}(\delta_i + \alpha \texttt{limit}_{i1}), \quad Y_{i2} \sim\mathsf{Po}(\delta_i + \gamma +  \alpha \texttt{limit}_{i2}), \qquad i=1, \ldots, 92. 
+Y_{i1} \sim \mathsf{Po}\{\exp(\delta_i + \alpha \texttt{limit}_{i1})\}, \quad Y_{i2} \sim\mathsf{Po}\{\exp(\delta_i + \gamma +  \alpha \texttt{limit}_{i2})\}, \qquad i=1, \ldots, 92.
 \end{align*}
 The nuisance parameters $\delta_1, \ldots, \delta_{92}$ control for changes in background number of accidents and are of no practical interest, while $\gamma$ denotes the change from 1961 to 1962. We are interested here in assessing changes in the number of accidents due to the policy, $\alpha$; of secondary interest is to determine whether there has been a decrease in the number of accident relative to 1961.
 
