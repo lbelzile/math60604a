@@ -1,0 +1,68 @@
+project:
+  type: book
+  output-dir: docs
+execute: 
+  cache: true
+  freeze: false
+bibliography: math60604.bib
+highlight: tango
+split_bib: no
+engine: knitr
+lang: en
+
+book:
+  title: "MATH 60604A - Statistical Modelling"
+  output-file: "MATH60604A"
+  author: 
+  - name: "Léo Belzile"
+  page-footer: "All right reserved (Léo Belzile)" 
+  date: today
+  description: | 
+      This is a web complement for MATH 60604A *Statistical Modelling*, a master course offered at HEC Montréal. 
+
+  chapters:
+    - index.qmd
+    - introduction.qmd
+    - inference.qmd
+    - references.qmd
+   # - rappel-regressionlineaire.qmd
+  site-url: https://lbelzile.github.io/math60604a/
+  repo-url: https://github.com/lbelzile/math60604a/
+  repo-branch: master
+  repo-actions: [edit]
+  search: true
+  downloads: [pdf]
+format:
+  html:
+    theme: custom.scss
+    css: css/style.css
+    reader-mode: true
+    license: "All rights reserved"
+    fig-align: center
+    toc-location: right
+    code-fold: false
+    code-summary: "Code"
+    code-overflow: wrap
+    code-block-border-left: true
+    code-copy: true
+    default-image-extension: png
+    bibliography: math60604.bib
+  pdf:
+    documentclass: scrbook
+    latex_documents:
+       targetname: MATH60604A.tex
+    fontsize: 11pt
+    fig-pos: "ht!"
+    papersize: letter
+    template-partials: 
+      - before-body.tex
+    include-in-header: preamble.tex
+    include-before-body: coverpage.tex
+    pdf-engine: pdflatex
+    citation-package: natbib
+    keep-tex: true
+    biblio-style: apalike2
+    link-citations: true
+    default-image-extension: pdf
+
+

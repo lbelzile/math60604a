@@ -1,6 +1,0 @@
-Package: placeholder
-Type: Book
-Title: MATH 60604A Statistical Modelling
-Version: 0.0.1
-Imports: bookdown
-Remotes: rstudio/bookdown

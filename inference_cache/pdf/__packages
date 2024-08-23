@@ -1,0 +1,8 @@
+knitr
+kableExtra
+viridisLite
+viridis
+ggplot2
+patchwork
+dplyr
+infer
