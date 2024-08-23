@@ -30,7 +30,7 @@ Because the individuals are selected at **random** to be part of the sample, the
 :::{#exm-Galluppoll}
 ## Polling for the 1936 USA Presidential Election
 
-*The Literary Digest* surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. [Biased sampling and differential non-response are mostly responsible for the error:](https://www.jstor.org/stable/2749114) the sampling frame was built using ``phone number directories, drivers' registrations, club memberships, etc.'', all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
+*The Literary Digest* surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57\%) over incumbent President Franklin D. Roosevelt (43\%). The latter nevertheless won in a landslide election with 62\% of votes cast, a 19\% forecast error. [Biased sampling and differential non-response are mostly responsible for the error:](https://www.jstor.org/stable/2749114) the sampling frame was built using "phone number directories, drivers' registrations, club memberships, etc.", all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.
 
 In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. [Read the full story here.](https://ozanozbey.medium.com/two-lessons-of-sampling-bias-from-1936-us-election-e4e96bd42be)
 
@@ -473,7 +473,7 @@ If we consider a sample of $n$ normally distributed observations, the scaled sam
 The Student-$t$ distribution with $\nu>0$ degrees of freedom is a location-scale family. The standard version is denoted by $\mathsf{Student}(\nu).$
 
 
-The name ``Student'' comes from the pseudonym used by William Gosset in @Student:1908, who introduced the asymptotic distribution of the $t$-statistic.
+The name "Student" comes from the pseudonym used by William Gosset in @Student:1908, who introduced the asymptotic distribution of the $t$-statistic.
 <!--If $X \sim \mathsf{normal}(0,1)$ independent of  $Y \sim \chi^{2}_\nu$, then the $t$-statistic
 \begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
@@ -579,7 +579,7 @@ renfe |> subset(fare == "Promo") |>
 
 If we have a lot of data, it sometimes help to focus only on selected summary statistics.
 
-:::{def-boxplot}
+:::{#def-boxplot}
 
 ## Box-and-whiskers plot
 

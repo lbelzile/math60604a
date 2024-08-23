@@ -205,9 +205,8 @@ window.Quarto = {
   <li><a href="#continuous-distributions" id="toc-continuous-distributions" class="nav-link" data-scroll-target="#continuous-distributions"><span class="header-section-number">1.3.1</span> Continuous distributions</a></li>
   </ul></li>
   <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">1.4</span> Graphs</a></li>
-  <li><a href="#box-and-whiskers-plot" id="toc-box-and-whiskers-plot" class="nav-link" data-scroll-target="#box-and-whiskers-plot"><span class="header-section-number">1.5</span> Box-and-whiskers plot</a></li>
-  <li><a href="#law-large-numbers" id="toc-law-large-numbers" class="nav-link" data-scroll-target="#law-large-numbers"><span class="header-section-number">1.6</span> Laws of large numbers</a></li>
-  <li><a href="#CLT" id="toc-CLT" class="nav-link" data-scroll-target="#CLT"><span class="header-section-number">1.7</span> Central Limit Theorem</a></li>
+  <li><a href="#law-large-numbers" id="toc-law-large-numbers" class="nav-link" data-scroll-target="#law-large-numbers"><span class="header-section-number">1.5</span> Laws of large numbers</a></li>
+  <li><a href="#CLT" id="toc-CLT" class="nav-link" data-scroll-target="#CLT"><span class="header-section-number">1.6</span> Central Limit Theorem</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604a/edit/master/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -245,7 +244,7 @@ window.Quarto = {
 <p>A <strong>sample</strong> is a random sub-group of individuals drawn from the population. Creation of sampling plans is a complex subject and semester-long sampling courses would be required to evens scratch the surface of the topic. Even if we won’t be collecting data, keep in mind the following information: for a sample to be good, it must be representative of the population under study. Selection bias must be avoided, notably samples of friends or of people sharing opinions.</p>
 <p>Because the individuals are selected at <strong>random</strong> to be part of the sample, the measurement of the characteristic of interest will also be random and change from one sample to the next. However, larger samples of the same quality carry more information and our estimator will be more precise. Sample size is not guarantee of quality, as the following example demonstrates.</p>
 <div id="exm-Galluppoll" class="theorem example">
-<p><span class="theorem-title"><strong>Example 1.1 (Polling for the 1936 USA Presidential Election)</strong></span> <em>The Literary Digest</em> surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57%) over incumbent President Franklin D. Roosevelt (43%). The latter nevertheless won in a landslide election with 62% of votes cast, a 19% forecast error. <a href="https://www.jstor.org/stable/2749114">Biased sampling and differential non-response are mostly responsible for the error:</a> the sampling frame was built using ``phone number directories, drivers’ registrations, club memberships, etc.’’, all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.</p>
+<p><span class="theorem-title"><strong>Example 1.1 (Polling for the 1936 USA Presidential Election)</strong></span> <em>The Literary Digest</em> surveyed 10 millions people by mail to know voting preferences for the 1936 USA Presidential Election. A sizeable share, 2.4 millions answered, giving Alf Landon (57%) over incumbent President Franklin D. Roosevelt (43%). The latter nevertheless won in a landslide election with 62% of votes cast, a 19% forecast error. <a href="https://www.jstor.org/stable/2749114">Biased sampling and differential non-response are mostly responsible for the error:</a> the sampling frame was built using “phone number directories, drivers’ registrations, club memberships, etc.”, all of which skewed the sample towards rich upper class white people more susceptible to vote for the GOP.</p>
 <p>In contrast, Gallup correctly predicted the outcome by polling (only) 50K inhabitants. <a href="https://ozanozbey.medium.com/two-lessons-of-sampling-bias-from-1936-us-election-e4e96bd42be">Read the full story here.</a></p>
 </div>
 <section id="variable-type" class="level3" data-number="1.1.1">
@@ -546,7 +545,7 @@ f(x; \nu) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{\nu/2-1}\exp(-x/2),\qquad x &gt;0
 <p>If we consider a sample of <span class="math inline">\(n\)</span> normally distributed observations, the scaled sample variance <span class="math inline">\((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}.\)</span></p>
 <div id="def-studentdist" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1.13 (Student-<span class="math inline">\(t\)</span> distribution)</strong></span> The Student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(\nu&gt;0\)</span> degrees of freedom is a location-scale family. The standard version is denoted by <span class="math inline">\(\mathsf{Student}(\nu).\)</span></p>
-<p>The name ``Student’’ comes from the pseudonym used by William Gosset in <span class="citation" data-cites="Student:1908">Gosset (<a href="references.html#ref-Student:1908" role="doc-biblioref">1908</a>)</span>, who introduced the asymptotic distribution of the <span class="math inline">\(t\)</span>-statistic. <!--If $X \sim \mathsf{normal}(0,1)$ independent of  $Y \sim \chi^{2}_\nu$, then the $t$-statistic
+<p>The name “Student” comes from the pseudonym used by William Gosset in <span class="citation" data-cites="Student:1908">Gosset (<a href="references.html#ref-Student:1908" role="doc-biblioref">1908</a>)</span>, who introduced the asymptotic distribution of the <span class="math inline">\(t\)</span>-statistic. <!--If $X \sim \mathsf{normal}(0,1)$ independent of  $Y \sim \chi^{2}_\nu$, then the $t$-statistic
 \begin{align*}
 T = \frac{X}{\sqrt{Y/\nu}}
 \end{align*}
@@ -615,10 +614,8 @@ Figure&nbsp;1.5: Histogram of Promo tickets for Renfe ticket data
 </div>
 </div>
 <p>If we have a lot of data, it sometimes help to focus only on selected summary statistics.</p>
-</section>
-<section id="box-and-whiskers-plot" class="level2 {def-boxplot}" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="box-and-whiskers-plot"><span class="header-section-number">1.5</span> Box-and-whiskers plot</h2>
-<p>A box-and-whiskers plot (or boxplot) represents five numbers</p>
+<div id="def-boxplot" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1.15 (Box-and-whiskers plot)</strong></span> A box-and-whiskers plot (or boxplot) represents five numbers</p>
 <ul>
 <li>The box gives the quartiles <span class="math inline">\(q_1, q_2, q_3\)</span> of the distribution. The middle bar <span class="math inline">\(q_2\)</span> is thus the median, so 50% of the observations are smaller or larger than this number.</li>
 <li>The length of the whiskers is up to <span class="math inline">\(1.5\)</span> times the interquartiles range <span class="math inline">\(q_3-q_1\)</span> (the whiskers extend until the latest point in the interval, so the largest observation that is smaller than <span class="math inline">\(q_3+1.5(q_3-q_1)\)</span>, etc.)</li>
@@ -638,7 +635,7 @@ Figure&nbsp;1.6: Box-and-whiskers plot
 </div>
 </div>
 </div>
-</section>
+</div>
 <p>We can represent the distribution of a response variable as a function of a categorical variable by drawing a boxplot for each category and laying them side by side. A third variable, categorical, can be added via a color palette, as shown in <a href="#fig-histboxplot" class="quarto-xref">Figure&nbsp;<span>1.7</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -672,7 +669,7 @@ Figure&nbsp;1.8: Scatterplot (left) and hexagonal heatmap of bidimensional bin c
 <!-- Sometimes, continuous data have a particular structure, mostly when observations are collected over space or time. Time series are ordered and the response should be plotted on the $y$-axis as a function of time (on the $x$-axis). It is customary to draw segments between observations, but this display is sometimes misleading. -->
 <p>Models are (at best) an approximation of the true data generating mechanism and we will want to ensure that our assumptions are reasonable and the quality of the fit decent.</p>
 <div id="def-qqplot" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 1.15 (Quantiles-quantiles plots)</strong></span> Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if <span class="math inline">\(Y\)</span> is a continuous random variable with distribution function <span class="math inline">\(F\)</span>, then the mapping <span class="math inline">\(F(Y) \sim \mathsf{unif}(0,1)\)</span> yields standard uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from <span class="math inline">\(F\)</span>, viz.&nbsp;<span class="math inline">\(F^{-1}(U).\)</span> Consider then a random sample of size <span class="math inline">\(n\)</span> from the uniform distribution ordered from smallest to largest, with <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}.\)</span> One can show these ranks have marginally a Beta distribution, <span class="math inline">\(U_{(k)} \sim \mathsf{beta}(k, n+1-k)\)</span> with expectation <span class="math inline">\(k/(n+1).\)</span></p>
+<p><span class="theorem-title"><strong>Definition 1.16 (Quantiles-quantiles plots)</strong></span> Quantile-quantile plots are graphical goodness-of-fit diagnostics that are based on the following principle: if <span class="math inline">\(Y\)</span> is a continuous random variable with distribution function <span class="math inline">\(F\)</span>, then the mapping <span class="math inline">\(F(Y) \sim \mathsf{unif}(0,1)\)</span> yields standard uniform variables. Similarly, the quantile transform applied to a uniform variable provides a mean to simulating samples from <span class="math inline">\(F\)</span>, viz.&nbsp;<span class="math inline">\(F^{-1}(U).\)</span> Consider then a random sample of size <span class="math inline">\(n\)</span> from the uniform distribution ordered from smallest to largest, with <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}.\)</span> One can show these ranks have marginally a Beta distribution, <span class="math inline">\(U_{(k)} \sim \mathsf{beta}(k, n+1-k)\)</span> with expectation <span class="math inline">\(k/(n+1).\)</span></p>
 <p>In practice, we don’t know <span class="math inline">\(F\)</span> and, even if we did, one would need to estimate the parameters. We consider some estimator <span class="math inline">\(\widehat{F}\)</span> for the model and apply the inverse transform to an approximate uniform sample <span class="math inline">\(\{i/(n+1)\}_{i=1}^n.\)</span> The quantile-quantile plot shows the data as a function of the (first moment) of the transformed order statistics:</p>
 <ul>
 <li>on the <span class="math inline">\(x\)</span>-axis, the theoretical quantiles <span class="math inline">\(\widehat{F}^{-1}\{\mathrm{rank}(y_i)/(n+1)\}\)</span></li>
@@ -710,14 +707,15 @@ Figure&nbsp;1.9: Probability-probability plot (left) on uniform margins, and orm
 [It is also possible to use the bootstrap samples to derive an (approximate) simultaneous confidence intervals, in which we expected values to fall $100(1-\alpha)$\% of the time inside the bands in repeated samples; [see Section 4.4.3 of these course notes](https://lbelzile.github.io/lineaRmodels/qqplot.html).
 -->
 <p>Interpretation of quantile-quantile plots requires practice and experience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">this post by <em>Glen_b</em> on StackOverflow</a> nicely summarizes what can be detected (or not) from them.</p>
-<section id="law-large-numbers" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="law-large-numbers"><span class="header-section-number">1.6</span> Laws of large numbers</h2>
+</section>
+<section id="law-large-numbers" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="law-large-numbers"><span class="header-section-number">1.5</span> Laws of large numbers</h2>
 <p>An estimator for a parameter <span class="math inline">\(\theta\)</span> is <strong>consistent</strong> if the value obtained as the sample size increases (to infinity) converges to the true value of <span class="math inline">\(\theta.\)</span> Mathematically speaking, this translates into convergence in probability, meaning <span class="math inline">\(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta.\)</span> In common language, we say that the probability that <span class="math inline">\(\hat{\theta}\)</span> and <span class="math inline">\(\theta\)</span> differ becomes negligible as <span class="math inline">\(n\)</span> gets large.</p>
 <p>Consistency is the <em>a minima</em> requirement for an estimator: when we collect more information, we should approach the truth. The law of large number states that the sample mean of <span class="math inline">\(n\)</span> (independent) observations with common mean <span class="math inline">\(\mu\)</span>, say <span class="math inline">\(\overline{Y}_n\)</span>, converges to <span class="math inline">\(\mu\)</span>, denoted <span class="math inline">\(\overline{Y}_n \rightarrow \mu.\)</span> Roughly speaking, our approximation becomes less variable and asymptotically unbiased as the sample size (and thus the quantity of information available for the parameter) increases. The law of large number is featured in Monte Carlo experiments: we can approximate the expectation of some (complicated) function <span class="math inline">\(g(x)\)</span> by simulating repeatedly independent draws from <span class="math inline">\(Y\)</span> and calculating the sample mean <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i).\)</span></p>
 <p>If the law of large number tells us what happens in the limit (we get a single numerical value), the result doesn’t contain information about the rate of convergence and the uncertainty at finite levels.</p>
 </section>
-<section id="CLT" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="CLT"><span class="header-section-number">1.7</span> Central Limit Theorem</h2>
+<section id="CLT" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="CLT"><span class="header-section-number">1.6</span> Central Limit Theorem</h2>
 <p>The central limit theorem gives the approximate large sample distribution of the sample mean. Consider a random sample of size <span class="math inline">\(n\)</span> <span class="math inline">\(\{Y_i\}_{i=1}^n\)</span> of independent random variables with common expectation <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2.\)</span> The sample mean <span class="math inline">\(\overline{Y} = n^{-1}\sum_{i=1}^n Y_i\)</span> converges to <span class="math inline">\(\mu\)</span> by the law of large number, but we also have that</p>
 <ul>
 <li>the estimator <span class="math inline">\(\overline{Y}\)</span> is centered around <span class="math inline">\(\mu\)</span>,</li>

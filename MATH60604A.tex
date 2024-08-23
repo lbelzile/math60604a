@@ -556,9 +556,9 @@ landslide election with 62\% of votes cast, a 19\% forecast error.
 \href{https://www.jstor.org/stable/2749114}{Biased sampling and
 differential non-response are mostly responsible for the error:} the
 sampling frame was built using ``phone number directories, drivers'
-registrations, club memberships, etc.'\,', all of which skewed the
-sample towards rich upper class white people more susceptible to vote
-for the GOP.
+registrations, club memberships, etc.'', all of which skewed the sample
+towards rich upper class white people more susceptible to vote for the
+GOP.
 
 In contrast, Gallup correctly predicted the outcome by polling (only)
 50K inhabitants.
@@ -1085,8 +1085,8 @@ The Student-\(t\) distribution with \(\nu>0\) degrees of freedom is a
 location-scale family. The standard version is denoted by
 \(\mathsf{Student}(\nu).\)
 
-The name ``Student'\,' comes from the pseudonym used by William Gosset
-in Gosset (\citeproc{ref-Student:1908}{1908}), who introduced the
+The name ``Student'' comes from the pseudonym used by William Gosset in
+Gosset (\citeproc{ref-Student:1908}{1908}), who introduced the
 asymptotic distribution of the \(t\)-statistic. The density of the
 standard \(T\) with \(\nu\) degrees of freedom is \begin{align*}
 f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right)
@@ -1199,7 +1199,8 @@ ticket data}
 If we have a lot of data, it sometimes help to focus only on selected
 summary statistics.
 
-\section{Box-and-whiskers plot}\label{box-and-whiskers-plot}
+\begin{definition}[Box-and-whiskers
+plot]\protect\hypertarget{def-boxplot}{}\label{def-boxplot}
 
 A box-and-whiskers plot (or boxplot) represents five numbers
 
@@ -1234,6 +1235,8 @@ A box-and-whiskers plot (or boxplot) represents five numbers
 \caption{\label{fig-boxplot}Box-and-whiskers plot}
 
 \end{figure}%
+
+\end{definition}
 
 We can represent the distribution of a response variable as a function
 of a categorical variable by drawing a boxplot for each category and
@@ -1520,7 +1523,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, titlerule=0mm, toprule=.15mm, breakable, bottomtitle=1mm, bottomrule=.15mm, opacityback=0, leftrule=.75mm, coltitle=black, toptitle=1mm, opacitybacktitle=0.6, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, leftrule=.75mm, colback=white, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, colframe=quarto-callout-important-color-frame, coltitle=black, breakable, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacityback=0, toprule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \textbf{Learning objectives}:
 
@@ -1540,8 +1543,6 @@ of key ideas related to testing.
 \end{itemize}
 
 \end{tcolorbox}
-
-\section{Hypothesis}\label{hypothesis}
 
 The first step of a design is formulating a research question.
 Generally, this hypothesis will specify potential differences between
@@ -1667,7 +1668,7 @@ license}.}
 \end{figure}%
 
 For example, we may use as estimand the population average of
-\(Y_1, \ldots\), say \(\mu.\) The estimator will be sample mean, i.e.,
+\(Y_1, \ldots,\) say \(\mu.\) The estimator will be sample mean, i.e.,
 the sum of the elements in the sample divided by the sample size,
 \(\overline{Y}=(Y_1 + \cdots + Y_n)/n.\) The estimate will be a
 numerical value, say 4.3.
@@ -1697,7 +1698,7 @@ license}.}
 
 To illustrate this point, Figure~\ref{fig-samplevar} shows five simple
 random samples of size \(n=10\) drawn from an hypothetical population
-with mean \(\mu\) and standard deviation \(\sigma\), along with their
+with mean \(\mu\) and standard deviation \(\sigma,\) along with their
 sample mean \(\overline{y}.\) Because of the sampling variability, the
 sample means of the subgroups will differ even if they originate from
 the same distribution. You can view sampling variability as noise: our
@@ -1785,22 +1786,23 @@ ones indicating that the observation is in the bin and zero otherwise.
 
 Consider now what happens as we increase the sample size: the top panel
 of Figure~\ref{fig-uniformsamp2} shows uniform samples for increasing
-samples size. The histogram looks more and more like the true underlying
-distribution (flat, each bin with equal frequency) as the sample size
-increases. The sample distribution of points is nearly indistinguishable
-from the theoretical one (straight line) when \(n=10 000.\)\footnote{The
-  formula shows that the standard error decreases by a tenfold every
-  time the sample size increases by a factor 100.} The bottom panel, on
-the other hand, isn't from a uniform distribution and larger samples
-come closer to the population distribution. We couldn't have spotted
-this difference in the first two plots, since the sampling variability
-is too important; there, the lack of data in some bins could have been
-attributed to chance, as they are comparable with the graph for data
-that are truly uniform. This is in line with most practical
-applications, in which the limited sample size restricts our capacity to
-disentangle real differences from sampling variability. We must embrace
-this uncertainty: in the next section, we outline how hypothesis testing
-helps us disentangle the signal from the noise.
+samples size. The scaled bar plot looks more and more like the true
+underlying distribution (flat, each bin with equal frequency) as the
+sample size increases. The sample distribution of points is nearly
+indistinguishable from the theoretical one (straight line) when
+\(n=10 000.\)\footnote{The formula shows that the standard error
+  decreases by a tenfold every time the sample size increases by a
+  factor 100.} The bottom panel, on the other hand, isn't from a uniform
+distribution and larger samples come closer to the population
+distribution. We couldn't have spotted this difference in the first two
+plots, since the sampling variability is too important; there, the lack
+of data in some bins could have been attributed to chance, as they are
+comparable with the graph for data that are truly uniform. This is in
+line with most practical applications, in which the limited sample size
+restricts our capacity to disentangle real differences from sampling
+variability. We must embrace this uncertainty: in the next section, we
+outline how hypothesis testing helps us disentangle the signal from the
+noise.
 
 \begin{figure}[ht!]
 
@@ -1810,7 +1812,7 @@ helps us disentangle the signal from the noise.
 
 }
 
-\caption{\label{fig-uniformsamp2}Histograms of data from a uniform
+\caption{\label{fig-uniformsamp2}Bar plots of data from a uniform
 distribution (top) and non-uniform (bottom) with increasing sample sizes
 of 10, 100, 1000 and 10 000 (from left to right).}
 
@@ -1867,24 +1869,23 @@ are appointed juror.
   the test.
 \item
   The final step is the verdict. This is a binary decision, guilty or
-  not guilty. For an hypothesis test performed at level \(\alpha\), one
+  not guilty. For an hypothesis test performed at level \(\alpha,\) one
   would reject (guilty) if the \emph{p}-value is less than \(\alpha.\)
 \end{itemize}
 
 The above description provides some heuristic, but lacks crucial
-details. Juliana Schulz goes over these in more details in the next
-section.
+details.
 
-\subsection{Hypothesis}\label{hypothesis-1}
+\subsection{Hypothesis}\label{hypothesis}
 
 In statistical tests we have two hypotheses: the null hypothesis
 (\(\mathscr{H}_0\)) and the alternative hypothesis (\(\mathscr{H}_1\)).
 Usually, the null hypothesis is the `status quo' and the alternative is
 what we're really interested in testing. A statistical hypothesis test
 allows us to decide whether or not our data provides enough evidence to
-reject \(\mathscr{H}_0\) in favour of \(\mathscr{H}_1\), subject to some
+reject \(\mathscr{H}_0\) in favour of \(\mathscr{H}_1,\) subject to some
 pre-specified risk of error. Usually, hypothesis tests involve a
-parameter, say \(\theta\), which characterizes the underlying
+parameter, say \(\theta,\) which characterizes the underlying
 distribution at the population level ans whose value is unknown. A
 two-sided hypothesis test regarding a parameter \(\theta\) has the form
 \begin{align*}
@@ -1894,11 +1895,11 @@ to the value \(\theta_0.\) The hypotheses are a statistical
 representation of our research question.
 
 A common example of two-sided test is one for the regression coefficient
-\(\beta_j\) associated to an explanatory variable \(\mathrm{X}_j\), for
+\(\beta_j\) associated to an explanatory variable \(\mathrm{X}_j,\) for
 which the null and alternative hypothesis are \begin{align*}
 \mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
 \end{align*} where \(\beta_j^0\) is some value that reflects the
-research question of interest. For example, if \(\beta_j^0=0\), the
+research question of interest. For example, if \(\beta_j^0=0,\) the
 underlying question is: is covariate \(\mathrm{X}_j\) impacting the
 response \(Y\) linearly once other variables have been taken into
 account?
@@ -1912,14 +1913,14 @@ alternatives of the form \(\mathscr{H}_a: \theta > \theta_0\) or
 A test statistic \(T\) is a function of the data that summarise the
 information contained in the sample for \(\theta.\) The form of the test
 statistic is chosen such that we know its underlying distribution under
-\(\mathscr{H}_0\), that is, the potential values taken by \(T\) and
+\(\mathscr{H}_0,\) that is, the potential values taken by \(T\) and
 their relative probability if \(\mathscr{H}_0\) is true. Indeed, \(Y\)
 is a random variable and its value change from one sample to the next.
 This allows us to determine what values of \(T\) are likely if
 \(\mathscr{H}_0\) is true. Many statistics we will consider are
 \textbf{Wald statistic}, of the form \begin{align*}
 T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
-\end{align*} where \(\widehat{\theta}\) is an estimator of \(\theta\),
+\end{align*} where \(\widehat{\theta}\) is an estimator of \(\theta,\)
 \(\theta_0\) is the postulated value of the parameter and
 \(\mathrm{se}(\widehat{\theta})\) is an estimator of the standard
 deviation of the test statistic \(\widehat{\theta}.\)
@@ -1930,32 +1931,13 @@ For example, to test whether the mean of a population is zero, we set
 \end{align*} and the Wald statistic is \begin{align*}
 T &= \frac{\overline{X}-0}{S_n/\sqrt{n}}
 \end{align*} where \(\overline{X}\) is the sample mean of
-\(X_1, \ldots, X_n\), \begin{align*}
+\(X_1, \ldots, X_n,\) \begin{align*}
 \overline{X} &= \frac{1}{n} \sum_{i=1}^n X_i = \frac{X_1+ \cdots + X_n}{n}
 \end{align*} and the standard error (of the mean) \(\overline{X}\) is
 \(S_n/\sqrt{n}\); the sample variance \(S_n\) is an estimator of the
-standard deviation \(\sigma\), \begin{align*}
+standard deviation \(\sigma,\) \begin{align*}
 S^2_n &= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 \end{align*}
-
-Its important to distinguish between procedures/formulas and their
-numerical values. An \textbf{estimator} is a rule or formula used to
-calculate an estimate of some parameter or quantity of interest based on
-observed data. For example, the sample mean \(\bar{X}\) is an estimator
-of the population mean \(\mu.\) Once we have observed data we can
-actually compute the sample mean, that is, we have an estimate --- an
-actual value. In other words,
-
-\begin{itemize}
-\tightlist
-\item
-  an estimator is the procedure or formula telling us how to use sample
-  data to compute an estimate. Its a random variable since it depends on
-  the sample.
-\item
-  an estimate is the numerical value obtained once we apply the formula
-  to observed data
-\end{itemize}
 
 \subsection{\texorpdfstring{Null distribution and
 \emph{p}-value}{Null distribution and p-value}}\label{null-distribution-and-p-value}
@@ -1967,7 +1949,7 @@ or more extreme to the estimate computed from the data, assuming
 \(\mathscr{H}_0\) is true. Suppose that based on a random sample
 \(Y_1, \ldots, Y_n\) we obtain a statistic whose value \(T=t.\) For a
 two-sided test \(\mathscr{H}_0:\theta=\theta_0\)
-vs.~\(\mathscr{H}_a:\theta \neq \theta_0\), the \emph{p}-value is
+vs.~\(\mathscr{H}_a:\theta \neq \theta_0,\) the \emph{p}-value is
 \(\Pr_0(|T| \geq |t|).\)\footnote{If the distribution of \(T\) is
   symmetric around zero, the \emph{p}-value reduces to
   \(p = 2 \times \Pr_0(T \geq |t|).\)}
@@ -1983,7 +1965,7 @@ normal random variable with mean \(\mu\) and standard deviation
 has broader applications since most statistics can be viewed as some
 form of average or transformation thereof, a fact used to derive
 benchmarks for most commonly used tests. Most software use these
-approximations as proxy by default: the normal, Student's \(t\),
+approximations as proxy by default: the normal, Student's \(t,\)
 \(\chi^2\) and \(F\) distributions are the reference distributions that
 arise the most often.
 
@@ -1991,7 +1973,7 @@ Figure~\ref{fig-power-plots} shows the distribution of \(p\)-values for
 two scenarios: one in which there are no differences and the null is
 true, the other under an alternative. The probability of rejection is
 obtained by calculating the area under the density curve between zero
-and \(\alpha=0.1\), here 0.1 on the left. Under the null, the model is
+and \(\alpha=0.1,\) here 0.1 on the left. Under the null, the model is
 calibrated and the distribution of \emph{p}-values is uniform (i.e., a
 flat rectangle of height 1), meaning all values in the unit interval are
 equally likely. Under the alternative (right), small \emph{p}-values are
@@ -2036,14 +2018,14 @@ randomness and the extra computations costs sometimes are not worth it.
 Consider the example of a two-sided test involving the population mean
 \(\mathscr{H}_0:\mu=0\) against the alternative
 \(\mathscr{H}_1:\mu \neq 0.\) Assuming the random sample comes from a
-normal (population) \(\mathsf{normal}(\mu, \sigma^2)\), it can be shown
+normal (population) \(\mathsf{normal}(\mu, \sigma^2),\) it can be shown
 that if \(\mathscr{H}_0\) is true (that is, if \(\mu=0\)), the test
 statistic \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*} follows a Student-\emph{t} distribution with \(n-1\)
 degrees of freedom. This allows us to calculate the \emph{p}-value
 (either from a table, or using some statistical software). Because of
-the symmetry,the \emph{p}-value is \(P = 2\times\Pr(T_{n-1} > |t|)\),
+the symmetry,the \emph{p}-value is \(P = 2\times\Pr(T_{n-1} > |t|),\)
 where \(T \sim \mathsf{Student}(n-1).\)
 
 \subsection{Confidence intervals}\label{confidence-intervals}
@@ -2051,19 +2033,23 @@ where \(T \sim \mathsf{Student}(n-1).\)
 A \textbf{confidence interval} is an alternative way to present the
 conclusions of an hypothesis test performed at significance level
 \(\alpha.\) It is often combined with a point estimator \(\hat{\theta}\)
-to give an indication of the variability of the estimation procedure.
-Wald-based \((1-\alpha)\) confidence intervals for a scalar parameter
-\(\theta\) are of the form \begin{align*}
-\widehat{\theta} + \text{critical value} \times \mathrm{se}(\widehat{\theta})
-\end{align*} based on the Wald statistic \(W\), \begin{align*}
+plus or minus a margin of error designed to give an indication of the
+variability of the estimation procedure. Wald-based \((1-\alpha)\)
+confidence intervals for a scalar parameter \(\theta\) are of the form
+\begin{align*}
+[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
+\end{align*} where \(\mathfrak{q}_{\alpha/2}\) is the \(\alpha/2\)
+quantile of the null distribution of the Wald statistic \(W,\)
+\begin{align*}
 W =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 \end{align*} and where \(\theta\) represents the postulated value for
 the fixed, but unknown value of the parameter. The critical values are
-quantile of the null distribution and are chosen so that the probability
-of being more extreme is \(\alpha.\)
+the \(\alpha/2\) and \(1-\alpha/2\) quantiles of the null distribution
+(for a symmetric interval, chosen so that the probability of being more
+extreme is \(\alpha.\)
 
 For example, for a random sample \(X_1, \ldots, X_n\) from a normal
-distribution \(\mathsf{normal}(\mu, \sigma)\), the (\(1-\alpha\))
+distribution \(\mathsf{normal}(\mu, \sigma),\) the (\(1-\alpha\))
 confidence interval for the population mean \(\mu\) is \begin{align*}
 \overline{X} \pm t_{n-1, \alpha/2} \frac{S}{\sqrt{n}}
 \end{align*} where \(t_{n-1,\alpha/2}\) is the \(1-\alpha/2\) quantile
@@ -2071,11 +2057,11 @@ of a Student-\(t\) distribution with \(n-1\) degrees of freedom.
 
 The bounds of the confidence intervals are random variables, since both
 estimators of the parameter and its standard error, \(\widehat{\theta}\)
-and \(\mathrm{se}(\widehat{\theta})\), are random: their values will
+and \(\mathrm{se}(\widehat{\theta}),\) are random: their values will
 vary from one sample to the next. Before the interval is calculated,
 there is a \(1-\alpha\) probability that \(\theta\) is contained in the
 \textbf{random} interval
-\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))\),
+\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})),\)
 where \(\widehat{\theta}\) denotes the estimator. Once we obtain a
 sample and calculate the confidence interval, there is no more notion of
 probability: the true value of the parameter \(\theta\) is either in the
@@ -2102,14 +2088,14 @@ fail to include the true mean value of zero (in red).}
 \end{figure}%
 
 If we are only interested in the binary decision rule reject/fail to
-reject \(\mathscr{H}_0\), the confidence interval is equivalent to a
+reject \(\mathscr{H}_0,\) the confidence interval is equivalent to a
 \emph{p}-value since it leads to the same conclusion. Whereas the
 \(1-\alpha\) confidence interval gives the set of all values for which
 the test statistic doesn't provide enough evidence to reject
-\(\mathscr{H}_0\) at level \(\alpha\), the \emph{p}-value gives the
+\(\mathscr{H}_0\) at level \(\alpha,\) the \emph{p}-value gives the
 probability under the null of obtaning a result more extreme than the
 postulated value and so is more precise for this particular value. If
-the \emph{p}-value is smaller than \(\alpha\), our null value \(\theta\)
+the \emph{p}-value is smaller than \(\alpha,\) our null value \(\theta\)
 will be outside of the confidence interval and vice-versa.
 
 \subsection{Conclusion}\label{conclusion}
@@ -2135,9 +2121,9 @@ we're making a mistake when we make a decision. In statistic, there are
 
 These hypothesis are not judged equally: we seek to avoid error of type
 I (judicial errors, corresponding to condamning an innocent). To prevent
-this, we fix a the level of the test, \(\alpha\), which captures our
+this, we fix a the level of the test, \(\alpha,\) which captures our
 tolerance to the risk of commiting a type I error: the higher the level
-of the test \(\alpha\), the more often we will reject the null
+of the test \(\alpha,\) the more often we will reject the null
 hypothesis when the latter is true. The value of \(\alpha \in (0, 1)\)
 is the probability of rejecting \(\mathscr{H}_0\) when \(\mathscr{H}_0\)
 is in fact true, \begin{align*}
@@ -2173,9 +2159,9 @@ of the test \(\alpha\):
 \begin{itemize}
 \tightlist
 \item
-  if \(P < \alpha\), we reject \(\mathscr{H}_0\);
+  if \(P < \alpha,\) we reject \(\mathscr{H}_0\);
 \item
-  if \(P \geq \alpha\), we fail to reject \(\mathscr{H}_0.\)
+  if \(P \geq \alpha,\) we fail to reject \(\mathscr{H}_0.\)
 \end{itemize}
 
 Do not mix up level of the test (probability fixed beforehand by the
@@ -2185,7 +2171,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, rightrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, titlerule=0mm, toprule=.15mm, breakable, bottomtitle=1mm, bottomrule=.15mm, opacityback=0, leftrule=.75mm, coltitle=black, toptitle=1mm, opacitybacktitle=0.6, colback=white, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, leftrule=.75mm, colback=white, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, colframe=quarto-callout-caution-color-frame, coltitle=black, breakable, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacityback=0, toprule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2252,10 +2238,10 @@ false.
 
 Failing to reject \(\mathscr{H}_0\) when \(\mathscr{H}_a\) is true
 corresponds to the definition of type II error, the probability of which
-is \(1-\text{power}\), say. The \textbf{power of a test} is the
+is \(1-\text{power},\) say. The \textbf{power of a test} is the
 probability of rejecting \(\mathscr{H}_0\) when \(\mathscr{H}_0\) is
 false, i.e., \begin{align*}
-\Pr{}_a(\text{reject } \mathscr{H}_0),
+\Pr{\!}_a(\text{reject } \mathscr{H}_0),
 \end{align*} i.e., the probability under the alternative model of
 falling in the rejection region. Depending on the alternative models, it
 is more or less easy to detect that the null hypothesis is false and
@@ -2318,7 +2304,7 @@ Carlo methods. For a given alternative, we simulate repeatedly samples
 from the model, compute the test statistic on these new samples and the
 associated \emph{p}-values based on the postulated null hypothesis. We
 can then calculate the proportion of tests that lead to a rejection of
-the null hypothesis at level \(\alpha\), namely the percentage of
+the null hypothesis at level \(\alpha,\) namely the percentage of
 \emph{p}-values smaller than \(\alpha.\)
 
 \section{Examples}\label{examples}
@@ -2393,12 +2379,12 @@ doubt on the validity of the null hypothesis.
 
 If the counts of each cell are large, the null distribution of the
 chi-square test is well approximated by a \(\chi^2\) distribution. The
-output of the test includes the value of the statistic, \(10.79\), the
+output of the test includes the value of the statistic, \(10.79,\) the
 degrees of freedom of the \(\chi^2\) approximation and the
 \emph{p}-value, which gives the probability that a random draw from a
 \(\chi^2_1\) distribution is larger than the observed test statistic
 \textbf{assuming the null hypothesis is true}. The \emph{p}-value is
-very small, \(0.001\), which means such a result is quite unlikely to
+very small, \(0.001,\) which means such a result is quite unlikely to
 happen by chance if there was no sex-discrimination.
 
 Another alternative to obtain a benchmark to assess the outlyingness of
@@ -2446,7 +2432,7 @@ by repeating the following steps multiple times:
 As test statistic, we use odds ratio: the odds of an event is the ratio
 of the number of success over failure: in our example, this would be the
 number of promoted over held files. The odds of promotion for male is
-\(32/12\), whereas that of female is \(19/30.\) The odds ratio for male
+\(32/12,\) whereas that of female is \(19/30.\) The odds ratio for male
 versus female is thus \(\mathsf{OR}=(32/12) / (19/30)= 4.21.\) Under the
 null hypothesis, \(\mathscr{H}_0: \mathsf{OR}= 1\) (same probability of
 being promoted) (why?)
@@ -2492,7 +2478,7 @@ promotion, development, and supervision.
 \item
   Hypotheses: no discrimination based on gender, meaning equal
   probability of promotion (null hypothesis
-  \(\mathscr{H}_0: p_{\text{m}}=p_{\text{w}}\), versus alternative
+  \(\mathscr{H}_0: p_{\text{m}}=p_{\text{w}},\) versus alternative
   hypothesis \(\mathscr{H}_a: p_{\text{m}}\neq p_{\text{w}}\)).
 \item
   Test statistic: (1) chi-square test for contingency tables and (2)
@@ -2707,7 +2693,7 @@ represented by a vertical line.}
 \end{figure}%
 
 The so-called bootstrap approximation to the \emph{p}-value of the
-permutation test, \(0.186\), is the proportion of statistics that are
+permutation test, \(0.186,\) is the proportion of statistics that are
 more extreme than the one based on the original sample. It is nearly
 identical to that obtained from the Satterthwaite approximation,
 \(0.249\) (the Student-\(t\) distribution is numerically equivalent to a
