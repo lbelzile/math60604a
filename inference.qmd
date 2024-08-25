@@ -44,7 +44,7 @@ It is important to note that most research questions cannot be answered by simpl
 #|   Alt text: Frazzled scientists are requesting that everyone please stop generating
 #|   hypotheses for a little bit while they work through the backlog. Cartoon reprinted
 #|   under the [CC BY-NC 2.5 license](https://creativecommons.org/licenses/by-nc/2.5/).'
-knitr::include_graphics("figures/xkcd2569_hypothesis_generation.png")
+knitr::include_graphics("images/xkcd2569_hypothesis_generation.png")
 ```
 
 ## Sampling variability
@@ -69,9 +69,9 @@ We call numerical summaries of the data **statistics**. Its important to disting
 #|  - "Estimator"
 #|  - "Estimate"
 #| layout-ncol: 3
-knitr::include_graphics("figures/estimand.jpg")
-knitr::include_graphics("figures/estimator.jpg")
-knitr::include_graphics("figures/estimate.jpg")
+knitr::include_graphics("images/estimand.jpg")
+knitr::include_graphics("images/estimator.jpg")
+knitr::include_graphics("images/estimate.jpg")
 ```
 
 
@@ -87,7 +87,7 @@ Because the inputs of the estimator are random, the output is also random and ch
 #|   Alt text: You will live on forever in our hearts, pushing a little extra blood toward
 #|   our left hands now and then to give them a squeeze. Cartoon reprinted under the
 #|   [CC BY-NC 2.5 license](https://creativecommons.org/licenses/by-nc/2.5/).'
-knitr::include_graphics("figures/xkcd2581_health_stats.png")
+knitr::include_graphics("images/xkcd2581_health_stats.png")
 ```
 
 
@@ -513,7 +513,7 @@ i.e., the probability under the alternative model of falling in the rejection re
 #| cache: true
 #| echo: false
 #| fig-width: 10
-#| fig-height: 4
+#| fig-height: 3
 #| out-width: '100%'
 #| fig-cap: Comparison between null distribution (full curve) and a specific alternative
 #|   for a *t*-test (dashed line). The power corresponds to the area under the curve
@@ -561,7 +561,7 @@ g3 <- ggplot(region) +
   stat_function(fun = dnorm, n = 1000, args = list(mean = 1.5, sd = 0.5), lty = 2, xlim = c(-5,5)) +
   ylab("f(x)")
 g1 + g2 + g3 +
-  patchwork::plot_layout(guides = 'collect') & theme(legend.position = "bottom")
+  patchwork::plot_layout(guides = 'collect')  &  ylim(0,1) & theme(legend.position = "bottom")
 ```
 
 We want a test to have high power, i.e., that the power should be as close to 1 as possible. Minimally, the power of the test should be $\alpha$ because we reject the null hypothesis $\alpha$ fraction of the time even when $\mathscr{H}_0$ is true. Power depends on many criteria, notably
@@ -801,7 +801,7 @@ knitr::kable(tab2,
   kableExtra::kable_styling()
 ```
 
-Since there are only two groups, initiator and responder, we are dealing with a pairwise comparison. The logical test one could use is a two sample _t_-test, or a variant thereof. Using Welch two sample $t$-test statistic, both group average and standard deviation are estimated using the data provided and the latter are used to build a statistic. This explains the non-integer degrees of freedom.
+Since there are only two groups, initiator and responder, we are dealing with a pairwise comparison. The logical test one could use is a two sample _t_-test, or a variant thereof. Using Welch two sample $t$-test statistic, both group average and standard deviation are estimated using the data provided.
 
 The software returns `r papaja::apa_print(ttest)$statistic`, which leads to the rejection of the null hypothesis of no difference in appreciation depending on the role of the individual (initiator or responder). The estimated mean difference is `r papaja::apa_print(ttest)$estimate`; since $0$ is not included in the confidence interval, we also reject the null hypothesis at level 5%. The estimate suggests that initiators underestimate the appreciation of reaching out.^[Assuming that the variance of each subgroup were equal, we could have used a two-sample $t$-test instead. The difference in the conclusion is immaterial, with a nearly equal _p_-value.]
 
@@ -818,7 +818,7 @@ coin::wilcox_test(appreciation ~ role,
 **Recap**
 
 - Model parameters: average expected appreciation score $\mu_{\mathrm{i}}$ and $\mu_{\mathrm{r}}$ of initiators and responder, respectively
-- Hypothesis:  expected appreciation score is the same for initiator and responders, $\mathscr{H}_0: \mu_{\mathrm{i}}=\mu_{\mathrm{r}}$ against alternative $\mathscr{H}_0: \mu_{\mathrm{i}} \neq \mu_{\mathrm{r}}$ that they are different.
+- Hypothesis:  expected appreciation score is the same for initiator and responders, $\mathscr{H}_0: \mu_{\mathrm{i}}=\mu_{\mathrm{r}}$ against alternative $\mathscr{H}_a: \mu_{\mathrm{i}} \neq \mu_{\mathrm{r}}$ that they are different.
 - Test statistic: Welch two sample $t$-test
 - $p$-value: `r round(ttest$p.value,3)`
 - Conclusion: reject the null hypothesis, average appreciation score differs depending on the role
@@ -860,7 +860,7 @@ The mean number of ideas for videoconferencing is thus $\exp(\beta_1)$ times tha
 
 No difference between experimental conditions translates into the null hypothesis as $\mathscr{H}_0: \beta_1=0$ vs $\mathscr{H}_0: \beta_1 \neq 0$ or equivalently $\mathscr{H}_0: \exp(\beta_1)=1.$  The likelihood ratio test comparing the regression model with and without $\texttt{video}$ the statistic is $R=`r papaja::printnum(LRT_negbin)`$ ($p$-value based on $\chi^2_1$ of $`r papaja::print_p(pval_negbin)`$). We conclude the average number of ideas is different, with summary statistics suggesting that virtual pairs generate fewer ideas.
 
-If we had resorted to a two sample $t$-test, we would have found a mean difference in number of creative idea of `r papaja::apa_print(ttest_BL22)$full_result`.
+If we had resorted to a two sample $t$-test, we would have found a mean difference in the number of creative idea of `r papaja::apa_print(ttest_BL22)$full_result`.
 
 
 Both tests come with slightly different sets of assumptions, but yield similar conclusions: there is evidence of a smaller  number of creative ideas when people interact via videoconferencing.
@@ -933,5 +933,6 @@ The so-called bootstrap approximation to the *p*-value of the permutation test, 
 
 :::
 
+<!--
 This chapter has focused on presenting the tools of the trade and some examples outlining the key ingredients that are common to any statistical procedure and the reporting of the latter. The reader is not expected to know which test statistic to adopt, but rather should understand at this stage how our ability to do (scientific) discoveries depends on a number of factors.
-
+-->

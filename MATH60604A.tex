@@ -336,11 +336,11 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-08-23}
+\date{2024-08-25}
 
 \begin{document}
 
-\includepdf{figures/coverpage.pdf}
+\includepdf{images/coverpage.pdf}
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -1523,7 +1523,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, leftrule=.75mm, colback=white, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, colframe=quarto-callout-important-color-frame, coltitle=black, breakable, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacityback=0, toprule=.15mm, left=2mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, colframe=quarto-callout-important-color-frame, opacitybacktitle=0.6, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, breakable, leftrule=.75mm, opacityback=0, titlerule=0mm, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toprule=.15mm, colback=white]
 
 \textbf{Learning objectives}:
 
@@ -1563,7 +1563,7 @@ or data collection.
 
 \centering{
 
-\includegraphics[width=0.6\textwidth,height=\textheight]{figures/xkcd2569_hypothesis_generation.png}
+\includegraphics[width=0.6\textwidth,height=\textheight]{images/xkcd2569_hypothesis_generation.png}
 
 }
 
@@ -1625,7 +1625,7 @@ In other words,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{figures/estimand.jpg}
+\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimand.jpg}
 
 }
 
@@ -1637,7 +1637,7 @@ In other words,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{figures/estimator.jpg}
+\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimator.jpg}
 
 }
 
@@ -1649,7 +1649,7 @@ In other words,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{figures/estimate.jpg}
+\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimate.jpg}
 
 }
 
@@ -1682,7 +1682,7 @@ Figure~\ref{fig-xkcd605}.
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{figures/xkcd2581_health_stats.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{images/xkcd2581_health_stats.png}
 
 }
 
@@ -2171,7 +2171,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, leftrule=.75mm, colback=white, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, colframe=quarto-callout-caution-color-frame, coltitle=black, breakable, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacityback=0, toprule=.15mm, left=2mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, colframe=quarto-callout-caution-color-frame, opacitybacktitle=0.6, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, coltitle=black, breakable, leftrule=.75mm, opacityback=0, titlerule=0mm, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, toprule=.15mm, colback=white]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2555,8 +2555,7 @@ Since there are only two groups, initiator and responder, we are dealing
 with a pairwise comparison. The logical test one could use is a two
 sample \emph{t}-test, or a variant thereof. Using Welch two sample
 \(t\)-test statistic, both group average and standard deviation are
-estimated using the data provided and the latter are used to build a
-statistic. This explains the non-integer degrees of freedom.
+estimated using the data provided.
 
 The software returns \(t(197.52) = -2.05\), \(p = .041\), which leads to
 the rejection of the null hypothesis of no difference in appreciation
@@ -2581,7 +2580,7 @@ out.\footnote{Assuming that the variance of each subgroup were equal, we
   Hypothesis: expected appreciation score is the same for initiator and
   responders, \(\mathscr{H}_0: \mu_{\mathrm{i}}=\mu_{\mathrm{r}}\)
   against alternative
-  \(\mathscr{H}_0: \mu_{\mathrm{i}} \neq \mu_{\mathrm{r}}\) that they
+  \(\mathscr{H}_a: \mu_{\mathrm{i}} \neq \mu_{\mathrm{r}}\) that they
   are different.
 \item
   Test statistic: Welch two sample \(t\)-test
@@ -2629,8 +2628,8 @@ conclude the average number of ideas is different, with summary
 statistics suggesting that virtual pairs generate fewer ideas.
 
 If we had resorted to a two sample \(t\)-test, we would have found a
-mean difference in number of creative idea of \(\Delta M = 1.19\), 95\%
-CI \([0.43, 1.95]\), \(t(299) = 3.09\), \(p = .002\).
+mean difference in the number of creative idea of \(\Delta M = 1.19\),
+95\% CI \([0.43, 1.95]\), \(t(299) = 3.09\), \(p = .002\).
 
 Both tests come with slightly different sets of assumptions, but yield
 similar conclusions: there is evidence of a smaller number of creative
@@ -2708,13 +2707,6 @@ about practical difference: \(0.28\) euros relative to an Promo ticket
 priced on average \(82.56\) euros is a negligible amount.
 
 \end{example}
-
-This chapter has focused on presenting the tools of the trade and some
-examples outlining the key ingredients that are common to any
-statistical procedure and the reporting of the latter. The reader is not
-expected to know which test statistic to adopt, but rather should
-understand at this stage how our ability to do (scientific) discoveries
-depends on a number of factors.
 
 \bookmarksetup{startatroot}
 
