@@ -198,16 +198,14 @@ window.Quarto = {
    
   <ul>
   <li><a href="#sampling-variability" id="toc-sampling-variability" class="nav-link active" data-scroll-target="#sampling-variability"><span class="header-section-number">2.1</span> Sampling variability</a></li>
-  <li><a href="#tests" id="toc-tests" class="nav-link" data-scroll-target="#tests"><span class="header-section-number">2.2</span> Hypothesis testing</a>
-  <ul class="collapse">
-  <li><a href="#hypothesis" id="toc-hypothesis" class="nav-link" data-scroll-target="#hypothesis"><span class="header-section-number">2.2.1</span> Hypothesis</a></li>
-  <li><a href="#test-statistic" id="toc-test-statistic" class="nav-link" data-scroll-target="#test-statistic"><span class="header-section-number">2.2.2</span> Test statistic</a></li>
-  <li><a href="#null-distribution-and-p-value" id="toc-null-distribution-and-p-value" class="nav-link" data-scroll-target="#null-distribution-and-p-value"><span class="header-section-number">2.2.3</span> Null distribution and <em>p</em>-value</a></li>
-  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals"><span class="header-section-number">2.2.4</span> Confidence intervals</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">2.2.5</span> Conclusion</a></li>
-  <li><a href="#power" id="toc-power" class="nav-link" data-scroll-target="#power"><span class="header-section-number">2.2.6</span> Power</a></li>
-  </ul></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">2.3</span> Examples</a></li>
+  <li><a href="#tests" id="toc-tests" class="nav-link" data-scroll-target="#tests"><span class="header-section-number">2.2</span> Hypothesis testing</a></li>
+  <li><a href="#hypothesis" id="toc-hypothesis" class="nav-link" data-scroll-target="#hypothesis"><span class="header-section-number">2.3</span> Hypothesis</a></li>
+  <li><a href="#test-statistic" id="toc-test-statistic" class="nav-link" data-scroll-target="#test-statistic"><span class="header-section-number">2.4</span> Test statistic</a></li>
+  <li><a href="#null-distribution-and-p-value" id="toc-null-distribution-and-p-value" class="nav-link" data-scroll-target="#null-distribution-and-p-value"><span class="header-section-number">2.5</span> Null distribution and <em>p</em>-value</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals"><span class="header-section-number">2.6</span> Confidence intervals</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">2.7</span> Conclusion</a></li>
+  <li><a href="#power" id="toc-power" class="nav-link" data-scroll-target="#power"><span class="header-section-number">2.8</span> Power</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">2.9</span> Examples</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604a/edit/master/inference.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -416,8 +414,9 @@ Figure&nbsp;2.6: Bar plots of data from a uniform distribution (top) and non-uni
 <li>The final step is the verdict. This is a binary decision, guilty or not guilty. For an hypothesis test performed at level <span class="math inline">\(\alpha,\)</span> one would reject (guilty) if the <em>p</em>-value is less than <span class="math inline">\(\alpha.\)</span></li>
 </ul>
 <p>The above description provides some heuristic, but lacks crucial details.</p>
-<section id="hypothesis" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="hypothesis"><span class="header-section-number">2.2.1</span> Hypothesis</h3>
+</section>
+<section id="hypothesis" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="hypothesis"><span class="header-section-number">2.3</span> Hypothesis</h2>
 <p>In statistical tests we have two hypotheses: the null hypothesis (<span class="math inline">\(\mathscr{H}_0\)</span>) and the alternative hypothesis (<span class="math inline">\(\mathscr{H}_1\)</span>). Usually, the null hypothesis is the ‘status quo’ and the alternative is what we’re really interested in testing. A statistical hypothesis test allows us to decide whether or not our data provides enough evidence to reject <span class="math inline">\(\mathscr{H}_0\)</span> in favour of <span class="math inline">\(\mathscr{H}_1,\)</span> subject to some pre-specified risk of error. Usually, hypothesis tests involve a parameter, say <span class="math inline">\(\theta,\)</span> which characterizes the underlying distribution at the population level ans whose value is unknown. A two-sided hypothesis test regarding a parameter <span class="math inline">\(\theta\)</span> has the form <span class="math display">\[\begin{align*}
 \mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
 \end{align*}\]</span> We are testing whether or not <span class="math inline">\(\theta\)</span> is precisely equal to the value <span class="math inline">\(\theta_0.\)</span> The hypotheses are a statistical representation of our research question.</p>
@@ -426,8 +425,8 @@ Figure&nbsp;2.6: Bar plots of data from a uniform distribution (top) and non-uni
 \end{align*}\]</span> where <span class="math inline">\(\beta_j^0\)</span> is some value that reflects the research question of interest. For example, if <span class="math inline">\(\beta_j^0=0,\)</span> the underlying question is: is covariate <span class="math inline">\(\mathrm{X}_j\)</span> impacting the response <span class="math inline">\(Y\)</span> linearly once other variables have been taken into account?</p>
 <p>Note that we can impose direction in the hypotheses and consider alternatives of the form <span class="math inline">\(\mathscr{H}_a: \theta &gt; \theta_0\)</span> or <span class="math inline">\(\mathscr{H}_a: \theta &lt; \theta_0.\)</span></p>
 </section>
-<section id="test-statistic" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="test-statistic"><span class="header-section-number">2.2.2</span> Test statistic</h3>
+<section id="test-statistic" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="test-statistic"><span class="header-section-number">2.4</span> Test statistic</h2>
 <p>A test statistic <span class="math inline">\(T\)</span> is a function of the data that summarise the information contained in the sample for <span class="math inline">\(\theta.\)</span> The form of the test statistic is chosen such that we know its underlying distribution under <span class="math inline">\(\mathscr{H}_0,\)</span> that is, the potential values taken by <span class="math inline">\(T\)</span> and their relative probability if <span class="math inline">\(\mathscr{H}_0\)</span> is true. Indeed, <span class="math inline">\(Y\)</span> is a random variable and its value change from one sample to the next. This allows us to determine what values of <span class="math inline">\(T\)</span> are likely if <span class="math inline">\(\mathscr{H}_0\)</span> is true. Many statistics we will consider are <strong>Wald statistic</strong>, of the form <span class="math display">\[\begin{align*}
 T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
 \end{align*}\]</span> where <span class="math inline">\(\widehat{\theta}\)</span> is an estimator of <span class="math inline">\(\theta,\)</span> <span class="math inline">\(\theta_0\)</span> is the postulated value of the parameter and <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> is an estimator of the standard deviation of the test statistic <span class="math inline">\(\widehat{\theta}.\)</span></p>
@@ -441,8 +440,8 @@ T &amp;= \frac{\overline{X}-0}{S_n/\sqrt{n}}
 S^2_n &amp;= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 \end{align*}\]</span></p>
 </section>
-<section id="null-distribution-and-p-value" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="null-distribution-and-p-value"><span class="header-section-number">2.2.3</span> Null distribution and <em>p</em>-value</h3>
+<section id="null-distribution-and-p-value" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="null-distribution-and-p-value"><span class="header-section-number">2.5</span> Null distribution and <em>p</em>-value</h2>
 <p>The <em>p</em>-value allows us to decide whether the observed value of the test statistic <span class="math inline">\(T\)</span> is plausible under <span class="math inline">\(\mathscr{H}_0.\)</span> Specifically, the <em>p</em>-value is the probability that the test statistic is equal or more extreme to the estimate computed from the data, assuming <span class="math inline">\(\mathscr{H}_0\)</span> is true. Suppose that based on a random sample <span class="math inline">\(Y_1, \ldots, Y_n\)</span> we obtain a statistic whose value <span class="math inline">\(T=t.\)</span> For a two-sided test <span class="math inline">\(\mathscr{H}_0:\theta=\theta_0\)</span> vs.&nbsp;<span class="math inline">\(\mathscr{H}_a:\theta \neq \theta_0,\)</span> the <em>p</em>-value is <span class="math inline">\(\Pr_0(|T| \geq |t|).\)</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p>How do we determine the null distribution given that the true data generating mechanism is unknown to us? We ask a statistician! In simple cases, it might be possible to enumerate all possible outcomes and thus quantity the degree of outlyingness of our observed statistic. In more general settings, we can resort to simulations or to probability theory: the central limit theorem says that the sample mean behaves like a normal random variable with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma/\sqrt{n}\)</span> for <span class="math inline">\(n\)</span> large enough. The central limit theorem has broader applications since most statistics can be viewed as some form of average or transformation thereof, a fact used to derive benchmarks for most commonly used tests. Most software use these approximations as proxy by default: the normal, Student’s <span class="math inline">\(t,\)</span> <span class="math inline">\(\chi^2\)</span> and <span class="math inline">\(F\)</span> distributions are the reference distributions that arise the most often.</p>
 <p><a href="#fig-power-plots" class="quarto-xref">Figure&nbsp;<span>2.7</span></a> shows the distribution of <span class="math inline">\(p\)</span>-values for two scenarios: one in which there are no differences and the null is true, the other under an alternative. The probability of rejection is obtained by calculating the area under the density curve between zero and <span class="math inline">\(\alpha=0.1,\)</span> here 0.1 on the left. Under the null, the model is calibrated and the distribution of <em>p</em>-values is uniform (i.e., a flat rectangle of height 1), meaning all values in the unit interval are equally likely. Under the alternative (right), small <em>p</em>-values are more likely to be observed.</p>
@@ -471,8 +470,8 @@ Figure&nbsp;2.7: Density of <em>p</em>-values under the null hypothesis (left) a
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}\]</span> follows a Student-<em>t</em> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom. This allows us to calculate the <em>p</em>-value (either from a table, or using some statistical software). Because of the symmetry,the <em>p</em>-value is <span class="math inline">\(P = 2\times\Pr(T_{n-1} &gt; |t|),\)</span> where <span class="math inline">\(T \sim \mathsf{Student}(n-1).\)</span></p>
 </section>
-<section id="confidence-intervals" class="level3" data-number="2.2.4">
-<h3 data-number="2.2.4" class="anchored" data-anchor-id="confidence-intervals"><span class="header-section-number">2.2.4</span> Confidence intervals</h3>
+<section id="confidence-intervals" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="confidence-intervals"><span class="header-section-number">2.6</span> Confidence intervals</h2>
 <p>A <strong>confidence interval</strong> is an alternative way to present the conclusions of an hypothesis test performed at significance level <span class="math inline">\(\alpha.\)</span> It is often combined with a point estimator <span class="math inline">\(\hat{\theta}\)</span> plus or minus a margin of error designed to give an indication of the variability of the estimation procedure. Wald-based <span class="math inline">\((1-\alpha)\)</span> confidence intervals for a scalar parameter <span class="math inline">\(\theta\)</span> are of the form <span class="math display">\[\begin{align*}
 [\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
 \end{align*}\]</span> where <span class="math inline">\(\mathfrak{q}_{\alpha/2}\)</span> is the <span class="math inline">\(\alpha/2\)</span> quantile of the null distribution of the Wald statistic <span class="math inline">\(W,\)</span> <span class="math display">\[\begin{align*}
@@ -494,8 +493,8 @@ W =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 </div>
 <p>If we are only interested in the binary decision rule reject/fail to reject <span class="math inline">\(\mathscr{H}_0,\)</span> the confidence interval is equivalent to a <em>p</em>-value since it leads to the same conclusion. Whereas the <span class="math inline">\(1-\alpha\)</span> confidence interval gives the set of all values for which the test statistic doesn’t provide enough evidence to reject <span class="math inline">\(\mathscr{H}_0\)</span> at level <span class="math inline">\(\alpha,\)</span> the <em>p</em>-value gives the probability under the null of obtaning a result more extreme than the postulated value and so is more precise for this particular value. If the <em>p</em>-value is smaller than <span class="math inline">\(\alpha,\)</span> our null value <span class="math inline">\(\theta\)</span> will be outside of the confidence interval and vice-versa.</p>
 </section>
-<section id="conclusion" class="level3" data-number="2.2.5">
-<h3 data-number="2.2.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">2.2.5</span> Conclusion</h3>
+<section id="conclusion" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">2.7</span> Conclusion</h2>
 <p>The <em>p</em>-value allows us to make a decision about the null hypothesis. If <span class="math inline">\(\mathscr{H}_0\)</span> is true, the <em>p</em>-value follows a uniform distribution. <a href="https://xkcd.com/1478/">Thus, if the <em>p</em>-value is small</a>, this means observing an outcome more extreme than <span class="math inline">\(T=t\)</span> is unlikely, and so we’re inclined to think that <span class="math inline">\(\mathscr{H}_0\)</span> is not true. There’s always some underlying risk that we’re making a mistake when we make a decision. In statistic, there are <a href="https://xkcd.com/2303/">two type of errors</a>:</p>
 <ul>
 <li>type I error: we reject <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_0\)</span> is true,</li>
@@ -566,8 +565,8 @@ Caution
 </div>
 </div>
 </section>
-<section id="power" class="level3" data-number="2.2.6">
-<h3 data-number="2.2.6" class="anchored" data-anchor-id="power"><span class="header-section-number">2.2.6</span> Power</h3>
+<section id="power" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="power"><span class="header-section-number">2.8</span> Power</h2>
 <p>There are two sides to an hypothesis test: either we want to show it is not unreasonable to assume the null hypothesis, or else we want to show beyond reasonable doubt that a difference or effect is significative: for example, one could wish to demonstrate that a new website design (alternative hypothesis) leads to a significant increase in sales relative to the status quo. Our ability to detect these improvements and make discoveries depends on the power of the test: the larger the power, the greater our ability to reject <span class="math inline">\(\mathscr{H}_0\)</span> when the latter is false.</p>
 <p>Failing to reject <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_a\)</span> is true corresponds to the definition of type II error, the probability of which is <span class="math inline">\(1-\text{power},\)</span> say. The <strong>power of a test</strong> is the probability of rejecting <span class="math inline">\(\mathscr{H}_0\)</span> when <span class="math inline">\(\mathscr{H}_0\)</span> is false, i.e., <span class="math display">\[\begin{align*}
 \Pr{\!}_a(\text{reject } \mathscr{H}_0),
@@ -597,9 +596,8 @@ Figure&nbsp;2.8: Comparison between null distribution (full curve) and a specifi
 : for example, the one-sample *t*-test statistic $T=\sqrt{n}(\overline{X}_n-\mu_0)/S_n \sim \mathsf{Student}_{n-1}$ for a normal sample follows a noncentral Student-$t$ distribution with noncentrality parameter $\Delta$ if the expectation of the population is $\Delta + \mu_0.$ In general, such closed-form expressions are not easily obtained and
 --> we compute the power of a test through Monte Carlo methods. For a given alternative, we simulate repeatedly samples from the model, compute the test statistic on these new samples and the associated <em>p</em>-values based on the postulated null hypothesis. We can then calculate the proportion of tests that lead to a rejection of the null hypothesis at level <span class="math inline">\(\alpha,\)</span> namely the percentage of <em>p</em>-values smaller than <span class="math inline">\(\alpha.\)</span></p>
 </section>
-</section>
-<section id="examples" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="examples"><span class="header-section-number">2.3</span> Examples</h2>
+<section id="examples" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="examples"><span class="header-section-number">2.9</span> Examples</h2>
 <div id="exm-rosenjerdee74" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2.2 (Gender inequality and permutation tests)</strong></span> We consider data from <span class="citation" data-cites="Rosen:1974">Rosen and Jerdee (<a href="references.html#ref-Rosen:1974" role="doc-biblioref">1974</a>)</span>, who look at sex role stereotypes and their impacts on promotion and opportunities for women candidates. The experiment took place in 1972 and the experimental units, which consisted of 95 male bank supervisors, were submitted to various memorandums and asked to provide ratings or decisions based on the information provided.</p>
 <p>We are interested in Experiment 1 related to promotion of employees: managers were requested to decide on whether or not to promote an employee to become branch manager based on recommendations and ratings on potential for customer and employee relations.</p>

@@ -227,7 +227,7 @@ A good analogy for hypothesis tests is a trial for murder on which you are appoi
 The above description provides some heuristic, but lacks crucial details.
 
 
-### Hypothesis
+## Hypothesis
 
 
 In statistical tests we have two hypotheses: the null hypothesis ($\mathscr{H}_0$) and the alternative hypothesis ($\mathscr{H}_1$). Usually, the null hypothesis is the 'status quo' and the alternative is what we're really interested in testing. A statistical hypothesis test allows us to decide whether or not our data provides enough evidence to reject $\mathscr{H}_0$ in favour of $\mathscr{H}_1,$ subject to some pre-specified risk of error. Usually, hypothesis tests involve a parameter, say $\theta,$ which characterizes the underlying distribution at the population level ans whose value is unknown. A two-sided hypothesis test regarding a parameter $\theta$ has the form
@@ -244,7 +244,7 @@ where $\beta_j^0$ is some value that reflects the research question of interest.
 
 Note that we can impose direction in the hypotheses and consider alternatives of the form $\mathscr{H}_a: \theta > \theta_0$ or $\mathscr{H}_a: \theta < \theta_0.$
 
-### Test statistic
+## Test statistic
 
 
 A test statistic $T$ is a function of the data that summarise the information contained in the sample for $\theta.$ The form of the test statistic is chosen such that we know its underlying distribution under $\mathscr{H}_0,$ that is, the potential values taken by $T$ and their relative probability if $\mathscr{H}_0$ is true. Indeed, $Y$ is a random variable and its value change from one sample to the next.
@@ -271,7 +271,7 @@ and the standard error (of the mean) $\overline{X}$ is $S_n/\sqrt{n}$; the sampl
 S^2_n &= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 \end{align*}
 
-### Null distribution and _p_-value
+## Null distribution and _p_-value
 
 The _p_-value allows us to decide whether the observed value of the test statistic $T$ is plausible under $\mathscr{H}_0.$ Specifically, the _p_-value is the probability that the test statistic is equal or more extreme to the estimate computed from the data, assuming $\mathscr{H}_0$ is true. Suppose that based on a random sample $Y_1, \ldots, Y_n$ we obtain a statistic whose value $T=t.$ For a two-sided test $\mathscr{H}_0:\theta=\theta_0$ vs. $\mathscr{H}_a:\theta \neq \theta_0,$ the _p_-value is $\Pr_0(|T| \geq |t|).$^[If the distribution of $T$ is symmetric around zero, the _p_-value reduces to $p = 2 \times \Pr_0(T \geq |t|).$]
 
@@ -390,7 +390,7 @@ T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}
 follows a Student-*t* distribution with $n-1$ degrees of freedom. This allows us to calculate the *p*-value (either from a table, or using some statistical software). Because of the symmetry,the _p_-value is $P = 2\times\Pr(T_{n-1} > |t|),$ where $T \sim \mathsf{Student}(n-1).$
 
-### Confidence intervals
+## Confidence intervals
 
 A **confidence interval** is an alternative way to present the conclusions of an hypothesis test performed at significance level $\alpha.$ It is often combined with a point estimator $\hat{\theta}$ plus or minus a margin of error designed to give an indication of the variability of the estimation procedure. Wald-based  $(1-\alpha)$ confidence intervals for a scalar parameter $\theta$ are of the form
 \begin{align*}
@@ -450,7 +450,7 @@ ggplot(data = confint_dat,
 
 If we are only interested in the binary decision rule reject/fail to reject $\mathscr{H}_0,$ the confidence interval is equivalent to a *p*-value since it leads to the same conclusion. Whereas the $1-\alpha$ confidence interval gives the set of all values for which the test statistic doesn't provide enough evidence to reject  $\mathscr{H}_0$ at level $\alpha,$ the *p*-value gives the probability under the null of obtaning a result more extreme than the postulated value and so is more precise for this particular value. If the *p*-value is smaller than $\alpha,$ our null value $\theta$ will be outside of the confidence interval and vice-versa.
 
-### Conclusion
+## Conclusion
 
 
 The *p*-value allows us to make a decision about the null hypothesis. If $\mathscr{H}_0$ is true, the *p*-value follows a uniform distribution. [Thus, if the *p*-value is small](https://xkcd.com/1478/), this means observing an outcome more extreme than $T=t$ is unlikely, and so we're inclined to think that $\mathscr{H}_0$ is not true. There's always some underlying risk that we're making a mistake when we make a decision. In statistic, there are [two type of errors](https://xkcd.com/2303/):
@@ -497,7 +497,7 @@ list of principles](https://doi.org/10.1080/00031305.2016.1154108) guiding (mis)
 
 :::
 
-### Power
+## Power
 
 There are two sides to an hypothesis test: either we want to show it is not unreasonable to assume the null hypothesis, or else we want to show beyond reasonable doubt that a difference or effect is significative: for example, one could wish to demonstrate that a new website design (alternative hypothesis) leads to a significant increase in sales relative to the status quo. Our ability to detect these improvements and make discoveries depends on the power of the test: the larger the power, the greater our ability to reject $\mathscr{H}_0$ when the latter is false.
 
