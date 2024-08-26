@@ -27,8 +27,6 @@ Why use models? [Paul Krugman wrote in 2010 in his blog](https://krugman.blogs.n
 ## Course content
 
 
-The purpose of statistical inference is to draw conclusions based on data. Scientific research relies on hypothesis testing: once an hypothesis is formulated, the researcher collects data, performs a test and concludes as to whether there is evidence for the proposed theory.
-
 There are two main data type: **experimental** data are typically collected in a control environment following a research protocol with a particular experimental design: they serve to answer questions specified ahead of time. This approach is highly desirable to avoid the garden of forking paths [(researchers unfortunately tend to refine or change their hypothesis in light of data, which invalidates their findings](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf) --- preregistration alleviates this somewhat). While experimental data are highly desirable, it is not always possible to collect experimental data: for example, an economist cannot modify interest rates to see how it impacts consumer savings. When data have been collected beforehand without intervention (for other purposes), these are called **observational**. These will be the ones most frequently encountered.
 
 
@@ -41,9 +39,7 @@ By constrast, explicative models are often simple and interpretable: regression 
 - Are sequential decisions in online shop (buying or not, then selecting the quantity) preferable to integrated decisions [@Duke.Amir:2023]?
 - Determining what is the most distracting for road users: talking on a cellphone, texting or checking your smartwatch [@Brodeur:2021]?
 - What is the impact of inconsistencies between product description and the displayed image [@Lee.Choi:2019]?
-- Is the price of gasoline more expansive in the Gaspé peninsula than in the rest of Quebec? [A report of the *Régie de l'énergie* examines the question](http://www.regie-energie.qc.ca/energie/rapports/Rapport_priceGasp%C3%A9sie_20191219.pdf)
-- Qu'est-ce qui explique que les prix de l'essence soient plus élevés en Gaspésie qu'ailleurs au Québec? [Un rapport de surveillance des prix de l'essence en Gaspésie par la Régie de l'énergie se penche sur la question.](http://www.regie-energie.qc.ca/energie/rapports/
-Rapport_PrixGasp%C3%A9sie_20191219.pdf)
+- Is the price of gasoline more expensive in the Gaspé peninsula than in the rest of Quebec? [A report of the *Régie de l'énergie* examines the question](https://ici.radio-canada.ca/nouvelle/1463520/prix-essence-gaspesie-rapport-regie-energie)
 - Are driving tests in the UK easier if you live in a rural area? [An analysis of *The Guardian*](https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates) hints that it is the case.
 - What is the environmental perception of a package that includes cardboard over a plastic container [@Sokolova:2023]?
 - What is the psychological impact of suggested amounts on donations [@Moon.VanEpps:2023]?
