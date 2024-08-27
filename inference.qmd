@@ -388,7 +388,7 @@ Consider the example of a two-sided test involving the population mean $\mathscr
 \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}
-follows a Student-*t* distribution with $n-1$ degrees of freedom. This allows us to calculate the *p*-value (either from a table, or using some statistical software). Because of the symmetry,the _p_-value is $P = 2\times\Pr(T_{n-1} > |t|),$ where $T \sim \mathsf{Student}(n-1).$
+follows a Student-*t* distribution with $n-1$ degrees of freedom. This allows us to calculate the *p*-value (either from a table, or using some statistical software). By virtue of the symmetry, the _p_-value is $P = 2\times\Pr(T > |t|),$ where $T \sim \mathsf{Student}(n-1).$
 
 ## Confidence intervals
 
@@ -400,7 +400,7 @@ where $\mathfrak{q}_{\alpha/2}$ is the $\alpha/2$ quantile of the null distribut
 \begin{align*}
 W =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 \end{align*}
-and where $\theta$ represents the postulated value for the fixed, but unknown value of the parameter. The critical values are the $\alpha/2$ and $1-\alpha/2$ quantiles of the null distribution (for a symmetric interval, chosen so that the probability of being more extreme is $\alpha.$
+and where $\theta$ represents the postulated value for the fixed, but unknown value of the parameter. The critical values for a symmetric interval, chosen so that the probability of being more extreme is $\alpha$, are the $\alpha/2$ and $1-\alpha/2$ quantiles of the null distribution.
 
 
 For example, for a random sample $X_1, \ldots, X_n$ from a normal distribution $\mathsf{normal}(\mu, \sigma),$ the ($1-\alpha$) confidence interval for the population mean $\mu$ is
@@ -459,7 +459,7 @@ The *p*-value allows us to make a decision about the null hypothesis. If $\maths
 - type I error: we reject $\mathscr{H}_0$ when $\mathscr{H}_0$ is true,
 - type II error: we fail to reject $\mathscr{H}_0$ when $\mathscr{H}_0$ is  false.
 
-These hypothesis are not judged equally: we seek to avoid error of type I (judicial errors, corresponding to condamning an innocent). To prevent this, we fix a the level of the test, $\alpha,$ which captures our tolerance to the risk of commiting a type I error: the higher the level of the test $\alpha,$ the more often we will reject the null hypothesis when the latter is true. The value of $\alpha \in (0, 1)$ is the probability of rejecting $\mathscr{H}_0$ when $\mathscr{H}_0$ is in fact true,
+These hypothesis are not judged equally: we seek to avoid error of type I (judicial errors, corresponding to condemning an innocent). To prevent this, we fix the level of the test, $\alpha,$ which captures our tolerance to the risk of committing a type I error: the higher the level of the test $\alpha,$ the more often we will reject the null hypothesis when the latter is true. The value of $\alpha \in (0, 1)$ is the probability of rejecting $\mathscr{H}_0$ when $\mathscr{H}_0$ is in fact true,
 \begin{align*}
 \alpha = \Pr{}_0\left(\text{ reject } \mathscr{H}_0\right).
 \end{align*}
