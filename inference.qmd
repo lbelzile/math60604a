@@ -394,7 +394,7 @@ follows a Student-*t* distribution with $n-1$ degrees of freedom. This allows us
 
 A **confidence interval** is an alternative way to present the conclusions of an hypothesis test performed at significance level $\alpha.$ It is often combined with a point estimator $\hat{\theta}$ plus or minus a margin of error designed to give an indication of the variability of the estimation procedure. Wald-based  $(1-\alpha)$ confidence intervals for a scalar parameter $\theta$ are of the form
 \begin{align*}
-[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
+[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}), \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
 \end{align*}
 where $\mathfrak{q}_{\alpha/2}$ is the $\alpha/2$ quantile of the null distribution of the Wald statistic $W,$
 \begin{align*}
