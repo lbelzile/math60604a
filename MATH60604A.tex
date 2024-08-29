@@ -293,9 +293,9 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -336,7 +336,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-08-25}
+\date{2024-08-27}
 
 \begin{document}
 
@@ -412,11 +412,6 @@ the models
 
 \markright{Course content}
 
-The purpose of statistical inference is to draw conclusions based on
-data. Scientific research relies on hypothesis testing: once an
-hypothesis is formulated, the researcher collects data, performs a test
-and concludes as to whether there is evidence for the proposed theory.
-
 There are two main data type: \textbf{experimental} data are typically
 collected in a control environment following a research protocol with a
 particular experimental design: they serve to answer questions specified
@@ -467,16 +462,10 @@ the exercices:
   What is the impact of inconsistencies between product description and
   the displayed image (\citeproc{ref-Lee.Choi:2019}{Lee and Choi 2019})?
 \item
-  Is the price of gasoline more expansive in the Gaspé peninsula than in
+  Is the price of gasoline more expensive in the Gaspé peninsula than in
   the rest of Quebec?
-  \href{http://www.regie-energie.qc.ca/energie/rapports/Rapport_priceGasp\%C3\%A9sie_20191219.pdf}{A
+  \href{https://ici.radio-canada.ca/nouvelle/1463520/prix-essence-gaspesie-rapport-regie-energie}{A
   report of the \emph{Régie de l'énergie} examines the question}
-\item
-  Qu'est-ce qui explique que les prix de l'essence soient plus élevés en
-  Gaspésie qu'ailleurs au Québec?
-  \href{http://www.regie-energie.qc.ca/energie/rapports/\%20Rapport_PrixGasp\%C3\%A9sie_20191219.pdf}{Un
-  rapport de surveillance des prix de l'essence en Gaspésie par la Régie
-  de l'énergie se penche sur la question.}
 \item
   Are driving tests in the UK easier if you live in a rural area?
   \href{https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates}{An
@@ -1523,7 +1512,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, arc=.35mm, leftrule=.75mm, rightrule=.15mm, colback=white, colframe=quarto-callout-important-color-frame, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, opacitybacktitle=0.6, bottomtitle=1mm, toprule=.15mm, titlerule=0mm, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, colframe=quarto-callout-important-color-frame, toprule=.15mm, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, bottomtitle=1mm, left=2mm, toptitle=1mm, bottomrule=.15mm, colback=white, rightrule=.15mm, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, coltitle=black]
 
 \textbf{Learning objectives}:
 
@@ -2024,9 +2013,9 @@ statistic \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*} follows a Student-\emph{t} distribution with \(n-1\)
 degrees of freedom. This allows us to calculate the \emph{p}-value
-(either from a table, or using some statistical software). Because of
-the symmetry,the \emph{p}-value is \(P = 2\times\Pr(T_{n-1} > |t|),\)
-where \(T \sim \mathsf{Student}(n-1).\)
+(either from a table, or using some statistical software). By virtue of
+the symmetry, the \emph{p}-value is \(P = 2\times\Pr(T > |t|),\) where
+\(T \sim \mathsf{Student}(n-1).\)
 
 \section{Confidence intervals}\label{confidence-intervals}
 
@@ -2043,10 +2032,10 @@ quantile of the null distribution of the Wald statistic \(W,\)
 \begin{align*}
 W =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 \end{align*} and where \(\theta\) represents the postulated value for
-the fixed, but unknown value of the parameter. The critical values are
-the \(\alpha/2\) and \(1-\alpha/2\) quantiles of the null distribution
-(for a symmetric interval, chosen so that the probability of being more
-extreme is \(\alpha.\)
+the fixed, but unknown value of the parameter. The critical values for a
+symmetric interval, chosen so that the probability of being more extreme
+is \(\alpha\), are the \(\alpha/2\) and \(1-\alpha/2\) quantiles of the
+null distribution.
 
 For example, for a random sample \(X_1, \ldots, X_n\) from a normal
 distribution \(\mathsf{normal}(\mu, \sigma),\) the (\(1-\alpha\))
@@ -2120,9 +2109,9 @@ we're making a mistake when we make a decision. In statistic, there are
 \end{itemize}
 
 These hypothesis are not judged equally: we seek to avoid error of type
-I (judicial errors, corresponding to condamning an innocent). To prevent
-this, we fix a the level of the test, \(\alpha,\) which captures our
-tolerance to the risk of commiting a type I error: the higher the level
+I (judicial errors, corresponding to condemning an innocent). To prevent
+this, we fix the level of the test, \(\alpha,\) which captures our
+tolerance to the risk of committing a type I error: the higher the level
 of the test \(\alpha,\) the more often we will reject the null
 hypothesis when the latter is true. The value of \(\alpha \in (0, 1)\)
 is the probability of rejecting \(\mathscr{H}_0\) when \(\mathscr{H}_0\)
@@ -2171,7 +2160,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, toptitle=1mm, arc=.35mm, leftrule=.75mm, rightrule=.15mm, colback=white, colframe=quarto-callout-caution-color-frame, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, breakable, opacitybacktitle=0.6, bottomtitle=1mm, toprule=.15mm, titlerule=0mm, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, colframe=quarto-callout-caution-color-frame, toprule=.15mm, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, bottomtitle=1mm, left=2mm, toptitle=1mm, bottomrule=.15mm, colback=white, rightrule=.15mm, breakable, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, leftrule=.75mm, coltitle=black]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
