@@ -319,7 +319,7 @@ $\mathsf{E}(Y)=\mu$ et $\mathsf{Va}(Y)=\mu+k\mu^2$, where $k=1/r.$ The variance 
 
 :::
 
-### Continuous distributions
+## Continuous distributions
 
 We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics because of the central limit theorem, or that follow from transformation of Gaussian random variables.
 
@@ -368,7 +368,7 @@ g1 + g2
 
 The exponential distribution plays a prominent role in the study of waiting time of Poisson processes, and in survival analysis. One caracteristic of the distribution is it's absence of memory: $\Pr(Y \geq y + u \mid Y > u) = \Pr(Y > u)$ for $y, u>0.$
 
-The distribution function of the exponential distribution,  $Y \sim \mathsf{Exp}(\beta)$, here parametrized in terms of scale $\beta>0$ is  $F(x) = 1-\exp(-\beta x)$ and the corresponding density function is $f(x) =\beta\exp(-\beta x)$ for $x >0.$ The expected value of $Y$ is simply $\beta.$
+The distribution function of the exponential distribution with scale $\lambda>0$, denoted $Y \sim \mathsf{Exp}(\lambda)$, is  $F(x) = 1-\exp(-x/\lambda)$ and the corresponding density function is $f(x) =\lambda^{-1}\exp(-x/\lambda)$ for $x >0.$ The expected value of $Y$ is simply $\lambda.$
 
 :::
 

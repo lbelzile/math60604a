@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.6.1">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -473,7 +473,7 @@ T = \frac{\overline{X}}{S/\sqrt{n}}
 <section id="confidence-intervals" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="confidence-intervals"><span class="header-section-number">2.6</span> Confidence intervals</h2>
 <p>A <strong>confidence interval</strong> is an alternative way to present the conclusions of an hypothesis test performed at significance level <span class="math inline">\(\alpha.\)</span> It is often combined with a point estimator <span class="math inline">\(\hat{\theta}\)</span> plus or minus a margin of error designed to give an indication of the variability of the estimation procedure. Wald-based <span class="math inline">\((1-\alpha)\)</span> confidence intervals for a scalar parameter <span class="math inline">\(\theta\)</span> are of the form <span class="math display">\[\begin{align*}
-[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
+[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}), \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
 \end{align*}\]</span> where <span class="math inline">\(\mathfrak{q}_{\alpha/2}\)</span> is the <span class="math inline">\(\alpha/2\)</span> quantile of the null distribution of the Wald statistic <span class="math inline">\(W,\)</span> <span class="math display">\[\begin{align*}
 W =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 \end{align*}\]</span> and where <span class="math inline">\(\theta\)</span> represents the postulated value for the fixed, but unknown value of the parameter. The critical values for a symmetric interval, chosen so that the probability of being more extreme is <span class="math inline">\(\alpha\)</span>, are the <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> quantiles of the null distribution.</p>
