@@ -65,6 +65,46 @@
 \fi
 \makeatother
 
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
@@ -131,6 +171,7 @@
 
 \usepackage{booktabs}
 \usepackage{amssymb}
+\usepackage{mathtools}
 \makeatletter
 \def\thm@space@setup{%
   \thm@preskip=8pt plus 2pt minus 4pt
@@ -296,6 +337,8 @@
 \newtheorem{definition}{Definition}[chapter]
 \theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -336,7 +379,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-08-28}
+\date{2024-09-03}
 
 \begin{document}
 
@@ -947,7 +990,7 @@ binomial distribution for modelling overdispersion.
 
 \end{definition}
 
-\subsection{Continuous distributions}\label{continuous-distributions}
+\section{Continuous distributions}\label{continuous-distributions}
 
 We will encounter many continuous distributions that arise as
 (asymptotic) null distribution of test statistics because of the central
@@ -987,11 +1030,11 @@ waiting time of Poisson processes, and in survival analysis. One
 caracteristic of the distribution is it's absence of memory:
 \(\Pr(Y \geq y + u \mid Y > u) = \Pr(Y > u)\) for \(y, u>0.\)
 
-The distribution function of the exponential distribution,
-\(Y \sim \mathsf{Exp}(\beta)\), here parametrized in terms of scale
-\(\beta>0\) is \(F(x) = 1-\exp(-\beta x)\) and the corresponding density
-function is \(f(x) =\beta\exp(-\beta x)\) for \(x >0.\) The expected
-value of \(Y\) is simply \(\beta.\)
+The distribution function of the exponential distribution with scale
+\(\lambda>0\), denoted \(Y \sim \mathsf{Exp}(\lambda)\), is
+\(F(x) = 1-\exp(-x/\lambda)\) and the corresponding density function is
+\(f(x) =\lambda^{-1}\exp(-x/\lambda)\) for \(x >0.\) The expected value
+of \(Y\) is simply \(\lambda.\)
 
 \end{definition}
 
@@ -1512,7 +1555,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, coltitle=black, left=2mm, opacityback=0, rightrule=.15mm, bottomtitle=1mm, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, arc=.35mm, breakable, colback=white, bottomrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, colframe=quarto-callout-important-color-frame, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, breakable, arc=.35mm, toptitle=1mm, toprule=.15mm, opacityback=0, left=2mm, colback=white, rightrule=.15mm, bottomtitle=1mm, coltitle=black, bottomrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
 
 \textbf{Learning objectives}:
 
@@ -2160,7 +2203,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, coltitle=black, left=2mm, opacityback=0, rightrule=.15mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, toptitle=1mm, arc=.35mm, breakable, colback=white, bottomrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, breakable, arc=.35mm, toptitle=1mm, toprule=.15mm, opacityback=0, left=2mm, colback=white, rightrule=.15mm, bottomtitle=1mm, coltitle=black, bottomrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2699,6 +2742,1124 @@ priced on average \(82.56\) euros is a negligible amount.
 
 \bookmarksetup{startatroot}
 
+\chapter{Likelihood-based inference}\label{likelihood}
+
+This chapter is dedicated to the basics of statistical modelling using
+likelihood-based inference, arguably the most popular estimation
+paradigm in statistics.
+
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, colframe=quarto-callout-important-color-frame, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, breakable, arc=.35mm, toptitle=1mm, toprule=.15mm, opacityback=0, left=2mm, colback=white, rightrule=.15mm, bottomtitle=1mm, coltitle=black, bottomrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
+
+\textbf{Learning objectives}:
+
+\begin{itemize}
+\tightlist
+\item
+  Learn the terminology associated with likelihood-based inference
+\item
+  Derive closed-form expressions for the maximum likelihood estimator in
+  simple models
+\item
+  Using numerical optimization, obtain parameter estimates and their
+  standards errors using maximum likelihood
+\item
+  Use large-sample properties of the likelihood to derive confidence
+  intervals and tests
+\item
+  Use information criteria for model selection
+\end{itemize}
+
+\end{tcolorbox}
+
+A statistical model starts with the specification of a data generating
+mechanism. We postulate that the data has been generated from a
+probability distribution with \(p\)-dimensional parameter vector
+\(\boldsymbol{\theta}.\) The sample space is the set in which the \(n\)
+vector observations lie, while the parameter space
+\(\boldsymbol{\Theta} \subseteq \mathbb{R}^p\) is the set in which the
+parameter takes values.
+
+As motivating example, consider the time a passenger must wait at the
+Edouard-Montpetit station if that person arrives at 17:59 sharp every
+weekday, just in time for the metro train. The measurements in
+\texttt{waiting} represent the time in seconds before the next train
+leaves the station. The data were collected over three months and can be
+treated as an independent sample. The left panel of
+Figure~\ref{fig-waiting-hist} shows an histogram of the \(n=62\)
+observations, which range from \(4\) to \(57\) seconds. The data are
+positive, so our model must account for this feature.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-waiting-hist-1.pdf}
+
+}
+
+\caption{\label{fig-waiting-hist}Histogram of waiting time with rugs for
+the observations (left) and exponential log likelihood function for the
+waiting time, with the maximum likelihood estimate at dashed vertical
+line (right).}
+
+\end{figure}%
+
+\begin{example}[Exponential model for waiting
+times]\protect\hypertarget{exm-exponential-model}{}\label{exm-exponential-model}
+
+To model the waiting time, we may consider for example an exponential
+distribution with scale \(\lambda\)
+(Definition~\ref{def-exponentialdist}), which represents the theoretical
+mean. Under independence\footnote{Recall that, if \(A\) and \(B\) are
+  independent random variables, the joint probability is the product of
+  the probability of the events, \(\Pr(A \cup B) = \Pr(A)\Pr(B).\) The
+  same holds for density or mass function, since the latter are defined
+  as the derivative of the distribution function.}, the joint density
+for the observations \(y_1, \ldots, y_n\) is \begin{align*}
+f(\boldsymbol{y}) = \prod_{i=1}^n f(y_i) =\prod_{i=1}^n  \lambda^{-1} \exp(- y_i/\lambda) = \lambda^{-n} \exp\left(- \sum_{i=1}^n y_i/\lambda\right)
+\end{align*} The sample space is \(\mathbb{R}_{+}^n = [0, \infty)^n,\)
+while the parameter space is \((0, \infty).\)
+
+\end{example}
+
+To estimate the scale parameter \(\lambda\) and obtain suitable
+uncertainty measures, we need a modelling framework. We turn to
+likelihood-based inference.
+
+\section{Maximum likelihood
+estimation}\label{maximum-likelihood-estimation}
+
+For any given value of \(\boldsymbol{\theta},\) we can obtain the
+probability mass or density of the sample observations, and we use this
+to derive an objective function for the estimation.
+
+\begin{definition}[Likelihood]\protect\hypertarget{def-likelihood}{}\label{def-likelihood}
+
+The \textbf{likelihood} \(L(\boldsymbol{\theta})\) is a function of the
+parameter vector \(\boldsymbol{\theta}\) that gives the probability (or
+density) of observing a sample under a postulated distribution, treating
+the observations as fixed, \begin{align*}
+L(\boldsymbol{\theta}; \boldsymbol{y}) = f(\boldsymbol{y}; \boldsymbol{\theta}),
+\end{align*} where \(f(\boldsymbol{y}; \boldsymbol{\theta})\) denotes
+the joint density or mass function of the \(n\)-vector containing the
+observations.
+
+If the latter are independent, the joint density factorizes as the
+product of the density of individual observations, and the likelihood
+becomes \begin{align*}
+L(\boldsymbol{\theta}; \boldsymbol{y})=\prod_{i=1}^n f_i(y_i; \boldsymbol{\theta}) = f_1(y_1; \boldsymbol{\theta}) \times \cdots \times f_n(y_n; \boldsymbol{\theta}).
+\end{align*} The corresponding log likelihood function for independent
+and identically distributions observations is \begin{align*}
+\ell(\boldsymbol{\theta}; \boldsymbol{y}) = \sum_{i=1}^n \ln f(y_i; \boldsymbol{\theta})
+\end{align*}
+
+\end{definition}
+
+\begin{example}[Dependent
+data]\protect\hypertarget{exm-markov}{}\label{exm-markov}
+
+The joint density function only factorizes for independent data, but an
+alternative sequential decomposition can be helpful. For example, we can
+write the joint density \(f(y_1, \ldots, y_n)\) using the factorization
+\begin{align*}
+f(\boldsymbol{y}) = f(y_1) \times f(y_2 \mid y_1) \times \ldots f(y_n \mid y_1, \ldots, y_n)
+\end{align*} in terms of conditional. Such a decomposition is
+particularly useful in the context of time series, where data are
+ordered from time \(1\) until time \(n\) and models typically relate
+observation \(y_n\) to it's past. For example, the \(\mathsf{AR}(1)\)
+process, states that
+\(Y_t \mid Y_{t-1}=y_{t-1} \sim \mathsf{normal}(\alpha + \beta y_{t-1}, \sigma^2)\)
+and we can simplify the log likelihood using the Markov property, which
+states that the current realization depends on the past,
+\(Y_t \mid Y_1, \ldots, Y_{t-1},\) only through the most recent value
+\(Y_{t-1}.\) The log likelihood thus becomes \begin{align*}
+\ell(\boldsymbol{\theta}) = \ln f(y_1) + \sum_{i=2}^n f(y_i \mid y_{i-1}).
+\end{align*}
+
+\end{example}
+
+\begin{definition}[Maximum likelihood
+estimator]\protect\hypertarget{def-mle}{}\label{def-mle}
+
+The \textbf{maximum likelihood estimator}
+\(\widehat{\boldsymbol{\theta}}\) is the vector value that maximizes the
+likelihood, \begin{align*}
+\widehat{\boldsymbol{\theta}} = \mathrm{arg max}_{\boldsymbol{\theta} \in \boldsymbol{\Theta}} L(\boldsymbol{\theta}; \boldsymbol{y}).
+\end{align*}
+
+The natural logarithm \(\ln\) is a monotonic transformation, so the
+maximum likelihood estimator \(\boldsymbol{\theta}\) for likelihood
+\(L(\boldsymbol{\theta}; \boldsymbol{y})\) is the same as that of the
+log likelihood
+\(\ell(\boldsymbol{\theta}; \boldsymbol{y}) = \ln L(\boldsymbol{\theta}; \boldsymbol{y}).\)\footnote{Since
+  in most instances we deal with a product of densities, taking the log
+  leads to a sum of log density contributions, which facilitates
+  optimization.}
+
+\end{definition}
+
+If we suppose that our model is correct, than we expect to observe
+whatever was realized, so we find the parameter vector that makes the
+sample the most likely to have been generated by our model. Several
+properties of maximum likelihood estimator makes it appealing for
+inference. The maximum likelihood estimator is efficient, meaning it has
+the smallest asymptotic mean squared error. The maximum likelihood
+estimator is also \textbf{consistent}, i.e., it converges to the correct
+value as the sample size increase (asymptotically unbiased).
+
+We can resort to numerical optimization routines to find the value of
+the maximum likelihood estimate, or sometimes derive closed-form
+expressions for the estimator, starting from the log likelihood. The
+right panel of Figure~\ref{fig-waiting-hist} shows the exponential log
+likelihood, which attains a maximum at \(\widehat{\lambda}=28.935\)
+second, the sample mean of the observations. The function decreases to
+either side of these values as the data become less compatible with the
+model. Given the values achieved here with a small sample, it is easy to
+see that direct optimization of the likelihood function (rather than
+it's natural logarithm) could lead to numerical underflow, since already
+\(\exp(-270) \approx 5.5 \times 10^{-118},\) and log values smaller than
+\(-746\) would be rounded to zero.
+
+\begin{example}[Calculation of the maximum likelihood of an exponential
+distribution]\protect\hypertarget{exm-exponential-mle}{}\label{exm-exponential-mle}
+
+As Figure~\ref{fig-waiting-hist} reveals that the exponential log
+likelihood function is unimodal and thus achieves a single maximum, we
+can use calculus to derive an explicit expression for
+\(\widehat{\lambda}\) based on the log likelihood \begin{align*}
+\ell(\lambda) = -n \ln\lambda -\frac{1}{\lambda} \sum_{i=1}^n y_i.
+\end{align*} Taking first derivative and setting the result to zero, we
+find \begin{align*}
+\frac{\mathrm{d} \ell(\lambda)}{\mathrm{d} \lambda}  = -\frac{n}{\lambda} + \frac{1}{\lambda^2} \sum_{i=1}^n y_i = 0.
+\end{align*} Rearranging this expression by taking \(-n/\lambda\) to the
+right hand side of the equality and multiplying both sides by
+\(\lambda^2>0,\) we find that
+\(\widehat{\lambda} = \sum_{i=1}^n y_i / n.\) The second derivative of
+the log likelihood is
+\(\mathrm{d}^2 \ell(\lambda)/\mathrm{d} \lambda^2 = n(\lambda^{-2} - 2\lambda^{-3}\overline{y}),\)
+and plugging \(\lambda = \overline{y}\) gives \(-n/\overline{y}^2,\)
+which is negative. Therefore, \(\widehat{\lambda}\) is indeed a
+maximizer.
+
+\end{example}
+
+\begin{example}[Normal
+samples]\protect\hypertarget{exm-normal-mle}{}\label{exm-normal-mle}
+
+Suppose we have an independent normal sample of size \(n\) with mean
+\(\mu\) and variance \(\sigma^2\), where
+\(Y_i \sim \mathsf{normal}(\mu, \sigma^2)\) are independent. Recall that
+the density of the normal distribution is \begin{align*}
+f(y; \mu, \sigma^2)=\frac{1}{(2\pi \sigma^2)^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}.
+\end{align*} For an simple random sample of size \(n\), whose
+realization is \(y_1, \ldots, y_n\), the likelihood is \begin{align*}
+L(\mu, \sigma^2; \boldsymbol{y})=&\prod_{i=1}^n\frac{1}{({2\pi \sigma^2})^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(y_i-\mu)^2\right\}\\
+=&(2\pi \sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\mu)^2\right\}.
+\end{align*} and the log likelihood is \begin{align*}
+\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\ln(2\pi) -\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
+\end{align*}
+
+One can show that the maximum likelihood estimators for the two
+parameters are \begin{align*}
+\widehat{\mu}=\overline{Y}=\frac{1}{n} \sum_{i=1}^n Y_i, \qquad \widehat{\sigma}^2=\frac{1}{n}\sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}
+
+The fact that the estimator of the theoretical mean \(\mu\) is the
+sample mean is fairly intuitive and one can show the estimator is
+unbiased for \(\mu\). The (unbiased) sample variance estimator,
+\begin{align*}
+S^2=\frac{1}{n-1} \sum_{i=1}^n (\mathrm{Y}_i-\overline{Y})^2
+\end{align*} Since \(\widehat{\sigma}^2=(n-1)/n S^2\), it follows that
+the maximum likelihood estimator of \(\sigma^2\) is biased, but both
+estimators are consistent and will thus get arbitrarily close to the
+true value \(\sigma^2\) for \(n\) sufficiently large.
+
+\end{example}
+
+\begin{example}[Ordinary least
+squares]\protect\hypertarget{exm-ols-mle}{}\label{exm-ols-mle}
+
+The case of normally distributed data is intimately related to linear
+regression and ordinary least squares: assuming normality of the errors,
+the least square estimators of \(\boldsymbol{\beta}\) coincide with the
+maximum likelihood estimator of \(\boldsymbol{\beta}\).
+
+The linear regression model specifies
+\(Y_i \sim \mathsf{normal}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2)\),
+or alternatively \begin{align*}
+Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
+\end{align*} where the errors
+\(\varepsilon_i \sim \mathsf{normal}(0, \sigma^2)\). The linear model
+has \(p+2\) parameters (\(\boldsymbol{\beta}\) and \(\sigma^2\)) and the
+log likelihood is \begin{align*}
+\ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*} Maximizing the log likelihood with respect to
+\(\boldsymbol{\beta}\) is equivalent to minimizing the sum of squared
+errors \(\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2\). Since this
+objective function is the same as that of least squares, it follows that
+the least-square estimator \(\widehat{\boldsymbol{\beta}}\) for the mean
+parameters is the maximum likelihood estimator for normal errors with
+common variance \(\sigma^2\), regardless of the value of the latter. The
+maximum likelihood estimator \(\widehat{\sigma}^2\) is thus
+\begin{align*}
+\widehat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*} The log likelihood, excluding constant terms that don't
+depend on \(\sigma^2\), is \begin{align*}
+\ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
+&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*} Differentiating each term with respect to \(\sigma^2\) and
+setting the gradient equal to zero yields the maximum likelihood
+estimator \begin{align*}
+\widehat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
+\end{align*} where \(\mathsf{SS}_e\) is the sum of squared residuals.
+The usual unbiased estimator of \(\sigma^2\) calculated by software is
+\(S^2=\mathsf{SS}_e/(n-p-1)\), where the denominator is the sample size
+\(n\) minus the number of mean parameters \(\boldsymbol{\beta}\),
+\(p+1\).
+
+\end{example}
+
+\begin{proposition}[Invariance of maximum likelihood
+estimators]\protect\hypertarget{prp-invariance-mle}{}\label{prp-invariance-mle}
+
+If \(g(\boldsymbol{\theta}): \mathbb{R}^p \mapsto \mathbb{R}^k\) for
+\(k \leq p\) is a function of the parameter vector, then
+\(g(\widehat{\boldsymbol{\theta}})\) is the maximum likelihood estimator
+of the function.
+
+\end{proposition}
+
+The invariance property explains the widespread use of maximum
+likelihood estimation. For example, having estimated the parameter
+\(\lambda,\) we can now use the model to derive other quantities of
+interest and get the ``best'' estimates for free. For example, we could
+compute the maximum likelihood estimate of the probability of waiting
+more than one minute,
+\(\Pr(T>60) = \exp(-60/\widehat{\lambda})= 0.126,\) or using \textbf{R}
+built-in distribution function \texttt{pexp}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Note: default R parametrization for the exponential is }
+\CommentTok{\# in terms of rate, i.e., the inverse scale parameter}
+\FunctionTok{pexp}\NormalTok{(}\AttributeTok{q =} \DecValTok{60}\NormalTok{, }\AttributeTok{rate =} \DecValTok{1}\SpecialCharTok{/}\FunctionTok{mean}\NormalTok{(waiting), }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] 0.126}
+\end{Highlighting}
+\end{Shaded}
+
+Another appeal of the invariance property is the possibility to compute
+the MLE in the most suitable parametrization, which is convenient if the
+support is restricted. If \(g\) is a one-to-one function of
+\(\boldsymbol{\theta},\) for example if \(\theta >0,\) taking
+\(g(\theta) = \ln \theta\) or, if \(0 \leq \theta \leq 1,\) by
+maximizing \(g(\theta) = \ln(\theta) - \ln(1-\theta) \in \mathbb{R}\)
+removes the support constraints for the numerical optimization.
+
+\begin{definition}[Score and information
+matrix]\protect\hypertarget{def-information}{}\label{def-information}
+
+Let \(\ell(\boldsymbol{\theta}),\)
+\(\boldsymbol{\theta} \in \boldsymbol{\Theta} \subseteq \mathbb{R}^p,\)
+be the log likelihood function. The gradient of the log likelihood
+\(U(\boldsymbol{\theta}) = \partial \ell(\boldsymbol{\theta}) / \partial \boldsymbol{\theta}\)
+is termed \textbf{score} function.
+
+The \textbf{observed information matrix} is the hessian of the negative
+log likelihood \begin{align*}
+j(\boldsymbol{\theta}; \boldsymbol{y})=-\frac{\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}
+\end{align*}, evaluated at the maximum likelihood estimate
+\(\widehat{\boldsymbol{\theta}},\) so
+\(j(\widehat{\boldsymbol{\theta}}).\) Under regularity conditions, the
+\textbf{expected information}, also called \textbf{Fisher information}
+matrix, is \begin{align*}
+i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = \mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
+\end{align*} Both the Fisher (or expected) and the observed information
+matrices are symmetric and encode the curvature of the log likelihood
+and provide information about the variability of
+\(\widehat{\boldsymbol{\theta}}.\)
+
+\end{definition}
+
+\begin{example}[Information for the exponential
+model]\protect\hypertarget{exm-exponential}{}\label{exm-exponential}
+
+The observed and expected information of the exponential model for a
+random sample \(Y_1, \ldots, Y_n,\) parametrized in terms of scale
+\(\lambda,\) is \begin{align*}
+j(\lambda; \boldsymbol{y}) &= -\frac{\partial^2 \ell(\lambda)}{\partial \lambda^2} = \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n y_i \\
+i(\lambda) &= \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n \mathsf{E}(Y_i)  = \frac{n}{\lambda^{2}}
+\end{align*} since \(\mathsf{E}(Y_i) = \lambda\) and expectation is a
+linear operator. The observed information is
+\(j(\widehat{\lambda}) = n/\overline{y}^2\) and the Fisher information
+is \({n}/{\lambda^{2}}\): both coincide when evaluated at the maximum
+likelihood estimator \(\widehat{\lambda}=\overline{y}\) (i.e., the
+sample mean), but this isn't the case in general.
+
+\end{example}
+
+\begin{proposition}[Gradient-based
+optimization]\protect\hypertarget{prp-gradient}{}\label{prp-gradient}
+
+To obtain the maximum likelihood estimator, we will typically find the
+value of the vector \(\boldsymbol{\theta}\) that solves the score
+vector, meaning \(U(\widehat{\boldsymbol{\theta}})=\boldsymbol{0}_p.\)
+This amounts to solving simultaneously a \(p\)-system of equations by
+setting the derivative with respect to each element of
+\(\boldsymbol{\theta}\) to zero. If \(j(\widehat{\boldsymbol{\theta}})\)
+is a positive definite matrix (i.e., all of it's eigenvalues are
+positive), then the vector \(\widehat{\boldsymbol{\theta}}\) is the
+maximum likelihood estimator.
+
+We can use a variant of Newton--Raphson algorithm if the likelihood is
+thrice differentiable and the maximum likelihood estimator does not lie
+on the boundary of the parameter space. If we consider an initial value
+\(\boldsymbol{\theta}^{\dagger},\) then a first order Taylor series
+expansion of the score likelihood in a neighborhood
+\(\boldsymbol{\theta}^{\dagger}\) of the MLE
+\(\widehat{\boldsymbol{\theta}}\) gives \begin{align*}
+\boldsymbol{0}_p & = U(\widehat{\boldsymbol{\theta}}) \stackrel{\cdot}{\simeq} \left.
+\frac{\partial \ell(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \right|_{\boldsymbol{\theta} = \boldsymbol{\theta}^{\dagger}} + \left.
+\frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}\right|_{\boldsymbol{\theta} = \boldsymbol{\theta}^{\dagger}}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}^{\dagger})\\&=U(\boldsymbol{\theta}^{\dagger}) - j(\boldsymbol{\theta}^{\dagger})(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}^{\dagger})
+\end{align*} and solving this for \(\widehat{\boldsymbol{\theta}}\)
+(provided the \(p \times p\) matrix \(j(\widehat{\boldsymbol{\theta}})\)
+is invertible), we get \begin{align*}
+\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\simeq} \boldsymbol{\theta}^{\dagger} + 
+j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger}),
+\end{align*} which suggests an iterative procedure from a starting value
+\(\boldsymbol{\theta}^{\dagger}\) in the vicinity of the mode until the
+gradient is approximately zero. If the value is far from the mode, then
+the algorithm may diverge to infinity. To avoid this, we may multiply
+the term
+\(j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger})\)
+by a damping factor \(c<1.\) A variant of the algorithm, termed Fisher
+scoring, uses the expected or Fisher information
+\(i(\boldsymbol{\theta})\) in place of the observed information,
+\(j(\boldsymbol{\theta}),\) for numerical stability and to avoid
+situations where the latter is not positive definite. This is the
+optimization routine used in the \texttt{glm} function in \textbf{R}.
+
+\end{proposition}
+
+The exponential model may be restrictive for our purposes, so we
+consider for the purpose of illustration and as a generalization a
+Weibull distribution.
+
+\begin{definition}[Weibull
+distribution]\protect\hypertarget{def-weibull}{}\label{def-weibull}
+
+The distribution function of a \textbf{Weibull} random variable with
+scale \(\lambda>0\) and shape \(\alpha>0\) is \begin{align*}
+F(x; \lambda, \alpha) &= 1 - \exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda>0, \alpha>0,
+\end{align*} while the corresponding density is \begin{align*}
+f(x; \lambda, \alpha) &= \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda>0, \alpha>0.
+\end{align*} The quantile function, the inverse of the distribution
+function, is \(Q(p) = \lambda\{-\ln(1-p)\}^{1/\alpha}.\) The Weibull
+distribution includes the exponential as special case when \(\alpha=1.\)
+The expected value of \(Y \sim \mathsf{Weibull}(\lambda, \alpha)\) is
+\(\mathsf{E}(Y) = \lambda \Gamma(1+1/\alpha).\)
+
+\end{definition}
+
+\begin{example}[Maximum likelihood of a Weibull
+sample]\protect\hypertarget{exm-weibull-mle}{}\label{exm-weibull-mle}
+
+The log likelihood for a simple random sample whose realizations are
+\(y_1, \ldots, y_n\) of size \(n\) from a
+\(\mathsf{Weibull}(\lambda, \alpha)\) model is \begin{align*}
+\ell(\lambda, \alpha) = n \ln(\alpha) - n\alpha\ln(\lambda) + (\alpha-1) \sum_{i=1}^n \ln y_i  - \lambda^{-\alpha}\sum_{i=1}^n y_i^\alpha.
+\end{align*} The gradient of this function is easily obtained by
+differentiation\footnote{Using for example a symbolic calculator.}
+\begin{align*}
+\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} &= -\frac{n\alpha}{\lambda} +\alpha\lambda^{-\alpha-1}\sum_{i=1}^n y_i^\alpha \\
+\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} &= \frac{n}{\alpha} - n \ln(\lambda) + \sum_{i=1}^n \ln y_i  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
+\end{align*} We turn to numerical optimization to obtain the maximum
+likelihood estimate of the Weibull distribution, in the absence of
+closed-form expression for the MLE. To this end, we create functions
+that encode the log likelihood, here taken as the sum of log density
+contributions. The function \texttt{nll\_weibull} below takes as
+argument the vector of parameters, \texttt{pars}, and returns the
+negative of the log likelihood which we wish to minimize\footnote{Most
+  optimization algorithms minimize functions with respect to their
+  arguments, so we minimize the negative log likelihood, which is
+  equivalent to maximizing the log likelihood.} We also code the
+gradient, although we can resort to numerical differentiation at little
+additional costs. We then use \texttt{optim}, the default optimization
+routine in \textbf{R}, to minimize \texttt{nll\_weibull}. The function
+returns a list containing a convergence code (\texttt{0} indicating
+convergence), the MLE in \texttt{par}, the log likelihood
+\(\ell(\widehat{\boldsymbol{\theta}})\) and the Hessian matrix, which is
+the matrix of second derivatives of the negative log likelihood
+evaluated at \(\widehat{\boldsymbol{\theta}}.\) The log likelihood
+surface, for pairs of scale and shape vectors
+\(\boldsymbol{\theta} = (\lambda, \alpha),\) are displayed in
+Figure~\ref{fig-weibull-profile}. We can see that the maximum likelihood
+value has converged, and check that the score satisfies
+\(U(\widehat{\boldsymbol{\theta}}) = 0\) at the returned optimum value.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load data vector}
+\FunctionTok{data}\NormalTok{(waiting, }\AttributeTok{package =} \StringTok{"hecstatmod"}\NormalTok{)}
+\CommentTok{\# Negative log likelihood for a Weibull sample}
+\NormalTok{nll\_weibull }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(pars, y)\{}
+  \CommentTok{\# Handle the case of negative parameter values}
+  \ControlFlowTok{if}\NormalTok{(}\FunctionTok{isTRUE}\NormalTok{(}\FunctionTok{any}\NormalTok{(pars }\SpecialCharTok{\textless{}=} \DecValTok{0}\NormalTok{)))\{ }\CommentTok{\# parameters must be positive}
+    \FunctionTok{return}\NormalTok{(}\FloatTok{1e10}\NormalTok{) }\CommentTok{\# large value (not infinite, to avoid warning messages)}
+\NormalTok{  \}}
+  \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dweibull}\NormalTok{(}\AttributeTok{x =}\NormalTok{ y, }\AttributeTok{scale =}\NormalTok{ pars[}\DecValTok{1}\NormalTok{], }\AttributeTok{shape =}\NormalTok{ pars[}\DecValTok{2}\NormalTok{], }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{\}}
+\CommentTok{\# Gradient of the negative Weibull log likelihood}
+\NormalTok{gr\_nll\_weibull }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(pars, y)\{}
+\NormalTok{  scale }\OtherTok{\textless{}{-}}\NormalTok{ pars[}\DecValTok{1}\NormalTok{] }
+\NormalTok{  shape }\OtherTok{\textless{}{-}}\NormalTok{ pars[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(y)}
+\NormalTok{  grad\_ll }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{scale =} \SpecialCharTok{{-}}\NormalTok{n}\SpecialCharTok{*}\NormalTok{shape}\SpecialCharTok{/}\NormalTok{scale }\SpecialCharTok{+}\NormalTok{ shape}\SpecialCharTok{*}\NormalTok{scale}\SpecialCharTok{\^{}}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{shape}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{sum}\NormalTok{(y}\SpecialCharTok{\^{}}\NormalTok{shape),}
+               \AttributeTok{shape =}\NormalTok{ n}\SpecialCharTok{/}\NormalTok{shape }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{*}\FunctionTok{log}\NormalTok{(scale) }\SpecialCharTok{+} \FunctionTok{sum}\NormalTok{(}\FunctionTok{log}\NormalTok{(y)) }\SpecialCharTok{{-}} 
+                 \FunctionTok{sum}\NormalTok{(}\FunctionTok{log}\NormalTok{(y}\SpecialCharTok{/}\NormalTok{scale)}\SpecialCharTok{*}\NormalTok{(y}\SpecialCharTok{/}\NormalTok{scale)}\SpecialCharTok{\^{}}\NormalTok{shape))}
+  \FunctionTok{return}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ grad\_ll)}
+\NormalTok{\}}
+\CommentTok{\# Use exponential submodel MLE as starting parameters}
+\NormalTok{start }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{mean}\NormalTok{(waiting), }\DecValTok{1}\NormalTok{)}
+\CommentTok{\# Check gradient function is correctly coded! }
+\CommentTok{\# Returns TRUE if numerically equal to tolerance}
+\FunctionTok{isTRUE}\NormalTok{(}\FunctionTok{all.equal}\NormalTok{(numDeriv}\SpecialCharTok{::}\FunctionTok{grad}\NormalTok{(nll\_weibull, }\AttributeTok{x =}\NormalTok{ start, }\AttributeTok{y =}\NormalTok{ waiting),}
+                 \FunctionTok{gr\_nll\_weibull}\NormalTok{(}\AttributeTok{pars =}\NormalTok{ start, }\AttributeTok{y =}\NormalTok{ waiting),}
+                 \AttributeTok{check.attributes =} \ConstantTok{FALSE}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] TRUE}
+\CommentTok{\# Numerical minimization using optim}
+\NormalTok{opt\_weibull }\OtherTok{\textless{}{-}} \FunctionTok{optim}\NormalTok{(}
+  \AttributeTok{par =}\NormalTok{ start,  }\CommentTok{\# starting values}
+  \AttributeTok{fn =}\NormalTok{ nll\_weibull,  }\CommentTok{\# pass function, whose first argument is the parameter vector}
+  \AttributeTok{gr =}\NormalTok{ gr\_nll\_weibull, }\CommentTok{\# optional (if missing, numerical derivative)}
+  \AttributeTok{method =} \StringTok{"BFGS"}\NormalTok{, }\CommentTok{\# gradient{-}based algorithm, common alternative is "Nelder"}
+  \AttributeTok{y =}\NormalTok{ waiting, }\CommentTok{\# vector of observations, passed as additional argument to fn}
+  \AttributeTok{hessian =} \ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# return matrix of second derivatives evaluated at MLE}
+\CommentTok{\# Alternative using pure Newton}
+\CommentTok{\# nlm(f = nll\_weibull, p = start, hessian = TRUE, y = waiting)}
+\CommentTok{\# Parameter estimates {-} MLE}
+\NormalTok{(mle\_weibull }\OtherTok{\textless{}{-}}\NormalTok{ opt\_weibull}\SpecialCharTok{$}\NormalTok{par)}
+\CommentTok{\#\textgreater{} [1] 32.6  2.6}
+\CommentTok{\# Check gradient for convergence}
+\FunctionTok{gr\_nll\_weibull}\NormalTok{(mle\_weibull, }\AttributeTok{y =}\NormalTok{ waiting)}
+\CommentTok{\#\textgreater{}     scale     shape }
+\CommentTok{\#\textgreater{} 0.0000142 0.0001136}
+\CommentTok{\# Is the Hessian of the negative positive definite (all eigenvalues are positive)}
+\CommentTok{\# If so, we found a maximum and the matrix is invertible}
+\FunctionTok{isTRUE}\NormalTok{(}\FunctionTok{all}\NormalTok{(}\FunctionTok{eigen}\NormalTok{(opt\_weibull}\SpecialCharTok{$}\NormalTok{hessian)}\SpecialCharTok{$}\NormalTok{values }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] TRUE}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+\section{Sampling distribution}\label{sampling-distribution}
+
+The \textbf{sampling distribution} of an estimator
+\(\widehat{\boldsymbol{\theta}}\) is the probability distribution
+induced by the underlying data, given that the latter inputs are random.
+
+For simplicity, suppose we have a simple random sample, so the log
+likelihood is a sum of \(n\) terms and information accumulates linearly
+with the sample size: the data carry more information about the unknown
+parameter vector, whose true value we denote \(\boldsymbol{\theta}_0.\)
+Under suitable regularity conditions, cf.~Section 4.4.2 of Davison
+(\citeproc{ref-Davison:2003}{2003}), for large sample size \(n,\) we can
+perform a Taylor series of the score vector and apply the central limit
+theorem. Since \(U(\boldsymbol{\theta})\) and \(i(\boldsymbol{\theta})\)
+are the sum of \(n\) independent random variables, and that
+\(\mathsf{E}\{U(\boldsymbol{\theta})\}=\boldsymbol{0}_p,\) and
+\(\mathsf{Var}\{U(\boldsymbol{\theta})\}=i(\boldsymbol{\theta}),\)
+application of the central limit theorem yields \begin{align*}
+i(\boldsymbol{\theta}_0)^{-1/2}U(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim}\mathsf{normal}(0,1).
+\end{align*} Quantities such as
+\(i(\widehat{\boldsymbol{\theta}})^{-1/2}U(\widehat{\boldsymbol{\theta}})\)
+are termed \textbf{pivots}, because their sampling distribution does not
+depend on unknown parameters.
+
+We can use this to obtain approximations to the sampling distribution of
+\(\widehat{\boldsymbol{\theta}},\) given that \begin{align*}
+\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normal}_p\{\boldsymbol{\theta}_0, i^{-1}(\boldsymbol{\theta})\}
+\end{align*} where the covariance matrix is the inverse of the Fisher
+information. In practice, since the true parameter value
+\(\boldsymbol{\theta}_0\) is unknown, we replace it with either
+\(i^{-1}(\widehat{\boldsymbol{\theta}})\) or the inverse of the observed
+information \(j^{-1}(\widehat{\boldsymbol{\theta}}),\) as both of these
+converge to the true value.
+
+As the sample size grows, the \(\widehat{\boldsymbol{\theta}}\) becomes
+centered around the value \(\boldsymbol{\theta}_0\) that minimizes the
+discrepancy between the model and the true data generating process. In
+large samples, the sampling distribution of the maximum likelihood
+estimator is approximately quadratic.
+
+\begin{example}[Covariance matrix and standard errors for the Weibull
+distribution]\protect\hypertarget{exm-Weibull-se}{}\label{exm-Weibull-se}
+
+We use the output of our optimization procedure to get the observed
+information matrix and the standard errors for the parameters of the
+Weibull model. The latter are simply the square root of the diagonal
+entries of the inverse Hessian matrix,
+\([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\)..
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The Hessian matrix of the negative log likelihood evaluated at the MLE}
+\CommentTok{\# is the inverse of the observed information matrix}
+\NormalTok{obsinfo\_weibull }\OtherTok{\textless{}{-}}\NormalTok{ opt\_weibull}\SpecialCharTok{$}\NormalTok{hessian}
+\NormalTok{vmat\_weibull }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(obsinfo\_weibull)}
+\CommentTok{\# Standard errors}
+\NormalTok{se\_weibull }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{diag}\NormalTok{(vmat\_weibull))}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+From these, one can readily Wald-based confidence intervals for
+parameters from \(\boldsymbol{\theta}.\)
+
+\begin{proposition}[Asymptotic normality and
+transformations]\protect\hypertarget{prp-transformation}{}\label{prp-transformation}
+
+The asymptotic normality result can be used to derive standard errors
+for other quantities of interest. If \(\phi = g(\boldsymbol{\theta})\)
+is a differentiable function of \(\boldsymbol{\theta},\) then
+\(\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{normal}(\phi_0, \mathrm{V}_\phi),\)
+with
+\(\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi,\)
+where
+\(\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top.\)
+The variance matrix and the gradient vector are evaluated at the maximum
+likelihood estimate \(\widehat{\boldsymbol{\theta}}.\) This result
+readily extends to vector \(\boldsymbol{\phi} \in \mathbb{R}^k\) for
+\(k \leq p,\) where \(\mathrm{V}_\phi\)is the Jacobian matrix of the
+transformation if \(\phi\) is a vector-valued function.
+
+\end{proposition}
+
+\begin{example}[Probability of waiting for exponential
+model.]\protect\hypertarget{exm-transformation-exp}{}\label{exm-transformation-exp}
+
+To illustrate the difference between likelihood ratio and Wald tests
+(and their respective confidence intervals), we consider the metro
+waiting time data and consider the probability of waiting more than one
+minute, \(\phi=g(\lambda) = \exp(-60/\lambda).\) The maximum likelihood
+estimate is, by invariance, \(0.126\) and the gradient of \(g\) with
+respect to the scale parameter is
+\(\nabla \phi = \partial \phi / \partial \lambda = 60\exp(-60/\lambda)/\lambda^2.\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lambda\_hat }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(waiting)}
+\NormalTok{phi\_hat }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{60}\SpecialCharTok{/}\NormalTok{lambda\_hat)}
+\NormalTok{dphi }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(lambda)\{}\DecValTok{60}\SpecialCharTok{*}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{60}\SpecialCharTok{/}\NormalTok{lambda)}\SpecialCharTok{/}\NormalTok{(lambda}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)\}}
+\NormalTok{V\_lambda }\OtherTok{\textless{}{-}}\NormalTok{ lambda\_hat}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\FunctionTok{length}\NormalTok{(waiting)}
+\NormalTok{V\_phi }\OtherTok{\textless{}{-}} \FunctionTok{dphi}\NormalTok{(lambda\_hat)}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ V\_lambda}
+\NormalTok{(se\_phi }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(V\_phi))}
+\CommentTok{\#\textgreater{} [1] 0.0331}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+\section{Likelihood-based tests}\label{liktests}
+
+Oftentimes, we wish to compare two models: the model implied by the null
+hypothesis, which is a restriction or simpler version of the full model.
+Models are said to be \textbf{nested} if we can obtain one from the
+other by imposing restrictions on the parameters.
+
+We consider a null hypothesis \(\mathscr{H}_0\) that imposes
+restrictions on the possible values of \(\boldsymbol{\theta}\) can take,
+relative to an unconstrained alternative \(\mathscr{H}_1.\) We need two
+\textbf{nested} models: a \emph{full} model, and a \emph{reduced} model
+that is a subset of the full model where we impose \(q\) restrictions.
+For example, the exponential distribution is a special case of the
+Weibull one if \(\alpha=1\). The testing procedure involves fitting the
+two models and obtaining the maximum likelihood estimators of each of
+\(\mathscr{H}_1\) and \(\mathscr{H}_0,\) respectively
+\(\widehat{\boldsymbol{\theta}}\) and
+\(\widehat{\boldsymbol{\theta}}_0\) for the parameters under
+\(\mathscr{H}_0.\) The null hypothesis \(\mathscr{H}_0\) tested is: `the
+reduced model is an \textbf{adequate simplification} of the full model'
+and the likelihood provides three main classes of statistics for testing
+this hypothesis: these are
+
+\begin{itemize}
+\tightlist
+\item
+  likelihood ratio tests statistics, denoted \(R,\) which measure the
+  drop in log likelihood (vertical distance) from
+  \(\ell(\widehat{\boldsymbol{\theta}})\) and
+  \(\ell(\widehat{\boldsymbol{\theta}}_0).\)
+\item
+  Wald tests statistics, denoted \(W,\) which consider the standardized
+  horizontal distance between \(\widehat{\boldsymbol{\theta}}\) and
+  \(\widehat{\boldsymbol{\theta}}_0.\)
+\item
+  score tests statistics, denoted \(S,\) which looks at the scaled slope
+  of \(\ell,\) evaluated \emph{only} at
+  \(\widehat{\boldsymbol{\theta}}_0\) (derivative of \(\ell\)).
+\end{itemize}
+
+\begin{figure}[ht!]
+
+{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{images/likelihood_tests.png}
+
+}
+
+\caption{Log-likelihood curve: the three likelihood-based tests, namely
+Wald, likelihood ratio and score tests, are shown on the curve. The
+tests use different information about the function.}
+
+\end{figure}%
+
+The three main classes of statistics for testing a simple null
+hypothesis \(\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0\)
+against the alternative
+\(\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\) are
+the likelihood ratio, the score and the Wald statistics, defined
+respectively as \begin{align*}
+ R &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
+ S &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
+ W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
+\end{align*} where \(\widehat{\boldsymbol{\theta}}\) is the maximum
+likelihood estimate under the alternative and \(\boldsymbol{\theta}_0\)
+is the null value of the parameter vector. Asymptotically, all the test
+statistics are equivalent (in the sense that they lead to the same
+conclusions about \(\mathscr{H}_0\)). If \(\mathscr{H}_0\) is true, the
+three test statistics follow asymptotically a \(\chi^2_q\) distribution
+under a null hypothesis \(\mathscr{H}_0,\) where the degrees of freedom
+\(q\) are the number of restrictions.
+
+For scalar \(\theta\) with \(q=1,\) signed versions of these statistics
+exist, e.g., \begin{align*}
+w(\theta_0)=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})\stackrel{\cdot}{\sim} \mathsf{normal}(0,1)
+\end{align*} for the Wald statistic or the directed likelihood root
+\begin{align*}
+r({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \stackrel{\cdot}{\sim} \mathsf{normal}(0,1).
+\end{align*} The likelihood ratio test statistic is normally the most
+powerful of the three likelihood tests. The score statistic \(S\) only
+requires calculation of the score and information under
+\(\mathscr{H}_0\) (because by definition \(U(\widehat{\theta})=0\)), so
+it can be useful in problems where calculations of the maximum
+likelihood estimator under the alternative is costly or impossible.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-weibull-profile-1.pdf}
+
+}
+
+\caption{\label{fig-weibull-profile}Profile log likelihood for
+\(\alpha\), shown as a dashed gray line (left) and as a transect
+(right). The left panel shows the log likelihood surface for the Weibull
+model applied to the \texttt{waiting} data with 10\%, 20\%, \ldots, 90\%
+likelihood ratio confidence regions (white contour curves). Higher log
+likelihood values are indicated by darker colors. The cross indicates
+the maximum likelihood estimate. The profile on the right hand panel has
+been shifted vertically to be zero at the MLE; the dashed horizontal
+lines denote the cutoff points for the 95\% and 99\% confidence
+intervals.}
+
+\end{figure}%
+
+The Wald statistic \(W\) is the most widely encountered statistic and
+two-sided 95\% confidence intervals for a single parameter \(\theta\)
+are of the form \begin{align*}
+\widehat{\theta} \pm \mathfrak{z}_{1-\alpha/2}\mathrm{se}(\widehat{\theta}),
+\end{align*} where \(\mathfrak{z}_{1-\alpha/2}\) is the \(1-\alpha/2\)
+quantile of the standard normal distribution; for a \(95\)\% confidence
+interval, the \(0.975\) quantile of the normal distribution is
+\(\mathfrak{z}_{0.975}=1.96.\) The Wald-based confidence intervals are
+by construction \textbf{symmetric}: they may include implausible values
+(e.g., negative values for if the parameter of interest \(\theta\) is
+positive, such as variances).
+
+\begin{example}[Exponential vs Weibull
+model]\protect\hypertarget{exm-weibull-exponential-submodel}{}\label{exm-weibull-exponential-submodel}
+
+We can test whether the exponential model is an adequate simplification
+of the Weibull distribution by imposing the restriction
+\(\mathscr{H}_0: \alpha=1\). This imposes a single restriction to the
+model, so we compare the square statistic to a \(\chi^2_1\). Since
+\(\alpha\) is directly a parameter of the distribution, we have the
+standard errors for free.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate Wald statistic}
+\NormalTok{wald\_exp }\OtherTok{\textless{}{-}}\NormalTok{ (mle\_weibull[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{/}\NormalTok{se\_weibull[}\DecValTok{2}\NormalTok{]}
+\CommentTok{\# Compute p{-}value}
+\FunctionTok{pchisq}\NormalTok{(wald\_exp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{, }\AttributeTok{df =} \DecValTok{1}\NormalTok{, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] 3.61e{-}10}
+\CommentTok{\# p{-}value less than 5\%, reject null}
+\CommentTok{\# Obtain 95\% confidence intervals}
+\NormalTok{mle\_weibull[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{+} \FunctionTok{qnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{))}\SpecialCharTok{*}\NormalTok{se\_weibull[}\DecValTok{2}\NormalTok{]}
+\CommentTok{\#\textgreater{} [1] 2.1 3.1}
+\CommentTok{\# 1 is not inside the confidence interval, reject null}
+\end{Highlighting}
+\end{Shaded}
+
+We reject the null hypothesis, meaning the exponential submodel is not
+an adequate simplification of the Weibull.
+
+We can also check the goodness-of-fit of both models by drawing a
+quantile-quantile plot (cf. Definition~\ref{def-qqplot}). It is apparent
+from Figure~\ref{fig-qqplots-weibull-exp} that the exponential model is
+overestimating the largest waiting times, whose dispersion in the sample
+is less than that implied by the model. By contrast, the near perfect
+straight line for the Weibull model in the right panel of
+Figure~\ref{fig-qqplots-weibull-exp} suggests that the model fit is
+adequate.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-qqplots-weibull-exp-1.pdf}
+
+}
+
+\caption{\label{fig-qqplots-weibull-exp}Quantile-quantile plots for
+exponential (left) and Weibull (right) models, with 95\% pointwise
+simulation intervals.}
+
+\end{figure}%
+
+\end{example}
+
+\begin{refremark}[Lack of invariance of Wald-based confidence intervals]
+The Wald-based confidence intervals are not parametrization invariant:
+if we want intervals for a nonlinear continuous function \(g(\theta),\)
+then in general
+\(\mathsf{CI}_{W}\{g(\theta)\} \neq g\{\mathsf{CI}_{W}(\theta)\}.\)
+
+For example, consider the exponential submodel. We can invert the Wald
+test statistic to get a symmetric 95\% confidence interval for \(\phi,\)
+\([0.061,\) \(0.191].\) If we were to naively transform the confidence
+interval for \(\lambda\) into one for \(\phi,\) we would get \([0.063,\)
+\(0.19],\) which highlights the invariance although the difference here
+is subtle. The Gaussian approximation underlying the Wald test is
+reliable if the sampling distribution of the likelihood is near
+quadratic, which happens when the likelihood function is roughly
+symmetric on either side of the maximum likelihood estimator.
+
+\label{rem-invariance-wald-intervals}
+
+\end{refremark}
+
+The likelihood ratio test is invariant to interest-preserving
+reparametrizations, so the test statistic for
+\(\mathscr{H}_0: \phi=\phi_0\) and
+\(\mathscr{H}_0: \lambda = -60/\ln(\phi_0)\) are the same. The Wald
+confidence regions can be contrasted with the (better) ones derived
+using the likelihood ratio test: these are found through a numerical
+search to find the limits of \begin{align*}
+\left\{\theta: 2\{\ell(\widehat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta})\} \leq \chi^2_p(1-\alpha)\right\},
+\end{align*} where \(\chi^2_p(1-\alpha)\) is the \((1-\alpha)\) quantile
+of the \(\chi^2_p\) distribution. Such intervals, for
+\(\alpha = 0.1, \ldots, 0.9\), appear in
+Figure~\ref{fig-weibull-profile} as contour curves. If
+\(\boldsymbol{\theta}\) is multidimensional, confidence intervals for
+\(\theta_i\) are derived using the profile likelihood, discussed in the
+sequel. Likelihood ratio-based confidence intervals are
+\textbf{parametrization invariant}, so
+\(\mathsf{CI}_{R}\{g(\theta)\} = g\{\mathsf{CI}_{R}(\theta)\}.\) Because
+the likelihood is zero if a parameter value falls outside the range of
+possible values for the parameter, the intervals only include plausible
+values of \(\theta.\) In general, the intervals are asymmetric and have
+better coverage properties.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Exponential log likelihood}
+\NormalTok{ll\_exp }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(lambda)\{}
+  \FunctionTok{sum}\NormalTok{(}\FunctionTok{dexp}\NormalTok{(waiting, }\AttributeTok{rate =} \DecValTok{1}\SpecialCharTok{/}\NormalTok{lambda, }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{\}}
+\CommentTok{\# MLE of the scale parameter}
+\NormalTok{lambda\_hat }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(waiting)}
+\CommentTok{\# Root search for the limits of the confidence interval}
+\NormalTok{lrt\_lb }\OtherTok{\textless{}{-}} \FunctionTok{uniroot}\NormalTok{( }\CommentTok{\# lower bound, using values below MLE}
+  \AttributeTok{f =} \ControlFlowTok{function}\NormalTok{(r)\{}
+     \DecValTok{2}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{ll\_exp}\NormalTok{(lambda\_hat) }\SpecialCharTok{{-}} \FunctionTok{ll\_exp}\NormalTok{(r)) }\SpecialCharTok{{-}} \FunctionTok{qchisq}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{1}\NormalTok{)\}, }
+  \AttributeTok{interval =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.5} \SpecialCharTok{*} \FunctionTok{min}\NormalTok{(waiting), lambda\_hat))}\SpecialCharTok{$}\NormalTok{root}
+\NormalTok{lrt\_ub }\OtherTok{\textless{}{-}} \FunctionTok{uniroot}\NormalTok{( }\CommentTok{\# upper bound,}
+  \AttributeTok{f =} \ControlFlowTok{function}\NormalTok{(r)\{}
+     \DecValTok{2}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{ll\_exp}\NormalTok{(lambda\_hat) }\SpecialCharTok{{-}} \FunctionTok{ll\_exp}\NormalTok{(r)) }\SpecialCharTok{{-}} \FunctionTok{qchisq}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{1}\NormalTok{)\}, }
+  \AttributeTok{interval =} \FunctionTok{c}\NormalTok{(lambda\_hat, }\DecValTok{2} \SpecialCharTok{*} \FunctionTok{max}\NormalTok{(waiting)))}\SpecialCharTok{$}\NormalTok{root}
+\end{Highlighting}
+\end{Shaded}
+
+The likelihood ratio statistic 95\% confidence interval for \(\phi\) can
+be found by using a root finding algorithm: the 95\% confidence interval
+for \(\lambda\) is \(\mathsf{CI}_R(\lambda)[22.784,\) \(37.515].\) By
+invariance, the 95\% confidence interval for \(\phi\) is
+\(\mathsf{CI}_R(\phi) = [0.072, 0.202] = g
+\{\mathsf{CI}_R(\lambda)\}.\)
+
+\section{Profile likelihood}\label{profile-likelihood}
+
+Sometimes, we may want to perform hypothesis test or derive confidence
+intervals for selected components of the model. In this case, the null
+hypothesis only restricts part of the space and the other parameters,
+termed nuisance, are left unspecified --- the question then is what
+values to use for comparison with the full model. It turns out that the
+values that maximize the constrained log likelihood are what one should
+use for the test, and the particular function in which these nuisance
+parameters are integrated out is termed a profile likelihood.
+
+Consider a parametric model with log likelihood function
+\(\ell(\boldsymbol{\theta})\) whose \(p\)-dimensional parameter vector
+\(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\varphi})\) can be
+decomposed into a \(q\)-dimensional parameter of interest
+\(\boldsymbol{\psi}\) and a \((p-q)\)-dimensional nuisance vector
+\(\boldsymbol{\varphi}.\)
+
+We can consider the profile likelihood \(\ell_{\mathsf{p}},\) a function
+of \(\boldsymbol{\psi}\) alone, which is obtained by maximizing the
+likelihood pointwise at each fixed value \(\boldsymbol{\psi}_0\) over
+the nuisance vector \(\boldsymbol{\varphi}_{\psi_0},\) \begin{align*}
+\ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
+\end{align*}
+
+\begin{example}[Profile log likelihood for the Weibull shape
+parameter]\protect\hypertarget{exm-profile-alpha-weibull}{}\label{exm-profile-alpha-weibull}
+
+Consider the shape parameter \(\psi \equiv\alpha\) as parameter of
+interest, and the scale\(\varphi\equiv\lambda\) as nuisance parameter.
+Using the gradients derived in Example~\ref{exm-weibull-mle}, we find
+that the value of the scale that maximizes the log likelihood for given
+\(\alpha\) is \begin{align*}
+\widehat{\lambda}_\alpha = \left( \sum_{i=1}^n y_i^\alpha\right)^{1/\alpha}.
+\end{align*} and plugging in this value gives a function of \(\alpha\)
+alone, thereby also reducing the optimization problem for the Weibull to
+a line search along \(\ell_{\mathsf{p}}(\alpha)\). The left hand panel
+of Figure~\ref{fig-weibull-profile} shows the ridge along the direction
+of \(\alpha\) corresponding to the log likelihood surface. If one thinks
+of these contours lines as those of a topographic map, the profile
+likelihood corresponds in this case to walking along the ridge of both
+mountains along the \(\psi\) direction, with the right panel showing the
+elevation gain/loss. The corresponding elevation profile on the right of
+Figure~\ref{fig-weibull-profile} with cutoff values. We would need to
+obtain numerically using a root finding algorithm the limits of the
+confidence interval on either side of \(\widehat{\alpha}\), but it's
+clear that \(\alpha=1\) is not inside the 99\% interval.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lambda\_alpha }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(alpha, }\AttributeTok{y =}\NormalTok{ waiting)\{}
+\NormalTok{  (}\FunctionTok{mean}\NormalTok{(y}\SpecialCharTok{\^{}}\NormalTok{alpha))}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\NormalTok{alpha)}
+\NormalTok{\}}
+\CommentTok{\# Profile likelihood for alpha}
+\NormalTok{prof\_alpha\_weibull }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(par, }\AttributeTok{y =}\NormalTok{ waiting)\{}
+  \FunctionTok{sapply}\NormalTok{(par, }\ControlFlowTok{function}\NormalTok{(a)\{}
+   \FunctionTok{nll\_weibull}\NormalTok{(}\AttributeTok{pars =} \FunctionTok{c}\NormalTok{(}\FunctionTok{lambda\_alpha}\NormalTok{(a), a), }\AttributeTok{y =}\NormalTok{ y)}
+\NormalTok{  \})}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+\begin{example}[Profile log likelihood for the Weibull
+mean]\protect\hypertarget{exm-profile-mean-weibull}{}\label{exm-profile-mean-weibull}
+
+As an alternative, we can use numerical optimization to compute the
+profile for another function. Suppose we are interested in the expected
+waiting time, which according to the model is
+\(\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha)\). To this effect, we
+reparametrize the model in terms of \((\mu, \alpha)\), where
+\(\lambda=\mu/\Gamma(1+1/\alpha)\). We then make a wrapper function that
+optimizes the log likelihood for fixed value of \(\mu\), then returns
+\(\widehat{\alpha}_{\mu}\), \(\mu\) and \(\ell_{\mathrm{p}}(\mu)\).
+
+To get the confidence intervals for a scalar parameter, there is a trick
+that helps with the derivation. We compute the signed likelihood root
+\(r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}\)
+over a fine grid of \(\psi\), then fit a smoothing spline to the
+equation flipping the axis (thus, the model has response \(y=\psi\) and
+\(x=r(\psi)\)). We then predict the curve at the standard normal
+quantiles \(\mathfrak{z}_{\alpha/2}\) and \(\mathfrak{z}_{1-\alpha/2}\),
+and return these values as confidence interval.
+Figure~\ref{fig-profile-mu-weibull} shows how these value correspond to
+the cutoff points on the log likelihood ratio scale, where the vertical
+line is given by \(-\mathfrak{c}(1-\alpha)/2\) where \(\mathfrak{c}\)
+denotes the quantile of a \(\chi^2_1\) random variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute the MLE for the expected value via plug{-}in}
+\NormalTok{mu\_hat }\OtherTok{\textless{}{-}}\NormalTok{ mle\_weibull[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{*}\FunctionTok{gamma}\NormalTok{(}\DecValTok{1}\SpecialCharTok{+}\DecValTok{1}\SpecialCharTok{/}\NormalTok{mle\_weibull[}\DecValTok{2}\NormalTok{])}
+\CommentTok{\# Create a profile function}
+\NormalTok{prof\_weibull\_mu }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(mu)\{}
+  \CommentTok{\# For given value of mu}
+\NormalTok{  alpha\_mu }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(mu)\{ }
+  \CommentTok{\# Find the profile by optimizing (line search) for fixed mu and the best alpha}
+\NormalTok{     opt }\OtherTok{\textless{}{-}} \FunctionTok{optimize}\NormalTok{(}\AttributeTok{f =} \ControlFlowTok{function}\NormalTok{(alpha, mu)\{}
+     \CommentTok{\# minimize the negative log likelihood}
+      \FunctionTok{nll\_weibull}\NormalTok{(}\FunctionTok{c}\NormalTok{(mu}\SpecialCharTok{/}\FunctionTok{gamma}\NormalTok{(}\DecValTok{1}\SpecialCharTok{+}\DecValTok{1}\SpecialCharTok{/}\NormalTok{alpha), alpha), }\AttributeTok{y =}\NormalTok{ waiting)\}, }
+   \AttributeTok{mu =}\NormalTok{ mu, }
+  \AttributeTok{interval =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{,}\DecValTok{10}\NormalTok{) }\CommentTok{\#search region}
+\NormalTok{  )}
+  \CommentTok{\# Return the value of the negative log likelihood and alpha\_mu}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\AttributeTok{nll =}\NormalTok{ opt}\SpecialCharTok{$}\NormalTok{objective, }\AttributeTok{alpha =}\NormalTok{ opt}\SpecialCharTok{$}\NormalTok{minimum))}
+\NormalTok{  \}}
+  \CommentTok{\# Create a data frame with mu and the other parameters}
+  \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{mu =}\NormalTok{ mu, }\FunctionTok{t}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(mu, }\ControlFlowTok{function}\NormalTok{(m)\{}\FunctionTok{alpha\_mu}\NormalTok{(m)\})))}
+\NormalTok{\}}
+\CommentTok{\# Create a data frame with the profile  }
+\NormalTok{prof }\OtherTok{\textless{}{-}} \FunctionTok{prof\_weibull\_mu}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{35}\NormalTok{, }\AttributeTok{length.out =} \DecValTok{101}\NormalTok{L))}
+\CommentTok{\# Compute signed likelihood root r}
+\NormalTok{prof}\SpecialCharTok{$}\NormalTok{r }\OtherTok{\textless{}{-}} \FunctionTok{sign}\NormalTok{(prof}\SpecialCharTok{$}\NormalTok{mu }\SpecialCharTok{{-}}\NormalTok{ mu\_hat)}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(prof}\SpecialCharTok{$}\NormalTok{nll }\SpecialCharTok{{-}}\NormalTok{ opt\_weibull}\SpecialCharTok{$}\NormalTok{value))}
+
+\CommentTok{\# Trick: fit a spline to obtain the predictions with mu as a function of r}
+\CommentTok{\# Then use this to predict the value at which we intersect the normal quantiles}
+\NormalTok{fit.r }\OtherTok{\textless{}{-}}\NormalTok{ stats}\SpecialCharTok{::}\FunctionTok{smooth.spline}\NormalTok{(}\AttributeTok{x =} \FunctionTok{cbind}\NormalTok{(prof}\SpecialCharTok{$}\NormalTok{r, prof}\SpecialCharTok{$}\NormalTok{mu), }\AttributeTok{cv =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{pr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit.r, }\FunctionTok{qnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{)))}\SpecialCharTok{$}\NormalTok{y}
+\CommentTok{\# Plot the signed likelihood root {-} near linear indicates quadratic}
+\NormalTok{g1 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ prof,}
+     \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mu, }\AttributeTok{y =}\NormalTok{ r)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{intercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{slope =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{),}
+            \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"expectation "}\NormalTok{, mu)),}
+       \AttributeTok{y =} \StringTok{"signed likelihood root"}\NormalTok{)}
+\CommentTok{\# Create a plot of the profile}
+\NormalTok{g2 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ prof,}
+       \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mu, }\AttributeTok{y =}\NormalTok{ opt\_weibull}\SpecialCharTok{$}\NormalTok{value }\SpecialCharTok{{-}}\NormalTok{ nll)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \SpecialCharTok{{-}}\FunctionTok{qchisq}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.95}\NormalTok{), }\AttributeTok{df =} \DecValTok{1}\NormalTok{)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,}
+             \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{linetype =} \StringTok{"dotted"}\NormalTok{,}
+  \AttributeTok{xintercept =}\NormalTok{ pr) }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"expectation "}\NormalTok{, mu)),}
+       \AttributeTok{y =} \StringTok{"profile log likelihood"}\NormalTok{)}
+
+\NormalTok{g1 }\SpecialCharTok{+}\NormalTok{ g2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-profile-mu-weibull-1.pdf}
+
+}
+
+\caption{\label{fig-profile-mu-weibull}Signed likelihood root (left) and
+shifted profile log likelihood (right) as a function of the expected
+value \(\mu\) in the Weibull model.}
+
+\end{figure}%
+
+\end{example}
+
+The maximum profile likelihood estimator behaves like a regular
+likelihood for most quantities of interest and we can derive test
+statistics and confidence intervals in the usual way. One famous example
+of profile likelihood is the Cox proportional hazard covered in
+\hyperref[survival]{Chapter 7}.
+
+\begin{example}[Box--Cox
+transformation]\protect\hypertarget{exm-boxcox}{}\label{exm-boxcox}
+
+Sometimes, the assumption of normality of the error in a linear
+regression does not hold. If the data are strictly positive, one can
+consider a Box--Cox transformation, \begin{align*}
+y(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
+\ln(y), & \lambda=0.
+\end{cases}
+\end{align*}
+
+If we assume that
+\(\boldsymbol{Y}(\lambda) \sim \mathsf{normal}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\),
+then the likelihood is \begin{align*}
+L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
+\end{align*} where \(J\) denotes the Jacobian of the Box--Cox
+transformation,
+\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\). For each
+given value of \(\lambda\), the maximum likelihood estimator is that of
+the usual regression model, with \(\boldsymbol{y}\) replaced by
+\(\boldsymbol{y}(\lambda)\), namely
+\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)
+and
+\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\).
+
+The profile log likelihood is \begin{align*}
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
+\end{align*} The maximum profile likelihood estimator is the value
+\(\lambda\) minimizes the sum of squared residuals from the linear model
+with \(\boldsymbol{y}(\lambda)\) as response.
+
+The Box--Cox is not a panacea and should be reserved to cases where the
+transformation reduces heteroscedasticity (unequal variance) or creates
+a linear relation between explanatories and response: theory provides a
+cogent explanation of the data. For example, the Cobb--Douglas
+production function used in economics can be linearized by taking a
+log-transformation. Rather than an \emph{ad hoc} choice of
+transformation, one could choose a log transformation if the value \(0\)
+is included within the 95\% confidence interval since this improves
+interpretability.
+
+\end{example}
+
+\section{Information criteria}\label{information-criteria}
+
+The likelihood can also serve as building block for model comparison:
+the larger \(\ell(\boldsymbol{\widehat{\theta}})\), the better the fit.
+However, the likelihood doesn't account for model complexity in the
+sense that more complex models with more parameters lead to higher
+likelihood. This is not a problem for comparison of nested models using
+the likelihood ratio test because we look only at relative improvement
+in fit. There is a danger of \textbf{overfitting} if we only consider
+the likelihood of a model.
+
+\(\mathsf{AIC}\) and \(\mathsf{BIC}\) are information criteria measuring
+how well the model fits the data, while penalizing models with more
+parameters, \begin{align*}
+\mathsf{AIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+2k \\
+\mathsf{BIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+k\ln(n),
+\end{align*} where \(k\) is the number of parameters in the model. The
+smaller the value of \(\mathsf{AIC}\) (or of \(\mathsf{BIC}\)), the
+better the model fit.
+
+Note that information criteria do not constitute formal hypothesis tests
+on the parameters, but they can be used to compare models that are not
+nested. Such tools work under regularity conditions, and the estimated
+information criteria are quite noisy, so comparison for non-nested
+models are hazardous although popular among practitioners. If we want to
+compare likelihood from different probability models, we need to make
+sure they include normalizing constant. The \(\mathsf{BIC}\) is more
+stringent than \(\mathsf{AIC}\), as its penalty increases with the
+sample size, so it selects models with fewer parameters. The
+\(\mathsf{BIC}\) is \textbf{consistent}, meaning that it will pick the
+true correct model from an ensemble of models with probability one as
+\(n \to \infty\). In practice, this is of little interest if one assumes
+that all models are approximation of reality (it is unlikely that the
+true model is included in the ones we consider). \(\mathsf{AIC}\) often
+selects overly complicated models in large samples, whereas
+\(\mathsf{BIC}\) chooses models that are overly simple.
+
+A cautionary warning: while you can compare regression models that are
+not nested using information criteria, they can only be used when the
+response variable is the same. You could compare a Poisson regression
+with a linear regression for some response \(Y\) using information
+criteria provided you include all normalizing constants in your model.
+Software often drops constant terms; this has no impact when you compare
+models with the same constant factors, but it matters when these differ.
+However, \textbf{you cannot} compare them to a log-linear model with
+response \(\ln(Y)\). Comparisons for log-linear and linear models are
+valid only if you use the Box--Cox likelihood, as it includes the
+Jacobian of the transformation.
+
+\bookmarksetup{startatroot}
+
 \chapter*{Bibliography}\label{bibliography}
 \addcontentsline{toc}{chapter}{Bibliography}
 
@@ -2717,6 +3878,10 @@ Analysis \& Prevention} 149: 105846.
 Brucks, Melanie S., and Jonathan Levav. 2022. {``Virtual Communication
 Curbs Creative Idea Generation.''} \emph{Nature} 605 (7908): 108--12.
 \url{https://doi.org/10.1038/s41586-022-04643-y}.
+
+\bibitem[\citeproctext]{ref-Davison:2003}
+Davison, A. C. 2003. \emph{Statistical Models}. Cambridge University
+Press.
 
 \bibitem[\citeproctext]{ref-Duke.Amir:2023}
 Duke, Kristen E., and On Amir. 2023. {``The Importance of Selling

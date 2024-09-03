@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="This is a web complement for MATH 60604A Statistical Modelling, a master course offered at HEC Montréal.">
+
+<title>3&nbsp; Likelihood-based inference – MATH 60604A - Statistical Modelling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./inference.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./likelihood.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Likelihood-based inference</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH 60604A - Statistical Modelling</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/lbelzile/math60604a/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./MATH60604A.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./likelihood.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Likelihood-based inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link active" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">3.1</span> Maximum likelihood estimation</a></li>
+  <li><a href="#sampling-distribution" id="toc-sampling-distribution" class="nav-link" data-scroll-target="#sampling-distribution"><span class="header-section-number">3.2</span> Sampling distribution</a></li>
+  <li><a href="#liktests" id="toc-liktests" class="nav-link" data-scroll-target="#liktests"><span class="header-section-number">3.3</span> Likelihood-based tests</a></li>
+  <li><a href="#profile-likelihood" id="toc-profile-likelihood" class="nav-link" data-scroll-target="#profile-likelihood"><span class="header-section-number">3.4</span> Profile likelihood</a></li>
+  <li><a href="#information-criteria" id="toc-information-criteria" class="nav-link" data-scroll-target="#information-criteria"><span class="header-section-number">3.5</span> Information criteria</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604a/edit/master/likelihood.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="likelihood" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Likelihood-based inference</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This chapter is dedicated to the basics of statistical modelling using likelihood-based inference, arguably the most popular estimation paradigm in statistics.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Learning objectives</strong>:</p>
+<ul>
+<li>Learn the terminology associated with likelihood-based inference</li>
+<li>Derive closed-form expressions for the maximum likelihood estimator in simple models</li>
+<li>Using numerical optimization, obtain parameter estimates and their standards errors using maximum likelihood</li>
+<li>Use large-sample properties of the likelihood to derive confidence intervals and tests</li>
+<li>Use information criteria for model selection</li>
+</ul>
+</div>
+</div>
+<p>A statistical model starts with the specification of a data generating mechanism. We postulate that the data has been generated from a probability distribution with <span class="math inline">\(p\)</span>-dimensional parameter vector <span class="math inline">\(\boldsymbol{\theta}.\)</span> The sample space is the set in which the <span class="math inline">\(n\)</span> vector observations lie, while the parameter space <span class="math inline">\(\boldsymbol{\Theta} \subseteq \mathbb{R}^p\)</span> is the set in which the parameter takes values.</p>
+<p>As motivating example, consider the time a passenger must wait at the Edouard-Montpetit station if that person arrives at 17:59 sharp every weekday, just in time for the metro train. The measurements in <code>waiting</code> represent the time in seconds before the next train leaves the station. The data were collected over three months and can be treated as an independent sample. The left panel of <a href="#fig-waiting-hist" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> shows an histogram of the <span class="math inline">\(n=62\)</span> observations, which range from <span class="math inline">\(4\)</span> to <span class="math inline">\(57\)</span> seconds. The data are positive, so our model must account for this feature.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-waiting-hist" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-waiting-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="likelihood_files/figure-html/fig-waiting-hist-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waiting-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Histogram of waiting time with rugs for the observations (left) and exponential log likelihood function for the waiting time, with the maximum likelihood estimate at dashed vertical line (right).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="exm-exponential-model" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.1 (Exponential model for waiting times)</strong></span> To model the waiting time, we may consider for example an exponential distribution with scale <span class="math inline">\(\lambda\)</span> (<a href="introduction.html#def-exponentialdist" class="quarto-xref">Definition&nbsp;<span>1.10</span></a>), which represents the theoretical mean. Under independence<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, the joint density for the observations <span class="math inline">\(y_1, \ldots, y_n\)</span> is <span class="math display">\[\begin{align*}
+f(\boldsymbol{y}) = \prod_{i=1}^n f(y_i) =\prod_{i=1}^n  \lambda^{-1} \exp(- y_i/\lambda) = \lambda^{-n} \exp\left(- \sum_{i=1}^n y_i/\lambda\right)
+\end{align*}\]</span> The sample space is <span class="math inline">\(\mathbb{R}_{+}^n = [0, \infty)^n,\)</span> while the parameter space is <span class="math inline">\((0, \infty).\)</span></p>
+</div>
+<p>To estimate the scale parameter <span class="math inline">\(\lambda\)</span> and obtain suitable uncertainty measures, we need a modelling framework. We turn to likelihood-based inference.</p>
+<section id="maximum-likelihood-estimation" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">3.1</span> Maximum likelihood estimation</h2>
+<p>For any given value of <span class="math inline">\(\boldsymbol{\theta},\)</span> we can obtain the probability mass or density of the sample observations, and we use this to derive an objective function for the estimation.</p>
+<div id="def-likelihood" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 3.1 (Likelihood)</strong></span> The <strong>likelihood</strong> <span class="math inline">\(L(\boldsymbol{\theta})\)</span> is a function of the parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span> that gives the probability (or density) of observing a sample under a postulated distribution, treating the observations as fixed, <span class="math display">\[\begin{align*}
+L(\boldsymbol{\theta}; \boldsymbol{y}) = f(\boldsymbol{y}; \boldsymbol{\theta}),
+\end{align*}\]</span> where <span class="math inline">\(f(\boldsymbol{y}; \boldsymbol{\theta})\)</span> denotes the joint density or mass function of the <span class="math inline">\(n\)</span>-vector containing the observations.</p>
+<p>If the latter are independent, the joint density factorizes as the product of the density of individual observations, and the likelihood becomes <span class="math display">\[\begin{align*}
+L(\boldsymbol{\theta}; \boldsymbol{y})=\prod_{i=1}^n f_i(y_i; \boldsymbol{\theta}) = f_1(y_1; \boldsymbol{\theta}) \times \cdots \times f_n(y_n; \boldsymbol{\theta}).
+\end{align*}\]</span> The corresponding log likelihood function for independent and identically distributions observations is <span class="math display">\[\begin{align*}
+\ell(\boldsymbol{\theta}; \boldsymbol{y}) = \sum_{i=1}^n \ln f(y_i; \boldsymbol{\theta})
+\end{align*}\]</span></p>
+</div>
+<div id="exm-markov" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.2 (Dependent data)</strong></span> The joint density function only factorizes for independent data, but an alternative sequential decomposition can be helpful. For example, we can write the joint density <span class="math inline">\(f(y_1, \ldots, y_n)\)</span> using the factorization <span class="math display">\[\begin{align*}
+f(\boldsymbol{y}) = f(y_1) \times f(y_2 \mid y_1) \times \ldots f(y_n \mid y_1, \ldots, y_n)
+\end{align*}\]</span> in terms of conditional. Such a decomposition is particularly useful in the context of time series, where data are ordered from time <span class="math inline">\(1\)</span> until time <span class="math inline">\(n\)</span> and models typically relate observation <span class="math inline">\(y_n\)</span> to it’s past. For example, the <span class="math inline">\(\mathsf{AR}(1)\)</span> process, states that <span class="math inline">\(Y_t \mid Y_{t-1}=y_{t-1} \sim \mathsf{normal}(\alpha + \beta y_{t-1}, \sigma^2)\)</span> and we can simplify the log likelihood using the Markov property, which states that the current realization depends on the past, <span class="math inline">\(Y_t \mid Y_1, \ldots, Y_{t-1},\)</span> only through the most recent value <span class="math inline">\(Y_{t-1}.\)</span> The log likelihood thus becomes <span class="math display">\[\begin{align*}
+\ell(\boldsymbol{\theta}) = \ln f(y_1) + \sum_{i=2}^n f(y_i \mid y_{i-1}).
+\end{align*}\]</span></p>
+</div>
+<div id="def-mle" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 3.2 (Maximum likelihood estimator)</strong></span> The <strong>maximum likelihood estimator</strong> <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is the vector value that maximizes the likelihood, <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\theta}} = \mathrm{arg max}_{\boldsymbol{\theta} \in \boldsymbol{\Theta}} L(\boldsymbol{\theta}; \boldsymbol{y}).
+\end{align*}\]</span></p>
+<p>The natural logarithm <span class="math inline">\(\ln\)</span> is a monotonic transformation, so the maximum likelihood estimator <span class="math inline">\(\boldsymbol{\theta}\)</span> for likelihood <span class="math inline">\(L(\boldsymbol{\theta}; \boldsymbol{y})\)</span> is the same as that of the log likelihood <span class="math inline">\(\ell(\boldsymbol{\theta}; \boldsymbol{y}) = \ln L(\boldsymbol{\theta}; \boldsymbol{y}).\)</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+</div>
+<p>If we suppose that our model is correct, than we expect to observe whatever was realized, so we find the parameter vector that makes the sample the most likely to have been generated by our model. Several properties of maximum likelihood estimator makes it appealing for inference. The maximum likelihood estimator is efficient, meaning it has the smallest asymptotic mean squared error. The maximum likelihood estimator is also <strong>consistent</strong>, i.e., it converges to the correct value as the sample size increase (asymptotically unbiased).</p>
+<p>We can resort to numerical optimization routines to find the value of the maximum likelihood estimate, or sometimes derive closed-form expressions for the estimator, starting from the log likelihood. The right panel of <a href="#fig-waiting-hist" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> shows the exponential log likelihood, which attains a maximum at <span class="math inline">\(\widehat{\lambda}=28.935\)</span> second, the sample mean of the observations. The function decreases to either side of these values as the data become less compatible with the model. Given the values achieved here with a small sample, it is easy to see that direct optimization of the likelihood function (rather than it’s natural logarithm) could lead to numerical underflow, since already <span class="math inline">\(\exp(-270) \approx 5.5 \times 10^{-118},\)</span> and log values smaller than <span class="math inline">\(-746\)</span> would be rounded to zero.</p>
+<div id="exm-exponential-mle" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.3 (Calculation of the maximum likelihood of an exponential distribution)</strong></span> As <a href="#fig-waiting-hist" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> reveals that the exponential log likelihood function is unimodal and thus achieves a single maximum, we can use calculus to derive an explicit expression for <span class="math inline">\(\widehat{\lambda}\)</span> based on the log likelihood <span class="math display">\[\begin{align*}
+\ell(\lambda) = -n \ln\lambda -\frac{1}{\lambda} \sum_{i=1}^n y_i.
+\end{align*}\]</span> Taking first derivative and setting the result to zero, we find <span class="math display">\[\begin{align*}
+\frac{\mathrm{d} \ell(\lambda)}{\mathrm{d} \lambda}  = -\frac{n}{\lambda} + \frac{1}{\lambda^2} \sum_{i=1}^n y_i = 0.
+\end{align*}\]</span> Rearranging this expression by taking <span class="math inline">\(-n/\lambda\)</span> to the right hand side of the equality and multiplying both sides by <span class="math inline">\(\lambda^2&gt;0,\)</span> we find that <span class="math inline">\(\widehat{\lambda} = \sum_{i=1}^n y_i / n.\)</span> The second derivative of the log likelihood is <span class="math inline">\(\mathrm{d}^2 \ell(\lambda)/\mathrm{d} \lambda^2 = n(\lambda^{-2} - 2\lambda^{-3}\overline{y}),\)</span> and plugging <span class="math inline">\(\lambda = \overline{y}\)</span> gives <span class="math inline">\(-n/\overline{y}^2,\)</span> which is negative. Therefore, <span class="math inline">\(\widehat{\lambda}\)</span> is indeed a maximizer.</p>
+</div>
+<div id="exm-normal-mle" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.4 (Normal samples)</strong></span> Suppose we have an independent normal sample of size <span class="math inline">\(n\)</span> with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, where <span class="math inline">\(Y_i \sim \mathsf{normal}(\mu, \sigma^2)\)</span> are independent. Recall that the density of the normal distribution is <span class="math display">\[\begin{align*}
+f(y; \mu, \sigma^2)=\frac{1}{(2\pi \sigma^2)^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}.
+\end{align*}\]</span> For an simple random sample of size <span class="math inline">\(n\)</span>, whose realization is <span class="math inline">\(y_1, \ldots, y_n\)</span>, the likelihood is <span class="math display">\[\begin{align*}
+L(\mu, \sigma^2; \boldsymbol{y})=&amp;\prod_{i=1}^n\frac{1}{({2\pi \sigma^2})^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(y_i-\mu)^2\right\}\\
+=&amp;(2\pi \sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\mu)^2\right\}.
+\end{align*}\]</span> and the log likelihood is <span class="math display">\[\begin{align*}
+\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\ln(2\pi) -\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
+\end{align*}\]</span></p>
+<p>One can show that the maximum likelihood estimators for the two parameters are <span class="math display">\[\begin{align*}
+\widehat{\mu}=\overline{Y}=\frac{1}{n} \sum_{i=1}^n Y_i, \qquad \widehat{\sigma}^2=\frac{1}{n}\sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}\]</span></p>
+<p>The fact that the estimator of the theoretical mean <span class="math inline">\(\mu\)</span> is the sample mean is fairly intuitive and one can show the estimator is unbiased for <span class="math inline">\(\mu\)</span>. The (unbiased) sample variance estimator, <span class="math display">\[\begin{align*}
+S^2=\frac{1}{n-1} \sum_{i=1}^n (\mathrm{Y}_i-\overline{Y})^2
+\end{align*}\]</span> Since <span class="math inline">\(\widehat{\sigma}^2=(n-1)/n S^2\)</span>, it follows that the maximum likelihood estimator of <span class="math inline">\(\sigma^2\)</span> is biased, but both estimators are consistent and will thus get arbitrarily close to the true value <span class="math inline">\(\sigma^2\)</span> for <span class="math inline">\(n\)</span> sufficiently large.</p>
+</div>
+<div id="exm-ols-mle" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.5 (Ordinary least squares)</strong></span> The case of normally distributed data is intimately related to linear regression and ordinary least squares: assuming normality of the errors, the least square estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> coincide with the maximum likelihood estimator of <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
+<p>The linear regression model specifies <span class="math inline">\(Y_i \sim \mathsf{normal}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2)\)</span>, or alternatively <span class="math display">\[\begin{align*}
+Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
+\end{align*}\]</span> where the errors <span class="math inline">\(\varepsilon_i \sim \mathsf{normal}(0, \sigma^2)\)</span>. The linear model has <span class="math inline">\(p+2\)</span> parameters (<span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\sigma^2\)</span>) and the log likelihood is <span class="math display">\[\begin{align*}
+\ell(\boldsymbol{\theta})&amp;=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*}\]</span> Maximizing the log likelihood with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span> is equivalent to minimizing the sum of squared errors <span class="math inline">\(\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2\)</span>. Since this objective function is the same as that of least squares, it follows that the least-square estimator <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> for the mean parameters is the maximum likelihood estimator for normal errors with common variance <span class="math inline">\(\sigma^2\)</span>, regardless of the value of the latter. The maximum likelihood estimator <span class="math inline">\(\widehat{\sigma}^2\)</span> is thus <span class="math display">\[\begin{align*}
+\widehat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*}\]</span> The log likelihood, excluding constant terms that don’t depend on <span class="math inline">\(\sigma^2\)</span>, is <span class="math display">\[\begin{align*}
+\ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
+&amp;\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*}\]</span> Differentiating each term with respect to <span class="math inline">\(\sigma^2\)</span> and setting the gradient equal to zero yields the maximum likelihood estimator <span class="math display">\[\begin{align*}
+\widehat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
+\end{align*}\]</span> where <span class="math inline">\(\mathsf{SS}_e\)</span> is the sum of squared residuals. The usual unbiased estimator of <span class="math inline">\(\sigma^2\)</span> calculated by software is <span class="math inline">\(S^2=\mathsf{SS}_e/(n-p-1)\)</span>, where the denominator is the sample size <span class="math inline">\(n\)</span> minus the number of mean parameters <span class="math inline">\(\boldsymbol{\beta}\)</span>, <span class="math inline">\(p+1\)</span>.</p>
+</div>
+<div id="prp-invariance-mle" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 3.1 (Invariance of maximum likelihood estimators)</strong></span> If <span class="math inline">\(g(\boldsymbol{\theta}): \mathbb{R}^p \mapsto \mathbb{R}^k\)</span> for <span class="math inline">\(k \leq p\)</span> is a function of the parameter vector, then <span class="math inline">\(g(\widehat{\boldsymbol{\theta}})\)</span> is the maximum likelihood estimator of the function.</p>
+</div>
+<p>The invariance property explains the widespread use of maximum likelihood estimation. For example, having estimated the parameter <span class="math inline">\(\lambda,\)</span> we can now use the model to derive other quantities of interest and get the “best” estimates for free. For example, we could compute the maximum likelihood estimate of the probability of waiting more than one minute, <span class="math inline">\(\Pr(T&gt;60) = \exp(-60/\widehat{\lambda})= 0.126,\)</span> or using <strong>R</strong> built-in distribution function <code>pexp</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: default R parametrization for the exponential is </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># in terms of rate, i.e., the inverse scale parameter</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pexp</span>(<span class="at">q =</span> <span class="dv">60</span>, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">mean</span>(waiting), <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.126</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Another appeal of the invariance property is the possibility to compute the MLE in the most suitable parametrization, which is convenient if the support is restricted. If <span class="math inline">\(g\)</span> is a one-to-one function of <span class="math inline">\(\boldsymbol{\theta},\)</span> for example if <span class="math inline">\(\theta &gt;0,\)</span> taking <span class="math inline">\(g(\theta) = \ln \theta\)</span> or, if <span class="math inline">\(0 \leq \theta \leq 1,\)</span> by maximizing <span class="math inline">\(g(\theta) = \ln(\theta) - \ln(1-\theta) \in \mathbb{R}\)</span> removes the support constraints for the numerical optimization.</p>
+<div id="def-information" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 3.3 (Score and information matrix)</strong></span> Let <span class="math inline">\(\ell(\boldsymbol{\theta}),\)</span> <span class="math inline">\(\boldsymbol{\theta} \in \boldsymbol{\Theta} \subseteq \mathbb{R}^p,\)</span> be the log likelihood function. The gradient of the log likelihood <span class="math inline">\(U(\boldsymbol{\theta}) = \partial \ell(\boldsymbol{\theta}) / \partial \boldsymbol{\theta}\)</span> is termed <strong>score</strong> function.</p>
+<p>The <strong>observed information matrix</strong> is the hessian of the negative log likelihood <span class="math display">\[\begin{align*}
+j(\boldsymbol{\theta}; \boldsymbol{y})=-\frac{\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}
+\end{align*}\]</span>, evaluated at the maximum likelihood estimate <span class="math inline">\(\widehat{\boldsymbol{\theta}},\)</span> so <span class="math inline">\(j(\widehat{\boldsymbol{\theta}}).\)</span> Under regularity conditions, the <strong>expected information</strong>, also called <strong>Fisher information</strong> matrix, is <span class="math display">\[\begin{align*}
+i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = \mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
+\end{align*}\]</span> Both the Fisher (or expected) and the observed information matrices are symmetric and encode the curvature of the log likelihood and provide information about the variability of <span class="math inline">\(\widehat{\boldsymbol{\theta}}.\)</span></p>
+</div>
+<div id="exm-exponential" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.6 (Information for the exponential model)</strong></span> The observed and expected information of the exponential model for a random sample <span class="math inline">\(Y_1, \ldots, Y_n,\)</span> parametrized in terms of scale <span class="math inline">\(\lambda,\)</span> is <span class="math display">\[\begin{align*}
+j(\lambda; \boldsymbol{y}) &amp;= -\frac{\partial^2 \ell(\lambda)}{\partial \lambda^2} = \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n y_i \\
+i(\lambda) &amp;= \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n \mathsf{E}(Y_i)  = \frac{n}{\lambda^{2}}
+\end{align*}\]</span> since <span class="math inline">\(\mathsf{E}(Y_i) = \lambda\)</span> and expectation is a linear operator. The observed information is <span class="math inline">\(j(\widehat{\lambda}) = n/\overline{y}^2\)</span> and the Fisher information is <span class="math inline">\({n}/{\lambda^{2}}\)</span>: both coincide when evaluated at the maximum likelihood estimator <span class="math inline">\(\widehat{\lambda}=\overline{y}\)</span> (i.e., the sample mean), but this isn’t the case in general.</p>
+</div>
+<div id="prp-gradient" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 3.2 (Gradient-based optimization)</strong></span> To obtain the maximum likelihood estimator, we will typically find the value of the vector <span class="math inline">\(\boldsymbol{\theta}\)</span> that solves the score vector, meaning <span class="math inline">\(U(\widehat{\boldsymbol{\theta}})=\boldsymbol{0}_p.\)</span> This amounts to solving simultaneously a <span class="math inline">\(p\)</span>-system of equations by setting the derivative with respect to each element of <span class="math inline">\(\boldsymbol{\theta}\)</span> to zero. If <span class="math inline">\(j(\widehat{\boldsymbol{\theta}})\)</span> is a positive definite matrix (i.e., all of it’s eigenvalues are positive), then the vector <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is the maximum likelihood estimator.</p>
+<p>We can use a variant of Newton–Raphson algorithm if the likelihood is thrice differentiable and the maximum likelihood estimator does not lie on the boundary of the parameter space. If we consider an initial value <span class="math inline">\(\boldsymbol{\theta}^{\dagger},\)</span> then a first order Taylor series expansion of the score likelihood in a neighborhood <span class="math inline">\(\boldsymbol{\theta}^{\dagger}\)</span> of the MLE <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> gives <span class="math display">\[\begin{align*}
+\boldsymbol{0}_p &amp; = U(\widehat{\boldsymbol{\theta}}) \stackrel{\cdot}{\simeq} \left.
+\frac{\partial \ell(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \right|_{\boldsymbol{\theta} = \boldsymbol{\theta}^{\dagger}} + \left.
+\frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}\right|_{\boldsymbol{\theta} = \boldsymbol{\theta}^{\dagger}}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}^{\dagger})\\&amp;=U(\boldsymbol{\theta}^{\dagger}) - j(\boldsymbol{\theta}^{\dagger})(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}^{\dagger})
+\end{align*}\]</span> and solving this for <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> (provided the <span class="math inline">\(p \times p\)</span> matrix <span class="math inline">\(j(\widehat{\boldsymbol{\theta}})\)</span> is invertible), we get <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\simeq} \boldsymbol{\theta}^{\dagger} +
+j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger}),
+\end{align*}\]</span> which suggests an iterative procedure from a starting value <span class="math inline">\(\boldsymbol{\theta}^{\dagger}\)</span> in the vicinity of the mode until the gradient is approximately zero. If the value is far from the mode, then the algorithm may diverge to infinity. To avoid this, we may multiply the term <span class="math inline">\(j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger})\)</span> by a damping factor <span class="math inline">\(c&lt;1.\)</span> A variant of the algorithm, termed Fisher scoring, uses the expected or Fisher information <span class="math inline">\(i(\boldsymbol{\theta})\)</span> in place of the observed information, <span class="math inline">\(j(\boldsymbol{\theta}),\)</span> for numerical stability and to avoid situations where the latter is not positive definite. This is the optimization routine used in the <code>glm</code> function in <strong>R</strong>.</p>
+</div>
+<!-- Similar quantities can be obtained via Monte Carlo methods by simulation from the model, or through analytical derivations.  -->
+<p>The exponential model may be restrictive for our purposes, so we consider for the purpose of illustration and as a generalization a Weibull distribution.</p>
+<div id="def-weibull" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 3.4 (Weibull distribution)</strong></span> The distribution function of a <strong>Weibull</strong> random variable with scale <span class="math inline">\(\lambda&gt;0\)</span> and shape <span class="math inline">\(\alpha&gt;0\)</span> is <span class="math display">\[\begin{align*}
+F(x; \lambda, \alpha) &amp;= 1 - \exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda&gt;0, \alpha&gt;0,
+\end{align*}\]</span> while the corresponding density is <span class="math display">\[\begin{align*}
+f(x; \lambda, \alpha) &amp;= \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda&gt;0, \alpha&gt;0.
+\end{align*}\]</span> The quantile function, the inverse of the distribution function, is <span class="math inline">\(Q(p) = \lambda\{-\ln(1-p)\}^{1/\alpha}.\)</span> The Weibull distribution includes the exponential as special case when <span class="math inline">\(\alpha=1.\)</span> The expected value of <span class="math inline">\(Y \sim \mathsf{Weibull}(\lambda, \alpha)\)</span> is <span class="math inline">\(\mathsf{E}(Y) = \lambda \Gamma(1+1/\alpha).\)</span></p>
+</div>
+<div id="exm-weibull-mle" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.7 (Maximum likelihood of a Weibull sample)</strong></span> The log likelihood for a simple random sample whose realizations are <span class="math inline">\(y_1, \ldots, y_n\)</span> of size <span class="math inline">\(n\)</span> from a <span class="math inline">\(\mathsf{Weibull}(\lambda, \alpha)\)</span> model is <span class="math display">\[\begin{align*}
+\ell(\lambda, \alpha) = n \ln(\alpha) - n\alpha\ln(\lambda) + (\alpha-1) \sum_{i=1}^n \ln y_i  - \lambda^{-\alpha}\sum_{i=1}^n y_i^\alpha.
+\end{align*}\]</span> The gradient of this function is easily obtained by differentiation<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="math display">\[\begin{align*}
+\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} &amp;= -\frac{n\alpha}{\lambda} +\alpha\lambda^{-\alpha-1}\sum_{i=1}^n y_i^\alpha \\
+\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} &amp;= \frac{n}{\alpha} - n \ln(\lambda) + \sum_{i=1}^n \ln y_i  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
+\end{align*}\]</span> We turn to numerical optimization to obtain the maximum likelihood estimate of the Weibull distribution, in the absence of closed-form expression for the MLE. To this end, we create functions that encode the log likelihood, here taken as the sum of log density contributions. The function <code>nll_weibull</code> below takes as argument the vector of parameters, <code>pars</code>, and returns the negative of the log likelihood which we wish to minimize<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> We also code the gradient, although we can resort to numerical differentiation at little additional costs. We then use <code>optim</code>, the default optimization routine in <strong>R</strong>, to minimize <code>nll_weibull</code>. The function returns a list containing a convergence code (<code>0</code> indicating convergence), the MLE in <code>par</code>, the log likelihood <span class="math inline">\(\ell(\widehat{\boldsymbol{\theta}})\)</span> and the Hessian matrix, which is the matrix of second derivatives of the negative log likelihood evaluated at <span class="math inline">\(\widehat{\boldsymbol{\theta}}.\)</span> The log likelihood surface, for pairs of scale and shape vectors <span class="math inline">\(\boldsymbol{\theta} = (\lambda, \alpha),\)</span> are displayed in <a href="#fig-weibull-profile" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>. We can see that the maximum likelihood value has converged, and check that the score satisfies <span class="math inline">\(U(\widehat{\boldsymbol{\theta}}) = 0\)</span> at the returned optimum value.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data vector</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(waiting, <span class="at">package =</span> <span class="st">"hecstatmod"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Negative log likelihood for a Weibull sample</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>nll_weibull <span class="ot">&lt;-</span> <span class="cf">function</span>(pars, y){</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Handle the case of negative parameter values</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">isTRUE</span>(<span class="fu">any</span>(pars <span class="sc">&lt;=</span> <span class="dv">0</span>))){ <span class="co"># parameters must be positive</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fl">1e10</span>) <span class="co"># large value (not infinite, to avoid warning messages)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">dweibull</span>(<span class="at">x =</span> y, <span class="at">scale =</span> pars[<span class="dv">1</span>], <span class="at">shape =</span> pars[<span class="dv">2</span>], <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient of the negative Weibull log likelihood</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>gr_nll_weibull <span class="ot">&lt;-</span> <span class="cf">function</span>(pars, y){</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  scale <span class="ot">&lt;-</span> pars[<span class="dv">1</span>] </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  shape <span class="ot">&lt;-</span> pars[<span class="dv">2</span>]</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  grad_ll <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">scale =</span> <span class="sc">-</span>n<span class="sc">*</span>shape<span class="sc">/</span>scale <span class="sc">+</span> shape<span class="sc">*</span>scale<span class="sc">^</span>(<span class="sc">-</span>shape<span class="dv">-1</span>)<span class="sc">*</span><span class="fu">sum</span>(y<span class="sc">^</span>shape),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">shape =</span> n<span class="sc">/</span>shape <span class="sc">-</span> n<span class="sc">*</span><span class="fu">log</span>(scale) <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">log</span>(y)) <span class="sc">-</span> </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">sum</span>(<span class="fu">log</span>(y<span class="sc">/</span>scale)<span class="sc">*</span>(y<span class="sc">/</span>scale)<span class="sc">^</span>shape))</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="sc">-</span> grad_ll)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Use exponential submodel MLE as starting parameters</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(waiting), <span class="dv">1</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Check gradient function is correctly coded! </span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns TRUE if numerically equal to tolerance</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(numDeriv<span class="sc">::</span><span class="fu">grad</span>(nll_weibull, <span class="at">x =</span> start, <span class="at">y =</span> waiting),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">gr_nll_weibull</span>(<span class="at">pars =</span> start, <span class="at">y =</span> waiting),</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">check.attributes =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Numerical minimization using optim</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>opt_weibull <span class="ot">&lt;-</span> <span class="fu">optim</span>(</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">par =</span> start,  <span class="co"># starting values</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">fn =</span> nll_weibull,  <span class="co"># pass function, whose first argument is the parameter vector</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">gr =</span> gr_nll_weibull, <span class="co"># optional (if missing, numerical derivative)</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"BFGS"</span>, <span class="co"># gradient-based algorithm, common alternative is "Nelder"</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> waiting, <span class="co"># vector of observations, passed as additional argument to fn</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">hessian =</span> <span class="cn">TRUE</span>) <span class="co"># return matrix of second derivatives evaluated at MLE</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative using pure Newton</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># nlm(f = nll_weibull, p = start, hessian = TRUE, y = waiting)</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter estimates - MLE</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>(mle_weibull <span class="ot">&lt;-</span> opt_weibull<span class="sc">$</span>par)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 32.6  2.6</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Check gradient for convergence</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="fu">gr_nll_weibull</span>(mle_weibull, <span class="at">y =</span> waiting)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     scale     shape </span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.0000142 0.0001136</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Is the Hessian of the negative positive definite (all eigenvalues are positive)</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="co"># If so, we found a maximum and the matrix is invertible</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all</span>(<span class="fu">eigen</span>(opt_weibull<span class="sc">$</span>hessian)<span class="sc">$</span>values <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="sampling-distribution" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sampling-distribution"><span class="header-section-number">3.2</span> Sampling distribution</h2>
+<p>The <strong>sampling distribution</strong> of an estimator <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is the probability distribution induced by the underlying data, given that the latter inputs are random.</p>
+<p>For simplicity, suppose we have a simple random sample, so the log likelihood is a sum of <span class="math inline">\(n\)</span> terms and information accumulates linearly with the sample size: the data carry more information about the unknown parameter vector, whose true value we denote <span class="math inline">\(\boldsymbol{\theta}_0.\)</span> Under suitable regularity conditions, cf.&nbsp;Section 4.4.2 of <span class="citation" data-cites="Davison:2003">Davison (<a href="references.html#ref-Davison:2003" role="doc-biblioref">2003</a>)</span>, for large sample size <span class="math inline">\(n,\)</span> we can perform a Taylor series of the score vector and apply the central limit theorem. Since <span class="math inline">\(U(\boldsymbol{\theta})\)</span> and <span class="math inline">\(i(\boldsymbol{\theta})\)</span> are the sum of <span class="math inline">\(n\)</span> independent random variables, and that <span class="math inline">\(\mathsf{E}\{U(\boldsymbol{\theta})\}=\boldsymbol{0}_p,\)</span> and <span class="math inline">\(\mathsf{Var}\{U(\boldsymbol{\theta})\}=i(\boldsymbol{\theta}),\)</span> application of the central limit theorem yields <span class="math display">\[\begin{align*}
+i(\boldsymbol{\theta}_0)^{-1/2}U(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim}\mathsf{normal}(0,1).
+\end{align*}\]</span> Quantities such as <span class="math inline">\(i(\widehat{\boldsymbol{\theta}})^{-1/2}U(\widehat{\boldsymbol{\theta}})\)</span> are termed <strong>pivots</strong>, because their sampling distribution does not depend on unknown parameters.</p>
+<p>We can use this to obtain approximations to the sampling distribution of <span class="math inline">\(\widehat{\boldsymbol{\theta}},\)</span> given that <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normal}_p\{\boldsymbol{\theta}_0, i^{-1}(\boldsymbol{\theta})\}
+\end{align*}\]</span> where the covariance matrix is the inverse of the Fisher information. In practice, since the true parameter value <span class="math inline">\(\boldsymbol{\theta}_0\)</span> is unknown, we replace it with either <span class="math inline">\(i^{-1}(\widehat{\boldsymbol{\theta}})\)</span> or the inverse of the observed information <span class="math inline">\(j^{-1}(\widehat{\boldsymbol{\theta}}),\)</span> as both of these converge to the true value.</p>
+<p>As the sample size grows, the <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> becomes centered around the value <span class="math inline">\(\boldsymbol{\theta}_0\)</span> that minimizes the discrepancy between the model and the true data generating process. In large samples, the sampling distribution of the maximum likelihood estimator is approximately quadratic.</p>
+<!--
+
+ and also for the log likelihood ratio 
+\begin{align*}
+R(\boldsymbol{\theta}_0)=2\{\ell(\widehat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta}_0)\}
+\end{align*}
+where $R(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim} \chi^2_p.$
+
+-->
+<div id="exm-Weibull-se" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.8 (Covariance matrix and standard errors for the Weibull distribution)</strong></span> We use the output of our optimization procedure to get the observed information matrix and the standard errors for the parameters of the Weibull model. The latter are simply the square root of the diagonal entries of the inverse Hessian matrix, <span class="math inline">\([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\)</span>..</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The Hessian matrix of the negative log likelihood evaluated at the MLE</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># is the inverse of the observed information matrix</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>obsinfo_weibull <span class="ot">&lt;-</span> opt_weibull<span class="sc">$</span>hessian</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>vmat_weibull <span class="ot">&lt;-</span> <span class="fu">solve</span>(obsinfo_weibull)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard errors</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>se_weibull <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(vmat_weibull))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>From these, one can readily Wald-based confidence intervals for parameters from <span class="math inline">\(\boldsymbol{\theta}.\)</span></p>
+<div id="prp-transformation" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 3.3 (Asymptotic normality and transformations)</strong></span> The asymptotic normality result can be used to derive standard errors for other quantities of interest. If <span class="math inline">\(\phi = g(\boldsymbol{\theta})\)</span> is a differentiable function of <span class="math inline">\(\boldsymbol{\theta},\)</span> then <span class="math inline">\(\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{normal}(\phi_0, \mathrm{V}_\phi),\)</span> with <span class="math inline">\(\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi,\)</span> where <span class="math inline">\(\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top.\)</span> The variance matrix and the gradient vector are evaluated at the maximum likelihood estimate <span class="math inline">\(\widehat{\boldsymbol{\theta}}.\)</span> This result readily extends to vector <span class="math inline">\(\boldsymbol{\phi} \in \mathbb{R}^k\)</span> for <span class="math inline">\(k \leq p,\)</span> where <span class="math inline">\(\mathrm{V}_\phi\)</span>is the Jacobian matrix of the transformation if <span class="math inline">\(\phi\)</span> is a vector-valued function.</p>
+</div>
+<div id="exm-transformation-exp" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.9 (Probability of waiting for exponential model.)</strong></span> To illustrate the difference between likelihood ratio and Wald tests (and their respective confidence intervals), we consider the metro waiting time data and consider the probability of waiting more than one minute, <span class="math inline">\(\phi=g(\lambda) = \exp(-60/\lambda).\)</span> The maximum likelihood estimate is, by invariance, <span class="math inline">\(0.126\)</span> and the gradient of <span class="math inline">\(g\)</span> with respect to the scale parameter is <span class="math inline">\(\nabla \phi = \partial \phi / \partial \lambda = 60\exp(-60/\lambda)/\lambda^2.\)</span></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lambda_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(waiting)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>phi_hat <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">60</span><span class="sc">/</span>lambda_hat)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dphi <span class="ot">&lt;-</span> <span class="cf">function</span>(lambda){<span class="dv">60</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">60</span><span class="sc">/</span>lambda)<span class="sc">/</span>(lambda<span class="sc">^</span><span class="dv">2</span>)}</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>V_lambda <span class="ot">&lt;-</span> lambda_hat<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">length</span>(waiting)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>V_phi <span class="ot">&lt;-</span> <span class="fu">dphi</span>(lambda_hat)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> V_lambda</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>(se_phi <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(V_phi))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.0331</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="liktests" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="liktests"><span class="header-section-number">3.3</span> Likelihood-based tests</h2>
+<p>Oftentimes, we wish to compare two models: the model implied by the null hypothesis, which is a restriction or simpler version of the full model. Models are said to be <strong>nested</strong> if we can obtain one from the other by imposing restrictions on the parameters.</p>
+<p>We consider a null hypothesis <span class="math inline">\(\mathscr{H}_0\)</span> that imposes restrictions on the possible values of <span class="math inline">\(\boldsymbol{\theta}\)</span> can take, relative to an unconstrained alternative <span class="math inline">\(\mathscr{H}_1.\)</span> We need two <strong>nested</strong> models: a <em>full</em> model, and a <em>reduced</em> model that is a subset of the full model where we impose <span class="math inline">\(q\)</span> restrictions. For example, the exponential distribution is a special case of the Weibull one if <span class="math inline">\(\alpha=1\)</span>. The testing procedure involves fitting the two models and obtaining the maximum likelihood estimators of each of <span class="math inline">\(\mathscr{H}_1\)</span> and <span class="math inline">\(\mathscr{H}_0,\)</span> respectively <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span> for the parameters under <span class="math inline">\(\mathscr{H}_0.\)</span> The null hypothesis <span class="math inline">\(\mathscr{H}_0\)</span> tested is: `the reduced model is an <strong>adequate simplification</strong> of the full model’ and the likelihood provides three main classes of statistics for testing this hypothesis: these are</p>
+<ul>
+<li>likelihood ratio tests statistics, denoted <span class="math inline">\(R,\)</span> which measure the drop in log likelihood (vertical distance) from <span class="math inline">\(\ell(\widehat{\boldsymbol{\theta}})\)</span> and <span class="math inline">\(\ell(\widehat{\boldsymbol{\theta}}_0).\)</span></li>
+<li>Wald tests statistics, denoted <span class="math inline">\(W,\)</span> which consider the standardized horizontal distance between <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0.\)</span></li>
+<li>score tests statistics, denoted <span class="math inline">\(S,\)</span> which looks at the scaled slope of <span class="math inline">\(\ell,\)</span> evaluated <em>only</em> at <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span> (derivative of <span class="math inline">\(\ell\)</span>).</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/likelihood_tests.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Log-likelihood curve: the three likelihood-based tests, namely Wald, likelihood ratio and score tests, are shown on the curve. The tests use different information about the function.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The three main classes of statistics for testing a simple null hypothesis <span class="math inline">\(\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0\)</span> against the alternative <span class="math inline">\(\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\)</span> are the likelihood ratio, the score and the Wald statistics, defined respectively as <span class="math display">\[\begin{align*}
+R &amp;= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
+S &amp;= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
+W &amp;= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
+\end{align*}\]</span> where <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is the maximum likelihood estimate under the alternative and <span class="math inline">\(\boldsymbol{\theta}_0\)</span> is the null value of the parameter vector. Asymptotically, all the test statistics are equivalent (in the sense that they lead to the same conclusions about <span class="math inline">\(\mathscr{H}_0\)</span>). If <span class="math inline">\(\mathscr{H}_0\)</span> is true, the three test statistics follow asymptotically a <span class="math inline">\(\chi^2_q\)</span> distribution under a null hypothesis <span class="math inline">\(\mathscr{H}_0,\)</span> where the degrees of freedom <span class="math inline">\(q\)</span> are the number of restrictions.</p>
+<p>For scalar <span class="math inline">\(\theta\)</span> with <span class="math inline">\(q=1,\)</span> signed versions of these statistics exist, e.g., <span class="math display">\[\begin{align*}
+w(\theta_0)=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})\stackrel{\cdot}{\sim} \mathsf{normal}(0,1)
+\end{align*}\]</span> for the Wald statistic or the directed likelihood root <span class="math display">\[\begin{align*}
+r({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \stackrel{\cdot}{\sim} \mathsf{normal}(0,1).
+\end{align*}\]</span> The likelihood ratio test statistic is normally the most powerful of the three likelihood tests. The score statistic <span class="math inline">\(S\)</span> only requires calculation of the score and information under <span class="math inline">\(\mathscr{H}_0\)</span> (because by definition <span class="math inline">\(U(\widehat{\theta})=0\)</span>), so it can be useful in problems where calculations of the maximum likelihood estimator under the alternative is costly or impossible.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-weibull-profile" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weibull-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="likelihood_files/figure-html/fig-weibull-profile-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weibull-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Profile log likelihood for <span class="math inline">\(\alpha\)</span>, shown as a dashed gray line (left) and as a transect (right). The left panel shows the log likelihood surface for the Weibull model applied to the <code>waiting</code> data with 10%, 20%, , 90% likelihood ratio confidence regions (white contour curves). Higher log likelihood values are indicated by darker colors. The cross indicates the maximum likelihood estimate. The profile on the right hand panel has been shifted vertically to be zero at the MLE; the dashed horizontal lines denote the cutoff points for the 95% and 99% confidence intervals.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The Wald statistic <span class="math inline">\(W\)</span> is the most widely encountered statistic and two-sided 95% confidence intervals for a single parameter <span class="math inline">\(\theta\)</span> are of the form <span class="math display">\[\begin{align*}
+\widehat{\theta} \pm \mathfrak{z}_{1-\alpha/2}\mathrm{se}(\widehat{\theta}),
+\end{align*}\]</span> where <span class="math inline">\(\mathfrak{z}_{1-\alpha/2}\)</span> is the <span class="math inline">\(1-\alpha/2\)</span> quantile of the standard normal distribution; for a <span class="math inline">\(95\)</span>% confidence interval, the <span class="math inline">\(0.975\)</span> quantile of the normal distribution is <span class="math inline">\(\mathfrak{z}_{0.975}=1.96.\)</span> The Wald-based confidence intervals are by construction <strong>symmetric</strong>: they may include implausible values (e.g., negative values for if the parameter of interest <span class="math inline">\(\theta\)</span> is positive, such as variances).</p>
+<div id="exm-weibull-exponential-submodel" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.10 (Exponential vs Weibull model)</strong></span> We can test whether the exponential model is an adequate simplification of the Weibull distribution by imposing the restriction <span class="math inline">\(\mathscr{H}_0: \alpha=1\)</span>. This imposes a single restriction to the model, so we compare the square statistic to a <span class="math inline">\(\chi^2_1\)</span>. Since <span class="math inline">\(\alpha\)</span> is directly a parameter of the distribution, we have the standard errors for free.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Wald statistic</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>wald_exp <span class="ot">&lt;-</span> (mle_weibull[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">/</span>se_weibull[<span class="dv">2</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute p-value</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(wald_exp<span class="sc">^</span><span class="dv">2</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.61e-10</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value less than 5%, reject null</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain 95% confidence intervals</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>mle_weibull[<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))<span class="sc">*</span>se_weibull[<span class="dv">2</span>]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.1 3.1</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 is not inside the confidence interval, reject null</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We reject the null hypothesis, meaning the exponential submodel is not an adequate simplification of the Weibull.</p>
+<p>We can also check the goodness-of-fit of both models by drawing a quantile-quantile plot (cf. <a href="introduction.html#def-qqplot" class="quarto-xref">Definition&nbsp;<span>1.16</span></a>). It is apparent from <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> that the exponential model is overestimating the largest waiting times, whose dispersion in the sample is less than that implied by the model. By contrast, the near perfect straight line for the Weibull model in the right panel of <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> suggests that the model fit is adequate.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-qqplots-weibull-exp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qqplots-weibull-exp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="likelihood_files/figure-html/fig-qqplots-weibull-exp-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqplots-weibull-exp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Quantile-quantile plots for exponential (left) and Weibull (right) models, with 95% pointwise simulation intervals.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="rem-invariance-wald-intervals" class="proof remark">
+<p><span class="proof-title"><em>Remark 3.1</em> (Lack of invariance of Wald-based confidence intervals). </span>The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function <span class="math inline">\(g(\theta),\)</span> then in general <span class="math inline">\(\mathsf{CI}_{W}\{g(\theta)\} \neq g\{\mathsf{CI}_{W}(\theta)\}.\)</span></p>
+<p>For example, consider the exponential submodel. We can invert the Wald test statistic to get a symmetric 95% confidence interval for <span class="math inline">\(\phi,\)</span> <span class="math inline">\([0.061,\)</span> <span class="math inline">\(0.191].\)</span> If we were to naively transform the confidence interval for <span class="math inline">\(\lambda\)</span> into one for <span class="math inline">\(\phi,\)</span> we would get <span class="math inline">\([0.063,\)</span> <span class="math inline">\(0.19],\)</span> which highlights the invariance although the difference here is subtle. The Gaussian approximation underlying the Wald test is reliable if the sampling distribution of the likelihood is near quadratic, which happens when the likelihood function is roughly symmetric on either side of the maximum likelihood estimator.</p>
+</div>
+<p>The likelihood ratio test is invariant to interest-preserving reparametrizations, so the test statistic for <span class="math inline">\(\mathscr{H}_0: \phi=\phi_0\)</span> and <span class="math inline">\(\mathscr{H}_0: \lambda = -60/\ln(\phi_0)\)</span> are the same. The Wald confidence regions can be contrasted with the (better) ones derived using the likelihood ratio test: these are found through a numerical search to find the limits of <span class="math display">\[\begin{align*}
+\left\{\theta: 2\{\ell(\widehat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta})\} \leq \chi^2_p(1-\alpha)\right\},
+\end{align*}\]</span> where <span class="math inline">\(\chi^2_p(1-\alpha)\)</span> is the <span class="math inline">\((1-\alpha)\)</span> quantile of the <span class="math inline">\(\chi^2_p\)</span> distribution. Such intervals, for <span class="math inline">\(\alpha = 0.1, \ldots, 0.9\)</span>, appear in <a href="#fig-weibull-profile" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> as contour curves. If <span class="math inline">\(\boldsymbol{\theta}\)</span> is multidimensional, confidence intervals for <span class="math inline">\(\theta_i\)</span> are derived using the profile likelihood, discussed in the sequel. Likelihood ratio-based confidence intervals are <strong>parametrization invariant</strong>, so <span class="math inline">\(\mathsf{CI}_{R}\{g(\theta)\} = g\{\mathsf{CI}_{R}(\theta)\}.\)</span> Because the likelihood is zero if a parameter value falls outside the range of possible values for the parameter, the intervals only include plausible values of <span class="math inline">\(\theta.\)</span> In general, the intervals are asymmetric and have better coverage properties.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exponential log likelihood</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ll_exp <span class="ot">&lt;-</span> <span class="cf">function</span>(lambda){</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">dexp</span>(waiting, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">/</span>lambda, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># MLE of the scale parameter</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>lambda_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(waiting)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Root search for the limits of the confidence interval</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>lrt_lb <span class="ot">&lt;-</span> <span class="fu">uniroot</span>( <span class="co"># lower bound, using values below MLE</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> <span class="cf">function</span>(r){</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>     <span class="dv">2</span><span class="sc">*</span>(<span class="fu">ll_exp</span>(lambda_hat) <span class="sc">-</span> <span class="fu">ll_exp</span>(r)) <span class="sc">-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>)}, </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">min</span>(waiting), lambda_hat))<span class="sc">$</span>root</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>lrt_ub <span class="ot">&lt;-</span> <span class="fu">uniroot</span>( <span class="co"># upper bound,</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> <span class="cf">function</span>(r){</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>     <span class="dv">2</span><span class="sc">*</span>(<span class="fu">ll_exp</span>(lambda_hat) <span class="sc">-</span> <span class="fu">ll_exp</span>(r)) <span class="sc">-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>)}, </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(lambda_hat, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">max</span>(waiting)))<span class="sc">$</span>root</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The likelihood ratio statistic 95% confidence interval for <span class="math inline">\(\phi\)</span> can be found by using a root finding algorithm: the 95% confidence interval for <span class="math inline">\(\lambda\)</span> is <span class="math inline">\(\mathsf{CI}_R(\lambda)[22.784,\)</span> <span class="math inline">\(37.515].\)</span> By invariance, the 95% confidence interval for <span class="math inline">\(\phi\)</span> is <span class="math inline">\(\mathsf{CI}_R(\phi) = [0.072, 0.202] = g
+\{\mathsf{CI}_R(\lambda)\}.\)</span></p>
+</section>
+<section id="profile-likelihood" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="profile-likelihood"><span class="header-section-number">3.4</span> Profile likelihood</h2>
+<p>Sometimes, we may want to perform hypothesis test or derive confidence intervals for selected components of the model. In this case, the null hypothesis only restricts part of the space and the other parameters, termed nuisance, are left unspecified — the question then is what values to use for comparison with the full model. It turns out that the values that maximize the constrained log likelihood are what one should use for the test, and the particular function in which these nuisance parameters are integrated out is termed a profile likelihood.</p>
+<p>Consider a parametric model with log likelihood function <span class="math inline">\(\ell(\boldsymbol{\theta})\)</span> whose <span class="math inline">\(p\)</span>-dimensional parameter vector <span class="math inline">\(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\varphi})\)</span> can be decomposed into a <span class="math inline">\(q\)</span>-dimensional parameter of interest <span class="math inline">\(\boldsymbol{\psi}\)</span> and a <span class="math inline">\((p-q)\)</span>-dimensional nuisance vector <span class="math inline">\(\boldsymbol{\varphi}.\)</span></p>
+<!-- The score vector, the information matrix and its inverse are partitioned accordingly as -->
+<!-- \begin{align*} -->
+<!-- U(\boldsymbol{\theta})=\ell_{\boldsymbol{\theta}} = \begin{pmatrix} -->
+<!-- \ell_{\boldsymbol{\psi}} \\ \ell_{\boldsymbol{\lambda}} -->
+<!-- \end{pmatrix}, \qquad  -->
+<!-- i(\boldsymbol{\theta}) = \begin{pmatrix} -->
+<!-- i_{\boldsymbol{\psi\psi}} & i_{\boldsymbol{\psi\lambda}}\\ -->
+<!-- i_{\boldsymbol{\lambda\psi}} & i_{\boldsymbol{\lambda\lambda}}\\ -->
+<!-- \end{pmatrix}, \qquad  -->
+<!-- i^{-1}(\boldsymbol{\theta}) = \begin{pmatrix} -->
+<!-- i^{\boldsymbol{\psi\psi}} & i^{\boldsymbol{\psi\lambda}}\\ -->
+<!-- i^{\boldsymbol{\lambda\psi}} & i^{\boldsymbol{\lambda\lambda}}\\ -->
+<!-- \end{pmatrix}.       -->
+<!-- \end{align*} -->
+<p>We can consider the profile likelihood <span class="math inline">\(\ell_{\mathsf{p}},\)</span> a function of <span class="math inline">\(\boldsymbol{\psi}\)</span> alone, which is obtained by maximizing the likelihood pointwise at each fixed value <span class="math inline">\(\boldsymbol{\psi}_0\)</span> over the nuisance vector <span class="math inline">\(\boldsymbol{\varphi}_{\psi_0},\)</span> <span class="math display">\[\begin{align*}
+\ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
+\end{align*}\]</span></p>
+<div id="exm-profile-alpha-weibull" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.11 (Profile log likelihood for the Weibull shape parameter)</strong></span> Consider the shape parameter <span class="math inline">\(\psi \equiv\alpha\)</span> as parameter of interest, and the scale<span class="math inline">\(\varphi\equiv\lambda\)</span> as nuisance parameter. Using the gradients derived in <a href="#exm-weibull-mle" class="quarto-xref">Example&nbsp;<span>3.7</span></a>, we find that the value of the scale that maximizes the log likelihood for given <span class="math inline">\(\alpha\)</span> is <span class="math display">\[\begin{align*}
+\widehat{\lambda}_\alpha = \left( \sum_{i=1}^n y_i^\alpha\right)^{1/\alpha}.
+\end{align*}\]</span> and plugging in this value gives a function of <span class="math inline">\(\alpha\)</span> alone, thereby also reducing the optimization problem for the Weibull to a line search along <span class="math inline">\(\ell_{\mathsf{p}}(\alpha)\)</span>. The left hand panel of <a href="#fig-weibull-profile" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> shows the ridge along the direction of <span class="math inline">\(\alpha\)</span> corresponding to the log likelihood surface. If one thinks of these contours lines as those of a topographic map, the profile likelihood corresponds in this case to walking along the ridge of both mountains along the <span class="math inline">\(\psi\)</span> direction, with the right panel showing the elevation gain/loss. The corresponding elevation profile on the right of <a href="#fig-weibull-profile" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> with cutoff values. We would need to obtain numerically using a root finding algorithm the limits of the confidence interval on either side of <span class="math inline">\(\widehat{\alpha}\)</span>, but it’s clear that <span class="math inline">\(\alpha=1\)</span> is not inside the 99% interval.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lambda_alpha <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, <span class="at">y =</span> waiting){</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">mean</span>(y<span class="sc">^</span>alpha))<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>alpha)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Profile likelihood for alpha</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>prof_alpha_weibull <span class="ot">&lt;-</span> <span class="cf">function</span>(par, <span class="at">y =</span> waiting){</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(par, <span class="cf">function</span>(a){</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">nll_weibull</span>(<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">lambda_alpha</span>(a), a), <span class="at">y =</span> y)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exm-profile-mean-weibull" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.12 (Profile log likelihood for the Weibull mean)</strong></span> As an alternative, we can use numerical optimization to compute the profile for another function. Suppose we are interested in the expected waiting time, which according to the model is <span class="math inline">\(\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha)\)</span>. To this effect, we reparametrize the model in terms of <span class="math inline">\((\mu, \alpha)\)</span>, where <span class="math inline">\(\lambda=\mu/\Gamma(1+1/\alpha)\)</span>. We then make a wrapper function that optimizes the log likelihood for fixed value of <span class="math inline">\(\mu\)</span>, then returns <span class="math inline">\(\widehat{\alpha}_{\mu}\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\ell_{\mathrm{p}}(\mu)\)</span>.</p>
+<p>To get the confidence intervals for a scalar parameter, there is a trick that helps with the derivation. We compute the signed likelihood root <span class="math inline">\(r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}\)</span> over a fine grid of <span class="math inline">\(\psi\)</span>, then fit a smoothing spline to the equation flipping the axis (thus, the model has response <span class="math inline">\(y=\psi\)</span> and <span class="math inline">\(x=r(\psi)\)</span>). We then predict the curve at the standard normal quantiles <span class="math inline">\(\mathfrak{z}_{\alpha/2}\)</span> and <span class="math inline">\(\mathfrak{z}_{1-\alpha/2}\)</span>, and return these values as confidence interval. <a href="#fig-profile-mu-weibull" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> shows how these value correspond to the cutoff points on the log likelihood ratio scale, where the vertical line is given by <span class="math inline">\(-\mathfrak{c}(1-\alpha)/2\)</span> where <span class="math inline">\(\mathfrak{c}\)</span> denotes the quantile of a <span class="math inline">\(\chi^2_1\)</span> random variable.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the MLE for the expected value via plug-in</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> mle_weibull[<span class="dv">1</span>]<span class="sc">*</span><span class="fu">gamma</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>mle_weibull[<span class="dv">2</span>])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a profile function</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>prof_weibull_mu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For given value of mu</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  alpha_mu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){ </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the profile by optimizing (line search) for fixed mu and the best alpha</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>     opt <span class="ot">&lt;-</span> <span class="fu">optimize</span>(<span class="at">f =</span> <span class="cf">function</span>(alpha, mu){</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>     <span class="co"># minimize the negative log likelihood</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">nll_weibull</span>(<span class="fu">c</span>(mu<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>alpha), alpha), <span class="at">y =</span> waiting)}, </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">mu =</span> mu, </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">10</span>) <span class="co">#search region</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the value of the negative log likelihood and alpha_mu</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="at">nll =</span> opt<span class="sc">$</span>objective, <span class="at">alpha =</span> opt<span class="sc">$</span>minimum))</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a data frame with mu and the other parameters</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">mu =</span> mu, <span class="fu">t</span>(<span class="fu">sapply</span>(mu, <span class="cf">function</span>(m){<span class="fu">alpha_mu</span>(m)})))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with the profile  </span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>prof <span class="ot">&lt;-</span> <span class="fu">prof_weibull_mu</span>(<span class="fu">seq</span>(<span class="dv">22</span>, <span class="dv">35</span>, <span class="at">length.out =</span> <span class="dv">101</span>L))</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute signed likelihood root r</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>prof<span class="sc">$</span>r <span class="ot">&lt;-</span> <span class="fu">sign</span>(prof<span class="sc">$</span>mu <span class="sc">-</span> mu_hat)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>(prof<span class="sc">$</span>nll <span class="sc">-</span> opt_weibull<span class="sc">$</span>value))</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Trick: fit a spline to obtain the predictions with mu as a function of r</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Then use this to predict the value at which we intersect the normal quantiles</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>fit.r <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">smooth.spline</span>(<span class="at">x =</span> <span class="fu">cbind</span>(prof<span class="sc">$</span>r, prof<span class="sc">$</span>mu), <span class="at">cv =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.r, <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)))<span class="sc">$</span>y</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the signed likelihood root - near linear indicates quadratic</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>     <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> r)) <span class="sc">+</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">qnorm</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>),</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span> </span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"expectation "</span>, mu)),</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"signed likelihood root"</span>)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a plot of the profile</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> opt_weibull<span class="sc">$</span>value <span class="sc">-</span> nll)) <span class="sc">+</span> </span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>), <span class="at">df =</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">linetype =</span> <span class="st">"dotted"</span>,</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">xintercept =</span> pr) <span class="sc">+</span> </span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"expectation "</span>, mu)),</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"profile log likelihood"</span>)</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">+</span> g2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-profile-mu-weibull" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-profile-mu-weibull-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="likelihood_files/figure-html/fig-profile-mu-weibull-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-profile-mu-weibull-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: Signed likelihood root (left) and shifted profile log likelihood (right) as a function of the expected value <span class="math inline">\(\mu\)</span> in the Weibull model.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>The maximum profile likelihood estimator behaves like a regular likelihood for most quantities of interest and we can derive test statistics and confidence intervals in the usual way. One famous example of profile likelihood is the Cox proportional hazard covered in <a href="#survival">Chapter 7</a>.</p>
+<div id="exm-boxcox" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.13 (Box–Cox transformation)</strong></span> Sometimes, the assumption of normality of the error in a linear regression does not hold. If the data are strictly positive, one can consider a Box–Cox transformation, <span class="math display">\[\begin{align*}
+y(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
+\ln(y), &amp; \lambda=0.
+\end{cases}
+\end{align*}\]</span></p>
+<p>If we assume that <span class="math inline">\(\boldsymbol{Y}(\lambda) \sim \mathsf{normal}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\)</span>, then the likelihood is <span class="math display">\[\begin{align*}
+L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &amp;= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\&amp; \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
+\end{align*}\]</span> where <span class="math inline">\(J\)</span> denotes the Jacobian of the Box–Cox transformation, <span class="math inline">\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\)</span>. For each given value of <span class="math inline">\(\lambda\)</span>, the maximum likelihood estimator is that of the usual regression model, with <span class="math inline">\(\boldsymbol{y}\)</span> replaced by <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span>, namely <span class="math inline">\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)</span> and <span class="math inline">\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\)</span>.</p>
+<p>The profile log likelihood is <span class="math display">\[\begin{align*}
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
+\end{align*}\]</span> The maximum profile likelihood estimator is the value <span class="math inline">\(\lambda\)</span> minimizes the sum of squared residuals from the linear model with <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span> as response.</p>
+<p>The Box–Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data. For example, the Cobb–Douglas production function used in economics can be linearized by taking a log-transformation. Rather than an <em>ad hoc</em> choice of transformation, one could choose a log transformation if the value <span class="math inline">\(0\)</span> is included within the 95% confidence interval since this improves interpretability.</p>
+</div>
+</section>
+<section id="information-criteria" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="information-criteria"><span class="header-section-number">3.5</span> Information criteria</h2>
+<p>The likelihood can also serve as building block for model comparison: the larger <span class="math inline">\(\ell(\boldsymbol{\widehat{\theta}})\)</span>, the better the fit. However, the likelihood doesn’t account for model complexity in the sense that more complex models with more parameters lead to higher likelihood. This is not a problem for comparison of nested models using the likelihood ratio test because we look only at relative improvement in fit. There is a danger of <strong>overfitting</strong> if we only consider the likelihood of a model.</p>
+<!-- Software often reports $-2\ell(\boldsymbol{\widehat{\theta}})$, often (improperly) termed **deviance**. -->
+<p><span class="math inline">\(\mathsf{AIC}\)</span> and <span class="math inline">\(\mathsf{BIC}\)</span> are information criteria measuring how well the model fits the data, while penalizing models with more parameters, <span class="math display">\[\begin{align*}
+\mathsf{AIC}&amp;=-2\ell(\widehat{\boldsymbol{\theta}})+2k \\
+\mathsf{BIC}&amp;=-2\ell(\widehat{\boldsymbol{\theta}})+k\ln(n),
+\end{align*}\]</span> where <span class="math inline">\(k\)</span> is the number of parameters in the model. The smaller the value of <span class="math inline">\(\mathsf{AIC}\)</span> (or of <span class="math inline">\(\mathsf{BIC}\)</span>), the better the model fit.</p>
+<p>Note that information criteria do not constitute formal hypothesis tests on the parameters, but they can be used to compare models that are not nested. Such tools work under regularity conditions, and the estimated information criteria are quite noisy, so comparison for non-nested models are hazardous although popular among practitioners. If we want to compare likelihood from different probability models, we need to make sure they include normalizing constant. The <span class="math inline">\(\mathsf{BIC}\)</span> is more stringent than <span class="math inline">\(\mathsf{AIC}\)</span>, as its penalty increases with the sample size, so it selects models with fewer parameters. The <span class="math inline">\(\mathsf{BIC}\)</span> is <strong>consistent</strong>, meaning that it will pick the true correct model from an ensemble of models with probability one as <span class="math inline">\(n \to \infty\)</span>. In practice, this is of little interest if one assumes that all models are approximation of reality (it is unlikely that the true model is included in the ones we consider). <span class="math inline">\(\mathsf{AIC}\)</span> often selects overly complicated models in large samples, whereas <span class="math inline">\(\mathsf{BIC}\)</span> chooses models that are overly simple.</p>
+<p>A cautionary warning: while you can compare regression models that are not nested using information criteria, they can only be used when the response variable is the same. You could compare a Poisson regression with a linear regression for some response <span class="math inline">\(Y\)</span> using information criteria provided you include all normalizing constants in your model. Software often drops constant terms; this has no impact when you compare models with the same constant factors, but it matters when these differ. However, <strong>you cannot</strong> compare them to a log-linear model with response <span class="math inline">\(\ln(Y)\)</span>. Comparisons for log-linear and linear models are valid only if you use the Box–Cox likelihood, as it includes the Jacobian of the transformation.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Davison:2003" class="csl-entry" role="listitem">
+Davison, A. C. 2003. <em>Statistical Models</em>. Cambridge University Press.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Recall that, if <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent random variables, the joint probability is the product of the probability of the events, <span class="math inline">\(\Pr(A \cup B) = \Pr(A)\Pr(B).\)</span> The same holds for density or mass function, since the latter are defined as the derivative of the distribution function.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Since in most instances we deal with a product of densities, taking the log leads to a sum of log density contributions, which facilitates optimization.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Using for example a symbolic calculator.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Most optimization algorithms minimize functions with respect to their arguments, so we minimize the negative log likelihood, which is equivalent to maximizing the log likelihood.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/lbelzile\.github\.io\/math60604a\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./inference.html" class="pagination-link" aria-label="Statistical inference">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical inference</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Bibliography">
+        <span class="nav-page-text">Bibliography</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>All right reserved (Léo Belzile)</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lbelzile/math60604a/edit/master/likelihood.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

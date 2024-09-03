@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.1">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -181,6 +181,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./likelihood.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Likelihood-based inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bibliography</span></a>
   </div>
@@ -200,13 +206,11 @@ window.Quarto = {
   <li><a href="#variable-type" id="toc-variable-type" class="nav-link" data-scroll-target="#variable-type"><span class="header-section-number">1.1.1</span> Variable type</a></li>
   </ul></li>
   <li><a href="#random-variable" id="toc-random-variable" class="nav-link" data-scroll-target="#random-variable"><span class="header-section-number">1.2</span> Random variable</a></li>
-  <li><a href="#discrete-distributions" id="toc-discrete-distributions" class="nav-link" data-scroll-target="#discrete-distributions"><span class="header-section-number">1.3</span> Discrete distributions</a>
-  <ul class="collapse">
-  <li><a href="#continuous-distributions" id="toc-continuous-distributions" class="nav-link" data-scroll-target="#continuous-distributions"><span class="header-section-number">1.3.1</span> Continuous distributions</a></li>
-  </ul></li>
-  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">1.4</span> Graphs</a></li>
-  <li><a href="#law-large-numbers" id="toc-law-large-numbers" class="nav-link" data-scroll-target="#law-large-numbers"><span class="header-section-number">1.5</span> Laws of large numbers</a></li>
-  <li><a href="#CLT" id="toc-CLT" class="nav-link" data-scroll-target="#CLT"><span class="header-section-number">1.6</span> Central Limit Theorem</a></li>
+  <li><a href="#discrete-distributions" id="toc-discrete-distributions" class="nav-link" data-scroll-target="#discrete-distributions"><span class="header-section-number">1.3</span> Discrete distributions</a></li>
+  <li><a href="#continuous-distributions" id="toc-continuous-distributions" class="nav-link" data-scroll-target="#continuous-distributions"><span class="header-section-number">1.4</span> Continuous distributions</a></li>
+  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">1.5</span> Graphs</a></li>
+  <li><a href="#law-large-numbers" id="toc-law-large-numbers" class="nav-link" data-scroll-target="#law-large-numbers"><span class="header-section-number">1.6</span> Laws of large numbers</a></li>
+  <li><a href="#CLT" id="toc-CLT" class="nav-link" data-scroll-target="#CLT"><span class="header-section-number">1.7</span> Central Limit Theorem</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604a/edit/master/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -487,8 +491,9 @@ f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).
 \mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r &gt;0,
 \end{align*}\]</span> where <span class="math inline">\(\Gamma\)</span> is the gamma function and the parameter <span class="math inline">\(r&gt;0\)</span> is not anymore integer valued. The expectation and variance of <span class="math inline">\(Y\)</span> are <span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, where <span class="math inline">\(k=1/r.\)</span> The variance of the negative binomial distribution is thus higher than its expectation, which justifies the use of the negative binomial distribution for modelling overdispersion.</p>
 </div>
-<section id="continuous-distributions" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="continuous-distributions"><span class="header-section-number">1.3.1</span> Continuous distributions</h3>
+</section>
+<section id="continuous-distributions" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="continuous-distributions"><span class="header-section-number">1.4</span> Continuous distributions</h2>
 <p>We will encounter many continuous distributions that arise as (asymptotic) null distribution of test statistics because of the central limit theorem, or that follow from transformation of Gaussian random variables.</p>
 <div id="def-loibeta" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1.9 (Beta distribution)</strong></span> The beta distribution <span class="math inline">\(\mathsf{Beta}(\alpha, \beta)\)</span> is a distribution supported on the unit interval <span class="math inline">\([0,1]\)</span> with shape parameters <span class="math inline">\(\alpha&gt;0\)</span> and <span class="math inline">\(\beta&gt;0.\)</span> It’s density is <span class="math display">\[\begin{align*}
@@ -511,7 +516,7 @@ Figure&nbsp;1.1: Density fonction of uniform (left) and beta(2, 3/4) random vari
 </div>
 <div id="def-exponentialdist" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1.10 (Exponential distribution)</strong></span> The exponential distribution plays a prominent role in the study of waiting time of Poisson processes, and in survival analysis. One caracteristic of the distribution is it’s absence of memory: <span class="math inline">\(\Pr(Y \geq y + u \mid Y &gt; u) = \Pr(Y &gt; u)\)</span> for <span class="math inline">\(y, u&gt;0.\)</span></p>
-<p>The distribution function of the exponential distribution, <span class="math inline">\(Y \sim \mathsf{Exp}(\beta)\)</span>, here parametrized in terms of scale <span class="math inline">\(\beta&gt;0\)</span> is <span class="math inline">\(F(x) = 1-\exp(-\beta x)\)</span> and the corresponding density function is <span class="math inline">\(f(x) =\beta\exp(-\beta x)\)</span> for <span class="math inline">\(x &gt;0.\)</span> The expected value of <span class="math inline">\(Y\)</span> is simply <span class="math inline">\(\beta.\)</span></p>
+<p>The distribution function of the exponential distribution with scale <span class="math inline">\(\lambda&gt;0\)</span>, denoted <span class="math inline">\(Y \sim \mathsf{Exp}(\lambda)\)</span>, is <span class="math inline">\(F(x) = 1-\exp(-x/\lambda)\)</span> and the corresponding density function is <span class="math inline">\(f(x) =\lambda^{-1}\exp(-x/\lambda)\)</span> for <span class="math inline">\(x &gt;0.\)</span> The expected value of <span class="math inline">\(Y\)</span> is simply <span class="math inline">\(\lambda.\)</span></p>
 </div>
 <div id="def-normaldist" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1.11 (Normal distribution)</strong></span> Ths most well known distribution, the normal distribution is ubiquitous in statistics because of the central limit theorem (CLT), which describes the behaviour of the sample mean in large sample.The parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma&gt;0\)</span> that fully characterize the distribution of the normal distribution and they correspond to the expectation and standard deviation. The density of a normal distribution is symmetric around <span class="math inline">\(\mu\)</span>, while <span class="math inline">\(\sigma\)</span> describes the dispersion around this mode. The bell-shaped density function is <span class="math display">\[\begin{align*}
@@ -578,9 +583,8 @@ F = \frac{Y_1/\nu_1}{Y_2/\nu_2} \sim \mathsf{Fisher}(\nu_1, \nu_2)
 <p>The Fisher distribution tends to a <span class="math inline">\(\chi^2_{\nu_1}\)</span> when <span class="math inline">\(\nu_2 \to \infty.\)</span></p>
 </div>
 </section>
-</section>
-<section id="graphs" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="graphs"><span class="header-section-number">1.4</span> Graphs</h2>
+<section id="graphs" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="graphs"><span class="header-section-number">1.5</span> Graphs</h2>
 <p>This section reviews the main graphical representation of random variables, depending on their type.</p>
 <p>The main type of graph for representing categorical variables is bar plot (and modifications thereof). In a bar plot, the frequency of each category is represented in the <span class="math inline">\(y\)</span>-axis as a function of the (ordered) levels on the <span class="math inline">\(x\)</span>-axis. This representation is superior to the <a href="http://www.perceptualedge.com/articles/08-21-07.pdf">ignominious pie chart</a>, a nuisance that ought to be banned (humans are very bad at comparing areas and a simple rotation changes the perception of the graph)!</p>
 <div class="cell" data-layout-align="center">
@@ -708,14 +712,14 @@ Figure&nbsp;1.9: Probability-probability plot (left) on uniform margins, and orm
 -->
 <p>Interpretation of quantile-quantile plots requires practice and experience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">this post by <em>Glen_b</em> on StackOverflow</a> nicely summarizes what can be detected (or not) from them.</p>
 </section>
-<section id="law-large-numbers" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="law-large-numbers"><span class="header-section-number">1.5</span> Laws of large numbers</h2>
+<section id="law-large-numbers" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="law-large-numbers"><span class="header-section-number">1.6</span> Laws of large numbers</h2>
 <p>An estimator for a parameter <span class="math inline">\(\theta\)</span> is <strong>consistent</strong> if the value obtained as the sample size increases (to infinity) converges to the true value of <span class="math inline">\(\theta.\)</span> Mathematically speaking, this translates into convergence in probability, meaning <span class="math inline">\(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta.\)</span> In common language, we say that the probability that <span class="math inline">\(\hat{\theta}\)</span> and <span class="math inline">\(\theta\)</span> differ becomes negligible as <span class="math inline">\(n\)</span> gets large.</p>
 <p>Consistency is the <em>a minima</em> requirement for an estimator: when we collect more information, we should approach the truth. The law of large number states that the sample mean of <span class="math inline">\(n\)</span> (independent) observations with common mean <span class="math inline">\(\mu\)</span>, say <span class="math inline">\(\overline{Y}_n\)</span>, converges to <span class="math inline">\(\mu\)</span>, denoted <span class="math inline">\(\overline{Y}_n \rightarrow \mu.\)</span> Roughly speaking, our approximation becomes less variable and asymptotically unbiased as the sample size (and thus the quantity of information available for the parameter) increases. The law of large number is featured in Monte Carlo experiments: we can approximate the expectation of some (complicated) function <span class="math inline">\(g(x)\)</span> by simulating repeatedly independent draws from <span class="math inline">\(Y\)</span> and calculating the sample mean <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i).\)</span></p>
 <p>If the law of large number tells us what happens in the limit (we get a single numerical value), the result doesn’t contain information about the rate of convergence and the uncertainty at finite levels.</p>
 </section>
-<section id="CLT" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="CLT"><span class="header-section-number">1.6</span> Central Limit Theorem</h2>
+<section id="CLT" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="CLT"><span class="header-section-number">1.7</span> Central Limit Theorem</h2>
 <p>The central limit theorem gives the approximate large sample distribution of the sample mean. Consider a random sample of size <span class="math inline">\(n\)</span> <span class="math inline">\(\{Y_i\}_{i=1}^n\)</span> of independent random variables with common expectation <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2.\)</span> The sample mean <span class="math inline">\(\overline{Y} = n^{-1}\sum_{i=1}^n Y_i\)</span> converges to <span class="math inline">\(\mu\)</span> by the law of large number, but we also have that</p>
 <ul>
 <li>the estimator <span class="math inline">\(\overline{Y}\)</span> is centered around <span class="math inline">\(\mu\)</span>,</li>

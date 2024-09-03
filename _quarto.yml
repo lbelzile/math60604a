@@ -24,6 +24,7 @@ book:
     - index.qmd
     - introduction.qmd
     - inference.qmd
+    - likelihood.qmd
     - references.qmd
    # - rappel-regressionlineaire.qmd
   site-url: https://lbelzile.github.io/math60604a/
