@@ -333,12 +333,12 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -1555,7 +1555,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, colframe=quarto-callout-important-color-frame, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, breakable, arc=.35mm, toptitle=1mm, toprule=.15mm, opacityback=0, left=2mm, colback=white, rightrule=.15mm, bottomtitle=1mm, coltitle=black, bottomrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, coltitle=black, titlerule=0mm, left=2mm, leftrule=.75mm, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, toprule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6]
 
 \textbf{Learning objectives}:
 
@@ -2203,7 +2203,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, breakable, arc=.35mm, toptitle=1mm, toprule=.15mm, opacityback=0, left=2mm, colback=white, rightrule=.15mm, bottomtitle=1mm, coltitle=black, bottomrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, coltitle=black, titlerule=0mm, left=2mm, leftrule=.75mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, toprule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacitybacktitle=0.6]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2748,7 +2748,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, colframe=quarto-callout-important-color-frame, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, breakable, arc=.35mm, toptitle=1mm, toprule=.15mm, opacityback=0, left=2mm, colback=white, rightrule=.15mm, bottomtitle=1mm, coltitle=black, bottomrule=.15mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, coltitle=black, titlerule=0mm, left=2mm, leftrule=.75mm, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, toprule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6]
 
 \textbf{Learning objectives}:
 
@@ -3066,8 +3066,8 @@ is termed \textbf{score} function.
 
 The \textbf{observed information matrix} is the hessian of the negative
 log likelihood \begin{align*}
-j(\boldsymbol{\theta}; \boldsymbol{y})=-\frac{\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}
-\end{align*}, evaluated at the maximum likelihood estimate
+j(\boldsymbol{\theta}; \boldsymbol{y})=-\frac{\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top},
+\end{align*} evaluated at the maximum likelihood estimate
 \(\widehat{\boldsymbol{\theta}},\) so
 \(j(\widehat{\boldsymbol{\theta}}).\) Under regularity conditions, the
 \textbf{expected information}, also called \textbf{Fisher information}
@@ -3085,15 +3085,14 @@ model]\protect\hypertarget{exm-exponential}{}\label{exm-exponential}
 
 The observed and expected information of the exponential model for a
 random sample \(Y_1, \ldots, Y_n,\) parametrized in terms of scale
-\(\lambda,\) is \begin{align*}
+\(\lambda,\) are \begin{align*}
 j(\lambda; \boldsymbol{y}) &= -\frac{\partial^2 \ell(\lambda)}{\partial \lambda^2} = \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n y_i \\
 i(\lambda) &= \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n \mathsf{E}(Y_i)  = \frac{n}{\lambda^{2}}
 \end{align*} since \(\mathsf{E}(Y_i) = \lambda\) and expectation is a
-linear operator. The observed information is
-\(j(\widehat{\lambda}) = n/\overline{y}^2\) and the Fisher information
-is \({n}/{\lambda^{2}}\): both coincide when evaluated at the maximum
-likelihood estimator \(\widehat{\lambda}=\overline{y}\) (i.e., the
-sample mean), but this isn't the case in general.
+linear operator.
+
+We find
+\(i(\widehat{\lambda}) = j(\widehat{\lambda}) = n/\overline{y}^2\).
 
 \end{example}
 
@@ -3299,12 +3298,12 @@ We use the output of our optimization procedure to get the observed
 information matrix and the standard errors for the parameters of the
 Weibull model. The latter are simply the square root of the diagonal
 entries of the inverse Hessian matrix,
-\([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\)..
+\([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# The Hessian matrix of the negative log likelihood evaluated at the MLE}
-\CommentTok{\# is the inverse of the observed information matrix}
+\CommentTok{\# The Hessian matrix of the negative log likelihood}
+\CommentTok{\# evaluated at the MLE (observed information matrix)}
 \NormalTok{obsinfo\_weibull }\OtherTok{\textless{}{-}}\NormalTok{ opt\_weibull}\SpecialCharTok{$}\NormalTok{hessian}
 \NormalTok{vmat\_weibull }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(obsinfo\_weibull)}
 \CommentTok{\# Standard errors}
@@ -3363,11 +3362,6 @@ respect to the scale parameter is
 
 \section{Likelihood-based tests}\label{liktests}
 
-Oftentimes, we wish to compare two models: the model implied by the null
-hypothesis, which is a restriction or simpler version of the full model.
-Models are said to be \textbf{nested} if we can obtain one from the
-other by imposing restrictions on the parameters.
-
 We consider a null hypothesis \(\mathscr{H}_0\) that imposes
 restrictions on the possible values of \(\boldsymbol{\theta}\) can take,
 relative to an unconstrained alternative \(\mathscr{H}_1.\) We need two
@@ -3417,11 +3411,11 @@ The three main classes of statistics for testing a simple null
 hypothesis \(\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0\)
 against the alternative
 \(\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\) are
-the likelihood ratio, the score and the Wald statistics, defined
+the Wald, likelihood ratio, and the score test statistics, defined
 respectively as \begin{align*}
+ W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
  R &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
  S &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
- W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
 \end{align*} where \(\widehat{\boldsymbol{\theta}}\) is the maximum
 likelihood estimate under the alternative and \(\boldsymbol{\theta}_0\)
 is the null value of the parameter vector. Asymptotically, all the test
@@ -3429,21 +3423,19 @@ statistics are equivalent (in the sense that they lead to the same
 conclusions about \(\mathscr{H}_0\)). If \(\mathscr{H}_0\) is true, the
 three test statistics follow asymptotically a \(\chi^2_q\) distribution
 under a null hypothesis \(\mathscr{H}_0,\) where the degrees of freedom
-\(q\) are the number of restrictions.
-
-For scalar \(\theta\) with \(q=1,\) signed versions of these statistics
-exist, e.g., \begin{align*}
-w(\theta_0)=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})\stackrel{\cdot}{\sim} \mathsf{normal}(0,1)
-\end{align*} for the Wald statistic or the directed likelihood root
-\begin{align*}
+\(q\) are the number of restrictions. \begin{align*}
+w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) \\
 r({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
-\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \stackrel{\cdot}{\sim} \mathsf{normal}(0,1).
-\end{align*} The likelihood ratio test statistic is normally the most
-powerful of the three likelihood tests. The score statistic \(S\) only
-requires calculation of the score and information under
-\(\mathscr{H}_0\) (because by definition \(U(\widehat{\theta})=0\)), so
-it can be useful in problems where calculations of the maximum
-likelihood estimator under the alternative is costly or impossible.
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \\
+s(\theta_0)&=j^{-1/2}(\theta_0)U(\theta_0)
+\end{align*} We call \(r({\theta_0})\) the directed likelihood root.
+
+The likelihood ratio test statistic is normally the most powerful of the
+three likelihood tests. The score statistic \(S\) only requires
+calculation of the score and information under \(\mathscr{H}_0\)
+(because by definition \(U(\widehat{\theta})=0\)), so it can be useful
+in problems where calculations of the maximum likelihood estimator under
+the alternative is costly or impossible.
 
 \begin{figure}[ht!]
 
@@ -3478,8 +3470,8 @@ by construction \textbf{symmetric}: they may include implausible values
 (e.g., negative values for if the parameter of interest \(\theta\) is
 positive, such as variances).
 
-\begin{example}[Exponential vs Weibull
-model]\protect\hypertarget{exm-weibull-exponential-submodel}{}\label{exm-weibull-exponential-submodel}
+\begin{example}[Wald test to compare exponential and Weibull
+models]\protect\hypertarget{exm-weibull-exponential-submodel}{}\label{exm-weibull-exponential-submodel}
 
 We can test whether the exponential model is an adequate simplification
 of the Weibull distribution by imposing the restriction
@@ -3629,11 +3621,11 @@ the nuisance vector \(\boldsymbol{\varphi}_{\psi_0},\) \begin{align*}
 parameter]\protect\hypertarget{exm-profile-alpha-weibull}{}\label{exm-profile-alpha-weibull}
 
 Consider the shape parameter \(\psi \equiv\alpha\) as parameter of
-interest, and the scale\(\varphi\equiv\lambda\) as nuisance parameter.
+interest, and the scale \(\varphi\equiv\lambda\) as nuisance parameter.
 Using the gradients derived in Example~\ref{exm-weibull-mle}, we find
 that the value of the scale that maximizes the log likelihood for given
 \(\alpha\) is \begin{align*}
-\widehat{\lambda}_\alpha = \left( \sum_{i=1}^n y_i^\alpha\right)^{1/\alpha}.
+\widehat{\lambda}_\alpha = \left( \frac{1}{n}\sum_{i=1}^n y_i^\alpha\right)^{1/\alpha}.
 \end{align*} and plugging in this value gives a function of \(\alpha\)
 alone, thereby also reducing the optimization problem for the Weibull to
 a line search along \(\ell_{\mathsf{p}}(\alpha)\). The left hand panel
@@ -3823,9 +3815,9 @@ the likelihood of a model.
 \(\mathsf{AIC}\) and \(\mathsf{BIC}\) are information criteria measuring
 how well the model fits the data, while penalizing models with more
 parameters, \begin{align*}
-\mathsf{AIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+2k \\
-\mathsf{BIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+k\ln(n),
-\end{align*} where \(k\) is the number of parameters in the model. The
+\mathsf{AIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+2p \\
+\mathsf{BIC}&=-2\ell(\widehat{\boldsymbol{\theta}})+p\ln(n),
+\end{align*} where \(p\) is the number of parameters in the model. The
 smaller the value of \(\mathsf{AIC}\) (or of \(\mathsf{BIC}\)), the
 better the model fit.
 
