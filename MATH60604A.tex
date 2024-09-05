@@ -333,12 +333,12 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -379,7 +379,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-09-03}
+\date{2024-09-05}
 
 \begin{document}
 
@@ -1555,7 +1555,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, coltitle=black, titlerule=0mm, left=2mm, leftrule=.75mm, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, toprule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, titlerule=0mm, bottomtitle=1mm, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, leftrule=.75mm, toptitle=1mm, colback=white, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, arc=.35mm, breakable, bottomrule=.15mm, opacityback=0]
 
 \textbf{Learning objectives}:
 
@@ -2203,7 +2203,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, coltitle=black, titlerule=0mm, left=2mm, leftrule=.75mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, toprule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, titlerule=0mm, bottomtitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, colframe=quarto-callout-caution-color-frame, leftrule=.75mm, toptitle=1mm, colback=white, rightrule=.15mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, left=2mm, arc=.35mm, breakable, bottomrule=.15mm, opacityback=0]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2748,7 +2748,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, coltitle=black, titlerule=0mm, left=2mm, leftrule=.75mm, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, rightrule=.15mm, toprule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, titlerule=0mm, bottomtitle=1mm, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, leftrule=.75mm, toptitle=1mm, colback=white, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, arc=.35mm, breakable, bottomrule=.15mm, opacityback=0]
 
 \textbf{Learning objectives}:
 
@@ -2780,9 +2780,9 @@ vector observations lie, while the parameter space
 parameter takes values.
 
 As motivating example, consider the time a passenger must wait at the
-Edouard-Montpetit station if that person arrives at 17:59 sharp every
-weekday, just in time for the metro train. The measurements in
-\texttt{waiting} represent the time in seconds before the next train
+\emph{Université de Montréal} station if that person arrives at 17:59
+sharp every weekday, just in time for the metro train. The measurements
+in \texttt{waiting} represent the time in seconds before the next train
 leaves the station. The data were collected over three months and can be
 treated as an independent sample. The left panel of
 Figure~\ref{fig-waiting-hist} shows an histogram of the \(n=62\)
@@ -2968,7 +2968,7 @@ The fact that the estimator of the theoretical mean \(\mu\) is the
 sample mean is fairly intuitive and one can show the estimator is
 unbiased for \(\mu\). The (unbiased) sample variance estimator,
 \begin{align*}
-S^2=\frac{1}{n-1} \sum_{i=1}^n (\mathrm{Y}_i-\overline{Y})^2
+S^2=\frac{1}{n-1} \sum_{i=1}^n (Y_i-\overline{Y})^2
 \end{align*} Since \(\widehat{\sigma}^2=(n-1)/n S^2\), it follows that
 the maximum likelihood estimator of \(\sigma^2\) is biased, but both
 estimators are consistent and will thus get arbitrarily close to the
@@ -3096,6 +3096,55 @@ We find
 
 \end{example}
 
+The exponential model may be restrictive for our purposes, so we
+consider for the purpose of illustration and as a generalization a
+Weibull distribution.
+
+\begin{definition}[Weibull
+distribution]\protect\hypertarget{def-weibull}{}\label{def-weibull}
+
+The distribution function of a \textbf{Weibull} random variable with
+scale \(\lambda>0\) and shape \(\alpha>0\) is \begin{align*}
+F(x; \lambda, \alpha) &= 1 - \exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda>0, \alpha>0,
+\end{align*} while the corresponding density is \begin{align*}
+f(x; \lambda, \alpha) &= \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda>0, \alpha>0.
+\end{align*} The quantile function, the inverse of the distribution
+function, is \(Q(p) = \lambda\{-\ln(1-p)\}^{1/\alpha}.\) The Weibull
+distribution includes the exponential as special case when \(\alpha=1.\)
+The expected value of \(Y \sim \mathsf{Weibull}(\lambda, \alpha)\) is
+\(\mathsf{E}(Y) = \lambda \Gamma(1+1/\alpha).\)
+
+\end{definition}
+
+\begin{example}[Score and information of the Weibull
+distribution]\protect\hypertarget{exm-weibull-info}{}\label{exm-weibull-info}
+
+The log likelihood for a simple random sample whose realizations are
+\(y_1, \ldots, y_n\) of size \(n\) from a
+\(\mathsf{Weibull}(\lambda, \alpha)\) model is \begin{align*}
+\ell(\lambda, \alpha) = n \ln(\alpha) - n\alpha\ln(\lambda) + (\alpha-1) \sum_{i=1}^n \ln y_i  - \lambda^{-\alpha}\sum_{i=1}^n y_i^\alpha.
+\end{align*} The score, which is the gradient of the log likelihood, is
+easily obtained by differentiation\footnote{Using for example a symbolic
+  calculator.} \begin{align*}
+U(\lambda, \alpha) = \begin{pmatrix}\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} \\
+\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} \end{pmatrix} &= 
+\begin{pmatrix}
+ -\frac{n\alpha}{\lambda} +\alpha\lambda^{-\alpha-1}\sum_{i=1}^n y_i^\alpha
+ \\
+ \frac{n}{\alpha} - n \ln(\lambda) + \sum_{i=1}^n \ln y_i  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
+ \end{pmatrix}
+\end{align*} and the observed information is the \(2 \times 2\)
+matrix-valued function \begin{align*}
+j(\lambda, \alpha) &= - \begin{pmatrix}
+\frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda^2} &  \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda \partial \alpha} \\ \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha \partial \lambda} & \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha^2}
+\end{pmatrix} 
+\\&= \begin{pmatrix}
+\lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^2\right\} & \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]\\ \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]& n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\theta)\}^2
+\end{pmatrix}
+\end{align*}
+
+\end{example}
+
 \begin{proposition}[Gradient-based
 optimization]\protect\hypertarget{prp-gradient}{}\label{prp-gradient}
 
@@ -3139,53 +3188,24 @@ optimization routine used in the \texttt{glm} function in \textbf{R}.
 
 \end{proposition}
 
-The exponential model may be restrictive for our purposes, so we
-consider for the purpose of illustration and as a generalization a
-Weibull distribution.
-
-\begin{definition}[Weibull
-distribution]\protect\hypertarget{def-weibull}{}\label{def-weibull}
-
-The distribution function of a \textbf{Weibull} random variable with
-scale \(\lambda>0\) and shape \(\alpha>0\) is \begin{align*}
-F(x; \lambda, \alpha) &= 1 - \exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda>0, \alpha>0,
-\end{align*} while the corresponding density is \begin{align*}
-f(x; \lambda, \alpha) &= \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda>0, \alpha>0.
-\end{align*} The quantile function, the inverse of the distribution
-function, is \(Q(p) = \lambda\{-\ln(1-p)\}^{1/\alpha}.\) The Weibull
-distribution includes the exponential as special case when \(\alpha=1.\)
-The expected value of \(Y \sim \mathsf{Weibull}(\lambda, \alpha)\) is
-\(\mathsf{E}(Y) = \lambda \Gamma(1+1/\alpha).\)
-
-\end{definition}
-
 \begin{example}[Maximum likelihood of a Weibull
 sample]\protect\hypertarget{exm-weibull-mle}{}\label{exm-weibull-mle}
 
-The log likelihood for a simple random sample whose realizations are
-\(y_1, \ldots, y_n\) of size \(n\) from a
-\(\mathsf{Weibull}(\lambda, \alpha)\) model is \begin{align*}
-\ell(\lambda, \alpha) = n \ln(\alpha) - n\alpha\ln(\lambda) + (\alpha-1) \sum_{i=1}^n \ln y_i  - \lambda^{-\alpha}\sum_{i=1}^n y_i^\alpha.
-\end{align*} The gradient of this function is easily obtained by
-differentiation\footnote{Using for example a symbolic calculator.}
-\begin{align*}
-\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} &= -\frac{n\alpha}{\lambda} +\alpha\lambda^{-\alpha-1}\sum_{i=1}^n y_i^\alpha \\
-\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} &= \frac{n}{\alpha} - n \ln(\lambda) + \sum_{i=1}^n \ln y_i  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
-\end{align*} We turn to numerical optimization to obtain the maximum
-likelihood estimate of the Weibull distribution, in the absence of
-closed-form expression for the MLE. To this end, we create functions
-that encode the log likelihood, here taken as the sum of log density
-contributions. The function \texttt{nll\_weibull} below takes as
-argument the vector of parameters, \texttt{pars}, and returns the
-negative of the log likelihood which we wish to minimize\footnote{Most
-  optimization algorithms minimize functions with respect to their
-  arguments, so we minimize the negative log likelihood, which is
-  equivalent to maximizing the log likelihood.} We also code the
-gradient, although we can resort to numerical differentiation at little
-additional costs. We then use \texttt{optim}, the default optimization
-routine in \textbf{R}, to minimize \texttt{nll\_weibull}. The function
-returns a list containing a convergence code (\texttt{0} indicating
-convergence), the MLE in \texttt{par}, the log likelihood
+We turn to numerical optimization to obtain the maximum likelihood
+estimate of the Weibull distribution, in the absence of closed-form
+expression for the MLE. To this end, we create functions that encode the
+log likelihood, here taken as the sum of log density contributions. The
+function \texttt{nll\_weibull} below takes as argument the vector of
+parameters, \texttt{pars}, and returns the negative of the log
+likelihood which we wish to minimize\footnote{Most optimization
+  algorithms minimize functions with respect to their arguments, so we
+  minimize the negative log likelihood, which is equivalent to
+  maximizing the log likelihood.} We also code the gradient, although we
+can resort to numerical differentiation at little additional costs. We
+then use \texttt{optim}, the default optimization routine in \textbf{R},
+to minimize \texttt{nll\_weibull}. The function returns a list
+containing a convergence code (\texttt{0} indicating convergence), the
+MLE in \texttt{par}, the log likelihood
 \(\ell(\widehat{\boldsymbol{\theta}})\) and the Hessian matrix, which is
 the matrix of second derivatives of the negative log likelihood
 evaluated at \(\widehat{\boldsymbol{\theta}}.\) The log likelihood
@@ -3269,11 +3289,8 @@ are the sum of \(n\) independent random variables, and that
 \(\mathsf{E}\{U(\boldsymbol{\theta})\}=\boldsymbol{0}_p,\) and
 \(\mathsf{Var}\{U(\boldsymbol{\theta})\}=i(\boldsymbol{\theta}),\)
 application of the central limit theorem yields \begin{align*}
-i(\boldsymbol{\theta}_0)^{-1/2}U(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim}\mathsf{normal}(0,1).
-\end{align*} Quantities such as
-\(i(\widehat{\boldsymbol{\theta}})^{-1/2}U(\widehat{\boldsymbol{\theta}})\)
-are termed \textbf{pivots}, because their sampling distribution does not
-depend on unknown parameters.
+i(\boldsymbol{\theta}_0)^{-1/2}U(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim}\mathsf{normal}_p(\boldsymbol{0}, \mathbf{I}_p).
+\end{align*}
 
 We can use this to obtain approximations to the sampling distribution of
 \(\widehat{\boldsymbol{\theta}},\) given that \begin{align*}
@@ -3321,17 +3338,18 @@ transformations]\protect\hypertarget{prp-transformation}{}\label{prp-transformat
 
 The asymptotic normality result can be used to derive standard errors
 for other quantities of interest. If \(\phi = g(\boldsymbol{\theta})\)
-is a differentiable function of \(\boldsymbol{\theta},\) then
+is a differentiable function of \(\boldsymbol{\theta}\) whose gradient
+does not vanish at \(\widehat{\boldsymbol{\theta}}\) then
 \(\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{normal}(\phi_0, \mathrm{V}_\phi),\)
 with
 \(\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi,\)
 where
 \(\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top.\)
-The variance matrix and the gradient vector are evaluated at the maximum
+The variance matrix and the gradient are evaluated at the maximum
 likelihood estimate \(\widehat{\boldsymbol{\theta}}.\) This result
 readily extends to vector \(\boldsymbol{\phi} \in \mathbb{R}^k\) for
 \(k \leq p,\) where \(\mathrm{V}_\phi\)is the Jacobian matrix of the
-transformation if \(\phi\) is a vector-valued function.
+transformation.
 
 \end{proposition}
 
@@ -3603,6 +3621,9 @@ values that maximize the constrained log likelihood are what one should
 use for the test, and the particular function in which these nuisance
 parameters are integrated out is termed a profile likelihood.
 
+\begin{definition}[Profile log
+likelihood]\protect\hypertarget{def-profile}{}\label{def-profile}
+
 Consider a parametric model with log likelihood function
 \(\ell(\boldsymbol{\theta})\) whose \(p\)-dimensional parameter vector
 \(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\varphi})\) can be
@@ -3610,12 +3631,14 @@ decomposed into a \(q\)-dimensional parameter of interest
 \(\boldsymbol{\psi}\) and a \((p-q)\)-dimensional nuisance vector
 \(\boldsymbol{\varphi}.\)
 
-We can consider the profile likelihood \(\ell_{\mathsf{p}},\) a function
-of \(\boldsymbol{\psi}\) alone, which is obtained by maximizing the
-likelihood pointwise at each fixed value \(\boldsymbol{\psi}_0\) over
-the nuisance vector \(\boldsymbol{\varphi}_{\psi_0},\) \begin{align*}
+The profile likelihood \(\ell_{\mathsf{p}},\) a function of
+\(\boldsymbol{\psi}\) alone, is obtained by maximizing the likelihood
+pointwise at each fixed value \(\boldsymbol{\psi}_0\) over the nuisance
+vector \(\boldsymbol{\varphi}_{\psi_0},\) \begin{align*}
 \ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
 \end{align*}
+
+\end{definition}
 
 \begin{example}[Profile log likelihood for the Weibull shape
 parameter]\protect\hypertarget{exm-profile-alpha-weibull}{}\label{exm-profile-alpha-weibull}
