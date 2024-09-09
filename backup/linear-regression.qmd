@@ -2,7 +2,7 @@
 
 A linear regression is a model for the conditional mean of a response variable $Y$ as a function of $p$ explanatory variables (also termed regressors or covariates),
 \begin{align}
-\mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}. (\#eq:linearreg)
+\mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
 \end{align}
 The mean of $Y$ is conditional on the values of the observed covariate $\mathbf{X}$; this amounts to treating them as non-random, known in advance.
 
@@ -12,7 +12,7 @@ We can rewrite the linear model in terms of the error for a random sample of siz
 \begin{align}
 Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\varepsilon_{i}, \qquad i =1, \ldots, n, (\#eq:olsmean)
 \end{align}
-where $\varepsilon_i$ is the additive error term specific to observation $i$. While we may avoid making distributional assumption about $\varepsilon_i$, we nevertheless fix its expectation to zero to encode the fact we do not believe the model is systematically off,, so $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0$ $(i=1, \ldots, n)$.
+where $\varepsilon_i$ is the additive error term specific to observation $i$. While we may avoid making distributional assumption about $\varepsilon_i$, we nevertheless fix its expectation to zero to encode the fact we do not believe the model is systematically off, so $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0$ $(i=1, \ldots, n)$.
 
 One important remark is that the model is linear in the coefficients $\boldsymbol{\beta}\in \mathbb{R}_{p+1}$, not in the explanatory variables! the latter are arbitrary and could be (nonlinear) functions of other explanatory variables, for example $\mathrm{X}=\ln(\texttt{years})$, $\mathrm{X}=\texttt{horsepower}^2$ or $\mathrm{X}= \mathsf{I}_{\texttt{man}}\cdot\mathsf{I}_{\texttt{full}}$. The mean of the response is specified as a  **linear combination of explanatory variables**. This is at the core of the flexibility of the linear regression, which is used mainly for the following purposes:
 
@@ -30,7 +30,7 @@ Linear regression is the most famous and the most widely used statistical model 
 
 This chapter explores the basics of linear regression, parameter interpretation and testing for coefficients and sub-models. Analysis of variance will be presented as special case of linear regression.
 
-To make concepts and theoretical notions more concrete, we will use data from a study performed in a college in the United States. The goal of the administration who collected these information was to investigate potential gender inequality in the salary of faculty members. The data contains the following variables:
+To make concepts and theoretical notions more concrete, we will use observational data collected in a college in the United States. The goal of the administration was to investigate potential gender inequality in the salary of faculty members. The data contains the following variables:
 
 -   `salary`: nine-month salary of professors during the 2008--2009 academic year (in thousands USD).
 -   `rank`: academic rank of the professor (`assistant`, `associate` or `full`).

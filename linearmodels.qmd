@@ -1,0 +1,193 @@
+# Linear regression models {#linmod}
+
+```{r}
+#| label: setup
+#| file: "_common.R"
+#| include: true
+#| eval: true
+#| message: false
+#| warning: false
+#| echo: false
+#| cache: false
+```
+
+## Introduction
+
+The linear regression model, or linear model, is one of the most versatile workshorse for statistical inference. Linear regression is used primarily to evaluate the effects of explanatories (oftentimes treatment in an experimental setting) on the mean response of the response, or for prediction. It combines a formulation for the mean of a **response variable** $Y_i$ of a random sample of size $n$ as a **linear function** of observed **explanatories** (also called predictors or covariates) $X_1, \ldots, X_p$,
+\begin{align}
+\underset{\text{conditional mean}}{\mathsf{E}(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)}=\mu_i=\underset{\text{linear combination of explanatories}}{\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}}\equiv \mathbf{x}_i\boldsymbol{\beta}.
+\end{align}
+where $\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})$ is a $(p+1)$ row vector containing a constant and the explanatories of observation $i$, and $\boldsymbol{\beta} = (\beta_0, \ldots, \beta_p)^\top$ is a $p+1$ column vector of coefficients for the mean. The model formulation is conditional on the values of the observed explanatories; this amounts to treating the $p$ explanatory variables $X_1, \ldots, X_p$  as non-random quantities, or known in advance.
+The regression coefficients $\boldsymbol{\beta}$ is the same for all observations, but the vector of explanatories $\mathbf{x}_i$ may change from one observation to the next. The model is **linear** in the coefficients $\beta_0, \ldots, \beta_p$, and $\beta_0$ is the **intercept**.
+
+
+
+
+We suppose, in addition to the mean specification, that the response variables are independent and identically distributed, drawn from a mean-zero distribution with constant variance $\sigma^2$. The most common specification is to specify that responses follow a normal distribution, $Y_i \mid \boldsymbol{X}_i=\mathbf{x}_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$. The variance term $\sigma^2$ is included to take into account the fact that no exact linear relationship links $\boldsymbol{X}_i$ and $Y_i$, or that measurements of $Y_i$ are subject to error. Since the normal distribution is a location-scale family, meaning that $Y \sim \mathsf{normal}(\mu, \sigma^2)$ can be written as $\mu + \sigma Z$ for $Z \sim \mathsf{normal}(0, 1)$, we may rewrite the linear model in terms of the mean plus an error term,
+\begin{align*}
+\underset{\text{observation}\vphantom{\mu_i}}{Y_i} = \underset{\text{mean } \mu_i}{\vphantom{Y_i}\mathbf{x}_i\boldsymbol{\beta}} + \underset{\text{error term}\vphantom{\mu_i}}{\vphantom{Y_i}\varepsilon_i},
+\end{align*}
+where $\varepsilon_i \sim \mathsf{normal}(0,\sigma^2)$ is the error term specific to observation $i$, and we assume that the errors $\varepsilon_1, \ldots, \varepsilon_n$ are independent and identically distributed additive errors. We fix the expectation or theoretical mean of $\varepsilon_i$ to zero to encode the fact we do not believe the model is systematically off, so $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i=\mathrm{x}_i)=0$ $(i=1, \ldots, n)$.
+
+
+For notational simplicity, we aggregate observations into an $n$-vector $\boldsymbol{Y}$ and the explanatories into an $n \times (p+1)$ matrix $\mathbf{X}$ by concatenating a column of ones and the $p$ column vectors $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, each containing the $n$ observations of the respective explanatories. The matrix $\mathbf{X}$ is termed **model matrix** (or sometimes design matrix in experimental settings), and it's $i$th row is $\mathbf{x}_i$.
+
+We present some motivating examples that are discussed in the sequel.
+
+:::{#exm-lee-choi1}
+
+# Consistency of product description
+
+Study 1 of @Lee.Choi:2019  considered descriptors and the impact on the perception of a product on the discrepancy between the text description and the image. In their first experience, a set of six toothbrushes is sold, but the image shows either a pack of six, or a single one). The authors also measured the prior familiarity with the brand of the item. Participants were recruited using an online panel, and the data in `LC19_S1` includes the results of the $n=96$ participants who passed the attention check (one additional participant response was outlying and removed). We could fit a linear model for the average product evaluation score, `prodeval`, as a function of the familiarity of the brand `familiarity`, an integer ranging from 1 to 7, and a dummy variable for the experimental factor `consistency`, coded `0` for consistent image/text descriptions and `1` if inconsistent. The resulting model matrix is then $96 \times 3$. The `prodeval` response is heavily discretized, with only 19 unique values ranging between 2.33 and 9.
+
+```{r}
+#| eval: true
+#| echo: true
+data(LC19_S1, package = "hecedsm")
+# Fit a linear model using "lm"
+# The first argument is a formula of the form y ~ x1 + x2
+# where y is the response and x's are explanatories, separated by a plus (+) sign
+mod <- lm(prodeval ~ familiarity + consistency,
+          data = LC19_S1)
+# Extract the model matrix
+tail(model.matrix(mod), n = 5L) # first five lines
+dim(model.matrix(mod)) # dimension of the model matrix
+```
+
+:::
+
+
+:::{#exm-college-salary-discrimination}
+
+# Gender discrimination in a US college
+
+To make concepts and theoretical notions more concrete, we will use observational data collected in a college in the United States. The goal of the administration was to investigate potential gender inequality in the salary of faculty members. The data contains the following variables:
+
+-   `salary`: nine-month salary of professors during the 2008--2009 academic year (in thousands USD).
+-   `rank`: academic rank of the professor (`assistant`, `associate` or `full`).
+-   `field`: categorical variable for the field of expertise of the professor, one of `applied` or `theoretical`.
+-   `sex`: binary indicator for sex, either `man` or `woman`.
+-   `service`: number of years of service in the college.
+-   `years`: number of years since PhD.
+
+Before drafting a model, it is useful to perform an exploratory data analysis. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.
+
+```{r}
+#| label: edacollege
+#| eval: true
+#| echo: false
+#| fig-cap: 'Exploratory data analysis of $\texttt{college}$ data: salaries of professors
+#|   as a function of the number of years of service and the academic ranking'
+data(college, package = "hecstatmod")
+p1 <- ggplot(college, aes(y = salary, x = rank)) +
+  geom_boxplot() +
+  xlab("academic ranking") +
+  ylab("salary (in thousands USD)")
+p2 <- ggplot(college, aes(x = service, y = salary, col = sex)) +
+  geom_point() +
+  facet_wrap(~ rank, scales = "free") +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  xlab("years of service") +
+  ylab("salary (in thousands USD)") +
+  theme(legend.position = "bottom")
+library(patchwork)
+p1 + p2 + plot_layout(width = c(1,3))
+```
+
+Salary increases over years of service, but its variability also increases with rank. Note the much smaller number of women in the sample: this will impact our power to detect differences between sex. A contingency table of sex and academic rank can be useful to see if the proportion of women is the same in each rank: women represent `r round(100*11/(56+11),0)`\% of assistant professors and `r round(100*10/(54+10),0)`\% of associate profs, but only `r round(100*18/(248+18),0)`\% of full professors and these are better paid on average.
+
+```{r}
+#| label: tableaucontingence
+#| eval: true
+#| echo: false
+#| fig-align: center
+knitr::kable(table(college$sex, college$rank),
+             caption = "Contingency table of the number of prof in the college by sex and academic rank.",
+             booktabs = TRUE)
+```
+
+Some of the potential explanatory variables of the `college` data are categorical (`rank`, `sex`, `field`), the latter two being binary. The other three variables, `years` and `service`, are continuous and probably strongly correlated.
+
+
+:::
+
+
+
+:::{#exm-teaching-baumann}
+
+## Teaching to read and pre-post experiments
+
+The `BSJ92` data in package `hecedsm` contains the results of an experimental study on the effectiveness of different reading strategies on understanding of children. These are described in the abstract
+
+> Sixty-six fourth-grade students were randomly assigned to one of three experimental groups: (a) a Think-Aloud (TA) group, in which students were taught various comprehension monitoring strategies for reading stories (e.g., self-questioning, prediction, retelling, rereading) through the medium of thinking aloud; (b) a Directed Reading-Thinking Activity (DRTA) group, in which students were taught a predict-verify strategy for reading and responding to stories; or (c) a Directed Reading Activity (DRA) group, an instructed control, in which students engaged in a noninteractive, guided reading of stories.
+
+```{r}
+#| eval: true
+#| echo: false
+data(BSJ92, package = "hecedsm")
+# Compute sample correlation between pretest and posttest 1
+cor_baum <- with(BSJ92, cor(posttest1, pretest1))
+```
+
+The data are balanced, as there are 22 observations in each of the three subgroups, of which `DR` is the control. The researchers applied a series of three tests (an error detection task for test 1, a comprehension monitoring questionnaire for test 2, and the *Degrees of Reading Power* cloze test labelled test 3). Tests 1 and 2 were administered both before and after the intervention: this gives us a change to establish the average *improvement* in student by adding `pretest1` as covariate for a regression of `posttest`, for example. The tests 1 were out of 16, but the one administered after the experiment was made more difficult to avoid cases of students getting near full scores. The correlation between pre-test and post-test 1 is ($\widehat{\rho}_1=`r round(cor_baum 2)`$), much stronger than that for the second test ($\widehat{\rho}_2=`r round(with(BSJ92, cor(posttest2, pretest2)), 2)$).
+
+
+:::
+
+## Parameter interpretation
+
+There are different ways of accounting
+
+## Specification of the mean model
+
+
+
+
+The first step of an analysis is deciding which explanatory variables should be added to the mean model specification, and under what form. In an experimental setting, where the experimental condition is randomly allocated, we can consider changes due to the experimental group and abstract from other explanatories, although it may be helpful to consider some concomitant variables that explain part of the variability.
+
+
+```{r}
+data(BSJ92, package = "hecedsm")
+model <- lm(posttest1 ~ pretest1 + group, data = BSJ92)
+summary(model)
+```
+
+:::
+
+
+This section covers the mean model specification, starting with parametrization of models with factors (i.e., categorical explanatories).
+
+
+## Parameter interpretation
+
+<!--
+
+Linear models are workshorse: need not have correct specification for this to be helpful
+
+OLS and MLE of the mean parameter coefficients
+OLS does not require the assumption of normality (only constant variance, independence and mean-zero errors).
+
+Some adaptation of known results from likelihood, specialized to the case of normal data - t vs normal, F vs chi-square
+
+
+The flexibility of explanatories
+The linearity is in the betas
+
+Building models: dummies, categorical variables, continuous covariates
+Parameter interpretation
+Marginal effects as derivatives
+Reparametrization and invariance
+
+
+Estimation and links with likelihood (observed information, expected information)
+
+
+Interpretation as simple linear regression from FWL theorem
+OLS as BLUE
+
+
+Testing
+
+
+Normal model and tacit assumptions
+-->
