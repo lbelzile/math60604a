@@ -181,39 +181,6 @@ Since $\widehat{\sigma}^2=(n-1)/n S^2$, it follows that the maximum likelihood e
 
 :::
 
-:::{#exm-ols-mle}
-
-## Ordinary least squares
-
-The case of normally distributed data is intimately related to linear regression and ordinary least squares: assuming normality of the errors, the least square estimators of $\boldsymbol{\beta}$ coincide with the maximum likelihood estimator of $\boldsymbol{\beta}$.
-
-The linear regression model specifies $Y_i \sim \mathsf{normal}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2)$, or alternatively 
-\begin{align*}
-Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
-\end{align*}
-where the errors $\varepsilon_i \sim \mathsf{normal}(0, \sigma^2)$.
-The linear model has $p+2$ parameters ($\boldsymbol{\beta}$ and $\sigma^2$) and the log likelihood is 
-\begin{align*}
-\ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
-\end{align*}
-Maximizing the log likelihood with respect to $\boldsymbol{\beta}$ is equivalent to
-minimizing the sum of squared errors $\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2$. Since this objective function is the same as that of least squares, it follows that the least-square estimator $\widehat{\boldsymbol{\beta}}$ for the mean parameters is the maximum likelihood estimator for normal errors with common variance $\sigma^2$, regardless of the value of the latter. The maximum likelihood estimator $\widehat{\sigma}^2$ is thus
-\begin{align*}
-\widehat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
-\end{align*}
-The log likelihood, excluding constant terms that don't depend on $\sigma^2$, is
-\begin{align*}
-\ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
-&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
-\end{align*}
-Differentiating each term with respect to $\sigma^2$ and setting the gradient equal to zero yields the maximum likelihood estimator
-\begin{align*}
-\widehat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
-\end{align*}
-where $\mathsf{SS}_e$ is the sum of squared residuals. The usual unbiased estimator of $\sigma^2$ calculated by software is $S^2=\mathsf{SS}_e/(n-p-1)$, where the denominator is the sample size $n$ minus the number of mean parameters $\boldsymbol{\beta}$, $p+1$.
-
-:::
-
 
 :::{#prp-invariance-mle}
 

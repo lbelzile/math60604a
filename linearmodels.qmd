@@ -21,18 +21,32 @@ where $\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})$ is a $(p+1)$ row vector conta
 The regression coefficients $\boldsymbol{\beta}$ is the same for all observations, but the vector of explanatories $\mathbf{x}_i$ may change from one observation to the next. The model is **linear** in the coefficients $\beta_0, \ldots, \beta_p$, and $\beta_0$ is the **intercept**.
 
 
+For notational simplicity, we aggregate observations into an $n$-vector $\boldsymbol{Y}$ and the explanatories into an $n \times (p+1)$ matrix $\mathbf{X}$ by concatenating a column of ones and the $p$ column vectors $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, each containing the $n$ observations of the respective explanatories. The matrix $\mathbf{X}$ is termed **model matrix** (or sometimes design matrix in experimental settings), and it's $i$th row is $\mathbf{x}_i$.
 
 
-We suppose, in addition to the mean specification, that the response variables are independent and identically distributed, drawn from a mean-zero distribution with constant variance $\sigma^2$. The most common specification is to specify that responses follow a normal distribution, $Y_i \mid \boldsymbol{X}_i=\mathbf{x}_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$. The variance term $\sigma^2$ is included to take into account the fact that no exact linear relationship links $\boldsymbol{X}_i$ and $Y_i$, or that measurements of $Y_i$ are subject to error. Since the normal distribution is a location-scale family, meaning that $Y \sim \mathsf{normal}(\mu, \sigma^2)$ can be written as $\mu + \sigma Z$ for $Z \sim \mathsf{normal}(0, 1)$, we may rewrite the linear model in terms of the mean plus an error term,
+We suppose, in addition to the mean specification, that the response variables are independent and identically distributed, drawn from a mean-zero distribution with constant variance $\sigma^2$. The variance term $\sigma^2$ is included to take into account the fact that no exact linear relationship links $\boldsymbol{X}_i$ and $Y_i$, or that measurements of $Y_i$ are subject to error.
+
+
+In the Gaussian linear model, responses follow a normal distribution and $Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$. The normal distribution is a location-scale family, so $Y \sim \mathsf{normal}(\mu, \sigma^2)$ is equal in distribution with $\mu + \sigma Z$ for $Z \sim \mathsf{normal}(0, 1)$. We may thus rewrite the linear model in terms of the mean plus an error term,
 \begin{align*}
 \underset{\text{observation}\vphantom{\mu_i}}{Y_i} = \underset{\text{mean } \mu_i}{\vphantom{Y_i}\mathbf{x}_i\boldsymbol{\beta}} + \underset{\text{error term}\vphantom{\mu_i}}{\vphantom{Y_i}\varepsilon_i},
 \end{align*}
-where $\varepsilon_i \sim \mathsf{normal}(0,\sigma^2)$ is the error term specific to observation $i$, and we assume that the errors $\varepsilon_1, \ldots, \varepsilon_n$ are independent and identically distributed additive errors. We fix the expectation or theoretical mean of $\varepsilon_i$ to zero to encode the fact we do not believe the model is systematically off, so $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i=\mathrm{x}_i)=0$ $(i=1, \ldots, n)$.
+where $\varepsilon_i \sim \mathsf{normal}(0,\sigma^2)$ is the error term specific to observation $i$, and we assume that the errors $\varepsilon_1, \ldots, \varepsilon_n$ are independent and identically distributed. We fix the expectation or theoretical mean of $\varepsilon_i$ to zero to encode the fact we do not believe the model is systematically off, so $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)=0$ $(i=1, \ldots, n)$.
 
 
-For notational simplicity, we aggregate observations into an $n$-vector $\boldsymbol{Y}$ and the explanatories into an $n \times (p+1)$ matrix $\mathbf{X}$ by concatenating a column of ones and the $p$ column vectors $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, each containing the $n$ observations of the respective explanatories. The matrix $\mathbf{X}$ is termed **model matrix** (or sometimes design matrix in experimental settings), and it's $i$th row is $\mathbf{x}_i$.
+### Programming
+
+The function `lm` is the workshorse for fitting linear models in **R**. It takes as input a formula: suppose you have a data frame containing columns `x1` and `x2` (explanatories) and `y` (response); you can then call `lm(y ~ x1 + x2)` to fit the linear model with conditional mean $\beta_0 + \beta_1 x_1 + \beta_2x_2$. The explanatory variable `y` is on the left hand side of the equation,
+while the right hand side should contain the predictors, separated by a `+` sign if there are more than one.
+If you provide the data frame name using `data`, then the shorthand `y ~ .` (tilde followed by a period) fits a model including all of the columns of the data frame (but excluding `y`) as explanatories.
+
+The type of effect included by the software depends on the class of the variable. Any numeric or integer variable will be treated as continuous, including dummies with 0/1 entries. To include categorical variables, these should be cast to factors (both for strings and for variables that are encoded using integers (sex, revenue class, level of education, marital status, etc.) 
+
+
+### Motivating examples
 
 We present some motivating examples that are discussed in the sequel.
+
 
 :::{#exm-lee-choi1}
 
@@ -46,7 +60,8 @@ Study 1 of @Lee.Choi:2019  considered descriptors and the impact on the percepti
 data(LC19_S1, package = "hecedsm")
 # Fit a linear model using "lm"
 # The first argument is a formula of the form y ~ x1 + x2
-# where y is the response and x's are explanatories, separated by a plus (+) sign
+# where y is the response and x's are explanatories, 
+# separated by a plus (+) sign
 mod <- lm(prodeval ~ familiarity + consistency,
           data = LC19_S1)
 # Extract the model matrix
@@ -117,7 +132,7 @@ Some of the potential explanatory variables of the `college` data are categorica
 
 ## Teaching to read and pre-post experiments
 
-The `BSJ92` data in package `hecedsm` contains the results of an experimental study on the effectiveness of different reading strategies on understanding of children. These are described in the abstract
+The `BSJ92` data in package `hecedsm` contains the results of an experimental study by @Baumann:1992 on the effectiveness of different reading strategies on understanding of children. These are described in the abstract
 
 > Sixty-six fourth-grade students were randomly assigned to one of three experimental groups: (a) a Think-Aloud (TA) group, in which students were taught various comprehension monitoring strategies for reading stories (e.g., self-questioning, prediction, retelling, rereading) through the medium of thinking aloud; (b) a Directed Reading-Thinking Activity (DRTA) group, in which students were taught a predict-verify strategy for reading and responding to stories; or (c) a Directed Reading Activity (DRA) group, an instructed control, in which students engaged in a noninteractive, guided reading of stories.
 
@@ -129,43 +144,629 @@ data(BSJ92, package = "hecedsm")
 cor_baum <- with(BSJ92, cor(posttest1, pretest1))
 ```
 
-The data are balanced, as there are 22 observations in each of the three subgroups, of which `DR` is the control. The researchers applied a series of three tests (an error detection task for test 1, a comprehension monitoring questionnaire for test 2, and the *Degrees of Reading Power* cloze test labelled test 3). Tests 1 and 2 were administered both before and after the intervention: this gives us a change to establish the average *improvement* in student by adding `pretest1` as covariate for a regression of `posttest`, for example. The tests 1 were out of 16, but the one administered after the experiment was made more difficult to avoid cases of students getting near full scores. The correlation between pre-test and post-test 1 is ($\widehat{\rho}_1=`r round(cor_baum 2)`$), much stronger than that for the second test ($\widehat{\rho}_2=`r round(with(BSJ92, cor(posttest2, pretest2)), 2)$).
+The data are balanced, as there are 22 observations in each of the three subgroups, of which `DR` is the control. The researchers applied a series of three tests (an error detection task for test 1, a comprehension monitoring questionnaire for test 2, and the *Degrees of Reading Power* cloze test labelled test 3). Tests 1 and 2 were administered both before and after the intervention: this gives us a change to establish the average *improvement* in student by adding `pretest1` as covariate for a regression of `posttest`, for example. The tests 1 were out of 16, but the one administered after the experiment was made more difficult to avoid cases of students getting near full scores. The correlation between pre-test and post-test 1 is $(\widehat{\rho}_1=`r round(cor_baum, 2)`)$, much stronger than that for the second test $(\widehat{\rho}_2=`r round(cor(BSJ92$posttest2, BSJ92$pretest2), 2)`)$.
 
 
 :::
 
-## Parameter interpretation
+## Mean model specification
 
-There are different ways of accounting
-
-## Specification of the mean model
+This section covers the mean model specification, starting with parametrization of models with factors (i.e., categorical explanatories).
 
 
 
+### Interpretation of regression coefficients
 
-The first step of an analysis is deciding which explanatory variables should be added to the mean model specification, and under what form. In an experimental setting, where the experimental condition is randomly allocated, we can consider changes due to the experimental group and abstract from other explanatories, although it may be helpful to consider some concomitant variables that explain part of the variability.
+We can assign meanings to the mean parameters $\boldsymbol{\beta}$ in the linear model by considering what is 
+
+### What explanatories?
+
+
+The first step of an analysis is deciding which explanatory variables should be added to the mean model specification, and under what form. Models are but approximations of reality; Section 2.1 of @Venables:2000 argues that, if we believe the true mean function linking explanatories $\boldsymbol{X}$ and the response $Y$ is of the form $\mathsf{E}(Y \mid \boldsymbol{X}) = f(\boldsymbol{X})$ for $f$ sufficiently smooth, then the linear model is a first-order approximation. For interpretation purposes, it makes sense to mean-center any continuous explanatory, as this facilitates interpretation. 
+
+
+In an experimental setting, where the experimental group or condition is randomly allocated, we can directly compare the different treatments and draw causal conclusions (since all other things are constant, any detectable difference is due on average to our manipulation). Although we usually refrain from including any other explanatory to keep the design simple, it may be nevertheless helpful to consider some concomitant variables that explain part of the variability to filter background noise and increase power. For example, for the @Baumann:1992 data, our interest is in comparing the average scores as a function of the teaching method, we would include `group`. In this example, it would also make sense to include the `pretest1` result as an explanatory. This way, we will model the average difference in improvement from pre-test to post-test rather than the average score. 
 
 
 ```{r}
+#| eval: false
+#| echo: false
 data(BSJ92, package = "hecedsm")
 model <- lm(posttest1 ~ pretest1 + group, data = BSJ92)
 summary(model)
 ```
 
+In an observational setting, people self-select in different groups, so we need to account for differences. Linear models in economics and finance often add control variables to the model to account for potential differences due to socio-demographic variables (age, revenue, etc.) that would be correlated to the group.  Any test for coefficients would capture only correlation between the outcome $Y$ and the postulated explanatory factor of interest.
+
+```{r}
+#| eval: true
+#| echo: false
+#| fig-align: center
+#| fig-cap: "Difference between experimental and observational studies by Andrew Heiss [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)"
+knitr::include_graphics("images/correlation_causation.jpg")
+```
+
+### Continuous explanatories
+
+Continuous explanatories are typically specified by including a single linear term, leading to the simple linear regression of the form $Y \mid X=x \sim \mathsf{normal}(\beta_0 + \beta x, \sigma^2)$. In this situation $\beta_0$ is the intercept (the mean value of $Y$ when $x=0$) and $\beta_1$ is the slope, i.e., the average increase of $Y$ when $x$ increases by one unit. @fig-droitenuage shows such an example of a model with a single explanatory. As revealed by the exploratory data analysis of @exm-college-salary-discrimination, this model is simplistic and clearly insufficient to explain differences in salary.
+
+```{r}
+#| label: fig-droitenuage
+#| eval: true
+#| echo: false
+#| fig-cap: "Simple linear regression model for the salary of professors as a function of the number of years of service."
+library(hecstatmod)
+lmprof <- lm(salary ~ service, data = college)
+ggplot(data = college, aes(x = service, y = salary)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = "y ~ x",  se = FALSE, col = "black") +
+  labs(x = "years of service",
+       y = "salary (in thousands USD)")
+```
+
+If the relationship between explanatory $X$ and response $Y$, as assessed from a scatterplot, is not linear, we may consider more complicated function of the explanatories, as @exm-auto shows.
+
+:::{#exm-auto}
+
+## Quadratic curve fo the automobile data
+
+We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the `auto` dataset. The postulated model,
+\begin{align*}
+\texttt{mpg}_i = \beta_0 + \beta_1 \texttt{horsepower}_i + \beta_2 \texttt{horsepower}_i^2 + \varepsilon_i,
+\end{align*}
+ includes a quadratic term. @fig-autoquad2d shows the scatterplot with the fitted regression line, above which the line for the simple linear regression for horsepower is added.
+
+
+To fit higher order polynomials, we use the `poly` as the latter leads to more numerical stability. For general transformations, the `I` function tells the software interpret the input "as is". Thus, `lm(y~x+I(x^2))`, would fit a linear model with design matrix $[\boldsymbol{1}_n\, \mathbf{x}\, \mathbf{x}^2]$. 
+
+```{r}
+#| label: fig-autoquad2d
+#| echo: false
+#| eval: true
+#| fig-cap: Linear regression models for the fuel autonomy of cars as a function of motor power.
+data(auto, package = "hecstatmod")
+hecblue <- rgb(red = 0, green = 60, blue = 113, max = 255)
+mod <- lm(mpg ~ horsepower + I(horsepower^2),  data = auto)
+ggplot(data = auto, aes(x = horsepower, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = "y ~ x", se = FALSE, col = "gray") +
+  labs(x = "horsepower",
+       y = "fuel autonomy (in miles per US gallon)") +
+      geom_line(data = data.frame(horsepower = auto$horsepower, fitted = mod$fitted),
+                aes(horsepower, fitted), show.legend = FALSE)
+```
+
+It appears graphically that the quadratic model fits better than the simple linear alternative: we will assess this hypothesis formally later. For the degree two polynomial, @fig-autoquad2d  show that fuel autonomy decreases rapidly when power increases between 50 to 100, then more slow until 189.35 hp. After that, the model postulates that autonomy increases again as evidenced by the scatterplot, but beware of extrapolating (weird things can happen beyond the range of the data, as exemplified by [Hassett's cubic model for the number of daily cases of Covid19 in the USA](https://web.archive.org/web/20210315050023/https://livefreeordichotomize.com/2020/05/05/model-detective/)).
+
+The representation in @fig-autoquad2d may seem counter-intuitive given that we fit a linear model, but it is a 2D projection of 3D coordinates for the equation $\beta_0 + \beta_1x-y +\beta_2z =0$, where $x=\texttt{horsepower}$, $z=\texttt{horsepower}^2$ and $y=\texttt{mpg}$. Physics and common sense force $z = x^2$, and so the fitted values lie on a curve in a 2D subspace of the fitted plan, as shown in grey in the three-dimensional @fig-hyperplan.
+
+
+```{r}
+#| label: fig-hyperplan
+#| echo: false
+#| eval: true
+#| cache: true
+#| fig-cap: 3D graphical representation of the linear regression model for the `auto` data.
+out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+if(out_type == 'html'){
+  data(auto, package = "hecstatmod")
+  auto$horsepower2 <- with(auto, I(horsepower^2))
+  mod <- lm(mpg ~ horsepower + horsepower2,  data = auto)
+  to_plot_x <- with(auto, range(horsepower))
+  to_plot_y <- with(auto, range(horsepower2))
+  df <- data.frame(horsepower = rep(to_plot_x, 2),
+                   horsepower2 = rep(to_plot_y, each = 2))
+  df["pred"] <- predict.lm(mod, df, se.fit = FALSE)
+  surf <- reshape2::acast(df, horsepower2 ~ horsepower)
+  color <- rep(0, length(df))
+  auto$pred <- predict(mod)
+  df2 <- data.frame(x = (0:250),
+                    y = (0:250)^2,
+                    z = predict(mod, data.frame(horsepower = 0:250, horsepower2 = (0:250)^2))
+  )
+  scene <- list(
+    xaxis = list(title = "horsepower"),
+    yaxis = list(title = "square of horsepower"),
+    zaxis = list(title = "fuel autonomy (mpg)"))
+  auto |>
+    plotly::plot_ly(colors = "grey") |>
+    plotly::add_markers(x = ~horsepower, y = ~horsepower2, z = ~mpg,
+                        name = "data",
+                        opacity = .8,
+                        marker=list(color = 'black', size = 4, hoverinfo="skip", opacity = 0.8)) |>
+    plotly::add_surface(x = to_plot_x, y = to_plot_y, z = ~surf,
+                        inherit = FALSE,
+                        name = "Relationship between horsepower and car autonomy",
+                        opacity = .75, cauto = FALSE, surfacecolor = color) |>
+    plotly::add_trace(data = df2,
+                      x=~x, y = ~y, z = ~z,
+                      type = 'scatter3d', mode = 'lines', color = I(hecblue)) |>
+    plotly::layout(scene = scene) |>
+    plotly::hide_guides()
+
+
+#library(rgl)
+#plot3d(y = auto$mpg, x = auto$horsepower, z = I(auto$horsepower^2),
+#          xlab = expression("horsepower"),
+#          ylab = expression("mpg"),
+#          zlab = expression(paste("horsepower"^{2})),
+#          axis.col = rep("black", 3))
+#ols <- coef(mod)
+#ran <- range(auto$horsepower)
+#hor_seq <- seq(from = ran[1], to = ran[2], length = 1000)
+#hor2_seq <- hor_seq^2
+#mpg_seq <- ols[1] + ols[2]*hor_seq + ols[3]*hor2_seq
+
+#points3d(x = hor_seq, z = hor2_seq, y = mpg_seq, col = hecblue)
+#planes3d(a = ols[2], c = ols[3], b = -1, d = ols[1], alpha = 0.1)
+#rglwidget()
+} else{
+  knitr::include_graphics('images/hyperplane_auto.png')
+}
+```
+
+:::
+
+:::{#rem-discretization}
+
+## Discretization of continuous covariates
+
+Another option is to transform a continuous variable $X$ into a categorical variable by discretizing into bins and fitting a piecewise-linear function of $X$. The prime example of such option is treating a Likert scale as a categorical variable. While this allows one to fit more flexible functional relations between $X$ and $Y$, this comes at the cost of additional coefficients for the same estimation budget (fewer observations to estimate the effect of $X$ results in lower precision of the coefficients).
+
+```{r}
+#| label: fig-auto-discre
+#| echo: false
+#| eval: true
+#| fig-cap: Piecewise-linear model for the fuel autonomy of cars as a function of motor power.
+hp_cut <- with(auto, cut(horsepower, 
+              breaks = c(0, quantile(horsepower, probs = c(0.2, 0.4, 0.6, 0.8)), 300)))
+mod <- lm(mpg ~ hp_cut, data = auto)
+hp_seq <- seq(50, 250, by = 0.1)
+cut_seq <- cut(hp_seq, breaks = c(0, quantile(auto$horsepower, probs = c(0.2, 0.4, 0.6, 0.8)), 300))
+pred_seq <- c(model.matrix(~cut_seq) %*% coef(mod))
+ggplot() +
+  geom_point(data = auto, aes(x = horsepower, y = mpg)) +
+   geom_line(
+     data = data.frame(
+        horsepower = hp_seq, 
+        fitted = pred_seq),
+    mapping = aes(x = horsepower, y = fitted), 
+    show.legend = FALSE) + 
+  labs(x = "horsepower",
+       y = "fuel autonomy (in miles per US gallon)") 
+```
+:::
+
+### Categorical covariates
+
+Dummies are variables (columns of explanatories from the model matrix) which only include $-1$, $0$ and $1$ to give indicator of the level of groups. For a binary outcome, we can create a column that has entries $1$ for the treatment and $0$ for the control group.
+
+
+:::{#exm-moon}
+
+## Linear models with a single binary variable
+
+@Moon.VanEpps:2023 consider the impact of providing suggested amounts for donations to a charity (as opposed to an open-ended request). In Study 1, participants were given the chance of winning 25$ and giving part of this amount to charity.
+
+Consider for example a linear model that includes the `amount` (in dollars, from 0 for people who did not donate, up to 25 dollars). We fit a model as a function of 
+\begin{align*}\texttt{condition} = \begin{cases} 0 , & \text{open-ended},\\
+1, & \text{suggested quantity}
+\end{cases}
+\end{align*}
+The equation of the simple linear model that includes the binary variable `condition` is 
+\begin{align*}
+\mathsf{E}(\texttt{amount} \mid \texttt{condition})&= \beta_0 + \beta_1 \mathbf{1}_{\texttt{condition}=\texttt{quantity}}.
+\\&= \begin{cases}
+\beta_0, & \texttt{condition}=0, \\
+\beta_0 + \beta_1 & \texttt{condition}=1.
+\end{cases}
+\end{align*}
+Let $\mu_0$ denote the theoretical average amount for the open-ended amount and $\mu_1$ that of participants of the treatment `quantity` group. We can write the equation for the conditional expectation for each experimental `condition`
+
+
+A linear model that only contains a binary variable $\mathrm{X}$ as regressor amounts to specifying a different mean for each of two groups: the average of the treatment group is $\beta_0 + \beta_1 = \mu_1$ and $\beta_1=\mu_1-\mu_0$ represents the difference between the average donation amount of people given `open-ended` amounts and those who are offered suggested amounts (`quantity`), including zeros for the amount of people who did not donate. The parametrization of the linear model with $\beta_0$ and $\beta_1$ is in terms of pairwise differences relative to the baseline category and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing $\mathscr{H}_0: \beta_1=0$. 
+
+```{r}
+#| label: fig-donation-moon
+#| eval: true
+#| echo: false
+#| fig-align: 'center'
+#| fig-cap: 'Simple linear model for the `MV23_S1` data using the binary variable `condition` as explanatory even if the equation defines a line, only its values in $0/1$
+#|   are realistic.'
+data("MV23_S1", package = "hecedsm")
+MV23_S1 <- MV23_S1 |>
+  dplyr::mutate(amount2 = ifelse(is.na(amount), 0, amount),
+                condbin = ifelse(condition == "quantity",1,0))
+coefs <- coef(lm(data = MV23_S1, amount2 ~ condbin))
+ggplot(data = MV23_S1, 
+   aes(x = condbin, y = amount2, group = condition)) +
+  see::geom_violindot(aes(col = condition), position_dots = position_jitter(width = 0.05)) +
+  geom_abline(intercept = coefs[1], slope = coefs[2]) +
+   scale_x_continuous(breaks = 0:1,
+                     limits = c(-0.1,1.5),
+                     labels = 0:1) +
+  theme(legend.position = "inside", 
+        legend.position.inside = c(.95, .95),
+        legend.justification = c("right", "top")) +
+  labs(x = "condition", y = "amount (in dollars)") +
+  stat_summary(fun = mean, aes(col = condition))
+```
+
+
+Even if the linear model defines a line, the latter is only meaningful when evaluated at $0$ or $1$; @fig-donation-moon shows it in addition to sample observations (jittered horizontally) and a density estimate for each condition. The colored dot represents the mean, which will coincide with the estimates.
+
+It is clear that the data are heavily discretized, with lots of ties and zeros. However, given the sample size of `r nrow(MV23_S1)` observations, we can easily draw conclusions in each group. 
+:::
+
+Let us consider categorical variables with $K > 2$ levels, which in **R** are of class `factor`. The default parametrization for factors are in terms of treatment contrast: the reference level of the factor (by default, the first value in alphanumerical order) will be treated as the reference category and assimilated to the intercept. The software will then create a set of $K-1$ dummy variables for a factor with $K$ levels, each of which will have ones for the relevant value and zero otherwise.
+
+
+:::{#exm-baumann-dummies}
+
+# Dummy coding for categorical variables
+
+Consider the @Baumann:1992 study and the sole inclusion of the `group` variable. The data are ordered by group: the first 22 observations are for group `DR`, the 22 next ones for group `DRTA` and the last 22 for `TA`. If we fit a model with `group` as categorical variables
+
+```{r}
+#| eval: true
+#| echo: true
+class(BSJ92$group) # Check that group is a factor
+levels(BSJ92$group) # First level shown is reference
+# Print part of the model matrix 
+# (three individuals from different groups)
+model.matrix(~ group, data = BSJ92)[c(1,23,47),]
+# Compare with levels of factors recorded
+BSJ92$group[c(1,23,47)]
+```
+The mean model specification is $$\mathsf{E}(Y \mid \texttt{group})= \beta_0 + \beta_1\mathbf{1}_{\texttt{group}=\texttt{DRTA}} + \beta_2\mathbf{1}_{\texttt{group}=\texttt{TA}}.$$
+Since the variable `group` is categorical with $K=3$ levels, we need $K-1 = 2$ dummy explanatories to include the effect and obtain one average per group.
+With the default parametrization, we obtain
+
+-  $\mathbf{1}_{\texttt{group}=\texttt{DRTA}}=1$  if `group=DRTA` and zero otherwise.
+-  $\mathbf{1}_{\texttt{group}=\texttt{TA}}=1$ if `group=TA` and zero otherwise.
+
+Because the model includes an intercept and the model ultimately describes three group averages, we only need two additional variables. With the treatment parametrization, the group mean of the reference group equals the intercept coefficient, $\mu_{\texttt{DR}}=\beta_0$, 
+```{r}
+#| eval: true
+#| echo: false
+#| label: tbl-dummies-tr
+#| tbl-cap: "Parametrization of dummies  for a categorical variable with the default treatment contrasts."
+modmat_tr <- model.matrix(
+    ~ group, 
+    data = BSJ92)[c(1,23,47),]
+rownames(modmat_tr) <- BSJ92$group[c(1,23,47)]
+kable(modmat_tr, booktabs = TRUE, row.names = TRUE)
+```
+
+
+When `group`=`DR` (baseline), both indicator variables `groupDRTA` and `groupTA` are zero. The average in each group is $\mu_{\texttt{DR}} = \beta_0$, $\mu_{\texttt{DRTA}}=\beta_0 + \beta_1$ and $\mu_{\texttt{TA}} = \beta_0 + \beta_2$. We thus find that $\beta_1$ is the difference in mean between group `DRTA` and group `DR`, and similarly $\beta_2=\mu_{\texttt{TA}}- \mu_{\texttt{DR}}$. 
+
+:::
+
+:::{#rem-sumtozero}
+
+## Sum-to-zero constraints
+
+The parametrization discussed above, which is the default for the `lm` function, isn't the only one available. We consider an alternative ones: rather than comparing each group mean with that of a baseline category, the default parametrization for analysis of variance models is in terms of sum-to-zero constraints, whereby the intercept is the equiweighted average of every group, and the parameters $\beta_1, \ldots, \beta_{K-1}$ are differences to this average.
+
+```{r}
+#| eval: false
+#| echo: true
+model.matrix(
+    ~ group, 
+    data = BSJ92, 
+    contrasts.arg = list(group = "contr.sum"))
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: tbl-sum2zero
+#| tbl-cap: "Parametrization of dummies for the sum-to-zero constraints for a categorical variable."
+modmat_sum2zero <- model.matrix(
+    ~ group, 
+    data = BSJ92, 
+    contrasts.arg = list(group = "contr.sum"))[c(1,23,47),]
+rownames(modmat_sum2zero) <- BSJ92$group[c(1,23,47)]
+kable(modmat_sum2zero, booktabs = TRUE, row.names = TRUE)
+```
+In the sum-to-zero constraint, we again only get two dummy variables, labelled `group1` and `group2`, along with the intercept. The value of `group1` is $1$ if `group=DR`, $0$ if `group=DRTA` and $-1$ if `group=TA`. Using the invariance property, we find $\mu_{\texttt{DR}} = \beta_0 + \beta_1$, $\mu_{\texttt{DRTA}}=\beta_0 + \beta_2 \beta_1$ and $\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2$ (more generally, the intercept minus the sum of all the other mean coefficients). Some algebraic manipulation reveals that
+$\beta_0 = (\mu_{\texttt{DR}} +\mu_{\texttt{DRTA}}+\mu_{\texttt{TA}})/3$.
+
+
+If we removed the intercept, then we could include three dummies for each treatment group and each parameter would correspond to the average. This isn't recommended in **R** because the software treats models without the intercept differently and some output will be nonsensical (e.g., the coefficient of determination will be wrong).
 :::
 
 
-This section covers the mean model specification, starting with parametrization of models with factors (i.e., categorical explanatories).
 
 
-## Parameter interpretation
+
+## Parameter estimation
+
+The linear model includes $p+1$ mean parameters and a standard deviation $\sigma$, which is assumed constant for all observations. 
+
+
+### Ordinary least squares estimator {#ols}
+
+Given a design or model matrix $\mathbf{X}$ and a linear model formulation $\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}$, we can try to find the parameter vector $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ that minimizes the mean squared error, i.e., the average squared vertical distance between the fitted values $\widehat{y}_i=\mathbf{x}_i\widehat{\boldsymbol{\beta}}$ and the observations $y_i$.
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: fig-vertdist
+#| fig-cap: Ordinary residuals $e_i$ (vertical vectors) added to the regression line in the scatter $(x, y)$ (left) and the fit of response $y_i$ against fitted values $\\widehat{y}_i$. The ordinary least squares line minimizes the average squared length of the ordinary residuals.
+set.seed(1234)
+n <- 100L
+x <- rexp(n = n, rate = 1/100)
+y <- 100*rt(n, df = 10) + 40 + 2*x
+ols <- lm(y ~ x)
+res <- resid(ols)
+yhat <- fitted(ols)
+df <- data.frame(x = x, y = y, res = res, fitted = yhat)
+vlines <- data.frame(x1 = x, 
+    y1 = yhat, 
+    y2 = yhat + res)
+vlines2 <- data.frame(x1 = yhat, 
+    y1 = y, 
+    y2 = y - res)
+g1 <- ggplot(data = df, 
+       aes(x = x, y = y)) +
+        geom_point() +
+  geom_smooth(method = "lm", 
+              formula = y ~ x,
+              se = FALSE, 
+              col ="black") +
+   labs(x = "explanatory",
+       y = "response") +
+        geom_segment(aes(x = x1, y = y1, xend = x1, yend = y2), arrow= arrow(length = unit(0.2,"cm")), color = 4,
+                     data = vlines, show.legend = FALSE)
+g2 <- ggplot(data = df, aes(x = yhat, y = y)) +
+        geom_point() +
+geom_abline(intercept = 0, slope = 1) +
+   labs(x = "fitted values",
+       y = "response") +
+scale_x_continuous(limits = range(c(yhat, y)),
+                   expand = expansion()) + scale_y_continuous(limits = range(c(yhat, y)),
+                   expand = expansion()) +
+geom_segment(aes(x = x1, y = y1, xend = x1, yend = y2), 
+arrow= arrow(length = unit(0.2,"cm")), color = 4,
+                     data = vlines2, show.legend = FALSE)
+g1 + g2
+```
+
+
+:::{#prp-ols-mle}
+
+## Ordinary least squares
+
+Consider the optimization problem
+\begin{align*}
+\widehat{\boldsymbol{\beta}}&=\mathrm{arg min}_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}\sum_{i=1}^n (y_i-\mathbf{x}_i\boldsymbol{\beta})^2
+\\&=(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*}
+We can compute the derivative of the right hand side with respect to $\boldsymbol{\beta}$, set it to zero and solve for $\widehat{\boldsymbol{\beta}}$,
+\begin{align*}
+\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&=2\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*}
+using the [chain rule](http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf). Distributing the terms leads to the so-called *normal equation*
+\begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*}
+If the $n \times p$ matrix  $\mathbf{X}$ is full-rank, meaning that it's columns are not linear combinations of one another, the quadratic form $\mathbf{X}^\top \mathbf{X}$ is invertible and we obtain the solution to the least square problems, 
+$$
+\widehat{\boldsymbol{\beta}} = \left(\mathbf{X}^\top \mathbf{X}\right)^{-1}\mathbf{X}^\top \boldsymbol{y}.
+$$ {#eq-ols}
+This is the **ordinary least squares estimator** (OLS). The explicit solution means that no numerical optimization is needed for linear models.
+
+:::
+
+We could also consider maximum likelihood estimation. @prp-ols-mle shows that, assuming normality of the errors, the least square estimators of $\boldsymbol{\beta}$ coincide with the maximum likelihood estimator of $\boldsymbol{\beta}$.
+
+
+:::{#prp-mle-normal-linmod}
+
+## Maximum likelihood estimation of the normal linear model
+
+The linear regression model specifies that the observations $Y_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$ are independent. 
+The linear model has $p+2$ parameters ($\boldsymbol{\beta}$ and $\sigma^2$) and the log likelihood is, abstracting from constant terms,
+\begin{align*}
+\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*}
+Maximizing the log likelihood with respect to $\boldsymbol{\beta}$ is equivalent to
+minimizing the sum of squared errors $\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2$, regardless of the value of $\sigma$, and we recover the OLS estimator $\widehat{\boldsymbol{\beta}}$. The maximum likelihood estimator of the variance $\widehat{\sigma}^2$ is thus
+\begin{align*}
+\widehat{\sigma}^2=\mathrm{arg max}_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*}
+The profile log likelihood for $\sigma^2$, excluding constant terms that don't depend on $\sigma^2$, is
+\begin{align*}
+\ell_{\mathrm{p}}(\sigma^2)
+&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*}
+Differentiating each term with respect to $\sigma^2$ and setting the gradient equal to zero yields the maximum likelihood estimator
+\begin{align*}
+\widehat{\sigma}^2&=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})\\&= \frac{1}{n} \sum_{i=1}^n (y_i - \mathbf{x}_i\widehat{\boldsymbol{\beta}})^2\\&= \frac{\mathsf{SS}_e}{n};
+\end{align*}
+where $\mathsf{SS}_e$ is the sum of squared residuals. The usual unbiased estimator of $\sigma^2$ calculated by software is $S^2=\mathsf{SS}_e/(n-p-1)$, where the denominator is the sample size $n$ minus the number of mean parameters $\boldsymbol{\beta}$, $p+1$.
+
+:::
+
+:::{#rem-invariance}
+
+## Invariance
+
+One direct consequence of likelihood estimation is that the fitted values $\widehat{y}_i$ for two model matrices $\mathbf{X}_a$ and $\mathbf{X}_b$, are the same if they generate the same linear span, as in @exm-baumann-dummies. The interpretation of the coefficients will however change. If we include an intercept term, then we get the same output if the columns of explanatory are mean-centered.
+
+:::
+
+The value of $\boldsymbol{\beta}$ is such that it will maximize the correlation between $Y$ and $\widehat{Y}$. In the case of a single categorical variable, we will obtain fitted values $\widehat{y}$ that correspond to the sample mean of each group.
+
+
+:::{#rem-geometry}
+
+## Geometry
+
+The vector of fitted values $\boldsymbol{y} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}$ is the projection of the response vector $\boldsymbol{y}$ on the linear span generated by the columns of $\mathbf{X}$. The matrix $\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$, often called hat matrix, is an orthogonal projection matrix, so $\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top$ and $\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}$ and $\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}$. Since the vector of residuals $\boldsymbol{e} = (e_1, \ldots, e_n)^\top$, which appear in the sum of squared errors, is defined as $\boldsymbol{y} - \widehat{\boldsymbol{y}}$ and $\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}$, simple algebraic manipulations show that the inner product between ordinary residuals and fitted values is zero, since
+\begin{align*}
+\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
+\\&= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
+\\&= 0
+\end{align*}
+where we use the definition of $\widehat{\boldsymbol{y}}$ and $\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}$ on the first line, then substitute the OLS estimator  $\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y}$ and distribute terms. 
+Similarly, $\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_p$.
+The ordinary residuals are thus orthogonal to both the model matrix $\mathbf{X}$ and to the fitted values.
+
+
+A direct consequence of this fact is that the sample linear correlation between $\boldsymbol{e}$ and $\widehat{\boldsymbol{y}}$ is zero; we will use this property to build graphical diagnostics.
+, and is also used to construct visual diagnostics of goodness-of-fit. 
+
+
+Since the inner product is zero, the mean of $\boldsymbol{e}$ must be zero provided that $\mathbf{1}_n$ is in the linear span of $\mathbf{X}$.
+
+:::
+
+:::{#prp-info-normal}
+
+## Information matrix for normal linear regression models
+
+The entries of the observed information matrix of the normal linear model are
+\begin{align*}
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial \boldsymbol{\beta}\partial \boldsymbol{\beta}^\top} &= \frac{1}{\sigma^2} \frac{\partial \mathbf{X}^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}^\top} =  \frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2}\\
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial \boldsymbol{\beta}\partial \sigma^2} &=- \frac{\mathbf{X}^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\sigma^4}\\
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial (\sigma^2)^2} &= -\frac{n}{2\sigma^4} + \frac{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\sigma^6}.
+\end{align*}
+If we evaluate the observed information at the MLE, we get
+\begin{align*}
+j(\widehat{\boldsymbol{\beta}}, \widehat{\sigma^2}) = 
+\begin{pmatrix}
+\frac{\mathbf{X}^\top\mathbf{X}}{\widehat{\sigma^2}} & \boldsymbol{0}_p \\  \boldsymbol{0}_p^\top & \frac{n}{2\widehat{\sigma^4}}
+\end{pmatrix}
+\end{align*}
+since $\widehat{\sigma}^2=\mathsf{SS}_e/n$ and the residuals are orthogonal to the model matrix. Since $\mathsf{E}(Y \mid \mathbf{X})=\mathbf{X}\boldsymbol{\beta}$, the Fisher information is
+\begin{align*}
+i(\boldsymbol{\beta}, \sigma^2) = 
+\begin{pmatrix}
+\frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2} & \boldsymbol{0}_p \\  \boldsymbol{0}_p^\top & \frac{n}{2\sigma^4}
+\end{pmatrix}
+\end{align*}
+Since zero off-correlations in normal models amount to independence, the MLE for $\sigma^2$ and $\boldsymbol{\beta}$ are independent. Provided $\mathbf{X}^\top\mathbf{X}$ is invertible, the large-sample variance of the ordinary least squares estimator is $\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}$ and that of the MLE of the variance is $2\sigma^4/n$.
+:::
+
+
+### Fitting linear models with software
+
+Although we could build the model matrix ourselves and use the least square formula of @eq-ols, the numerical routines implemented in software are typically better behaved. The `lm` function in **R** fits **linear models**, as does `glm` with the default arguments. Objects of class `lm` have multiple methods allow you to extract specific objects from `lm` objects. For example, the functions `coef`, `resid`, `fitted`, `model.matrix` will return the coefficients $\widehat{\boldsymbol{\beta}}$, the ordinary residuals $\boldsymbol{e}$, the fitted values $\widehat{\boldsymbol{y}}$ and the model matrix $\mathbf{X}$, respectively.
+
+
+
+```{r fitlm}
+#| eval: false
+#| echo: true
+data(college, package = "hecstatmod") #load data
+str(college) # Check that categorical variables are factors
+# Fit the linear regression
+linmod <- lm(salary ~ sex + rank + service + field, 
+             data = college)
+beta_hat <- coef(linmod) # beta coefficients
+vcov_beta <- vcov(linmod) # Covariance matrix of betas
+summary(linmod) # summary table
+beta_ci <- confint(linmod) # Wald confidence intervals for betas
+yhat <- fitted(linmod) # fitted values
+e <- resid(linmod) # ordinary residuals
+
+# Check OLS formula
+X <- model.matrix(linmod) # model matrix
+y <- college$salary
+isTRUE(all.equal(
+  c(solve(t(X) %*% X) %*% t(X) %*% y),
+  as.numeric(coef(linmod))
+))
+```
+
+The `summary` method is arguably the most useful: it will print mean parameter estimates along with standard errors, $t$ values for the Wald test of the hypothesis $\mathscr{H}_0: \beta_i=0$ and the associated $P$-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table. Note that the `lm` function uses the unbiased estimator of the variance $\sigma^2$.
+
+
+
+:::{#rem-linearity}
+
+## Linearity
+
+The model is linear in the coefficients $\beta$, so the quadratic curve $\beta_0 + \beta_1x + \beta_2 x^2$ is a linear model because it is a sum of coefficients times functions of explanatories. By contrast, the model $\beta_0 + \beta_1x^{\beta_2}$ is nonlinear in $\boldsymbol{\beta}$.
+
+It is sometimes possible to linearize a model: consider for example the Cobb--Douglas production function [@Douglas:1976], which specifies that economic output $Y$ is related to labour $L$ and capital $C$ via $\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}$ with $\beta \in (0,1)$. If we take logarithms on both sides (since all arguments are positive), then 
+$\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L$. We could fit a linear model with response $\ln Y - \ln L$ and explanatory variable $\ln C - \ln L$, to obtain an estimate of the coefficient $\beta_1$, while $\beta_0^*=\ln \beta_0$. A constrained optimization would be potentially necessary to estimate the model parameters of the resulting linear model if the estimates lie outside of the parameter space.
+
+:::
+
+## Coefficient of determination {#coefR2}
+
+When we specify a model, the error term $\boldsymbol{\varepsilon}$ accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn't need statistic to begin with). Once we have fitted a model, we estimate the variance $\sigma^2$; one may then wonder which share of the total variance in the sample is explained by the model.
+
+The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, $\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix $\mathbf{X}$, defined as $\mathsf{SS}_e =\sum_{i=1}^n e_i^2$ with $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_j\mathrm{X}_j$.
+We define the coefficient of determination, or squared multiple correlation coefficient of the model, $R^2$, as
+\begin{align*}
+R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}
+An alternative decomposition shows that $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, i.e., the coefficient of determination can be interpreted as the square of [Pearson's linear correlation](moments) between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$.
+
+Its important to note that $R^2$ is not a goodness-of-fit criterion, like the log likelihood: some phenomena are inherently noisy and even a good model will fail to account for much of the response's variability. Moreover, one can inflate the value of $R^2$ by including more explanatory variables and making the model more complex, thereby improving the likelihood and $R^2$. Indeed, the coefficient is non-decreasing in the dimension of $\mathbf{X}$, so a model with $p+1$ covariate will necessarily have a higher $R^2$ values than only $p$ of the explanatories. For model comparisons, it is better to employ information criteria or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high $R^2$ may imply high correlation, but [the relation may be spurious](http://www.tylervigen.com/spurious-correlations): linear regression does not yield causal models!
+
+
+
+:::{#prp-linearity}
+
+## Log linear models
+
+
+:::
+
 
 <!--
+1. 
+[X] Motivating examples from management sciences
+[X] Models with explanatories
+[X] What to put in the model?
+[X] Linearity: what does it mean?
+IJLR - Gaussian models as workhorse
+[X] Since Gaussian is a location-scale family, write in terms of response = mean + error
 
-Linear models are workshorse: need not have correct specification for this to be helpful
 
+Estimation of OLS
 OLS and MLE of the mean parameter coefficients
 OLS does not require the assumption of normality (only constant variance, independence and mean-zero errors).
+
+Residuals as vertical distance
+Fitted model
+MLE of the mean for Yi (Rsquared as correlation between Yhat and Y)
+fitted mean + residuals != mean + error (notion of n + p+2 unknowns)
+Understanding the output - ingredients and components in the output
+
+Parameter interpretation
+Marginal effects
+[X] Simple cases with binary/continuous/categorical
+Invariance of reparametrizations
+[X] Experimental vs observational
+Confounding variables
+
+
+
+Interactions and interaction plots
+Linearity and interpretation of effects - added variable plots
+Estimation and testing
+t-tests
+F-tests
+Linear contrasts
+Comparisons between t/F distributions and MLE
+Prediction from the model
+Colinearity and identifiability
+R-squared
+
+
+Model assumptions
+Residual diagnostics
+Plots and remedies/ a primer on other models
+
 
 Some adaptation of known results from likelihood, specialized to the case of normal data - t vs normal, F vs chi-square
 
@@ -191,3 +792,8 @@ Testing
 
 Normal model and tacit assumptions
 -->
+
+## Concluding remarks
+
+
+Linear regression is the most famous and the most widely used statistical model around.  The name may appear reductive, but many tests statistics (*t*-tests, ANOVA, Wilcoxon, Kruskal--Wallis) [can be formulated using a linear regression](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), while [models as diverse as trees, principal components and deep neural networks are just linear regression model in disguise](https://threadreaderapp.com/thread/1286420597505892352.html). What changes under the hood between one fancy model to the next are the optimization method (e.g., ordinary least squares, constrained optimization or stochastic gradient descent) and the choice of explanatory variables entering the model (spline basis for nonparametric regression, indicator variable selected via a greedy search for trees, activation functions for neural networks).

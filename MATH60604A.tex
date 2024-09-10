@@ -334,9 +334,9 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
@@ -379,7 +379,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-09-05}
+\date{2024-09-10}
 
 \begin{document}
 
@@ -1555,7 +1555,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, titlerule=0mm, bottomtitle=1mm, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, leftrule=.75mm, toptitle=1mm, colback=white, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, arc=.35mm, breakable, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, titlerule=0mm, bottomtitle=1mm, leftrule=.75mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, toptitle=1mm, rightrule=.15mm, colback=white, bottomrule=.15mm, toprule=.15mm, breakable, opacityback=0]
 
 \textbf{Learning objectives}:
 
@@ -2203,7 +2203,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, titlerule=0mm, bottomtitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, colframe=quarto-callout-caution-color-frame, leftrule=.75mm, toptitle=1mm, colback=white, rightrule=.15mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, left=2mm, arc=.35mm, breakable, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-caution-color!10!white, colframe=quarto-callout-caution-color-frame, titlerule=0mm, bottomtitle=1mm, leftrule=.75mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, left=2mm, toptitle=1mm, rightrule=.15mm, colback=white, bottomrule=.15mm, toprule=.15mm, breakable, opacityback=0]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2748,7 +2748,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, titlerule=0mm, bottomtitle=1mm, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, leftrule=.75mm, toptitle=1mm, colback=white, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, arc=.35mm, breakable, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, titlerule=0mm, bottomtitle=1mm, leftrule=.75mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, toptitle=1mm, rightrule=.15mm, colback=white, bottomrule=.15mm, toprule=.15mm, breakable, opacityback=0]
 
 \textbf{Learning objectives}:
 
@@ -2973,49 +2973,6 @@ S^2=\frac{1}{n-1} \sum_{i=1}^n (Y_i-\overline{Y})^2
 the maximum likelihood estimator of \(\sigma^2\) is biased, but both
 estimators are consistent and will thus get arbitrarily close to the
 true value \(\sigma^2\) for \(n\) sufficiently large.
-
-\end{example}
-
-\begin{example}[Ordinary least
-squares]\protect\hypertarget{exm-ols-mle}{}\label{exm-ols-mle}
-
-The case of normally distributed data is intimately related to linear
-regression and ordinary least squares: assuming normality of the errors,
-the least square estimators of \(\boldsymbol{\beta}\) coincide with the
-maximum likelihood estimator of \(\boldsymbol{\beta}\).
-
-The linear regression model specifies
-\(Y_i \sim \mathsf{normal}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2)\),
-or alternatively \begin{align*}
-Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
-\end{align*} where the errors
-\(\varepsilon_i \sim \mathsf{normal}(0, \sigma^2)\). The linear model
-has \(p+2\) parameters (\(\boldsymbol{\beta}\) and \(\sigma^2\)) and the
-log likelihood is \begin{align*}
-\ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
-\end{align*} Maximizing the log likelihood with respect to
-\(\boldsymbol{\beta}\) is equivalent to minimizing the sum of squared
-errors \(\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2\). Since this
-objective function is the same as that of least squares, it follows that
-the least-square estimator \(\widehat{\boldsymbol{\beta}}\) for the mean
-parameters is the maximum likelihood estimator for normal errors with
-common variance \(\sigma^2\), regardless of the value of the latter. The
-maximum likelihood estimator \(\widehat{\sigma}^2\) is thus
-\begin{align*}
-\widehat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
-\end{align*} The log likelihood, excluding constant terms that don't
-depend on \(\sigma^2\), is \begin{align*}
-\ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
-&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
-\end{align*} Differentiating each term with respect to \(\sigma^2\) and
-setting the gradient equal to zero yields the maximum likelihood
-estimator \begin{align*}
-\widehat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
-\end{align*} where \(\mathsf{SS}_e\) is the sum of squared residuals.
-The usual unbiased estimator of \(\sigma^2\) calculated by software is
-\(S^2=\mathsf{SS}_e/(n-p-1)\), where the denominator is the sample size
-\(n\) minus the number of mean parameters \(\boldsymbol{\beta}\),
-\(p+1\).
 
 \end{example}
 
@@ -3875,6 +3832,987 @@ Jacobian of the transformation.
 
 \bookmarksetup{startatroot}
 
+\chapter{Linear regression models}\label{linmod}
+
+\section{Introduction}\label{introduction}
+
+The linear regression model, or linear model, is one of the most
+versatile workshorse for statistical inference. Linear regression is
+used primarily to evaluate the effects of explanatories (oftentimes
+treatment in an experimental setting) on the mean response of the
+response, or for prediction. It combines a formulation for the mean of a
+\textbf{response variable} \(Y_i\) of a random sample of size \(n\) as a
+\textbf{linear function} of observed \textbf{explanatories} (also called
+predictors or covariates) \(X_1, \ldots, X_p\), \begin{align}
+\underset{\text{conditional mean}}{\mathsf{E}(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)}=\mu_i=\underset{\text{linear combination of explanatories}}{\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}}\equiv \mathbf{x}_i\boldsymbol{\beta}.
+\end{align} where \(\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})\) is a
+\((p+1)\) row vector containing a constant and the explanatories of
+observation \(i\), and
+\(\boldsymbol{\beta} = (\beta_0, \ldots, \beta_p)^\top\) is a \(p+1\)
+column vector of coefficients for the mean. The model formulation is
+conditional on the values of the observed explanatories; this amounts to
+treating the \(p\) explanatory variables \(X_1, \ldots, X_p\) as
+non-random quantities, or known in advance. The regression coefficients
+\(\boldsymbol{\beta}\) is the same for all observations, but the vector
+of explanatories \(\mathbf{x}_i\) may change from one observation to the
+next. The model is \textbf{linear} in the coefficients
+\(\beta_0, \ldots, \beta_p\), and \(\beta_0\) is the \textbf{intercept}.
+
+For notational simplicity, we aggregate observations into an
+\(n\)-vector \(\boldsymbol{Y}\) and the explanatories into an
+\(n \times (p+1)\) matrix \(\mathbf{X}\) by concatenating a column of
+ones and the \(p\) column vectors
+\(\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p\), each containing the
+\(n\) observations of the respective explanatories. The matrix
+\(\mathbf{X}\) is termed \textbf{model matrix} (or sometimes design
+matrix in experimental settings), and it's \(i\)th row is
+\(\mathbf{x}_i\).
+
+We suppose, in addition to the mean specification, that the response
+variables are independent and identically distributed, drawn from a
+mean-zero distribution with constant variance \(\sigma^2\). The variance
+term \(\sigma^2\) is included to take into account the fact that no
+exact linear relationship links \(\boldsymbol{X}_i\) and \(Y_i\), or
+that measurements of \(Y_i\) are subject to error.
+
+In the Gaussian linear model, responses follow a normal distribution and
+\(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\).
+The normal distribution is a location-scale family, so
+\(Y \sim \mathsf{normal}(\mu, \sigma^2)\) is equal in distribution with
+\(\mu + \sigma Z\) for \(Z \sim \mathsf{normal}(0, 1)\). We may thus
+rewrite the linear model in terms of the mean plus an error term,
+\begin{align*}
+\underset{\text{observation}\vphantom{\mu_i}}{Y_i} = \underset{\text{mean } \mu_i}{\vphantom{Y_i}\mathbf{x}_i\boldsymbol{\beta}} + \underset{\text{error term}\vphantom{\mu_i}}{\vphantom{Y_i}\varepsilon_i},
+\end{align*} where \(\varepsilon_i \sim \mathsf{normal}(0,\sigma^2)\) is
+the error term specific to observation \(i\), and we assume that the
+errors \(\varepsilon_1, \ldots, \varepsilon_n\) are independent and
+identically distributed. We fix the expectation or theoretical mean of
+\(\varepsilon_i\) to zero to encode the fact we do not believe the model
+is systematically off, so
+\(\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)=0\)
+\((i=1, \ldots, n)\).
+
+\subsection{Programming}\label{programming}
+
+The function \texttt{lm} is the workshorse for fitting linear models in
+\textbf{R}. It takes as input a formula: suppose you have a data frame
+containing columns \texttt{x1} and \texttt{x2} (explanatories) and
+\texttt{y} (response); you can then call
+\texttt{lm(y\ \textasciitilde{}\ x1\ +\ x2)} to fit the linear model
+with conditional mean \(\beta_0 + \beta_1 x_1 + \beta_2x_2\). The
+explanatory variable \texttt{y} is on the left hand side of the
+equation, while the right hand side should contain the predictors,
+separated by a \texttt{+} sign if there are more than one. If you
+provide the data frame name using \texttt{data}, then the shorthand
+\texttt{y\ \textasciitilde{}\ .} (tilde followed by a period) fits a
+model including all of the columns of the data frame (but excluding
+\texttt{y}) as explanatories.
+
+The type of effect included by the software depends on the class of the
+variable. Any numeric or integer variable will be treated as continuous,
+including dummies with 0/1 entries. To include categorical variables,
+these should be cast to factors (both for strings and for variables that
+are encoded using integers (sex, revenue class, level of education,
+marital status, etc.)
+
+\subsection{Motivating examples}\label{motivating-examples}
+
+We present some motivating examples that are discussed in the sequel.
+
+\begin{example}[Consistency of product
+description]\protect\hypertarget{exm-lee-choi1}{}\label{exm-lee-choi1}
+
+Study 1 of Lee and Choi (\citeproc{ref-Lee.Choi:2019}{2019}) considered
+descriptors and the impact on the perception of a product on the
+discrepancy between the text description and the image. In their first
+experience, a set of six toothbrushes is sold, but the image shows
+either a pack of six, or a single one). The authors also measured the
+prior familiarity with the brand of the item. Participants were
+recruited using an online panel, and the data in \texttt{LC19\_S1}
+includes the results of the \(n=96\) participants who passed the
+attention check (one additional participant response was outlying and
+removed). We could fit a linear model for the average product evaluation
+score, \texttt{prodeval}, as a function of the familiarity of the brand
+\texttt{familiarity}, an integer ranging from 1 to 7, and a dummy
+variable for the experimental factor \texttt{consistency}, coded
+\texttt{0} for consistent image/text descriptions and \texttt{1} if
+inconsistent. The resulting model matrix is then \(96 \times 3\). The
+\texttt{prodeval} response is heavily discretized, with only 19 unique
+values ranging between 2.33 and 9.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(LC19\_S1, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\CommentTok{\# Fit a linear model using "lm"}
+\CommentTok{\# The first argument is a formula of the form y \textasciitilde{} x1 + x2}
+\CommentTok{\# where y is the response and x\textquotesingle{}s are explanatories, }
+\CommentTok{\# separated by a plus (+) sign}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(prodeval }\SpecialCharTok{\textasciitilde{}}\NormalTok{ familiarity }\SpecialCharTok{+}\NormalTok{ consistency,}
+          \AttributeTok{data =}\NormalTok{ LC19\_S1)}
+\CommentTok{\# Extract the model matrix}
+\FunctionTok{tail}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(mod), }\AttributeTok{n =} \DecValTok{5}\NormalTok{L) }\CommentTok{\# first five lines}
+\CommentTok{\#\textgreater{}    (Intercept) familiarity consistencyinconsistent}
+\CommentTok{\#\textgreater{} 92           1           6                       1}
+\CommentTok{\#\textgreater{} 93           1           4                       1}
+\CommentTok{\#\textgreater{} 94           1           7                       1}
+\CommentTok{\#\textgreater{} 95           1           7                       1}
+\CommentTok{\#\textgreater{} 96           1           7                       1}
+\FunctionTok{dim}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(mod)) }\CommentTok{\# dimension of the model matrix}
+\CommentTok{\#\textgreater{} [1] 96  3}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+\begin{example}[Gender discrimination in a US
+college]\protect\hypertarget{exm-college-salary-discrimination}{}\label{exm-college-salary-discrimination}
+
+To make concepts and theoretical notions more concrete, we will use
+observational data collected in a college in the United States. The goal
+of the administration was to investigate potential gender inequality in
+the salary of faculty members. The data contains the following
+variables:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{salary}: nine-month salary of professors during the 2008--2009
+  academic year (in thousands USD).
+\item
+  \texttt{rank}: academic rank of the professor (\texttt{assistant},
+  \texttt{associate} or \texttt{full}).
+\item
+  \texttt{field}: categorical variable for the field of expertise of the
+  professor, one of \texttt{applied} or \texttt{theoretical}.
+\item
+  \texttt{sex}: binary indicator for sex, either \texttt{man} or
+  \texttt{woman}.
+\item
+  \texttt{service}: number of years of service in the college.
+\item
+  \texttt{years}: number of years since PhD.
+\end{itemize}
+
+Before drafting a model, it is useful to perform an exploratory data
+analysis. If salary increases with year, there is more heterogeneity in
+the salary of higher ranked professors: logically, assistant professors
+are either promoted or kicked out after at most 6 years according to the
+data. The limited number of years prevents large variability for their
+salaries.
+
+\begin{figure}[ht!]
+
+{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/edacollege-1.pdf}
+
+}
+
+\caption{Exploratory data analysis of \(\texttt{college}\) data:
+salaries of professors as a function of the number of years of service
+and the academic ranking}
+
+\end{figure}%
+
+Salary increases over years of service, but its variability also
+increases with rank. Note the much smaller number of women in the
+sample: this will impact our power to detect differences between sex. A
+contingency table of sex and academic rank can be useful to see if the
+proportion of women is the same in each rank: women represent 16\% of
+assistant professors and 16\% of associate profs, but only 7\% of full
+professors and these are better paid on average.
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Contingency table of the number of prof in the college by sex
+and academic rank.}\tabularnewline
+\toprule\noalign{}
+& assistant & associate & full \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& assistant & associate & full \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+man & 56 & 54 & 248 \\
+woman & 11 & 10 & 18 \\
+\end{longtable}
+
+Some of the potential explanatory variables of the \texttt{college} data
+are categorical (\texttt{rank}, \texttt{sex}, \texttt{field}), the
+latter two being binary. The other three variables, \texttt{years} and
+\texttt{service}, are continuous and probably strongly correlated.
+
+\end{example}
+
+\begin{example}[Teaching to read and pre-post
+experiments]\protect\hypertarget{exm-teaching-baumann}{}\label{exm-teaching-baumann}
+
+The \texttt{BSJ92} data in package \texttt{hecedsm} contains the results
+of an experimental study by Baumann, Seifert-Kessell, and Jones
+(\citeproc{ref-Baumann:1992}{1992}) on the effectiveness of different
+reading strategies on understanding of children. These are described in
+the abstract
+
+\begin{quote}
+Sixty-six fourth-grade students were randomly assigned to one of three
+experimental groups: (a) a Think-Aloud (TA) group, in which students
+were taught various comprehension monitoring strategies for reading
+stories (e.g., self-questioning, prediction, retelling, rereading)
+through the medium of thinking aloud; (b) a Directed Reading-Thinking
+Activity (DRTA) group, in which students were taught a predict-verify
+strategy for reading and responding to stories; or (c) a Directed
+Reading Activity (DRA) group, an instructed control, in which students
+engaged in a noninteractive, guided reading of stories.
+\end{quote}
+
+The data are balanced, as there are 22 observations in each of the three
+subgroups, of which \texttt{DR} is the control. The researchers applied
+a series of three tests (an error detection task for test 1, a
+comprehension monitoring questionnaire for test 2, and the \emph{Degrees
+of Reading Power} cloze test labelled test 3). Tests 1 and 2 were
+administered both before and after the intervention: this gives us a
+change to establish the average \emph{improvement} in student by adding
+\texttt{pretest1} as covariate for a regression of \texttt{posttest},
+for example. The tests 1 were out of 16, but the one administered after
+the experiment was made more difficult to avoid cases of students
+getting near full scores. The correlation between pre-test and post-test
+1 is \((\widehat{\rho}_1=0.57)\), much stronger than that for the second
+test \((\widehat{\rho}_2=0.21)\).
+
+\end{example}
+
+\section{Mean model specification}\label{mean-model-specification}
+
+This section covers the mean model specification, starting with
+parametrization of models with factors (i.e., categorical
+explanatories).
+
+\subsection{Interpretation of regression
+coefficients}\label{interpretation-of-regression-coefficients}
+
+We can assign meanings to the mean parameters \(\boldsymbol{\beta}\) in
+the linear model by considering what is
+
+\subsection{What explanatories?}\label{what-explanatories}
+
+The first step of an analysis is deciding which explanatory variables
+should be added to the mean model specification, and under what form.
+Models are but approximations of reality; Section 2.1 of Venables
+(\citeproc{ref-Venables:2000}{2000}) argues that, if we believe the true
+mean function linking explanatories \(\boldsymbol{X}\) and the response
+\(Y\) is of the form
+\(\mathsf{E}(Y \mid \boldsymbol{X}) = f(\boldsymbol{X})\) for \(f\)
+sufficiently smooth, then the linear model is a first-order
+approximation. For interpretation purposes, it makes sense to
+mean-center any continuous explanatory, as this facilitates
+interpretation.
+
+In an experimental setting, where the experimental group or condition is
+randomly allocated, we can directly compare the different treatments and
+draw causal conclusions (since all other things are constant, any
+detectable difference is due on average to our manipulation). Although
+we usually refrain from including any other explanatory to keep the
+design simple, it may be nevertheless helpful to consider some
+concomitant variables that explain part of the variability to filter
+background noise and increase power. For example, for the Baumann,
+Seifert-Kessell, and Jones (\citeproc{ref-Baumann:1992}{1992}) data, our
+interest is in comparing the average scores as a function of the
+teaching method, we would include \texttt{group}. In this example, it
+would also make sense to include the \texttt{pretest1} result as an
+explanatory. This way, we will model the average difference in
+improvement from pre-test to post-test rather than the average score.
+
+In an observational setting, people self-select in different groups, so
+we need to account for differences. Linear models in economics and
+finance often add control variables to the model to account for
+potential differences due to socio-demographic variables (age, revenue,
+etc.) that would be correlated to the group. Any test for coefficients
+would capture only correlation between the outcome \(Y\) and the
+postulated explanatory factor of interest.
+
+\begin{figure}[ht!]
+
+{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{images/correlation_causation.jpg}
+
+}
+
+\caption{Difference between experimental and observational studies by
+Andrew Heiss \href{https://creativecommons.org/licenses/by/4.0/}{CC-BY
+4.0}}
+
+\end{figure}%
+
+\subsection{Continuous explanatories}\label{continuous-explanatories}
+
+Continuous explanatories are typically specified by including a single
+linear term, leading to the simple linear regression of the form
+\(Y \mid X=x \sim \mathsf{normal}(\beta_0 + \beta x, \sigma^2)\). In
+this situation \(\beta_0\) is the intercept (the mean value of \(Y\)
+when \(x=0\)) and \(\beta_1\) is the slope, i.e., the average increase
+of \(Y\) when \(x\) increases by one unit. Figure~\ref{fig-droitenuage}
+shows such an example of a model with a single explanatory. As revealed
+by the exploratory data analysis of
+Example~\ref{exm-college-salary-discrimination}, this model is
+simplistic and clearly insufficient to explain differences in salary.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-droitenuage-1.pdf}
+
+}
+
+\caption{\label{fig-droitenuage}Simple linear regression model for the
+salary of professors as a function of the number of years of service.}
+
+\end{figure}%
+
+If the relationship between explanatory \(X\) and response \(Y\), as
+assessed from a scatterplot, is not linear, we may consider more
+complicated function of the explanatories, as Example~\ref{exm-auto}
+shows.
+
+\begin{example}[Quadratic curve fo the automobile
+data]\protect\hypertarget{exm-auto}{}\label{exm-auto}
+
+We consider a linear regression model for the fuel autonomy of cars as a
+function of the power of their motor (measured in horsepower) from the
+\texttt{auto} dataset. The postulated model, \begin{align*}
+\texttt{mpg}_i = \beta_0 + \beta_1 \texttt{horsepower}_i + \beta_2 \texttt{horsepower}_i^2 + \varepsilon_i,
+\end{align*} includes a quadratic term. Figure~\ref{fig-autoquad2d}
+shows the scatterplot with the fitted regression line, above which the
+line for the simple linear regression for horsepower is added.
+
+To fit higher order polynomials, we use the \texttt{poly} as the latter
+leads to more numerical stability. For general transformations, the
+\texttt{I} function tells the software interpret the input ``as is''.
+Thus, \texttt{lm(y\textasciitilde{}x+I(x\^{}2))}, would fit a linear
+model with design matrix
+\([\boldsymbol{1}_n\, \mathbf{x}\, \mathbf{x}^2]\).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-autoquad2d-1.pdf}
+
+}
+
+\caption{\label{fig-autoquad2d}Linear regression models for the fuel
+autonomy of cars as a function of motor power.}
+
+\end{figure}%
+
+It appears graphically that the quadratic model fits better than the
+simple linear alternative: we will assess this hypothesis formally
+later. For the degree two polynomial, Figure~\ref{fig-autoquad2d} show
+that fuel autonomy decreases rapidly when power increases between 50 to
+100, then more slow until 189.35 hp. After that, the model postulates
+that autonomy increases again as evidenced by the scatterplot, but
+beware of extrapolating (weird things can happen beyond the range of the
+data, as exemplified by
+\href{https://web.archive.org/web/20210315050023/https://livefreeordichotomize.com/2020/05/05/model-detective/}{Hassett's
+cubic model for the number of daily cases of Covid19 in the USA}).
+
+The representation in Figure~\ref{fig-autoquad2d} may seem
+counter-intuitive given that we fit a linear model, but it is a 2D
+projection of 3D coordinates for the equation
+\(\beta_0 + \beta_1x-y +\beta_2z =0\), where \(x=\texttt{horsepower}\),
+\(z=\texttt{horsepower}^2\) and \(y=\texttt{mpg}\). Physics and common
+sense force \(z = x^2\), and so the fitted values lie on a curve in a 2D
+subspace of the fitted plan, as shown in grey in the three-dimensional
+Figure~\ref{fig-hyperplan}.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{images/hyperplane_auto.png}
+
+}
+
+\caption{\label{fig-hyperplan}3D graphical representation of the linear
+regression model for the \texttt{auto} data.}
+
+\end{figure}%
+
+\end{example}
+
+\begin{refremark}[Discretization of continuous covariates]
+Another option is to transform a continuous variable \(X\) into a
+categorical variable by discretizing into bins and fitting a
+piecewise-linear function of \(X\). The prime example of such option is
+treating a Likert scale as a categorical variable. While this allows one
+to fit more flexible functional relations between \(X\) and \(Y\), this
+comes at the cost of additional coefficients for the same estimation
+budget (fewer observations to estimate the effect of \(X\) results in
+lower precision of the coefficients).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-auto-discre-1.pdf}
+
+}
+
+\caption{\label{fig-auto-discre}Piecewise-linear model for the fuel
+autonomy of cars as a function of motor power.}
+
+\end{figure}%
+
+\label{rem-discretization}
+
+\end{refremark}
+
+\subsection{Categorical covariates}\label{categorical-covariates}
+
+Dummies are variables (columns of explanatories from the model matrix)
+which only include \(-1\), \(0\) and \(1\) to give indicator of the
+level of groups. For a binary outcome, we can create a column that has
+entries \(1\) for the treatment and \(0\) for the control group.
+
+\begin{example}[Linear models with a single binary
+variable]\protect\hypertarget{exm-moon}{}\label{exm-moon}
+
+Moon and VanEpps (\citeproc{ref-Moon.VanEpps:2023}{2023}) consider the
+impact of providing suggested amounts for donations to a charity (as
+opposed to an open-ended request). In Study 1, participants were given
+the chance of winning 25\$ and giving part of this amount to charity.
+
+Consider for example a linear model that includes the \texttt{amount}
+(in dollars, from 0 for people who did not donate, up to 25 dollars). We
+fit a model as a function of
+\begin{align*}\texttt{condition} = \begin{cases} 0 , & \text{open-ended},\\
+1, & \text{suggested quantity}
+\end{cases}
+\end{align*} The equation of the simple linear model that includes the
+binary variable \texttt{condition} is \begin{align*}
+\mathsf{E}(\texttt{amount} \mid \texttt{condition})&= \beta_0 + \beta_1 \mathbf{1}_{\texttt{condition}=\texttt{quantity}}.
+\\&= \begin{cases}
+\beta_0, & \texttt{condition}=0, \\
+\beta_0 + \beta_1 & \texttt{condition}=1.
+\end{cases}
+\end{align*} Let \(\mu_0\) denote the theoretical average amount for the
+open-ended amount and \(\mu_1\) that of participants of the treatment
+\texttt{quantity} group. We can write the equation for the conditional
+expectation for each experimental \texttt{condition}
+
+A linear model that only contains a binary variable \(\mathrm{X}\) as
+regressor amounts to specifying a different mean for each of two groups:
+the average of the treatment group is \(\beta_0 + \beta_1 = \mu_1\) and
+\(\beta_1=\mu_1-\mu_0\) represents the difference between the average
+donation amount of people given \texttt{open-ended} amounts and those
+who are offered suggested amounts (\texttt{quantity}), including zeros
+for the amount of people who did not donate. The parametrization of the
+linear model with \(\beta_0\) and \(\beta_1\) is in terms of pairwise
+differences relative to the baseline category and is particularly useful
+if we want to test for mean difference between the groups, as this
+amounts to testing \(\mathscr{H}_0: \beta_1=0\).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-donation-moon-1.pdf}
+
+}
+
+\caption{\label{fig-donation-moon}Simple linear model for the
+\texttt{MV23\_S1} data using the binary variable \texttt{condition} as
+explanatory even if the equation defines a line, only its values in
+\(0/1\) are realistic.}
+
+\end{figure}%
+
+Even if the linear model defines a line, the latter is only meaningful
+when evaluated at \(0\) or \(1\); Figure~\ref{fig-donation-moon} shows
+it in addition to sample observations (jittered horizontally) and a
+density estimate for each condition. The colored dot represents the
+mean, which will coincide with the estimates.
+
+It is clear that the data are heavily discretized, with lots of ties and
+zeros. However, given the sample size of 869 observations, we can easily
+draw conclusions in each group.
+
+\end{example}
+
+Let us consider categorical variables with \(K > 2\) levels, which in
+\textbf{R} are of class \texttt{factor}. The default parametrization for
+factors are in terms of treatment contrast: the reference level of the
+factor (by default, the first value in alphanumerical order) will be
+treated as the reference category and assimilated to the intercept. The
+software will then create a set of \(K-1\) dummy variables for a factor
+with \(K\) levels, each of which will have ones for the relevant value
+and zero otherwise.
+
+\begin{example}[Dummy coding for categorical
+variables]\protect\hypertarget{exm-baumann-dummies}{}\label{exm-baumann-dummies}
+
+Consider the Baumann, Seifert-Kessell, and Jones
+(\citeproc{ref-Baumann:1992}{1992}) study and the sole inclusion of the
+\texttt{group} variable. The data are ordered by group: the first 22
+observations are for group \texttt{DR}, the 22 next ones for group
+\texttt{DRTA} and the last 22 for \texttt{TA}. If we fit a model with
+\texttt{group} as categorical variables
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(BSJ92}\SpecialCharTok{$}\NormalTok{group) }\CommentTok{\# Check that group is a factor}
+\CommentTok{\#\textgreater{} [1] "factor"}
+\FunctionTok{levels}\NormalTok{(BSJ92}\SpecialCharTok{$}\NormalTok{group) }\CommentTok{\# First level shown is reference}
+\CommentTok{\#\textgreater{} [1] "DR"   "DRTA" "TA"}
+\CommentTok{\# Print part of the model matrix }
+\CommentTok{\# (three individuals from different groups)}
+\FunctionTok{model.matrix}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ group, }\AttributeTok{data =}\NormalTok{ BSJ92)[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{23}\NormalTok{,}\DecValTok{47}\NormalTok{),]}
+\CommentTok{\#\textgreater{}    (Intercept) groupDRTA groupTA}
+\CommentTok{\#\textgreater{} 1            1         0       0}
+\CommentTok{\#\textgreater{} 23           1         1       0}
+\CommentTok{\#\textgreater{} 47           1         0       1}
+\CommentTok{\# Compare with levels of factors recorded}
+\NormalTok{BSJ92}\SpecialCharTok{$}\NormalTok{group[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{23}\NormalTok{,}\DecValTok{47}\NormalTok{)]}
+\CommentTok{\#\textgreater{} [1] DR   DRTA TA  }
+\CommentTok{\#\textgreater{} Levels: DR DRTA TA}
+\end{Highlighting}
+\end{Shaded}
+
+The mean model specification is
+\[\mathsf{E}(Y \mid \texttt{group})= \beta_0 + \beta_1\mathbf{1}_{\texttt{group}=\texttt{DRTA}} + \beta_2\mathbf{1}_{\texttt{group}=\texttt{TA}}.\]
+Since the variable \texttt{group} is categorical with \(K=3\) levels, we
+need \(K-1 = 2\) dummy explanatories to include the effect and obtain
+one average per group. With the default parametrization, we obtain
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathbf{1}_{\texttt{group}=\texttt{DRTA}}=1\) if \texttt{group=DRTA}
+  and zero otherwise.
+\item
+  \(\mathbf{1}_{\texttt{group}=\texttt{TA}}=1\) if \texttt{group=TA} and
+  zero otherwise.
+\end{itemize}
+
+Because the model includes an intercept and the model ultimately
+describes three group averages, we only need two additional variables.
+With the treatment parametrization, the group mean of the reference
+group equals the intercept coefficient, \(\mu_{\texttt{DR}}=\beta_0\),
+
+\begin{longtable}[]{@{}lrrr@{}}
+
+\caption{\label{tbl-dummies-tr}Parametrization of dummies for a
+categorical variable with the default treatment contrasts.}
+
+\tabularnewline
+
+\toprule\noalign{}
+& (Intercept) & groupDRTA & groupTA \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+DR & 1 & 0 & 0 \\
+DRTA & 1 & 1 & 0 \\
+TA & 1 & 0 & 1 \\
+
+\end{longtable}
+
+When \texttt{group}=\texttt{DR} (baseline), both indicator variables
+\texttt{groupDRTA} and \texttt{groupTA} are zero. The average in each
+group is \(\mu_{\texttt{DR}} = \beta_0\),
+\(\mu_{\texttt{DRTA}}=\beta_0 + \beta_1\) and
+\(\mu_{\texttt{TA}} = \beta_0 + \beta_2\). We thus find that \(\beta_1\)
+is the difference in mean between group \texttt{DRTA} and group
+\texttt{DR}, and similarly
+\(\beta_2=\mu_{\texttt{TA}}- \mu_{\texttt{DR}}\).
+
+\end{example}
+
+\begin{refremark}[Sum-to-zero constraints]
+The parametrization discussed above, which is the default for the
+\texttt{lm} function, isn't the only one available. We consider an
+alternative ones: rather than comparing each group mean with that of a
+baseline category, the default parametrization for analysis of variance
+models is in terms of sum-to-zero constraints, whereby the intercept is
+the equiweighted average of every group, and the parameters
+\(\beta_1, \ldots, \beta_{K-1}\) are differences to this average.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{model.matrix}\NormalTok{(}
+    \SpecialCharTok{\textasciitilde{}}\NormalTok{ group, }
+    \AttributeTok{data =}\NormalTok{ BSJ92, }
+    \AttributeTok{contrasts.arg =} \FunctionTok{list}\NormalTok{(}\AttributeTok{group =} \StringTok{"contr.sum"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+
+\caption{\label{tbl-sum2zero}Parametrization of dummies for the
+sum-to-zero constraints for a categorical variable.}
+
+\tabularnewline
+
+\toprule\noalign{}
+& (Intercept) & group1 & group2 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+DR & 1 & 1 & 0 \\
+DRTA & 1 & 0 & 1 \\
+TA & 1 & -1 & -1 \\
+
+\end{longtable}
+
+In the sum-to-zero constraint, we again only get two dummy variables,
+labelled \texttt{group1} and \texttt{group2}, along with the intercept.
+The value of \texttt{group1} is \(1\) if \texttt{group=DR}, \(0\) if
+\texttt{group=DRTA} and \(-1\) if \texttt{group=TA}. Using the
+invariance property, we find \(\mu_{\texttt{DR}} = \beta_0 + \beta_1\),
+\(\mu_{\texttt{DRTA}}=\beta_0 + \beta_2 \beta_1\) and
+\(\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2\) (more generally, the
+intercept minus the sum of all the other mean coefficients). Some
+algebraic manipulation reveals that
+\(\beta_0 = (\mu_{\texttt{DR}} +\mu_{\texttt{DRTA}}+\mu_{\texttt{TA}})/3\).
+
+If we removed the intercept, then we could include three dummies for
+each treatment group and each parameter would correspond to the average.
+This isn't recommended in \textbf{R} because the software treats models
+without the intercept differently and some output will be nonsensical
+(e.g., the coefficient of determination will be wrong).
+
+\label{rem-sumtozero}
+
+\end{refremark}
+
+\section{Parameter estimation}\label{parameter-estimation}
+
+The linear model includes \(p+1\) mean parameters and a standard
+deviation \(\sigma\), which is assumed constant for all observations.
+
+\subsection{Ordinary least squares estimator}\label{ols}
+
+Given a design or model matrix \(\mathbf{X}\) and a linear model
+formulation \(\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}\), we can
+try to find the parameter vector
+\(\boldsymbol{\beta} \in \mathbb{R}^{p+1}\) that minimizes the mean
+squared error, i.e., the average squared vertical distance between the
+fitted values \(\widehat{y}_i=\mathbf{x}_i\widehat{\boldsymbol{\beta}}\)
+and the observations \(y_i\).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-vertdist-1.pdf}
+
+}
+
+\caption{\label{fig-vertdist}Ordinary residuals \(e_i\) (vertical
+vectors) added to the regression line in the scatter \((x, y)\) (left)
+and the fit of response \(y_i\) against fitted values
+\(\\widehat{y}_i\). The ordinary least squares line minimizes the
+average squared length of the ordinary residuals.}
+
+\end{figure}%
+
+\begin{proposition}[Ordinary least
+squares]\protect\hypertarget{prp-ols-mle}{}\label{prp-ols-mle}
+
+Consider the optimization problem \begin{align*}
+\widehat{\boldsymbol{\beta}}&=\mathrm{arg min}_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}\sum_{i=1}^n (y_i-\mathbf{x}_i\boldsymbol{\beta})^2
+\\&=(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*} We can compute the derivative of the right hand side with
+respect to \(\boldsymbol{\beta}\), set it to zero and solve for
+\(\widehat{\boldsymbol{\beta}}\), \begin{align*}
+\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&=2\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*} using the
+\href{http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf}{chain
+rule}. Distributing the terms leads to the so-called \emph{normal
+equation} \begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*} If the \(n \times p\) matrix \(\mathbf{X}\) is full-rank,
+meaning that it's columns are not linear combinations of one another,
+the quadratic form \(\mathbf{X}^\top \mathbf{X}\) is invertible and we
+obtain the solution to the least square problems,
+\begin{equation}\phantomsection\label{eq-ols}{
+\widehat{\boldsymbol{\beta}} = \left(\mathbf{X}^\top \mathbf{X}\right)^{-1}\mathbf{X}^\top \boldsymbol{y}.
+}\end{equation} This is the \textbf{ordinary least squares estimator}
+(OLS). The explicit solution means that no numerical optimization is
+needed for linear models.
+
+\end{proposition}
+
+We could also consider maximum likelihood estimation.
+Proposition~\ref{prp-ols-mle} shows that, assuming normality of the
+errors, the least square estimators of \(\boldsymbol{\beta}\) coincide
+with the maximum likelihood estimator of \(\boldsymbol{\beta}\).
+
+\begin{proposition}[Maximum likelihood estimation of the normal linear
+model]\protect\hypertarget{prp-mle-normal-linmod}{}\label{prp-mle-normal-linmod}
+
+The linear regression model specifies that the observations
+\(Y_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\)
+are independent. The linear model has \(p+2\) parameters
+(\(\boldsymbol{\beta}\) and \(\sigma^2\)) and the log likelihood is,
+abstracting from constant terms, \begin{align*}
+\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*} Maximizing the log likelihood with respect to
+\(\boldsymbol{\beta}\) is equivalent to minimizing the sum of squared
+errors \(\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2\),
+regardless of the value of \(\sigma\), and we recover the OLS estimator
+\(\widehat{\boldsymbol{\beta}}\). The maximum likelihood estimator of
+the variance \(\widehat{\sigma}^2\) is thus \begin{align*}
+\widehat{\sigma}^2=\mathrm{arg max}_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*} The profile log likelihood for \(\sigma^2\), excluding
+constant terms that don't depend on \(\sigma^2\), is \begin{align*}
+\ell_{\mathrm{p}}(\sigma^2)
+&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*} Differentiating each term with respect to \(\sigma^2\) and
+setting the gradient equal to zero yields the maximum likelihood
+estimator \begin{align*}
+\widehat{\sigma}^2&=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})\\&= \frac{1}{n} \sum_{i=1}^n (y_i - \mathbf{x}_i\widehat{\boldsymbol{\beta}})^2\\&= \frac{\mathsf{SS}_e}{n};
+\end{align*} where \(\mathsf{SS}_e\) is the sum of squared residuals.
+The usual unbiased estimator of \(\sigma^2\) calculated by software is
+\(S^2=\mathsf{SS}_e/(n-p-1)\), where the denominator is the sample size
+\(n\) minus the number of mean parameters \(\boldsymbol{\beta}\),
+\(p+1\).
+
+\end{proposition}
+
+\begin{refremark}[Invariance]
+One direct consequence of likelihood estimation is that the fitted
+values \(\widehat{y}_i\) for two model matrices \(\mathbf{X}_a\) and
+\(\mathbf{X}_b\), are the same if they generate the same linear span, as
+in Example~\ref{exm-baumann-dummies}. The interpretation of the
+coefficients will however change. If we include an intercept term, then
+we get the same output if the columns of explanatory are mean-centered.
+
+\label{rem-invariance}
+
+\end{refremark}
+
+The value of \(\boldsymbol{\beta}\) is such that it will maximize the
+correlation between \(Y\) and \(\widehat{Y}\). In the case of a single
+categorical variable, we will obtain fitted values \(\widehat{y}\) that
+correspond to the sample mean of each group.
+
+\begin{refremark}[Geometry]
+The vector of fitted values
+\(\boldsymbol{y} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)
+is the projection of the response vector \(\boldsymbol{y}\) on the
+linear span generated by the columns of \(\mathbf{X}\). The matrix
+\(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\),
+often called hat matrix, is an orthogonal projection matrix, so
+\(\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top\) and
+\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}\)
+and \(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}\). Since the vector
+of residuals \(\boldsymbol{e} = (e_1, \ldots, e_n)^\top\), which appear
+in the sum of squared errors, is defined as
+\(\boldsymbol{y} - \widehat{\boldsymbol{y}}\) and
+\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}\), simple
+algebraic manipulations show that the inner product between ordinary
+residuals and fitted values is zero, since \begin{align*}
+\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
+\\&= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
+\\&= 0
+\end{align*} where we use the definition of \(\widehat{\boldsymbol{y}}\)
+and \(\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}\) on
+the first line, then substitute the OLS estimator
+\(\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y}\)
+and distribute terms. Similarly,
+\(\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_p\). The ordinary
+residuals are thus orthogonal to both the model matrix \(\mathbf{X}\)
+and to the fitted values.
+
+A direct consequence of this fact is that the sample linear correlation
+between \(\boldsymbol{e}\) and \(\widehat{\boldsymbol{y}}\) is zero; we
+will use this property to build graphical diagnostics. , and is also
+used to construct visual diagnostics of goodness-of-fit.
+
+Since the inner product is zero, the mean of \(\boldsymbol{e}\) must be
+zero provided that \(\mathbf{1}_n\) is in the linear span of
+\(\mathbf{X}\).
+
+\label{rem-geometry}
+
+\end{refremark}
+
+\begin{proposition}[Information matrix for normal linear regression
+models]\protect\hypertarget{prp-info-normal}{}\label{prp-info-normal}
+
+The entries of the observed information matrix of the normal linear
+model are \begin{align*}
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial \boldsymbol{\beta}\partial \boldsymbol{\beta}^\top} &= \frac{1}{\sigma^2} \frac{\partial \mathbf{X}^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}^\top} =  \frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2}\\
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial \boldsymbol{\beta}\partial \sigma^2} &=- \frac{\mathbf{X}^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\sigma^4}\\
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial (\sigma^2)^2} &= -\frac{n}{2\sigma^4} + \frac{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\sigma^6}.
+\end{align*} If we evaluate the observed information at the MLE, we get
+\begin{align*}
+j(\widehat{\boldsymbol{\beta}}, \widehat{\sigma^2}) = 
+\begin{pmatrix}
+\frac{\mathbf{X}^\top\mathbf{X}}{\widehat{\sigma^2}} & \boldsymbol{0}_p \\  \boldsymbol{0}_p^\top & \frac{n}{2\widehat{\sigma^4}}
+\end{pmatrix}
+\end{align*} since \(\widehat{\sigma}^2=\mathsf{SS}_e/n\) and the
+residuals are orthogonal to the model matrix. Since
+\(\mathsf{E}(Y \mid \mathbf{X})=\mathbf{X}\boldsymbol{\beta}\), the
+Fisher information is \begin{align*}
+i(\boldsymbol{\beta}, \sigma^2) = 
+\begin{pmatrix}
+\frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2} & \boldsymbol{0}_p \\  \boldsymbol{0}_p^\top & \frac{n}{2\sigma^4}
+\end{pmatrix}
+\end{align*} Since zero off-correlations in normal models amount to
+independence, the MLE for \(\sigma^2\) and \(\boldsymbol{\beta}\) are
+independent. Provided \(\mathbf{X}^\top\mathbf{X}\) is invertible, the
+large-sample variance of the ordinary least squares estimator is
+\(\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\) and that of the MLE of the
+variance is \(2\sigma^4/n\).
+
+\end{proposition}
+
+\subsection{Fitting linear models with
+software}\label{fitting-linear-models-with-software}
+
+Although we could build the model matrix ourselves and use the least
+square formula of Equation~\ref{eq-ols}, the numerical routines
+implemented in software are typically better behaved. The \texttt{lm}
+function in \textbf{R} fits \textbf{linear models}, as does \texttt{glm}
+with the default arguments. Objects of class \texttt{lm} have multiple
+methods allow you to extract specific objects from \texttt{lm} objects.
+For example, the functions \texttt{coef}, \texttt{resid},
+\texttt{fitted}, \texttt{model.matrix} will return the coefficients
+\(\widehat{\boldsymbol{\beta}}\), the ordinary residuals
+\(\boldsymbol{e}\), the fitted values \(\widehat{\boldsymbol{y}}\) and
+the model matrix \(\mathbf{X}\), respectively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(college, }\AttributeTok{package =} \StringTok{"hecstatmod"}\NormalTok{) }\CommentTok{\#load data}
+\FunctionTok{str}\NormalTok{(college) }\CommentTok{\# Check that categorical variables are factors}
+\CommentTok{\# Fit the linear regression}
+\NormalTok{linmod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(salary }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ rank }\SpecialCharTok{+}\NormalTok{ service }\SpecialCharTok{+}\NormalTok{ field, }
+             \AttributeTok{data =}\NormalTok{ college)}
+\NormalTok{beta\_hat }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(linmod) }\CommentTok{\# beta coefficients}
+\NormalTok{vcov\_beta }\OtherTok{\textless{}{-}} \FunctionTok{vcov}\NormalTok{(linmod) }\CommentTok{\# Covariance matrix of betas}
+\FunctionTok{summary}\NormalTok{(linmod) }\CommentTok{\# summary table}
+\NormalTok{beta\_ci }\OtherTok{\textless{}{-}} \FunctionTok{confint}\NormalTok{(linmod) }\CommentTok{\# Wald confidence intervals for betas}
+\NormalTok{yhat }\OtherTok{\textless{}{-}} \FunctionTok{fitted}\NormalTok{(linmod) }\CommentTok{\# fitted values}
+\NormalTok{e }\OtherTok{\textless{}{-}} \FunctionTok{resid}\NormalTok{(linmod) }\CommentTok{\# ordinary residuals}
+
+\CommentTok{\# Check OLS formula}
+\NormalTok{X }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(linmod) }\CommentTok{\# model matrix}
+\NormalTok{y }\OtherTok{\textless{}{-}}\NormalTok{ college}\SpecialCharTok{$}\NormalTok{salary}
+\FunctionTok{isTRUE}\NormalTok{(}\FunctionTok{all.equal}\NormalTok{(}
+  \FunctionTok{c}\NormalTok{(}\FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ y),}
+  \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{coef}\NormalTok{(linmod))}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{summary} method is arguably the most useful: it will print
+mean parameter estimates along with standard errors, \(t\) values for
+the Wald test of the hypothesis \(\mathscr{H}_0: \beta_i=0\) and the
+associated \(P\)-values. Other statistics and information about the
+sample size, the degrees of freedom, etc., are given at the bottom of
+the table. Note that the \texttt{lm} function uses the unbiased
+estimator of the variance \(\sigma^2\).
+
+\begin{refremark}[Linearity]
+The model is linear in the coefficients \(\beta\), so the quadratic
+curve \(\beta_0 + \beta_1x + \beta_2 x^2\) is a linear model because it
+is a sum of coefficients times functions of explanatories. By contrast,
+the model \(\beta_0 + \beta_1x^{\beta_2}\) is nonlinear in
+\(\boldsymbol{\beta}\).
+
+It is sometimes possible to linearize a model: consider for example the
+Cobb--Douglas production function (\citeproc{ref-Douglas:1976}{Douglas
+1976}), which specifies that economic output \(Y\) is related to labour
+\(L\) and capital \(C\) via
+\(\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}\) with
+\(\beta \in (0,1)\). If we take logarithms on both sides (since all
+arguments are positive), then
+\(\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L\).
+We could fit a linear model with response \(\ln Y - \ln L\) and
+explanatory variable \(\ln C - \ln L\), to obtain an estimate of the
+coefficient \(\beta_1\), while \(\beta_0^*=\ln \beta_0\). A constrained
+optimization would be potentially necessary to estimate the model
+parameters of the resulting linear model if the estimates lie outside of
+the parameter space.
+
+\label{rem-linearity}
+
+\end{refremark}
+
+\section{Coefficient of determination}\label{coefR2}
+
+When we specify a model, the error term \(\boldsymbol{\varepsilon}\)
+accounts for the fact no perfect linear relationship characterizes the
+data (if it did, we wouldn't need statistic to begin with). Once we have
+fitted a model, we estimate the variance \(\sigma^2\); one may then
+wonder which share of the total variance in the sample is explained by
+the model.
+
+The total sum of squares, defined as the sum of squared residuals from
+the intercept-only model, serves as comparison --- the simplest model we
+could come up with would involving every observation by the sample mean
+of the response and so this gives (up to scale) the variance of the
+response, \(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). We
+can then compare the variance of the original data with that of the
+residuals from the model with covariate matrix \(\mathbf{X}\), defined
+as \(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\) with
+\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_j\mathrm{X}_j\).
+We define the coefficient of determination, or squared multiple
+correlation coefficient of the model, \(R^2\), as \begin{align*}
+R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*} An alternative decomposition shows that
+\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\),
+i.e., the coefficient of determination can be interpreted as the square
+of \href{moments}{Pearson's linear correlation} between the response
+\(\boldsymbol{y}\) and the fitted values \(\widehat{\boldsymbol{y}}\).
+
+Its important to note that \(R^2\) is not a goodness-of-fit criterion,
+like the log likelihood: some phenomena are inherently noisy and even a
+good model will fail to account for much of the response's variability.
+Moreover, one can inflate the value of \(R^2\) by including more
+explanatory variables and making the model more complex, thereby
+improving the likelihood and \(R^2\). Indeed, the coefficient is
+non-decreasing in the dimension of \(\mathbf{X}\), so a model with
+\(p+1\) covariate will necessarily have a higher \(R^2\) values than
+only \(p\) of the explanatories. For model comparisons, it is better to
+employ information criteria or else rely on the predictive performance
+if this is the purpose of the regression. Lastly, a model with a high
+\(R^2\) may imply high correlation, but
+\href{http://www.tylervigen.com/spurious-correlations}{the relation may
+be spurious}: linear regression does not yield causal models!
+
+\begin{proposition}[Log linear
+models]\protect\hypertarget{prp-linearity}{}\label{prp-linearity}
+
+~
+
+\end{proposition}
+
+\section{Concluding remarks}\label{concluding-remarks}
+
+Linear regression is the most famous and the most widely used
+statistical model around. The name may appear reductive, but many tests
+statistics (\emph{t}-tests, ANOVA, Wilcoxon, Kruskal--Wallis)
+\href{https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf}{can
+be formulated using a linear regression}, while
+\href{https://threadreaderapp.com/thread/1286420597505892352.html}{models
+as diverse as trees, principal components and deep neural networks are
+just linear regression model in disguise}. What changes under the hood
+between one fancy model to the next are the optimization method (e.g.,
+ordinary least squares, constrained optimization or stochastic gradient
+descent) and the choice of explanatory variables entering the model
+(spline basis for nonparametric regression, indicator variable selected
+via a greedy search for trees, activation functions for neural
+networks).
+
+\bookmarksetup{startatroot}
+
 \chapter*{Bibliography}\label{bibliography}
 \addcontentsline{toc}{chapter}{Bibliography}
 
@@ -3882,6 +4820,13 @@ Jacobian of the transformation.
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-Baumann:1992}
+Baumann, James F., Nancy Seifert-Kessell, and Leah A. Jones. 1992.
+{``Effect of Think-Aloud Instruction on Elementary Students'
+Comprehension Monitoring Abilities.''} \emph{Journal of Reading
+Behavior} 24 (2): 143--72.
+\url{https://doi.org/10.1080/10862969209547770}.
+
 \bibitem[\citeproctext]{ref-Brodeur:2021}
 Brodeur, Mathieu, Perrine Ruer, Pierre-Majorique Léger, and Sylvain
 Sénécal. 2021. {``Smartwatches Are More Distracting Than Mobile Phones
@@ -3897,6 +4842,12 @@ Curbs Creative Idea Generation.''} \emph{Nature} 605 (7908): 108--12.
 \bibitem[\citeproctext]{ref-Davison:2003}
 Davison, A. C. 2003. \emph{Statistical Models}. Cambridge University
 Press.
+
+\bibitem[\citeproctext]{ref-Douglas:1976}
+Douglas, Paul H. 1976. {``The {Cobb--Douglas} Production Function Once
+Again: Its History, Its Testing, and Some New Empirical Values.''}
+\emph{Journal of Political Economy} 84 (5): 903--15.
+\url{http://www.jstor.org/stable/1830435}.
 
 \bibitem[\citeproctext]{ref-Duke.Amir:2023}
 Duke, Kristen E., and On Amir. 2023. {``The Importance of Selling
@@ -3936,6 +4887,11 @@ Sokolova, Tatiana, Aradhna Krishna, and Tim Döring. 2023. {``Paper Meets
 Plastic: The Perceived Environmental Friendliness of Product
 Packaging.''} \emph{Journal of Consumer Research} 50 (3): 468--91.
 \url{https://doi.org/10.1093/jcr/ucad008}.
+
+\bibitem[\citeproctext]{ref-Venables:2000}
+Venables, William N. 2000. {``Exegeses on Linear Models.''} In
+\emph{S-PLUS User's Conference}. Washington, D.C.
+\url{https://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf}.
 
 \end{CSLReferences}
 
