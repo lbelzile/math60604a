@@ -21,7 +21,7 @@ where $\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})$ is a $(p+1)$ row vector conta
 The regression coefficients $\boldsymbol{\beta}$ is the same for all observations, but the vector of explanatories $\mathbf{x}_i$ may change from one observation to the next. The model is **linear** in the coefficients $\beta_0, \ldots, \beta_p$.
 
 
-For notational simplicity, we aggregate observations into an $n$-vector $\boldsymbol{Y}$ and the explanatories into an $n \times (p+1)$ matrix $\mathbf{X}$ by concatenating a column of ones and the $p$ column vectors $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, each containing the $n$ observations of the respective explanatories. The matrix $\mathbf{X}$ is termed **model matrix** (or sometimes design matrix in experimental settings), and it's $i$th row is $\mathbf{x}_i$.
+To simplify the notation, we aggregate observations into an $n$-vector $\boldsymbol{Y}$ and the explanatories into an $n \times (p+1)$ matrix $\mathbf{X}$ by concatenating a column of ones and the $p$ column vectors $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, each containing the $n$ observations of the respective explanatories. The matrix $\mathbf{X}$ is termed **model matrix** (or sometimes design matrix in experimental settings), and it's $i$th row is $\mathbf{x}_i$.
 
 
 We suppose, in addition to the mean specification, that the response variables are independent and identically distributed, drawn from a mean-zero distribution with constant variance $\sigma^2$. Assuming that the distribution are drawn from a location family, we may rewrite the linear model in terms of the mean plus an error term,
@@ -52,11 +52,12 @@ data(LC19_S1, package = "hecedsm")
 # The first argument is a formula of the form y ~ x1 + x2
 # where y is the response and x's are explanatories, 
 # separated by a plus (+) sign
-mod <- lm(prodeval ~ familiarity + consistency,
-          data = LC19_S1)
+modmat <- model.matrix(
+     ~ familiarity + consistency,
+     data = LC19_S1)
 # Extract the model matrix
-tail(model.matrix(mod), n = 5L) # first five lines
-dim(model.matrix(mod)) # dimension of the model matrix
+tail(modmat, n = 5L) # first five lines
+dim(modmat) # dimension of the model matrix
 ```
 
 :::
@@ -111,7 +112,7 @@ knitr::kable(table(college$sex, college$rank),
              booktabs = TRUE)
 ```
 
-Some of the potential explanatory variables of the `college` data are categorical (`rank`, `sex`, `field`), the latter two being binary. The other three variables, `years` and `service`, are continuous and probably strongly correlated.
+Some of the potential explanatory variables of the `college` data are categorical (`rank`, `sex`, `field`), the latter two being binary. The other two continuous variables, `years` and `service`, are strongly correlated with a correlation of `r with(hecstatmod::college, cor(years, service))`.
 
 
 :::
@@ -196,7 +197,7 @@ If the relationship between explanatory $X$ and response $Y$, as assessed from a
 
 :::{#exm-auto}
 
-## Quadratic curve fo the automobile data
+## Quadratic curve for the automobile data
 
 We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the `auto` dataset. The postulated model,
 \begin{align*}
@@ -336,12 +337,12 @@ Dummies are variables (columns of explanatories from the model matrix) which onl
 
 @Moon.VanEpps:2023 consider the impact of providing suggested amounts for donations to a charity (as opposed to an open-ended request). In Study 1, participants were given the chance of winning 25$ and giving part of this amount to charity.
 
-Consider for example a linear model that includes the `amount` (in dollars, from 0 for people who did not donate, up to 25 dollars). We fit a model as a function of 
+Consider for example a linear model that includes the `amount` (in dollars, from 0 for people who did not donate, up to 25 dollars) as a function of
 \begin{align*}\texttt{condition} = \begin{cases} 0 , & \text{open-ended},\\
 1, & \text{suggested quantity}
 \end{cases}
 \end{align*}
-The equation of the simple linear model that includes the binary variable `condition` is 
+The equation of the simple linear model that includes the binary variable `condition` is
 \begin{align*}
 \mathsf{E}(\texttt{amount} \mid \texttt{condition})&= \beta_0 + \beta_1 \mathbf{1}_{\texttt{condition}=\texttt{quantity}}.
 \\&= \begin{cases}
@@ -349,10 +350,7 @@ The equation of the simple linear model that includes the binary variable `condi
 \beta_0 + \beta_1 & \texttt{condition}=1.
 \end{cases}
 \end{align*}
-Let $\mu_0$ denote the theoretical average amount for the open-ended amount and $\mu_1$ that of participants of the treatment `quantity` group. We can write the equation for the conditional expectation for each experimental `condition`
-
-
-A linear model that only contains a binary variable $X$ as regressor amounts to specifying a different mean for each of two groups: the average of the treatment group is $\beta_0 + \beta_1 = \mu_1$ and $\beta_1=\mu_1-\mu_0$ represents the difference between the average donation amount of people given `open-ended` amounts and those who are offered suggested amounts (`quantity`), including zeros for the amount of people who did not donate. The parametrization of the linear model with $\beta_0$ and $\beta_1$ is in terms of pairwise differences relative to the baseline category and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing $\mathscr{H}_0: \beta_1=0$. 
+Let $\mu_0$ denote the theoretical average amount for the open-ended amount and $\mu_1$ that of participants of the treatment `quantity` group. A linear model that only contains a binary variable $X$ as regressor amounts to specifying a different mean for each of two groups: the average of the treatment group is $\beta_0 + \beta_1 = \mu_1$ and $\beta_1=\mu_1-\mu_0$ represents the difference between the average donation amount of people given `open-ended` amounts and those who are offered suggested amounts (`quantity`), including zeros for the amount of people who did not donate. The parametrization of the linear model with $\beta_0$ and $\beta_1$ is in terms of pairwise differences relative to the baseline category and is particularly useful if we want to test for mean difference between the groups, as this amounts to testing $\mathscr{H}_0: \beta_1=0$.
 
 ```{r}
 #| label: fig-donation-moon
@@ -366,14 +364,14 @@ MV23_S1 <- MV23_S1 |>
   dplyr::mutate(amount2 = ifelse(is.na(amount), 0, amount),
                 condbin = ifelse(condition == "quantity",1,0))
 coefs <- coef(lm(data = MV23_S1, amount2 ~ condbin))
-ggplot(data = MV23_S1, 
+ggplot(data = MV23_S1,
    aes(x = condbin, y = amount2, group = condition)) +
   see::geom_violindot(aes(col = condition), position_dots = position_jitter(width = 0.05)) +
   geom_abline(intercept = coefs[1], slope = coefs[2]) +
    scale_x_continuous(breaks = 0:1,
                      limits = c(-0.1,1.5),
                      labels = 0:1) +
-  theme(legend.position = "inside", 
+  theme(legend.position = "inside",
         legend.position.inside = c(.95, .95),
         legend.justification = c("right", "top")) +
   labs(x = "condition", y = "amount (in dollars)") +
@@ -383,7 +381,7 @@ ggplot(data = MV23_S1,
 
 Even if the linear model defines a line, the latter is only meaningful when evaluated at $0$ or $1$; @fig-donation-moon shows it in addition to sample observations (jittered horizontally) and a density estimate for each condition. The colored dot represents the mean, which will coincide with the estimates.
 
-It is clear that the data are heavily discretized, with lots of ties and zeros. However, given the sample size of `r nrow(MV23_S1)` observations, we can easily draw conclusions in each group. 
+It is clear that the data are heavily discretized, with lots of ties and zeros. However, given the sample size of `r nrow(MV23_S1)` observations, we can easily draw conclusions in each group.
 :::
 
 Let us consider categorical variables with $K > 2$ levels, which in **R** are of class `factor`. The default parametrization for factors are in terms of treatment contrast: the reference level of the factor (by default, the first value in alphanumerical order) will be treated as the reference category and assimilated to the intercept. The software will then create a set of $K-1$ dummy variables for a factor with $K$ levels, each of which will have ones for the relevant value and zero otherwise.
@@ -466,6 +464,8 @@ If we removed the intercept, then we could include three dummies for each treatm
 :::
 
 :::{#exm-interpretation1}
+
+## Parameter interpretation for analysis of covariance
 
 We consider a pre-post model for the  error detection task
 test of @Baumann:1992. We fit a linear model with the pre-test score and the experimental condition.
@@ -660,7 +660,7 @@ The value of $\boldsymbol{\beta}$ is such that it will maximize the correlation 
 
 ## Geometry
 
-The vector of fitted values $\boldsymbol{y} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}$ is the projection of the response vector $\boldsymbol{y}$ on the linear span generated by the columns of $\mathbf{X}$. The matrix $\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$, often called hat matrix, is an orthogonal projection matrix, so $\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top$ and $\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}$ and $\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}$. Since the vector of residuals $\boldsymbol{e} = (e_1, \ldots, e_n)^\top$, which appear in the sum of squared errors, is defined as $\boldsymbol{y} - \widehat{\boldsymbol{y}}$ and $\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}$, simple algebraic manipulations show that the inner product between ordinary residuals and fitted values is zero, since
+The vector of fitted values $\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}$ is the projection of the response vector $\boldsymbol{y}$ on the linear span generated by the columns of $\mathbf{X}$. The matrix $\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$, often called hat matrix, is an orthogonal projection matrix, so $\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top$ and $\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}$ and $\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}$. Since the vector of residuals $\boldsymbol{e} = (e_1, \ldots, e_n)^\top$, which appear in the sum of squared errors, is defined as $\boldsymbol{y} - \widehat{\boldsymbol{y}}$ and $\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}$, simple algebraic manipulations show that the inner product between ordinary residuals and fitted values is zero, since
 \begin{align*}
 \widehat{\boldsymbol{y}}^\top\boldsymbol{e} &= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
 \\&= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}

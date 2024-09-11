@@ -335,10 +335,10 @@
 \usepackage{amsthm}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[chapter]
-\theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -1555,7 +1555,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, titlerule=0mm, rightrule=.15mm, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, colback=white, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, left=2mm, rightrule=.15mm, leftrule=.75mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, breakable, coltitle=black, opacityback=0, toprule=.15mm, colback=white, arc=.35mm, bottomtitle=1mm, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, bottomrule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -2203,7 +2203,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-caution-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, left=2mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, opacitybacktitle=0.6, titlerule=0mm, rightrule=.15mm, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, colback=white, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, left=2mm, rightrule=.15mm, leftrule=.75mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacitybacktitle=0.6, breakable, coltitle=black, opacityback=0, toprule=.15mm, colback=white, arc=.35mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, bottomrule=.15mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2748,7 +2748,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, titlerule=0mm, rightrule=.15mm, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, colback=white, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, left=2mm, rightrule=.15mm, leftrule=.75mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, breakable, coltitle=black, opacityback=0, toprule=.15mm, colback=white, arc=.35mm, bottomtitle=1mm, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, bottomrule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -3815,14 +3815,13 @@ of explanatories \(\mathbf{x}_i\) may change from one observation to the
 next. The model is \textbf{linear} in the coefficients
 \(\beta_0, \ldots, \beta_p\).
 
-For notational simplicity, we aggregate observations into an
-\(n\)-vector \(\boldsymbol{Y}\) and the explanatories into an
-\(n \times (p+1)\) matrix \(\mathbf{X}\) by concatenating a column of
-ones and the \(p\) column vectors
-\(\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p\), each containing the
-\(n\) observations of the respective explanatories. The matrix
-\(\mathbf{X}\) is termed \textbf{model matrix} (or sometimes design
-matrix in experimental settings), and it's \(i\)th row is
+To simplify the notation, we aggregate observations into an \(n\)-vector
+\(\boldsymbol{Y}\) and the explanatories into an \(n \times (p+1)\)
+matrix \(\mathbf{X}\) by concatenating a column of ones and the \(p\)
+column vectors \(\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p\), each
+containing the \(n\) observations of the respective explanatories. The
+matrix \(\mathbf{X}\) is termed \textbf{model matrix} (or sometimes
+design matrix in experimental settings), and it's \(i\)th row is
 \(\mathbf{x}_i\).
 
 We suppose, in addition to the mean specification, that the response
@@ -3883,17 +3882,18 @@ values ranging between 2.33 and 9.
 \CommentTok{\# The first argument is a formula of the form y \textasciitilde{} x1 + x2}
 \CommentTok{\# where y is the response and x\textquotesingle{}s are explanatories, }
 \CommentTok{\# separated by a plus (+) sign}
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(prodeval }\SpecialCharTok{\textasciitilde{}}\NormalTok{ familiarity }\SpecialCharTok{+}\NormalTok{ consistency,}
-          \AttributeTok{data =}\NormalTok{ LC19\_S1)}
+\NormalTok{modmat }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(}
+     \SpecialCharTok{\textasciitilde{}}\NormalTok{ familiarity }\SpecialCharTok{+}\NormalTok{ consistency,}
+     \AttributeTok{data =}\NormalTok{ LC19\_S1)}
 \CommentTok{\# Extract the model matrix}
-\FunctionTok{tail}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(mod), }\AttributeTok{n =} \DecValTok{5}\NormalTok{L) }\CommentTok{\# first five lines}
+\FunctionTok{tail}\NormalTok{(modmat, }\AttributeTok{n =} \DecValTok{5}\NormalTok{L) }\CommentTok{\# first five lines}
 \CommentTok{\#\textgreater{}    (Intercept) familiarity consistencyinconsistent}
 \CommentTok{\#\textgreater{} 92           1           6                       1}
 \CommentTok{\#\textgreater{} 93           1           4                       1}
 \CommentTok{\#\textgreater{} 94           1           7                       1}
 \CommentTok{\#\textgreater{} 95           1           7                       1}
 \CommentTok{\#\textgreater{} 96           1           7                       1}
-\FunctionTok{dim}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(mod)) }\CommentTok{\# dimension of the model matrix}
+\FunctionTok{dim}\NormalTok{(modmat) }\CommentTok{\# dimension of the model matrix}
 \CommentTok{\#\textgreater{} [1] 96  3}
 \end{Highlighting}
 \end{Shaded}
@@ -3975,8 +3975,9 @@ woman & 11 & 10 & 18 \\
 
 Some of the potential explanatory variables of the \texttt{college} data
 are categorical (\texttt{rank}, \texttt{sex}, \texttt{field}), the
-latter two being binary. The other three variables, \texttt{years} and
-\texttt{service}, are continuous and probably strongly correlated.
+latter two being binary. The other two continuous variables,
+\texttt{years} and \texttt{service}, are strongly correlated with a
+correlation of 0.91.
 
 \end{example}
 
@@ -4119,7 +4120,7 @@ assessed from a scatterplot, is not linear, we may consider more
 complicated function of the explanatories, as Example~\ref{exm-auto}
 shows.
 
-\begin{example}[Quadratic curve fo the automobile
+\begin{example}[Quadratic curve for the automobile
 data]\protect\hypertarget{exm-auto}{}\label{exm-auto}
 
 We consider a linear regression model for the fuel autonomy of cars as a
@@ -4231,8 +4232,8 @@ opposed to an open-ended request). In Study 1, participants were given
 the chance of winning 25\$ and giving part of this amount to charity.
 
 Consider for example a linear model that includes the \texttt{amount}
-(in dollars, from 0 for people who did not donate, up to 25 dollars). We
-fit a model as a function of
+(in dollars, from 0 for people who did not donate, up to 25 dollars) as
+a function of
 \begin{align*}\texttt{condition} = \begin{cases} 0 , & \text{open-ended},\\
 1, & \text{suggested quantity}
 \end{cases}
@@ -4245,20 +4246,18 @@ binary variable \texttt{condition} is \begin{align*}
 \end{cases}
 \end{align*} Let \(\mu_0\) denote the theoretical average amount for the
 open-ended amount and \(\mu_1\) that of participants of the treatment
-\texttt{quantity} group. We can write the equation for the conditional
-expectation for each experimental \texttt{condition}
-
-A linear model that only contains a binary variable \(X\) as regressor
-amounts to specifying a different mean for each of two groups: the
-average of the treatment group is \(\beta_0 + \beta_1 = \mu_1\) and
-\(\beta_1=\mu_1-\mu_0\) represents the difference between the average
-donation amount of people given \texttt{open-ended} amounts and those
-who are offered suggested amounts (\texttt{quantity}), including zeros
-for the amount of people who did not donate. The parametrization of the
-linear model with \(\beta_0\) and \(\beta_1\) is in terms of pairwise
-differences relative to the baseline category and is particularly useful
-if we want to test for mean difference between the groups, as this
-amounts to testing \(\mathscr{H}_0: \beta_1=0\).
+\texttt{quantity} group. A linear model that only contains a binary
+variable \(X\) as regressor amounts to specifying a different mean for
+each of two groups: the average of the treatment group is
+\(\beta_0 + \beta_1 = \mu_1\) and \(\beta_1=\mu_1-\mu_0\) represents the
+difference between the average donation amount of people given
+\texttt{open-ended} amounts and those who are offered suggested amounts
+(\texttt{quantity}), including zeros for the amount of people who did
+not donate. The parametrization of the linear model with \(\beta_0\) and
+\(\beta_1\) is in terms of pairwise differences relative to the baseline
+category and is particularly useful if we want to test for mean
+difference between the groups, as this amounts to testing
+\(\mathscr{H}_0: \beta_1=0\).
 
 \begin{figure}[ht!]
 
@@ -4435,7 +4434,8 @@ without the intercept differently and some output will be nonsensical
 
 \end{refremark}
 
-\begin{example}[]\protect\hypertarget{exm-interpretation1}{}\label{exm-interpretation1}
+\begin{example}[Parameter interpretation for analysis of
+covariance]\protect\hypertarget{exm-interpretation1}{}\label{exm-interpretation1}
 
 We consider a pre-post model for the error detection task test of
 Baumann, Seifert-Kessell, and Jones (\citeproc{ref-Baumann:1992}{1992}).
@@ -4711,7 +4711,7 @@ correspond to the sample mean of each group.
 
 \begin{refremark}[Geometry]
 The vector of fitted values
-\(\boldsymbol{y} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)
+\(\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)
 is the projection of the response vector \(\boldsymbol{y}\) on the
 linear span generated by the columns of \(\mathbf{X}\). The matrix
 \(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\),
