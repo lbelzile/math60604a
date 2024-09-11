@@ -858,37 +858,6 @@ g1 + g2
 
 The maximum profile likelihood estimator behaves like a regular likelihood for most quantities of interest and we can derive test statistics and confidence intervals in the usual way. One famous example of profile likelihood is the Cox proportional hazard covered in [Chapter 7](#survival).
 
-:::{#exm-boxcox}
-
-## Box--Cox transformation
-
-Sometimes, the assumption of normality of the error in a linear regression does not hold. If the data are strictly positive, one can consider a Box--Cox transformation,
-\begin{align*}
-y(\lambda)= \begin{cases}
-(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
-\ln(y), & \lambda=0.
-\end{cases}
-\end{align*}
-
-If we assume that $\boldsymbol{Y}(\lambda) \sim \mathsf{normal}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)$, then the likelihood is
-\begin{align*}
-L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
-\end{align*}
-where $J$ denotes the Jacobian of the Box--Cox transformation, $J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}$.
-For each given value of $\lambda$, the maximum likelihood estimator is that of the usual regression model, with $\boldsymbol{y}$ replaced by $\boldsymbol{y}(\lambda)$, namely $\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)$ and $\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}$.
-
-The profile log likelihood is
-\begin{align*}
-\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
-\end{align*}
-The maximum profile likelihood estimator is the value $\lambda$ minimizes the sum of squared residuals from the linear model with $\boldsymbol{y}(\lambda)$ as response.
-
-The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data. For example, the Cobb--Douglas production function used in economics can be linearized by taking a log-transformation. Rather than an *ad hoc* choice of transformation, one could choose a log transformation if the value $0$ is included within the 95% confidence interval since this improves interpretability.
-
-:::
-
-
-
 ## Information criteria
 
 The likelihood can also serve as building block for model comparison: the larger $\ell(\boldsymbol{\widehat{\theta}})$, the better the fit. However, the likelihood doesn't account for model complexity in the sense that more complex models with more parameters lead to higher likelihood. This is not a problem for comparison of nested models using the likelihood ratio test because we look only at relative improvement in fit. There is a danger of **overfitting** if we only consider the likelihood of a model.

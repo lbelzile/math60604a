@@ -1252,6 +1252,35 @@ Based on the plots of Figure \@ref(fig:diagplotscollege), we find that there is 
 ## Transformation of the response {#transformation-response}
 
 
+
+:::{#exm-additivity-transfo}
+
+## Additivity and transformations
+
+Chapter 2 of @Cox:1958 discusses the assumption of additivity and provides useful examples showing when it cannot be taken for granted. One of them, Example 2.3, is a scenario in which the experimental units are participants and they are asked to provide a ranking of different kindergarten students on their capacity to interact with others in games, ranked on a scale of 0 to 100. A random group of students receives additional orthopedagogical support, while the balance is in the business-as-usual setting (control group). Since there are intrinsic differences at the student level, one could consider a **paired experiment** and take as outcome the difference in sociability scores at the beginning and at the end of the school year.
+
+One can expect the treatment to have more impact on people with low sociability skills who were struggling to make contacts: a student who scored 50 initially might see an improvement of 20 points with support relative to 10 in the business-as-usual scenario, whereas another who is well integrated and scored high initially may see an improvement of only 5 more had (s)he been assigned to the support group. This implies that the treatment effects are not constant over the scale, a violation of the additivity assumption. One way to deal with this is via transformations: @Cox:1958 discusses the transformation $\log\{(x+0.5)/(100.5-x)\}$ to reduce the warping due to scale.
+
+:::
+
+Another example is in settings where the effect of explanatories is multiplicative, so that the output is of the form
+\begin{align*}
+\begin{pmatrix} \text{quantity depending only } \\
+\text{on the particular unit}
+\end{pmatrix} \times
+\begin{pmatrix} \text{quantity depending} \\
+ \text{on the explanatories used}\end{pmatrix}
+\end{align*}
+Usually, this arises for positive responses and treatments, in which case taking natural logarithms on both sides, with $\log(xy) = \log x + \log y$ yielding again an additive decomposition.
+
+:::{#exm-additivity-context}
+
+## Multiplicative model
+
+This example is adapted from @Cox:1958, Example 2.2. Children suffering from attention deficit hyperactivity disorder (ADHD) may receive medication to increase their attention span, measured on a scale of 0 to 100, with 0 indicating normal attention span. An experiment can be designed to assess the impact of a standardized dose in a laboratory by comparing performances of students on a series of task before and after, when to a placebo. To make a case, suppose that students with ADHD fall into two categories: low symptoms and strong symptoms. In the low symptom group, the average attention is 8 per cent with the drug and 12 per cent with the placebo, whereas for people with strong symptoms, the average is 40 per cent among treated and 60 per cent with the placebo. If these two categories are equally represented in the experiment and the population, we would estimate an average reduction of 12 percent in the score (thus higher attention span among treated). Yet, this quantity is artificial, and a better measure would be that symptoms are for the treatment are 2/3 of those of the control (the ratio of proportions).
+
+:::
+
 This ultimate section deals with strategies for fixing the linear model if we detected non-normality. If the response is strictly positive, an option is to use the Box--Cox transformation presented in Section \@ref(exm:boxcox) and fit a linear model to a transformation of $Y$,
 \begin{align*}
 y_i(\lambda)= \begin{cases}

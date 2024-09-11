@@ -750,21 +750,6 @@ Figure&nbsp;3.4: Signed likelihood root (left) and shifted profile log likelihoo
 </div>
 </div>
 <p>The maximum profile likelihood estimator behaves like a regular likelihood for most quantities of interest and we can derive test statistics and confidence intervals in the usual way. One famous example of profile likelihood is the Cox proportional hazard covered in <a href="#survival">Chapter 7</a>.</p>
-<div id="exm-boxcox" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.13 (Box–Cox transformation)</strong></span> Sometimes, the assumption of normality of the error in a linear regression does not hold. If the data are strictly positive, one can consider a Box–Cox transformation, <span class="math display">\[\begin{align*}
-y(\lambda)= \begin{cases}
-(y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
-\ln(y), &amp; \lambda=0.
-\end{cases}
-\end{align*}\]</span></p>
-<p>If we assume that <span class="math inline">\(\boldsymbol{Y}(\lambda) \sim \mathsf{normal}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\)</span>, then the likelihood is <span class="math display">\[\begin{align*}
-L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &amp;= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\&amp; \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
-\end{align*}\]</span> where <span class="math inline">\(J\)</span> denotes the Jacobian of the Box–Cox transformation, <span class="math inline">\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\)</span>. For each given value of <span class="math inline">\(\lambda\)</span>, the maximum likelihood estimator is that of the usual regression model, with <span class="math inline">\(\boldsymbol{y}\)</span> replaced by <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span>, namely <span class="math inline">\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)</span> and <span class="math inline">\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\)</span>.</p>
-<p>The profile log likelihood is <span class="math display">\[\begin{align*}
-\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
-\end{align*}\]</span> The maximum profile likelihood estimator is the value <span class="math inline">\(\lambda\)</span> minimizes the sum of squared residuals from the linear model with <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span> as response.</p>
-<p>The Box–Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data. For example, the Cobb–Douglas production function used in economics can be linearized by taking a log-transformation. Rather than an <em>ad hoc</em> choice of transformation, one could choose a log transformation if the value <span class="math inline">\(0\)</span> is included within the 95% confidence interval since this improves interpretability.</p>
-</div>
 </section>
 <section id="information-criteria" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="information-criteria"><span class="header-section-number">3.5</span> Information criteria</h2>
