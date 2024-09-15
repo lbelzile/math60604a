@@ -13,7 +13,7 @@
 
 ## Introduction
 
-The linear regression model, or linear model, is one of the most versatile workhorse for statistical inference. Linear regression is used primarily to evaluate the effects of explanatory variables (oftentimes treatment in an experimental setting) on the mean response of a continuous response, or for prediction. It combines a formulation for the mean of a **response variable** $Y_i$ of a random sample of size $n$ as a **linear function** of observed **explanatories** (also called predictors or covariates) $X_1, \ldots, X_p$,
+The linear regression model, or linear model, is one of the most versatile workhorse for statistical inference. Linear regression is used primarily to evaluate the effects of explanatory variables (oftentimes treatment in an experimental setting) on the mean response of a continuous response, or for prediction. The linear regression specifies the mean of a **response variable** $Y$ of a random sample of size $n$ as a **linear function** of observed **explanatories** (also called predictors or covariates) $X_1, \ldots, X_p$,
 \begin{align}
 \underset{\text{conditional mean}}{\mathsf{E}(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)}=\mu_i=\underset{\text{linear combination of explanatories}}{\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}}\equiv \mathbf{x}_i\boldsymbol{\beta}.
 \end{align}
@@ -24,7 +24,7 @@ The regression coefficients $\boldsymbol{\beta}$ is the same for all observation
 To simplify the notation, we aggregate observations into an $n$-vector $\boldsymbol{Y}$ and the explanatories into an $n \times (p+1)$ matrix $\mathbf{X}$ by concatenating a column of ones and the $p$ column vectors $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, each containing the $n$ observations of the respective explanatories. The matrix $\mathbf{X}$ is termed **model matrix** (or sometimes design matrix in experimental settings), and it's $i$th row is $\mathbf{x}_i$.
 
 
-We suppose, in addition to the mean specification, that the response variables are independent and identically distributed, drawn from a mean-zero distribution with constant variance $\sigma^2$. Assuming that the distribution are drawn from a location family, we may rewrite the linear model in terms of the mean plus an error term,
+ Assuming that the distribution of the response is drawn from a location family, we may rewrite the linear model in terms of the mean plus an error term,
 \begin{align*}
 \underset{\text{observation}\vphantom{\mu_i}}{Y_i} = \underset{\text{mean } \mu_i}{\vphantom{Y_i}\mathbf{x}_i\boldsymbol{\beta}} + \underset{\text{error term}\vphantom{\mu_i}}{\vphantom{Y_i}\varepsilon_i}.
 \end{align*}
@@ -42,21 +42,16 @@ We present some motivating examples that are discussed in the sequel.
 
 # Consistency of product description
 
-Study 1 of @Lee.Choi:2019  considered descriptors and the impact on the perception of a product on the discrepancy between the text description and the image. In their first experience, a set of six toothbrushes is sold, but the image shows either a pack of six, or a single one). The authors also measured the prior familiarity with the brand of the item. Participants were recruited using an online panel, and the data in `LC19_S1` includes the results of the $n=96$ participants who passed the attention check (one additional participant response was outlying and removed). We could fit a linear model for the average product evaluation score, `prodeval`, as a function of the familiarity of the brand `familiarity`, an integer ranging from 1 to 7, and a dummy variable for the experimental factor `consistency`, coded `0` for consistent image/text descriptions and `1` if inconsistent. The resulting model matrix is then $96 \times 3$. The `prodeval` response is heavily discretized, with only 19 unique values ranging between 2.33 and 9.
+Study 1 of @Lee.Choi:2019  considered descriptors and the impact on the perception of a product on the discrepancy between the text description and the image. In their first experience, a set of six toothbrushes is sold, but the image shows either a pack of six, or a single one). The authors also measured the prior familiarity with the brand of the item. Participants were recruited using an online panel, and the data in `LC19_S1` includes the results of the $n=96$ participants who passed the attention check (one additional participant response was outlying and removed). We could fit a linear model for the average product evaluation score, `prodeval`, as a function of the familiarity of the brand `familiarity`, an integer ranging from 1 to 7, and a dummy variable for the experimental factor `consistency`, coded `0` for consistent image/text descriptions and `1` if inconsistent. The resulting model matrix is then $96 \times 3$. The `prodeval` response is heavily discretized.
 
 ```{r}
 #| eval: true
 #| echo: true
 data(LC19_S1, package = "hecedsm")
-# Fit a linear model using "lm"
-# The first argument is a formula of the form y ~ x1 + x2
-# where y is the response and x's are explanatories, 
-# separated by a plus (+) sign
-modmat <- model.matrix(
+odmat <- model.matrix( # extract model matrix
      ~ familiarity + consistency,
      data = LC19_S1)
-# Extract the model matrix
-tail(modmat, n = 5L) # first five lines
+tail(modmat, n = 5L) # print first five lines
 dim(modmat) # dimension of the model matrix
 ```
 
@@ -66,8 +61,7 @@ dim(modmat) # dimension of the model matrix
 :::{#exm-college-salary-discrimination}
 
 # Gender discrimination in a US college
-
-To make concepts and theoretical notions more concrete, we will use observational data collected in a college in the United States. The goal of the administration was to investigate potential gender inequality in the salary of faculty members. The data contains the following variables:
+The `college` database consists of observational data collected in a college in the United States. The goal of the administration was to investigate potential gender inequality in the salary of faculty members. The data contains the following variables:
 
 -   `salary`: nine-month salary of professors during the 2008--2009 academic year (in thousands USD).
 -   `rank`: academic rank of the professor (`assistant`, `associate` or `full`).
@@ -79,10 +73,10 @@ To make concepts and theoretical notions more concrete, we will use observationa
 Before drafting a model, it is useful to perform an exploratory data analysis. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.
 
 ```{r}
-#| label: edacollege
+#| label: fig-edacollege
 #| eval: true
 #| echo: false
-#| fig-cap: 'Exploratory data analysis of $\texttt{college}$ data: salaries of professors
+#| fig-cap: 'Exploratory data analysis of `college` data: salaries of professors
 #|   as a function of the number of years of service and the academic ranking'
 data(college, package = "hecstatmod")
 p1 <- ggplot(college, aes(y = salary, x = rank)) +
