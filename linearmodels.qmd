@@ -48,12 +48,33 @@ Study 1 of @Lee.Choi:2019  considered descriptors and the impact on the percepti
 #| eval: true
 #| echo: true
 data(LC19_S1, package = "hecedsm")
-odmat <- model.matrix( # extract model matrix
+modmat <- model.matrix( # extract model matrix
      ~ familiarity + consistency,
      data = LC19_S1)
 tail(modmat, n = 5L) # print first five lines
 dim(modmat) # dimension of the model matrix
 ```
+
+:::
+
+:::{#exm-teaching-baumann}
+
+## Teaching to read and pre-post experiments
+
+The `BSJ92` data in package `hecedsm` contains the results of an experimental study by @Baumann:1992 on the effectiveness of different reading strategies on understanding of children. These are described in the abstract
+
+> Sixty-six fourth-grade students were randomly assigned to one of three experimental groups: (a) a Think-Aloud (TA) group, in which students were taught various comprehension monitoring strategies for reading stories (e.g., self-questioning, prediction, retelling, rereading) through the medium of thinking aloud; (b) a Directed Reading-Thinking Activity (DRTA) group, in which students were taught a predict-verify strategy for reading and responding to stories; or (c) a Directed Reading Activity (DRA) group, an instructed control, in which students engaged in a noninteractive, guided reading of stories.
+
+```{r}
+#| eval: true
+#| echo: false
+data(BSJ92, package = "hecedsm")
+# Compute sample correlation between pretest and posttest 1
+cor_baum <- with(BSJ92, cor(posttest1, pretest1))
+```
+
+The data are balanced, as there are 22 observations in each of the three subgroups, of which `DR` is the control. The researchers applied a series of three tests (an error detection task for test 1, a comprehension monitoring questionnaire for test 2, and the *Degrees of Reading Power* cloze test labelled test 3). Tests 1 and 2 were administered both before and after the intervention: this gives us a change to establish the average *improvement* in student by adding `pretest1` as covariate for a regression of `posttest`, for example. The tests 1 were out of 16, but the one administered after the experiment was made more difficult to avoid cases of students getting near full scores. The correlation between pre-test and post-test 1 is $(\widehat{\rho}_1=`r round(cor_baum, 2)`)$, much stronger than that for the second test $(\widehat{\rho}_2=`r round(cor(BSJ92$posttest2, BSJ92$pretest2), 2)`)$.
+
 
 :::
 
@@ -69,6 +90,40 @@ The `college` database consists of observational data collected in a college in 
 -   `sex`: binary indicator for sex, either `man` or `woman`.
 -   `service`: number of years of service in the college.
 -   `years`: number of years since PhD.
+
+
+:::
+
+:::{#exm-moon-vanepps}
+
+Study 1 of @Moon.VanEpps:2023 considers proportion of donators to a charity. Participants in the online panel were provided with an opportunity to win 25$ and donate part of this amount to a charity of their choosing. The data provided include only people who did not exceed this amount and indicated donating a non-zero amount.
+
+:::
+
+### Exploratory data analysis
+
+
+
+Exploratory data analysis (EDA) is an iterative procedure by which we query the data, using auxiliary information, summary statistics and data visualizations, to better inform our modelling.
+
+It is useful to get a better understanding of the features of the data (sampling frame, missing values, outliers), the nature of the observations, whether responses or explanatories and the relationship between them.
+
+
+See [Chapter 11 of Alexander (2023)](https://tellingstorieswithdata.com/11-eda.html) for examples. In particular, it is useful to check that
+
+- categorical variables are properly code as factors.
+- missing values are properly declared as such using `NA` (strings, `999`, etc.)
+- there is no missingness patterns (`NA` for some logical values)
+- there are enough modalities of each level of categorical variables
+- there is no explanatory variable derived from the response variable.
+- the subset of observations used for statistical analysis is adequate.
+- there are no anomalies or outliers that would distort the results.
+
+
+
+:::{#exm-college-eda}
+
+## Exploratory data analysis of the `college` data
 
 Before drafting a model, it is useful to perform an exploratory data analysis. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.
 
@@ -111,36 +166,27 @@ Some of the potential explanatory variables of the `college` data are categorica
 
 :::
 
+:::{#exm-missing-values-eda}
 
+## Handling of missing values
 
-:::{#exm-teaching-baumann}
-
-## Teaching to read and pre-post experiments
-
-The `BSJ92` data in package `hecedsm` contains the results of an experimental study by @Baumann:1992 on the effectiveness of different reading strategies on understanding of children. These are described in the abstract
-
-> Sixty-six fourth-grade students were randomly assigned to one of three experimental groups: (a) a Think-Aloud (TA) group, in which students were taught various comprehension monitoring strategies for reading stories (e.g., self-questioning, prediction, retelling, rereading) through the medium of thinking aloud; (b) a Directed Reading-Thinking Activity (DRTA) group, in which students were taught a predict-verify strategy for reading and responding to stories; or (c) a Directed Reading Activity (DRA) group, an instructed control, in which students engaged in a noninteractive, guided reading of stories.
+The data for @Moon.VanEpps:2023 should be checked to ensure that the description of the data collection matches the structure of the database. Since people who didn't donate didn't fill in the amount field, the latter indicates a missing value. All donation amounts are between $0.25 and $25.
 
 ```{r}
 #| eval: true
-#| echo: false
-data(BSJ92, package = "hecedsm")
-# Compute sample correlation between pretest and posttest 1
-cor_baum <- with(BSJ92, cor(posttest1, pretest1))
+#| echo: true
+data(MV23_S1, package = "hecedsm")
+str(MV23_S1)
+summary(MV23_S1)
 ```
 
-The data are balanced, as there are 22 observations in each of the three subgroups, of which `DR` is the control. The researchers applied a series of three tests (an error detection task for test 1, a comprehension monitoring questionnaire for test 2, and the *Degrees of Reading Power* cloze test labelled test 3). Tests 1 and 2 were administered both before and after the intervention: this gives us a change to establish the average *improvement* in student by adding `pretest1` as covariate for a regression of `posttest`, for example. The tests 1 were out of 16, but the one administered after the experiment was made more difficult to avoid cases of students getting near full scores. The correlation between pre-test and post-test 1 is $(\widehat{\rho}_1=`r round(cor_baum, 2)`)$, much stronger than that for the second test $(\widehat{\rho}_2=`r round(cor(BSJ92$posttest2, BSJ92$pretest2), 2)`)$.
+
+If we include `amount` as response variable, the 235 missing observations will be removed by default by procedures. This is okay if we want to compare the average amount of people who donated, but we need to transform `NA`s to zeros otherwise. The `donate` binary variable should not be included as an explanatory variable in a regression model, since it is a perfect predictor of zero amounts.
 
 
 :::
 
-## Mean model specification
-
-This section covers the mean model specification, starting with parametrization of models with factors (i.e., categorical explanatories).
-
-
-
-### What explanatories?
+### Mean model specification
 
 
 The first step of an analysis is deciding which explanatory variables should be added to the mean model specification, and under what form. Models are but approximations of reality; Section 2.1 of @Venables:2000 argues that, if we believe the true mean function linking explanatories $\boldsymbol{X}$ and the response $Y$ is of the form $\mathsf{E}(Y \mid \boldsymbol{X}) = f(\boldsymbol{X})$ for $f$ sufficiently smooth, then the linear model is a first-order approximation. For interpretation purposes, it makes sense to mean-center any continuous explanatory, as this facilitates interpretation. 
@@ -180,12 +226,13 @@ ggplot(data = college, aes(x = service, y = salary)) +
 
 The **intercept** $\beta_0$ is the value when all of $x_1, \ldots, x_p$ are zero. The interpretation of the other mean parameters in the model depends crucially on the parametrization and on potential interactions or higher order terms.
 
-Rather, a more interesting perspective considers the effect of an increase of an explanatory variable. If $\mu=\mathbf{x}\boldsymbol{\beta}$ and each, then a one unit increase of the $j$ component $(j=1, \ldots, p)$ leads to a change of $\partial \mu/\partial x_j$.
 
 Generally, we can increase $X_j$ by one unit and compare the increase in the mean, here for $X_j$
 \begin{align*}
 \mathsf{E}(Y \mid X_j=x_j+1, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j}) - \mathsf{E}(Y \mid X_j=x_j, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j}) = \beta_j.
 \end{align*}
+
+Another common perspective is to consider the effect of a change in the value of an explanatory variable by looking at the slope. If $\mu=\mathbf{x}\boldsymbol{\beta}$, then the marginal effect of the $j$ explanatory $X_j=x_j$ $(j=1, \ldots, p)$ is the partial derivative of the mean with respect to this value, namely $\partial \mu/\partial x_j$.
 
 If the relationship between explanatory $X$ and response $Y$, as assessed from a scatterplot, is not linear, we may consider more complicated function of the explanatories, as @exm-auto shows.
 
@@ -450,49 +497,13 @@ modmat_sum2zero <- model.matrix(
 rownames(modmat_sum2zero) <- BSJ92$group[c(1,23,47)]
 kable(modmat_sum2zero, booktabs = TRUE, row.names = TRUE)
 ```
-In the sum-to-zero constraint, we again only get two dummy variables, labelled `group1` and `group2`, along with the intercept. The value of `group1` is $1$ if `group=DR`, $0$ if `group=DRTA` and $-1$ if `group=TA`. Using the invariance property, we find $\mu_{\texttt{DR}} = \beta_0 + \beta_1$, $\mu_{\texttt{DRTA}}=\beta_0 + \beta_2 \beta_1$ and $\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2$ (more generally, the intercept minus the sum of all the other mean coefficients). Some algebraic manipulation reveals that
+In the sum-to-zero constraint, we again only get two dummy variables, labelled `group1` and `group2`, along with the intercept. The value of `group1` is $1$ if `group=DR`, $0$ if `group=DRTA` and $-1$ if `group=TA`. Using the invariance property, we find $\mu_{\texttt{DR}} = \beta_0 + \beta_1$, $\mu_{\texttt{DRTA}}=\beta_0 + \beta_2$ and $\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2$ (more generally, the intercept minus the sum of all the other mean coefficients). Some algebraic manipulation reveals that
 $\beta_0 = (\mu_{\texttt{DR}} +\mu_{\texttt{DRTA}}+\mu_{\texttt{TA}})/3$.
 
 
 If we removed the intercept, then we could include three dummies for each treatment group and each parameter would correspond to the average. This isn't recommended in **R** because the software treats models without the intercept differently and some output will be nonsensical (e.g., the coefficient of determination will be wrong).
 :::
 
-:::{#exm-interpretation1}
-
-## Parameter interpretation for analysis of covariance
-
-We consider a pre-post model for the  error detection task
-test of @Baumann:1992. We fit a linear model with the pre-test score and the experimental condition.
-
-```{r}
-#| eval: true
-#| echo: true
-data(BSJ92, package = "hecedsm") #load data
-str(BSJ92) # Check that categorical variables are factors
-# Check summary statistics for posttest1
-BSJ92 |> # compute group average
-   group_by(group) |> 
-   summarize(mean_pre = mean(pretest1),
-             mean_post = mean(posttest1),
-             diff_impr = mean_post - mean_pre) 
-# Fit the ANOVA for the difference
-linmod1 <- lm(
-   posttest1 - pretest1 ~ group, 
-   data = BSJ92)
-coef(linmod1) # Mean model coefficients
-# Fit a linear regression
-linmod2 <- lm(
-   posttest1 ~ pretest1 + group, 
-   data = BSJ92 |> 
-      dplyr::mutate( # mean-center pretest result
-        pretest1 = pretest1 - mean(pretest1)))
-coef(linmod2) # Mean model coefficients
-```  
-With the ANOVA model for the group as a function of the improvement and using the default treatment parameterization,, the intercept is the average of post-test minus pre-test score for group `DR`, and the other two coefficients are the difference between groups `DRTA` and `DR`, and the difference between groups `TA` and `DR`. Thus, the higher average improvement is for `DRTA`, then `TA`, then the baseline `DR`.
-
-Consider next a linear model in which we allow the post-test score to be a linear function of the pre-test.  we find that, for each point score on the pre-test, the post-test score increases by 0.693 marks regardless of the group. The `DRTA` group (respectively `TA`) has an average, ceteris paribus, that is `r as.numeric(coef(linmod2)[3])` (respectively `r as.numeric(coef(linmod2)[4])`) points higher than that of the baseline group `DR` for two people with the same pre-test score. Because we centered the continuous covariate `pretest1`, the intercept $\beta_0$ is the average post-test score of a person from the `DR` group who scored the overall average of all 66 students in the pre-test.
-
-:::
 
 :::{#exm-gender-disparity}
 
@@ -529,13 +540,46 @@ The interpretation of the coefficients is as follows:
 :::
 
 
+:::{#exm-interpretation1}
+
+## Parameter interpretation for analysis of covariance
+
+We consider a pre-post model for the  error detection task
+test of @Baumann:1992. We fit a linear model with the pre-test score and the experimental condition.
+
+```{r}
+#| eval: true
+#| echo: true
+data(BSJ92, package = "hecedsm") #load data
+str(BSJ92) # Check that categorical variables are factors
+# Check summary statistics for posttest1
+BSJ92 |> # compute group average
+   group_by(group) |>
+   summarize(mean_pre = mean(pretest1),
+             mean_post = mean(posttest1),
+             diff_impr = mean_post - mean_pre)
+# Fit the ANOVA for the difference
+linmod1 <- lm(
+   posttest1 - pretest1 ~ group,
+   data = BSJ92)
+coef(linmod1) # Mean model coefficients
+# Fit a linear regression
+linmod2 <- lm(
+   posttest1 ~ pretest1 + group,
+   data = BSJ92 |>
+      dplyr::mutate( # mean-center pretest result
+        pretest1 = pretest1 - mean(pretest1)))
+coef(linmod2) # Mean model coefficients
+```
+With the ANOVA model for the group as a function of the improvement and using the default treatment parameterization,, the intercept is the average of post-test minus pre-test score for group `DR`, and the other two coefficients are the difference between groups `DRTA` and `DR`, and the difference between groups `TA` and `DR`. Thus, the higher average improvement is for `DRTA`, then `TA`, then the baseline `DR`.
+
+Consider next a linear model in which we allow the post-test score to be a linear function of the pre-test. We find that, for each point score on the pre-test, the post-test score increases by 0.693 marks regardless of the group. The `DRTA` group (respectively `TA`) has an average, ceteris paribus, that is `r as.numeric(coef(linmod2)[3])` (respectively `r as.numeric(coef(linmod2)[4])`) points higher than that of the baseline group `DR` for two people with the same pre-test score. If we center the continuous covariate `pretest1`, the intercept $\beta_0$ is the average post-test score of a person from the `DR` group who scored the overall average of all 66 students in the pre-test.
+
+:::
+
 ## Parameter estimation
 
-The linear model includes $p+1$ mean parameters and a standard deviation $\sigma$, which is assumed constant for all observations. 
-
-### Ordinary least squares estimator {#ols}
-
-Given a design or model matrix $\mathbf{X}$ and a linear model formulation $\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}$, we can try to find the parameter vector $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ that minimizes the mean squared error, i.e., the average squared vertical distance between the fitted values $\widehat{y}_i=\mathbf{x}_i\widehat{\boldsymbol{\beta}}$ and the observations $y_i$.
+The linear model includes $p+1$ mean parameters and a standard deviation $\sigma$, which is assumed constant for all observations. Given a design or model matrix $\mathbf{X}$ and a linear model formulation $\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}$, we can try to find the parameter vector $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ that minimizes the mean squared error, i.e., the average squared vertical distance between the fitted values $\widehat{y}_i=\mathbf{x}_i\widehat{\boldsymbol{\beta}}$ and the observations $y_i$.
 
 ```{r}
 #| eval: true

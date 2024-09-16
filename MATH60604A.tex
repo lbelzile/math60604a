@@ -379,7 +379,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-09-11}
+\date{2024-09-16}
 
 \begin{document}
 
@@ -1555,7 +1555,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, left=2mm, rightrule=.15mm, leftrule=.75mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, breakable, coltitle=black, opacityback=0, toprule=.15mm, colback=white, arc=.35mm, bottomtitle=1mm, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, opacityback=0, colback=white, breakable, toprule=.15mm, left=2mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, opacitybacktitle=0.6, rightrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomrule=.15mm, colframe=quarto-callout-important-color-frame]
 
 \textbf{Learning objectives}:
 
@@ -2203,7 +2203,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, left=2mm, rightrule=.15mm, leftrule=.75mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacitybacktitle=0.6, breakable, coltitle=black, opacityback=0, toprule=.15mm, colback=white, arc=.35mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, opacityback=0, colback=white, breakable, toprule=.15mm, left=2mm, colbacktitle=quarto-callout-caution-color!10!white, coltitle=black, opacitybacktitle=0.6, rightrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2748,7 +2748,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, left=2mm, rightrule=.15mm, leftrule=.75mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, breakable, coltitle=black, opacityback=0, toprule=.15mm, colback=white, arc=.35mm, bottomtitle=1mm, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, opacityback=0, colback=white, breakable, toprule=.15mm, left=2mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, opacitybacktitle=0.6, rightrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomrule=.15mm, colframe=quarto-callout-important-color-frame]
 
 \textbf{Learning objectives}:
 
@@ -3796,8 +3796,8 @@ The linear regression model, or linear model, is one of the most
 versatile workhorse for statistical inference. Linear regression is used
 primarily to evaluate the effects of explanatory variables (oftentimes
 treatment in an experimental setting) on the mean response of a
-continuous response, or for prediction. It combines a formulation for
-the mean of a \textbf{response variable} \(Y_i\) of a random sample of
+continuous response, or for prediction. The linear regression specifies
+the mean of a \textbf{response variable} \(Y\) of a random sample of
 size \(n\) as a \textbf{linear function} of observed
 \textbf{explanatories} (also called predictors or covariates)
 \(X_1, \ldots, X_p\), \begin{align}
@@ -3824,11 +3824,9 @@ matrix \(\mathbf{X}\) is termed \textbf{model matrix} (or sometimes
 design matrix in experimental settings), and it's \(i\)th row is
 \(\mathbf{x}_i\).
 
-We suppose, in addition to the mean specification, that the response
-variables are independent and identically distributed, drawn from a
-mean-zero distribution with constant variance \(\sigma^2\). Assuming
-that the distribution are drawn from a location family, we may rewrite
-the linear model in terms of the mean plus an error term, \begin{align*}
+Assuming that the distribution of the response is drawn from a location
+family, we may rewrite the linear model in terms of the mean plus an
+error term, \begin{align*}
 \underset{\text{observation}\vphantom{\mu_i}}{Y_i} = \underset{\text{mean } \mu_i}{\vphantom{Y_i}\mathbf{x}_i\boldsymbol{\beta}} + \underset{\text{error term}\vphantom{\mu_i}}{\vphantom{Y_i}\varepsilon_i}.
 \end{align*} where \(\varepsilon_i\) is the error term specific to
 observation \(i\), and we assume that the errors
@@ -3872,21 +3870,15 @@ score, \texttt{prodeval}, as a function of the familiarity of the brand
 variable for the experimental factor \texttt{consistency}, coded
 \texttt{0} for consistent image/text descriptions and \texttt{1} if
 inconsistent. The resulting model matrix is then \(96 \times 3\). The
-\texttt{prodeval} response is heavily discretized, with only 19 unique
-values ranging between 2.33 and 9.
+\texttt{prodeval} response is heavily discretized.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{data}\NormalTok{(LC19\_S1, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
-\CommentTok{\# Fit a linear model using "lm"}
-\CommentTok{\# The first argument is a formula of the form y \textasciitilde{} x1 + x2}
-\CommentTok{\# where y is the response and x\textquotesingle{}s are explanatories, }
-\CommentTok{\# separated by a plus (+) sign}
-\NormalTok{modmat }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(}
+\NormalTok{modmat }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{( }\CommentTok{\# extract model matrix}
      \SpecialCharTok{\textasciitilde{}}\NormalTok{ familiarity }\SpecialCharTok{+}\NormalTok{ consistency,}
      \AttributeTok{data =}\NormalTok{ LC19\_S1)}
-\CommentTok{\# Extract the model matrix}
-\FunctionTok{tail}\NormalTok{(modmat, }\AttributeTok{n =} \DecValTok{5}\NormalTok{L) }\CommentTok{\# first five lines}
+\FunctionTok{tail}\NormalTok{(modmat, }\AttributeTok{n =} \DecValTok{5}\NormalTok{L) }\CommentTok{\# print first five lines}
 \CommentTok{\#\textgreater{}    (Intercept) familiarity consistencyinconsistent}
 \CommentTok{\#\textgreater{} 92           1           6                       1}
 \CommentTok{\#\textgreater{} 93           1           4                       1}
@@ -3897,87 +3889,6 @@ values ranging between 2.33 and 9.
 \CommentTok{\#\textgreater{} [1] 96  3}
 \end{Highlighting}
 \end{Shaded}
-
-\end{example}
-
-\begin{example}[Gender discrimination in a US
-college]\protect\hypertarget{exm-college-salary-discrimination}{}\label{exm-college-salary-discrimination}
-
-To make concepts and theoretical notions more concrete, we will use
-observational data collected in a college in the United States. The goal
-of the administration was to investigate potential gender inequality in
-the salary of faculty members. The data contains the following
-variables:
-
-\begin{itemize}
-\tightlist
-\item
-  \texttt{salary}: nine-month salary of professors during the 2008--2009
-  academic year (in thousands USD).
-\item
-  \texttt{rank}: academic rank of the professor (\texttt{assistant},
-  \texttt{associate} or \texttt{full}).
-\item
-  \texttt{field}: categorical variable for the field of expertise of the
-  professor, one of \texttt{applied} or \texttt{theoretical}.
-\item
-  \texttt{sex}: binary indicator for sex, either \texttt{man} or
-  \texttt{woman}.
-\item
-  \texttt{service}: number of years of service in the college.
-\item
-  \texttt{years}: number of years since PhD.
-\end{itemize}
-
-Before drafting a model, it is useful to perform an exploratory data
-analysis. If salary increases with year, there is more heterogeneity in
-the salary of higher ranked professors: logically, assistant professors
-are either promoted or kicked out after at most 6 years according to the
-data. The limited number of years prevents large variability for their
-salaries.
-
-\begin{figure}[ht!]
-
-{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/edacollege-1.pdf}
-
-}
-
-\caption{Exploratory data analysis of \(\texttt{college}\) data:
-salaries of professors as a function of the number of years of service
-and the academic ranking}
-
-\end{figure}%
-
-Salary increases over years of service, but its variability also
-increases with rank. Note the much smaller number of women in the
-sample: this will impact our power to detect differences between sex. A
-contingency table of sex and academic rank can be useful to see if the
-proportion of women is the same in each rank: women represent 16\% of
-assistant professors and 16\% of associate profs, but only 7\% of full
-professors and these are better paid on average.
-
-\begin{longtable}[]{@{}lrrr@{}}
-\caption{Contingency table of the number of prof in the college by sex
-and academic rank.}\tabularnewline
-\toprule\noalign{}
-& assistant & associate & full \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-& assistant & associate & full \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-man & 56 & 54 & 248 \\
-woman & 11 & 10 & 18 \\
-\end{longtable}
-
-Some of the potential explanatory variables of the \texttt{college} data
-are categorical (\texttt{rank}, \texttt{sex}, \texttt{field}), the
-latter two being binary. The other two continuous variables,
-\texttt{years} and \texttt{service}, are strongly correlated with a
-correlation of 0.91.
 
 \end{example}
 
@@ -4018,13 +3929,178 @@ test \((\widehat{\rho}_2=0.21)\).
 
 \end{example}
 
-\section{Mean model specification}\label{mean-model-specification}
+\begin{example}[Gender discrimination in a US
+college]\protect\hypertarget{exm-college-salary-discrimination}{}\label{exm-college-salary-discrimination}
 
-This section covers the mean model specification, starting with
-parametrization of models with factors (i.e., categorical
-explanatories).
+The \texttt{college} database consists of observational data collected
+in a college in the United States. The goal of the administration was to
+investigate potential gender inequality in the salary of faculty
+members. The data contains the following variables:
 
-\subsection{What explanatories?}\label{what-explanatories}
+\begin{itemize}
+\tightlist
+\item
+  \texttt{salary}: nine-month salary of professors during the 2008--2009
+  academic year (in thousands USD).
+\item
+  \texttt{rank}: academic rank of the professor (\texttt{assistant},
+  \texttt{associate} or \texttt{full}).
+\item
+  \texttt{field}: categorical variable for the field of expertise of the
+  professor, one of \texttt{applied} or \texttt{theoretical}.
+\item
+  \texttt{sex}: binary indicator for sex, either \texttt{man} or
+  \texttt{woman}.
+\item
+  \texttt{service}: number of years of service in the college.
+\item
+  \texttt{years}: number of years since PhD.
+\end{itemize}
+
+\end{example}
+
+\begin{example}[]\protect\hypertarget{exm-moon-vanepps}{}\label{exm-moon-vanepps}
+
+Study 1 of Moon and VanEpps (\citeproc{ref-Moon.VanEpps:2023}{2023})
+considers proportion of donators to a charity. Participants in the
+online panel were provided with an opportunity to win 25\$ and donate
+part of this amount to a charity of their choosing. The data provided
+include only people who did not exceed this amount and indicated
+donating a non-zero amount.
+
+\end{example}
+
+\subsection{Exploratory data analysis}\label{exploratory-data-analysis}
+
+Exploratory data analysis (EDA) is an iterative procedure by which we
+query the data, using auxiliary information, summary statistics and data
+visualizations, to better inform our modelling.
+
+It is useful to get a better understanding of the features of the data
+(sampling frame, missing values, outliers), the nature of the
+observations, whether responses or explanatories and the relationship
+between them.
+
+See \href{https://tellingstorieswithdata.com/11-eda.html}{Chapter 11 of
+Alexander (2023)} for examples. In particular, it is useful to check
+that
+
+\begin{itemize}
+\tightlist
+\item
+  categorical variables are properly code as factors.
+\item
+  missing values are properly declared as such using \texttt{NA}
+  (strings, \texttt{999}, etc.)
+\item
+  there is no missingness patterns (\texttt{NA} for some logical values)
+\item
+  there are enough modalities of each level of categorical variables
+\item
+  there is no explanatory variable derived from the response variable.
+\item
+  the subset of observations used for statistical analysis is adequate.
+\item
+  there are no anomalies or outliers that would distort the results.
+\end{itemize}
+
+\begin{example}[Exploratory data analysis of the \texttt{college}
+data]\protect\hypertarget{exm-college-eda}{}\label{exm-college-eda}
+
+Before drafting a model, it is useful to perform an exploratory data
+analysis. If salary increases with year, there is more heterogeneity in
+the salary of higher ranked professors: logically, assistant professors
+are either promoted or kicked out after at most 6 years according to the
+data. The limited number of years prevents large variability for their
+salaries.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-edacollege-1.pdf}
+
+}
+
+\caption{\label{fig-edacollege}Exploratory data analysis of
+\texttt{college} data: salaries of professors as a function of the
+number of years of service and the academic ranking}
+
+\end{figure}%
+
+Salary increases over years of service, but its variability also
+increases with rank. Note the much smaller number of women in the
+sample: this will impact our power to detect differences between sex. A
+contingency table of sex and academic rank can be useful to see if the
+proportion of women is the same in each rank: women represent 16\% of
+assistant professors and 16\% of associate profs, but only 7\% of full
+professors and these are better paid on average.
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Contingency table of the number of prof in the college by sex
+and academic rank.}\tabularnewline
+\toprule\noalign{}
+& assistant & associate & full \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& assistant & associate & full \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+man & 56 & 54 & 248 \\
+woman & 11 & 10 & 18 \\
+\end{longtable}
+
+Some of the potential explanatory variables of the \texttt{college} data
+are categorical (\texttt{rank}, \texttt{sex}, \texttt{field}), the
+latter two being binary. The other two continuous variables,
+\texttt{years} and \texttt{service}, are strongly correlated with a
+correlation of 0.91.
+
+\end{example}
+
+\begin{example}[Handling of missing
+values]\protect\hypertarget{exm-missing-values-eda}{}\label{exm-missing-values-eda}
+
+The data for Moon and VanEpps (\citeproc{ref-Moon.VanEpps:2023}{2023})
+should be checked to ensure that the description of the data collection
+matches the structure of the database. Since people who didn't donate
+didn't fill in the amount field, the latter indicates a missing value.
+All donation amounts are between \$0.25 and \$25.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(MV23\_S1, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(MV23\_S1)}
+\CommentTok{\#\textgreater{} tibble [869 x 4] (S3: tbl\_df/tbl/data.frame)}
+\CommentTok{\#\textgreater{}  $ before   : int [1:869] 0 1 0 1 1 1 1 0 1 0 ...}
+\CommentTok{\#\textgreater{}  $ donate   : int [1:869] 0 0 0 1 1 0 1 0 0 1 ...}
+\CommentTok{\#\textgreater{}  $ condition: Factor w/ 2 levels "open{-}ended","quantity": 1 1 1 1 2 2 2 1 1 1 ...}
+\CommentTok{\#\textgreater{}  $ amount   : num [1:869] NA NA NA 10 5 NA 20 NA NA 25 ...}
+\FunctionTok{summary}\NormalTok{(MV23\_S1)}
+\CommentTok{\#\textgreater{}      before          donate          condition       amount    }
+\CommentTok{\#\textgreater{}  Min.   :0.000   Min.   :0.00   open{-}ended:407   Min.   : 0.2  }
+\CommentTok{\#\textgreater{}  1st Qu.:0.000   1st Qu.:0.00   quantity  :462   1st Qu.: 5.0  }
+\CommentTok{\#\textgreater{}  Median :1.000   Median :1.00                    Median :10.0  }
+\CommentTok{\#\textgreater{}  Mean   :0.596   Mean   :0.73                    Mean   :10.7  }
+\CommentTok{\#\textgreater{}  3rd Qu.:1.000   3rd Qu.:1.00                    3rd Qu.:15.0  }
+\CommentTok{\#\textgreater{}  Max.   :1.000   Max.   :1.00                    Max.   :25.0  }
+\CommentTok{\#\textgreater{}  NA\textquotesingle{}s   :1                                       NA\textquotesingle{}s   :235}
+\end{Highlighting}
+\end{Shaded}
+
+If we include \texttt{amount} as response variable, the 235 missing
+observations will be removed by default by procedures. This is okay if
+we want to compare the average amount of people who donated, but we need
+to transform \texttt{NA}s to zeros otherwise. The \texttt{donate} binary
+variable should not be included as an explanatory variable in a
+regression model, since it is a perfect predictor of zero amounts.
+
+\end{example}
+
+\subsection{Mean model specification}\label{mean-model-specification}
 
 The first step of an analysis is deciding which explanatory variables
 should be added to the mean model specification, and under what form.
@@ -4104,16 +4180,17 @@ The \textbf{intercept} \(\beta_0\) is the value when all of
 parameters in the model depends crucially on the parametrization and on
 potential interactions or higher order terms.
 
-Rather, a more interesting perspective considers the effect of an
-increase of an explanatory variable. If
-\(\mu=\mathbf{x}\boldsymbol{\beta}\) and each, then a one unit increase
-of the \(j\) component \((j=1, \ldots, p)\) leads to a change of
-\(\partial \mu/\partial x_j\).
-
 Generally, we can increase \(X_j\) by one unit and compare the increase
 in the mean, here for \(X_j\) \begin{align*}
 \mathsf{E}(Y \mid X_j=x_j+1, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j}) - \mathsf{E}(Y \mid X_j=x_j, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j}) = \beta_j.
 \end{align*}
+
+Another common perspective is to consider the effect of a change in the
+value of an explanatory variable by looking at the slope. If
+\(\mu=\mathbf{x}\boldsymbol{\beta}\), then the marginal effect of the
+\(j\) explanatory \(X_j=x_j\) \((j=1, \ldots, p)\) is the partial
+derivative of the mean with respect to this value, namely
+\(\partial \mu/\partial x_j\).
 
 If the relationship between explanatory \(X\) and response \(Y\), as
 assessed from a scatterplot, is not linear, we may consider more
@@ -4418,7 +4495,7 @@ labelled \texttt{group1} and \texttt{group2}, along with the intercept.
 The value of \texttt{group1} is \(1\) if \texttt{group=DR}, \(0\) if
 \texttt{group=DRTA} and \(-1\) if \texttt{group=TA}. Using the
 invariance property, we find \(\mu_{\texttt{DR}} = \beta_0 + \beta_1\),
-\(\mu_{\texttt{DRTA}}=\beta_0 + \beta_2 \beta_1\) and
+\(\mu_{\texttt{DRTA}}=\beta_0 + \beta_2\) and
 \(\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2\) (more generally, the
 intercept minus the sum of all the other mean coefficients). Some
 algebraic manipulation reveals that
@@ -4433,77 +4510,6 @@ without the intercept differently and some output will be nonsensical
 \label{rem-sumtozero}
 
 \end{refremark}
-
-\begin{example}[Parameter interpretation for analysis of
-covariance]\protect\hypertarget{exm-interpretation1}{}\label{exm-interpretation1}
-
-We consider a pre-post model for the error detection task test of
-Baumann, Seifert-Kessell, and Jones (\citeproc{ref-Baumann:1992}{1992}).
-We fit a linear model with the pre-test score and the experimental
-condition.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{data}\NormalTok{(BSJ92, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{) }\CommentTok{\#load data}
-\FunctionTok{str}\NormalTok{(BSJ92) }\CommentTok{\# Check that categorical variables are factors}
-\CommentTok{\#\textgreater{} tibble [66 x 6] (S3: tbl\_df/tbl/data.frame)}
-\CommentTok{\#\textgreater{}  $ group    : Factor w/ 3 levels "DR","DRTA","TA": 1 1 1 1 1 1 1 1 1 1 ...}
-\CommentTok{\#\textgreater{}  $ pretest1 : int [1:66] 4 6 9 12 16 15 14 12 12 8 ...}
-\CommentTok{\#\textgreater{}  $ pretest2 : int [1:66] 3 5 4 6 5 13 8 7 3 8 ...}
-\CommentTok{\#\textgreater{}  $ posttest1: int [1:66] 5 9 5 8 10 9 12 5 8 7 ...}
-\CommentTok{\#\textgreater{}  $ posttest2: int [1:66] 4 5 3 5 9 8 5 5 7 7 ...}
-\CommentTok{\#\textgreater{}  $ posttest3: int [1:66] 41 41 43 46 46 45 45 32 33 39 ...}
-\CommentTok{\# Check summary statistics for posttest1}
-\NormalTok{BSJ92 }\SpecialCharTok{|\textgreater{}} \CommentTok{\# compute group average}
-   \FunctionTok{group\_by}\NormalTok{(group) }\SpecialCharTok{|\textgreater{}} 
-   \FunctionTok{summarize}\NormalTok{(}\AttributeTok{mean\_pre =} \FunctionTok{mean}\NormalTok{(pretest1),}
-             \AttributeTok{mean\_post =} \FunctionTok{mean}\NormalTok{(posttest1),}
-             \AttributeTok{diff\_impr =}\NormalTok{ mean\_post }\SpecialCharTok{{-}}\NormalTok{ mean\_pre) }
-\CommentTok{\#\textgreater{} \# A tibble: 3 x 4}
-\CommentTok{\#\textgreater{}   group mean\_pre mean\_post diff\_impr}
-\CommentTok{\#\textgreater{}   \textless{}fct\textgreater{}    \textless{}dbl\textgreater{}     \textless{}dbl\textgreater{}     \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 DR       10.5       6.68   {-}3.82  }
-\CommentTok{\#\textgreater{} 2 DRTA      9.73      9.77    0.0455}
-\CommentTok{\#\textgreater{} 3 TA        9.14      7.77   {-}1.36}
-\CommentTok{\# Fit the ANOVA for the difference}
-\NormalTok{linmod1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}
-\NormalTok{   posttest1 }\SpecialCharTok{{-}}\NormalTok{ pretest1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ group, }
-   \AttributeTok{data =}\NormalTok{ BSJ92)}
-\FunctionTok{coef}\NormalTok{(linmod1) }\CommentTok{\# Mean model coefficients}
-\CommentTok{\#\textgreater{} (Intercept)   groupDRTA     groupTA }
-\CommentTok{\#\textgreater{}       {-}3.82        3.86        2.45}
-\CommentTok{\# Fit a linear regression}
-\NormalTok{linmod2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}
-\NormalTok{   posttest1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pretest1 }\SpecialCharTok{+}\NormalTok{ group, }
-   \AttributeTok{data =}\NormalTok{ BSJ92 }\SpecialCharTok{|\textgreater{}} 
-\NormalTok{      dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{( }\CommentTok{\# mean{-}center pretest result}
-        \AttributeTok{pretest1 =}\NormalTok{ pretest1 }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(pretest1)))}
-\FunctionTok{coef}\NormalTok{(linmod2) }\CommentTok{\# Mean model coefficients}
-\CommentTok{\#\textgreater{} (Intercept)    pretest1   groupDRTA     groupTA }
-\CommentTok{\#\textgreater{}       6.188       0.693       3.627       2.036}
-\end{Highlighting}
-\end{Shaded}
-
-With the ANOVA model for the group as a function of the improvement and
-using the default treatment parameterization,, the intercept is the
-average of post-test minus pre-test score for group \texttt{DR}, and the
-other two coefficients are the difference between groups \texttt{DRTA}
-and \texttt{DR}, and the difference between groups \texttt{TA} and
-\texttt{DR}. Thus, the higher average improvement is for \texttt{DRTA},
-then \texttt{TA}, then the baseline \texttt{DR}.
-
-Consider next a linear model in which we allow the post-test score to be
-a linear function of the pre-test. we find that, for each point score on
-the pre-test, the post-test score increases by 0.693 marks regardless of
-the group. The \texttt{DRTA} group (respectively \texttt{TA}) has an
-average, ceteris paribus, that is 3.627 (respectively 2.036) points
-higher than that of the baseline group \texttt{DR} for two people with
-the same pre-test score. Because we centered the continuous covariate
-\texttt{pretest1}, the intercept \(\beta_0\) is the average post-test
-score of a person from the \texttt{DR} group who scored the overall
-average of all 66 students in the pre-test.
-
-\end{example}
 
 \begin{example}[Wage inequality in an American
 college]\protect\hypertarget{exm-gender-disparity}{}\label{exm-gender-disparity}
@@ -4595,13 +4601,81 @@ The interpretation of the coefficients is as follows:
 
 \end{example}
 
+\begin{example}[Parameter interpretation for analysis of
+covariance]\protect\hypertarget{exm-interpretation1}{}\label{exm-interpretation1}
+
+We consider a pre-post model for the error detection task test of
+Baumann, Seifert-Kessell, and Jones (\citeproc{ref-Baumann:1992}{1992}).
+We fit a linear model with the pre-test score and the experimental
+condition.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(BSJ92, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{) }\CommentTok{\#load data}
+\FunctionTok{str}\NormalTok{(BSJ92) }\CommentTok{\# Check that categorical variables are factors}
+\CommentTok{\#\textgreater{} tibble [66 x 6] (S3: tbl\_df/tbl/data.frame)}
+\CommentTok{\#\textgreater{}  $ group    : Factor w/ 3 levels "DR","DRTA","TA": 1 1 1 1 1 1 1 1 1 1 ...}
+\CommentTok{\#\textgreater{}  $ pretest1 : int [1:66] 4 6 9 12 16 15 14 12 12 8 ...}
+\CommentTok{\#\textgreater{}  $ pretest2 : int [1:66] 3 5 4 6 5 13 8 7 3 8 ...}
+\CommentTok{\#\textgreater{}  $ posttest1: int [1:66] 5 9 5 8 10 9 12 5 8 7 ...}
+\CommentTok{\#\textgreater{}  $ posttest2: int [1:66] 4 5 3 5 9 8 5 5 7 7 ...}
+\CommentTok{\#\textgreater{}  $ posttest3: int [1:66] 41 41 43 46 46 45 45 32 33 39 ...}
+\CommentTok{\# Check summary statistics for posttest1}
+\NormalTok{BSJ92 }\SpecialCharTok{|\textgreater{}} \CommentTok{\# compute group average}
+   \FunctionTok{group\_by}\NormalTok{(group) }\SpecialCharTok{|\textgreater{}}
+   \FunctionTok{summarize}\NormalTok{(}\AttributeTok{mean\_pre =} \FunctionTok{mean}\NormalTok{(pretest1),}
+             \AttributeTok{mean\_post =} \FunctionTok{mean}\NormalTok{(posttest1),}
+             \AttributeTok{diff\_impr =}\NormalTok{ mean\_post }\SpecialCharTok{{-}}\NormalTok{ mean\_pre)}
+\CommentTok{\#\textgreater{} \# A tibble: 3 x 4}
+\CommentTok{\#\textgreater{}   group mean\_pre mean\_post diff\_impr}
+\CommentTok{\#\textgreater{}   \textless{}fct\textgreater{}    \textless{}dbl\textgreater{}     \textless{}dbl\textgreater{}     \textless{}dbl\textgreater{}}
+\CommentTok{\#\textgreater{} 1 DR       10.5       6.68   {-}3.82  }
+\CommentTok{\#\textgreater{} 2 DRTA      9.73      9.77    0.0455}
+\CommentTok{\#\textgreater{} 3 TA        9.14      7.77   {-}1.36}
+\CommentTok{\# Fit the ANOVA for the difference}
+\NormalTok{linmod1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}
+\NormalTok{   posttest1 }\SpecialCharTok{{-}}\NormalTok{ pretest1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ group,}
+   \AttributeTok{data =}\NormalTok{ BSJ92)}
+\FunctionTok{coef}\NormalTok{(linmod1) }\CommentTok{\# Mean model coefficients}
+\CommentTok{\#\textgreater{} (Intercept)   groupDRTA     groupTA }
+\CommentTok{\#\textgreater{}       {-}3.82        3.86        2.45}
+\CommentTok{\# Fit a linear regression}
+\NormalTok{linmod2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}
+\NormalTok{   posttest1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pretest1 }\SpecialCharTok{+}\NormalTok{ group,}
+   \AttributeTok{data =}\NormalTok{ BSJ92 }\SpecialCharTok{|\textgreater{}}
+\NormalTok{      dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{( }\CommentTok{\# mean{-}center pretest result}
+        \AttributeTok{pretest1 =}\NormalTok{ pretest1 }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(pretest1)))}
+\FunctionTok{coef}\NormalTok{(linmod2) }\CommentTok{\# Mean model coefficients}
+\CommentTok{\#\textgreater{} (Intercept)    pretest1   groupDRTA     groupTA }
+\CommentTok{\#\textgreater{}       6.188       0.693       3.627       2.036}
+\end{Highlighting}
+\end{Shaded}
+
+With the ANOVA model for the group as a function of the improvement and
+using the default treatment parameterization,, the intercept is the
+average of post-test minus pre-test score for group \texttt{DR}, and the
+other two coefficients are the difference between groups \texttt{DRTA}
+and \texttt{DR}, and the difference between groups \texttt{TA} and
+\texttt{DR}. Thus, the higher average improvement is for \texttt{DRTA},
+then \texttt{TA}, then the baseline \texttt{DR}.
+
+Consider next a linear model in which we allow the post-test score to be
+a linear function of the pre-test. We find that, for each point score on
+the pre-test, the post-test score increases by 0.693 marks regardless of
+the group. The \texttt{DRTA} group (respectively \texttt{TA}) has an
+average, ceteris paribus, that is 3.627 (respectively 2.036) points
+higher than that of the baseline group \texttt{DR} for two people with
+the same pre-test score. If we center the continuous covariate
+\texttt{pretest1}, the intercept \(\beta_0\) is the average post-test
+score of a person from the \texttt{DR} group who scored the overall
+average of all 66 students in the pre-test.
+
+\end{example}
+
 \section{Parameter estimation}\label{parameter-estimation}
 
 The linear model includes \(p+1\) mean parameters and a standard
 deviation \(\sigma\), which is assumed constant for all observations.
-
-\subsection{Ordinary least squares estimator}\label{ols}
-
 Given a design or model matrix \(\mathbf{X}\) and a linear model
 formulation \(\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}\), we can
 try to find the parameter vector
