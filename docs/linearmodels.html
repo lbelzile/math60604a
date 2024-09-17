@@ -132,6 +132,8 @@ div.csl-indent {
 <script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 <link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
 <script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -258,29 +260,32 @@ window.Quarto = {
   <li><a href="#continuous-explanatories" id="toc-continuous-explanatories" class="nav-link" data-scroll-target="#continuous-explanatories"><span class="header-section-number">4.1.4</span> Continuous explanatories</a></li>
   <li><a href="#categorical-covariates" id="toc-categorical-covariates" class="nav-link" data-scroll-target="#categorical-covariates"><span class="header-section-number">4.1.5</span> Categorical covariates</a></li>
   </ul></li>
-  <li><a href="#parameter-estimation" id="toc-parameter-estimation" class="nav-link" data-scroll-target="#parameter-estimation"><span class="header-section-number">4.2</span> Parameter estimation</a>
+  <li><a href="#parameter-estimation" id="toc-parameter-estimation" class="nav-link" data-scroll-target="#parameter-estimation"><span class="header-section-number">4.2</span> Parameter estimation</a></li>
+  <li><a href="#sec-predictions-lm" id="toc-sec-predictions-lm" class="nav-link" data-scroll-target="#sec-predictions-lm"><span class="header-section-number">4.3</span> Predictions</a></li>
+  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing"><span class="header-section-number">4.4</span> Hypothesis testing</a>
   <ul class="collapse">
-  <li><a href="#fitting-linear-models-with-software" id="toc-fitting-linear-models-with-software" class="nav-link" data-scroll-target="#fitting-linear-models-with-software"><span class="header-section-number">4.2.1</span> Fitting linear models with software</a></li>
+  <li><a href="#tests-for-linear-regression" id="toc-tests-for-linear-regression" class="nav-link" data-scroll-target="#tests-for-linear-regression"><span class="header-section-number">4.4.1</span> Tests for linear regression</a></li>
+  <li><a href="#contrasts" id="toc-contrasts" class="nav-link" data-scroll-target="#contrasts"><span class="header-section-number">4.4.2</span> Contrasts</a></li>
+  <li><a href="#examples-of-tests" id="toc-examples-of-tests" class="nav-link" data-scroll-target="#examples-of-tests"><span class="header-section-number">4.4.3</span> Examples of tests</a></li>
   </ul></li>
-  <li><a href="#coefR2" id="toc-coefR2" class="nav-link" data-scroll-target="#coefR2"><span class="header-section-number">4.3</span> Coefficient of determination</a></li>
-  <li><a href="#model-assumptions" id="toc-model-assumptions" class="nav-link" data-scroll-target="#model-assumptions"><span class="header-section-number">4.4</span> Model assumptions</a>
+  <li><a href="#model-assumptions" id="toc-model-assumptions" class="nav-link" data-scroll-target="#model-assumptions"><span class="header-section-number">4.5</span> Model assumptions</a>
   <ul class="collapse">
-  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals"><span class="header-section-number">4.4.1</span> Residuals</a></li>
-  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="header-section-number">4.4.2</span> Collinearity</a></li>
-  <li><a href="#leverage-and-outliers" id="toc-leverage-and-outliers" class="nav-link" data-scroll-target="#leverage-and-outliers"><span class="header-section-number">4.4.3</span> Leverage and outliers</a></li>
+  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals"><span class="header-section-number">4.5.1</span> Residuals</a></li>
+  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="header-section-number">4.5.2</span> Collinearity</a></li>
+  <li><a href="#leverage-and-outliers" id="toc-leverage-and-outliers" class="nav-link" data-scroll-target="#leverage-and-outliers"><span class="header-section-number">4.5.3</span> Leverage and outliers</a></li>
   </ul></li>
-  <li><a href="#diagnostic-plots" id="toc-diagnostic-plots" class="nav-link" data-scroll-target="#diagnostic-plots"><span class="header-section-number">4.5</span> Diagnostic plots</a>
+  <li><a href="#diagnostic-plots" id="toc-diagnostic-plots" class="nav-link" data-scroll-target="#diagnostic-plots"><span class="header-section-number">4.6</span> Diagnostic plots</a>
   <ul class="collapse">
-  <li><a href="#independence-assumption" id="toc-independence-assumption" class="nav-link" data-scroll-target="#independence-assumption"><span class="header-section-number">4.5.1</span> Independence assumption</a></li>
-  <li><a href="#linearity-assumption" id="toc-linearity-assumption" class="nav-link" data-scroll-target="#linearity-assumption"><span class="header-section-number">4.5.2</span> Linearity assumption</a></li>
-  <li><a href="#constant-variance-assumption" id="toc-constant-variance-assumption" class="nav-link" data-scroll-target="#constant-variance-assumption"><span class="header-section-number">4.5.3</span> Constant variance assumption</a></li>
-  <li><a href="#normality-assumption" id="toc-normality-assumption" class="nav-link" data-scroll-target="#normality-assumption"><span class="header-section-number">4.5.4</span> Normality assumption</a></li>
+  <li><a href="#independence-assumption" id="toc-independence-assumption" class="nav-link" data-scroll-target="#independence-assumption"><span class="header-section-number">4.6.1</span> Independence assumption</a></li>
+  <li><a href="#linearity-assumption" id="toc-linearity-assumption" class="nav-link" data-scroll-target="#linearity-assumption"><span class="header-section-number">4.6.2</span> Linearity assumption</a></li>
+  <li><a href="#constant-variance-assumption" id="toc-constant-variance-assumption" class="nav-link" data-scroll-target="#constant-variance-assumption"><span class="header-section-number">4.6.3</span> Constant variance assumption</a></li>
+  <li><a href="#normality-assumption" id="toc-normality-assumption" class="nav-link" data-scroll-target="#normality-assumption"><span class="header-section-number">4.6.4</span> Normality assumption</a></li>
   </ul></li>
-  <li><a href="#extensions-of-the-model" id="toc-extensions-of-the-model" class="nav-link" data-scroll-target="#extensions-of-the-model"><span class="header-section-number">4.6</span> Extensions of the model</a>
+  <li><a href="#extensions-of-the-model" id="toc-extensions-of-the-model" class="nav-link" data-scroll-target="#extensions-of-the-model"><span class="header-section-number">4.7</span> Extensions of the model</a>
   <ul class="collapse">
-  <li><a href="#sec-transfo" id="toc-sec-transfo" class="nav-link" data-scroll-target="#sec-transfo"><span class="header-section-number">4.6.1</span> Transformation of the response</a></li>
+  <li><a href="#sec-transfo" id="toc-sec-transfo" class="nav-link" data-scroll-target="#sec-transfo"><span class="header-section-number">4.7.1</span> Transformation of the response</a></li>
   </ul></li>
-  <li><a href="#concluding-remarks" id="toc-concluding-remarks" class="nav-link" data-scroll-target="#concluding-remarks"><span class="header-section-number">4.7</span> Concluding remarks</a></li>
+  <li><a href="#concluding-remarks" id="toc-concluding-remarks" class="nav-link" data-scroll-target="#concluding-remarks"><span class="header-section-number">4.8</span> Concluding remarks</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604a/edit/master/linearmodels.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -310,7 +315,10 @@ window.Quarto = {
 <h2 data-number="4.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">4.1</span> Introduction</h2>
 <p>The linear regression model, or linear model, is one of the most versatile workhorse for statistical inference. Linear regression is used primarily to evaluate the effects of explanatory variables (oftentimes treatment in an experimental setting) on the mean response of a continuous response, or for prediction. The linear regression specifies the mean of a <strong>response variable</strong> <span class="math inline">\(Y\)</span> of a random sample of size <span class="math inline">\(n\)</span> as a <strong>linear function</strong> of observed <strong>explanatories</strong> (also called predictors or covariates) <span class="math inline">\(X_1, \ldots, X_p\)</span>, <span class="math display">\[\begin{align}
 \underset{\text{conditional mean}}{\mathsf{E}(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)}=\mu_i=\underset{\text{linear combination of explanatories}}{\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}}\equiv \mathbf{x}_i\boldsymbol{\beta}.
-\end{align}\]</span> where <span class="math inline">\(\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})\)</span> is a <span class="math inline">\((p+1)\)</span> row vector containing a constant and the explanatories of observation <span class="math inline">\(i\)</span>, and <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \ldots, \beta_p)^\top\)</span> is a <span class="math inline">\(p+1\)</span> column vector of coefficients for the mean. The model formulation is conditional on the values of the observed explanatories; this amounts to treating the <span class="math inline">\(p\)</span> explanatory variables <span class="math inline">\(X_1, \ldots, X_p\)</span> as non-random quantities, or known in advance. The regression coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span> is the same for all observations, but the vector of explanatories <span class="math inline">\(\mathbf{x}_i\)</span> may change from one observation to the next. The model is <strong>linear</strong> in the coefficients <span class="math inline">\(\beta_0, \ldots, \beta_p\)</span>.</p>
+\end{align}\]</span> where <span class="math inline">\(\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})\)</span> is a <span class="math inline">\((p+1)\)</span> row vector containing a constant and the explanatories of observation <span class="math inline">\(i\)</span>, and <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \ldots, \beta_p)^\top\)</span> is a <span class="math inline">\(p+1\)</span> column vector of coefficients for the mean. The model formulation is conditional on the values of the observed explanatories; this amounts to treating the <span class="math inline">\(p\)</span> explanatory variables <span class="math inline">\(X_1, \ldots, X_p\)</span> as non-random quantities, or known in advance. The regression coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span> is the same for all observations, but the vector of explanatories <span class="math inline">\(\mathbf{x}_i\)</span> may change from one observation to the next.</p>
+<div id="rem-linearity" class="proof remark">
+<p><span class="proof-title"><em>Remark 4.1</em> (Linearity). </span>The model is <strong>linear</strong> in the coefficients <span class="math inline">\(\beta_0, \ldots, \beta_p\)</span>. The quadratic curve <span class="math inline">\(\beta_0 + \beta_1x + \beta_2 x^2\)</span> is a linear model because it is a sum of coefficients times functions of explanatories. By contrast, the model <span class="math inline">\(\beta_0 + \beta_1x^{\beta_2}\)</span> is nonlinear in <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
+</div>
 <p>To simplify the notation, we aggregate observations into an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\boldsymbol{Y}\)</span> and the explanatories into an <span class="math inline">\(n \times (p+1)\)</span> matrix <span class="math inline">\(\mathbf{X}\)</span> by concatenating a column of ones and the <span class="math inline">\(p\)</span> column vectors <span class="math inline">\(\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p\)</span>, each containing the <span class="math inline">\(n\)</span> observations of the respective explanatories. The matrix <span class="math inline">\(\mathbf{X}\)</span> is termed <strong>model matrix</strong> (or sometimes design matrix in experimental settings), and it’s <span class="math inline">\(i\)</span>th row is <span class="math inline">\(\mathbf{x}_i\)</span>.</p>
 <p>Assuming that the distribution of the response is drawn from a location family, we may rewrite the linear model in terms of the mean plus an error term, <span class="math display">\[\begin{align*}
 \underset{\text{observation}\vphantom{\mu_i}}{Y_i} = \underset{\text{mean } \mu_i}{\vphantom{Y_i}\mathbf{x}_i\boldsymbol{\beta}} + \underset{\text{error term}\vphantom{\mu_i}}{\vphantom{Y_i}\varepsilon_i}.
@@ -356,7 +364,10 @@ window.Quarto = {
 </ul>
 </div>
 <div id="exm-moon-vanepps" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.4</strong></span> Study 1 of <span class="citation" data-cites="Moon.VanEpps:2023">Moon and VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> considers proportion of donators to a charity. Participants in the online panel were provided with an opportunity to win 25$ and donate part of this amount to a charity of their choosing. The data provided include only people who did not exceed this amount and indicated donating a non-zero amount.</p>
+<p><span class="theorem-title"><strong>Example 4.4 (Suggestions increase donations to charities)</strong></span> Study 1 of <span class="citation" data-cites="Moon.VanEpps:2023">Moon and VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> considers proportion of donators to a charity. Participants in the online panel were provided with an opportunity to win 25$ and donate part of this amount to a charity of their choosing. The data provided include only people who did not exceed this amount and indicated donating a non-zero amount.</p>
+</div>
+<div id="exm-sokolova" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.5 (Is additional paper wrapping viewed as more eco-friendly?)</strong></span> <span class="citation" data-cites="Sokolova:2023">Sokolova, Krishna, and Döring (<a href="references.html#ref-Sokolova:2023" role="doc-biblioref">2023</a>)</span> consider consumer bias when assessing how eco-friendly packages are. Items such as cereal are packaged in plastic bags, which themselves are covered in a box. They conjecture (and find) that, paradoxically, consumers tend to view the packaging as being more eco-friendly when the amount of cardboard or paper surrounding the box is larger, relative to the sole plastic package. We consider in the sequel the data from Study 2A, which measures the perceived environmental friendliness (PEF, variable <code>pef</code>) as a function of the <code>proportion</code> of paper wrapping (either none, half of the area of the plastic, equal or twice).</p>
 </div>
 </section>
 <section id="exploratory-data-analysis" class="level3" data-number="4.1.2">
@@ -374,7 +385,7 @@ window.Quarto = {
 <li>there are no anomalies or outliers that would distort the results.</li>
 </ul>
 <div id="exm-college-eda" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.5 (Exploratory data analysis of the <code>college</code> data)</strong></span> Before drafting a model, it is useful to perform an exploratory data analysis. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.</p>
+<p><span class="theorem-title"><strong>Example 4.6 (Exploratory data analysis of the <code>college</code> data)</strong></span> Before drafting a model, it is useful to perform an exploratory data analysis. If salary increases with year, there is more heterogeneity in the salary of higher ranked professors: logically, assistant professors are either promoted or kicked out after at most 6 years according to the data. The limited number of years prevents large variability for their salaries.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-edacollege" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -422,7 +433,7 @@ Figure&nbsp;4.1: Exploratory data analysis of <code>college</code> data: salarie
 <p>Some of the potential explanatory variables of the <code>college</code> data are categorical (<code>rank</code>, <code>sex</code>, <code>field</code>), the latter two being binary. The other two continuous variables, <code>years</code> and <code>service</code>, are strongly correlated with a correlation of 0.91.</p>
 </div>
 <div id="exm-missing-values-eda" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.6 (Handling of missing values)</strong></span> The data for <span class="citation" data-cites="Moon.VanEpps:2023">Moon and VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> should be checked to ensure that the description of the data collection matches the structure of the database. Since people who didn’t donate didn’t fill in the amount field, the latter indicates a missing value. All donation amounts are between $0.25 and $25.</p>
+<p><span class="theorem-title"><strong>Example 4.7 (Handling of missing values)</strong></span> The data for <span class="citation" data-cites="Moon.VanEpps:2023">Moon and VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> should be checked to ensure that the description of the data collection matches the structure of the database. Since people who didn’t donate didn’t fill in the amount field, the latter indicates a missing value. All donation amounts are between $0.25 and $25.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(MV23_S1, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(MV23_S1)</span>
@@ -482,9 +493,9 @@ Figure&nbsp;4.2: Simple linear regression model for the salary of professors as 
 \mathsf{E}(Y \mid X_j=x_j+1, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j}) - \mathsf{E}(Y \mid X_j=x_j, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j}) = \beta_j.
 \end{align*}\]</span></p>
 <p>Another common perspective is to consider the effect of a change in the value of an explanatory variable by looking at the slope. If <span class="math inline">\(\mu=\mathbf{x}\boldsymbol{\beta}\)</span>, then the marginal effect of the <span class="math inline">\(j\)</span> explanatory <span class="math inline">\(X_j=x_j\)</span> <span class="math inline">\((j=1, \ldots, p)\)</span> is the partial derivative of the mean with respect to this value, namely <span class="math inline">\(\partial \mu/\partial x_j\)</span>.</p>
-<p>If the relationship between explanatory <span class="math inline">\(X\)</span> and response <span class="math inline">\(Y\)</span>, as assessed from a scatterplot, is not linear, we may consider more complicated function of the explanatories, as <a href="#exm-auto" class="quarto-xref">Example&nbsp;<span>4.7</span></a> shows.</p>
+<p>If the relationship between explanatory <span class="math inline">\(X\)</span> and response <span class="math inline">\(Y\)</span>, as assessed from a scatterplot, is not linear, we may consider more complicated function of the explanatories, as <a href="#exm-auto" class="quarto-xref">Example&nbsp;<span>4.8</span></a> shows.</p>
 <div id="exm-auto" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.7 (Quadratic curve for the automobile data)</strong></span> We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the <code>auto</code> dataset. The postulated model, <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Example 4.8 (Quadratic curve for the automobile data)</strong></span> We consider a linear regression model for the fuel autonomy of cars as a function of the power of their motor (measured in horsepower) from the <code>auto</code> dataset. The postulated model, <span class="math display">\[\begin{align*}
 \texttt{mpg}_i = \beta_0 + \beta_1 \texttt{horsepower}_i + \beta_2 \texttt{horsepower}_i^2 + \varepsilon_i,
 \end{align*}\]</span> includes a quadratic term. <a href="#fig-autoquad2d" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> shows the scatterplot with the fitted regression line, above which the line for the simple linear regression for horsepower is added. The marginal effect of an increase of one unit in <code>horsepower</code> is <span class="math inline">\(\beta_1 + 2\beta_2 \texttt{horsepower}\)</span>, which depends on the value of the explanatory.</p>
 <p>To fit higher order polynomials, we use the <code>poly</code> as the latter leads to more numerical stability. For general transformations, the <code>I</code> function tells the software interpret the input “as is”. Thus, <code>lm(y~x+I(x^2))</code>, would fit a linear model with design matrix <span class="math inline">\([\boldsymbol{1}_n\, \mathbf{x}\, \mathbf{x}^2]\)</span>.</p>
@@ -519,7 +530,7 @@ Figure&nbsp;4.4: 3D graphical representation of the linear regression model for 
 </div>
 </div>
 <div id="rem-discretization" class="proof remark">
-<p><span class="proof-title"><em>Remark 4.1</em> (Discretization of continuous covariates). </span>Another option is to transform a continuous variable <span class="math inline">\(X\)</span> into a categorical variable by discretizing into bins and fitting a piecewise-linear function of <span class="math inline">\(X\)</span>. The prime example of such option is treating a Likert scale as a categorical variable. While this allows one to fit more flexible functional relations between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, this comes at the cost of additional coefficients for the same estimation budget (fewer observations to estimate the effect of <span class="math inline">\(X\)</span> results in lower precision of the coefficients).</p>
+<p><span class="proof-title"><em>Remark 4.2</em> (Discretization of continuous covariates). </span>Another option is to transform a continuous variable <span class="math inline">\(X\)</span> into a categorical variable by discretizing into bins and fitting a piecewise-linear function of <span class="math inline">\(X\)</span>. The prime example of such option is treating a Likert scale as a categorical variable. While this allows one to fit more flexible functional relations between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, this comes at the cost of additional coefficients for the same estimation budget (fewer observations to estimate the effect of <span class="math inline">\(X\)</span> results in lower precision of the coefficients).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-auto-discre" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -540,7 +551,7 @@ Figure&nbsp;4.5: Piecewise-linear model for the fuel autonomy of cars as a funct
 <h3 data-number="4.1.5" class="anchored" data-anchor-id="categorical-covariates"><span class="header-section-number">4.1.5</span> Categorical covariates</h3>
 <p>Dummies are variables (columns of explanatories from the model matrix) which only include <span class="math inline">\(-1\)</span>, <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> to give indicator of the level of groups. For a binary outcome, we can create a column that has entries <span class="math inline">\(1\)</span> for the treatment and <span class="math inline">\(0\)</span> for the control group.</p>
 <div id="exm-moon" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.8 (Linear models with a single binary variable)</strong></span> <span class="citation" data-cites="Moon.VanEpps:2023">Moon and VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> consider the impact of providing suggested amounts for donations to a charity (as opposed to an open-ended request). In Study 1, participants were given the chance of winning 25$ and giving part of this amount to charity.</p>
+<p><span class="theorem-title"><strong>Example 4.9 (Linear models with a single binary variable)</strong></span> <span class="citation" data-cites="Moon.VanEpps:2023">Moon and VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> consider the impact of providing suggested amounts for donations to a charity (as opposed to an open-ended request). In Study 1, participants were given the chance of winning 25$ and giving part of this amount to charity.</p>
 <p>Consider for example a linear model that includes the <code>amount</code> (in dollars, from 0 for people who did not donate, up to 25 dollars) as a function of <span class="math display">\[\begin{align*}\texttt{condition} = \begin{cases} 0 , &amp; \text{open-ended},\\
 1, &amp; \text{suggested quantity}
 \end{cases}
@@ -570,7 +581,7 @@ Figure&nbsp;4.6: Simple linear model for the <code>MV23_S1</code> data using the
 </div>
 <p>Let us consider categorical variables with <span class="math inline">\(K &gt; 2\)</span> levels, which in <strong>R</strong> are of class <code>factor</code>. The default parametrization for factors are in terms of treatment contrast: the reference level of the factor (by default, the first value in alphanumerical order) will be treated as the reference category and assimilated to the intercept. The software will then create a set of <span class="math inline">\(K-1\)</span> dummy variables for a factor with <span class="math inline">\(K\)</span> levels, each of which will have ones for the relevant value and zero otherwise.</p>
 <div id="exm-baumann-dummies" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.9 (Dummy coding for categorical variables)</strong></span> Consider the <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, and Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span> study and the sole inclusion of the <code>group</code> variable. The data are ordered by group: the first 22 observations are for group <code>DR</code>, the 22 next ones for group <code>DRTA</code> and the last 22 for <code>TA</code>. If we fit a model with <code>group</code> as categorical variables</p>
+<p><span class="theorem-title"><strong>Example 4.10 (Dummy coding for categorical variables)</strong></span> Consider the <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, and Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span> study presented in <a href="#exm-teaching-baumann" class="quarto-xref">Example&nbsp;<span>4.2</span></a>, where we only include <code>group</code> as explanatory variable. The data are ordered by group: the first 22 observations are for group <code>DR</code>, the 22 next ones for group <code>DRTA</code> and the last 22 for <code>TA</code>. If we fit a model with <code>group</code> as categorical variables</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(BSJ92<span class="sc">$</span>group) <span class="co"># Check that group is a factor</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "factor"</span></span>
@@ -640,7 +651,7 @@ Table&nbsp;4.1: Parametrization of dummies for a categorical variable with the d
 <p>When <code>group</code>=<code>DR</code> (baseline), both indicator variables <code>groupDRTA</code> and <code>groupTA</code> are zero. The average in each group is <span class="math inline">\(\mu_{\texttt{DR}} = \beta_0\)</span>, <span class="math inline">\(\mu_{\texttt{DRTA}}=\beta_0 + \beta_1\)</span> and <span class="math inline">\(\mu_{\texttt{TA}} = \beta_0 + \beta_2\)</span>. We thus find that <span class="math inline">\(\beta_1\)</span> is the difference in mean between group <code>DRTA</code> and group <code>DR</code>, and similarly <span class="math inline">\(\beta_2=\mu_{\texttt{TA}}- \mu_{\texttt{DR}}\)</span>.</p>
 </div>
 <div id="rem-sumtozero" class="proof remark">
-<p><span class="proof-title"><em>Remark 4.2</em> (Sum-to-zero constraints). </span>The parametrization discussed above, which is the default for the <code>lm</code> function, isn’t the only one available. We consider an alternative ones: rather than comparing each group mean with that of a baseline category, the default parametrization for analysis of variance models is in terms of sum-to-zero constraints, whereby the intercept is the equiweighted average of every group, and the parameters <span class="math inline">\(\beta_1, \ldots, \beta_{K-1}\)</span> are differences to this average.</p>
+<p><span class="proof-title"><em>Remark 4.3</em> (Sum-to-zero constraints). </span>The parametrization discussed above, which is the default for the <code>lm</code> function, isn’t the only one available. We consider an alternative ones: rather than comparing each group mean with that of a baseline category, the default parametrization for analysis of variance models is in terms of sum-to-zero constraints, whereby the intercept is the equiweighted average of every group, and the parameters <span class="math inline">\(\beta_1, \ldots, \beta_{K-1}\)</span> are differences to this average.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model.matrix</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> group, </span>
@@ -694,7 +705,7 @@ Table&nbsp;4.2: Parametrization of dummies for the sum-to-zero constraints for a
 <p>If we removed the intercept, then we could include three dummies for each treatment group and each parameter would correspond to the average. This isn’t recommended in <strong>R</strong> because the software treats models without the intercept differently and some output will be nonsensical (e.g., the coefficient of determination will be wrong).</p>
 </div>
 <div id="exm-gender-disparity" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.10 (Wage inequality in an American college)</strong></span> We consider a linear regression model for the <code>college</code> data that includes sex, academic rank, field of study and the number of years of service as explanatories.</p>
+<p><span class="theorem-title"><strong>Example 4.11 (Wage inequality in an American college)</strong></span> We consider a linear regression model for the <code>college</code> data that includes sex, academic rank, field of study and the number of years of service as explanatories.</p>
 <p>The postulated model is <span class="math display">\[\begin{align*}
 \texttt{salary} &amp;= \beta_0 + \beta_1 \texttt{sex}_{\texttt{woman}} +\beta_2 \texttt{field}_{\texttt{theoretical}} \\&amp;\quad +\beta_3 \texttt{rank}_{\texttt{associate}}
 +\beta_4 \texttt{rank}_{\texttt{full}}  +\beta_5 \texttt{service} + \varepsilon.
@@ -745,7 +756,7 @@ Table&nbsp;4.2: Parametrization of dummies for the sum-to-zero constraints for a
 </ul>
 </div>
 <div id="exm-interpretation1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.11 (Parameter interpretation for analysis of covariance)</strong></span> We consider a pre-post model for the error detection task test of <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, and Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span>. We fit a linear model with the pre-test score and the experimental condition.</p>
+<p><span class="theorem-title"><strong>Example 4.12 (Parameter interpretation for analysis of covariance)</strong></span> We consider a pre-post model for the error detection task test of <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, and Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span>. We fit a linear model with the pre-test score and the experimental condition.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BSJ92, <span class="at">package =</span> <span class="st">"hecedsm"</span>) <span class="co">#load data</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(BSJ92) <span class="co"># Check that categorical variables are factors</span></span>
@@ -835,11 +846,11 @@ Figure&nbsp;4.7: Ordinary residuals <span class="math inline">\(e_i\)</span> (ve
 \end{align*}\]</span> where <span class="math inline">\(\mathsf{SS}_e\)</span> is the sum of squared residuals. The usual unbiased estimator of <span class="math inline">\(\sigma^2\)</span> calculated by software is <span class="math inline">\(S^2=\mathsf{SS}_e/(n-p-1)\)</span>, where the denominator is the sample size <span class="math inline">\(n\)</span> minus the number of mean parameters <span class="math inline">\(\boldsymbol{\beta}\)</span>, <span class="math inline">\(p+1\)</span>.</p>
 </div>
 <div id="rem-invariance" class="proof remark">
-<p><span class="proof-title"><em>Remark 4.3</em> (Invariance). </span>One direct consequence of likelihood estimation is that the fitted values <span class="math inline">\(\widehat{y}_i\)</span> for two model matrices <span class="math inline">\(\mathbf{X}_a\)</span> and <span class="math inline">\(\mathbf{X}_b\)</span>, are the same if they generate the same linear span, as in <a href="#exm-baumann-dummies" class="quarto-xref">Example&nbsp;<span>4.9</span></a>. The interpretation of the coefficients will however change. If we include an intercept term, then we get the same output if the columns of explanatory are mean-centered.</p>
+<p><span class="proof-title"><em>Remark 4.4</em> (Invariance). </span>One direct consequence of likelihood estimation is that the fitted values <span class="math inline">\(\widehat{y}_i\)</span> for two model matrices <span class="math inline">\(\mathbf{X}_a\)</span> and <span class="math inline">\(\mathbf{X}_b\)</span>, are the same if they generate the same linear span, as in <a href="#exm-baumann-dummies" class="quarto-xref">Example&nbsp;<span>4.10</span></a>. The interpretation of the coefficients will however change. If we include an intercept term, then we get the same output if the columns of explanatory are mean-centered.</p>
 </div>
 <p>The value of <span class="math inline">\(\boldsymbol{\beta}\)</span> is such that it will maximize the correlation between <span class="math inline">\(Y\)</span> and <span class="math inline">\(\widehat{Y}\)</span>. In the case of a single categorical variable, we will obtain fitted values <span class="math inline">\(\widehat{y}\)</span> that correspond to the sample mean of each group.</p>
 <div id="rem-geometry" class="proof remark">
-<p><span class="proof-title"><em>Remark 4.4</em> (Geometry). </span>The vector of fitted values <span class="math inline">\(\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)</span> is the projection of the response vector <span class="math inline">\(\boldsymbol{y}\)</span> on the linear span generated by the columns of <span class="math inline">\(\mathbf{X}\)</span>. The matrix <span class="math inline">\(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)</span>, often called hat matrix, is an orthogonal projection matrix, so <span class="math inline">\(\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top\)</span> and <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}\)</span> and <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}\)</span>. Since the vector of residuals <span class="math inline">\(\boldsymbol{e} = (e_1, \ldots, e_n)^\top\)</span>, which appear in the sum of squared errors, is defined as <span class="math inline">\(\boldsymbol{y} - \widehat{\boldsymbol{y}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}\)</span>, simple algebraic manipulations show that the inner product between ordinary residuals and fitted values is zero, since <span class="math display">\[\begin{align*}
+<p><span class="proof-title"><em>Remark 4.5</em> (Geometry). </span>The vector of fitted values <span class="math inline">\(\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)</span> is the projection of the response vector <span class="math inline">\(\boldsymbol{y}\)</span> on the linear span generated by the columns of <span class="math inline">\(\mathbf{X}\)</span>. The matrix <span class="math inline">\(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)</span>, often called hat matrix, is an orthogonal projection matrix, so <span class="math inline">\(\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top\)</span> and <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}\)</span> and <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}\)</span>. Since the vector of residuals <span class="math inline">\(\boldsymbol{e} = (e_1, \ldots, e_n)^\top\)</span>, which appear in the sum of squared errors, is defined as <span class="math inline">\(\boldsymbol{y} - \widehat{\boldsymbol{y}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}\)</span>, simple algebraic manipulations show that the inner product between ordinary residuals and fitted values is zero, since <span class="math display">\[\begin{align*}
 \widehat{\boldsymbol{y}}^\top\boldsymbol{e} &amp;= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
 \\&amp;= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&amp;=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
 \\&amp;= 0
@@ -864,9 +875,15 @@ i(\boldsymbol{\beta}, \sigma^2) =
 \end{pmatrix}
 \end{align*}\]</span> Since zero off-correlations in normal models amount to independence, the MLE for <span class="math inline">\(\sigma^2\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are independent. Provided the <span class="math inline">\((p+1)\)</span> square matrix <span class="math inline">\(\mathbf{X}^\top\mathbf{X}\)</span> is invertible, the large-sample variance of the ordinary least squares estimator is <span class="math inline">\(\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\)</span> and that of the MLE of the variance is <span class="math inline">\(2\sigma^4/n\)</span>.</p>
 </div>
-<section id="fitting-linear-models-with-software" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="fitting-linear-models-with-software"><span class="header-section-number">4.2.1</span> Fitting linear models with software</h3>
-<p>Although we could build the model matrix ourselves and use the least square formula of <a href="#eq-ols" class="quarto-xref">Equation&nbsp;<span>4.1</span></a>, the numerical routines implemented in software are typically better behaved. The <code>lm</code> function in <strong>R</strong> fits <strong>linear models</strong>, as does <code>glm</code> with the default arguments. Objects of class <code>lm</code> have multiple methods allow you to extract specific objects from <code>lm</code> objects. For example, the functions <code>coef</code>, <code>resid</code>, <code>fitted</code>, <code>model.matrix</code> will return the coefficients <span class="math inline">\(\widehat{\boldsymbol{\beta}},\)</span> the ordinary residuals <span class="math inline">\(\boldsymbol{e},\)</span> the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> and the model matrix <span class="math inline">\(\mathbf{X}\)</span>.</p>
+<div id="def-r2" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 4.1 (Coefficient of determination)</strong></span> When we specify a model, the error term <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn’t need statistic to begin with). Once we have fitted a model, we estimate the variance <span class="math inline">\(\sigma^2\)</span>; one may then wonder which share of the total variance in the sample is explained by the model.</p>
+<p>The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison — the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, <span class="math inline">\(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\)</span>. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix <span class="math inline">\(\mathbf{X}\)</span>, defined as <span class="math inline">\(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\)</span> with <span class="math inline">\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\)</span>. We define the coefficient of determination, or squared multiple correlation coefficient of the model, <span class="math inline">\(R^2\)</span>, as <span class="math display">\[\begin{align*}
+R^2 &amp;=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}\]</span> An alternative decomposition shows that <span class="math inline">\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\)</span>, i.e., the coefficient of determination can be interpreted as the square of <a href="moments">Pearson’s linear correlation</a> between the response <span class="math inline">\(\boldsymbol{y}\)</span> and the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
+</div>
+<p>Its important to note that <span class="math inline">\(R^2\)</span> is not a goodness-of-fit criterion, like the log likelihood: some phenomena are inherently noisy and even a good model will fail to account for much of the response’s variability. Moreover, one can inflate the value of <span class="math inline">\(R^2\)</span> by including more explanatory variables and making the model more complex, thereby improving the likelihood and <span class="math inline">\(R^2\)</span>. Indeed, the coefficient is non-decreasing in the dimension of <span class="math inline">\(\mathbf{X}\)</span>, so a model with <span class="math inline">\(p+1\)</span> covariate will necessarily have a higher <span class="math inline">\(R^2\)</span> values than only <span class="math inline">\(p\)</span> of the explanatories. For model comparisons, it is better to employ information criteria or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high <span class="math inline">\(R^2\)</span> may imply high correlation, but <a href="http://www.tylervigen.com/spurious-correlations">the relation may be spurious</a>: linear regression does not yield causal models!</p>
+<div id="prp-software" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 4.4 (Fitting linear models with software)</strong></span> Although we could build the model matrix ourselves and use the least square formula of <a href="#eq-ols" class="quarto-xref">Equation&nbsp;<span>4.1</span></a>, the numerical routines implemented in software are typically better behaved. The <code>lm</code> function in <strong>R</strong> fits <strong>linear models</strong>, as does <code>glm</code> with the default arguments. Objects of class <code>lm</code> have multiple methods allow you to extract specific objects from <code>lm</code> objects. For example, the functions <code>coef</code>, <code>resid</code>, <code>fitted</code>, <code>model.matrix</code> will return the coefficients <span class="math inline">\(\widehat{\boldsymbol{\beta}},\)</span> the ordinary residuals <span class="math inline">\(\boldsymbol{e},\)</span> the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> and the model matrix <span class="math inline">\(\mathbf{X}\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BSJ92, <span class="at">package =</span> <span class="st">"hecedsm"</span>) <span class="co">#load data</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(BSJ92) <span class="co"># Check that categorical variables are factors</span></span>
@@ -888,19 +905,676 @@ i(\boldsymbol{\beta}, \sigma^2) =
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>(<span class="fu">coef</span>(linmod))</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>summary</code> method is arguably the most useful: it will print mean parameter estimates along with standard errors, <span class="math inline">\(t\)</span> values for the Wald test of the hypothesis <span class="math inline">\(\mathscr{H}_0: \beta_i=0\)</span> and the associated <span class="math inline">\(P\)</span>-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table. Note that the <code>lm</code> function uses the unbiased estimator of the variance <span class="math inline">\(\sigma^2\)</span>.</p>
-<div id="rem-linearity" class="proof remark">
-<p><span class="proof-title"><em>Remark 4.5</em> (Linearity). </span>The model is linear in the coefficients <span class="math inline">\(\beta\)</span>, so the quadratic curve <span class="math inline">\(\beta_0 + \beta_1x + \beta_2 x^2\)</span> is a linear model because it is a sum of coefficients times functions of explanatories. By contrast, the model <span class="math inline">\(\beta_0 + \beta_1x^{\beta_2}\)</span> is nonlinear in <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
+<p>The <code>summary</code> method is arguably the most useful: it will print mean parameter estimates along with standard errors, <span class="math inline">\(t\)</span> values for the Wald test of the hypothesis <span class="math inline">\(\mathscr{H}_0: \beta_i=0\)</span> and the associated <span class="math inline">\(p\)</span>-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table. Note that the <code>lm</code> function uses the unbiased estimator of the variance <span class="math inline">\(\sigma^2\)</span>, denoted <span class="math inline">\(S^2\)</span> in this chapter.</p>
 </div>
 </section>
+<section id="sec-predictions-lm" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-predictions-lm"><span class="header-section-number">4.3</span> Predictions</h2>
+<p>When we compute least square estimates, we obtain fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> as <span class="math inline">\(\mathbf{X}\widehat{\boldsymbol{\beta}}\)</span>, where <span class="math inline">\(\mathbf{X}\)</span> denotes the <span class="math inline">\(n \times (p+1)\)</span> matrix of original observations. Since <span class="math inline">\(\mathsf{E}(Y_i \mid \mathbf{X}_i) = \beta_0 + \sum_{j=1}^p \beta_j \mathrm{X}_{ij}\)</span>, we can obtain an estimate of the mean surface for any value of <span class="math inline">\(\mathbf{x}_{n+1} \in \mathbb{R}^p\)</span> by replacing the unknown coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span> by our estimates <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> – this actually yields the best linear unbiased predictor of the mean.</p>
+<p>If we want to predict the value of a new observation, say <span class="math inline">\(Y_{n+1}\)</span>, with explanatories <span class="math inline">\(\mathbf{x}_{n+1} = (1, x_1, \ldots, x_p)\)</span>, the prediction of the value will also be <span class="math inline">\(\widehat{y}_{n+1} = \mathbf{x}_{n+1}\widehat{\boldsymbol{\beta}}\)</span> because <span class="math display">\[\begin{align*}
+\mathsf{E}(Y_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta} + \mathsf{E}(\varepsilon_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta}.
+\end{align*}\]</span> However, individual observations vary more than averages (which are themselves based on multiple observations). Intuitively, this is due to the added uncertainty of the error term <span class="math inline">\(\varepsilon_{n+1}\)</span> appearing in the model equation: the variability of new predictions is the sum of uncertainty due to the estimators (based on random data) and the intrinsic variance of the observations assuming the new observation is independent of those used to estimate the coefficients, <span class="math display">\[\begin{align*}
+\mathsf{Va}(Y_{n+1} \mid \mathbf{x}_n) &amp;= \mathsf{Va}(\mathrm{x}_{n+1}{\boldsymbol{\beta}} + \varepsilon_{n+1} \mid \mathbf{x}_n)
+\\&amp;=\mathsf{Va}(\mathrm{x}_{n+1}{\boldsymbol{\beta}} \mid \mathbf{x}_n) +\mathsf{Va}(\varepsilon_{n+1} \mid \mathbf{x}_n)
+\\&amp; = \sigma^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top + \sigma^2,
+\end{align*}\]</span> where <span class="math inline">\(S^2\)</span> is the unbiased estimator of the variance <span class="math inline">\(\sigma^2\)</span>. The distribution of <span class="math inline">\(Y_{n+1}\)</span> is <span class="math inline">\(Y_{n+1} \mid \mathrm{x}_{n+1} \sim \mathsf{normal}(\mathrm{x}_{n+1}\boldsymbol{\beta}, \sigma^2)\)</span> and we can base the prediction interval on the Student distribution, as <span class="math display">\[\begin{align*}
+\frac{Y_{n+1}-\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}}{\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}}\sim \mathsf{Student}(n-p-1).
+\end{align*}\]</span> We obtain <span class="math inline">\(1-\alpha\)</span> <strong>prediction interval</strong> for <span class="math inline">\(Y_{n+1}\)</span> by inverting the test statistic, <span class="math display">\[\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}.
+\end{align*}\]</span> Similar calculations yield the formula for pointwise <strong>confidence intervals for the mean</strong>, <span class="math display">\[\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top}.
+\end{align*}\]</span> The two differ only because of the additional variance of individual observations.</p>
+<div id="exm-sokolova-pred" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.13 (Prediction for simple linear regression)</strong></span> Consider the data of <a href="#exm-sokolova" class="quarto-xref">Example&nbsp;<span>4.5</span></a>. We fit a simple linear regression of the form <span class="math inline">\(\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon\)</span> with <span class="math inline">\(\varepsilon \sim \mathsf{normal}(0,\sigma^2)\)</span> and observations assumed independent.</p>
+<p><a href="#fig-predinterval" class="quarto-xref">Figure&nbsp;<span>4.8</span></a> shows pointwise uncertainty bands for a simple linear regression of the data <span class="citation" data-cites="Sokolova:2023">Sokolova, Krishna, and Döring (<a href="references.html#ref-Sokolova:2023" role="doc-biblioref">2023</a>)</span> as a function of the paper to plastic <code>proportion</code>, with larger values indicating more spurious paper wrapping. The model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 1 to 7, and that the ratios tested in the experiment are 0 (no paper), 0.5, 1 and 2. The middle line gives the prediction of individuals as we vary the proportion paper/plastic. Looking at the formulas for the confidence and prediction intervals, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors.</p>
+<p>This is more easily seen by replicating the potential curves that could have happened with different data: <a href="#fig-predinterval" class="quarto-xref">Figure&nbsp;<span>4.8</span></a> shows generated new potential slopes from the asymptotic normal distribution of <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> estimators. The hyperbolic shape is not surprising: we are basically tilting curves from the average <code>pef</code>/<code>proportion</code>, and they have higher potential from deviating the further we are from the average in each direction. The prediction intervals (pale grey) are very large and essentially cover the whole scope of potential values for the perceived environmental friendliness Likert scale, except for a couple of observations. By contrast, the confidence intervals for the mean are quite narrow, as a result of the large sample size. We can see also that the curves do not deviate much from them.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-predinterval" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-predinterval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="linearmodels_files/figure-html/fig-predinterval-1.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predinterval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.8: Prediction with prediction intervals (left) and confidence intervals for the mean (right) for the simple linear regression of perceived environmental friendliness (<code>pef</code>) as a function of the <code>proportion</code> of paper to plastic, with horizontally jittered observations. The plot shows predictions along with pointwise 95% confidence intervals of the mean and the individual predictions. The <span class="math inline">\(y\)</span>-axis has been truncated.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In <strong>R</strong>, the generic <code>predict</code> takes as input a model and a <code>newdata</code> argument contains a data frame with the same structure as the original data used to fit the model (or at least the columns of explanatory variables used).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(SKD23_S2A, <span class="at">package =</span> <span class="st">"hecedsm"</span>) <span class="co"># load data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lm_simple <span class="ot">&lt;-</span> <span class="fu">lm</span>(pef <span class="sc">~</span> proportion, <span class="at">data =</span> SKD23_S2A) <span class="co"># fit simple linear regression</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(lm_simple, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">proportion =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>)),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"prediction"</span>) <span class="co"># prediction intervals</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(lm_simple, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">proportion =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>)),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"confidence"</span>) <span class="co"># confidence for mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tbl-predints-soko" class="quarto-layout-panel anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-predints-soko-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.3: Predictions with prediction intervals (left) and confidence intervals for the mean (right).
+</figcaption>
+<div aria-describedby="tbl-predints-soko-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="do-not-create-environment cell caption-top table">
+<caption>Prediction intervals</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><code>proportion</code></th>
+<th style="text-align: center;">prediction</th>
+<th style="text-align: center;">lower</th>
+<th style="text-align: center;">upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.0</td>
+<td style="text-align: center;">2.41</td>
+<td style="text-align: center;">-0.168</td>
+<td style="text-align: center;">4.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">2.67</td>
+<td style="text-align: center;">0.097</td>
+<td style="text-align: center;">5.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;">2.93</td>
+<td style="text-align: center;">0.361</td>
+<td style="text-align: center;">5.51</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">3.46</td>
+<td style="text-align: center;">0.884</td>
+<td style="text-align: center;">6.04</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="do-not-create-environment cell caption-top table">
+<caption>Confidence intervals for the mean</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">mean</th>
+<th style="text-align: center;">lower CI</th>
+<th style="text-align: center;">upper CI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2.41</td>
+<td style="text-align: center;">2.27</td>
+<td style="text-align: center;">2.55</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2.67</td>
+<td style="text-align: center;">2.57</td>
+<td style="text-align: center;">2.77</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2.93</td>
+<td style="text-align: center;">2.84</td>
+<td style="text-align: center;">3.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3.46</td>
+<td style="text-align: center;">3.30</td>
+<td style="text-align: center;">3.62</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
 </section>
-<section id="coefR2" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="coefR2"><span class="header-section-number">4.3</span> Coefficient of determination</h2>
-<p>When we specify a model, the error term <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn’t need statistic to begin with). Once we have fitted a model, we estimate the variance <span class="math inline">\(\sigma^2\)</span>; one may then wonder which share of the total variance in the sample is explained by the model.</p>
-<p>The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison — the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, <span class="math inline">\(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\)</span>. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix <span class="math inline">\(\mathbf{X}\)</span>, defined as <span class="math inline">\(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\)</span> with <span class="math inline">\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\)</span>. We define the coefficient of determination, or squared multiple correlation coefficient of the model, <span class="math inline">\(R^2\)</span>, as <span class="math display">\[\begin{align*}
-R^2 &amp;=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
-\end{align*}\]</span> An alternative decomposition shows that <span class="math inline">\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\)</span>, i.e., the coefficient of determination can be interpreted as the square of <a href="moments">Pearson’s linear correlation</a> between the response <span class="math inline">\(\boldsymbol{y}\)</span> and the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
-<p>Its important to note that <span class="math inline">\(R^2\)</span> is not a goodness-of-fit criterion, like the log likelihood: some phenomena are inherently noisy and even a good model will fail to account for much of the response’s variability. Moreover, one can inflate the value of <span class="math inline">\(R^2\)</span> by including more explanatory variables and making the model more complex, thereby improving the likelihood and <span class="math inline">\(R^2\)</span>. Indeed, the coefficient is non-decreasing in the dimension of <span class="math inline">\(\mathbf{X}\)</span>, so a model with <span class="math inline">\(p+1\)</span> covariate will necessarily have a higher <span class="math inline">\(R^2\)</span> values than only <span class="math inline">\(p\)</span> of the explanatories. For model comparisons, it is better to employ information criteria or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high <span class="math inline">\(R^2\)</span> may imply high correlation, but <a href="http://www.tylervigen.com/spurious-correlations">the relation may be spurious</a>: linear regression does not yield causal models!</p>
+<section id="hypothesis-testing" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="hypothesis-testing"><span class="header-section-number">4.4</span> Hypothesis testing</h2>
+<p>Hypothesis testing in linear models and analysis of variance proceeds as usual: we compare two nested models, one of which (the null model) is a simplification of a more complex one obtaining by imposing restrictions on the mean coefficients.</p>
+<p>Of particular interest are tests of restrictions for components of <span class="math inline">\(\boldsymbol{\beta}\)</span>. The large sample properties of the maximum likelihood estimator imply that <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{normal}_{p+1}\left\{\boldsymbol{\beta}, \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\right\}
+\end{align*}\]</span> for sufficiently large sample size, and this result is exact for normal data. One can thus easily estimate the standard errors from the matrix upon replacing <span class="math inline">\(\sigma^2\)</span> by an estimator. With normal data, one can show that <span class="math inline">\(\mathsf{SS}_e \sim \sigma^2\chi^2_{n-p-1}\)</span> and <span class="math inline">\(\mathsf{SS}_e\)</span> is independent of <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
+<section id="tests-for-linear-regression" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="tests-for-linear-regression"><span class="header-section-number">4.4.1</span> Tests for linear regression</h3>
+<p>In an inferential setting, it’s often important to test whether the effect of an explanatory variable is significant: if <span class="math inline">\(\mathrm{X}_j\)</span> is binary or continuous, the test for <span class="math inline">\(\mathscr{H}_0: \beta_j=0\)</span> corresponds to a null marginal effect for <span class="math inline">\(\mathrm{X}_j\)</span>. The null model is a linear regression in which we remove the <span class="math inline">\((j+1)\)</span>st column of <span class="math inline">\(\mathbf{X}\)</span>, so both models are nested.</p>
+<div id="prp-wald" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 4.5 (Wald tests in linear regression)</strong></span> Recall that the Wald test statistic for the hypothesis <span class="math inline">\(\mathscr{H}_0: \beta_j=b\)</span> is <span class="math display">\[W = \frac{\widehat{\beta}_j - b}{\mathsf{se}(\widehat{\beta}_j)}.\]</span> The Wald test statistic is reported by most software for the hypothesis <span class="math inline">\(b=0\)</span>. Since <span class="math inline">\(\mathsf{Var}(\widehat{\beta}_j) = \sigma^2 [(\mathbf{X}^\top\mathbf{X})^{-1}]_{j,j}\)</span>, we can estimate standard error from <span class="math inline">\(S^2\)</span> and derive that the distribution of <span class="math inline">\(W\)</span> under the null hypothesis is <span class="math inline">\(\mathsf{Student}(n-p-1)\)</span>. This explains the terminology “<span class="math inline">\(t\)</span> values” in the <code>summary</code> table. In addition to coefficient estimates, it is possible to obtain Wald-based confidence intervals for <span class="math inline">\(\beta_j\)</span>, which are the usual <span class="math inline">\(\widehat{\beta}_j \pm \mathfrak{t}_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)\)</span>, with <span class="math inline">\(\mathfrak{t}_{n-p-1,\alpha/2}\)</span> denoting the <span class="math inline">\(1-\alpha/2\)</span> quantile of the <span class="math inline">\(\mathsf{Student}({n-p-1})\)</span> distribution.</p>
+</div>
+<div id="exm-sokolova-simple-ttest" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.14</strong></span> Consider the data from <a href="#exm-sokolova" class="quarto-xref">Example&nbsp;<span>4.5</span></a>. If we fit againt the simple linear regression model, we can extract the <span class="math inline">\(p\)</span>-values for the Wald or <span class="math inline">\(t\)</span>-tests. The test for the intercept is of no interest since data are measured on a scale from 1 to 7, so the mean response when <code>proportion=0</code> cannot be zero. The coefficient for <code>proportion</code> suggests a trend of 0.5 point per unit ratio, and this is significantly different from zero, indicating that the <code>pef</code> score changes with the paper to plastic ratio.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_simple) <span class="co"># t-tests (Wald) for beta=0 with p-values</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = pef ~ proportion, data = SKD23_S2A)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -2.460 -0.960 -0.171  0.816  4.079 </span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)   2.4074     0.0723   33.31   &lt;2e-16 ***</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; proportion    0.5264     0.0618    8.51   &lt;2e-16 ***</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 1.31 on 800 degrees of freedom</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.083,  Adjusted R-squared:  0.0819 </span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 72.5 on 1 and 800 DF,  p-value: &lt;2e-16</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm_simple) <span class="co"># confidence intervals for betas</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             2.5 % 97.5 %</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept) 2.266  2.549</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; proportion  0.405  0.648</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>For categorical variables with more than two levels, testing if <span class="math inline">\(\beta_j=0\)</span> is typically not of interest because the contrast represent the difference between the category <span class="math inline">\(\mathrm{X}_j\)</span> and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories. The hypothesis of zero contrast is awkward because it implies a null model in which selected categories are merged. Rather, we wish to compare a model in which all variables are present with one in which the categorical explanatory is omitted.</p>
+<div id="prp-ftest" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 4.6 (<em>F</em>-tests for comparison of nested linear models)</strong></span> Consider the <em>full</em> linear model which contains <span class="math inline">\(p\)</span> predictors, <span class="math display">\[\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
+\end{align*}\]</span> Suppose without loss of generality that we want to test <span class="math inline">\(\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0\)</span> (one could permute columns of the model matrix to achieve this configuration). The global hypothesis specifies that <span class="math inline">\((p-k)\)</span> of the <span class="math inline">\(\beta\)</span> parameters are zero. The <em>restricted model</em> corresponding to the null hypothesis contains only the covariates for which <span class="math inline">\(\beta_j \neq 0\)</span>, <span class="math display">\[\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
+\end{align*}\]</span> Let <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_1)\)</span> be the residuals sum of squares for model <span class="math inline">\(\mathbb{M}_1\)</span>, <span class="math display">\[\begin{align*}
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*}\]</span> where <span class="math inline">\(\widehat{Y}_i^{\mathbb{M}_1}\)</span> is the <span class="math inline">\(i\)</span>th fitted value from <span class="math inline">\(\mathbb{M}_1\)</span>. Similarly define <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0)\)</span> for the residuals sum of square of <span class="math inline">\(\mathbb{M}_0\)</span>. Clearly, <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\)</span> (why?)</p>
+<p>The <span class="math inline">\(F\)</span>-test statistic is <span class="math display">\[\begin{align*}
+F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}.
+\end{align*}\]</span> Under <span class="math inline">\(\mathscr{H}_0\)</span>, the <span class="math inline">\(F\)</span> statistic follows a Fisher distribution (<a href="introduction.html#def-Fdist" class="quarto-xref">Definition&nbsp;<span>1.14</span></a>) with <span class="math inline">\((p-k)\)</span> and <span class="math inline">\((n-p-1)\)</span> degrees of freedom, <span class="math inline">\(\mathsf{Fisher}(p-k, n-p-1)\)</span> — <span class="math inline">\(p-k\)</span> is the number of restrictions, and <span class="math inline">\(n-p-1\)</span> is sample size minus the number of coefficients for the mean of <span class="math inline">\(\mathbb{M}_1\)</span>.</p>
+</div>
+<p>It turns out that both <span class="math inline">\(F\)</span> and <span class="math inline">\(t\)</span>-statistics are equivalent for testing a single coefficient <span class="math inline">\(\beta_j\)</span>: the <span class="math inline">\(F\)</span>-statistic is the square of the Wald statistic and they lead to the same inference — the <span class="math inline">\(p\)</span>-value for the test are identical. While it may get reported in tables, the test for <span class="math inline">\(\beta_0=0\)</span> is not of interest; we keep the intercept merely to centre the residuals.</p>
+<div id="rem-lrtvsF" class="proof remark">
+<p><span class="proof-title"><em>Remark 4.6</em> (<em>F</em>-tests versus likelihood ratio tests). </span>For normal linear regression, the likelihood ratio test for comparing models <span class="math inline">\(\mathbb{M}_1\)</span> and <span class="math inline">\(\mathbb{M}_0\)</span> is a function of the sum of squared residuals: the usual formula simplifies to <span class="math display">\[\begin{align*}
+R &amp;= n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}\\
+&amp;= n \ln \left( 1+ \frac{p-k}{n-p-1}F\right)
+\end{align*}\]</span> Both the likelihood ratio test and the <span class="math inline">\(F\)</span> tests are related via an monotone transformation, and we can use the <span class="math inline">\(\mathsf{Fisher}\)</span> distribution for comparison, rather than the large-sample <span class="math inline">\(\chi^2\)</span> approximation. The <span class="math inline">\(t\)</span>-tests and <span class="math inline">\(F\)</span>-tests presented above could thus both be viewed as particular cases of <a href="@sec-liktests">likelihood-ratio tests</a> but using Student-<span class="math inline">\(t\)</span> versus normal distribution when <span class="math inline">\(p-k=1\)</span>, and <span class="math inline">\(\mathsf{Fisher}\)</span> versus <span class="math inline">\(\chi^2\)</span> when <span class="math inline">\(p-k \ge 1\)</span>. When <span class="math inline">\(n\)</span> is large, results are roughly the same.</p>
+</div>
+<!-- ### Analysis of variance tables -->
+<!-- In **R**, the generic `anova` can be used to compare two nested models by passing as arguments the simpler model and the complete model (in this order). Alternatively, we can call `anova` on the output of a linear regression model to produce an **analysis of variance** table, in which we compare the sum of square of the model with all variables, and the difference in sum of square when adding terms sequentially in the order in which they appear in the formula. The latter is typically not of interest, and we must be careful in models with interactions. -->
+</section>
+<section id="contrasts" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="contrasts"><span class="header-section-number">4.4.2</span> Contrasts</h3>
+<p>Suppose we perform an analysis of variance and the <span class="math inline">\(F\)</span>-test for the (global) null hypothesis that the averages of all groups are equal is very large: we reject the null hypothesis in favor of the alternative, which states that at least one of the group average is different. The follow-up question will be where these differences lie. Indeed, in an experimental context, this implies one or more of the manipulation has a different effect from the others on the mean response. Oftentimes, this isn’t interesting in itself: we could be interested in comparing different options relative to a control group or determine whether specific combinations work better than separately, or find the best treatment by comparing all pairs.</p>
+<p>The scientific question of interest that warranted the experiment may lead to a specific set of hypotheses, which can be formulated by researchers as comparisons between means of different subgroups. We can normally express these as <strong>contrasts</strong>. As <a href="https://stat.ethz.ch/~meier">Dr.&nbsp;Lukas Meier</a> puts it, if the global <span class="math inline">\(F\)</span>-test for equality of means is equivalent to a dimly lit room, contrasts are akin to spotlight that let one focus on particular aspects of differences in treatments. Formally speaking, a contrast is a linear combination of averages: in plain English, this means we assign a weight to each group average and add them up, and then compare that summary to a postulated value <span class="math inline">\(a\)</span>, typically zero. Contrasts encode research question of interest: if <span class="math inline">\(c_i\)</span> denotes the weight of group average <span class="math inline">\(\mu_i\)</span> <span class="math inline">\((i=1, \ldots, K)\)</span>, then we can write the contrast as <span class="math inline">\(C = c_1 \mu_1 + \cdots + c_K \mu_K\)</span> with the null hypothesis <span class="math inline">\(\mathscr{H}_0: C=a\)</span> for a two-sided alternative. The sample estimate of the linear contrast is obtained by replacing the unknown population average <span class="math inline">\(\mu_i\)</span> by the sample average of that group, <span class="math inline">\(\widehat{\mu}_i = \overline{y}_{i}\)</span>. We can easily obtain the standard error of the linear combination <span class="math inline">\(C.\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> We can then build a <span class="math inline">\(t\)</span> statistic as usual by looking at the difference between our postulated value and the observed weighted mean, suitably standardized. If the global <span class="math inline">\(F\)</span>-test leads to rejection of the null, there exists a contrast which is significant at the same level. Whenever the contrasts vectors are orthogonal, the tests will be uncorrelated. Mathematically, if we let <span class="math inline">\(c_{i}\)</span> and <span class="math inline">\(c^{*}_{i}\)</span> denote weights attached to the mean of group <span class="math inline">\(i\)</span> comprising <span class="math inline">\(n_i\)</span> observations, contrasts are orthogonal if <span class="math inline">\(c_{1}c^{*}_{1}/n_1 + \cdots + c_{K}c^{*}_K/n_K = 0\)</span>; if the sample is balanced with the same number of observations in each group, <span class="math inline">\(n/K = n_1 =\cdots = n_K\)</span>, we can consider the dot product of the two contrast vectors and neglect the subsample sizes.</p>
+<p>If we have <span class="math inline">\(K\)</span> groups, there are <span class="math inline">\(K-1\)</span> contrasts for pairwise differences, the last one being captured by the sample mean for the overall effect<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. If we care only about difference between groups (as opposed to the overall effect of all treatments), we impose a sum-to-zero constraint on the weights so <span class="math inline">\(c_1 + \cdots + c_K=0\)</span>. Keep in mind that, although independent tests are nice mathematically, contrasts should encode the hypothesis of interest to the researchers: we choose contrasts because they are meaningful, not because they are orthogonal.</p>
+</section>
+<section id="examples-of-tests" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="examples-of-tests"><span class="header-section-number">4.4.3</span> Examples of tests</h3>
+<div id="exm-moonvaepps-test" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.15 (Testing for amount of donations)</strong></span> Consider <a href="#exm-moon" class="quarto-xref">Example&nbsp;<span>4.9</span></a>, whereby we test for differences between <code>open-ended</code> amounts and pre-specified amounts for proposals (<code>quantity</code>). The test of interest is <span class="math inline">\(\mathscr{H}_0: \beta_1=0\)</span>, where <span class="math inline">\(\beta_1=\mu_{\texttt{oe}} - \mu_{\texttt{qty}}\)</span> is the mean difference between groups. Beyond the fact the difference is statistically significant at the 5% level, we also want to report the <strong>marginal means</strong>, which when we have a single categorical explanatory variable is the marginal mean averaging over all covariates.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"MV23_S1"</span>, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>MV23_S1 <span class="ot">&lt;-</span> MV23_S1 <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">amount2 =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(amount), <span class="dv">0</span>, amount))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>linmod_MV23 <span class="ot">&lt;-</span> <span class="fu">lm</span>(amount2 <span class="sc">~</span> condition, <span class="at">data =</span> MV23_S1)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Wald tests with coefficients</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linmod_MV23)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = amount2 ~ condition, data = MV23_S1)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -8.70  -6.77  -1.77   3.23  18.23 </span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)          6.771      0.377   17.95   &lt;2e-16 ***</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; conditionquantity    1.929      0.517    3.73   0.0002 ***</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 7.61 on 867 degrees of freedom</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.0158, Adjusted R-squared:  0.0147 </span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 13.9 on 1 and 867 DF,  p-value: 0.000205</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Analysis of variance table with F tests</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(linmod_MV23)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Analysis of Variance Table</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Response: amount2</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Df Sum Sq Mean Sq F value Pr(&gt;F)    </span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; condition   1    805     805    13.9 0.0002 ***</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals 867  50214      58                   </span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Marginal means</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>(emm <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(linmod_MV23, <span class="at">spec =</span> <span class="st">"condition"</span>))</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  condition  emmean    SE  df lower.CL upper.CL</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  open-ended   6.77 0.377 867     6.03     7.51</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  quantity     8.70 0.354 867     8.01     9.40</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>emm <span class="sc">|&gt;</span> emmeans<span class="sc">::</span><span class="fu">contrast</span>(<span class="at">method =</span> <span class="st">"pairwise"</span>) <span class="co"># contrast vector c(1,-1)</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  contrast                estimate    SE  df t.ratio p.value</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  (open-ended) - quantity    -1.93 0.517 867  -3.730  0.0002</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exm-teachingtoread" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.16 (Tests and contrasts for reading comprehension methods)</strong></span> We consider now testing for the <a href="#exm-teaching-baumann" class="quarto-xref">Example&nbsp;<span>4.2</span></a> and <a href="#exm-interpretation1" class="quarto-xref">Example&nbsp;<span>4.12</span></a>. The purpose of <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, and Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span> was to make a particular comparison between treatment groups. From the abstract:</p>
+<blockquote class="blockquote">
+<p>The primary quantitative analyses involved two planned orthogonal contrasts—effect of instruction (TA + DRTA vs.&nbsp;2 x DRA) and intensity of instruction (TA vs.&nbsp;DRTA).</p>
+</blockquote>
+<p>With a pre-post model, we will want to compare the means for a common value of <code>pretest1</code>, below taken to be the overall mean of the <code>pretest1</code> score.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans) <span class="co">#load package</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BSJ92, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>mod_post <span class="ot">&lt;-</span> <span class="fu">lm</span>(posttest1 <span class="sc">~</span> group <span class="sc">+</span> pretest1,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> BSJ92) <span class="co"># change name for package</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod_post, <span class="at">type =</span> <span class="dv">3</span>) <span class="co"># F-tests</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Anova Table (Type III tests)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Response: posttest1</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Sum Sq Df F value  Pr(&gt;F)    </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)      1  1    0.25    0.62    </span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group          143  2   12.17 3.5e-05 ***</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pretest1       275  1   46.67 4.2e-09 ***</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals      365 62                    </span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>emmeans_post <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(<span class="at">object =</span> mod_post,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                        <span class="at">specs =</span> <span class="st">"group"</span>) <span class="co"># which variable to keep</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The result of the analysis of variance table shows that there are indeed differences between groups. We can thus look at the estimated marginal means, which are the average of each group (here for <code>pretest1=0</code>).</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-print-pairwise-baumann" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-print-pairwise-baumann-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.4: Estimated group averages with standard errors and 95% confidence intervals for post-test 1 for pre-test1 score of 10.
+</figcaption>
+<div aria-describedby="tbl-print-pairwise-baumann-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">terms</th>
+<th style="text-align: right;">marg. mean</th>
+<th style="text-align: right;">std. err.</th>
+<th style="text-align: right;">dof</th>
+<th style="text-align: right;">lower (CI)</th>
+<th style="text-align: right;">upper (CI)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DR</td>
+<td style="text-align: right;">6.19</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">5.14</td>
+<td style="text-align: right;">7.23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DRTA</td>
+<td style="text-align: right;">9.81</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">8.78</td>
+<td style="text-align: right;">10.85</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TA</td>
+<td style="text-align: right;">8.22</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">7.18</td>
+<td style="text-align: right;">9.27</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The hypothesis of <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, and Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span> is <span class="math inline">\(\mathscr{H}_0: \mu_{\mathrm{TA}} + \mu_{\mathrm{DRTA}} = 2 \mu_{\mathrm{DRA}}\)</span> or, rewritten slightly, <span class="math display">\[\begin{align*}
+\mathscr{H}_0: - 2 \mu_{\mathrm{DR}} + \mu_{\mathrm{DRTA}} + \mu_{\mathrm{TA}} = 0.
+\end{align*}\]</span> with weights <span class="math inline">\((-2, 1, 1)\)</span>; the order of the levels for the treatment are (<span class="math inline">\(\mathrm{DRA}\)</span>, <span class="math inline">\(\mathrm{DRTA}\)</span>, <span class="math inline">\(\mathrm{TA}\)</span>) and it must match that of the coefficients. An equivalent formulation is <span class="math inline">\((2, -1, -1)\)</span> or <span class="math inline">\((1, -1/2, -1/2)\)</span>: in either case, the estimated differences will be different (up to a constant multiple or a sign change). The vector of weights for <span class="math inline">\(\mathscr{H}_0:  \mu_{\mathrm{TA}} = \mu_{\mathrm{DRTA}}\)</span> is (<span class="math inline">\(0\)</span>, <span class="math inline">\(-1\)</span>, <span class="math inline">\(1\)</span>): the zero appears because the first component, <span class="math inline">\(\mathrm{DRA}\)</span> doesn’t appear. The two contrasts are orthogonal since <span class="math inline">\((-2 \times 0) + (1 \times -1) + (1 \times 1) = 0\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the order of the level of the variables</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(BSJ92, <span class="fu">levels</span>(group))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "DR"   "DRTA" "TA"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># DR, DRTA, TA (alphabetical)</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>contrasts_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Contrasts: linear combination of means, coefficients sum to zero</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"C1: average (DRTA+TA) vs DR"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"C2: DRTA vs TA"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>contrasts_post <span class="ot">&lt;-</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contrast</span>(<span class="at">object =</span> emmeans_post,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">method =</span> contrasts_list)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>contrasts_summary_post <span class="ot">&lt;-</span> <span class="fu">summary</span>(contrasts_post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-print-contrasts" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-print-contrasts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.5: Estimated contrasts for post-test 1.
+</figcaption>
+<div aria-describedby="tbl-print-contrasts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">contrast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">std. err.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">dof</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">C1: average (DRTA+TA) vs DR</td>
+<td style="text-align: right;">2.83</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">4.40</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C2: DRTA vs TA</td>
+<td style="text-align: right;">1.59</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">2.17</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>We can look at these differences; since <code>DRTA</code> versus <code>TA</code> is a pairwise difference, we could have obtained the <span class="math inline">\(t\)</span>-statistic directly from the pairwise contrasts using <code>pairs(emmeans_post)</code>. Note that the two different ways of writing the comparison between <code>DR</code> and the average of the other two methods yield different point estimates, but same inference (i.e., the same <span class="math inline">\(p\)</span>-values). For contrast <span class="math inline">\(C_{1b}\)</span>, we get half the estimate (but the standard error is also halved) and likewise for the second contrasts we get an estimate of <span class="math inline">\(\mu_{\mathrm{DRTA}} - \mu_{\mathrm{TA}}\)</span> in the first case (<span class="math inline">\(C_2\)</span>) and <span class="math inline">\(\mu_{\mathrm{TA}} - \mu_{\mathrm{DRTA}}\)</span>: the difference in group averages is the same up to sign.</p>
+<p>What is the conclusion of our analysis of contrasts? It looks like the methods involving teaching aloud have a strong impact on reading comprehension relative to only directed reading. The evidence is not as strong when we compare the method that combines directed reading-thinking activity and thinking aloud.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract coefficients and standard errors</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>beta_pre <span class="ot">&lt;-</span> <span class="fu">coefficients</span>(mod_post)[<span class="st">'pretest1'</span>]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>se_pre <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">c</span>(<span class="fu">vcov</span>(mod_post)[<span class="st">'pretest1'</span>, <span class="st">'pretest1'</span>]))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>wald <span class="ot">&lt;-</span> (beta_pre <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">/</span>se_pre <span class="co"># Wald statistic, signed version</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># P-value based on Student-t distribution, with n-p-1 dof</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>pval <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>(<span class="fu">abs</span>(wald), <span class="at">df =</span> mod_post<span class="sc">$</span>df.residual, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Model comparison via 'anova' call</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>mod0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(posttest1 <span class="sc">~</span> <span class="fu">offset</span>(pretest1) <span class="sc">+</span> group, <span class="at">data =</span> BSJ92)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># The 'offset' fixes the term and so this is equivalent to a coefficient of 1</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>aov_tab <span class="ot">&lt;-</span> <span class="fu">anova</span>(mod0, mod_post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Another potential hypothesis of interest is testing whether the coefficient of <code>pretest1</code> is unity. This amounts to the Wald test <span class="math inline">\(w = (\widehat{\beta}_{\texttt{pretest1}}-1)/\mathsf{se}(\widehat{\beta}_{\texttt{pretest1}})= -3.024\)</span>, or alternatively a model comparison with the <code>anova</code>, which yields a test statistic of <span class="math inline">\(F=9.143\)</span>. Distribution theory shows that if <span class="math inline">\(Z \sim \mathsf{Student}(\nu)\)</span>, then <span class="math inline">\(Z^2 \sim \mathsf{Fisher}(1, \nu)\)</span>, it follows that both tests are equivalent and the <span class="math inline">\(p\)</span>-values are exactly the same.</p>
+</div>
+<div id="exm-paperorplastic" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.17 (Tests and contrasts for paper vs plastic)</strong></span> Let <span class="math inline">\(\mu_{0}, \mu_{0.5}, \mu_{1}, \mu_2\)</span> denote the true mean of the PEF score as a function of the proportion of paper for the data from <a href="#exm-sokolova" class="quarto-xref">Example&nbsp;<span>4.5</span></a>. There are several tests that could be of interest here, but we focus on contrasts performed by authors and an hypothesis test of linearity as a function of the proportion of plastic. For the latter, we could compare the linear regression model (in which the PEF score increases linearly with the proportion of paper to plastic) against the ANOVA which allows each of the four groups to have different means.</p>
+<p>If we use <span class="math inline">\(\boldsymbol{\alpha} \in \mathbb{R}^4\)</span> to denote the parameter vector of the analysis of variance model using the treatment parametrization and <span class="math inline">\(\boldsymbol{\beta} \in \mathbb{R}^2\)</span> for the simple linear regression model, then we have <span class="math display">\[\begin{align*}
+\mu_0 &amp;= \beta_0=\alpha_0 \\
+\mu_{0.5} &amp;= \beta_0 + 0.5 \beta_1 = \alpha_0 + \alpha_1\\
+\mu_1 &amp;= \beta_0 + \beta_1 = \alpha_0 + \alpha_2 \\
+\mu_2 &amp;= \beta_0 + 2 \beta_1= \alpha_0 + \alpha_3.
+\end{align*}\]</span> The test comparing the simple linear regression with the analysis of variance imposes two simultaneous restrictions, with <span class="math inline">\(\mathscr{H}_0: \alpha_3 = 2\alpha_2= 4\alpha_1\)</span>, so the null distribution is <span class="math inline">\(\mathsf{Fisher}(2, 798)\)</span> or roughly <span class="math inline">\(\chi^2_2\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(SKD23_S2A, <span class="at">package =</span> <span class="st">"hecedsm"</span>) <span class="co"># load data</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>linmod <span class="ot">&lt;-</span> <span class="fu">lm</span>(pef <span class="sc">~</span> proportion, <span class="at">data =</span> SKD23_S2A) <span class="co"># fit simple linear regression</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(linmod) <span class="co"># extract intercept and slope</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)  proportion </span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       2.407       0.526</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>anovamod <span class="ot">&lt;-</span> <span class="fu">lm</span>(pef <span class="sc">~</span> <span class="fu">factor</span>(proportion), <span class="co"># one-way ANOVA</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> SKD23_S2A) </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare simple linear regression with ANOVA</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(linmod, anovamod) <span class="co"># is the change in PEF linear?</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Analysis of Variance Table</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model 1: pef ~ proportion</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model 2: pef ~ factor(proportion)</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Res.Df  RSS Df Sum of Sq    F  Pr(&gt;F)    </span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    800 1373                              </span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    798 1343  2      29.3 8.69 0.00018 ***</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Specifying the weights - these are not contrasts!</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">linearHypothesis</span>(<span class="at">model =</span> anovamod, </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>   <span class="at">hypothesis =</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>)))</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Linear hypothesis test</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Hypothesis:</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; - 2 factor(proportion)0.5  + factor(proportion)1 = 0</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; - 2 factor(proportion)1  + factor(proportion)2 = 0</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model 1: restricted model</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model 2: pef ~ factor(proportion)</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Res.Df  RSS Df Sum of Sq    F  Pr(&gt;F)    </span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    800 1373                              </span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    798 1343  2      29.3 8.69 0.00018 ***</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We see from the output that the <span class="math inline">\(F\)</span> tests and the <span class="math inline">\(p\)</span>-values are identical, whether we impose the constraints manually or simply feed the two nested models to the <code>anova</code> method.</p>
+<p>The authors were interested in comparing none with other choices: we are interested in pairwise differences, but only relative to the reference <span class="math inline">\(\mu_{0}\)</span>: <span class="math display">\[\begin{align*}
+\mu_0 = \mu_{0.5}  &amp; \iff 1\mu_0 - 1\mu_{0.5} + 0\mu_{1} + 0 \mu_{2} = 0\\
+\mu_0 = \mu_{1} &amp; \iff 1\mu_0 + 0\mu_{0.5} -1\mu_{1} + 0 \mu_{2} = 0\\
+\mu_0 = \mu_{2} &amp; \iff 1\mu_0 + 0\mu_{0.5} + 0\mu_{1} -1 \mu_{2} = 0
+\end{align*}\]</span> so contrast vectors <span class="math inline">\((1, -1, 0, 0)\)</span>, <span class="math inline">\((1, 0, -1, 0)\)</span> and <span class="math inline">\((1, 0, 0, -1)\)</span> for the marginal means would allow one to test the hypothesis.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>margmean <span class="ot">&lt;-</span> anovamod <span class="sc">|&gt;</span>  </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  emmeans<span class="sc">::</span><span class="fu">emmeans</span>(<span class="at">specs =</span> <span class="st">"proportion"</span>) <span class="co"># group means</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>contrastlist <span class="ot">&lt;-</span> <span class="fu">list</span>( <span class="co"># specify contrast vectors</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">refvshalf =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">refvsone =</span>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">refvstwo =</span>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute contrasts relative to reference</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>margmean <span class="sc">|&gt;</span> emmeans<span class="sc">::</span><span class="fu">contrast</span>(<span class="at">method =</span> contrastlist)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  contrast  estimate    SE  df t.ratio p.value</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  refvshalf   -0.749 0.131 798  -5.710  &lt;.0001</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  refvsone    -0.901 0.131 798  -6.890  &lt;.0001</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  refvstwo    -1.182 0.129 798  -9.200  &lt;.0001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The group averages are reported in <a href="#tbl-print-groupmeans-PEF" class="quarto-xref">Table&nbsp;<span>4.6</span></a>, match those reported by the authors in the paper. They suggest an increased perceived environmental friendliness as the amount of paper used in the wrapping increases. We could fit a simple regression model to assess the average change, treating the proportion as a continuous explanatory variable. The estimated slope for the change in PEF score, which ranges from 1 to 7 in increments of 0.25, is 0.53 point per ratio of paper/plastic. There is however strong evidence, given the data, that the change isn’t quite linear, as the fit of the linear regression model is significantly worse than the corresponding linear model.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-print-groupmeans-PEF" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-print-groupmeans-PEF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.6: Estimated group averages of PEF per proportion with standard errors
+</figcaption>
+<div aria-describedby="tbl-print-groupmeans-PEF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">proportion</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">marg. mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">std. err.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">dof</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">lower (CI)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">upper (CI)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">2.16</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">1.98</td>
+<td style="text-align: right;">2.34</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">2.91</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">2.73</td>
+<td style="text-align: right;">3.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">3.06</td>
+<td style="text-align: right;">0.092</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">3.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.34</td>
+<td style="text-align: right;">0.089</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">3.17</td>
+<td style="text-align: right;">3.52</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-print-contrast-PEF" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-print-contrast-PEF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.7: Estimated contrasts for differences of PEF to no paper.
+</figcaption>
+<div aria-describedby="tbl-print-contrast-PEF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">contrast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">std. err.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">dof</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">refvshalf</td>
+<td style="text-align: right;">-0.75</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">-5.71</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">refvsone</td>
+<td style="text-align: right;">-0.90</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">-6.89</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">refvstwo</td>
+<td style="text-align: right;">-1.18</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">-9.20</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>All differences reported in <a href="#tbl-print-contrast-PEF" class="quarto-xref">Table&nbsp;<span>4.7</span></a> are significant and positive, in line with the researcher’s hypothesis.</p>
+</div>
+<div id="exm-tests-college" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.18 (Testing for the college wage discrimination)</strong></span> Consider the <code>college</code> data example and the associated linear model with <code>rank</code>, <code>sex</code>, years of <code>service</code> and <code>field</code> as covariates.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(college, <span class="at">package =</span> <span class="st">"hecstatmod"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mod1_college <span class="ot">&lt;-</span> <span class="fu">lm</span>(salary <span class="sc">~</span> sex <span class="sc">+</span> field <span class="sc">+</span> rank <span class="sc">+</span> service , <span class="at">data =</span> college)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>mod0_college <span class="ot">&lt;-</span> <span class="fu">lm</span>(salary <span class="sc">~</span> field <span class="sc">+</span> rank <span class="sc">+</span> service , <span class="at">data =</span> college)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># F-test with ANOVA table comparing nested models</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>aov_tab_college <span class="ot">&lt;-</span> <span class="fu">anova</span>(mod0_college, mod1_college)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Wald t-test - extracted from the output of the 'summary' table</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>wald_college <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod1_college)<span class="sc">$</span>coefficients[<span class="dv">2</span>,]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood ratio test with chi-square approximation</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>pval_lrt <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(<span class="at">q =</span> <span class="fu">as.numeric</span>(<span class="dv">2</span><span class="sc">*</span>(<span class="fu">logLik</span>(mod1_college) <span class="sc">-</span> <span class="fu">logLik</span>(mod0_college))),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The only test of interest here is <span class="math inline">\(\mathscr{H}_0: \beta_{\texttt{sex}} = 0\)</span> against the two-sided alternative <span class="math inline">\(\mathscr{H}_a: \beta_{\texttt{sex}} \neq 0\)</span>. The Wald <span class="math inline">\(t\)</span>-test statistic is <span class="math inline">\(-1.23\)</span>, with a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(0.219\)</span> based on a Student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(391\)</span> degrees of freedom. The <span class="math inline">\(p\)</span>-value in the output from the <span class="math inline">\(F\)</span>-test is the same, and that obtained from the likelihood ratio test the same up to two decimal places.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Table of linear regression coefficients with associated standard errors, Wald tests and <span class="math inline">\(p\)</span>-values based on Student-<span class="math inline">\(t\)</span> distribution.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std. error</th>
+<th style="text-align: right;">Wald stat.</th>
+<th style="text-align: right;">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">86.596</td>
+<td style="text-align: right;">2.96</td>
+<td style="text-align: right;">29.25</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sex [woman]</td>
+<td style="text-align: right;">-4.771</td>
+<td style="text-align: right;">3.878</td>
+<td style="text-align: right;">-1.23</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">field [theoretical]</td>
+<td style="text-align: right;">-13.473</td>
+<td style="text-align: right;">2.315</td>
+<td style="text-align: right;">-5.82</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rank [associate]</td>
+<td style="text-align: right;">14.56</td>
+<td style="text-align: right;">4.098</td>
+<td style="text-align: right;">3.55</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rank [full]</td>
+<td style="text-align: right;">49.16</td>
+<td style="text-align: right;">3.834</td>
+<td style="text-align: right;">12.82</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">service</td>
+<td style="text-align: right;">-0.089</td>
+<td style="text-align: right;">0.112</td>
+<td style="text-align: right;">-0.8</td>
+<td style="text-align: right;">0.43</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 <!--
 1. 
 [X] Motivating examples from management sciences
@@ -972,8 +1646,9 @@ Testing
 Normal model and tacit assumptions
 -->
 </section>
-<section id="model-assumptions" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="model-assumptions"><span class="header-section-number">4.4</span> Model assumptions</h2>
+</section>
+<section id="model-assumptions" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="model-assumptions"><span class="header-section-number">4.5</span> Model assumptions</h2>
 <p>So far, we have fit models and tested significance of the parameters without checking the model assumptions. The correctness of statements about the <span class="math inline">\(p\)</span>-values and confidence intervals depend on the (approximate) validity of the model assumptions, which all stem from the distributional assumption for the error, assumed to be independent and identically distributed with <span class="math inline">\(\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{normal}(0, \sigma^2)\)</span>. This compact mathematical description can be broken down into four assumptions.</p>
 <ul>
 <li>linearity: the mean of <span class="math inline">\(Y\)</span> is <span class="math inline">\(\beta_0 + \beta_1\mathrm{X}_1 + \cdots + \beta_p \mathrm{X}_p\)</span>.</li>
@@ -987,8 +1662,8 @@ Normal model and tacit assumptions
 <ul>
 <li><a href="https://otexts.com/fpp2/regression-evaluation.html">Forecasting: Principles and Practice, section 5.3</a></li>
 </ul>
-<section id="residuals" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="residuals"><span class="header-section-number">4.4.1</span> Residuals</h3>
+<section id="residuals" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="residuals"><span class="header-section-number">4.5.1</span> Residuals</h3>
 <p>Residuals are predictions of the errors <span class="math inline">\(\varepsilon\)</span> and represent the difference between the observed value <span class="math inline">\(Y_i\)</span> and the estimated value on the line. The ordinary residuals are <span class="math display">\[\begin{align*}
 e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 \end{align*}\]</span> The sum of the ordinary residuals is always zero by construction if the model includes an intercept, meaning <span class="math inline">\(\overline{e} = 0\)</span>.</p>
@@ -999,8 +1674,8 @@ e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 <p>While the jackknife studentized residuals <span class="math inline">\(r_i\)</span> are not orthogonal, they are not very different. Use jackknife residuals <span class="math inline">\(\boldsymbol{r}\)</span> to check for equality of variance and distributional assumptions (e.g., using quantile-quantile plots).</p>
 <p>One thus typically uses ordinary residuals <span class="math inline">\(\boldsymbol{e}\)</span> for plots of fitted values/explanatories against residuals and otherwise jackknife studentized residuals for any other graphical diagnostic plot.</p>
 </section>
-<section id="collinearity" class="level3" data-number="4.4.2">
-<h3 data-number="4.4.2" class="anchored" data-anchor-id="collinearity"><span class="header-section-number">4.4.2</span> Collinearity</h3>
+<section id="collinearity" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="collinearity"><span class="header-section-number">4.5.2</span> Collinearity</h3>
 <p>The linearity assumption can be interpreted broadly to mean that all relevant covariates have been included and that their effect is correctly specified in the equation of the mean. Adding superfluous covariates to a model has limited impact: if the (partial) correlation between a column vector <span class="math inline">\(\mathbf{X}_k\)</span> and the response variable <span class="math inline">\(\boldsymbol{Y}\)</span> is zero, then <span class="math inline">\(\beta_k=0\)</span> and the estimated coefficient <span class="math inline">\(\widehat{\beta}_k \approx 0\)</span> because the least square estimators are unbiased. If we include many useless variables, say <span class="math inline">\(k\)</span>, the lack of parsimony can however make interpretation more difficult. The price to pay for including the <span class="math inline">\(k\)</span> additional covariates is an increase in the variance of the estimators <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
 <p>It is nevertheless preferable to include more variables than to forget key predictors: if we omit an important predictor, their effect may be picked up by other regressors (termed <strong>confounders</strong>) in the model with are correlated with the omitted variable. The interpretation of the other effects can be severely affected by confounders. For example, the simple linear model (or two-sample <span class="math inline">\(t\)</span>-test) for salary as a function of sex for the <code>college</code> data is invalid because sex is a confounder for rank. Since there are more men than women full professor, the mean salary difference between men and women is higher than it truly is. One way to account for this is to include control variables (such as rank), whose effect we need not be interested in, but that are necessary for the model to be adequate. We could also have used stratification, i.e., tested for wage discrimination within each academic rank. This is the reason why sociodemographic variables (sex, age, education level, etc.) are collected as part of studies.</p>
 <p>A linear model is not a <a href="https://xkcd.com/552/">causal model</a>: all it does is capture the linear correlation between an explanatory variable and the response. When there are more than one explanatory, the effect of <span class="math inline">\(\mathrm{X}_j\)</span> given what has not already been explained by <span class="math inline">\(\mathbf{X}_{-j}\)</span>. Thus, if we fail to reject <span class="math inline">\(\mathscr{H}_0:\beta_j=0\)</span> in favor of the alternative <span class="math inline">\(\mathscr{H}_1: \beta_j \neq 0\)</span>, we can only say that there is no significant <em>linear</em> association between <span class="math inline">\(\mathrm{X}_j\)</span> and <span class="math inline">\(Y\)</span> once the effect of other variables included in the model has been accounted for. There are thus two scenarios: either the response is uncorrelated with <span class="math inline">\(\mathrm{X}_j\)</span> (uninteresting case, but easy to pick up by plotting both or computing linear correlation), or else there is a strong correlation between <span class="math inline">\(\mathrm{X}_j\)</span> and both the response <span class="math inline">\(Y\)</span> as well as (some) of the other explanatory variables <span class="math inline">\(\mathrm{X}_1, \ldots, \mathrm{X}_p\)</span>. This problem is termed (multi)collinearity.</p>
@@ -1019,7 +1694,7 @@ e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 </ul>
 <p>Whatever the method, it’s important to understand that it can be very difficult (and sometimes impossible) to isolate the individual effect of a predictor variable strongly correlated with other predictors.</p>
 <div id="exm-collegedatcollinear" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.12 (Collinearity in the <code>college</code> data)</strong></span> We consider the <code>college</code> data analysis and include all the covariates in the database, including <code>years</code>, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, <code>service</code> and <code>years</code> is 0.91. The variance inflation factor for the five covariates</p>
+<p><span class="theorem-title"><strong>Example 4.19 (Collinearity in the <code>college</code> data)</strong></span> We consider the <code>college</code> data analysis and include all the covariates in the database, including <code>years</code>, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, <code>service</code> and <code>years</code> is 0.91. The variance inflation factor for the five covariates</p>
 <p>For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor <span class="citation" data-cites="Fox:1992">(<a href="references.html#ref-Fox:1992" role="doc-biblioref">Fox and Monette 1992</a>)</span>. Here, we are interested in gender disparities, so the fact that both service and field are strongly correlated is not problematic, since the <span class="math inline">\(\mathsf{VIF}\)</span> for <span class="math inline">\(\texttt{sex}\)</span> is not high and the other variables are there to act as control and avoid confounders.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -1048,8 +1723,8 @@ e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 </div>
 </div>
 </section>
-<section id="leverage-and-outliers" class="level3" data-number="4.4.3">
-<h3 data-number="4.4.3" class="anchored" data-anchor-id="leverage-and-outliers"><span class="header-section-number">4.4.3</span> Leverage and outliers</h3>
+<section id="leverage-and-outliers" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="leverage-and-outliers"><span class="header-section-number">4.5.3</span> Leverage and outliers</h3>
 <p>The leverage <span class="math inline">\(h_i\)</span> of observation <span class="math inline">\(i\)</span> measures its impact on the least square fit, since we can write <span class="math inline">\(h_i = \partial \widehat{y}_i/\partial y_i\)</span>. Leverage values tell us how much each point impacts the fit: they are strictly positive, are bounded below by <span class="math inline">\(1/n\)</span> and above by <span class="math inline">\(1\)</span>. The sum of the leverage values is <span class="math inline">\(\sum_{i=1}^n h_i=p+1\)</span>: in a good design, each point has approximately the same contribution, with average weight <span class="math inline">\((p+1)/n\)</span>.</p>
 <p>Points with high leverage are those that have unusual combinations of explanatories. An influential observation (<span class="math inline">\(h_i\approx 1\)</span>) pulls the fitted hyperplane towards itself so that <span class="math inline">\(\hat{y}_i \approx y_i\)</span>. As a rule of thumb, points with <span class="math inline">\(h_i&gt; 2(p+1)/n\)</span> should be scrutinized.</p>
 <p>It is important to distinguish betwen <strong>influential</strong> observations (which have unusual <span class="math inline">\(\mathbf{x}\)</span> value, i.e., far from the overall mean) and <strong>outliers</strong> (unusual value of the response <span class="math inline">\(y\)</span>). If an observation is both an outlier and has a high leverage, it is problematic.</p>
@@ -1061,7 +1736,7 @@ e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 <img src="linearmodels_files/figure-html/fig-outliers-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.8: Outlier and influential observation. The left panel shows an outlier, whereas the right panel shows an influential variable (rightmost <span class="math inline">\(x\)</span> value).
+Figure&nbsp;4.9: Outlier and influential observation. The left panel shows an outlier, whereas the right panel shows an influential variable (rightmost <span class="math inline">\(x\)</span> value).
 </figcaption>
 </figure>
 </div>
@@ -1075,11 +1750,11 @@ C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\righ
 <p>Except in obvious scenarios, unusual observations should not be discarded. In very large samples, the impact of a single outlier is hopefully limited. Transformations of the response may help reduce outlyingness. Otherwise, alternative objective functions (as those employed in robust regression) can be used; these downweight extreme observations, at the cost of efficiency.</p>
 </section>
 </section>
-<section id="diagnostic-plots" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="diagnostic-plots"><span class="header-section-number">4.5</span> Diagnostic plots</h2>
+<section id="diagnostic-plots" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="diagnostic-plots"><span class="header-section-number">4.6</span> Diagnostic plots</h2>
 <p>We review the assumptions in turn and discuss what happens when the assumptions fail to hold.</p>
-<section id="independence-assumption" class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="independence-assumption"><span class="header-section-number">4.5.1</span> Independence assumption</h3>
+<section id="independence-assumption" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="independence-assumption"><span class="header-section-number">4.6.1</span> Independence assumption</h3>
 <p>Usually, the independence of the observations follows directly from the type of sampling used — this assumption is implicitly true if the observations were taken from a <em>random sample</em> from the population. This is generally not the case for longitudinal data, which contains repeated measures from the same individuals across time. Likewise, time series are bound not to have independent observations. If we want to include all the time points in the analysis, we must take into account the possible dependence (correlation) between observations. If we ignore correlation, the estimated standard errors are too small relative to the truth, so the effective sample size is smaller than number of observations.</p>
 <p>What is the impact of dependence between measurements? Heuristically, correlated measurements carry less information than independent ones. In the most extreme case, there is no additional information and measurements are identical, but adding them multiple times unduly inflates the statistic and leads to more frequent rejections.</p>
 <div class="cell" data-layout-align="center">
@@ -1090,13 +1765,13 @@ C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\righ
 <img src="linearmodels_files/figure-html/fig-plotLevelIndep-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotLevelIndep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.9: Percentage of rejection of the null hypothesis for the <span class="math inline">\(F\)</span>-test of equality of means for the one way ANOVA with data generated with equal mean and variance from an equicorrelation model (within group observations are correlated, between group observations are independent). The nominal level of the test is 5%.
+Figure&nbsp;4.10: Percentage of rejection of the null hypothesis for the <span class="math inline">\(F\)</span>-test of equality of means for the one way ANOVA with data generated with equal mean and variance from an equicorrelation model (within group observations are correlated, between group observations are independent). The nominal level of the test is 5%.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>The lack of independence can also have drastic consequences on inference and lead to false conclusions: <a href="#fig-plotLevelIndep" class="quarto-xref">Figure&nbsp;<span>4.9</span></a> shows an example with correlated samples within group (or equivalently repeated measurements from individuals) with 25 observations per group. The <span class="math inline">\(y\)</span>-axis shows the proportion of times the null is rejected when it shouldn’t be. Here, since the data are generated from the null model (equal mean) with equal variance, the inflation in the number of spurious discoveries, false alarm or type I error is alarming and the inflation is substantial even with very limited correlation between measurements.</p>
+<p>The lack of independence can also have drastic consequences on inference and lead to false conclusions: <a href="#fig-plotLevelIndep" class="quarto-xref">Figure&nbsp;<span>4.10</span></a> shows an example with correlated samples within group (or equivalently repeated measurements from individuals) with 25 observations per group. The <span class="math inline">\(y\)</span>-axis shows the proportion of times the null is rejected when it shouldn’t be. Here, since the data are generated from the null model (equal mean) with equal variance, the inflation in the number of spurious discoveries, false alarm or type I error is alarming and the inflation is substantial even with very limited correlation between measurements.</p>
 <p>The first source of dependence is clustered data, meaning measurements taken from subjects that are not independent from one another (family, groups, etc.) More generally, correlation between observations can arises from space-time dependence, roughly categorized into</p>
 <ul>
 <li>longitudinal data: repeated measurements are taken from the same subjects (few time points)</li>
@@ -1111,7 +1786,7 @@ Figure&nbsp;4.9: Percentage of rejection of the null hypothesis for the <span cl
 <img src="linearmodels_files/figure-html/fig-timeresidplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeresidplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.10: Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals.
+Figure&nbsp;4.11: Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals.
 </figcaption>
 </figure>
 </div>
@@ -1121,7 +1796,7 @@ Figure&nbsp;4.10: Lagged residual plots: there is no evidence against independen
 <p>For <span class="math inline">\(y_1, \ldots, y_n\)</span> and constant time lags <span class="math inline">\(h=0, 1, \ldots\)</span> units, the autocorrelation at lag <span class="math inline">\(h\)</span> is <span class="math display">\[\begin{align*}
 r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y})
 \end{align*}\]</span></p>
-<p>If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in <a href="#fig-correlogram" class="quarto-xref">Figure&nbsp;<span>4.11</span></a>. Presence of autocorrelation requires modelling the correlation between observations explicitly using dedicated tools from the time series literature. We will however examine <span class="math inline">\(\mathsf{AR}(1)\)</span> models as part of the chapter on longitudinal data.</p>
+<p>If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in <a href="#fig-correlogram" class="quarto-xref">Figure&nbsp;<span>4.12</span></a>. Presence of autocorrelation requires modelling the correlation between observations explicitly using dedicated tools from the time series literature. We will however examine <span class="math inline">\(\mathsf{AR}(1)\)</span> models as part of the chapter on longitudinal data.</p>
 <p>When observations are positively correlated, the estimated standard errors reported by the software are too small. This means we are overconfident and will reject the null hypothesis more often then we should if the null is true (inflated Type I error, or false positive).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -1131,16 +1806,16 @@ r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-
 <img src="linearmodels_files/figure-html/fig-correlogram-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.11: Correlogram of independent observations (left) and the ordinary residuals of the log-linear model fitted to the air passengers data (right). While the mean model of the latter is seemingly correctly specified, there is residual dependence between monthly observations and yearly (at lag 12). The blue lines give approximate pointwise 95% confidence intervals for white noise (uncorrelated observations).
+Figure&nbsp;4.12: Correlogram of independent observations (left) and the ordinary residuals of the log-linear model fitted to the air passengers data (right). While the mean model of the latter is seemingly correctly specified, there is residual dependence between monthly observations and yearly (at lag 12). The blue lines give approximate pointwise 95% confidence intervals for white noise (uncorrelated observations).
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="linearity-assumption" class="level3" data-number="4.5.2">
-<h3 data-number="4.5.2" class="anchored" data-anchor-id="linearity-assumption"><span class="header-section-number">4.5.2</span> Linearity assumption</h3>
-<p>The second assumption of the linear model is that of linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified. To check that the response surface of the linear model is adequate, we plot <span class="math inline">\(e_i\)</span> against <span class="math inline">\(\widehat{y}_i\)</span> or <span class="math inline">\(\mathrm{X}_{ij}\)</span> (for <span class="math inline">\(j=1, \ldots, p\)</span>). Since the linear correlation between <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> (or <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\mathbf{X}_j\)</span>) is zero by construction, patterns (e.g., quadratic trend, cycles, changepoints) are indicative of misspecification of the mean model. One can add a smoother to detect patterns. <a href="#fig-regdiaglin" class="quarto-xref">Figure&nbsp;<span>4.12</span></a> shows three diagnostics plots, the second of which shows no pattern in the residuals, but skewed fitted values.</p>
+<section id="linearity-assumption" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="linearity-assumption"><span class="header-section-number">4.6.2</span> Linearity assumption</h3>
+<p>The second assumption of the linear model is that of linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified. To check that the response surface of the linear model is adequate, we plot <span class="math inline">\(e_i\)</span> against <span class="math inline">\(\widehat{y}_i\)</span> or <span class="math inline">\(\mathrm{X}_{ij}\)</span> (for <span class="math inline">\(j=1, \ldots, p\)</span>). Since the linear correlation between <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> (or <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\mathbf{X}_j\)</span>) is zero by construction, patterns (e.g., quadratic trend, cycles, changepoints) are indicative of misspecification of the mean model. One can add a smoother to detect patterns. <a href="#fig-regdiaglin" class="quarto-xref">Figure&nbsp;<span>4.13</span></a> shows three diagnostics plots, the second of which shows no pattern in the residuals, but skewed fitted values.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-regdiaglin" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1149,7 +1824,7 @@ Figure&nbsp;4.11: Correlogram of independent observations (left) and the ordinar
 <img src="linearmodels_files/figure-html/fig-regdiaglin-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-regdiaglin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.12: Scatterplots of residuals against fitted values. The first two plots show no departure from linearity (mean zero). The third plot shows a clear quadratic pattern, suggesting the mean model is misspecified. Note that the distribution of the fitted value need not be uniform, as in the second panel which shows more high fitted values.
+Figure&nbsp;4.13: Scatterplots of residuals against fitted values. The first two plots show no departure from linearity (mean zero). The third plot shows a clear quadratic pattern, suggesting the mean model is misspecified. Note that the distribution of the fitted value need not be uniform, as in the second panel which shows more high fitted values.
 </figcaption>
 </figure>
 </div>
@@ -1159,11 +1834,11 @@ Figure&nbsp;4.12: Scatterplots of residuals against fitted values. The first two
 <p>Plotting residuals against left-out explanatory variables can also serve to check that all of the explanatory power of the omitted covariate is already explained by the columns of <span class="math inline">\(\mathbf{X}\)</span>.</p>
 <p>If an important variable has been omitted and is not available in the dataset, then the effect of that variable is captured by both the errors (the portion orthogonal to the model matrix <span class="math inline">\(\mathbf{X}\)</span>, i.e., unexplained by the covariates included in the model) and the remaining part is captured by other explanatories of the model that are correlated with the omitted variable. These variables can act as confounders. There is little that can be done in either case unless the data for the omitted variable are available, but subject-specific knowledge may help make sense of the results.</p>
 </section>
-<section id="constant-variance-assumption" class="level3" data-number="4.5.3">
-<h3 data-number="4.5.3" class="anchored" data-anchor-id="constant-variance-assumption"><span class="header-section-number">4.5.3</span> Constant variance assumption</h3>
+<section id="constant-variance-assumption" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="constant-variance-assumption"><span class="header-section-number">4.6.3</span> Constant variance assumption</h3>
 <p>If the variance of the errors is the same for all observations (homoscedasticity), that of the observations <span class="math inline">\(Y\)</span> is also constant. The most common scenarios for heteroscedasticity are increases in variance with the response, or else variance that depends on explanatory variables <span class="math inline">\(\mathbf{X}\)</span>, most notably categorical variables. For the former, a log-transform (or Box–Cox transformation) can help stabilize the variance, but we need the response to be positive. For the latter, we can explicitly model that variance and we will see how to include different variance per group later on. A popular strategy in the econometrics literature, is to use robust (inflated) estimators of the standard errors such as <a href="https://en.wikipedia.org/wiki/Heteroscedasticity-consistent_standard_errors">White’s sandwich estimator of the variance</a>.</p>
 <p>If the residuals (or observations) are heteroscedastic (non constant variance), the estimated effects of the variables (the <span class="math inline">\(\beta\)</span> parameters) are still valid in the sense that the ordinary least squares estimator <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> is unbiased. However, the estimated standard errors of the <span class="math inline">\(\widehat{\beta}\)</span> are no longer reliable and, consequently, the confidence intervals and the hypothesis tests for the model parameters will be incorrect. Indeed, if the variance of the errors differs from one observation to the next, we will estimate an average of the different variance terms. The standard errors of each term are incorrect (too small or too large) and the conclusions of the tests (<span class="math inline">\(p\)</span>-values) will be off because the formulas of both <span class="math inline">\(t\)</span>-test and <span class="math inline">\(F\)</span>-test statistics include estimates of <span class="math inline">\(\hat{\sigma}^2\)</span>.</p>
-<p>Looking at the plot of jackknife studentized residuals against regressors (or fitted values) is instructive — for example, we often see a funnel pattern when there is an increase in variance in the plot of the jackknife studentized residuals against fitted value, or else in boxplots with a categorical variable as in <a href="#fig-diagfitvalhomosce" class="quarto-xref">Figure&nbsp;<span>4.14</span></a>. However, if we want to fit a local smoother to observe trends, it is better to plot the absolute value of the jackknife studentized residuals against regressors or observation number.</p>
+<p>Looking at the plot of jackknife studentized residuals against regressors (or fitted values) is instructive — for example, we often see a funnel pattern when there is an increase in variance in the plot of the jackknife studentized residuals against fitted value, or else in boxplots with a categorical variable as in <a href="#fig-diagfitvalhomosce" class="quarto-xref">Figure&nbsp;<span>4.15</span></a>. However, if we want to fit a local smoother to observe trends, it is better to plot the absolute value of the jackknife studentized residuals against regressors or observation number.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-residhomoscedastic" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1172,7 +1847,7 @@ Figure&nbsp;4.12: Scatterplots of residuals against fitted values. The first two
 <img src="linearmodels_files/figure-html/fig-residhomoscedastic-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residhomoscedastic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.13: Plot of the absolute value of jackknife studentized residuals against observation number. The left panel is typical of homoscedastic data, whereas the right panel indicates an increase in the variance.
+Figure&nbsp;4.14: Plot of the absolute value of jackknife studentized residuals against observation number. The left panel is typical of homoscedastic data, whereas the right panel indicates an increase in the variance.
 </figcaption>
 </figure>
 </div>
@@ -1186,7 +1861,7 @@ Figure&nbsp;4.13: Plot of the absolute value of jackknife studentized residuals 
 <img src="linearmodels_files/figure-html/fig-diagfitvalhomosce-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagfitvalhomosce-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.14: Plot of jackknife studentized residuals against fitted value (left) and categorical explanatory (right). Both clearly display heteroscedasticity.
+Figure&nbsp;4.15: Plot of jackknife studentized residuals against fitted value (left) and categorical explanatory (right). Both clearly display heteroscedasticity.
 </figcaption>
 </figure>
 </div>
@@ -1196,7 +1871,7 @@ Figure&nbsp;4.14: Plot of jackknife studentized residuals against fitted value (
 <p>We can perform hypothesis tests for the homogeneity (equal) variance assumption. The most commonly used tests are Bartlett’s test, the likelihood ratio test under the assumption of normally distributed data, with a Bartlett correction to improve the <span class="math inline">\(\chi^2\)</span> approximation to the null distribution. The second most popular is Levene’s test (a more robust alternative, less sensitive to outliers). For both tests, the null distribution is <span class="math inline">\(\mathscr{H}_0: \sigma^2_1 = \cdots = \sigma^2_K\)</span> against the alternative that at least two differ. The Bartlett test statistic has a <span class="math inline">\(\chi^2\)</span> null distribution with <span class="math inline">\(K-1\)</span> degrees of freedom, whereas Levene’s test has an <span class="math inline">\(F\)</span>-distribution with (<span class="math inline">\(K-1\)</span>, <span class="math inline">\(n-K\)</span>) degrees of freedom: it is equivalent to computing the one-way ANOVA <span class="math inline">\(F\)</span>-statistic with the absolute value of the centered residuals, <span class="math inline">\(|y_{ik} - \widehat{\mu}_k|\)</span>, as observations.</p>
 <p>What are the impacts of unequal variance if we use the <span class="math inline">\(F\)</span>-test instead? For one, the pooled variance will be based on a weighted average of the variance in each group, where the weight is a function of the sample size. This can lead to size distortion (meaning that the proportion of type I error is not the nominal level <span class="math inline">\(\alpha\)</span> as claimed) and potential loss of power. The following toy example illustrates this.</p>
 <div id="exm-heterogeneity" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.13 (Violation of the null hypothesis of equal variance)</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Example 4.20 (Violation of the null hypothesis of equal variance)</strong></span> &nbsp;</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-simuWelchnull" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1205,21 +1880,21 @@ Figure&nbsp;4.14: Plot of jackknife studentized residuals against fitted value (
 <img src="linearmodels_files/figure-html/fig-simuWelchnull-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simuWelchnull-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.15: Histogram of the null distribution of <span class="math inline">\(p\)</span>-values obtained through simulation using the classical analysis of variance <span class="math inline">\(F\)</span>-test (left) and Welch’s unequal variance alternative (right), based on 10 000 simulations. Each simulated sample consist of 50 observations from a <span class="math inline">\(\mathsf{Normal}(0, 1)\)</span> distribution and 10 observations from <span class="math inline">\(\mathsf{Normal}(0, 9)\)</span>. The uniform distribution would have 5% in each of the 20 bins used for the display.
+Figure&nbsp;4.16: Histogram of the null distribution of <span class="math inline">\(p\)</span>-values obtained through simulation using the classical analysis of variance <span class="math inline">\(F\)</span>-test (left) and Welch’s unequal variance alternative (right), based on 10 000 simulations. Each simulated sample consist of 50 observations from a <span class="math inline">\(\mathsf{Normal}(0, 1)\)</span> distribution and 10 observations from <span class="math inline">\(\mathsf{Normal}(0, 9)\)</span>. The uniform distribution would have 5% in each of the 20 bins used for the display.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>We consider for simplicity a problem with <span class="math inline">\(K=2\)</span> groups, which is the two-sample <span class="math inline">\(t\)</span>-test. We simulated 50 observations from a <span class="math inline">\(\mathsf{Normal}(0, 1)\)</span> distribution and 10 observations from <span class="math inline">\(\mathsf{Normal}(0, 9)\)</span>, comparing the distribution of the <span class="math inline">\(p\)</span>-values for the Welch and the <span class="math inline">\(F\)</span>-test statistics. <a href="#fig-simuWelchnull" class="quarto-xref">Figure&nbsp;<span>4.15</span></a> shows the results. The percentage of <span class="math inline">\(p\)</span>-values less than <span class="math inline">\(\alpha=0.05\)</span> based on 10 000 replicates is estimated to be 4.76% for the Welch statistic, not far from the level. By contrast, we reject 28.95% of the time with the one-way ANOVA global <span class="math inline">\(F\)</span>-test: this is a large share of innocents sentenced to jail based on false premises! While the size distortion is not always as striking, heterogeneity should be accounted in the design by requiring sufficient sample sizes (whenever costs permits) in each group to be able to estimate the variance reliably and using an adequate statistic.</p>
+<p>We consider for simplicity a problem with <span class="math inline">\(K=2\)</span> groups, which is the two-sample <span class="math inline">\(t\)</span>-test. We simulated 50 observations from a <span class="math inline">\(\mathsf{Normal}(0, 1)\)</span> distribution and 10 observations from <span class="math inline">\(\mathsf{Normal}(0, 9)\)</span>, comparing the distribution of the <span class="math inline">\(p\)</span>-values for the Welch and the <span class="math inline">\(F\)</span>-test statistics. <a href="#fig-simuWelchnull" class="quarto-xref">Figure&nbsp;<span>4.16</span></a> shows the results. The percentage of <span class="math inline">\(p\)</span>-values less than <span class="math inline">\(\alpha=0.05\)</span> based on 10 000 replicates is estimated to be 4.76% for the Welch statistic, not far from the level. By contrast, we reject 28.95% of the time with the one-way ANOVA global <span class="math inline">\(F\)</span>-test: this is a large share of innocents sentenced to jail based on false premises! While the size distortion is not always as striking, heterogeneity should be accounted in the design by requiring sufficient sample sizes (whenever costs permits) in each group to be able to estimate the variance reliably and using an adequate statistic.</p>
 </div>
 <p>There are alternative graphical ways of checking the assumption of equal variance, many including the standardized residuals <span class="math inline">\(r_{ik} = (y_{ik} - \widehat{\mu}_k)/\widehat{\sigma}\)</span> against the fitted values <span class="math inline">\(\widehat{\mu}_k\)</span>. We will cover these in later sections.</p>
 <p>Oftentimes, unequal variance occurs because the model is not additive. You could use variance-stabilizing transformations (e.g., log for multiplicative effects) to ensure approximately equal variance in each group. Another option is to use a model that is suitable for the type of response you have (including count and binary data). Lastly, it may be necessary to explicitly model the variance in more complex design (including repeated measures) where there is a learning effect over time and variability decreases as a result. Consult an expert if needed.</p>
 </section>
-<section id="normality-assumption" class="level3" data-number="4.5.4">
-<h3 data-number="4.5.4" class="anchored" data-anchor-id="normality-assumption"><span class="header-section-number">4.5.4</span> Normality assumption</h3>
+<section id="normality-assumption" class="level3" data-number="4.6.4">
+<h3 data-number="4.6.4" class="anchored" data-anchor-id="normality-assumption"><span class="header-section-number">4.6.4</span> Normality assumption</h3>
 <p>The normality assumption is mostly for convenience: if the errors are assumed normally distributed, then the least square and the maximum likelihood estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> coincide. The maximum likelihood estimators of <span class="math inline">\(\boldsymbol{\beta}\)</span> are asymptotically normal under mild conditions on the model matrix and <span class="math inline">\(t\)</span>-tests are surprisingly robust and unaffected by departure from the normality assumption. This means that inference is valid in large samples, regardless of the distribution of the errors/residuals (even if the null distribution are not exact). It is important to keep in mind that, for categorical explanatory variables, the sample size in each group must be sufficiently large for the central limit theorem to kick in since coefficients represent group average.</p>
-<p>Sometimes, transformations can improve normality: if the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate <a href="#sec-transfo" class="quarto-xref"><span>Section 4.6.1</span></a>. This can be assessed by looking at the quantile-quantile plot of the externally studentized residuals. If the response <span class="math inline">\(Y\)</span> is not continuous (including binary, proportion or count data), linear models give misleading answers and generalized linear models are more suitable.</p>
+<p>Sometimes, transformations can improve normality: if the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate <a href="#sec-transfo" class="quarto-xref"><span>Section 4.7.1</span></a>. This can be assessed by looking at the quantile-quantile plot of the externally studentized residuals. If the response <span class="math inline">\(Y\)</span> is not continuous (including binary, proportion or count data), linear models give misleading answers and generalized linear models are more suitable.</p>
 <p>The inference will be valid for large samples even if the errors are not normally distributed by virtue of the central limit theorem. If the errors <span class="math inline">\(\varepsilon_i \sim \mathsf{normal}(0, \sigma^2)\)</span>, then the jacknnife studentized residuals should follow a Student distribution, with <span class="math inline">\(r_i \sim \mathsf{Student}(n-p-2)\)</span>, (identically distributed, but not independent). A Student quantile-quantile plot can thus be used to check the assumption (and for <span class="math inline">\(n\)</span> large, the normal plotting positions could be used as approximation if <span class="math inline">\(n-p&gt; 50\)</span>). One can also plot a histogram of the residuals. Keep in mind that if the mean model is not correctly specified, some residuals may incorporate effect of leftover covariates.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -1229,13 +1904,13 @@ Figure&nbsp;4.15: Histogram of the null distribution of <span class="math inline
 <img src="linearmodels_files/figure-html/fig-qqplotresid-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqplotresid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.16: Histogram (left) and Student quantile-quantile plot (right) of the jackknife studentized residuals. The left panel includes a kernel density estimate (black), with the density of Student distribution (blue) superimposed. The right panel includes pointwise 95% confidence bands calculated using a bootstrap.
+Figure&nbsp;4.17: Histogram (left) and Student quantile-quantile plot (right) of the jackknife studentized residuals. The left panel includes a kernel density estimate (black), with the density of Student distribution (blue) superimposed. The right panel includes pointwise 95% confidence bands calculated using a bootstrap.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Quantile-quantile plots are discussed in <a href="introduction.html#def-qqplot" class="quarto-xref">Definition&nbsp;<span>1.16</span></a> but their interpretation requires training. For example, <a href="#fig-qqplotsbad" class="quarto-xref">Figure&nbsp;<span>4.17</span></a> shows many common scenarios that can be diagnosed using quantile-quantile plots: discrete data is responsible for staircase patterns, positively skewed data has too high low quantiles and too low high quantiles relative to the plotting positions, heavy tailed data have high observations in either tails and bimodal data leads to jumps in the plot.</p>
+<p>Quantile-quantile plots are discussed in <a href="introduction.html#def-qqplot" class="quarto-xref">Definition&nbsp;<span>1.16</span></a> but their interpretation requires training. For example, <a href="#fig-qqplotsbad" class="quarto-xref">Figure&nbsp;<span>4.18</span></a> shows many common scenarios that can be diagnosed using quantile-quantile plots: discrete data is responsible for staircase patterns, positively skewed data has too high low quantiles and too low high quantiles relative to the plotting positions, heavy tailed data have high observations in either tails and bimodal data leads to jumps in the plot.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-qqplotsbad" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1244,14 +1919,14 @@ Figure&nbsp;4.16: Histogram (left) and Student quantile-quantile plot (right) of
 <img src="linearmodels_files/figure-html/fig-qqplotsbad-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqplotsbad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.17: Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed (top right), skewed (bottom left) and bimodal data (bottom right).
+Figure&nbsp;4.18: Quantile-quantile plots of non-normal data, showing typical look of behaviour of discrete (top left), heavy tailed (top right), skewed (bottom left) and bimodal data (bottom right).
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div id="exm-diagplotcollege" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.14 (Diagnostic plots for the <span class="math inline">\(\texttt{college}\)</span> data.)</strong></span> We can look at the <code>college</code> data to see if the linear model assumptions hold.</p>
+<p><span class="theorem-title"><strong>Example 4.21 (Diagnostic plots for the <span class="math inline">\(\texttt{college}\)</span> data.)</strong></span> We can look at the <code>college</code> data to see if the linear model assumptions hold.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-diagplotscollege" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1260,20 +1935,20 @@ Figure&nbsp;4.17: Quantile-quantile plots of non-normal data, showing typical lo
 <img src="linearmodels_files/figure-html/fig-diagplotscollege-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagplotscollege-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.18: Diagnostic plots for the college data example: ordinary residuals against fitted values (top left), absolute value of the jacknnife studentized residuals against fitted values (top right), box and whiskers plot of jacknnife studentized residuals (bottom left) and detrended Student quantile-quantile plot (bottom right). There is clear group heteroscedasticity.
+Figure&nbsp;4.19: Diagnostic plots for the college data example: ordinary residuals against fitted values (top left), absolute value of the jacknnife studentized residuals against fitted values (top right), box and whiskers plot of jacknnife studentized residuals (bottom left) and detrended Student quantile-quantile plot (bottom right). There is clear group heteroscedasticity.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Based on the plots of <a href="#fig-diagplotscollege" class="quarto-xref">Figure&nbsp;<span>4.18</span></a>, we find that there is residual heteroscedasticity, due to rank. Since the number of years in the first rank is limited and all assistant professors were hired in the last six years, there is less disparity in their income. It is important not to mistake the pattern on the <span class="math inline">\(x\)</span>-axis for the fitted value (due to the large effect of rank and field, both categorical variable) with patterns in the residuals (none apparent). Fixing the heteroscedasticity would correct the residuals and improve the appearance of the quantile-quantile plot.</p>
+<p>Based on the plots of <a href="#fig-diagplotscollege" class="quarto-xref">Figure&nbsp;<span>4.19</span></a>, we find that there is residual heteroscedasticity, due to rank. Since the number of years in the first rank is limited and all assistant professors were hired in the last six years, there is less disparity in their income. It is important not to mistake the pattern on the <span class="math inline">\(x\)</span>-axis for the fitted value (due to the large effect of rank and field, both categorical variable) with patterns in the residuals (none apparent). Fixing the heteroscedasticity would correct the residuals and improve the appearance of the quantile-quantile plot.</p>
 </div>
 </section>
 </section>
-<section id="extensions-of-the-model" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="extensions-of-the-model"><span class="header-section-number">4.6</span> Extensions of the model</h2>
-<section id="sec-transfo" class="level3" data-number="4.6.1">
-<h3 data-number="4.6.1" class="anchored" data-anchor-id="sec-transfo"><span class="header-section-number">4.6.1</span> Transformation of the response</h3>
+<section id="extensions-of-the-model" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="extensions-of-the-model"><span class="header-section-number">4.7</span> Extensions of the model</h2>
+<section id="sec-transfo" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="sec-transfo"><span class="header-section-number">4.7.1</span> Transformation of the response</h3>
 <p>If the response is strictly positive, there are some options that can alleviate lack of additivity, more specifically multiplicative mean-variance relationships.If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted. Theory sometimes dictates a multiplicative model: for example, the Cobb–Douglas production function in economics is <span class="math inline">\(P=\alpha L^{\beta_1}C^{\beta_2}\)</span>, where <span class="math inline">\(P\)</span> stands for production, <span class="math inline">\(L\)</span> for labor and <span class="math inline">\(C\)</span> for capital; all inputs are positive, so taking a log-transform yields a model that is linear in <span class="math inline">\(\beta\)</span>, with <span class="math inline">\(\beta_0=\ln(\alpha)\)</span>.</p>
 <p>We can rewrite the log-linear model in the original response scale as <span class="math display">\[\begin{align*}
 Y = \exp\left(\beta_0+\sum_{j=1}^p\beta_jX_j +  \varepsilon \right) \\&amp;= \exp\left(\beta_0+ \sum_{j=1}^p\beta_jX_j\right)\cdot \exp(\varepsilon),
@@ -1293,10 +1968,10 @@ Y= X_1^{\beta_1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)
 \frac{\partial X_1}{X_1}\beta_1 = \frac{\partial Y}{Y};
 \end{align*}\]</span> this is a partial <strong>elasticity</strong>, so <span class="math inline">\(\beta_1\)</span> is interpreted as a <span class="math inline">\(\beta_1\)</span> percentage change in <span class="math inline">\(Y\)</span> for each percentage increase of <span class="math inline">\(X_1\)</span>, <em>ceteris paribus</em>.</p>
 <div id="exm-loglog" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.15 (Log-log model)</strong></span> Consider for example the Cobb–Douglas production function <span class="citation" data-cites="Douglas:1976">(<a href="references.html#ref-Douglas:1976" role="doc-biblioref">Douglas 1976</a>)</span>, which specifies that economic output <span class="math inline">\(Y\)</span> is related to labour <span class="math inline">\(L\)</span> and capital <span class="math inline">\(C\)</span> via <span class="math inline">\(\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}\)</span> with <span class="math inline">\(\beta \in (0,1)\)</span>. If we take logarithms on both sides (since all arguments are positive), then <span class="math inline">\(\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L\)</span>. We could fit a linear model with response <span class="math inline">\(\ln Y - \ln L\)</span> and explanatory variable <span class="math inline">\(\ln C - \ln L\)</span>, to obtain an estimate of the coefficient <span class="math inline">\(\beta_1\)</span>, while <span class="math inline">\(\beta_0^*=\ln \beta_0\)</span>. A constrained optimization would be potentially necessary to estimate the model parameters of the resulting linear model if the estimates lie outside of the parameter space.</p>
+<p><span class="theorem-title"><strong>Example 4.22 (Log-log model)</strong></span> Consider for example the Cobb–Douglas production function <span class="citation" data-cites="Douglas:1976">(<a href="references.html#ref-Douglas:1976" role="doc-biblioref">Douglas 1976</a>)</span>, which specifies that economic output <span class="math inline">\(Y\)</span> is related to labour <span class="math inline">\(L\)</span> and capital <span class="math inline">\(C\)</span> via <span class="math inline">\(\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}\)</span> with <span class="math inline">\(\beta \in (0,1)\)</span>. If we take logarithms on both sides (since all arguments are positive), then <span class="math inline">\(\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L\)</span>. We could fit a linear model with response <span class="math inline">\(\ln Y - \ln L\)</span> and explanatory variable <span class="math inline">\(\ln C - \ln L\)</span>, to obtain an estimate of the coefficient <span class="math inline">\(\beta_1\)</span>, while <span class="math inline">\(\beta_0^*=\ln \beta_0\)</span>. A constrained optimization would be potentially necessary to estimate the model parameters of the resulting linear model if the estimates lie outside of the parameter space.</p>
 </div>
 <div id="prp-boxcox" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 4.4 (Box–Cox transformation)</strong></span> If the data are strictly positive, one can consider a Box–Cox transformation, <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Proposition 4.7 (Box–Cox transformation)</strong></span> If the data are strictly positive, one can consider a Box–Cox transformation, <span class="math display">\[\begin{align*}
 y(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
 \ln(y), &amp; \lambda=0.
@@ -1311,13 +1986,14 @@ L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &amp;= (2\pi\
 <p>The Box–Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data. Rather than an <em>ad hoc</em> choice of transformation, one could choose a log transformation if the value <span class="math inline">\(0\)</span> is included within the 95% confidence interval since this improves interpretability.</p>
 </div>
 <div id="exm-poisonboxcox" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.16 (Box–Cox transform for the <code>poison</code> data)</strong></span> <span class="citation" data-cites="Box.Cox:1964">Box and Cox (<a href="references.html#ref-Box.Cox:1964" role="doc-biblioref">1964</a>)</span> considered survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of <span class="citation" data-cites="Davison:2003">Davison (<a href="references.html#ref-Davison:2003" role="doc-biblioref">2003</a>)</span>. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.</p>
+<p><span class="theorem-title"><strong>Example 4.23 (Box–Cox transform for the <code>poison</code> data)</strong></span> <span class="citation" data-cites="Box.Cox:1964">Box and Cox (<a href="references.html#ref-Box.Cox:1964" role="doc-biblioref">1964</a>)</span> considered survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of <span class="citation" data-cites="Davison:2003">Davison (<a href="references.html#ref-Davison:2003" role="doc-biblioref">2003</a>)</span>. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.</p>
 <p>We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form <span class="math display">\[\begin{align*}
 Y &amp;= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &amp;\qquad+ \beta_4\texttt{treatment}_3
 +\beta_5\texttt{treatment}_4 + \varepsilon
 \end{align*}\]</span></p>
 <p>The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables further point towards non-additivity <span class="citation" data-cites="Davison:2003">(<a href="references.html#ref-Davison:2003" role="doc-biblioref">Davison 2003</a>, Example 8.24)</span>. Overall, the model fit is poor and any conclusion drawn from it dubious.</p>
-<p>One could consider using a Box–Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of <a href="#fig-poisonplots" class="quarto-xref">Figure&nbsp;<span>4.19</span></a> suggests that <span class="math inline">\(\lambda\approx -1\)</span> would be a good choice. This has the benefit of being interpretable, as the reciprocal response <span class="math inline">\(Y^{-1}\)</span> corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.</p>
+<p>One could consider using a Box–Cox to find a suitable transformation of the residuals so as to improve normality. AN analysis of residuals in the top four plots of <a href="#fig-poisonplots" class="quarto-xref">Figure&nbsp;<span>4.20</span></a> show evidence of heteroscedasticity as a function of either poison and treatment. This is evident by looking at the plot of ordinary residuals, which displays increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this.</p>
+<p>The bottom left panel of <a href="#fig-poisonplots" class="quarto-xref">Figure&nbsp;<span>4.20</span></a> shows the profile log likelihood for the Box–Cox transform parameter, suggesting a value of <span class="math inline">\(\lambda=-1\)</span> would be within the 95% confidence interval. This choice has the benefit of being interpretable, as the reciprocal response <span class="math inline">\(Y^{-1}\)</span> corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plot at the bottom right of <a href="#fig-poisonplots" class="quarto-xref">Figure&nbsp;<span>4.20</span></a> also indicate that the model for the reciprocal has no residual structure and the variance appears constant. After fitting the same additive model with main effect only to the reciprocal survival time, there is no more evidence of residual structure and unequal variance.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-poisonplots" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1326,7 +2002,7 @@ Y &amp;= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_
 <img src="linearmodels_files/figure-html/fig-poisonplots-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poisonplots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.19: Diagnostic plots for the poison data. The top panel shows the ordinary residuals for the linear model for survival time as a function of poison and treatment, with jittered observations. The middle left plot shows the fitted values against residuals, which display evidence of trend and increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. The bottom panel shows the profile log likelihood for the Box–Cox transform, suggesting a value of <span class="math inline">\(-1\)</span> would be within the 95% confidence interval. After fitting the same additive model with main effect only to the reciprocal survival time, there is no more evidence of residual structure and unequal variance.
+Figure&nbsp;4.20: Diagnostic plots for the poison data: ordinary residuals (jittered) for the linear model for survival time as a function of poison and treatment (top), fitted values against residuals (middle left), detrended quantile-quantile plot of residuals (middle right), profile log likelihood of <span class="math inline">\(\lambda\)</span> for the Box–Cox model transformation (bottom left) and fitted values against residuals (bottom right) after reciprocal transformation.
 </figcaption>
 </figure>
 </div>
@@ -1335,8 +2011,8 @@ Figure&nbsp;4.19: Diagnostic plots for the poison data. The top panel shows the 
 </div>
 </section>
 </section>
-<section id="concluding-remarks" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="concluding-remarks"><span class="header-section-number">4.7</span> Concluding remarks</h2>
+<section id="concluding-remarks" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="concluding-remarks"><span class="header-section-number">4.8</span> Concluding remarks</h2>
 <p>Linear regression is the most famous and the most widely used statistical model around. The name may appear reductive, but many tests statistics (<em>t</em>-tests, ANOVA, Wilcoxon, Kruskal–Wallis) <a href="https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf">can be formulated using a linear regression</a>, while <a href="https://threadreaderapp.com/thread/1286420597505892352.html">models as diverse as trees, principal components and deep neural networks are just linear regression model in disguise</a>. What changes under the hood between one fancy model to the next are the optimization method (e.g., ordinary least squares, constrained optimization or stochastic gradient descent) and the choice of explanatory variables entering the model (spline basis for nonparametric regression, indicator variable selected via a greedy search for trees, activation functions for neural networks).</p>
 
 
@@ -1365,10 +2041,20 @@ Lee, Kiljae, and Jungsil Choi. 2019. <span>“Image-Text Inconsistency Effect on
 <div id="ref-Moon.VanEpps:2023" class="csl-entry" role="listitem">
 Moon, Alice, and Eric M VanEpps. 2023. <span>“Giving Suggestions: Using Quantity Requests to Increase Donations.”</span> <em>Journal of Consumer Research</em> 50 (1): 190–210. <a href="https://doi.org/10.1093/jcr/ucac047">https://doi.org/10.1093/jcr/ucac047</a>.
 </div>
+<div id="ref-Sokolova:2023" class="csl-entry" role="listitem">
+Sokolova, Tatiana, Aradhna Krishna, and Tim Döring. 2023. <span>“Paper Meets Plastic: The Perceived Environmental Friendliness of Product Packaging.”</span> <em>Journal of Consumer Research</em> 50 (3): 468–91. <a href="https://doi.org/10.1093/jcr/ucad008">https://doi.org/10.1093/jcr/ucad008</a>.
+</div>
 <div id="ref-Venables:2000" class="csl-entry" role="listitem">
 Venables, William N. 2000. <span>“Exegeses on Linear Models.”</span> In <em>S-PLUS User’s Conference</em>. Washington, D.C. <a href="https://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf">https://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf</a>.
 </div>
 </div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Should you ever need the formula, the standard error assuming subsample size of <span class="math inline">\(n_1, \ldots, n_K\)</span> and a common variance <span class="math inline">\(\sigma^2\)</span> is <span class="math inline">\(\sqrt{\mathsf{Va}(\widehat{C})}\)</span>, where <span class="math display">\[\mathsf{Va}(\widehat{C}) = \widehat{\sigma}^2\left(\frac{c_1^2}{n_1} + \cdots + \frac{c_K^2}{n_K}\right).\]</span><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The constraint <span class="math inline">\(c_1 + \cdots + c_K=0\)</span> ensures that linear contrasts are orthogonal to the mean, which has weight <span class="math inline">\(c_i=n_i/n\)</span> and for balanced samples <span class="math inline">\(c_i =1/n\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

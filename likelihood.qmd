@@ -445,7 +445,7 @@ V_phi <- dphi(lambda_hat)^2 * V_lambda
 :::
 
 
-## Likelihood-based tests {#liktests}
+## Likelihood-based tests {#sec-liktests}
 
 We consider a null hypothesis $\mathscr{H}_0$ that imposes restrictions on the possible values of $\boldsymbol{\theta}$ can take, relative to an unconstrained alternative $\mathscr{H}_1.$ We need two **nested** models: a *full* model, and a *reduced* model that is a subset of the full model where we impose $q$ restrictions. For example, the exponential distribution is a special case of the Weibull one if $\alpha=1$. The testing procedure involves fitting the two models and obtaining the maximum likelihood estimators of each of $\mathscr{H}_1$ and $\mathscr{H}_0,$ respectively $\widehat{\boldsymbol{\theta}}$ and $\widehat{\boldsymbol{\theta}}_0$ for the parameters under $\mathscr{H}_0.$  The null hypothesis $\mathscr{H}_0$ tested is: `the reduced model is an **adequate simplification** of the full model' and the likelihood provides three main classes of statistics for testing this hypothesis: these are
 

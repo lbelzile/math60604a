@@ -379,7 +379,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-09-16}
+\date{2024-09-17}
 
 \begin{document}
 
@@ -675,8 +675,8 @@ variables
   a continuous variable can take (in theory) an infinite possible number
   of values, even when measurements are rounded or measured with a
   limited precision (time, width, mass). In many case, we could also
-  consider discrete variables as continuous if they take enough values
-  (e.g., money).
+  consider discrete variables as continuous if they take enough distinct
+  values (e.g., money).
 \end{itemize}
 
 Categorical variables take only a finite of values. They are regrouped
@@ -765,17 +765,19 @@ where \(\mathcal{X}\) denotes the support of \(Y\), the set of numerical
 values at which the probability of \(Y\) is non-zero. More generally, we
 can look at the expectation of a function \(g(x)\) for \(Y\), which is
 nothing but the integral (or sum in the discrete case) of \(g(x)\)
-weighted by the density or mass function of \(f(x).\) In the same
-fashion, provided the integral is finite, the variance is \begin{align*}
+weighted by the density or mass function of \(f(x),\) meaning
+\(\int_{\mathbb{R}} g(x) f(x) \mathrm{d} x.\) In the same fashion,
+provided the integral is finite, the variance is \begin{align*}
 \mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.
 \end{align*} The \textbf{standard deviation} is the square root of the
 variance, \(\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}\): it units are the
 same as those of \(Y\) and are thus more easily interpreted.
 
-The notion of moments can be extended to higher dimensions. Consider an
-\(n\)-vector \(\boldsymbol{Y}.\) In the regression setting, the response
-\(\boldsymbol{Y}\) would usually comprise repeated measures on an
-individual, or even observations from a group of individuals.
+The notion of moments can be extended to higher dimensions. Consider a
+column vector of size \(n\) \(\boldsymbol{Y}.\) In the regression
+setting, the response \(\boldsymbol{Y}\) would usually comprise repeated
+measures on an individual, or even observations from a group of
+individuals.
 
 The expected value (theoretical mean) of the vector \(\boldsymbol{Y}\)
 is calculated componentwise, i.e., \begin{align*}
@@ -821,6 +823,15 @@ case of repeated measures), which is the object of
 \href{correlated-longitudinal-data}{Chapter 5}.
 
 \end{definition}
+
+\begin{example}[]\protect\hypertarget{exm-moments-dice}{}\label{exm-moments-dice}
+
+Consider a discrete random variable \(Y\) giving the outcome of two fair
+dice throws. The expected value of \(g(Y)=Y^2\) is then \begin{align*}
+\mathsf{E}(Y^2) = (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+\end{align*}
+
+\end{example}
 
 \begin{definition}[Bias]\protect\hypertarget{def-bias}{}\label{def-bias}
 
@@ -1075,8 +1086,9 @@ if \(Y \sim \mathsf{normal}(\mu, \sigma^2)\), then
 
 We will also encounter the multivariate normal distribution; for a \(d\)
 dimensional vector
-\(\boldsymbol{Y} \sim \mathsf{normal}_d(\boldsymbol{\mu}, \boldsymbol{\Sigma})\),
-the density is \begin{align*}
+\(\boldsymbol{Y} \sim \mathsf{normal}_d(\boldsymbol{\mu}, \boldsymbol{\Sigma})\),\footnote{All
+  vectors are column vectors unless otherwise indicated.} the density is
+\begin{align*}
 f(\boldsymbol{x}) = (2\pi)^{-d/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}
 
@@ -1555,7 +1567,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, opacityback=0, colback=white, breakable, toprule=.15mm, left=2mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, opacitybacktitle=0.6, rightrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomrule=.15mm, colframe=quarto-callout-important-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, breakable, left=2mm, bottomrule=.15mm, opacityback=0, leftrule=.75mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, colback=white, bottomtitle=1mm, coltitle=black, toptitle=1mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -2203,7 +2215,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, opacityback=0, colback=white, breakable, toprule=.15mm, left=2mm, colbacktitle=quarto-callout-caution-color!10!white, coltitle=black, opacitybacktitle=0.6, rightrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, breakable, left=2mm, bottomrule=.15mm, opacityback=0, leftrule=.75mm, arc=.35mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, colbacktitle=quarto-callout-caution-color!10!white, opacitybacktitle=0.6, colback=white, bottomtitle=1mm, coltitle=black, toptitle=1mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2748,7 +2760,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, opacityback=0, colback=white, breakable, toprule=.15mm, left=2mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, opacitybacktitle=0.6, rightrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomrule=.15mm, colframe=quarto-callout-important-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, breakable, left=2mm, bottomrule=.15mm, opacityback=0, leftrule=.75mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, colback=white, bottomtitle=1mm, coltitle=black, toptitle=1mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -3335,7 +3347,7 @@ respect to the scale parameter is
 
 \end{example}
 
-\section{Likelihood-based tests}\label{liktests}
+\section{Likelihood-based tests}\label{sec-liktests}
 
 We consider a null hypothesis \(\mathscr{H}_0\) that imposes
 restrictions on the possible values of \(\boldsymbol{\theta}\) can take,
@@ -3812,8 +3824,19 @@ treating the \(p\) explanatory variables \(X_1, \ldots, X_p\) as
 non-random quantities, or known in advance. The regression coefficients
 \(\boldsymbol{\beta}\) is the same for all observations, but the vector
 of explanatories \(\mathbf{x}_i\) may change from one observation to the
-next. The model is \textbf{linear} in the coefficients
-\(\beta_0, \ldots, \beta_p\).
+next.
+
+\begin{refremark}[Linearity]
+The model is \textbf{linear} in the coefficients
+\(\beta_0, \ldots, \beta_p\). The quadratic curve
+\(\beta_0 + \beta_1x + \beta_2 x^2\) is a linear model because it is a
+sum of coefficients times functions of explanatories. By contrast, the
+model \(\beta_0 + \beta_1x^{\beta_2}\) is nonlinear in
+\(\boldsymbol{\beta}\).
+
+\label{rem-linearity}
+
+\end{refremark}
 
 To simplify the notation, we aggregate observations into an \(n\)-vector
 \(\boldsymbol{Y}\) and the explanatories into an \(n \times (p+1)\)
@@ -3959,7 +3982,8 @@ members. The data contains the following variables:
 
 \end{example}
 
-\begin{example}[]\protect\hypertarget{exm-moon-vanepps}{}\label{exm-moon-vanepps}
+\begin{example}[Suggestions increase donations to
+charities]\protect\hypertarget{exm-moon-vanepps}{}\label{exm-moon-vanepps}
 
 Study 1 of Moon and VanEpps (\citeproc{ref-Moon.VanEpps:2023}{2023})
 considers proportion of donators to a charity. Participants in the
@@ -3967,6 +3991,22 @@ online panel were provided with an opportunity to win 25\$ and donate
 part of this amount to a charity of their choosing. The data provided
 include only people who did not exceed this amount and indicated
 donating a non-zero amount.
+
+\end{example}
+
+\begin{example}[Is additional paper wrapping viewed as more
+eco-friendly?]\protect\hypertarget{exm-sokolova}{}\label{exm-sokolova}
+
+Sokolova, Krishna, and Döring (\citeproc{ref-Sokolova:2023}{2023})
+consider consumer bias when assessing how eco-friendly packages are.
+Items such as cereal are packaged in plastic bags, which themselves are
+covered in a box. They conjecture (and find) that, paradoxically,
+consumers tend to view the packaging as being more eco-friendly when the
+amount of cardboard or paper surrounding the box is larger, relative to
+the sole plastic package. We consider in the sequel the data from Study
+2A, which measures the perceived environmental friendliness (PEF,
+variable \texttt{pef}) as a function of the \texttt{proportion} of paper
+wrapping (either none, half of the area of the plastic, equal or twice).
 
 \end{example}
 
@@ -4376,8 +4416,9 @@ and zero otherwise.
 variables]\protect\hypertarget{exm-baumann-dummies}{}\label{exm-baumann-dummies}
 
 Consider the Baumann, Seifert-Kessell, and Jones
-(\citeproc{ref-Baumann:1992}{1992}) study and the sole inclusion of the
-\texttt{group} variable. The data are ordered by group: the first 22
+(\citeproc{ref-Baumann:1992}{1992}) study presented in
+Example~\ref{exm-teaching-baumann}, where we only include \texttt{group}
+as explanatory variable. The data are ordered by group: the first 22
 observations are for group \texttt{DR}, the 22 next ones for group
 \texttt{DRTA} and the last 22 for \texttt{TA}. If we fit a model with
 \texttt{group} as categorical variables
@@ -4855,8 +4896,53 @@ variance is \(2\sigma^4/n\).
 
 \end{proposition}
 
-\subsection{Fitting linear models with
-software}\label{fitting-linear-models-with-software}
+\begin{definition}[Coefficient of
+determination]\protect\hypertarget{def-r2}{}\label{def-r2}
+
+When we specify a model, the error term \(\boldsymbol{\varepsilon}\)
+accounts for the fact no perfect linear relationship characterizes the
+data (if it did, we wouldn't need statistic to begin with). Once we have
+fitted a model, we estimate the variance \(\sigma^2\); one may then
+wonder which share of the total variance in the sample is explained by
+the model.
+
+The total sum of squares, defined as the sum of squared residuals from
+the intercept-only model, serves as comparison --- the simplest model we
+could come up with would involving every observation by the sample mean
+of the response and so this gives (up to scale) the variance of the
+response, \(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). We
+can then compare the variance of the original data with that of the
+residuals from the model with covariate matrix \(\mathbf{X}\), defined
+as \(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\) with
+\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\).
+We define the coefficient of determination, or squared multiple
+correlation coefficient of the model, \(R^2\), as \begin{align*}
+R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*} An alternative decomposition shows that
+\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\),
+i.e., the coefficient of determination can be interpreted as the square
+of \href{moments}{Pearson's linear correlation} between the response
+\(\boldsymbol{y}\) and the fitted values \(\widehat{\boldsymbol{y}}\).
+
+\end{definition}
+
+Its important to note that \(R^2\) is not a goodness-of-fit criterion,
+like the log likelihood: some phenomena are inherently noisy and even a
+good model will fail to account for much of the response's variability.
+Moreover, one can inflate the value of \(R^2\) by including more
+explanatory variables and making the model more complex, thereby
+improving the likelihood and \(R^2\). Indeed, the coefficient is
+non-decreasing in the dimension of \(\mathbf{X}\), so a model with
+\(p+1\) covariate will necessarily have a higher \(R^2\) values than
+only \(p\) of the explanatories. For model comparisons, it is better to
+employ information criteria or else rely on the predictive performance
+if this is the purpose of the regression. Lastly, a model with a high
+\(R^2\) may imply high correlation, but
+\href{http://www.tylervigen.com/spurious-correlations}{the relation may
+be spurious}: linear regression does not yield causal models!
+
+\begin{proposition}[Fitting linear models with
+software]\protect\hypertarget{prp-software}{}\label{prp-software}
 
 Although we could build the model matrix ourselves and use the least
 square formula of Equation~\ref{eq-ols}, the numerical routines
@@ -4897,63 +4983,837 @@ the model matrix \(\mathbf{X}\).
 The \texttt{summary} method is arguably the most useful: it will print
 mean parameter estimates along with standard errors, \(t\) values for
 the Wald test of the hypothesis \(\mathscr{H}_0: \beta_i=0\) and the
-associated \(P\)-values. Other statistics and information about the
+associated \(p\)-values. Other statistics and information about the
 sample size, the degrees of freedom, etc., are given at the bottom of
 the table. Note that the \texttt{lm} function uses the unbiased
-estimator of the variance \(\sigma^2\).
+estimator of the variance \(\sigma^2\), denoted \(S^2\) in this chapter.
 
-\begin{refremark}[Linearity]
-The model is linear in the coefficients \(\beta\), so the quadratic
-curve \(\beta_0 + \beta_1x + \beta_2 x^2\) is a linear model because it
-is a sum of coefficients times functions of explanatories. By contrast,
-the model \(\beta_0 + \beta_1x^{\beta_2}\) is nonlinear in
-\(\boldsymbol{\beta}\).
+\end{proposition}
 
-\label{rem-linearity}
+\section{Predictions}\label{sec-predictions-lm}
+
+When we compute least square estimates, we obtain fitted values
+\(\widehat{\boldsymbol{y}}\) as
+\(\mathbf{X}\widehat{\boldsymbol{\beta}}\), where \(\mathbf{X}\) denotes
+the \(n \times (p+1)\) matrix of original observations. Since
+\(\mathsf{E}(Y_i \mid \mathbf{X}_i) = \beta_0 + \sum_{j=1}^p \beta_j \mathrm{X}_{ij}\),
+we can obtain an estimate of the mean surface for any value of
+\(\mathbf{x}_{n+1} \in \mathbb{R}^p\) by replacing the unknown
+coefficients \(\boldsymbol{\beta}\) by our estimates
+\(\widehat{\boldsymbol{\beta}}\) -- this actually yields the best linear
+unbiased predictor of the mean.
+
+If we want to predict the value of a new observation, say \(Y_{n+1}\),
+with explanatories \(\mathbf{x}_{n+1} = (1, x_1, \ldots, x_p)\), the
+prediction of the value will also be
+\(\widehat{y}_{n+1} = \mathbf{x}_{n+1}\widehat{\boldsymbol{\beta}}\)
+because \begin{align*}
+\mathsf{E}(Y_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta} + \mathsf{E}(\varepsilon_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta}.
+\end{align*} However, individual observations vary more than averages
+(which are themselves based on multiple observations). Intuitively, this
+is due to the added uncertainty of the error term \(\varepsilon_{n+1}\)
+appearing in the model equation: the variability of new predictions is
+the sum of uncertainty due to the estimators (based on random data) and
+the intrinsic variance of the observations assuming the new observation
+is independent of those used to estimate the coefficients,
+\begin{align*}
+\mathsf{Va}(Y_{n+1} \mid \mathbf{x}_n) &= \mathsf{Va}(\mathrm{x}_{n+1}{\boldsymbol{\beta}} + \varepsilon_{n+1} \mid \mathbf{x}_n)
+\\&=\mathsf{Va}(\mathrm{x}_{n+1}{\boldsymbol{\beta}} \mid \mathbf{x}_n) +\mathsf{Va}(\varepsilon_{n+1} \mid \mathbf{x}_n)
+\\& = \sigma^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top + \sigma^2,
+\end{align*} where \(S^2\) is the unbiased estimator of the variance
+\(\sigma^2\). The distribution of \(Y_{n+1}\) is
+\(Y_{n+1} \mid \mathrm{x}_{n+1} \sim \mathsf{normal}(\mathrm{x}_{n+1}\boldsymbol{\beta}, \sigma^2)\)
+and we can base the prediction interval on the Student distribution, as
+\begin{align*}
+\frac{Y_{n+1}-\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}}{\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}}\sim \mathsf{Student}(n-p-1).
+\end{align*} We obtain \(1-\alpha\) \textbf{prediction interval} for
+\(Y_{n+1}\) by inverting the test statistic, \begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}.
+\end{align*} Similar calculations yield the formula for pointwise
+\textbf{confidence intervals for the mean}, \begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top}.
+\end{align*} The two differ only because of the additional variance of
+individual observations.
+
+\begin{example}[Prediction for simple linear
+regression]\protect\hypertarget{exm-sokolova-pred}{}\label{exm-sokolova-pred}
+
+Consider the data of Example~\ref{exm-sokolova}. We fit a simple linear
+regression of the form
+\(\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon\)
+with \(\varepsilon \sim \mathsf{normal}(0,\sigma^2)\) and observations
+assumed independent.
+
+Figure~\ref{fig-predinterval} shows pointwise uncertainty bands for a
+simple linear regression of the data Sokolova, Krishna, and Döring
+(\citeproc{ref-Sokolova:2023}{2023}) as a function of the paper to
+plastic \texttt{proportion}, with larger values indicating more spurious
+paper wrapping. The model is not accounting for the fact that our
+response arises from a bounded discrete distribution with integer values
+ranging from 1 to 7, and that the ratios tested in the experiment are 0
+(no paper), 0.5, 1 and 2. The middle line gives the prediction of
+individuals as we vary the proportion paper/plastic. Looking at the
+formulas for the confidence and prediction intervals, it is clear that
+the bands are not linear (we consider the square root of a function that
+involves the predictors), but it is not obvious that the uncertainty
+increases as you move away from the average of the predictors.
+
+This is more easily seen by replicating the potential curves that could
+have happened with different data: Figure~\ref{fig-predinterval} shows
+generated new potential slopes from the asymptotic normal distribution
+of \(\widehat{\boldsymbol{\beta}}\) estimators. The hyperbolic shape is
+not surprising: we are basically tilting curves from the average
+\texttt{pef}/\texttt{proportion}, and they have higher potential from
+deviating the further we are from the average in each direction. The
+prediction intervals (pale grey) are very large and essentially cover
+the whole scope of potential values for the perceived environmental
+friendliness Likert scale, except for a couple of observations. By
+contrast, the confidence intervals for the mean are quite narrow, as a
+result of the large sample size. We can see also that the curves do not
+deviate much from them.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-predinterval-1.png}
+
+}
+
+\caption{\label{fig-predinterval}Prediction with prediction intervals
+(left) and confidence intervals for the mean (right) for the simple
+linear regression of perceived environmental friendliness (\texttt{pef})
+as a function of the \texttt{proportion} of paper to plastic, with
+horizontally jittered observations. The plot shows predictions along
+with pointwise 95\% confidence intervals of the mean and the individual
+predictions. The \(y\)-axis has been truncated.}
+
+\end{figure}%
+
+In \textbf{R}, the generic \texttt{predict} takes as input a model and a
+\texttt{newdata} argument contains a data frame with the same structure
+as the original data used to fit the model (or at least the columns of
+explanatory variables used).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(SKD23\_S2A, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{) }\CommentTok{\# load data}
+\NormalTok{lm\_simple }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(pef }\SpecialCharTok{\textasciitilde{}}\NormalTok{ proportion, }\AttributeTok{data =}\NormalTok{ SKD23\_S2A) }\CommentTok{\# fit simple linear regression}
+\FunctionTok{predict}\NormalTok{(lm\_simple, }
+        \AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{proportion =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{)),}
+        \AttributeTok{interval =} \StringTok{"prediction"}\NormalTok{) }\CommentTok{\# prediction intervals}
+\FunctionTok{predict}\NormalTok{(lm\_simple, }
+        \AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{proportion =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{)),}
+        \AttributeTok{interval =} \StringTok{"confidence"}\NormalTok{) }\CommentTok{\# confidence for mean}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tbl-predints-soko}Predictions with prediction intervals
+(left) and confidence intervals for the mean (right).}
+
+\begin{minipage}{0.50\linewidth}
+
+\begin{longtable}[]{@{}cccc@{}}
+\caption{Prediction intervals}\tabularnewline
+\toprule\noalign{}
+\texttt{proportion} & prediction & lower & upper \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\texttt{proportion} & prediction & lower & upper \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0 & 2.41 & -0.168 & 4.98 \\
+0.5 & 2.67 & 0.097 & 5.24 \\
+1.0 & 2.93 & 0.361 & 5.51 \\
+2.0 & 3.46 & 0.884 & 6.04 \\
+\end{longtable}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\begin{longtable}[]{@{}ccc@{}}
+\caption{Confidence intervals for the mean}\tabularnewline
+\toprule\noalign{}
+mean & lower CI & upper CI \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+mean & lower CI & upper CI \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.41 & 2.27 & 2.55 \\
+2.67 & 2.57 & 2.77 \\
+2.93 & 2.84 & 3.02 \\
+3.46 & 3.30 & 3.62 \\
+\end{longtable}
+
+\end{minipage}%
+
+\end{table}%
+
+\end{example}
+
+\section{Hypothesis testing}\label{hypothesis-testing}
+
+Hypothesis testing in linear models and analysis of variance proceeds as
+usual: we compare two nested models, one of which (the null model) is a
+simplification of a more complex one obtaining by imposing restrictions
+on the mean coefficients.
+
+Of particular interest are tests of restrictions for components of
+\(\boldsymbol{\beta}\). The large sample properties of the maximum
+likelihood estimator imply that \begin{align*}
+\widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{normal}_{p+1}\left\{\boldsymbol{\beta}, \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\right\}
+\end{align*} for sufficiently large sample size, and this result is
+exact for normal data. One can thus easily estimate the standard errors
+from the matrix upon replacing \(\sigma^2\) by an estimator. With normal
+data, one can show that \(\mathsf{SS}_e \sim \sigma^2\chi^2_{n-p-1}\)
+and \(\mathsf{SS}_e\) is independent of
+\(\widehat{\boldsymbol{\beta}}\).
+
+\subsection{Tests for linear
+regression}\label{tests-for-linear-regression}
+
+In an inferential setting, it's often important to test whether the
+effect of an explanatory variable is significant: if \(\mathrm{X}_j\) is
+binary or continuous, the test for \(\mathscr{H}_0: \beta_j=0\)
+corresponds to a null marginal effect for \(\mathrm{X}_j\). The null
+model is a linear regression in which we remove the \((j+1)\)st column
+of \(\mathbf{X}\), so both models are nested.
+
+\begin{proposition}[Wald tests in linear
+regression]\protect\hypertarget{prp-wald}{}\label{prp-wald}
+
+Recall that the Wald test statistic for the hypothesis
+\(\mathscr{H}_0: \beta_j=b\) is
+\[W = \frac{\widehat{\beta}_j - b}{\mathsf{se}(\widehat{\beta}_j)}.\]
+The Wald test statistic is reported by most software for the hypothesis
+\(b=0\). Since
+\(\mathsf{Var}(\widehat{\beta}_j) = \sigma^2 [(\mathbf{X}^\top\mathbf{X})^{-1}]_{j,j}\),
+we can estimate standard error from \(S^2\) and derive that the
+distribution of \(W\) under the null hypothesis is
+\(\mathsf{Student}(n-p-1)\). This explains the terminology ``\(t\)
+values'' in the \texttt{summary} table. In addition to coefficient
+estimates, it is possible to obtain Wald-based confidence intervals for
+\(\beta_j\), which are the usual
+\(\widehat{\beta}_j \pm \mathfrak{t}_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)\),
+with \(\mathfrak{t}_{n-p-1,\alpha/2}\) denoting the \(1-\alpha/2\)
+quantile of the \(\mathsf{Student}({n-p-1})\) distribution.
+
+\end{proposition}
+
+\begin{example}[]\protect\hypertarget{exm-sokolova-simple-ttest}{}\label{exm-sokolova-simple-ttest}
+
+Consider the data from Example~\ref{exm-sokolova}. If we fit againt the
+simple linear regression model, we can extract the \(p\)-values for the
+Wald or \(t\)-tests. The test for the intercept is of no interest since
+data are measured on a scale from 1 to 7, so the mean response when
+\texttt{proportion=0} cannot be zero. The coefficient for
+\texttt{proportion} suggests a trend of 0.5 point per unit ratio, and
+this is significantly different from zero, indicating that the
+\texttt{pef} score changes with the paper to plastic ratio.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(lm\_simple) }\CommentTok{\# t{-}tests (Wald) for beta=0 with p{-}values}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Call:}
+\CommentTok{\#\textgreater{} lm(formula = pef \textasciitilde{} proportion, data = SKD23\_S2A)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Residuals:}
+\CommentTok{\#\textgreater{}    Min     1Q Median     3Q    Max }
+\CommentTok{\#\textgreater{} {-}2.460 {-}0.960 {-}0.171  0.816  4.079 }
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Coefficients:}
+\CommentTok{\#\textgreater{}             Estimate Std. Error t value Pr(\textgreater{}|t|)    }
+\CommentTok{\#\textgreater{} (Intercept)   2.4074     0.0723   33.31   \textless{}2e{-}16 ***}
+\CommentTok{\#\textgreater{} proportion    0.5264     0.0618    8.51   \textless{}2e{-}16 ***}
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Residual standard error: 1.31 on 800 degrees of freedom}
+\CommentTok{\#\textgreater{} Multiple R{-}squared:  0.083,  Adjusted R{-}squared:  0.0819 }
+\CommentTok{\#\textgreater{} F{-}statistic: 72.5 on 1 and 800 DF,  p{-}value: \textless{}2e{-}16}
+\FunctionTok{confint}\NormalTok{(lm\_simple) }\CommentTok{\# confidence intervals for betas}
+\CommentTok{\#\textgreater{}             2.5 \% 97.5 \%}
+\CommentTok{\#\textgreater{} (Intercept) 2.266  2.549}
+\CommentTok{\#\textgreater{} proportion  0.405  0.648}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+For categorical variables with more than two levels, testing if
+\(\beta_j=0\) is typically not of interest because the contrast
+represent the difference between the category \(\mathrm{X}_j\) and the
+baseline: these two categories could have a small difference, but the
+categorical variable as a whole may still be a useful predictor given
+the other explanatories. The hypothesis of zero contrast is awkward
+because it implies a null model in which selected categories are merged.
+Rather, we wish to compare a model in which all variables are present
+with one in which the categorical explanatory is omitted.
+
+\begin{proposition}[\emph{F}-tests for comparison of nested linear
+models]\protect\hypertarget{prp-ftest}{}\label{prp-ftest}
+
+Consider the \emph{full} linear model which contains \(p\) predictors,
+\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
+\end{align*} Suppose without loss of generality that we want to test
+\(\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0\) (one could
+permute columns of the model matrix to achieve this configuration). The
+global hypothesis specifies that \((p-k)\) of the \(\beta\) parameters
+are zero. The \emph{restricted model} corresponding to the null
+hypothesis contains only the covariates for which \(\beta_j \neq 0\),
+\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
+\end{align*} Let \(\mathsf{SS}_e(\mathbb{M}_1)\) be the residuals sum of
+squares for model \(\mathbb{M}_1\), \begin{align*}
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*} where \(\widehat{Y}_i^{\mathbb{M}_1}\) is the \(i\)th
+fitted value from \(\mathbb{M}_1\). Similarly define
+\(\mathsf{SS}_e(\mathbb{M}_0)\) for the residuals sum of square of
+\(\mathbb{M}_0\). Clearly,
+\(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\) (why?)
+
+The \(F\)-test statistic is \begin{align*}
+F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}.
+\end{align*} Under \(\mathscr{H}_0\), the \(F\) statistic follows a
+Fisher distribution (Definition~\ref{def-Fdist}) with \((p-k)\) and
+\((n-p-1)\) degrees of freedom, \(\mathsf{Fisher}(p-k, n-p-1)\) ---
+\(p-k\) is the number of restrictions, and \(n-p-1\) is sample size
+minus the number of coefficients for the mean of \(\mathbb{M}_1\).
+
+\end{proposition}
+
+It turns out that both \(F\) and \(t\)-statistics are equivalent for
+testing a single coefficient \(\beta_j\): the \(F\)-statistic is the
+square of the Wald statistic and they lead to the same inference --- the
+\(p\)-value for the test are identical. While it may get reported in
+tables, the test for \(\beta_0=0\) is not of interest; we keep the
+intercept merely to centre the residuals.
+
+\begin{refremark}[\emph{F}-tests versus likelihood ratio tests]
+For normal linear regression, the likelihood ratio test for comparing
+models \(\mathbb{M}_1\) and \(\mathbb{M}_0\) is a function of the sum of
+squared residuals: the usual formula simplifies to \begin{align*}
+R &= n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}\\
+&= n \ln \left( 1+ \frac{p-k}{n-p-1}F\right)
+\end{align*} Both the likelihood ratio test and the \(F\) tests are
+related via an monotone transformation, and we can use the
+\(\mathsf{Fisher}\) distribution for comparison, rather than the
+large-sample \(\chi^2\) approximation. The \(t\)-tests and \(F\)-tests
+presented above could thus both be viewed as particular cases of
+\href{@sec-liktests}{likelihood-ratio tests} but using Student-\(t\)
+versus normal distribution when \(p-k=1\), and \(\mathsf{Fisher}\)
+versus \(\chi^2\) when \(p-k \ge 1\). When \(n\) is large, results are
+roughly the same.
+
+\label{rem-lrtvsF}
 
 \end{refremark}
 
-\section{Coefficient of determination}\label{coefR2}
+\subsection{Contrasts}\label{contrasts}
 
-When we specify a model, the error term \(\boldsymbol{\varepsilon}\)
-accounts for the fact no perfect linear relationship characterizes the
-data (if it did, we wouldn't need statistic to begin with). Once we have
-fitted a model, we estimate the variance \(\sigma^2\); one may then
-wonder which share of the total variance in the sample is explained by
-the model.
+Suppose we perform an analysis of variance and the \(F\)-test for the
+(global) null hypothesis that the averages of all groups are equal is
+very large: we reject the null hypothesis in favor of the alternative,
+which states that at least one of the group average is different. The
+follow-up question will be where these differences lie. Indeed, in an
+experimental context, this implies one or more of the manipulation has a
+different effect from the others on the mean response. Oftentimes, this
+isn't interesting in itself: we could be interested in comparing
+different options relative to a control group or determine whether
+specific combinations work better than separately, or find the best
+treatment by comparing all pairs.
 
-The total sum of squares, defined as the sum of squared residuals from
-the intercept-only model, serves as comparison --- the simplest model we
-could come up with would involving every observation by the sample mean
-of the response and so this gives (up to scale) the variance of the
-response, \(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). We
-can then compare the variance of the original data with that of the
-residuals from the model with covariate matrix \(\mathbf{X}\), defined
-as \(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\) with
-\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\).
-We define the coefficient of determination, or squared multiple
-correlation coefficient of the model, \(R^2\), as \begin{align*}
-R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
-\end{align*} An alternative decomposition shows that
-\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\),
-i.e., the coefficient of determination can be interpreted as the square
-of \href{moments}{Pearson's linear correlation} between the response
-\(\boldsymbol{y}\) and the fitted values \(\widehat{\boldsymbol{y}}\).
+The scientific question of interest that warranted the experiment may
+lead to a specific set of hypotheses, which can be formulated by
+researchers as comparisons between means of different subgroups. We can
+normally express these as \textbf{contrasts}. As
+\href{https://stat.ethz.ch/~meier}{Dr.~Lukas Meier} puts it, if the
+global \(F\)-test for equality of means is equivalent to a dimly lit
+room, contrasts are akin to spotlight that let one focus on particular
+aspects of differences in treatments. Formally speaking, a contrast is a
+linear combination of averages: in plain English, this means we assign a
+weight to each group average and add them up, and then compare that
+summary to a postulated value \(a\), typically zero. Contrasts encode
+research question of interest: if \(c_i\) denotes the weight of group
+average \(\mu_i\) \((i=1, \ldots, K)\), then we can write the contrast
+as \(C = c_1 \mu_1 + \cdots + c_K \mu_K\) with the null hypothesis
+\(\mathscr{H}_0: C=a\) for a two-sided alternative. The sample estimate
+of the linear contrast is obtained by replacing the unknown population
+average \(\mu_i\) by the sample average of that group,
+\(\widehat{\mu}_i = \overline{y}_{i}\). We can easily obtain the
+standard error of the linear combination \(C.\)\footnote{Should you ever
+  need the formula, the standard error assuming subsample size of
+  \(n_1, \ldots, n_K\) and a common variance \(\sigma^2\) is
+  \(\sqrt{\mathsf{Va}(\widehat{C})}\), where
+  \[\mathsf{Va}(\widehat{C}) = \widehat{\sigma}^2\left(\frac{c_1^2}{n_1} + \cdots + \frac{c_K^2}{n_K}\right).\]}
+We can then build a \(t\) statistic as usual by looking at the
+difference between our postulated value and the observed weighted mean,
+suitably standardized. If the global \(F\)-test leads to rejection of
+the null, there exists a contrast which is significant at the same
+level. Whenever the contrasts vectors are orthogonal, the tests will be
+uncorrelated. Mathematically, if we let \(c_{i}\) and \(c^{*}_{i}\)
+denote weights attached to the mean of group \(i\) comprising \(n_i\)
+observations, contrasts are orthogonal if
+\(c_{1}c^{*}_{1}/n_1 + \cdots + c_{K}c^{*}_K/n_K = 0\); if the sample is
+balanced with the same number of observations in each group,
+\(n/K = n_1 =\cdots = n_K\), we can consider the dot product of the two
+contrast vectors and neglect the subsample sizes.
 
-Its important to note that \(R^2\) is not a goodness-of-fit criterion,
-like the log likelihood: some phenomena are inherently noisy and even a
-good model will fail to account for much of the response's variability.
-Moreover, one can inflate the value of \(R^2\) by including more
-explanatory variables and making the model more complex, thereby
-improving the likelihood and \(R^2\). Indeed, the coefficient is
-non-decreasing in the dimension of \(\mathbf{X}\), so a model with
-\(p+1\) covariate will necessarily have a higher \(R^2\) values than
-only \(p\) of the explanatories. For model comparisons, it is better to
-employ information criteria or else rely on the predictive performance
-if this is the purpose of the regression. Lastly, a model with a high
-\(R^2\) may imply high correlation, but
-\href{http://www.tylervigen.com/spurious-correlations}{the relation may
-be spurious}: linear regression does not yield causal models!
+If we have \(K\) groups, there are \(K-1\) contrasts for pairwise
+differences, the last one being captured by the sample mean for the
+overall effect\footnote{The constraint \(c_1 + \cdots + c_K=0\) ensures
+  that linear contrasts are orthogonal to the mean, which has weight
+  \(c_i=n_i/n\) and for balanced samples \(c_i =1/n\).}. If we care only
+about difference between groups (as opposed to the overall effect of all
+treatments), we impose a sum-to-zero constraint on the weights so
+\(c_1 + \cdots + c_K=0\). Keep in mind that, although independent tests
+are nice mathematically, contrasts should encode the hypothesis of
+interest to the researchers: we choose contrasts because they are
+meaningful, not because they are orthogonal.
+
+\subsection{Examples of tests}\label{examples-of-tests}
+
+\begin{example}[Testing for amount of
+donations]\protect\hypertarget{exm-moonvaepps-test}{}\label{exm-moonvaepps-test}
+
+Consider Example~\ref{exm-moon}, whereby we test for differences between
+\texttt{open-ended} amounts and pre-specified amounts for proposals
+(\texttt{quantity}). The test of interest is
+\(\mathscr{H}_0: \beta_1=0\), where
+\(\beta_1=\mu_{\texttt{oe}} - \mu_{\texttt{qty}}\) is the mean
+difference between groups. Beyond the fact the difference is
+statistically significant at the 5\% level, we also want to report the
+\textbf{marginal means}, which when we have a single categorical
+explanatory variable is the marginal mean averaging over all covariates.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(}\StringTok{"MV23\_S1"}\NormalTok{, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\NormalTok{MV23\_S1 }\OtherTok{\textless{}{-}}\NormalTok{ MV23\_S1 }\SpecialCharTok{|\textgreater{}}
+\NormalTok{    dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{amount2 =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(amount), }\DecValTok{0}\NormalTok{, amount))}
+\NormalTok{linmod\_MV23 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(amount2 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ condition, }\AttributeTok{data =}\NormalTok{ MV23\_S1)}
+\CommentTok{\# Wald tests with coefficients}
+\FunctionTok{summary}\NormalTok{(linmod\_MV23)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Call:}
+\CommentTok{\#\textgreater{} lm(formula = amount2 \textasciitilde{} condition, data = MV23\_S1)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Residuals:}
+\CommentTok{\#\textgreater{}    Min     1Q Median     3Q    Max }
+\CommentTok{\#\textgreater{}  {-}8.70  {-}6.77  {-}1.77   3.23  18.23 }
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Coefficients:}
+\CommentTok{\#\textgreater{}                   Estimate Std. Error t value Pr(\textgreater{}|t|)    }
+\CommentTok{\#\textgreater{} (Intercept)          6.771      0.377   17.95   \textless{}2e{-}16 ***}
+\CommentTok{\#\textgreater{} conditionquantity    1.929      0.517    3.73   0.0002 ***}
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Residual standard error: 7.61 on 867 degrees of freedom}
+\CommentTok{\#\textgreater{} Multiple R{-}squared:  0.0158, Adjusted R{-}squared:  0.0147 }
+\CommentTok{\#\textgreater{} F{-}statistic: 13.9 on 1 and 867 DF,  p{-}value: 0.000205}
+\CommentTok{\# Analysis of variance table with F tests}
+\FunctionTok{anova}\NormalTok{(linmod\_MV23)}
+\CommentTok{\#\textgreater{} Analysis of Variance Table}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Response: amount2}
+\CommentTok{\#\textgreater{}            Df Sum Sq Mean Sq F value Pr(\textgreater{}F)    }
+\CommentTok{\#\textgreater{} condition   1    805     805    13.9 0.0002 ***}
+\CommentTok{\#\textgreater{} Residuals 867  50214      58                   }
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\CommentTok{\# Marginal means}
+\NormalTok{(emm }\OtherTok{\textless{}{-}}\NormalTok{ emmeans}\SpecialCharTok{::}\FunctionTok{emmeans}\NormalTok{(linmod\_MV23, }\AttributeTok{spec =} \StringTok{"condition"}\NormalTok{))}
+\CommentTok{\#\textgreater{}  condition  emmean    SE  df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  open{-}ended   6.77 0.377 867     6.03     7.51}
+\CommentTok{\#\textgreater{}  quantity     8.70 0.354 867     8.01     9.40}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Confidence level used: 0.95}
+\NormalTok{emm }\SpecialCharTok{|\textgreater{}}\NormalTok{ emmeans}\SpecialCharTok{::}\FunctionTok{contrast}\NormalTok{(}\AttributeTok{method =} \StringTok{"pairwise"}\NormalTok{) }\CommentTok{\# contrast vector c(1,{-}1)}
+\CommentTok{\#\textgreater{}  contrast                estimate    SE  df t.ratio p.value}
+\CommentTok{\#\textgreater{}  (open{-}ended) {-} quantity    {-}1.93 0.517 867  {-}3.730  0.0002}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+\begin{example}[Tests and contrasts for reading comprehension
+methods]\protect\hypertarget{exm-teachingtoread}{}\label{exm-teachingtoread}
+
+We consider now testing for the Example~\ref{exm-teaching-baumann} and
+Example~\ref{exm-interpretation1}. The purpose of Baumann,
+Seifert-Kessell, and Jones (\citeproc{ref-Baumann:1992}{1992}) was to
+make a particular comparison between treatment groups. From the
+abstract:
+
+\begin{quote}
+The primary quantitative analyses involved two planned orthogonal
+contrasts---effect of instruction (TA + DRTA vs.~2 x DRA) and intensity
+of instruction (TA vs.~DRTA).
+\end{quote}
+
+With a pre-post model, we will want to compare the means for a common
+value of \texttt{pretest1}, below taken to be the overall mean of the
+\texttt{pretest1} score.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(emmeans) }\CommentTok{\#load package}
+\FunctionTok{data}\NormalTok{(BSJ92, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\NormalTok{mod\_post }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(posttest1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ group }\SpecialCharTok{+}\NormalTok{ pretest1,}
+               \AttributeTok{data =}\NormalTok{ BSJ92) }\CommentTok{\# change name for package}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(mod\_post, }\AttributeTok{type =} \DecValTok{3}\NormalTok{) }\CommentTok{\# F{-}tests}
+\CommentTok{\#\textgreater{} Anova Table (Type III tests)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Response: posttest1}
+\CommentTok{\#\textgreater{}             Sum Sq Df F value  Pr(\textgreater{}F)    }
+\CommentTok{\#\textgreater{} (Intercept)      1  1    0.25    0.62    }
+\CommentTok{\#\textgreater{} group          143  2   12.17 3.5e{-}05 ***}
+\CommentTok{\#\textgreater{} pretest1       275  1   46.67 4.2e{-}09 ***}
+\CommentTok{\#\textgreater{} Residuals      365 62                    }
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\NormalTok{emmeans\_post }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(}\AttributeTok{object =}\NormalTok{ mod\_post,}
+                        \AttributeTok{specs =} \StringTok{"group"}\NormalTok{) }\CommentTok{\# which variable to keep}
+\end{Highlighting}
+\end{Shaded}
+
+The result of the analysis of variance table shows that there are indeed
+differences between groups. We can thus look at the estimated marginal
+means, which are the average of each group (here for
+\texttt{pretest1=0}).
+
+\begin{longtable}[]{@{}lrrrrr@{}}
+
+\caption{\label{tbl-print-pairwise-baumann}Estimated group averages with
+standard errors and 95\% confidence intervals for post-test 1 for
+pre-test1 score of 10.}
+
+\tabularnewline
+
+\toprule\noalign{}
+terms & marg. mean & std. err. & dof & lower (CI) & upper (CI) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+DR & 6.19 & 0.52 & 62 & 5.14 & 7.23 \\
+DRTA & 9.81 & 0.52 & 62 & 8.78 & 10.85 \\
+TA & 8.22 & 0.52 & 62 & 7.18 & 9.27 \\
+
+\end{longtable}
+
+The hypothesis of Baumann, Seifert-Kessell, and Jones
+(\citeproc{ref-Baumann:1992}{1992}) is
+\(\mathscr{H}_0: \mu_{\mathrm{TA}} + \mu_{\mathrm{DRTA}} = 2 \mu_{\mathrm{DRA}}\)
+or, rewritten slightly, \begin{align*}
+\mathscr{H}_0: - 2 \mu_{\mathrm{DR}} + \mu_{\mathrm{DRTA}} + \mu_{\mathrm{TA}} = 0.
+\end{align*} with weights \((-2, 1, 1)\); the order of the levels for
+the treatment are (\(\mathrm{DRA}\), \(\mathrm{DRTA}\), \(\mathrm{TA}\))
+and it must match that of the coefficients. An equivalent formulation is
+\((2, -1, -1)\) or \((1, -1/2, -1/2)\): in either case, the estimated
+differences will be different (up to a constant multiple or a sign
+change). The vector of weights for
+\(\mathscr{H}_0:  \mu_{\mathrm{TA}} = \mu_{\mathrm{DRTA}}\) is (\(0\),
+\(-1\), \(1\)): the zero appears because the first component,
+\(\mathrm{DRA}\) doesn't appear. The two contrasts are orthogonal since
+\((-2 \times 0) + (1 \times -1) + (1 \times 1) = 0\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Identify the order of the level of the variables}
+\FunctionTok{with}\NormalTok{(BSJ92, }\FunctionTok{levels}\NormalTok{(group))}
+\CommentTok{\#\textgreater{} [1] "DR"   "DRTA" "TA"}
+\CommentTok{\# DR, DRTA, TA (alphabetical)}
+\NormalTok{contrasts\_list }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}
+  \CommentTok{\# Contrasts: linear combination of means, coefficients sum to zero}
+  \StringTok{"C1: average (DRTA+TA) vs DR"} \OtherTok{=} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.5}\NormalTok{),}
+  \StringTok{"C2: DRTA vs TA"} \OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{)}
+\NormalTok{contrasts\_post }\OtherTok{\textless{}{-}}
+  \FunctionTok{contrast}\NormalTok{(}\AttributeTok{object =}\NormalTok{ emmeans\_post,}
+           \AttributeTok{method =}\NormalTok{ contrasts\_list)}
+\NormalTok{contrasts\_summary\_post }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(contrasts\_post)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{lrrrrr}
+
+\caption{\label{tbl-print-contrasts}Estimated contrasts for post-test
+1.}
+
+\tabularnewline
+
+\toprule
+contrast & estimate & std. err. & dof & stat & p-value\\
+\midrule
+C1: average (DRTA+TA) vs DR & 2.83 & 0.64 & 62 & 4.40 & 0.00\\
+C2: DRTA vs TA & 1.59 & 0.73 & 62 & 2.17 & 0.03\\
+\bottomrule
+
+\end{longtable}
+
+We can look at these differences; since \texttt{DRTA} versus \texttt{TA}
+is a pairwise difference, we could have obtained the \(t\)-statistic
+directly from the pairwise contrasts using
+\texttt{pairs(emmeans\_post)}. Note that the two different ways of
+writing the comparison between \texttt{DR} and the average of the other
+two methods yield different point estimates, but same inference (i.e.,
+the same \(p\)-values). For contrast \(C_{1b}\), we get half the
+estimate (but the standard error is also halved) and likewise for the
+second contrasts we get an estimate of
+\(\mu_{\mathrm{DRTA}} - \mu_{\mathrm{TA}}\) in the first case (\(C_2\))
+and \(\mu_{\mathrm{TA}} - \mu_{\mathrm{DRTA}}\): the difference in group
+averages is the same up to sign.
+
+What is the conclusion of our analysis of contrasts? It looks like the
+methods involving teaching aloud have a strong impact on reading
+comprehension relative to only directed reading. The evidence is not as
+strong when we compare the method that combines directed
+reading-thinking activity and thinking aloud.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Extract coefficients and standard errors}
+\NormalTok{beta\_pre }\OtherTok{\textless{}{-}} \FunctionTok{coefficients}\NormalTok{(mod\_post)[}\StringTok{\textquotesingle{}pretest1\textquotesingle{}}\NormalTok{]}
+\NormalTok{se\_pre }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{vcov}\NormalTok{(mod\_post)[}\StringTok{\textquotesingle{}pretest1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}pretest1\textquotesingle{}}\NormalTok{]))}
+\NormalTok{wald }\OtherTok{\textless{}{-}}\NormalTok{ (beta\_pre }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{/}\NormalTok{se\_pre }\CommentTok{\# Wald statistic, signed version}
+\CommentTok{\# P{-}value based on Student{-}t distribution, with n{-}p{-}1 dof}
+\NormalTok{pval }\OtherTok{\textless{}{-}} \DecValTok{2}\SpecialCharTok{*}\FunctionTok{pt}\NormalTok{(}\FunctionTok{abs}\NormalTok{(wald), }\AttributeTok{df =}\NormalTok{ mod\_post}\SpecialCharTok{$}\NormalTok{df.residual, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+
+\CommentTok{\# Model comparison via \textquotesingle{}anova\textquotesingle{} call}
+\NormalTok{mod0 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(posttest1 }\SpecialCharTok{\textasciitilde{}} \FunctionTok{offset}\NormalTok{(pretest1) }\SpecialCharTok{+}\NormalTok{ group, }\AttributeTok{data =}\NormalTok{ BSJ92)}
+\CommentTok{\# The \textquotesingle{}offset\textquotesingle{} fixes the term and so this is equivalent to a coefficient of 1}
+\NormalTok{aov\_tab }\OtherTok{\textless{}{-}} \FunctionTok{anova}\NormalTok{(mod0, mod\_post)}
+\end{Highlighting}
+\end{Shaded}
+
+Another potential hypothesis of interest is testing whether the
+coefficient of \texttt{pretest1} is unity. This amounts to the Wald test
+\(w = (\widehat{\beta}_{\texttt{pretest1}}-1)/\mathsf{se}(\widehat{\beta}_{\texttt{pretest1}})= -3.024\),
+or alternatively a model comparison with the \texttt{anova}, which
+yields a test statistic of \(F=9.143\). Distribution theory shows that
+if \(Z \sim \mathsf{Student}(\nu)\), then
+\(Z^2 \sim \mathsf{Fisher}(1, \nu)\), it follows that both tests are
+equivalent and the \(p\)-values are exactly the same.
+
+\end{example}
+
+\begin{example}[Tests and contrasts for paper vs
+plastic]\protect\hypertarget{exm-paperorplastic}{}\label{exm-paperorplastic}
+
+Let \(\mu_{0}, \mu_{0.5}, \mu_{1}, \mu_2\) denote the true mean of the
+PEF score as a function of the proportion of paper for the data from
+Example~\ref{exm-sokolova}. There are several tests that could be of
+interest here, but we focus on contrasts performed by authors and an
+hypothesis test of linearity as a function of the proportion of plastic.
+For the latter, we could compare the linear regression model (in which
+the PEF score increases linearly with the proportion of paper to
+plastic) against the ANOVA which allows each of the four groups to have
+different means.
+
+If we use \(\boldsymbol{\alpha} \in \mathbb{R}^4\) to denote the
+parameter vector of the analysis of variance model using the treatment
+parametrization and \(\boldsymbol{\beta} \in \mathbb{R}^2\) for the
+simple linear regression model, then we have \begin{align*}
+\mu_0 &= \beta_0=\alpha_0 \\
+\mu_{0.5} &= \beta_0 + 0.5 \beta_1 = \alpha_0 + \alpha_1\\
+\mu_1 &= \beta_0 + \beta_1 = \alpha_0 + \alpha_2 \\
+\mu_2 &= \beta_0 + 2 \beta_1= \alpha_0 + \alpha_3.
+\end{align*} The test comparing the simple linear regression with the
+analysis of variance imposes two simultaneous restrictions, with
+\(\mathscr{H}_0: \alpha_3 = 2\alpha_2= 4\alpha_1\), so the null
+distribution is \(\mathsf{Fisher}(2, 798)\) or roughly \(\chi^2_2\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(SKD23\_S2A, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{) }\CommentTok{\# load data}
+\NormalTok{linmod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(pef }\SpecialCharTok{\textasciitilde{}}\NormalTok{ proportion, }\AttributeTok{data =}\NormalTok{ SKD23\_S2A) }\CommentTok{\# fit simple linear regression}
+\FunctionTok{coef}\NormalTok{(linmod) }\CommentTok{\# extract intercept and slope}
+\CommentTok{\#\textgreater{} (Intercept)  proportion }
+\CommentTok{\#\textgreater{}       2.407       0.526}
+\NormalTok{anovamod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(pef }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(proportion), }\CommentTok{\# one{-}way ANOVA}
+               \AttributeTok{data =}\NormalTok{ SKD23\_S2A) }
+\CommentTok{\# Compare simple linear regression with ANOVA}
+\FunctionTok{anova}\NormalTok{(linmod, anovamod) }\CommentTok{\# is the change in PEF linear?}
+\CommentTok{\#\textgreater{} Analysis of Variance Table}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Model 1: pef \textasciitilde{} proportion}
+\CommentTok{\#\textgreater{} Model 2: pef \textasciitilde{} factor(proportion)}
+\CommentTok{\#\textgreater{}   Res.Df  RSS Df Sum of Sq    F  Pr(\textgreater{}F)    }
+\CommentTok{\#\textgreater{} 1    800 1373                              }
+\CommentTok{\#\textgreater{} 2    798 1343  2      29.3 8.69 0.00018 ***}
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\CommentTok{\# Specifying the weights {-} these are not contrasts!}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{linearHypothesis}\NormalTok{(}\AttributeTok{model =}\NormalTok{ anovamod, }
+   \AttributeTok{hypothesis =} \FunctionTok{rbind}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), }
+                      \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)))}
+\CommentTok{\#\textgreater{} Linear hypothesis test}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Hypothesis:}
+\CommentTok{\#\textgreater{} {-} 2 factor(proportion)0.5  + factor(proportion)1 = 0}
+\CommentTok{\#\textgreater{} {-} 2 factor(proportion)1  + factor(proportion)2 = 0}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Model 1: restricted model}
+\CommentTok{\#\textgreater{} Model 2: pef \textasciitilde{} factor(proportion)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}   Res.Df  RSS Df Sum of Sq    F  Pr(\textgreater{}F)    }
+\CommentTok{\#\textgreater{} 1    800 1373                              }
+\CommentTok{\#\textgreater{} 2    798 1343  2      29.3 8.69 0.00018 ***}
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\end{Highlighting}
+\end{Shaded}
+
+We see from the output that the \(F\) tests and the \(p\)-values are
+identical, whether we impose the constraints manually or simply feed the
+two nested models to the \texttt{anova} method.
+
+The authors were interested in comparing none with other choices: we are
+interested in pairwise differences, but only relative to the reference
+\(\mu_{0}\): \begin{align*}
+\mu_0 = \mu_{0.5}  & \iff 1\mu_0 - 1\mu_{0.5} + 0\mu_{1} + 0 \mu_{2} = 0\\
+\mu_0 = \mu_{1} & \iff 1\mu_0 + 0\mu_{0.5} -1\mu_{1} + 0 \mu_{2} = 0\\
+\mu_0 = \mu_{2} & \iff 1\mu_0 + 0\mu_{0.5} + 0\mu_{1} -1 \mu_{2} = 0
+\end{align*} so contrast vectors \((1, -1, 0, 0)\), \((1, 0, -1, 0)\)
+and \((1, 0, 0, -1)\) for the marginal means would allow one to test the
+hypothesis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{margmean }\OtherTok{\textless{}{-}}\NormalTok{ anovamod }\SpecialCharTok{|\textgreater{}}  
+\NormalTok{  emmeans}\SpecialCharTok{::}\FunctionTok{emmeans}\NormalTok{(}\AttributeTok{specs =} \StringTok{"proportion"}\NormalTok{) }\CommentTok{\# group means}
+\NormalTok{contrastlist }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{( }\CommentTok{\# specify contrast vectors}
+   \AttributeTok{refvshalf =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+   \AttributeTok{refvsone =}  \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+   \AttributeTok{refvstwo =}  \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{))}
+\CommentTok{\# compute contrasts relative to reference}
+\NormalTok{margmean }\SpecialCharTok{|\textgreater{}}\NormalTok{ emmeans}\SpecialCharTok{::}\FunctionTok{contrast}\NormalTok{(}\AttributeTok{method =}\NormalTok{ contrastlist)}
+\CommentTok{\#\textgreater{}  contrast  estimate    SE  df t.ratio p.value}
+\CommentTok{\#\textgreater{}  refvshalf   {-}0.749 0.131 798  {-}5.710  \textless{}.0001}
+\CommentTok{\#\textgreater{}  refvsone    {-}0.901 0.131 798  {-}6.890  \textless{}.0001}
+\CommentTok{\#\textgreater{}  refvstwo    {-}1.182 0.129 798  {-}9.200  \textless{}.0001}
+\end{Highlighting}
+\end{Shaded}
+
+The group averages are reported in Table~\ref{tbl-print-groupmeans-PEF},
+match those reported by the authors in the paper. They suggest an
+increased perceived environmental friendliness as the amount of paper
+used in the wrapping increases. We could fit a simple regression model
+to assess the average change, treating the proportion as a continuous
+explanatory variable. The estimated slope for the change in PEF score,
+which ranges from 1 to 7 in increments of 0.25, is 0.53 point per ratio
+of paper/plastic. There is however strong evidence, given the data, that
+the change isn't quite linear, as the fit of the linear regression model
+is significantly worse than the corresponding linear model.
+
+\begin{longtable}[t]{rrrrrr}
+
+\caption{\label{tbl-print-groupmeans-PEF}Estimated group averages of PEF
+per proportion with standard errors}
+
+\tabularnewline
+
+\toprule
+proportion & marg. mean & std. err. & dof & lower (CI) & upper (CI)\\
+\midrule
+0.0 & 2.16 & 0.093 & 798 & 1.98 & 2.34\\
+0.5 & 2.91 & 0.093 & 798 & 2.73 & 3.09\\
+1.0 & 3.06 & 0.092 & 798 & 2.88 & 3.24\\
+2.0 & 3.34 & 0.089 & 798 & 3.17 & 3.52\\
+\bottomrule
+
+\end{longtable}
+
+\begin{longtable}[t]{lrrrrr}
+
+\caption{\label{tbl-print-contrast-PEF}Estimated contrasts for
+differences of PEF to no paper.}
+
+\tabularnewline
+
+\toprule
+contrast & estimate & std. err. & dof & stat & p-value\\
+\midrule
+refvshalf & -0.75 & 0.13 & 798 & -5.71 & 0\\
+refvsone & -0.90 & 0.13 & 798 & -6.89 & 0\\
+refvstwo & -1.18 & 0.13 & 798 & -9.20 & 0\\
+\bottomrule
+
+\end{longtable}
+
+All differences reported in Table~\ref{tbl-print-contrast-PEF} are
+significant and positive, in line with the researcher's hypothesis.
+
+\end{example}
+
+\begin{example}[Testing for the college wage
+discrimination]\protect\hypertarget{exm-tests-college}{}\label{exm-tests-college}
+
+Consider the \texttt{college} data example and the associated linear
+model with \texttt{rank}, \texttt{sex}, years of \texttt{service} and
+\texttt{field} as covariates.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(college, }\AttributeTok{package =} \StringTok{"hecstatmod"}\NormalTok{)}
+\NormalTok{mod1\_college }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(salary }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ field }\SpecialCharTok{+}\NormalTok{ rank }\SpecialCharTok{+}\NormalTok{ service , }\AttributeTok{data =}\NormalTok{ college)}
+\NormalTok{mod0\_college }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(salary }\SpecialCharTok{\textasciitilde{}}\NormalTok{ field }\SpecialCharTok{+}\NormalTok{ rank }\SpecialCharTok{+}\NormalTok{ service , }\AttributeTok{data =}\NormalTok{ college)}
+\CommentTok{\# F{-}test with ANOVA table comparing nested models}
+\NormalTok{aov\_tab\_college }\OtherTok{\textless{}{-}} \FunctionTok{anova}\NormalTok{(mod0\_college, mod1\_college)}
+\CommentTok{\# Wald t{-}test {-} extracted from the output of the \textquotesingle{}summary\textquotesingle{} table}
+\NormalTok{wald\_college }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(mod1\_college)}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,]}
+\CommentTok{\# Likelihood ratio test with chi{-}square approximation}
+\NormalTok{pval\_lrt }\OtherTok{\textless{}{-}} \FunctionTok{pchisq}\NormalTok{(}\AttributeTok{q =} \FunctionTok{as.numeric}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{logLik}\NormalTok{(mod1\_college) }\SpecialCharTok{{-}} \FunctionTok{logLik}\NormalTok{(mod0\_college))),}
+       \AttributeTok{df =} \DecValTok{1}\NormalTok{, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The only test of interest here is
+\(\mathscr{H}_0: \beta_{\texttt{sex}} = 0\) against the two-sided
+alternative \(\mathscr{H}_a: \beta_{\texttt{sex}} \neq 0\). The Wald
+\(t\)-test statistic is \(-1.23\), with a \(p\)-value of \(0.219\) based
+on a Student-\(t\) distribution with \(391\) degrees of freedom. The
+\(p\)-value in the output from the \(F\)-test is the same, and that
+obtained from the likelihood ratio test the same up to two decimal
+places.
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\caption{Table of linear regression coefficients with associated
+standard errors, Wald tests and \(p\)-values based on Student-\(t\)
+distribution.}\tabularnewline
+\toprule\noalign{}
+term & estimate & std. error & Wald stat. & p-value \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+term & estimate & std. error & Wald stat. & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 86.596 & 2.96 & 29.25 & \textless{} 0.001 \\
+sex {[}woman{]} & -4.771 & 3.878 & -1.23 & 0.22 \\
+field {[}theoretical{]} & -13.473 & 2.315 & -5.82 & \textless{} 0.001 \\
+rank {[}associate{]} & 14.56 & 4.098 & 3.55 & \textless{} 0.001 \\
+rank {[}full{]} & 49.16 & 3.834 & 12.82 & \textless{} 0.001 \\
+service & -0.089 & 0.112 & -0.8 & 0.43 \\
+\end{longtable}
+
+\end{example}
 
 \section{Model assumptions}\label{model-assumptions}
 
@@ -5901,13 +6761,25 @@ constructed variables further point towards non-additivity
 model fit is poor and any conclusion drawn from it dubious.
 
 One could consider using a Box--Cox to find a suitable transformation of
-the residuals so as to improve normality. The profile log likelihood at
-the bottom left of Figure~\ref{fig-poisonplots} suggests that
-\(\lambda\approx -1\) would be a good choice. This has the benefit of
-being interpretable, as the reciprocal response \(Y^{-1}\) corresponds
-to the speed of action of the poison depending on both poison type and
-treatment. The diagnostics plots also indicate that the model for the
-reciprocal has no residual structure and the variance appears constant.
+the residuals so as to improve normality. AN analysis of residuals in
+the top four plots of Figure~\ref{fig-poisonplots} show evidence of
+heteroscedasticity as a function of either poison and treatment. This is
+evident by looking at the plot of ordinary residuals, which displays
+increase in variance with the survival time. The quantile-quantile plot
+in the middle right plot shows some evidence of departure from the
+normality, but the non-linearity and heteroscedasticity obscure this.
+
+The bottom left panel of Figure~\ref{fig-poisonplots} shows the profile
+log likelihood for the Box--Cox transform parameter, suggesting a value
+of \(\lambda=-1\) would be within the 95\% confidence interval. This
+choice has the benefit of being interpretable, as the reciprocal
+response \(Y^{-1}\) corresponds to the speed of action of the poison
+depending on both poison type and treatment. The diagnostics plot at the
+bottom right of Figure~\ref{fig-poisonplots} also indicate that the
+model for the reciprocal has no residual structure and the variance
+appears constant. After fitting the same additive model with main effect
+only to the reciprocal survival time, there is no more evidence of
+residual structure and unequal variance.
 
 \begin{figure}[ht!]
 
@@ -5917,19 +6789,13 @@ reciprocal has no residual structure and the variance appears constant.
 
 }
 
-\caption{\label{fig-poisonplots}Diagnostic plots for the poison data.
-The top panel shows the ordinary residuals for the linear model for
-survival time as a function of poison and treatment, with jittered
-observations. The middle left plot shows the fitted values against
-residuals, which display evidence of trend and increase in variance with
-the survival time. The quantile-quantile plot in the middle right plot
-shows some evidence of departure from the normality, but the
-non-linearity and heteroscedasticity obscure this. The bottom panel
-shows the profile log likelihood for the Box--Cox transform, suggesting
-a value of \(-1\) would be within the 95\% confidence interval. After
-fitting the same additive model with main effect only to the reciprocal
-survival time, there is no more evidence of residual structure and
-unequal variance.}
+\caption{\label{fig-poisonplots}Diagnostic plots for the poison data:
+ordinary residuals (jittered) for the linear model for survival time as
+a function of poison and treatment (top), fitted values against
+residuals (middle left), detrended quantile-quantile plot of residuals
+(middle right), profile log likelihood of \(\lambda\) for the Box--Cox
+model transformation (bottom left) and fitted values against residuals
+(bottom right) after reciprocal transformation.}
 
 \end{figure}%
 

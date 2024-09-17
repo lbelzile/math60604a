@@ -349,7 +349,7 @@ Table&nbsp;1.1: First lines of the <code>renfe</code> database, which contains t
 <p>Most of the models we will deal with are so-called regression models, in which the mean of a quantitative variable is a function of other variables, termed explanatories. There are two types of numerical variables</p>
 <ul>
 <li>a discrete variable takes a finite or countable number of values, prime examples being binary variables or count variables.</li>
-<li>a continuous variable can take (in theory) an infinite possible number of values, even when measurements are rounded or measured with a limited precision (time, width, mass). In many case, we could also consider discrete variables as continuous if they take enough values (e.g., money).</li>
+<li>a continuous variable can take (in theory) an infinite possible number of values, even when measurements are rounded or measured with a limited precision (time, width, mass). In many case, we could also consider discrete variables as continuous if they take enough distinct values (e.g., money).</li>
 </ul>
 <p>Categorical variables take only a finite of values. They are regrouped in two groups,</p>
 <ul>
@@ -381,12 +381,12 @@ Table&nbsp;1.1: First lines of the <code>renfe</code> database, which contains t
 <div id="def-moments" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1.2 (Moments)</strong></span> Let <span class="math inline">\(Y\)</span> be a random variable with density (or mass) function <span class="math inline">\(f(x).\)</span> The <strong>expectation</strong> (or theoretical mean) of a continuous random variable <span class="math inline">\(Y\)</span> is <span class="math display">\[\begin{align*}
 \mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.
-\end{align*}\]</span> In the discrete case, we set rather <span class="math inline">\(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\)</span>, where <span class="math inline">\(\mathcal{X}\)</span> denotes the support of <span class="math inline">\(Y\)</span>, the set of numerical values at which the probability of <span class="math inline">\(Y\)</span> is non-zero. More generally, we can look at the expectation of a function <span class="math inline">\(g(x)\)</span> for <span class="math inline">\(Y\)</span>, which is nothing but the integral (or sum in the discrete case) of <span class="math inline">\(g(x)\)</span> weighted by the density or mass function of <span class="math inline">\(f(x).\)</span> In the same fashion, provided the integral is finite, the variance is <span class="math display">\[\begin{align*}
+\end{align*}\]</span> In the discrete case, we set rather <span class="math inline">\(\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)\)</span>, where <span class="math inline">\(\mathcal{X}\)</span> denotes the support of <span class="math inline">\(Y\)</span>, the set of numerical values at which the probability of <span class="math inline">\(Y\)</span> is non-zero. More generally, we can look at the expectation of a function <span class="math inline">\(g(x)\)</span> for <span class="math inline">\(Y\)</span>, which is nothing but the integral (or sum in the discrete case) of <span class="math inline">\(g(x)\)</span> weighted by the density or mass function of <span class="math inline">\(f(x),\)</span> meaning <span class="math inline">\(\int_{\mathbb{R}} g(x) f(x) \mathrm{d} x.\)</span> In the same fashion, provided the integral is finite, the variance is <span class="math display">\[\begin{align*}
 \mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.
 \end{align*}\]</span> The <strong>standard deviation</strong> is the square root of the variance, <span class="math inline">\(\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}\)</span>: it units are the same as those of <span class="math inline">\(Y\)</span> and are thus more easily interpreted.</p>
 <p>The notion of moments can be extended to higher dimensions. <!--
 If we assume data are independent, their joint distribution factorizes into the product of the individual mass function/density of each sample point. Otherwise, a multivariate mass function or density function describes the behaviour of the random vector.
---> Consider an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\boldsymbol{Y}.\)</span> In the regression setting, the response <span class="math inline">\(\boldsymbol{Y}\)</span> would usually comprise repeated measures on an individual, or even observations from a group of individuals.</p>
+--> Consider a column vector of size <span class="math inline">\(n\)</span> <span class="math inline">\(\boldsymbol{Y}.\)</span> In the regression setting, the response <span class="math inline">\(\boldsymbol{Y}\)</span> would usually comprise repeated measures on an individual, or even observations from a group of individuals.</p>
 <p>The expected value (theoretical mean) of the vector <span class="math inline">\(\boldsymbol{Y}\)</span> is calculated componentwise, i.e., <span class="math display">\[\begin{align*}
 \mathsf{E}(\boldsymbol{Y}) &amp;= \boldsymbol{\mu}=
 \begin{pmatrix}
@@ -415,13 +415,18 @@ If we assume data are independent, their joint distribution factorizes into the 
 \end{pmatrix}.
 \end{align*}\]</span> One of the most important parts of modelling correlated (or longitudinal) data is the need to account for within-group correlations. This basically comes down to modelling a covariance matrix for observations within the same group (or within the same individual in the case of repeated measures), which is the object of <a href="correlated-longitudinal-data">Chapter 5</a>.</p>
 </div>
+<div id="exm-moments-dice" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1.2</strong></span> Consider a discrete random variable <span class="math inline">\(Y\)</span> giving the outcome of two fair dice throws. The expected value of <span class="math inline">\(g(Y)=Y^2\)</span> is then <span class="math display">\[\begin{align*}
+\mathsf{E}(Y^2) = (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+\end{align*}\]</span></p>
+</div>
 <div id="def-bias" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1.3 (Bias)</strong></span> The bias of an estimator <span class="math inline">\(\hat{\theta}\)</span> for a parameter <span class="math inline">\(\theta\)</span> is <span class="math display">\[\begin{align*}
 \mathsf{bias}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta
 \end{align*}\]</span> The estimator is unbiased if its bias is zero.</p>
 </div>
 <div id="exm-unbiased-estimator" class="theorem example">
-<p><span class="theorem-title"><strong>Example 1.2 (Unbiased estimators)</strong></span> The unbiased estimator of the mean and the variance of <span class="math inline">\(Y\)</span> are <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Example 1.3 (Unbiased estimators)</strong></span> The unbiased estimator of the mean and the variance of <span class="math inline">\(Y\)</span> are <span class="math display">\[\begin{align*}
 \overline{Y}_n &amp;= n^{-1} \sum_{i=1}^n Y_i\\
 S_n &amp;= (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2.
 \end{align*}\]</span></p>
@@ -543,7 +548,7 @@ Figure&nbsp;1.2: Densities of normal distributions with different mean parameter
 </div>
 </div>
 <p>The distribution function of the normal distribution is not available in closed-form. The normal distribution is a location-scale distribution: if <span class="math inline">\(Y \sim \mathsf{normal}(\mu, \sigma^2)\)</span>, then <span class="math inline">\(Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1).\)</span> Conversely, if <span class="math inline">\(Z \sim \mathsf{normal}(0,1)\)</span>, then <span class="math inline">\(Y = \mu + \sigma Z \sim \mathsf{normal}(\mu, \sigma^2).\)</span></p>
-<p>We will also encounter the multivariate normal distribution; for a <span class="math inline">\(d\)</span> dimensional vector <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{normal}_d(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span>, the density is <span class="math display">\[\begin{align*}
+<p>We will also encounter the multivariate normal distribution; for a <span class="math inline">\(d\)</span> dimensional vector <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{normal}_d(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span>,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> the density is <span class="math display">\[\begin{align*}
 f(\boldsymbol{x}) = (2\pi)^{-d/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}\]</span></p>
 <p>The mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> is the vector of expectation of individual observations, whereas <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the <span class="math inline">\(d \times d\)</span> covariance matrix of <span class="math inline">\(\boldsymbol{Y}.\)</span> A unique property of the multivariate normal distribution is the link between independence and the covariance matrix: if <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(Y_j\)</span> are independent, the <span class="math inline">\((i,j)\)</span> off-diagonal entry of <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is zero.</p>
@@ -774,6 +779,12 @@ Figure&nbsp;1.11: Graphical representation of the central limit theorem. The upp
 Gosset, William Sealy. 1908. <span>“The Probable Error of a Mean.”</span> <em>Biometrika</em> 6 (1): 1–25. <a href="https://doi.org/10.1093/biomet/6.1.1">https://doi.org/10.1093/biomet/6.1.1</a>.
 </div>
 </div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>All vectors are column vectors unless otherwise indicated.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

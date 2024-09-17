@@ -243,7 +243,7 @@ window.Quarto = {
   <ul>
   <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link active" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">3.1</span> Maximum likelihood estimation</a></li>
   <li><a href="#sampling-distribution" id="toc-sampling-distribution" class="nav-link" data-scroll-target="#sampling-distribution"><span class="header-section-number">3.2</span> Sampling distribution</a></li>
-  <li><a href="#liktests" id="toc-liktests" class="nav-link" data-scroll-target="#liktests"><span class="header-section-number">3.3</span> Likelihood-based tests</a></li>
+  <li><a href="#sec-liktests" id="toc-sec-liktests" class="nav-link" data-scroll-target="#sec-liktests"><span class="header-section-number">3.3</span> Likelihood-based tests</a></li>
   <li><a href="#profile-likelihood" id="toc-profile-likelihood" class="nav-link" data-scroll-target="#profile-likelihood"><span class="header-section-number">3.4</span> Profile likelihood</a></li>
   <li><a href="#information-criteria" id="toc-information-criteria" class="nav-link" data-scroll-target="#information-criteria"><span class="header-section-number">3.5</span> Information criteria</a></li>
   </ul>
@@ -536,8 +536,8 @@ where $R(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim} \chi^2_p.$
 </div>
 </div>
 </section>
-<section id="liktests" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="liktests"><span class="header-section-number">3.3</span> Likelihood-based tests</h2>
+<section id="sec-liktests" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-liktests"><span class="header-section-number">3.3</span> Likelihood-based tests</h2>
 <p>We consider a null hypothesis <span class="math inline">\(\mathscr{H}_0\)</span> that imposes restrictions on the possible values of <span class="math inline">\(\boldsymbol{\theta}\)</span> can take, relative to an unconstrained alternative <span class="math inline">\(\mathscr{H}_1.\)</span> We need two <strong>nested</strong> models: a <em>full</em> model, and a <em>reduced</em> model that is a subset of the full model where we impose <span class="math inline">\(q\)</span> restrictions. For example, the exponential distribution is a special case of the Weibull one if <span class="math inline">\(\alpha=1\)</span>. The testing procedure involves fitting the two models and obtaining the maximum likelihood estimators of each of <span class="math inline">\(\mathscr{H}_1\)</span> and <span class="math inline">\(\mathscr{H}_0,\)</span> respectively <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span> for the parameters under <span class="math inline">\(\mathscr{H}_0.\)</span> The null hypothesis <span class="math inline">\(\mathscr{H}_0\)</span> tested is: `the reduced model is an <strong>adequate simplification</strong> of the full model’ and the likelihood provides three main classes of statistics for testing this hypothesis: these are</p>
 <ul>
 <li>likelihood ratio tests statistics, denoted <span class="math inline">\(R,\)</span> which measure the drop in log likelihood (vertical distance) from <span class="math inline">\(\ell(\widehat{\boldsymbol{\theta}})\)</span> and <span class="math inline">\(\ell(\widehat{\boldsymbol{\theta}}_0).\)</span></li>

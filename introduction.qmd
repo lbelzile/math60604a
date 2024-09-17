@@ -62,7 +62,7 @@ The choice of statistical model and test depends on the underlying type of the d
 Most of the models we will deal with are so-called regression models, in which the mean of a quantitative variable is a function of other variables, termed explanatories. There are two types of numerical variables
 
 - a discrete variable takes a finite or  countable number of values, prime examples being binary variables or count variables.
-- a continuous variable can take (in theory) an infinite possible number of values, even when measurements are rounded or measured with a limited precision (time, width, mass). In many case, we could also consider discrete variables as continuous if they take enough values (e.g., money).
+- a continuous variable can take (in theory) an infinite possible number of values, even when measurements are rounded or measured with a limited precision (time, width, mass). In many case, we could also consider discrete variables as continuous if they take enough distinct values (e.g., money).
 
 Categorical variables take only a finite of values. They are regrouped in two groups,
 
@@ -114,17 +114,21 @@ Let $Y$ be a random variable with density (or mass) function $f(x).$ The **expec
 \mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.
 \end{align*}
 In the discrete case, we set rather $\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)$, where $\mathcal{X}$ denotes the support of $Y$, the set of numerical values at which the probability of $Y$ is non-zero.
-More generally, we can look at the expectation of a function $g(x)$ for $Y$, which is nothing but the integral (or sum in the discrete case) of $g(x)$ weighted by the density or mass function of $f(x).$ In the same fashion, provided the integral is finite, the variance is
+More generally, we can look at the expectation of a function $g(x)$ for $Y$, which is nothing but the integral (or sum in the discrete case) of $g(x)$ weighted by the density or mass function of $f(x),$ meaning $\int_{\mathbb{R}} g(x) f(x) \mathrm{d} x.$ In the same fashion, provided the integral is finite, the variance is
 \begin{align*}
 \mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.
 \end{align*}
 The **standard deviation** is the square root of the variance, $\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}$: it units are the same as those of $Y$ and are thus more easily interpreted. 
 
+
+
+
+
 The notion of moments can be extended to higher dimensions.
 <!--
 If we assume data are independent, their joint distribution factorizes into the product of the individual mass function/density of each sample point. Otherwise, a multivariate mass function or density function describes the behaviour of the random vector.
 -->
-Consider an $n$-vector $\boldsymbol{Y}.$ In the regression setting, the response $\boldsymbol{Y}$ would usually comprise repeated measures on an individual, or even observations from a group of individuals.
+Consider a column vector of size $n$  $\boldsymbol{Y}.$ In the regression setting, the response $\boldsymbol{Y}$ would usually comprise repeated measures on an individual, or even observations from a group of individuals.
 
 The expected value (theoretical mean) of the vector $\boldsymbol{Y}$ is calculated componentwise, i.e., 
 \begin{align*}
@@ -167,6 +171,16 @@ One of the most important parts of modelling
 correlated (or longitudinal) data is the need to account for within-group correlations. This basically comes down to modelling a covariance matrix for observations within the same group (or within the same individual in the case of repeated measures), which is the object of [Chapter 5](correlated-longitudinal-data).
 
 :::
+
+:::{#exm-moments-dice}
+
+Consider a discrete random variable $Y$ giving the outcome of two fair dice throws. The expected value of $g(Y)=Y^2$ is then
+\begin{align*}
+\mathsf{E}(Y^2) = (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+\end{align*}
+
+:::
+
 
 ::: {#def-bias}
 
@@ -442,7 +456,7 @@ The normal distribution is a location-scale distribution: if $Y \sim \mathsf{nor
 
 
 
-We will also encounter the multivariate normal distribution; for a $d$ dimensional vector $\boldsymbol{Y} \sim \mathsf{normal}_d(\boldsymbol{\mu}, \boldsymbol{\Sigma})$, the density is
+We will also encounter the multivariate normal distribution; for a $d$ dimensional vector $\boldsymbol{Y} \sim \mathsf{normal}_d(\boldsymbol{\mu}, \boldsymbol{\Sigma})$,^[All vectors are column vectors unless otherwise indicated.] the density is
 \begin{align*}
 f(\boldsymbol{x}) = (2\pi)^{-d/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
 \end{align*}

@@ -18,7 +18,16 @@ The linear regression model, or linear model, is one of the most versatile workh
 \underset{\text{conditional mean}}{\mathsf{E}(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)}=\mu_i=\underset{\text{linear combination of explanatories}}{\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}}\equiv \mathbf{x}_i\boldsymbol{\beta}.
 \end{align}
 where $\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})$ is a $(p+1)$ row vector containing a constant and the explanatories of observation $i$, and $\boldsymbol{\beta} = (\beta_0, \ldots, \beta_p)^\top$ is a $p+1$ column vector of coefficients for the mean. The model formulation is conditional on the values of the observed explanatories; this amounts to treating the $p$ explanatory variables $X_1, \ldots, X_p$  as non-random quantities, or known in advance.
-The regression coefficients $\boldsymbol{\beta}$ is the same for all observations, but the vector of explanatories $\mathbf{x}_i$ may change from one observation to the next. The model is **linear** in the coefficients $\beta_0, \ldots, \beta_p$.
+The regression coefficients $\boldsymbol{\beta}$ is the same for all observations, but the vector of explanatories $\mathbf{x}_i$ may change from one observation to the next. 
+
+:::{#rem-linearity}
+
+## Linearity
+
+The model is **linear** in the coefficients $\beta_0, \ldots, \beta_p$. The quadratic curve $\beta_0 + \beta_1x + \beta_2 x^2$ is a linear model because it is a sum of coefficients times functions of explanatories. By contrast, the model $\beta_0 + \beta_1x^{\beta_2}$ is nonlinear in $\boldsymbol{\beta}$.
+
+
+:::
 
 
 To simplify the notation, we aggregate observations into an $n$-vector $\boldsymbol{Y}$ and the explanatories into an $n \times (p+1)$ matrix $\mathbf{X}$ by concatenating a column of ones and the $p$ column vectors $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, each containing the $n$ observations of the respective explanatories. The matrix $\mathbf{X}$ is termed **model matrix** (or sometimes design matrix in experimental settings), and it's $i$th row is $\mathbf{x}_i$.
@@ -96,9 +105,21 @@ The `college` database consists of observational data collected in a college in 
 
 :::{#exm-moon-vanepps}
 
+## Suggestions increase donations to charities
+
 Study 1 of @Moon.VanEpps:2023 considers proportion of donators to a charity. Participants in the online panel were provided with an opportunity to win 25$ and donate part of this amount to a charity of their choosing. The data provided include only people who did not exceed this amount and indicated donating a non-zero amount.
 
 :::
+
+:::{#exm-sokolova}
+
+## Is additional paper wrapping viewed as more eco-friendly?
+
+@Sokolova:2023 consider consumer bias when assessing how eco-friendly packages are. Items such as cereal are packaged in plastic bags, which themselves are covered in a box. They conjecture (and find) that, paradoxically, consumers tend to view the packaging as being more eco-friendly when the amount of cardboard
+or paper surrounding the box is larger, relative to the sole plastic package. We consider in the sequel the data from Study 2A, which measures the perceived environmental friendliness (PEF, variable `pef`) as a function of the `proportion` of paper wrapping (either none, half of the area of the plastic, equal or twice).
+
+:::
+
 
 ### Exploratory data analysis
 
@@ -432,7 +453,7 @@ Let us consider categorical variables with $K > 2$ levels, which in **R** are of
 
 # Dummy coding for categorical variables
 
-Consider the @Baumann:1992 study and the sole inclusion of the `group` variable. The data are ordered by group: the first 22 observations are for group `DR`, the 22 next ones for group `DRTA` and the last 22 for `TA`. If we fit a model with `group` as categorical variables
+Consider the @Baumann:1992 study presented in @exm-teaching-baumann, where we only include `group` as explanatory variable. The data are ordered by group: the first 22 observations are for group `DR`, the 22 next ones for group `DRTA` and the last 22 for `TA`. If we fit a model with `group` as categorical variables
 
 ```{r}
 #| eval: true
@@ -544,8 +565,7 @@ The interpretation of the coefficients is as follows:
 
 ## Parameter interpretation for analysis of covariance
 
-We consider a pre-post model for the  error detection task
-test of @Baumann:1992. We fit a linear model with the pre-test score and the experimental condition.
+We consider a pre-post model for the  error detection task test of @Baumann:1992. We fit a linear model with the pre-test score and the experimental condition.
 
 ```{r}
 #| eval: true
@@ -747,7 +767,27 @@ Since zero off-correlations in normal models amount to independence, the MLE for
 :::
 
 
-### Fitting linear models with software
+
+:::{#def-r2}
+
+## Coefficient of determination
+
+When we specify a model, the error term $\boldsymbol{\varepsilon}$ accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn't need statistic to begin with). Once we have fitted a model, we estimate the variance $\sigma^2$; one may then wonder which share of the total variance in the sample is explained by the model.
+
+The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, $\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix $\mathbf{X}$, defined as $\mathsf{SS}_e =\sum_{i=1}^n e_i^2$ with $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j$.
+We define the coefficient of determination, or squared multiple correlation coefficient of the model, $R^2$, as
+\begin{align*}
+R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}
+An alternative decomposition shows that $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, i.e., the coefficient of determination can be interpreted as the square of [Pearson's linear correlation](moments) between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$.
+
+:::
+
+Its important to note that $R^2$ is not a goodness-of-fit criterion, like the log likelihood: some phenomena are inherently noisy and even a good model will fail to account for much of the response's variability. Moreover, one can inflate the value of $R^2$ by including more explanatory variables and making the model more complex, thereby improving the likelihood and $R^2$. Indeed, the coefficient is non-decreasing in the dimension of $\mathbf{X}$, so a model with $p+1$ covariate will necessarily have a higher $R^2$ values than only $p$ of the explanatories. For model comparisons, it is better to employ information criteria or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high $R^2$ may imply high correlation, but [the relation may be spurious](http://www.tylervigen.com/spurious-correlations): linear regression does not yield causal models!
+
+:::{#prp-software}
+
+## Fitting linear models with software
 
 Although we could build the model matrix ourselves and use the least square formula of @eq-ols, the numerical routines implemented in software are typically better behaved. The `lm` function in **R** fits **linear models**, as does `glm` with the default arguments. Objects of class `lm` have multiple methods allow you to extract specific objects from `lm` objects. For example, the functions `coef`, `resid`, `fitted`, `model.matrix` will return the coefficients $\widehat{\boldsymbol{\beta}},$ the ordinary residuals $\boldsymbol{e},$ the fitted values $\widehat{\boldsymbol{y}}$ and the model matrix $\mathbf{X}$.
 
@@ -777,32 +817,553 @@ isTRUE(all.equal(
 ))
 ```
 
-The `summary` method is arguably the most useful: it will print mean parameter estimates along with standard errors, $t$ values for the Wald test of the hypothesis $\mathscr{H}_0: \beta_i=0$ and the associated $P$-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table. Note that the `lm` function uses the unbiased estimator of the variance $\sigma^2$.
-
-
-
-:::{#rem-linearity}
-
-## Linearity
-
-The model is linear in the coefficients $\beta$, so the quadratic curve $\beta_0 + \beta_1x + \beta_2 x^2$ is a linear model because it is a sum of coefficients times functions of explanatories. By contrast, the model $\beta_0 + \beta_1x^{\beta_2}$ is nonlinear in $\boldsymbol{\beta}$.
-
+The `summary` method is arguably the most useful: it will print mean parameter estimates along with standard errors, $t$ values for the Wald test of the hypothesis $\mathscr{H}_0: \beta_i=0$ and the associated $p$-values. Other statistics and information about the sample size, the degrees of freedom, etc., are given at the bottom of the table. Note that the `lm` function uses the unbiased estimator of the variance $\sigma^2$, denoted $S^2$ in this chapter.
 
 :::
 
-## Coefficient of determination {#coefR2}
 
-When we specify a model, the error term $\boldsymbol{\varepsilon}$ accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn't need statistic to begin with). Once we have fitted a model, we estimate the variance $\sigma^2$; one may then wonder which share of the total variance in the sample is explained by the model.
+## Predictions {#sec-predictions-lm}
 
-The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, $\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix $\mathbf{X}$, defined as $\mathsf{SS}_e =\sum_{i=1}^n e_i^2$ with $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j$.
-We define the coefficient of determination, or squared multiple correlation coefficient of the model, $R^2$, as
+When we compute least square estimates, we obtain fitted values $\widehat{\boldsymbol{y}}$ as $\mathbf{X}\widehat{\boldsymbol{\beta}}$, where $\mathbf{X}$ denotes the $n \times (p+1)$ matrix of original observations.  Since $\mathsf{E}(Y_i \mid \mathbf{X}_i) = \beta_0 + \sum_{j=1}^p \beta_j \mathrm{X}_{ij}$, we can obtain an estimate of the mean surface for any value of $\mathbf{x}_{n+1} \in \mathbb{R}^p$ by replacing the unknown coefficients $\boldsymbol{\beta}$ by our estimates $\widehat{\boldsymbol{\beta}}$  -- this actually yields the best linear unbiased predictor of the mean.
+
+If we want to predict the value of a new observation, say $Y_{n+1}$, with explanatories $\mathbf{x}_{n+1} = (1, x_1, \ldots, x_p)$, the prediction of the value will also be $\widehat{y}_{n+1} = \mathbf{x}_{n+1}\widehat{\boldsymbol{\beta}}$ because
 \begin{align*}
-R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\mathsf{E}(Y_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta} + \mathsf{E}(\varepsilon_{n+1} \mid \mathbf{x}_{n+1}) = \mathbf{x}_{n+1}\boldsymbol{\beta}.
 \end{align*}
-An alternative decomposition shows that $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, i.e., the coefficient of determination can be interpreted as the square of [Pearson's linear correlation](moments) between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$.
+However, individual observations vary more than averages (which are themselves based on multiple observations). Intuitively, this is due to the added uncertainty of the error term $\varepsilon_{n+1}$ appearing in the model equation: the variability of new predictions is the sum of uncertainty due to the estimators (based on random data) and the intrinsic variance of the observations assuming the new observation is independent of those used to estimate the coefficients,
+\begin{align*}
+\mathsf{Va}(Y_{n+1} \mid \mathbf{x}_n) &= \mathsf{Va}(\mathrm{x}_{n+1}{\boldsymbol{\beta}} + \varepsilon_{n+1} \mid \mathbf{x}_n)
+\\&=\mathsf{Va}(\mathrm{x}_{n+1}{\boldsymbol{\beta}} \mid \mathbf{x}_n) +\mathsf{Va}(\varepsilon_{n+1} \mid \mathbf{x}_n)
+\\& = \sigma^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top + \sigma^2,
+\end{align*}
+where $S^2$ is the unbiased estimator of the variance $\sigma^2$. The distribution of $Y_{n+1}$ is $Y_{n+1} \mid \mathrm{x}_{n+1} \sim \mathsf{normal}(\mathrm{x}_{n+1}\boldsymbol{\beta}, \sigma^2)$ and we can base the prediction interval on the Student distribution, as
+\begin{align*}
+\frac{Y_{n+1}-\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}}{\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}}\sim \mathsf{Student}(n-p-1).
+\end{align*}
+We obtain $1-\alpha$ **prediction interval** for $Y_{n+1}$ by inverting the test statistic,
+\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top\}}.
+\end{align*}
+Similar calculations yield the formula for pointwise **confidence intervals for the mean**,
+\begin{align*}
+\mathrm{x}_{n+1}\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}_{n+1}(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}_{n+1}^\top}.
+\end{align*}
+The two differ only because of the additional variance of individual observations.
 
-Its important to note that $R^2$ is not a goodness-of-fit criterion, like the log likelihood: some phenomena are inherently noisy and even a good model will fail to account for much of the response's variability. Moreover, one can inflate the value of $R^2$ by including more explanatory variables and making the model more complex, thereby improving the likelihood and $R^2$. Indeed, the coefficient is non-decreasing in the dimension of $\mathbf{X}$, so a model with $p+1$ covariate will necessarily have a higher $R^2$ values than only $p$ of the explanatories. For model comparisons, it is better to employ information criteria or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high $R^2$ may imply high correlation, but [the relation may be spurious](http://www.tylervigen.com/spurious-correlations): linear regression does not yield causal models!
 
+:::{#exm-sokolova-pred}
+
+## Prediction for simple linear regression
+
+Consider the data of @exm-sokolova. We fit a simple linear regression of the form $\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon$ with $\varepsilon \sim \mathsf{normal}(0,\sigma^2)$ and observations assumed independent.
+
+
+@fig-predinterval shows pointwise uncertainty bands for a simple linear regression of the data @Sokolova:2023 as a function of the paper to plastic `proportion`, with larger values indicating more spurious paper wrapping. The model is not accounting for the fact that our response arises from a bounded discrete distribution with integer values ranging from 1 to 7, and that the ratios tested in the experiment are 0 (no paper), 0.5, 1 and 2. The middle line gives the prediction of individuals as we vary the proportion paper/plastic. Looking at the formulas for the confidence and prediction intervals, it is clear that the bands are not linear (we consider the square root of a function that involves the predictors), but it is not obvious that the uncertainty increases as you move away from the average of the predictors. 
+
+This is more easily seen by replicating the potential curves that could have happened with different data: @fig-predinterval shows generated new potential slopes from the asymptotic normal distribution of $\widehat{\boldsymbol{\beta}}$ estimators. The hyperbolic shape is not surprising: we are basically tilting curves from the average `pef`/`proportion`, and they have higher potential from deviating the further we are from the average in each direction. The prediction intervals (pale grey) are very large and essentially cover the whole scope of potential values for the perceived environmental friendliness Likert scale, except for a couple of observations. By contrast, the confidence intervals for the mean are quite narrow, as a result of the large sample size. We can see also that the curves do not deviate much from them.
+
+```{r}
+#| label: fig-predinterval
+#| cache: true
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: Prediction with prediction intervals (left) and confidence intervals for the mean (right) for the simple linear regression of perceived environmental friendliness (`pef`) as a function of the `proportion` of paper to plastic, with horizontally jittered observations. The plot shows predictions along with pointwise 95\% confidence intervals of the mean and the individual predictions. The $y$-axis has been truncated.
+#| fig-format: png
+library(gganimate)
+data(SKD23_S2A, package = "hecedsm") # load data
+lm_simple <- lm(pef ~ proportion, data = SKD23_S2A) # fit simple linear regression
+# <- lm(intention ~ fixation, data = intention)
+predci <- data.frame(cbind(proportion = seq(0, 2, by = 0.1),
+                predict(lm_simple, newdata = data.frame(proportion = seq(0, 2, by = 0.1)),
+                        interval = "c")[,-1]))
+predpi <- data.frame(cbind(proportion = seq(0, 2, by = 0.1),
+                predict(lm_simple, newdata = data.frame(proportion = seq(0, 2, by = 0.1)),
+                        interval = "p")[,-1]))
+nsim <- 25L
+boot_dat <- data.frame(id = 1:nsim,
+                     mvtnorm::rmvnorm(n = nsim, mean = coef(lm_simple), sigma = vcov(lm_simple)))
+colnames(boot_dat) <- c("id","intercept", "slope")
+out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+if(out_type == 'html'){
+   g1 <- ggplot(data = boot_dat) +
+    geom_point(data = SKD23_S2A, aes(x=proportion, y=pef), col = "grey", alpha = 0.8,
+               position = position_jitter(width = 0.1, height = 0)) +
+    geom_ribbon(data = predpi, aes(x = proportion, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.2) +
+    geom_ribbon(data = predci, aes(x = proportion, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.5) +
+    geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1]) +
+    scale_y_continuous(limits = c(1,7), oob = scales::squish, breaks = 1:7, labels = 1:7) +
+    scale_x_continuous(limits = c(0,2), oob = scales::squish) +
+    labs(x = "proportion of paper/plastic", subtitle = "perceived environmental friendliness",
+         y = "") +
+    geom_abline(mapping = aes(slope = slope, intercept = intercept), col = "gray10",
+                linetype = "dashed", alpha = 0.4) + transition_manual(frames = id, cumulative = TRUE) 
+  g1
+  g1
+} else {
+  ggplot(data = boot_dat) +
+    geom_point(data = SKD23_S2A, aes(x=proportion, y=pef), col = "grey", alpha = 0.8,
+               position = position_jitter(width = 0.1, height = 0)) +
+    geom_ribbon(data = predpi, aes(x = proportion, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.2) +
+    geom_ribbon(data = predci, aes(x = proportion, ymin = lwr, ymax = upr), fill = "grey70", alpha = 0.5) +
+    geom_abline(slope = coef(lm_simple)[2], intercept = coef(lm_simple)[1]) +
+    scale_y_continuous(limits = c(1,7), oob = scales::squish, breaks = 1:7, labels = 1:7) +
+    scale_x_continuous(limits = c(0,2), oob = scales::squish) +
+    labs(x = "proportion of paper/plastic", subtitle = "perceived environmental friendliness",
+         y = "") +
+    geom_abline(mapping = aes(slope = slope, intercept = intercept), col = "gray10",
+                linetype = "dashed", alpha = 0.4)
+}
+```
+In **R**, the generic `predict` takes as input a model and a `newdata` argument contains a data frame with the same structure as the original data used to fit the model (or at least the columns of explanatory variables used).
+
+```{r}
+#| eval: false
+#| echo: true
+data(SKD23_S2A, package = "hecedsm") # load data
+lm_simple <- lm(pef ~ proportion, data = SKD23_S2A) # fit simple linear regression
+predict(lm_simple, 
+        newdata = data.frame(proportion = c(0, 0.5, 1, 2)),
+        interval = "prediction") # prediction intervals
+predict(lm_simple, 
+        newdata = data.frame(proportion = c(0, 0.5, 1, 2)),
+        interval = "confidence") # confidence for mean
+```
+
+```{r}
+#| label: tbl-predints-soko
+#| eval: true
+#| echo: false
+#| layout-ncol: 2
+#| tbl-cap: "Predictions with prediction intervals (left) and confidence intervals for the mean (right)."
+data(SKD23_S2A, package = "hecedsm") # load data
+lm_simple <- lm(pef ~ proportion, data = SKD23_S2A) # fit simple linear regression
+tab1 <- predict(lm_simple, 
+        newdata = data.frame(proportion = c(0, 0.5, 1, 2)),
+        interval = "prediction") # prediction intervals
+tab2 <- predict(lm_simple, 
+        newdata = data.frame(proportion = c(0, 0.5, 1, 2)),
+        interval = "confidence") # confidence for mean
+knitr::kable(cbind(proportion = c(0, 0.5, 1, 2), tab1), align = c("cccc"),
+             col.names = c("`proportion`", "prediction", "lower","upper"), 
+             booktabs = TRUE, caption = "Prediction intervals")
+knitr::kable(tab2,
+             col.names = c("mean", "lower CI","upper CI"),
+             booktabs = TRUE, align = c("ccc"),
+             caption = "Confidence intervals for the mean")
+```
+
+:::
+
+
+
+
+## Hypothesis testing
+
+Hypothesis testing in linear models and analysis of variance proceeds as usual: we compare two nested models, one of which (the null model) is a simplification of a more complex one obtaining by imposing restrictions on the mean coefficients.
+
+
+Of particular interest are tests of restrictions for components of $\boldsymbol{\beta}$. The large sample properties of the maximum likelihood estimator imply that
+\begin{align*}
+\widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{normal}_{p+1}\left\{\boldsymbol{\beta}, \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\right\}
+\end{align*}
+for sufficiently large sample size, and this result is exact for normal data. One can thus easily estimate the standard errors from the matrix upon replacing $\sigma^2$ by an estimator. With normal data, one can show that $\mathsf{SS}_e \sim \sigma^2\chi^2_{n-p-1}$ and $\mathsf{SS}_e$ is independent of $\widehat{\boldsymbol{\beta}}$. 
+
+### Tests for linear regression
+
+In an inferential setting, it’s often important to test whether the effect of an explanatory variable is significant: if $\mathrm{X}_j$ is binary or continuous, the test for $\mathscr{H}_0: \beta_j=0$ corresponds to a null marginal effect for $\mathrm{X}_j$. The null model is a linear regression in which we remove the $(j+1)$st column of $\mathbf{X}$, so both models are nested. 
+
+:::{#prp-wald}
+
+## Wald tests in linear regression
+
+Recall that the Wald test statistic for the hypothesis $\mathscr{H}_0: \beta_j=b$ is
+$$W = \frac{\widehat{\beta}_j - b}{\mathsf{se}(\widehat{\beta}_j)}.$$
+The Wald test statistic is reported by most software for the hypothesis $b=0$. Since $\mathsf{Var}(\widehat{\beta}_j) = \sigma^2 [(\mathbf{X}^\top\mathbf{X})^{-1}]_{j,j}$, we can estimate standard error from $S^2$ and derive that the distribution of $W$ under the null hypothesis is $\mathsf{Student}(n-p-1)$. This explains the terminology "$t$ values" in the `summary` table. In addition to coefficient estimates, it is possible to obtain Wald-based confidence intervals for $\beta_j$, which are the usual $\widehat{\beta}_j \pm \mathfrak{t}_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)$, with $\mathfrak{t}_{n-p-1,\alpha/2}$ denoting the $1-\alpha/2$ quantile of the $\mathsf{Student}({n-p-1})$ distribution.
+
+:::
+
+
+:::{#exm-sokolova-simple-ttest}
+
+Consider the data from @exm-sokolova. If we fit againt the simple linear regression model, we can extract the $p$-values for the Wald or $t$-tests. The test for the intercept is of no interest since data are measured on a scale from 1 to 7, so the mean response when `proportion=0` cannot be zero. The coefficient for `proportion` suggests a trend of 0.5 point per unit ratio, and this is significantly different from zero, indicating that the `pef` score changes with the paper to plastic ratio.
+
+```{r}
+#| eval: true
+#| echo: true
+summary(lm_simple) # t-tests (Wald) for beta=0 with p-values
+confint(lm_simple) # confidence intervals for betas
+```
+:::
+
+For categorical variables with more than two levels, testing if $\beta_j=0$ is typically not of interest because the contrast represent the difference between the category $\mathrm{X}_j$ and the baseline: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories. The hypothesis of zero contrast is awkward because it implies a null model in which selected categories are merged. Rather, we wish to compare a model in which all variables are present with one in which the categorical explanatory is omitted.
+
+
+:::{#prp-ftest}
+
+## *F*-tests for comparison of nested linear models
+
+Consider the *full* linear model which contains $p$ predictors,
+\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 \mathrm{X}_1 + \cdots + \beta_g \mathrm{X}_g + \beta_{k+1}\mathrm{X}_{k+1} + \ldots + \beta_p \mathrm{X}_p + \varepsilon.
+\end{align*}
+Suppose without loss of generality that we want to test $\mathscr{H}_0: \beta_{k+1}=\beta_{k+2}=\ldots=\beta_p=0$ (one could permute columns of the model matrix to achieve this configuration).
+The global hypothesis specifies that $(p-k)$ of the $\beta$ parameters are zero. The *restricted model* corresponding to the null hypothesis contains only the covariates for which $\beta_j \neq 0$,
+\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 \mathrm{X}_1 + \ldots + \beta_k \mathrm{X}_k + \varepsilon.
+\end{align*}
+Let $\mathsf{SS}_e(\mathbb{M}_1)$ be the residuals sum of squares for model $\mathbb{M}_1$,
+\begin{align*}
+\mathsf{SS}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*}
+where $\widehat{Y}_i^{\mathbb{M}_1}$ is the $i$th fitted value from $\mathbb{M}_1$. Similarly define $\mathsf{SS}_e(\mathbb{M}_0)$ for the residuals sum of square of $\mathbb{M}_0$. Clearly, $\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)$ (why?)
+
+
+The $F$-test statistic is
+\begin{align*}
+F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}.
+\end{align*}
+Under $\mathscr{H}_0$, the $F$ statistic follows a Fisher distribution (@def-Fdist) with $(p-k)$ and $(n-p-1)$ degrees of freedom, $\mathsf{Fisher}(p-k, n-p-1)$ ---  $p-k$ is the number of restrictions, and $n-p-1$ is sample size minus the number of coefficients for the mean of $\mathbb{M}_1$.
+
+:::
+
+It turns out that both $F$ and $t$-statistics are equivalent for testing a single coefficient $\beta_j$: the $F$-statistic is the square of the Wald statistic and they lead to the same inference --- the $p$-value for the test are identical. While it may get reported in tables, the test for $\beta_0=0$ is not of interest; we keep the intercept merely to centre the residuals.
+
+:::{#rem-lrtvsF}
+
+## *F*-tests versus likelihood ratio tests
+
+For normal linear regression, the likelihood ratio test for comparing models $\mathbb{M}_1$ and $\mathbb{M}_0$ is a function of the sum of squared residuals: the usual formula simplifies to 
+\begin{align*}
+R &= n\ln\{\mathsf{SS}_e(\mathbb{M}_0)/\mathsf{SS}_e(\mathbb{M}_1)\}\\
+&= n \ln \left( 1+ \frac{p-k}{n-p-1}F\right)
+\end{align*}
+Both the likelihood ratio test and the $F$ tests are related via an monotone transformation, and we can use the $\mathsf{Fisher}$ distribution for comparison, rather than the large-sample $\chi^2$ approximation. The $t$-tests and $F$-tests presented above could thus both be viewed as particular cases of [likelihood-ratio tests](@sec-liktests) but using Student-$t$ versus normal distribution when $p-k=1$, and $\mathsf{Fisher}$ versus $\chi^2$ when $p-k \ge 1$. When $n$ is large, results are roughly the same.
+
+:::
+
+<!-- ### Analysis of variance tables -->
+
+<!-- In **R**, the generic `anova` can be used to compare two nested models by passing as arguments the simpler model and the complete model (in this order). Alternatively, we can call `anova` on the output of a linear regression model to produce an **analysis of variance** table, in which we compare the sum of square of the model with all variables, and the difference in sum of square when adding terms sequentially in the order in which they appear in the formula. The latter is typically not of interest, and we must be careful in models with interactions. -->
+
+### Contrasts
+
+Suppose we perform an analysis of variance and the $F$-test for the (global) null hypothesis that the averages of all groups are equal is very large: we reject the null hypothesis in favor of the alternative, which states that at least one of the group average is different. The follow-up question will be where these differences lie. Indeed, in an experimental context, this implies one or more of the manipulation has a different effect from the others on the mean response. Oftentimes, this isn't interesting in itself: we could be interested in comparing different options relative to a control group or determine whether specific combinations work better than separately, or find the best treatment by comparing all pairs.
+
+
+The scientific question of interest that warranted the experiment may lead to a specific set of hypotheses, which can be formulated by researchers as comparisons between means of different subgroups. We can normally express these as **contrasts**. As [Dr. Lukas Meier](https://stat.ethz.ch/~meier) puts it, if the global $F$-test for equality of means is equivalent to a dimly lit room, contrasts are akin to spotlight that let one focus on particular aspects of differences in treatments. Formally speaking, a contrast is a linear combination of averages: in plain English, this means we assign a weight to each group average and add them up, and then compare that summary to a postulated value $a$, typically zero.
+Contrasts encode research question of interest: if $c_i$ denotes the weight of group average $\mu_i$ $(i=1, \ldots, K)$, then we can write the contrast as $C = c_1 \mu_1 + \cdots + c_K \mu_K$ with the null hypothesis $\mathscr{H}_0: C=a$ for a two-sided alternative. The sample estimate of the linear contrast is obtained by replacing the unknown population average $\mu_i$ by the sample average of that group, $\widehat{\mu}_i = \overline{y}_{i}$. We can easily obtain the standard error of the linear combination $C.$^[Should you ever need the formula, the standard error assuming subsample size of $n_1, \ldots, n_K$ and a common variance $\sigma^2$ is $\sqrt{\mathsf{Va}(\widehat{C})}$, where $$\mathsf{Va}(\widehat{C}) = \widehat{\sigma}^2\left(\frac{c_1^2}{n_1} + \cdots + \frac{c_K^2}{n_K}\right).$$] We can then build a $t$ statistic as usual by looking at the difference between our postulated value and the observed weighted mean, suitably standardized. If the global $F$-test leads to rejection of the null, there exists a contrast which is significant at the same level.
+Whenever the contrasts vectors are orthogonal, the tests will be uncorrelated. Mathematically, if we let $c_{i}$ and $c^{*}_{i}$ denote weights attached to the mean of group $i$ comprising $n_i$ observations, contrasts are orthogonal if $c_{1}c^{*}_{1}/n_1 + \cdots + c_{K}c^{*}_K/n_K = 0$; if the sample is balanced with the same number of observations in each group, $n/K = n_1 =\cdots = n_K$, we can consider the dot product of the two contrast vectors and neglect the subsample sizes.
+
+If we have $K$ groups, there are $K-1$ contrasts for pairwise differences, the last one being captured by the sample mean for the overall effect^[The constraint $c_1 + \cdots + c_K=0$ ensures that linear contrasts are orthogonal to the mean, which has weight $c_i=n_i/n$ and for balanced samples $c_i =1/n$.]. If we care only about difference between groups (as opposed to the overall effect of all treatments), we impose a sum-to-zero constraint on the weights so $c_1 + \cdots + c_K=0$. Keep in mind that, although independent tests are nice mathematically, contrasts should encode the hypothesis of interest to the researchers: we choose contrasts because they are meaningful, not because they are orthogonal.
+
+### Examples of tests
+
+
+:::{#exm-moonvaepps-test}
+
+## Testing for amount of donations
+
+Consider @exm-moon, whereby we test for differences between `open-ended` amounts and pre-specified amounts for proposals (`quantity`). The test of interest is $\mathscr{H}_0: \beta_1=0$, where $\beta_1=\mu_{\texttt{oe}} - \mu_{\texttt{qty}}$ is the mean difference between groups. Beyond the fact the difference is statistically significant at the 5\% level, we also want to report the **marginal means**, which when we have a single categorical explanatory variable is the marginal mean averaging over all covariates.
+
+```{r}
+#| eval: true
+#| echo: true
+data("MV23_S1", package = "hecedsm")
+MV23_S1 <- MV23_S1 |>
+    dplyr::mutate(amount2 = ifelse(is.na(amount), 0, amount))
+linmod_MV23 <- lm(amount2 ~ condition, data = MV23_S1)
+# Wald tests with coefficients
+summary(linmod_MV23)
+# Analysis of variance table with F tests
+anova(linmod_MV23)
+# Marginal means
+(emm <- emmeans::emmeans(linmod_MV23, spec = "condition"))
+emm |> emmeans::contrast(method = "pairwise") # contrast vector c(1,-1)
+```  
+
+:::
+
+::: {#exm-teachingtoread}
+
+## Tests and contrasts for reading comprehension methods
+
+We consider now testing for the @exm-teaching-baumann and @exm-interpretation1. The purpose of @Baumann:1992 was to make a particular comparison between treatment groups. From the abstract:
+
+> The primary quantitative analyses involved two planned orthogonal contrasts—effect of instruction (TA + DRTA vs. 2 x DRA) and intensity of instruction (TA vs. DRTA).
+
+With a pre-post model, we will want to compare the means for a common value of `pretest1`, below taken to be the overall mean of the `pretest1` score.
+
+```{r}
+#| label: pairwise-baumann
+#| echo: true
+#| eval: true
+library(emmeans) #load package
+data(BSJ92, package = "hecedsm")
+mod_post <- lm(posttest1 ~ group + pretest1,
+               data = BSJ92) # change name for package
+car::Anova(mod_post, type = 3) # F-tests
+emmeans_post <- emmeans(object = mod_post,
+                        specs = "group") # which variable to keep
+```
+
+The result of the analysis of variance table shows that there are indeed differences between groups. We can thus look at the estimated marginal means, which are the average of each group (here for `pretest1=0`).
+
+```{r}
+#| label: tbl-print-pairwise-baumann
+#| echo: false
+#| eval: true
+#| tbl-cap: "Estimated group averages with standard errors and 95% confidence intervals for post-test 1 for pre-test1 score of 10."
+mod_post <- lm(posttest1 ~ group + pretest1, data = BSJ92)
+emmeans_post <- emmeans(object = mod_post,
+                        specs = "group") # which variable to keep
+# the `pretest1` covariate is fixed to it's overall mean
+knitr::kable(emmeans_post,
+      digits = c(2,2,2, 0,2,2),
+      booktabs = TRUE,
+      col.names = c("terms",
+                    "marg. mean",
+                    "std. err.",
+                     "dof",
+                    "lower (CI)",
+                    "upper (CI)"))
+```
+
+
+The hypothesis of @Baumann:1992 is $\mathscr{H}_0: \mu_{\mathrm{TA}} + \mu_{\mathrm{DRTA}} = 2 \mu_{\mathrm{DRA}}$
+or, rewritten slightly,
+\begin{align*}
+\mathscr{H}_0: - 2 \mu_{\mathrm{DR}} + \mu_{\mathrm{DRTA}} + \mu_{\mathrm{TA}} = 0.
+\end{align*}
+with weights $(-2, 1, 1)$; the order of the levels for the treatment are
+($\mathrm{DRA}$, $\mathrm{DRTA}$, $\mathrm{TA}$) and it must match that of the coefficients.
+An equivalent formulation is $(2, -1, -1)$ or $(1, -1/2, -1/2)$: in either case, the estimated differences will be different
+(up to a constant multiple or a sign change).
+The vector of weights for $\mathscr{H}_0:  \mu_{\mathrm{TA}} = \mu_{\mathrm{DRTA}}$
+is ($0$, $-1$, $1$): the zero appears because the first component, $\mathrm{DRA}$ doesn't appear.
+The two contrasts are orthogonal since
+$(-2 \times 0) + (1 \times -1) + (1 \times 1) = 0$.
+
+```{r}
+#| label: contrasts
+#| echo: true
+#| eval: true
+# Identify the order of the level of the variables
+with(BSJ92, levels(group))
+# DR, DRTA, TA (alphabetical)
+contrasts_list <- list(
+  # Contrasts: linear combination of means, coefficients sum to zero
+  "C1: average (DRTA+TA) vs DR" = c(-1, 0.5, 0.5),
+  "C2: DRTA vs TA" = c(0, 1, -1)
+)
+contrasts_post <-
+  contrast(object = emmeans_post,
+           method = contrasts_list)
+contrasts_summary_post <- summary(contrasts_post)
+```
+
+```{r}
+#| label: tbl-print-contrasts
+#| echo: false
+#| eval: true
+#| tbl-cap: "Estimated contrasts for post-test 1."
+kable(contrasts_post,
+      booktabs = TRUE,
+      digits = c(2,2,2,0,2,2),
+      col.names = c("contrast",
+                    "estimate",
+                    "std. err.",
+                    "dof",
+                    "stat",
+                    "p-value")) |>
+  kableExtra::kable_styling()
+```
+
+We can look at these differences; since `DRTA` versus `TA` is a pairwise difference, we could have obtained the $t$-statistic directly from the pairwise contrasts
+using `pairs(emmeans_post)`. Note that the two different ways of writing the comparison between `DR` and the average of the other two methods yield different point estimates, but same inference (i.e., the same $p$-values). For contrast $C_{1b}$, we get half the estimate (but the standard error is also halved) and likewise for the second contrasts we get an estimate of $\mu_{\mathrm{DRTA}} - \mu_{\mathrm{TA}}$ in the first case ($C_2$) and $\mu_{\mathrm{TA}} - \mu_{\mathrm{DRTA}}$: the difference in group averages is the same up to sign.
+
+What is the conclusion of our analysis of contrasts? It looks like the methods involving teaching aloud have a strong impact on reading comprehension relative to only directed reading. The evidence is not as strong when we compare the method that combines directed reading-thinking activity and thinking aloud.
+
+
+```{r}
+#| echo: true
+#| eval: true
+# Extract coefficients and standard errors
+beta_pre <- coefficients(mod_post)['pretest1']
+se_pre <- sqrt(c(vcov(mod_post)['pretest1', 'pretest1']))
+wald <- (beta_pre - 1)/se_pre # Wald statistic, signed version
+# P-value based on Student-t distribution, with n-p-1 dof
+pval <- 2*pt(abs(wald), df = mod_post$df.residual, lower.tail = FALSE)
+
+# Model comparison via 'anova' call
+mod0 <- lm(posttest1 ~ offset(pretest1) + group, data = BSJ92)
+# The 'offset' fixes the term and so this is equivalent to a coefficient of 1
+aov_tab <- anova(mod0, mod_post)
+```
+
+Another potential hypothesis of interest is testing whether the coefficient of `pretest1` is unity. This amounts to the Wald test $w = (\widehat{\beta}_{\texttt{pretest1}}-1)/\mathsf{se}(\widehat{\beta}_{\texttt{pretest1}})= `r wald`$, or alternatively a model comparison with the `anova`, which yields a test statistic of $F=`r aov_tab$F[2]`$. Distribution theory shows that if $Z \sim \mathsf{Student}(\nu)$, then $Z^2 \sim \mathsf{Fisher}(1, \nu)$, it follows that both tests are equivalent and the $p$-values are exactly the same.
+
+:::
+
+
+::: {#exm-paperorplastic}
+
+## Tests and contrasts for paper vs plastic
+
+ Let $\mu_{0}, \mu_{0.5}, \mu_{1}, \mu_2$ denote the true mean of the PEF score as a function of the proportion of paper for the data from @exm-sokolova. There are several tests that could be of interest here, but we focus on contrasts performed by authors and an hypothesis test of linearity as a function of the proportion of plastic. For the latter, we could compare the linear regression model (in which the PEF score increases linearly with the proportion of paper to plastic) against the ANOVA which allows each of the four groups to have different means.
+
+
+If we use $\boldsymbol{\alpha} \in \mathbb{R}^4$ to denote the parameter vector of the analysis of variance model using the treatment parametrization and $\boldsymbol{\beta} \in \mathbb{R}^2$ for the simple linear regression model, then we have
+\begin{align*}
+\mu_0 &= \beta_0=\alpha_0 \\
+\mu_{0.5} &= \beta_0 + 0.5 \beta_1 = \alpha_0 + \alpha_1\\
+\mu_1 &= \beta_0 + \beta_1 = \alpha_0 + \alpha_2 \\
+\mu_2 &= \beta_0 + 2 \beta_1= \alpha_0 + \alpha_3.
+\end{align*}
+The test comparing the simple linear regression with the analysis of variance imposes two simultaneous restrictions, with $\mathscr{H}_0: \alpha_3 = 2\alpha_2= 4\alpha_1$, so the null distribution is $\mathsf{Fisher}(2, 798)$ or roughly $\chi^2_2$.
+
+
+```{r}
+#| eval: true
+#| echo: true
+data(SKD23_S2A, package = "hecedsm") # load data
+linmod <- lm(pef ~ proportion, data = SKD23_S2A) # fit simple linear regression
+coef(linmod) # extract intercept and slope
+anovamod <- lm(pef ~ factor(proportion), # one-way ANOVA
+               data = SKD23_S2A) 
+# Compare simple linear regression with ANOVA
+anova(linmod, anovamod) # is the change in PEF linear?
+# Specifying the weights - these are not contrasts!
+car::linearHypothesis(model = anovamod, 
+   hypothesis = rbind(c(0, -2, 1, 0), 
+                      c(0, 0, -2, 1)))
+```
+We see from the output that the $F$ tests and the $p$-values are identical, whether we impose the constraints manually or simply feed the two nested models to the `anova` method.
+
+The authors were interested in comparing none with other choices: we are interested in pairwise differences, but only relative to the reference $\mu_{0}$:
+\begin{align*}
+\mu_0 = \mu_{0.5}  & \iff 1\mu_0 - 1\mu_{0.5} + 0\mu_{1} + 0 \mu_{2} = 0\\
+\mu_0 = \mu_{1} & \iff 1\mu_0 + 0\mu_{0.5} -1\mu_{1} + 0 \mu_{2} = 0\\
+\mu_0 = \mu_{2} & \iff 1\mu_0 + 0\mu_{0.5} + 0\mu_{1} -1 \mu_{2} = 0
+\end{align*}
+so contrast vectors $(1, -1, 0, 0)$, $(1, 0, -1, 0)$ and $(1, 0, 0, -1)$ for the marginal means would allow one to test the hypothesis.
+
+```{r}
+#| eval: true
+#| echo: true
+margmean <- anovamod |>  
+  emmeans::emmeans(specs = "proportion") # group means
+contrastlist <- list( # specify contrast vectors
+   refvshalf = c(1, -1, 0, 0),
+   refvsone =  c(1, 0, -1, 0),
+   refvstwo =  c(1, 0, 0, -1))
+# compute contrasts relative to reference
+margmean |> emmeans::contrast(method = contrastlist)
+```
+
+
+
+```{r}
+#| label: SKD23S2A-save
+#| eval: true
+#| echo: false
+data(SKD23_S2A, package = "hecedsm") # load data
+linmod <- lm(pef ~ proportion, data = SKD23_S2A) # fit simple linear regression
+anovamod <- lm(pef ~ factor(proportion), data = SKD23_S2A) # one-way ANOVA
+# anova(linmod, anovamod) # compare models (two restrictions)
+margmean <- anovamod |>  emmeans::emmeans(specs = "proportion") # group means
+contrastlist <- list( # specify contrast vectors
+   refvshalf = c(1, -1, 0, 0),
+   refvsone =  c(1, 0, -1, 0),
+   refvstwo =  c(1, 0, 0, -1))
+contrast <- margmean |> emmeans::contrast( # compute contrasts relative to reference
+ method = contrastlist)
+```
+
+The group averages are reported in @tbl-print-groupmeans-PEF, match those reported by the authors in the paper. They suggest an increased perceived environmental friendliness as the amount of paper used in the wrapping increases. We could fit a simple regression model to assess the average change, treating the proportion as a continuous explanatory variable. The estimated slope for the change in PEF score, which ranges from 1 to 7 in increments of 0.25, is `r round(coef(linmod)[2],2)` point per ratio of paper/plastic. There is however strong evidence, given the data, that the change isn't quite linear, as the fit of the linear regression model is significantly worse than the corresponding linear model.
+
+
+```{r}
+#| label: tbl-print-groupmeans-PEF
+#| echo: false
+#| eval: true
+#| tbl-cap: "Estimated group averages of PEF per proportion with standard errors"
+knitr::kable(margmean,
+      digits = c(2,2,3,0,2,4),
+      booktabs = TRUE,
+      col.names = c("proportion",
+                    "marg. mean",
+                    "std. err.",
+                    "dof",
+                    "lower (CI)",
+                    "upper (CI)")) |>
+    kableExtra::kable_styling()
+```
+
+```{r}
+#| label: tbl-print-contrast-PEF
+#| echo: false
+#| eval: true
+#| tbl-cap: "Estimated contrasts for differences of PEF to no paper."
+kable(contrast,
+      booktabs = TRUE,
+      digits = c(2,2,2,0,2,2),
+      col.names = c("contrast",
+                    "estimate",
+                    "std. err.",
+                    "dof",
+                    "stat",
+                    "p-value")) |>
+  kableExtra::kable_styling()
+```
+
+All differences reported in @tbl-print-contrast-PEF are significant and positive, in line with the researcher's hypothesis.
+
+:::
+
+
+:::{#exm-tests-college}
+
+## Testing for the college wage discrimination
+
+Consider the `college` data example and the associated linear model with `rank`, `sex`, years of `service` and `field` as covariates.
+
+```{r}
+#| eval: true
+#| echo: true
+data(college, package = "hecstatmod")
+mod1_college <- lm(salary ~ sex + field + rank + service , data = college)
+mod0_college <- lm(salary ~ field + rank + service , data = college)
+# F-test with ANOVA table comparing nested models
+aov_tab_college <- anova(mod0_college, mod1_college)
+# Wald t-test - extracted from the output of the 'summary' table
+wald_college <- summary(mod1_college)$coefficients[2,]
+# Likelihood ratio test with chi-square approximation
+pval_lrt <- pchisq(q = as.numeric(2*(logLik(mod1_college) - logLik(mod0_college))),
+       df = 1, lower.tail = FALSE)
+```
+
+The only test of interest here is $\mathscr{H}_0: \beta_{\texttt{sex}} = 0$ against the two-sided alternative $\mathscr{H}_a: \beta_{\texttt{sex}} \neq 0$. The Wald $t$-test statistic is $`r wald_college[3]`$, with a $p$-value of $`r wald_college[4]`$ based on a Student-$t$ distribution with $`r mod1_college$df.residual`$ degrees of freedom. The $p$-value in the output from the $F$-test is the same, and that obtained from the likelihood ratio test the same up to two decimal places.
+
+```{r }
+#| label: summarytestslmcollege
+#| echo: false
+options(knitr.kable.NA = '')
+library(pixiedust)
+names(college_lm$coefficients)[2:5] <- c("sex [woman]","field [theoretical]","rank [associate]", "rank [full]")
+dust(college_lm) %>%
+  sprinkle(col = 2:3, round = 3) %>%
+  sprinkle(col = 4, round = 2) %>%
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>%
+  sprinkle_colnames(estimate = "estimate",
+                     std.error = "std. error",
+                     statistic = "Wald stat.",
+                     p.value = "p-value") %>%
+  sprinkle_bookdown() %>%
+  knitr::kable(align = "lrrrr", booktabs = TRUE, caption = "Table of linear regression coefficients with associated standard errors, Wald tests and $p$-values based on Student-$t$ distribution.")
+```
+
+:::
 <!--
 1. 
 [X] Motivating examples from management sciences
@@ -1579,25 +2140,20 @@ Y &= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\te
 
 The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables  further point towards non-additivity [@Davison:2003, Example 8.24]. Overall, the model fit is poor and any conclusion drawn from it dubious.
 
-One could consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. The profile log likelihood at the bottom left of @fig-poisonplots suggests that $\lambda\approx -1$ would be a good choice. This has the benefit of being interpretable, as the reciprocal response $Y^{-1}$ corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.
 
 
+One could consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. AN analysis of residuals in the top four plots of @fig-poisonplots show evidence of heteroscedasticity as a function of either poison and treatment. This is evident by looking at the plot of ordinary residuals, which displays increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. 
+
+The bottom left panel of @fig-poisonplots shows the profile log likelihood for the Box--Cox transform parameter, suggesting a value of $\lambda=-1$ would be within the 95\% confidence interval. This choice has the benefit of being interpretable, as the reciprocal response $Y^{-1}$ corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plot at the bottom right of @fig-poisonplots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.  After fitting the same additive model with main effect only to the reciprocal survival time, there is no more evidence of residual structure and unequal variance.
 
 ```{r}
 #| label: fig-poisonplots
 #| echo: false
 #| eval: true
 #| cache: true
-#| fig-cap: Diagnostic plots for the poison data. The top panel shows the ordinary residuals
-#|   for the linear model for survival time as a function of poison and treatment, with
-#|   jittered observations. The middle left plot shows the fitted values against residuals,
-#|   which display evidence of trend and increase in variance with the survival time.
-#|   The quantile-quantile plot in the middle right plot shows some evidence of departure
-#|   from the normality, but the non-linearity and heteroscedasticity obscure this. The
-#|   bottom panel shows the profile log likelihood for the Box--Cox transform, suggesting
-#|   a value of $-1$ would be within the 95\% confidence interval. After fitting the
-#|   same additive model with main effect only to the reciprocal survival time, there
-#|   is no more evidence of residual structure and unequal variance.
+#| fig-cap: "Diagnostic plots for the poison data: ordinary residuals (jittered)
+#|   for the linear model for survival time as a function of poison and treatment (top), 
+#|   fitted values against residuals (middle left), detrended quantile-quantile plot of residuals (middle right), profile log likelihood of $\\lambda$ for the Box--Cox model transformation (bottom left) and fitted values against residuals (bottom right) after reciprocal transformation."
 #| fig-height: 6
 
 poisons <- SMPracticals::poisons
@@ -1674,6 +2230,8 @@ g6 <- boxcox_gg(poisonlm1, grid = seq(-1.5,0.1, by = 0.01))
 (g1 + g2)/ (g3 + g4) / (g6 + g5)
 ```
 :::
+
+
 
 
 ## Concluding remarks
