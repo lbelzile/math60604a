@@ -333,12 +333,12 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -1567,7 +1567,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, breakable, left=2mm, bottomrule=.15mm, opacityback=0, leftrule=.75mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, colback=white, bottomtitle=1mm, coltitle=black, toptitle=1mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, left=2mm, opacityback=0, bottomrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, leftrule=.75mm, colframe=quarto-callout-important-color-frame, toptitle=1mm, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, colback=white, breakable, arc=.35mm]
 
 \textbf{Learning objectives}:
 
@@ -2215,7 +2215,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, breakable, left=2mm, bottomrule=.15mm, opacityback=0, leftrule=.75mm, arc=.35mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, colbacktitle=quarto-callout-caution-color!10!white, opacitybacktitle=0.6, colback=white, bottomtitle=1mm, coltitle=black, toptitle=1mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, left=2mm, opacityback=0, bottomrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, toptitle=1mm, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, colback=white, breakable, arc=.35mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2760,7 +2760,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, breakable, left=2mm, bottomrule=.15mm, opacityback=0, leftrule=.75mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, colback=white, bottomtitle=1mm, coltitle=black, toptitle=1mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, left=2mm, opacityback=0, bottomrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, leftrule=.75mm, colframe=quarto-callout-important-color-frame, toptitle=1mm, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, colback=white, breakable, arc=.35mm]
 
 \textbf{Learning objectives}:
 
@@ -6630,7 +6630,7 @@ positive, so taking a log-transform yields a model that is linear in
 
 We can rewrite the log-linear model in the original response scale as
 \begin{align*}
-Y = \exp\left(\beta_0+\sum_{j=1}^p\beta_jX_j +  \varepsilon \right) \\&= \exp\left(\beta_0+ \sum_{j=1}^p\beta_jX_j\right)\cdot \exp(\varepsilon),
+Y &= \exp\left(\beta_0+\sum_{j=1}^p\beta_jX_j +  \varepsilon \right) \\&= \exp\left(\beta_0+ \sum_{j=1}^p\beta_jX_j\right)\cdot \exp(\varepsilon),
 \end{align*} and thus \begin{align*}
 \mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
 \end{align*}

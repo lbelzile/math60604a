@@ -2053,7 +2053,7 @@ $P=\alpha L^{\beta_1}C^{\beta_2}$, where $P$ stands for production, $L$ for labo
 
 We can rewrite the log-linear model in the original response scale as
 \begin{align*}
-Y = \exp\left(\beta_0+\sum_{j=1}^p\beta_jX_j +  \varepsilon \right) \\&= \exp\left(\beta_0+ \sum_{j=1}^p\beta_jX_j\right)\cdot \exp(\varepsilon),
+Y &= \exp\left(\beta_0+\sum_{j=1}^p\beta_jX_j +  \varepsilon \right) \\&= \exp\left(\beta_0+ \sum_{j=1}^p\beta_jX_j\right)\cdot \exp(\varepsilon),
 \end{align*}
 and thus
 \begin{align*}

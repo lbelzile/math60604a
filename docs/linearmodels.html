@@ -1951,7 +1951,7 @@ Figure&nbsp;4.19: Diagnostic plots for the college data example: ordinary residu
 <h3 data-number="4.7.1" class="anchored" data-anchor-id="sec-transfo"><span class="header-section-number">4.7.1</span> Transformation of the response</h3>
 <p>If the response is strictly positive, there are some options that can alleviate lack of additivity, more specifically multiplicative mean-variance relationships.If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted. Theory sometimes dictates a multiplicative model: for example, the Cobb–Douglas production function in economics is <span class="math inline">\(P=\alpha L^{\beta_1}C^{\beta_2}\)</span>, where <span class="math inline">\(P\)</span> stands for production, <span class="math inline">\(L\)</span> for labor and <span class="math inline">\(C\)</span> for capital; all inputs are positive, so taking a log-transform yields a model that is linear in <span class="math inline">\(\beta\)</span>, with <span class="math inline">\(\beta_0=\ln(\alpha)\)</span>.</p>
 <p>We can rewrite the log-linear model in the original response scale as <span class="math display">\[\begin{align*}
-Y = \exp\left(\beta_0+\sum_{j=1}^p\beta_jX_j +  \varepsilon \right) \\&amp;= \exp\left(\beta_0+ \sum_{j=1}^p\beta_jX_j\right)\cdot \exp(\varepsilon),
+Y &amp;= \exp\left(\beta_0+\sum_{j=1}^p\beta_jX_j +  \varepsilon \right) \\&amp;= \exp\left(\beta_0+ \sum_{j=1}^p\beta_jX_j\right)\cdot \exp(\varepsilon),
 \end{align*}\]</span> and thus <span class="math display">\[\begin{align*}
 \mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
 \end{align*}\]</span></p>
