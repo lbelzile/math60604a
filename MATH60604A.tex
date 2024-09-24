@@ -333,12 +333,14 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollary}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -379,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-09-18}
+\date{2024-09-24}
 
 \begin{document}
 
@@ -1567,7 +1569,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, toptitle=1mm, colframe=quarto-callout-important-color-frame, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm, opacityback=0, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, arc=.35mm, toprule=.15mm, bottomtitle=1mm, colback=white, bottomrule=.15mm, titlerule=0mm, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, opacityback=0, colback=white, leftrule=.75mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, arc=.35mm, toptitle=1mm]
 
 \textbf{Learning objectives}:
 
@@ -2215,7 +2217,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, toptitle=1mm, colframe=quarto-callout-caution-color-frame, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-caution-color!10!white, leftrule=.75mm, opacityback=0, left=2mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, arc=.35mm, toprule=.15mm, bottomtitle=1mm, colback=white, bottomrule=.15mm, titlerule=0mm, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-caution-color-frame, opacityback=0, colback=white, leftrule=.75mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, coltitle=black, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, toprule=.15mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, arc=.35mm, toptitle=1mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2760,7 +2762,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, toptitle=1mm, colframe=quarto-callout-important-color-frame, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm, opacityback=0, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, arc=.35mm, toprule=.15mm, bottomtitle=1mm, colback=white, bottomrule=.15mm, titlerule=0mm, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, opacityback=0, colback=white, leftrule=.75mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, arc=.35mm, toptitle=1mm]
 
 \textbf{Learning objectives}:
 
@@ -5054,6 +5056,18 @@ mean & lower CI & upper CI \\
 
 \end{example}
 
+\begin{refremark}[Notation]
+It is important to distinguish the equation of the stochastic model,
+expressed in terms of random variables
+\(\mathsf{E}(Y_i \mid \boldsymbol{x}_i) = \mathbf{x}_i\boldsymbol{\beta} + \varepsilon_i\)
+and the equation of the fitted values or predictions, \begin{align*}
+\widehat{\mathsf{E}(Y_i \mid \mathbf{x}_i)} \mathbf{x}_i\widehat{\boldsymbol{\beta}}
+\end{align*} The prediction does not involve unknown error terms.
+
+\label{rem-notation}
+
+\end{refremark}
+
 \section{Hypothesis testing}\label{hypothesis-testing}
 
 Hypothesis testing in linear models and analysis of variance proceeds as
@@ -5679,6 +5693,655 @@ service & -0.089 & 0.112 & -0.8 & 0.43 \\
 
 \end{example}
 
+\section{Factorial designs and
+interactions}\label{factorial-designs-and-interactions}
+
+The additive mean model with linear terms (including categorical
+variables) specifies that the marginal effect of one variable is
+independent of others. We may wish to relax this assumption by including
+\textbf{interaction terms}.
+
+Combinations combinations of covariates may affect the response
+differently than when taking in isolation.
+
+\begin{example}[Insurance data and complex
+interactions]\protect\hypertarget{exm-visualising-interaction}{}\label{exm-visualising-interaction}
+
+A good example of interaction is provided by the \texttt{insurance}
+dataset. An exploratory data analysis suggested that premiums depended
+on age, smoker status and body mass index (BMI).
+Figure~\ref{fig-insuranceinter1} shows that the insurance premium
+depends on smoking: smokers who have a BMI of 30 and above pay a hefty
+premium, but there is also seemingly a linear increase in the amount
+charged with BMI. We see no such behaviour for non-smokers.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-insuranceinter1-1.pdf}
+
+}
+
+\caption{\label{fig-insuranceinter1}Graph of insurance charges against
+body mass index, colored by smoking status.}
+
+\end{figure}%
+
+\end{example}
+
+\begin{definition}[Interaction]\protect\hypertarget{def-interaction}{}\label{def-interaction}
+
+An interaction occurs if some explanatory variables, when coupled
+together, have different impacts than the superposition of each, i.e.,
+if \(X_j\) and \(X_k\) interact, the marginal effect of
+\(\mathsf{E}(Y \mid \boldsymbol{X})\) with respect to \(X_j\) is a
+function of \(X_k\) or vice-versa.
+
+\end{definition}
+
+We will restrict attention to the cases where one or more of the
+explanatories is a categorical variable (factor).
+
+\begin{example}[Intention to
+buy]\protect\hypertarget{exm-intention}{}\label{exm-intention}
+
+We consider a toy model for the \texttt{interaction} data, and model the
+\texttt{intention} to buy a product as a function of \texttt{sex} and
+\texttt{fixation}. The base model, without interaction, is
+\begin{align*}
+\texttt{intention}=\beta_0 + \beta_1 \texttt{sex} + \beta_2 \texttt{fixation} + \varepsilon,
+\end{align*} where \texttt{sex} is a binary variable taking value unity
+for female and zero for male. The model assumes that the effect of the
+continuous variable \(\texttt{fixation}\) is the same for the two values
+of the binary variable. Likewise, the effect of the binary variable is
+assumed to be the same for all possible values of the continuous
+variable. We can see this on the plot, as the difference between the
+lines represents the effect of \(\texttt{sex}\), is the same for all
+values of \(\texttt{fixation}\); the lines are \emph{parallel}: see the
+left panel of Figure~\ref{fig-interaction-slope}.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-interaction-slope-1.pdf}
+
+}
+
+\caption{\label{fig-interaction-slope}Scatterplots and fitted lines for
+a model with a single continuous and binary explanatory, without (left)
+and with (right) an interaction term.}
+
+\end{figure}%
+
+In order to add a different slope for men and women, we can create a new
+variable equal to the product \(\texttt{fixation}\times\texttt{sex}\)
+and add it to the model, \begin{align*}
+\texttt{intention} &= \beta_0 + \beta_1 \texttt{sex} + \beta_2\texttt{fixation} \\&\quad + \beta_3 \texttt{fixation}\cdot \texttt{sex} + \varepsilon.
+\end{align*} Depending on the value of the binary variable \texttt{sex},
+we get \begin{align*}
+&\mathsf{E}(\texttt{intention} \mid \texttt{fixation}, \texttt{sex}) \\\quad&= 
+\begin{cases}
+(\beta_0 + \beta_1) + (\beta_2 + \beta_3)\texttt{fixation}, & \texttt{sex}=1,\\
+  \beta_0 + \beta_2 \texttt{fixation}, & \texttt{sex}=0.
+\end{cases}
+\end{align*} The interpretation of the coefficients in the model is as
+usual with the treatment contrast parametrization:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\beta_0\) is the average buying intention when the fixation time is
+  zero for men
+\item
+  \(\beta_1\) is the unit increase per second of fixation for men
+\item
+  \(\beta_2\) is the difference in intercept for women vs men
+\item
+  \(\beta_3\) is the difference in slope for women vs men
+\end{itemize}
+
+Testing whether the interaction is significant boils down to using the
+test \(\mathscr{H}_0: \beta_3=0\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(interaction, }\AttributeTok{package =} \StringTok{"hecstatmod"}\NormalTok{)}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(intention }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fixation }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ sex}\SpecialCharTok{:}\NormalTok{fixation, }
+          \AttributeTok{data =}\NormalTok{ interaction)}
+\FunctionTok{summary}\NormalTok{(mod)}\SpecialCharTok{$}\NormalTok{coefficients}
+\CommentTok{\#\textgreater{}              Estimate Std. Error t value Pr(\textgreater{}|t|)}
+\CommentTok{\#\textgreater{} (Intercept)     2.741      0.282    9.73 1.02e{-}16}
+\CommentTok{\#\textgreater{} fixation        0.504      0.153    3.29 1.33e{-}03}
+\CommentTok{\#\textgreater{} sex             1.312      0.380    3.45 7.74e{-}04}
+\CommentTok{\#\textgreater{} fixation:sex    2.135      0.200   10.69 5.61e{-}19}
+\end{Highlighting}
+\end{Shaded}
+
+The model with the interaction is significantly better, meaning that the
+effect of fixation time on intention to buy varies according to sex.
+
+\end{example}
+
+\begin{refremark}[Marginality]
+In the model with buying \texttt{intention} as a function of
+\texttt{sex} and \texttt{fixation} time, we would \textbf{not} remove
+the main effect of \texttt{fixation} while keeping the interaction term
+\texttt{fixation*sex}, even if we fail to reject
+\(\mathscr{H}_0:\beta_2=0\). Without it, the model would become
+\begin{align*}
+&\mathsf{E}(\texttt{intention} \mid \texttt{fixation}, \texttt{sex}) \\\quad&=
+\begin{cases}
+(\beta_0 + \beta_1) + \beta_3\texttt{fixation}, & \texttt{sex}=1,\\
+  \beta_0, &\texttt{sex}=0;                 
+\end{cases}
+\end{align*}\\
+this implies that intention to buy is constant for me, regardless of the
+fixation time. As the choice of baseline is arbitrary, but changing the
+dummy \texttt{sex} (\texttt{0} for women, \texttt{1} for men), would
+yield a different model and so potentially different inferences, we
+never consider removal of the main effect term that is involved in an
+interaction. The \textbf{marginality principle} states that all lower
+interaction terms should be included.
+
+\label{rem-marginality}
+
+\end{refremark}
+
+The concept of interactions readily extends to categorical variables
+with \(k\) levels/categories. In this case, we need to use the global
+\(F\)-test to check if the interaction is statistically significant.
+
+\begin{definition}[Two-way analysis of
+variance]\protect\hypertarget{def-anova}{}\label{def-anova}
+
+An analysis of variance is a linear model in which the mean is a
+function of categorical explanatory variables. If we have data for all
+different combinations of factors, the factors are \textbf{crossed} and
+we can consider inclusion of their interactions.
+
+Consider a two-way analysis of variance model. This is a linear model
+with two factors, \(A\) and \(B\), with respectively \(n_a\) and \(n_b\)
+levels. The response \(Y_{ijk}\) of the \(k\)th measurement in group
+\((a_i, b_j)\) is
+\begin{equation}\phantomsection\label{eq-twowayasoneway}{
+\underset{\text{response}\vphantom{b}}{Y_{ijk}} = \underset{\text{subgroup mean}}{\mu_{ij}} + \underset{\text{error term}}{\varepsilon_{ijk}}
+}\end{equation} where
+
+\begin{itemize}
+\tightlist
+\item
+  \(Y_{ijk}\) is the \(k\)th replicate for \(i\)th level of factor \(A\)
+  and \(j\)th level of factor \(B\)
+\item
+  \(\mu_{ij}\) is the average response of measurements in group
+  \((a_i, b_j)\)
+\item
+  \(\varepsilon_{ijk}\) are independent error terms with mean zero and
+  standard deviation \(\sigma\).
+\end{itemize}
+
+In a full factorial design with interactions, we can write the mean
+response as \(\mathsf{E}(Y \mid A=a_i, B=b_j) = \mu_{ij}\). This model
+can be reduced to a single one-way ANOVA with a single factor having
+\(n_an_b\) levels. This may be useful to specify contrast weights, or
+when there is an additional control group in an experimental setting.
+However, preserving the structure helps setting up hypotheses of
+interest.
+
+We can equivalently express this in terms of an intercept, main effects
+of either variables, and interaction terms. The additive model, with no
+interaction, has average for cell \((i,j)\) of
+
+\begin{align*}
+\mathsf{E}(Y_{ij} \mid A = a_i, B=b_j) = \mu + \alpha_i + \beta_j.
+\end{align*}
+
+We can consider model simplifications from bottom up. Removing the
+interaction leads to a model with \(1 + (n_a-1) + (n_b-1)\) parameters,
+relative to \(n_a\times n_b\) for the model with the interaction. We can
+use an \(F\)-test to check for the significance of the latter. If the
+factors don't interact, the mean in the cell is given by the sum of the
+main effects. Only once we have a removed this term can we consider if
+all row means or column means are the same.
+
+\end{definition}
+
+While formal testing is needed to check for interactions, the concept
+can be better understood by looking at graphs (at least in a setting
+where the means are known with little to no uncertainty).
+
+\begin{definition}[Interaction
+plot]\protect\hypertarget{def-interactionplot}{}\label{def-interactionplot}
+
+We can try to detect interactions visually by plotting the (mean)
+response as a function of one of the covariates, using a so-called
+\textbf{interaction plot}. When there are more than two categorical
+variables, we can use colors, symbols or panels to represent the
+categories. Lack of interaction in those plots implies parallel lines,
+but one must account for the uncertainty.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=1\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-2by2-1.pdf}
+
+}
+
+\caption{\label{fig-2by2}Interaction plots (line graphs) for example
+patterns for means for each of the possible kinds of general outcomes in
+a 2 by 2 design. Illustration adapted from Figure 10.2 of Crump,
+Navarro, and Suzuki (\citeproc{ref-Crump.Navarro.Suzuki:2019}{2019}) by
+Matthew Crump (CC BY-SA 4.0 license).}
+
+\end{figure}%
+
+\end{definition}
+
+\begin{definition}[Simple effects and main
+effects]\protect\hypertarget{def-simple}{}\label{def-simple}
+
+When interactions do not exist, it makes sense to abstract from one or
+more variable and consider \textbf{marginal effects}, obtained by
+pooling data from the omitted factors and averaging out. Suppose without
+loss of generality that we are interested in comparing levels of \(A\).
+When interactions between \(A\) and \(B\) are not significant, we can
+consider lower order terms and report \textbf{estimated marginal means}
+and contrasts between means of \(A\). If the interaction with \(B\) has
+an impact, we can rather compute the subcell average of
+\(A \mid B=b_j\), and similarly for contrasts. We thus distinguish
+between the following:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{simple effects}: difference between levels of one in a fixed
+  combination of others. Simple effects are comparing cell averages
+  within a given row or column.
+\item
+  \textbf{main effects}: differences relative to average for each
+  condition of a factor. Main effects are row/column averages.
+\end{itemize}
+
+\end{definition}
+
+\begin{example}[Psychological ownership of borrowed
+money]\protect\hypertarget{exm-STC21-twoway}{}\label{exm-STC21-twoway}
+
+Supplemental Study 5 from Sharma, Tully, and Cryder
+(\citeproc{ref-Sharma.Tully.Cryder:2021}{2021}) checks the psychological
+perception of borrowing money depending on the label. The authors
+conducted a 2 by 2 between-subject comparison (two-way ANOVA) varying
+the type of debt (whether the money was advertised as \texttt{credit} or
+\texttt{loan}) and the type of purchase the latter would be used for
+(\texttt{discretionary} spending or \texttt{need} for necessary
+purchases). The response is the average of the likelihood and interest
+in the product, both measured using a 9 point Likert scale from 1 to 9.
+
+The mean model with an interaction can be written using the treatment
+contrast parametrization as \begin{align*}
+\texttt{likelihood} &= \beta_0 + \beta_1\mathbf{1}_{\texttt{purchase=need}} + \beta_2\mathbf{1}_{\texttt{debttype=loan}} \\&\quad+ \beta_3\mathbf{1}_{\texttt{purchase=need}}\mathbf{1}_{\texttt{debttype=loan}} + \varepsilon
+\end{align*}
+
+Sharma, Tully, and Cryder
+(\citeproc{ref-Sharma.Tully.Cryder:2021}{2021}) fitted a model with two
+factors, each with two levels, and their interaction. Since there are
+one global average and two main effect (additional difference in average
+for both factors \texttt{debttype} and \texttt{purchase}), the
+interaction involves one degree of freedom since we go from a model with
+three parameters describing the mean to one that has a different average
+for each of the four subgroups.
+
+The reason why this is first test to carry out is that if the effect of
+one factor depends on the level of the other, as shown in
+Figure~\ref{fig-2by2}, then we need to compare the label of debt type
+separately for each type of purchase and vice-versa using simple
+effects. If the interaction on the contrary isn't significant, then we
+could pool observations instead and average across either of the two
+factors, resulting in the marginal comparisons with the main effects.
+
+Fitting the model including the interaction between factors ensures that
+we keep the additivity assumption and that our conclusions aren't
+misleading: the price to pay is additional mean parameters to be
+estimated, which isn't an issue if you collect enough data, but can be
+critical when data collection is extremely costly and only a few runs
+are allowed.
+
+In \textbf{R}, we include both factors in a formula as
+\texttt{response\ \textasciitilde{}\ factorA\ *\ factorB}, the
+\texttt{*} symbol indicating that both are allowed to interact, as a
+shorthand for \texttt{factorA\ +\ factorB\ +\ factorA:factorB}; in the
+main effect model, we would use instead \texttt{+} to reflect that the
+effects of both factors add up.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Analysing Supplementary Study 5}
+\CommentTok{\# of Sharma, Tully, and Cryder (2021)}
+\FunctionTok{data}\NormalTok{(STC21\_SS5, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(likelihood }\SpecialCharTok{\textasciitilde{}}\NormalTok{ purchase}\SpecialCharTok{*}\NormalTok{debttype, }
+           \AttributeTok{data =}\NormalTok{ STC21\_SS5)}
+\CommentTok{\# Compute means of rows/columns/cells}
+\FunctionTok{model.tables}\NormalTok{(mod, }\AttributeTok{type =} \StringTok{"means"}\NormalTok{)}
+\CommentTok{\#\textgreater{} Tables of means}
+\CommentTok{\#\textgreater{} Grand mean}
+\CommentTok{\#\textgreater{}      }
+\CommentTok{\#\textgreater{} 4.88 }
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}  purchase }
+\CommentTok{\#\textgreater{}     discretionary    need}
+\CommentTok{\#\textgreater{}             4.182   5.579}
+\CommentTok{\#\textgreater{} rep       751.000 750.000}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}  debttype }
+\CommentTok{\#\textgreater{}      credit    loan}
+\CommentTok{\#\textgreater{}       5.127   4.631}
+\CommentTok{\#\textgreater{} rep 753.000 748.000}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}  purchase:debttype }
+\CommentTok{\#\textgreater{}                debttype}
+\CommentTok{\#\textgreater{} purchase        credit loan }
+\CommentTok{\#\textgreater{}   discretionary   4.5    3.8}
+\CommentTok{\#\textgreater{}   rep           392.0  359.0}
+\CommentTok{\#\textgreater{}   need            5.7    5.4}
+\CommentTok{\#\textgreater{}   rep           361.0  389.0}
+\CommentTok{\# Analysis of variance reveals }
+\CommentTok{\# non{-}significant interaction}
+\CommentTok{\# of purchase and type}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(mod, }\AttributeTok{type =} \DecValTok{2}\NormalTok{)}
+\CommentTok{\#\textgreater{} Anova Table (Type II tests)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Response: likelihood}
+\CommentTok{\#\textgreater{}                   Sum Sq   Df F value  Pr(\textgreater{}F)    }
+\CommentTok{\#\textgreater{} purchase             752    1   98.21 \textless{} 2e{-}16 ***}
+\CommentTok{\#\textgreater{} debttype              92    1   12.04 0.00054 ***}
+\CommentTok{\#\textgreater{} purchase:debttype     14    1    1.79 0.18171    }
+\CommentTok{\#\textgreater{} Residuals          11467 1497                    }
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\end{Highlighting}
+\end{Shaded}
+
+Since the interaction is not significant, we can only interpret the main
+effect of fixation. These conditional mean difference are termed
+marginal effect, because they are obtained by averaging out the other
+explanatory. The model however estimates the variance based on residuals
+from the full interaction model with four cell means, so differs from
+that obtained by (incorrectly) running a model with only
+\texttt{purchase} as explanatory.
+
+In the analysis of variance table, we focus exclusively on the last line
+with the sum of squares for \texttt{purchase:debttype}. The \(F\)
+statistic is 1.79; using the \(\mathsf{F}\) (1, 1497) distribution as
+benchmark, we obtain a \(p\)-value of 0.18 so there is no evidence the
+effect of purchase depends on debt type.
+
+We can thus pool data and look at the effect of debt type (\texttt{loan}
+or \texttt{credit}) overall by combining the results for all purchase
+types, one of the planned comparison reported in the Supplementary
+material. To do this in \textbf{R} with the \texttt{emmeans} package, we
+use the \texttt{emmeans} function and we quote the factor of interest
+(i.e., the one we want to keep) in \texttt{specs}. By default, this will
+compute the estimate marginal means: the \texttt{contr\ =\ "pairwise"}
+indicates that we want the difference between the two, which gives us
+the contrasts.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Pairwise comparisons within levels of purchase}
+\CommentTok{\# Simple effect}
+\NormalTok{emmeans}\SpecialCharTok{::}\FunctionTok{emmeans}\NormalTok{(mod, }
+                 \AttributeTok{specs =} \StringTok{"purchase"}\NormalTok{,}
+                 \AttributeTok{contr =} \StringTok{"pairwise"}\NormalTok{)}
+\CommentTok{\#\textgreater{} $emmeans}
+\CommentTok{\#\textgreater{}  purchase      emmean    SE   df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  discretionary   4.17 0.101 1497     3.97     4.36}
+\CommentTok{\#\textgreater{}  need            5.58 0.101 1497     5.39     5.78}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Results are averaged over the levels of: debttype }
+\CommentTok{\#\textgreater{} Confidence level used: 0.95 }
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} $contrasts}
+\CommentTok{\#\textgreater{}  contrast             estimate    SE   df t.ratio p.value}
+\CommentTok{\#\textgreater{}  discretionary {-} need    {-}1.42 0.143 1497  {-}9.910  \textless{}.0001}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Results are averaged over the levels of: debttype}
+\CommentTok{\# Interaction plot}
+\NormalTok{emmeans}\SpecialCharTok{::}\FunctionTok{emmip}\NormalTok{(mod, }
+\NormalTok{               purchase }\SpecialCharTok{\textasciitilde{}}\NormalTok{ debttype, }
+               \AttributeTok{CIs =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-interaction-ST-1.pdf}
+
+}
+
+\caption{\label{fig-interaction-ST}Interaction plots for the Sharma,
+Tully, and Cryder (\citeproc{ref-Sharma.Tully.Cryder:2021}{2021}) data.}
+
+\end{figure}%
+
+\end{example}
+
+\begin{refremark}[Sum of square decomposition]
+There are different sum of square decompositions (type I, II and III)
+for the comparison of nested models in analysis of variance tables
+produced by \texttt{anova}. These test different models using \(F\)
+statistics, with the same denominator based on \(S_2\) from the model
+output, and the numerator is the difference in sum of squares. All of
+the decompositions agree when the sample size is \textbf{balanced},
+meaning each cell has the same number of replications \(n_r\), so that
+the overall number of observations is \(n = n_an_bn_r\).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2069}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2529}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2529}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2874}}@{}}
+
+\caption{\label{tbl-ssdecompo}Sum of square decompositions in ANOVA
+tables. Comparison of sum of squares between null, versus alternative
+model.}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+type 1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+type II
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+type III
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\boldsymbol{A}\) & intercept vs \(A\) & \(B\) vs \((A,B)\) &
+\((B, AB)\) vs \((A,B, AB)\) \\
+\(\boldsymbol{B}\) & \(A\) vs \((A,B)\) & \(A\) vs \((A,B)\) &
+\((A, AB)\) vs \((A,B,AB)\) \\
+\(\boldsymbol{AB}\) & \((A,B)\) vs \((A,B,AB)\) & \((A,B)\) vs
+\((A,B,AB)\) & \((A,B)\) vs \((A,B,AB)\) \\
+
+\end{longtable}
+
+Table~\ref{tbl-ssdecompo} shows the different sum of squared errors of
+the models, with the terms in parenthesis indicating which terms are
+included (\(AB\) denotes the interaction).
+
+Type I, the default with the generic \texttt{anova}, uses the order in
+which terms enter, say \(A\), \(B\), \(AB\), so compares in the first
+line the improvement in the mean-only model with \(A\), then in the
+second line the test for \(B\) compares the model with both main effects
+\(A\) and \(B\) with only \(A\). Since the order in which the factors is
+specified is arbitrary, this decomposition is arbitrary and not
+relevant.
+
+The type II decomposition considers terms of the same level in the
+hierarchy, so the tests for the main effects are \(A + B\) vs \(A\),
+\(A+B\) vs \(B\) and that of the interaction is \(A\times B\) vs
+\(A, B\). This should be the default option if we wish to consider main
+effects when the interaction isn't significant.
+
+The type III decomposition, popularized by SAS and often taken as the
+default, considers all other terms, so would test main effects as
+\(A + B + A\times B\) vs \(B + A\times B\). This does not respect the
+marginality principle, so should be avoided. The tests for \(A\) or
+\(B\) should not be used.
+
+All three methods agree for the last level with the interaction.
+
+\label{rem-sumofsquare}
+
+\end{refremark}
+
+All of the discussion for a two-way ANOVA extends to higher-dimensional
+designs for \(K\) factors. However, the curse of dimensionality makes it
+more difficult to collect observations in each cell. Any multiway ANOVA
+with two or more factor can be collapsed into a single one-way ANOVA:
+this is notably useful when there is a control group which is not
+related to the factor levels, as no manipulation takes place. The use of
+contrasts becomes critical since we can write any test for main effects,
+interactions using the latter through weighting.
+
+\begin{example}[Perceptions of cultural appropriation by
+ideology]\protect\hypertarget{exm-LKUK24}{}\label{exm-LKUK24}
+
+We consider a three-way ANOVA from Lin et al.
+(\citeproc{ref-Lin.Kim.Uduehi.Keinan:2024}{2024}). Their Study 4 focused
+on cultural appropriation for soul food recipe cookbook from Chef Dax,
+who was either black (or not), manipulating the description of the way
+he obtained the recipes (by peeking without permission in kitchens, by
+asking permission or no mention for control). Authors postulated that
+the perception of appropriation would vary by political ideology
+(liberal or conservative). The study results in a 3 by 2 by 2 three-way
+ANOVA.
+
+For the \(K\)-way ANOVA, we always start with estimating the full model
+with all \(K\)-way interaction (provided there are enough data to
+estimate the latter, which implies there are repetitions). If the latter
+is significant, we can fix one or more factor levels and compare the
+others.
+
+\begin{longtable}[]{@{}lrrrl@{}}
+
+\caption{\label{tbl-anova-LKUK24}Analysis of variance table (type II
+decomposition) for the data from Study 4 of Lin et al.~(2024).}
+
+\tabularnewline
+
+\toprule\noalign{}
+term & sum of squares & df & stat & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+politideo & 48.49 & 1 & 21.35 & \textless0.001 \\
+chefdax & 473.72 & 1 & 208.61 & \textless0.001 \\
+brandaction & 34.24 & 2 & 7.54 & \textless0.001 \\
+politideo:chefdax & 65.00 & 1 & 28.63 & \textless0.001 \\
+politideo:brandaction & 1.56 & 2 & 0.34 & 0.71 \\
+chefdax:brandaction & 0.62 & 2 & 0.14 & 0.87 \\
+politideo:chefdax:brandaction & 0.66 & 2 & 0.15 & 0.86 \\
+Residuals & 1587.33 & 699 & & NA \\
+
+\end{longtable}
+
+If we consider Table~\ref{tbl-anova-LKUK24}, we find that there is no
+three-way interaction and, omitting the latter and focusing on
+lower-level, a single two-way interaction between political ideology and
+the race of Chef Dax. We cannot interpret the \(p\)-value for the main
+effect of \texttt{brandaction}, but we could look at the marginal means.
+
+Based on the data, we will collapse data to a one-way ANOVA comparing
+the three levels of \texttt{brandaction} and a 2 by 2 two-way ANOVA for
+the other two factors. The results are obtained by averaging over the
+missing factor, but estimating the standard deviation \(\sigma^2\) from
+the full model.
+
+We are interested in comparing the perception between the race of Chef
+Dax (black or not, as Southern Soul food cooking is more likely to be
+associated with cultural appropriation if Chef Dax is not black. We
+proceed with \texttt{emmeans} by computing the marginal means separately
+for each of the four subcategories, but compare the race of Chef Dax
+separately for liberals and conservatives due to the presence of the
+interaction.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(LKUK24\_S4, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(emmeans)}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(appropriation }\SpecialCharTok{\textasciitilde{}}\NormalTok{ politideo }\SpecialCharTok{*}\NormalTok{ chefdax }\SpecialCharTok{*}\NormalTok{ brandaction,}
+   \AttributeTok{data =}\NormalTok{ LKUK24\_S4)}
+\CommentTok{\# Marginal means for political ideology/Chef Dax}
+\CommentTok{\# Compute simple effects, by political ideology}
+\FunctionTok{emmeans}\NormalTok{(mod, }
+         \AttributeTok{specs =} \StringTok{"chefdax"}\NormalTok{, }
+         \AttributeTok{by =} \StringTok{"politideo"}\NormalTok{,}
+         \AttributeTok{contrast =} \StringTok{"pairwise"}\NormalTok{)}
+\CommentTok{\#\textgreater{} politideo = conservative:}
+\CommentTok{\#\textgreater{}  chefdax   emmean     SE  df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  not black   2.38 0.1425 699     2.11     2.66}
+\CommentTok{\#\textgreater{}  black       1.68 0.1494 699     1.38     1.97}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} politideo = liberal:}
+\CommentTok{\#\textgreater{}  chefdax   emmean     SE  df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  not black   3.60 0.0968 699     3.41     3.79}
+\CommentTok{\#\textgreater{}  black       1.57 0.0947 699     1.38     1.75}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Results are averaged over the levels of: brandaction }
+\CommentTok{\#\textgreater{} Confidence level used: 0.95}
+\end{Highlighting}
+\end{Shaded}
+
+We see that the liberals are much more likely to view Chef Dax cookbook
+as an instance of cultural appropriation if he is not black; there is
+limited evidence of any difference between conservatives and liberal
+when Chef Dax is black. Both differences are statistically
+significative, but the differences (and thus evidence of an effect) is
+much stronger for left-leaning respondents.
+
+We can look next at the brand action: we expect participants will view
+peeking less favorably than if Chef Dax asked for permission to publish
+the recipes. It's tricky to know the effect of the control, as we are
+not bringing the point to the attention of participants in this
+instance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Marginal mean for brandaction}
+\NormalTok{emm\_brand }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(mod, }\AttributeTok{specs =} \FunctionTok{c}\NormalTok{(}\StringTok{"brandaction"}\NormalTok{)) }
+\NormalTok{emm\_brand}
+\CommentTok{\#\textgreater{}  brandaction emmean    SE  df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  peeking       2.56 0.107 699     2.35     2.77}
+\CommentTok{\#\textgreater{}  permission    2.29 0.105 699     2.09     2.50}
+\CommentTok{\#\textgreater{}  control       2.07 0.108 699     1.86     2.28}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Results are averaged over the levels of: politideo, chefdax }
+\CommentTok{\#\textgreater{} Confidence level used: 0.95}
+\CommentTok{\# Joint F test for the main effect of brandaction}
+\NormalTok{emm\_brand }\SpecialCharTok{|\textgreater{}} \FunctionTok{pairs}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{joint\_tests}\NormalTok{()}
+\CommentTok{\#\textgreater{}  model term df1 df2 F.ratio p.value}
+\CommentTok{\#\textgreater{}  contrast     2 699   5.090  0.0064}
+\end{Highlighting}
+\end{Shaded}
+
+A joint \(F\)-test, obtained by collapsing everything to a one-way
+ANOVA, shows that there are indeed differences. However, note that the
+averages of the three actions are much smaller than for race.
+
+\end{example}
+
 \section{Geometry of least squares}\label{geometry-of-least-squares}
 
 \begin{refremark}[Geometry]
@@ -5709,13 +6372,58 @@ and distribute terms. Similarly,
 residuals are thus orthogonal to both the model matrix \(\mathbf{X}\)
 and to the fitted values.
 
-A direct consequence of this fact is that the sample linear correlation
-between \(\boldsymbol{e}\) and \(\widehat{\boldsymbol{y}}\) is zero; we
-will use this property to build graphical diagnostics.
+\begin{corollary}[Orthogonality of residuals and fitted
+values]\protect\hypertarget{cor-cor}{}\label{cor-cor}
 
-Since the inner product is zero, the mean of \(\boldsymbol{e}\) must be
-zero provided that \(\mathbf{1}_n\) is in the linear span of
-\(\mathbf{X}\).
+A direct consequence of this fact is that the sample linear correlation
+between \(\boldsymbol{e}\) and \(\widehat{\boldsymbol{y}}\) is zero, so
+a simple linear regression of \(\boldsymbol{e}\) as a function of
+\(\widehat{\boldsymbol{y}}\) has zero intercept and zero slope. The same
+is true for any plot of \(\boldsymbol{e}\) against a column of
+\(\mathbf{X}\). Any additional pattern visible must come from omitted
+dependence.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-zerocor-1.pdf}
+
+}
+
+\caption{\label{fig-zerocor}Plot of residuals against fitted values
+(left), and against the explanatory variable \texttt{service} (right)
+for the linear regression of the \texttt{college} data. The intercept
+and the slope of the simple linear regressions are zero.}
+
+\end{figure}%
+
+\end{corollary}
+
+\begin{corollary}[Mean of
+residuals]\protect\hypertarget{cor-zeromean}{}\label{cor-zeromean}
+
+Since the inner product between the model matrix \(\mathbf{X}\) and the
+residuals \(\boldsymbol{e}\) is zero, the sample mean of
+\(\boldsymbol{e}\) must be zero provided that \(\mathbf{1}_n\) is in the
+linear span of \(\mathbf{X}\), which is the case as soon as we include
+an intercept.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(salary }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ field }\SpecialCharTok{+}\NormalTok{ rank }\SpecialCharTok{+}\NormalTok{ service, }\AttributeTok{data =}\NormalTok{ college)}
+\CommentTok{\# Zero correlations}
+\FunctionTok{with}\NormalTok{(college, }\FunctionTok{cor}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod), service))}
+\CommentTok{\#\textgreater{} [1] 2.55e{-}17}
+\FunctionTok{cor}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod), }\FunctionTok{fitted}\NormalTok{(mod))}
+\CommentTok{\#\textgreater{} [1] 1.83e{-}16}
+\CommentTok{\# Mean zero errors}
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod))}
+\CommentTok{\#\textgreater{} [1] 3.55e{-}16}
+\end{Highlighting}
+\end{Shaded}
+
+\end{corollary}
 
 \begin{refremark}[Invariance]
 One direct consequence of the definition of the estimator in terms of
@@ -6424,16 +7132,16 @@ variance]\protect\hypertarget{exm-heterogeneity}{}\label{exm-heterogeneity}
 \(p\)-values obtained through simulation using the classical analysis of
 variance \(F\)-test (left) and Welch's unequal variance alternative
 (right), based on 10 000 simulations. Each simulated sample consist of
-50 observations from a \(\mathsf{Normal}(0, 1)\) distribution and 10
-observations from \(\mathsf{Normal}(0, 9)\). The uniform distribution
+50 observations from a \(\mathsf{normal}(0, 1)\) distribution and 10
+observations from \(\mathsf{normal}(0, 9)\). The uniform distribution
 would have 5\% in each of the 20 bins used for the display.}
 
 \end{figure}%
 
 We consider for simplicity a problem with \(K=2\) groups, which is the
 two-sample \(t\)-test. We simulated 50 observations from a
-\(\mathsf{Normal}(0, 1)\) distribution and 10 observations from
-\(\mathsf{Normal}(0, 9)\), comparing the distribution of the
+\(\mathsf{normal}(0, 1)\) distribution and 10 observations from
+\(\mathsf{normal}(0, 9)\), comparing the distribution of the
 \(p\)-values for the Welch and the \(F\)-test statistics.
 Figure~\ref{fig-simuWelchnull} shows the results. The percentage of
 \(p\)-values less than \(\alpha=0.05\) based on 10 000 replicates is
@@ -6815,6 +7523,11 @@ Brucks, Melanie S., and Jonathan Levav. 2022. {``Virtual Communication
 Curbs Creative Idea Generation.''} \emph{Nature} 605 (7908): 108--12.
 \url{https://doi.org/10.1038/s41586-022-04643-y}.
 
+\bibitem[\citeproctext]{ref-Crump.Navarro.Suzuki:2019}
+Crump, M. J. C., D. J. Navarro, and J. Suzuki. 2019. \emph{Answering
+Questions with Data: Introductory Statistics for Psychology Students}.
+\url{https://doi.org/10.17605/OSF.IO/JZE52}.
+
 \bibitem[\citeproctext]{ref-Davison:2003}
 Davison, A. C. 2003. \emph{Statistical Models}. Cambridge University
 Press.
@@ -6847,6 +7560,12 @@ on Product Evaluation in Online Retailing.''} \emph{Journal of Retailing
 and Consumer Services} 49: 279--88.
 \url{https://doi.org/10.1016/j.jretconser.2019.03.015}.
 
+\bibitem[\citeproctext]{ref-Lin.Kim.Uduehi.Keinan:2024}
+Lin, Jason D, Nicole You Jeung Kim, Esther Uduehi, and Anat Keinan.
+2024. {``Culture for Sale: Unpacking Consumer Perceptions of Cultural
+Appropriation.''} \emph{Journal of Consumer Research}.
+\url{https://doi.org/10.1093/jcr/ucad076}.
+
 \bibitem[\citeproctext]{ref-Liu.Rim.Min.Min:2023}
 Liu, Peggy J., SoYon Rim, Lauren Min, and Kate E. Min. 2023. {``The
 Surprise of Reaching Out: Appreciated More Than We Think.''}
@@ -6862,6 +7581,12 @@ Research} 50 (1): 190--210. \url{https://doi.org/10.1093/jcr/ucac047}.
 Rosen, B., and T. H. Jerdee. 1974. {``Influence of Sex Role Stereotypes
 on Personnel Decisions.''} \emph{Journal of Applied Psychology} 59:
 9--14.
+
+\bibitem[\citeproctext]{ref-Sharma.Tully.Cryder:2021}
+Sharma, Eesha, Stephanie Tully, and Cynthia Cryder. 2021.
+{``Psychological Ownership of (Borrowed) Money.''} \emph{Journal of
+Marketing Research} 58 (3): 497--514.
+\url{https://doi.org/10.1177/0022243721993816}.
 
 \bibitem[\citeproctext]{ref-Sokolova:2023}
 Sokolova, Tatiana, Aradhna Krishna, and Tim Döring. 2023. {``Paper Meets

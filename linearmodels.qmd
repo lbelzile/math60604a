@@ -386,6 +386,7 @@ ggplot() +
   labs(x = "horsepower",
        y = "fuel autonomy (in miles per US gallon)") 
 ```
+
 :::
 
 ### Categorical covariates
@@ -444,6 +445,7 @@ ggplot(data = MV23_S1,
 Even if the linear model defines a line, the latter is only meaningful when evaluated at $0$ or $1$; @fig-donation-moon shows it in addition to sample observations (jittered horizontally) and a density estimate for each condition. The colored dot represents the mean, which will coincide with the estimates.
 
 It is clear that the data are heavily discretized, with lots of ties and zeros. However, given the sample size of `r nrow(MV23_S1)` observations, we can easily draw conclusions in each group.
+
 :::
 
 Let us consider categorical variables with $K > 2$ levels, which in **R** are of class `factor`. The default parametrization for factors are in terms of treatment contrast: the reference level of the factor (by default, the first value in alphanumerical order) will be treated as the reference category and assimilated to the intercept. The software will then create a set of $K-1$ dummy variables for a factor with $K$ levels, each of which will have ones for the relevant value and zero otherwise.
@@ -523,6 +525,7 @@ $\beta_0 = (\mu_{\texttt{DR}} +\mu_{\texttt{DRTA}}+\mu_{\texttt{TA}})/3$.
 
 
 If we removed the intercept, then we could include three dummies for each treatment group and each parameter would correspond to the average. This isn't recommended in **R** because the software treats models without the intercept differently and some output will be nonsensical (e.g., the coefficient of determination will be wrong).
+
 :::
 
 
@@ -728,6 +731,7 @@ i(\boldsymbol{\beta}, \sigma^2) =
 \end{pmatrix}
 \end{align*}
 Since zero off-correlations in normal models amount to independence, the MLE for $\sigma^2$ and $\boldsymbol{\beta}$ are independent. Provided the $(p+1)$ square matrix $\mathbf{X}^\top\mathbf{X}$ is invertible, the large-sample variance of the ordinary least squares estimator is $\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}$ and that of the MLE of the variance is $2\sigma^4/n$.
+
 :::
 
 
@@ -903,7 +907,16 @@ knitr::kable(tab2,
 
 :::
 
+:::{#rem-notation}
 
+## Notation
+
+It is important to distinguish the equation of the stochastic model, expressed in terms of random variables $\mathsf{E}(Y_i \mid \boldsymbol{x}_i) = \mathbf{x}_i\boldsymbol{\beta} + \varepsilon_i$ and the equation of the fitted values or predictions,
+\begin{align*}
+\widehat{\mathsf{E}(Y_i \mid \mathbf{x}_i)} \mathbf{x}_i\widehat{\boldsymbol{\beta}}
+\end{align*}
+The prediction does not involve unknown error terms.
+:::
 
 
 ## Hypothesis testing
@@ -942,6 +955,7 @@ Consider the data from @exm-sokolova. If we fit againt the simple linear regress
 summary(lm_simple)$coefficients # t-tests (Wald) for beta=0 with p-values
 confint(lm_simple) # confidence intervals for betas
 ```
+
 :::
 
 For categorical variables with more than two levels, testing if $\beta_j=0$ is typically not of interest because the coefficient represents the difference between the category $x_j$ and the baseline with the treatment contrast parametrization: these two categories could have a small difference, but the categorical variable as a whole may still be a useful predictor given the other explanatories. The hypothesis of zero contrast is awkward because it implies a null model in which selected categories are merged, but then depends on the reference category. Rather, we wish to compare a model in which all variables are present with one in which the categorical explanatory is omitted.
@@ -990,9 +1004,6 @@ Both the likelihood ratio test and the $F$ tests are related via an monotone tra
 
 :::
 
-<!-- ### Analysis of variance tables -->
-
-<!-- In **R**, the generic `anova` can be used to compare two nested models by passing as arguments the simpler model and the complete model (in this order). Alternatively, we can call `anova` on the output of a linear regression model to produce an **analysis of variance** table, in which we compare the sum of square of the model with all variables, and the difference in sum of square when adding terms sequentially in the order in which they appear in the formula. The latter is typically not of interest, and we must be careful in models with interactions. -->
 
 ### Contrasts
 
@@ -1032,7 +1043,7 @@ emm |> emmeans::contrast(method = "pairwise") # contrast vector c(1,-1)
 
 :::
 
-::: {#exm-teachingtoread}
+:::{#exm-teachingtoread}
 
 ## Tests and contrasts for reading comprehension methods
 
@@ -1154,7 +1165,7 @@ Another potential hypothesis of interest is testing whether the coefficient of `
 :::
 
 
-::: {#exm-paperorplastic}
+:::{#exm-paperorplastic}
 
 ## Tests and contrasts for paper vs plastic
 
@@ -1312,75 +1323,506 @@ dust(college_lm) %>%
 ```
 
 :::
+
+## Factorial designs and interactions
+
+The additive mean model with linear terms (including categorical variables) specifies that the marginal effect of one variable is independent of others. We may wish to relax this  assumption by including **interaction terms**. 
+
+
+Combinations combinations of covariates may affect the response differently than  when taking in isolation.
+
+
+:::{#exm-visualising-interaction}
+
+## Insurance data and complex interactions
+
+A good example of interaction is provided by the `insurance` dataset. An exploratory data analysis suggested that premiums depended on age, smoker status and body mass index (BMI). @fig-insuranceinter1   shows that the insurance premium depends on smoking: smokers who have a BMI of 30 and above pay a hefty premium, but there is also seemingly a linear increase in the amount charged with BMI. We see no such behaviour for non-smokers. 
+
+```{r}
+#| label: fig-insuranceinter1
+#| echo: false
+#| fig-cap: "Graph of insurance charges against body mass index, colored by smoking status."
+data(insurance, package = "hecstatmod")
+insurance <- insurance %>%
+  mutate(obesity = factor(bmi >= 30, labels = c("normal","obese"))) %>%
+  mutate(smobese = droplevels(factor(interaction(obesity, smoker),
+                          levels = c("normal.no","obese.no","normal.yes","obese.yes"),
+                          labels = c("non-smoker","non-smoker","smoker non-obese","smoker obese"))))
+
+g1 <- ggplot(data = insurance,
+             aes(x = bmi, y = charges, col = smobese)) +
+  geom_point() +
+  geom_vline(xintercept = 30) +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  labs(x = "body mass index",
+       y = "charges (in USD)") +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, max(insurance$charges)+100))
+# g2 <- ggplot(data = insurance, aes(x = age, y = charges, col = smobese)) +
+#   geom_point() +
+#   labs(x = "age", y = "charges (in USD)") +
+#     scale_y_continuous(expand = c(0.5, 0), limits = c(0, NA))
+# g1 + g2 + plot_layout(guides = 'collect') & theme(legend.position = "bottom") & labs(col = "smoking/obesity status")
+g1
+
+```
+
+:::
+
+:::{#def-interaction}
+
+## Interaction
+
+An interaction occurs if some explanatory variables, when coupled together, have different impacts than the superposition of each, i.e., if $X_j$ and $X_k$ interact, the marginal effect of $\mathsf{E}(Y \mid \boldsymbol{X})$ with respect to $X_j$ is a function of $X_k$ or vice-versa.
+
+
+:::
+
+We will restrict attention to the cases where one or more of the explanatories is a categorical variable (factor).
+
+:::{#exm-intention}
+
+## Intention to buy
+
+We consider a toy model for the `interaction` data, and model the `intention` to buy a product as a function of `sex` and `fixation`.
+The base model, without interaction, is
+\begin{align*}
+\texttt{intention}=\beta_0 + \beta_1 \texttt{sex} + \beta_2 \texttt{fixation} + \varepsilon,
+\end{align*}
+where \texttt{sex} is a binary variable taking value unity for female and zero for male.
+The model assumes that the effect of the continuous variable $\texttt{fixation}$ is the same for the two values of the binary variable. Likewise, the effect of the binary variable is assumed to be the same for all possible values of the continuous variable. We can see this on the plot, as the difference between the lines represents the effect of $\texttt{sex}$, is the same for all values of $\texttt{fixation}$; the lines are *parallel*: see the left panel of @fig-interaction-slope.
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: fig-interaction-slope
+#| fig-cap: "Scatterplots and fitted lines for a model with a single continuous and binary explanatory, without (left) and with (right) an interaction term." 
+data(interaction, package = "hecstatmod")
+mod <- lm(intention ~ fixation + sex, data = interaction)
+predmod <- predict(mod)
+g1 <- ggplot(data = interaction,   
+       mapping = aes(
+  x = fixation, 
+  y = intention,
+  color = factor(sex, 
+                 levels = c(0,1),
+                 labels = c("men","women")))) +
+ geom_point() +
+ geom_line(aes(y = predmod)) +
+ MetBrewer::scale_color_met_d(name = "Hiroshige") + 
+ labs(color = "sex",
+     x = "fixation time (in seconds)", 
+     y = "intention to buy") +
+ theme(legend.position = "bottom")
+g2 <- ggplot(data = interaction,   
+       mapping = aes(x = fixation, 
+                     color = factor(sex, levels = c(0,1),
+                             labels = c("men","women")), 
+                     y = intention)) +
+ geom_point() +
+ geom_smooth(formula = y ~ x, se = FALSE, method = "lm") +
+ MetBrewer::scale_color_met_d(name = "Hiroshige") + 
+ labs(color = "sex",
+     x = "fixation time (in seconds)", 
+     y = "intention to buy") +
+ theme(legend.position = "bottom")
+g1 + g2 + plot_layout(guides = 'collect') & theme(legend.position = "bottom") 
+```
+
+In order to add a different slope for men and women, we can create a new variable equal to the product $\texttt{fixation}\times\texttt{sex}$  and add it to the model,
+\begin{align*}
+\texttt{intention} &= \beta_0 + \beta_1 \texttt{sex} + \beta_2\texttt{fixation} \\&\quad + \beta_3 \texttt{fixation}\cdot \texttt{sex} + \varepsilon.
+\end{align*} 
+Depending on the value of the binary variable \texttt{sex}, we get
+\begin{align*}
+&\mathsf{E}(\texttt{intention} \mid \texttt{fixation}, \texttt{sex}) \\\quad&= 
+\begin{cases}
+(\beta_0 + \beta_1) + (\beta_2 + \beta_3)\texttt{fixation}, & \texttt{sex}=1,\\
+  \beta_0 + \beta_2 \texttt{fixation}, & \texttt{sex}=0.
+\end{cases}
+\end{align*} 
+The interpretation of the coefficients in the model is as usual with the treatment contrast parametrization:
+
+- $\beta_0$ is the average buying intention when the fixation time is zero for men
+- $\beta_1$ is the unit increase per second of fixation for men
+- $\beta_2$ is the difference in intercept for women vs men
+- $\beta_3$ is the difference in slope for women vs men
+
+Testing whether the interaction is significant boils down to using the test $\mathscr{H}_0: \beta_3=0$.
+
+```{r}
+#| eval: true
+#| echo: true
+data(interaction, package = "hecstatmod")
+mod <- lm(intention ~ fixation + sex + sex:fixation, 
+          data = interaction)
+summary(mod)$coefficients
+```
+The model with the interaction is significantly better, meaning that the effect of fixation time on intention to buy varies according to sex.
+
+:::
+
+
+:::{#rem-marginality}
+
+## Marginality
+
+In the model with buying \texttt{intention} as a function of \texttt{sex} and \texttt{fixation} time, we would \textbf{not} remove the main effect of \texttt{fixation} while keeping the interaction term \texttt{fixation*sex}, even if we fail to reject $\mathscr{H}_0:\beta_2=0$. Without it, the model would become
+\begin{align*}
+&\mathsf{E}(\texttt{intention} \mid \texttt{fixation}, \texttt{sex}) \\\quad&=
+\begin{cases}
+(\beta_0 + \beta_1) + \beta_3\texttt{fixation}, & \texttt{sex}=1,\\
+  \beta_0, &\texttt{sex}=0;                 
+\end{cases}
+\end{align*}  
+this implies that intention to buy is constant for me, regardless of the fixation time. As the choice of baseline is arbitrary, but changing the dummy \texttt{sex} (\texttt{0} for women, \texttt{1} for men), would yield a different model and so potentially different inferences, we never consider removal of the main effect term that is involved in an interaction. The **marginality principle** states that all lower interaction terms should be included.
+
+:::
+
+
+The concept of interactions readily extends to categorical variables with $k$ levels/categories. In this case, we need to use the global $F$-test to check if the interaction is statistically significant.
+
+
+:::{#def-anova}
+
+## Two-way analysis of variance
+
+An analysis of variance is a linear model in which the mean is a function of categorical explanatory variables. If we have data for all different combinations of factors, the factors are **crossed** and we can consider inclusion of their interactions. 
+
+
+Consider a two-way analysis of variance model. This is a linear model with two factors, $A$ and $B$, with respectively $n_a$ and $n_b$ levels. The response $Y_{ijk}$ of the $k$th measurement in group $(a_i, b_j)$ is
+$$
+\underset{\text{response}\vphantom{b}}{Y_{ijk}} = \underset{\text{subgroup mean}}{\mu_{ij}} + \underset{\text{error term}}{\varepsilon_{ijk}}
+$$ {#eq-twowayasoneway} 
+where 
+
+- $Y_{ijk}$ is the $k$th replicate for $i$th level of factor $A$ and $j$th level of factor $B$
+- $\mu_{ij}$ is the average response of measurements in group $(a_i, b_j)$
+- $\varepsilon_{ijk}$ are independent error terms with mean zero and standard deviation $\sigma$.
+
+
+In a full factorial design with interactions, we can write the mean response as $\mathsf{E}(Y \mid A=a_i, B=b_j) = \mu_{ij}$. This model can be reduced to a single one-way ANOVA with a single factor having $n_an_b$ levels. This may be useful to specify contrast weights, or when there is an additional control group in an experimental setting. However, preserving the structure helps setting up hypotheses of interest.
+
+```{r}
+#| eval: false
+#| echo: false
+tab <- rbind(c("$\\mu_{11}$", "$\\mu_{12}$"), 
+      c("$\\mu_{21}$", "$\\mu_{22}$"))
+rownames(tab) <- c("$\\boldsymbol{a_1}$","$\\boldsymbol{a_2}$")
+colnames(tab) <- c("$\\boldsymbol{b_1}$", "$\\boldsymbol{b_2}$")
+knitr::kable(tab, booktabs = TRUE)
+```
+
+
+We can equivalently express this in terms of an intercept, main effects of either variables, and interaction terms. The additive model, with no interaction, has average for cell $(i,j)$ of
+
+\begin{align*}
+\mathsf{E}(Y_{ij} \mid A = a_i, B=b_j) = \mu + \alpha_i + \beta_j.
+\end{align*}
 <!--
-1. 
-[X] Motivating examples from management sciences
-[X] Models with explanatories
-[X] What to put in the model?
-[X] Linearity: what does it mean?
-IJLR - Gaussian models as workhorse
-[X] Since Gaussian is a location-scale family, write in terms of response = mean + error
+- $\mu$ is the average of all subgroup averages, termed overall mean.
+- $\alpha_i = \mu_{i.} - \mu$ is the mean of level $A_i$ minus the overall mean.
+- $\beta_j  = \mu_{.j} - \mu$ is the mean of level $B_j$ minus the overall mean.
+- $(\alpha\beta)_{ij} = \mu_{ij} - \mu_{i.} - \mu_{.j} + \mu$ is the interaction term for $A_i$ and $B_j$ which encodes the effect of both variable not already captured by the main effects.
+-->
 
 
-[X] Estimation of OLS
-[X] OLS and MLE of the mean parameter coefficients
-[X] OLS does not require the assumption of normality (only constant variance, independence and mean-zero errors).
+<!--
+The model formulation in terms of difference from the global average or main effect ensures that we can test for main effects for factor $A$ by setting $\mathscr{H}_0: \alpha_1 = \cdots = \alpha_{n_a-1}=0$. The $1 +  n_a + n_b$ **sum to zero** constraints,
+$$\sum_{i=1}^{n_a} \alpha_i=0, \quad \sum_{j=1}^{n_b} \beta_j=0, \quad  \sum_{j=1}^{n_b} (\alpha\beta)_{ij}=0, \quad \sum_{i=1}^{n_a} (\alpha\beta)_{ij}=0.$$
+-->
 
-[X] Residuals as vertical distance
-Fitted model
-MLE of the mean for Yi (Rsquared as correlation between Yhat and Y)
-fitted mean + residuals != mean + error (notion of n + p+2 unknowns)
-Understanding the output - ingredients and components in the output
+We can consider model simplifications from bottom up. Removing the interaction leads to a model with $1 + (n_a-1) + (n_b-1)$ parameters, relative to $n_a\times n_b$ for the model with the interaction. We can use an $F$-test to check for the significance of the latter. If the factors don't interact, the mean in the cell is given by the sum of the main effects. Only once we have a removed this term can we consider if all row means  or column means are the same.
 
-Parameter interpretation
-Marginal effects
-[X] Simple cases with binary/continuous/categorical
-Invariance of reparametrizations
-[X] Experimental vs observational
+:::
+
+While formal testing is needed to check for interactions, the concept can be better understood by looking at graphs (at least in a setting where the means are known with little to no uncertainty).
+
+:::{#def-interactionplot}
+
+
+## Interaction plot
+
+
+We can try to detect interactions visually by plotting the (mean) response as a function of one of the covariates, using a so-called **interaction plot**. When there are more than two categorical variables, we can use colors, symbols or panels to represent the categories. Lack of interaction in those plots implies parallel lines, but one must account for the uncertainty.
+
+
+
+```{r}
+#| label: fig-2by2
+#| fig-cap: "Interaction plots (line graphs) for example patterns for means for each of the possible kinds of general outcomes in a 2 by 2 design. Illustration adapted from Figure 10.2 of @Crump.Navarro.Suzuki:2019 by Matthew Crump (CC BY-SA 4.0 license)."
+#| out-width: "100%"
+#| fig-width: 10
+#| fig-height: 8
+p1 <- data.frame(
+  factorA = c("a1", "a1", "a2", "a2"),
+  factorB = c("b1", "b2", "b1", "b2"),
+  means = c(5, 5, 5, 5)
+)
+p2 <- data.frame(
+  factorA = c("a1", "a1", "a2", "a2"),
+  factorB = c("b1", "b2", "b1", "b2"),
+  means = c(10, 10, 5, 5)
+)
+p3 <- data.frame(
+  factorA = c("a1", "a1", "a2", "a2"),
+  factorB = c("b1", "b2", "b1", "b2"),
+  means = c(5, 10, 5, 10)
+)
+p4 <- data.frame(
+  factorA = c("a1", "a1", "a2", "a2"),
+  factorB = c("b1", "b2", "b1", "b2"),
+  means = c(5, 10, 10, 15)
+)
+p5 <- data.frame(
+  factorA = c("a1", "a1", "a2", "a2"),
+  factorB = c("b1", "b2", "b1", "b2"),
+  means = c(5, 10, 10, 5)
+)
+p6 <- data.frame(
+  factorA = c("a1", "a1", "a2", "a2"),
+  factorB = c("b1", "b2", "b1", "b2"),
+  means = c(10, 13, 5, 2)
+)
+p7 <- data.frame(
+  factorA = c("a1", "a1", "a2", "a2"),
+  factorB = c("b1", "b2", "b1", "b2"),
+  means = c(2, 12, 5, 9)
+)
+p8 <- data.frame(
+  factorA = c("a1", "a1", "a2", "a2"),
+  factorB = c("b1", "b2", "b1", "b2"),
+  means = c(10, 18, 5, 7)
+)
+
+all_22s <- rbind(p1, p2, p3, p4, p5, p6, p7, p8)
+type <- factor(rep(1:8, each = 4), 
+               labels = c("no effect",
+                          "main effect of A only",
+                          "main effect of B only",
+                          "both main effects",
+                          "interaction only",
+                          "main effect of A and interaction",
+                           "main effect of B and interaction",
+                          
+                          "both main effects and interaction" ))
+all_22s <- cbind(all_22s, type)
+options(ggplot2.discrete.colour= MetBrewer::met.brewer(name = "Hiroshige", 2))
+ggplot(all_22s, 
+       mapping = aes(x = factorA, 
+                     y = means, 
+                     type = type,
+                     group = factorB, 
+                     color = factorB))+
+  geom_point() +
+  geom_line() +
+  labs(x = "factor A",
+       subtitle = "mean response",
+       y = "",
+       color = "factor B") +
+  facet_wrap(~type, nrow = 2) +
+  theme_classic() +
+  theme(legend.position = "bottom")
+```
+
+:::
+
+:::{#def-simple}
+
+## Simple effects and main effects
+
+When interactions do not exist, it makes sense to abstract from one or more variable and consider **marginal effects**, obtained by pooling data from the omitted factors and averaging out. Suppose without loss of generality that we are interested in comparing levels of $A$. When interactions between $A$ and $B$ are not significant, we can consider lower order terms and report **estimated marginal means** and contrasts between means of $A$. If the interaction with $B$ has an impact, we can rather compute the subcell average of $A \mid B=b_j$, and similarly for contrasts. We thus distinguish between the following:
+
+
+- **simple effects**: difference between levels of one in a fixed combination of others. Simple effects are comparing cell averages within a given row or column.
+- **main effects**: differences relative to average for each condition of a factor. Main effects are row/column averages.
+
+:::
+
+:::{#exm-STC21-twoway}
+
+## Psychological ownership of borrowed money
+
+Supplemental Study 5 from @Sharma.Tully.Cryder:2021 checks the psychological perception of borrowing money depending on the label. The authors conducted a 2 by 2 between-subject comparison (two-way ANOVA) varying the type of debt (whether the money was advertised as `credit` or `loan`) and the type of purchase the latter would be used for (`discretionary` spending or `need` for necessary purchases). The response is the average of the likelihood and interest in the product, both measured using a 9 point Likert scale from 1 to 9.
+
+The mean model with an interaction can be written using the treatment contrast parametrization as
+\begin{align*}
+\texttt{likelihood} &= \beta_0 + \beta_1\mathbf{1}_{\texttt{purchase=need}} + \beta_2\mathbf{1}_{\texttt{debttype=loan}} \\&\quad+ \beta_3\mathbf{1}_{\texttt{purchase=need}}\mathbf{1}_{\texttt{debttype=loan}} + \varepsilon
+\end{align*}
+
+@Sharma.Tully.Cryder:2021 fitted a model with two factors, each with two levels, and their interaction. Since there are one global average and two main effect (additional difference in average for both factors `debttype` and `purchase`), the interaction involves one degree of freedom since we go from a model with three parameters describing the mean to one that has a different average for each of the four subgroups.
+
+The reason why this is first test to carry out is that if the effect of one factor depends on the level of the other, as shown in @fig-2by2, then we need to compare the label of debt type separately for each type of purchase and vice-versa using simple effects. If the interaction on the contrary isn't significant, then we could pool observations instead and average across either of the two factors, resulting in the marginal comparisons with the main effects.
+
+Fitting the model including the interaction between factors ensures that we keep the additivity assumption and that our conclusions aren't misleading: the price to pay is additional mean parameters to be estimated, which isn't an issue if you collect enough data, but can be critical when data collection is extremely costly and only a few runs are allowed.
+
+In **R**, we include both factors in a formula as 
+`response ~ factorA * factorB`, the `*` symbol indicating that both are allowed to interact, as a shorthand for `factorA + factorB + factorA:factorB`; in the main effect model, we would use instead `+` to reflect that the effects of both factors add up.
+
+```{r}
+#| eval: true
+#| echo: true
+# Analysing Supplementary Study 5
+# of Sharma, Tully, and Cryder (2021)
+data(STC21_SS5, package = "hecedsm")
+mod <- aov(likelihood ~ purchase*debttype, 
+           data = STC21_SS5)
+# Compute means of rows/columns/cells
+model.tables(mod, type = "means")
+# Analysis of variance reveals 
+# non-significant interaction
+# of purchase and type
+car::Anova(mod, type = 2)
+```
+
+Since the interaction is not significant, we can only interpret the main effect of fixation. These conditional mean difference are termed marginal effect, because they are obtained by averaging out the other explanatory. The model however estimates the variance based on residuals from the full interaction model with four cell means, so differs from that obtained by (incorrectly) running a model with only `purchase` as explanatory.
+
+In the analysis of variance table, we focus exclusively on the last line with the sum of squares for `purchase:debttype`. The $F$ statistic is `r round(car::Anova(mod, type = 3)[4,3],2)`; using the $\mathsf{F}$ (`r car::Anova(mod, type = 3)[4,2]`, `r car::Anova(mod, type = 3)[5,2]`) distribution as benchmark, we obtain a $p$-value of `r format.pval(car::Anova(mod, type = 3)[4,4], digits=2)` so there is no evidence the effect of purchase depends on debt type.
+
+We can thus pool data and look at the effect of debt type (`loan` or `credit`) overall by combining the results for all purchase types, one of the planned comparison reported in the Supplementary material. To do this in **R** with the `emmeans` package, we use the `emmeans` function and we quote the factor of interest (i.e., the one we want to keep) in `specs`. By default, this will compute the estimate marginal means: the `contr = "pairwise"` indicates that we want the difference between the two, which gives us the contrasts.
+
+```{r}
+#| eval: true
+#| echo: true
+#| label: fig-interaction-ST
+#| fig-cap: "Interaction plots for the @Sharma.Tully.Cryder:2021 data."
+# Pairwise comparisons within levels of purchase
+# Simple effect
+emmeans::emmeans(mod, 
+                 specs = "purchase",
+                 contr = "pairwise")
+# Interaction plot
+emmeans::emmip(mod, 
+               purchase ~ debttype, 
+               CIs = TRUE) +
+  theme_minimal()
+```
+
+:::
+
+
+:::{#rem-sumofsquare}
+
+## Sum of square decomposition
+
+There are different sum of square decompositions (type I, II and III) for the comparison of nested models in analysis of variance tables produced by `anova`. These test different models using $F$ statistics, with the same denominator based on $S_2$ from the model output, and the numerator is the difference in sum of squares. All of the decompositions agree when the sample size is **balanced**, meaning each cell has the same number of replications $n_r$, so that the overall number of observations is $n = n_an_bn_r$.
+
+```{r}
+#| label: tbl-ssdecompo
+#| eval: true
+#| echo: false
+#| tbl-cap: "Sum of square decompositions in ANOVA tables. Comparison of sum of squares between null, versus alternative model."
+tabSS <- cbind("type 1" = c("intercept vs $A$", "$A$ vs $(A,B)$","$(A,B)$ vs $(A,B,AB)$"),
+ "type II" = c("$B$ vs $(A,B)$","$A$ vs $(A,B)$","$(A,B)$ vs $(A,B,AB)$"),
+"type III" = c("$(B, AB)$ vs $(A,B, AB)$","$(A, AB)$ vs $(A,B,AB)$","$(A,B)$ vs $(A,B,AB)$"))
+rownames(tabSS) <- c("$\\boldsymbol{A}$","$\\boldsymbol{B}$","$\\boldsymbol{AB}$")
+knitr::kable(tabSS, booktabs = TRUE)
+```
+
+@tbl-ssdecompo shows the different sum of squared errors of the models, with the terms in parenthesis indicating which terms are included ($AB$ denotes the interaction).
+
+Type I, the default with the generic `anova`, uses the order in which terms enter, say $A$, $B$, $AB$, so compares in the first line the improvement in the mean-only model with $A$, then in the second line the test for $B$ compares the model with both main effects $A$ and $B$ with only $A$. Since the order in which the factors is specified is arbitrary, this decomposition is arbitrary and not relevant.
+
+The type II decomposition considers terms of the same level in the hierarchy, so the tests for the main effects are $A + B$ vs $A$, $A+B$ vs $B$ and that of the interaction is $A\times B$ vs $A, B$. This should be the default option if we wish to consider main effects when the interaction isn't significant. 
+
+The type III decomposition, popularized by SAS and often taken as the default, considers all other terms, so would test main effects as $A + B + A\times B$ vs $B + A\times B$. This does not respect the marginality principle, so should be avoided. The tests for $A$ or $B$ should not be used.
+
+All three methods agree for the last level with the interaction.
+
+:::
+
+
+All of the discussion for a two-way ANOVA extends to higher-dimensional designs for $K$ factors. However, the curse of dimensionality makes it more difficult to collect observations in each cell. Any multiway ANOVA with two or more factor can be collapsed into a single one-way ANOVA: this is notably useful when there is a control group which is not related to the factor levels, as no manipulation takes place. The use of contrasts becomes critical since we can write any test for main effects, interactions using the latter through weighting.
+
+:::{#exm-LKUK24}
+
+## Perceptions of cultural appropriation by ideology
+
+We consider a three-way ANOVA from @Lin.Kim.Uduehi.Keinan:2024. Their Study 4 focused on cultural appropriation for soul food recipe cookbook from Chef Dax, who was either black (or not), manipulating the description of the way he obtained the recipes (by peeking without permission in kitchens, by asking permission or no mention for control). Authors postulated that the perception of appropriation would vary by political ideology (liberal or conservative). The study results in a 3 by 2 by 2 three-way ANOVA.
+
+For the $K$-way ANOVA, we always start with estimating the full model with all $K$-way interaction (provided there are enough data to estimate the latter, which implies there are repetitions). If the latter is significant, we can fix one or more factor levels and compare the others.
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: tbl-anova-LKUK24
+#| tbl-cap: "Analysis of variance table (type II decomposition) for the data from Study 4 of Lin et al. (2024)." 
+options(contrasts = c("contr.sum", "contr.poly"))
+data(LKUK24_S4, package = "hecedsm")
+mod <- lm(appropriation ~ politideo * chefdax * brandaction,
+   data = LKUK24_S4)
+options(knitr.kable.NA = '')
+broom::tidy(car::Anova(mod, type = 2)) |>
+  dplyr::mutate(p.value = format.pval(p.value, digits = 2, eps = 1e-3)) |>
+  knitr::kable(digits = 2, 
+               col.names = c("term", "sum of squares","df","stat","p-value"),
+               booktabs = TRUE, 
+               linesep = "")
+```
+
+If we consider @tbl-anova-LKUK24, we find that there is no three-way interaction and, omitting the latter and focusing on lower-level, a single two-way interaction between political ideology and the race of Chef Dax. We cannot interpret the $p$-value for the main effect of `brandaction`, but we could look at the marginal means.
+
+Based on the data, we will collapse data to a one-way ANOVA comparing the three levels of `brandaction` and a 2 by 2 two-way ANOVA for the other two factors. The results are obtained by averaging over the missing factor, but estimating the standard deviation $\sigma^2$ from the full model.
+
+We are interested in comparing the perception between the race of Chef Dax (black or not, as Southern Soul food cooking is more likely to be associated with cultural appropriation if Chef Dax is not black. We proceed with `emmeans` by computing the marginal means separately for each of the four subcategories, but compare the race of Chef Dax separately for liberals and conservatives due to the presence of the interaction.
+
+```{r}
+#| eval: true
+#| echo: true
+#| message: false
+#| warning: false
+data(LKUK24_S4, package = "hecedsm")
+library(emmeans)
+mod <- lm(appropriation ~ politideo * chefdax * brandaction,
+   data = LKUK24_S4)
+# Marginal means for political ideology/Chef Dax
+# Compute simple effects, by political ideology
+emmeans(mod, 
+         specs = "chefdax", 
+         by = "politideo",
+         contrast = "pairwise")
+```
+We see that the liberals are much more likely to view Chef Dax cookbook as an instance of cultural appropriation if he is not black; there is limited evidence of any difference between conservatives and liberal when Chef Dax is black. Both differences are statistically significative, but the differences (and thus evidence of an effect) is much stronger for left-leaning respondents.
+
+We can look next at the brand action: we expect participants will view peeking less favorably than if Chef Dax asked for permission to publish the recipes. It's tricky to know the effect of the control, as we are not bringing the point to the attention of participants in this instance.
+
+```{r}
+#| eval: true
+#| echo: true
+#| message: false
+#| warning: false
+# Marginal mean for brandaction
+emm_brand <- emmeans(mod, specs = c("brandaction")) 
+emm_brand
+# Joint F test for the main effect of brandaction
+emm_brand |> pairs() |> joint_tests()
+```
+
+A joint $F$-test, obtained by collapsing everything to a one-way ANOVA, shows that there are indeed differences. However, note that the averages of the three actions are much smaller than for race.
+
+:::
+
+<!--
+Interactions
+Two-way ANOVA - one mean per cell
+Crossed factors
+
+Interactions (categorical vs categorical)
+Interactions (categorical vs continuous)
+Tests for interactions
+Remark: what can you estimate + is estimation reliable?
+Remark: marginality principle.
+Interactions and interaction plots
+Simple and marginal effects
 Confounding variables
 
 
 
-Interactions and interaction plots
 Linearity and interpretation of effects - added variable plots
-Estimation and testing
-t-tests
-F-tests
-Linear contrasts
-Comparisons between t/F distributions and MLE
-Prediction from the model
+
 Colinearity and identifiability
-R-squared
-
-
 Model assumptions
 Residual diagnostics
 Plots and remedies/ a primer on other models
-
-
-Some adaptation of known results from likelihood, specialized to the case of normal data - t vs normal, F vs chi-square
-
-
-The flexibility of explanatories
-The linearity is in the betas
-
-Building models: dummies, categorical variables, continuous covariates
-Parameter interpretation
-Marginal effects as derivatives
-Reparametrization and invariance
-
-
-Estimation and links with likelihood (observed information, expected information)
-
-
-Interpretation as simple linear regression from FWL theorem
-OLS as BLUE
-
-
-Testing
-
-
-Normal model and tacit assumptions
 -->
 
 
@@ -1402,10 +1844,53 @@ Similarly, $\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}$.
 The ordinary residuals are thus orthogonal to both the model matrix $\mathbf{X}$ and to the fitted values.
 
 
-A direct consequence of this fact is that the sample linear correlation between $\boldsymbol{e}$ and $\widehat{\boldsymbol{y}}$ is zero; we will use this property to build graphical diagnostics.
+:::{#cor-cor}
 
-Since the inner product is zero, the mean of $\boldsymbol{e}$ must be zero provided that $\mathbf{1}_n$ is in the linear span of $\mathbf{X}$.
+## Orthogonality of residuals and fitted values
 
+A direct consequence of this fact is that the sample linear correlation between $\boldsymbol{e}$ and $\widehat{\boldsymbol{y}}$ is zero, so a simple linear regression of $\boldsymbol{e}$ as a function of $\widehat{\boldsymbol{y}}$ has zero intercept and zero slope. The same is true for any plot of $\boldsymbol{e}$ against a column of $\mathbf{X}$. Any additional pattern visible must come from omitted dependence.
+
+```{r}
+#| label: fig-zerocor
+#| eval: true
+#| echo: false
+#| fig-cap: "Plot of residuals against fitted values (left), and against the explanatory variable `service` (right) for the linear regression of the `college` data. The intercept and the slope of the simple linear regressions are zero."
+mod <- lm(salary ~ sex + field + rank + service, data = college)
+g1 <- ggplot(data = data.frame(yhat = fitted(mod), 
+                         e = resid(mod)),
+       mapping = aes(x = yhat, y = e)) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "lm", se = FALSE, col = "grey") +
+  labs(x = "fitted values", y = "residuals")
+g2 <- ggplot(data = data.frame(service = college$service, 
+                         e = resid(mod)),
+       mapping = aes(x = service, y = e)) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "lm", se = FALSE, col = "grey") +
+  labs(x = "years of service", y = "residuals")
+g1 + g2
+```
+
+:::
+
+:::{#cor-zeromean}
+
+## Mean of residuals
+
+Since the inner product between the model matrix $\mathbf{X}$ and the residuals $\boldsymbol{e}$ is zero, the sample mean of $\boldsymbol{e}$ must be zero provided that $\mathbf{1}_n$ is in the linear span of $\mathbf{X}$, which is the case as soon as we include an intercept.
+
+```{r}
+#| eval: true
+#| echo: true
+mod <- lm(salary ~ sex + field + rank + service, data = college)
+# Zero correlations
+with(college, cor(resid(mod), service))
+cor(resid(mod), fitted(mod))
+# Mean zero errors
+mean(resid(mod))
+```
+
+:::
 
 :::{#rem-invariance}
 
@@ -1841,8 +2326,8 @@ What are the impacts of unequal variance if we use the $F$-test instead? For one
 #| fig-cap: Histogram of the null distribution of $p$-values obtained through simulation
 #|   using the classical analysis of variance $F$-test (left) and Welch's unequal variance
 #|   alternative (right), based on 10 000 simulations. Each simulated sample consist
-#|   of 50 observations from a $\mathsf{Normal}(0, 1)$ distribution and 10 observations from
-#|   $\mathsf{Normal}(0, 9)$. The uniform distribution would have 5% in each of the 20 bins
+#|   of 50 observations from a $\mathsf{normal}(0, 1)$ distribution and 10 observations from
+#|   $\mathsf{normal}(0, 9)$. The uniform distribution would have 5% in each of the 20 bins
 #|   used for the display.
 set.seed(1234)
 n1 <- 50
@@ -1895,7 +2380,7 @@ theme_set(theme_classic())
 g1 + g2
 ```
 
-We consider for simplicity a problem with $K=2$ groups, which is the two-sample $t$-test. We simulated 50 observations from a $\mathsf{Normal}(0, 1)$ distribution and 10 observations from $\mathsf{Normal}(0, 9)$, comparing the distribution of the $p$-values for the Welch and the $F$-test statistics. @fig-simuWelchnull shows the results. The percentage of $p$-values less than $\alpha=0.05$ based on 10 000  replicates is estimated to be `r 100*mean(pvalsW < 0.05)`% for the Welch statistic, not far from the level. By contrast, we reject `r 100*mean(pvalsF < 0.05)`% of the time with the one-way ANOVA global $F$-test: this is a large share of innocents sentenced to jail based on false premises! While the size distortion is not always as striking, heterogeneity should be accounted in the design by requiring sufficient sample sizes (whenever costs permits) in each group to be able to estimate the variance reliably and using an adequate statistic.
+We consider for simplicity a problem with $K=2$ groups, which is the two-sample $t$-test. We simulated 50 observations from a $\mathsf{normal}(0, 1)$ distribution and 10 observations from $\mathsf{normal}(0, 9)$, comparing the distribution of the $p$-values for the Welch and the $F$-test statistics. @fig-simuWelchnull shows the results. The percentage of $p$-values less than $\alpha=0.05$ based on 10 000  replicates is estimated to be `r 100*mean(pvalsW < 0.05)`% for the Welch statistic, not far from the level. By contrast, we reject `r 100*mean(pvalsF < 0.05)`% of the time with the one-way ANOVA global $F$-test: this is a large share of innocents sentenced to jail based on false premises! While the size distortion is not always as striking, heterogeneity should be accounted in the design by requiring sufficient sample sizes (whenever costs permits) in each group to be able to estimate the variance reliably and using an adequate statistic.
 
 :::
 
