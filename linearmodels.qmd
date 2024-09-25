@@ -1332,36 +1332,6 @@ The additive mean model with linear terms (including categorical variables) spec
 Combinations combinations of covariates may affect the response differently than  when taking in isolation.
 
 
-:::{#exm-visualising-interaction}
-
-## Insurance data and complex interactions
-
-A good example of interaction is provided by the `insurance` dataset. An exploratory data analysis suggested that premiums depended on age, smoker status and body mass index (BMI). @fig-insuranceinter1   shows that the insurance premium depends on smoking: smokers who have a BMI of 30 and above pay a hefty premium, but there is also seemingly a linear increase in the amount charged with BMI. We see no such behaviour for non-smokers. 
-
-```{r}
-#| label: fig-insuranceinter1
-#| echo: false
-#| fig-cap: "Graph of insurance charges against body mass index, colored by smoking status."
-data(insurance, package = "hecstatmod")
-insurance <- insurance |>
-  mutate(obesity = factor(bmi >= 30, labels = c("normal","obese"))) |>
-  mutate(smobese = droplevels(factor(interaction(obesity, smoker),
-                          levels = c("normal.no","obese.no","normal.yes","obese.yes"),
-                          labels = c("non-smoker","non-smoker","smoker non-obese","smoker obese"))))
-
-ggplot(data = insurance,
-             aes(x = bmi, y = charges, col = smobese)) +
-  geom_point() +
-  geom_vline(xintercept = 30) +
-  MetBrewer::scale_color_met_d("Hiroshige") +
-  labs(color = "",
-       x = "body mass index",
-       y = "charges (in USD)") +
-  scale_y_continuous(expand = c(0, 0), limits = c(0, max(insurance$charges)+100))
-```
-
-:::
-
 :::{#def-interaction}
 
 ## Interaction
@@ -1422,7 +1392,7 @@ g2 <- ggplot(data = interaction,
 g1 + g2 + plot_layout(guides = 'collect') & theme(legend.position = "bottom")
 ```
 
-In order to add a different slope for men and women, we can create a new variable equal to the product $\texttt{fixation}\times\texttt{sex}$  and add it to the model,
+In order to add a different slope for men and women, we can create a new variable equal to the product `fixation*sex` and add it to the model,
 \begin{align*}
 \texttt{intention} &= \beta_0 + \beta_1 \texttt{sex} + \beta_2\texttt{fixation} \\&\quad + \beta_3 \texttt{fixation}\cdot \texttt{sex} + \varepsilon.
 \end{align*} 
@@ -1460,7 +1430,7 @@ The model with the interaction is significantly better, meaning that the effect 
 
 ## Marginality
 
-In the model with buying \texttt{intention} as a function of \texttt{sex} and \texttt{fixation} time, we would \textbf{not} remove the main effect of \texttt{fixation} while keeping the interaction term \texttt{fixation*sex}, even if we fail to reject $\mathscr{H}_0:\beta_2=0$. Without it, the model would become
+In the model with buying `intention` as a function of `sex` and `fixation` time, we would **not** remove the main effect of `fixation` while keeping the interaction term `fixation*sex`, even if we fail to reject $\mathscr{H}_0:\beta_2=0$. Without it, the model would become
 \begin{align*}
 &\mathsf{E}(\texttt{intention} \mid \texttt{fixation}, \texttt{sex}) \\\quad&=
 \begin{cases}
@@ -1468,20 +1438,138 @@ In the model with buying \texttt{intention} as a function of \texttt{sex} and \t
   \beta_0, &\texttt{sex}=0;                 
 \end{cases}
 \end{align*}  
-implying that intention to buy is constant for men, regardless of the fixation time. As the choice of baseline is arbitrary, but changing the dummy \texttt{sex} (\texttt{0} for women, \texttt{1} for men), would yield a different model and so potentially different inferences, we never consider removal of the main effect term that is involved in an interaction. The **marginality principle** states that all lower interaction terms should be included.
+implying that intention to buy is constant for men, regardless of the fixation time. As the choice of baseline is arbitrary, but changing the dummy `sex` (`0` for women, `1` for men), would yield a different model and so potentially different inferences, we never consider removal of the main effect term that is involved in an interaction. The **marginality principle** states that all lower interaction terms should be included.
 
 :::
 
+
+
+:::{#exm-visualising-interaction}
+
+## Insurance data and complex interactions
+
+A good example of interaction is provided by the `insurance` dataset. An exploratory data analysis suggested that premiums depended on age, smoker status and body mass index (BMI). @fig-insuranceinter1   shows that the insurance premium depends on smoking: smokers who have a BMI of 30 and above pay a hefty premium, but there is also seemingly a linear increase in the amount charged with BMI. We see no such behaviour for non-smokers. 
+
+```{r}
+#| label: fig-insuranceinter1
+#| echo: false
+#| fig-cap: "Graph of insurance charges against body mass index, colored by smoking status."
+data(insurance, package = "hecstatmod")
+insurance <- insurance |>
+  mutate(obesity = factor(bmi >= 30, labels = c("normal","obese"))) |>
+  mutate(smobese = droplevels(factor(interaction(obesity, smoker),
+                          levels = c("normal.no","obese.no","normal.yes","obese.yes"),
+                          labels = c("non-smoker","non-smoker","smoker non-obese","smoker obese"))))
+
+ggplot(data = insurance,
+             aes(x = bmi, y = charges, col = smobese)) +
+  geom_point() +
+  geom_vline(xintercept = 30) +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  labs(color = "",
+       x = "body mass index",
+       y = "charges (in USD)") +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, max(insurance$charges)+100))
+```
+
+
+
+From there, we could create an indicator variable $\texttt{obese}=\mathsf{1}_{\texttt{bmi} \geq 30}$ and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We take non-smoker as baseline category. To make interpretation more meaningful, we rescale age so that $\texttt{age}=0$ corresponds to 18 years old.
+
+
+```{r}
+#| label: coefintercharges
+#| echo: false
+lm_interaction <- lm(charges ~ I(age-18)*obesity*smoker, data = insurance)
+
+names(lm_interaction$coefficients)[2:8] <- c("age","obesity [obese]","smoker [yes]","age * obesity [obese]", "age * smoker [yes]","obesity [obese] * smoker [yes]","age * obesity [obese] * smoker [yes]")
+dust(lm_interaction) %>%
+  sprinkle(col = 2:3, round = 1) %>%
+  sprinkle(col = 4, round = 2) %>%
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>%
+  sprinkle_colnames(estimate = "estimate",
+                     std.error = "std. error",
+                     statistic = "Wald stat.",
+                     p.value = "p-value") %>%
+  sprinkle_bookdown() %>%
+  knitr::kable(align = "lrrrr", booktabs = TRUE, caption = "Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.")
+```
+
+The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for `age`; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.
+```{r}
+#| label: equation
+#| echo: false
+#| eval: false
+# equatiomatic::extract_eq(lm_interaction,
+#                          intercept = "beta",
+#                          wrap = TRUE,
+#                          align_env = "align*")
+```
+
+\begin{align*}
+\texttt{charges} &= \beta_{0} + \beta_{1}\texttt{age} + \beta_{2}\texttt{obese} + \beta_{3}\texttt{smoker} +
+\beta_{4}\texttt{age} \cdot \texttt{obese} \\&\quad + \beta_{5}\texttt{age} \cdot \texttt{smoker} + \beta_{6}\texttt{obese} \cdot \texttt{smoker} + \beta_{7}\texttt{age} \cdot \texttt{obese} \cdot \texttt{smoker} + \varepsilon
+\end{align*}
+
+Because of the three-way interaction, it is not possible to recover individual parameters by changing the value of the corresponding covariate and keeping everything else constant: changing the smoker status likely impacts multiple regressors simultaneously. To retrieve the interpretation of the different coefficients, we will need to change one parameter at the time, write the mean equation and then isolate the coefficients. Throughout, $\texttt{obese}$ is a dummy variable equal to one if the person has a body mass index greater than 30 and likewise $\texttt{smoker}$ if the person is a smoker.
+
+\begin{align*}
+\texttt{charges}  =
+\begin{cases}
+\beta_{0} + \beta_{1}\texttt{age}  & (\mathrm{g}_1)\, \texttt{non-obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{4})\texttt{age},  & (\mathrm{g}_2)\,  \texttt{obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{3}) + (\beta_{1} + \beta_{5})\texttt{age},  & (\mathrm{g}_3)\,  \texttt{non-obese}, \texttt{smoker} \\
+(\beta_{0} + \beta_{2} + \beta_{3}+ \beta_{6}) + (\beta_{1} + \beta_{4} +\beta_{5} + \beta_7)\texttt{age},  & (\mathrm{g}_4)\,  \texttt{obese}, \texttt{smoker}
+\end{cases}
+\end{align*}
+
+- The intercept $\beta_0$ is the average at 18 years old of non-smokers who are not obese.
+- The slope $\beta_1$ is the average annual increase in charges for non-smokers who are not obese.
+- The parameter $\beta_2$ is a contrast, the difference between the average charges of 18 years old non-smokers who are obese and those who are not.
+- The parameter $\beta_3$ is a contrast, the difference between the average premium for non-obese 18 years old who smoke and those who don't.
+- The parameter $\beta_4$ is a contrast, the difference in average annual increase for non-smokers between obese and non-obese adults.
+- The parameter $\beta_5$ is a contrast, the difference in average annual increase for non-obese between smoker and non-smoker adults.
+
+The other two coefficients, $\beta_6$ and $\beta_7$ represent differences of average between groups $\mathrm{g}_1 + \mathrm{g}_4 - \mathrm{g}_2 - \mathrm{g}_3$ for both intercepts and slopes.
+
+The only $F$-test that we should consider in the analysis of variance table is the test for the three-way interaction, which corresponds to $\mathscr{H}_0: \beta_7=0$. The $p$-value against the two-sided alternative is $0.6704$, suggesting no difference in slope. The reason why we do not consider the other tests is that they correspond to irrelevant hypotheses. For example, the test for the two-way interaction term $\mathscr{H}_0: \beta_4=0$ associated to $\texttt{age} \cdot \texttt{obese}$ would correspond to merging the intercepts of group $\mathrm{g}_1$ and $\mathrm{g}_2$. Changing the baseline category would imply that a different difference in intercept is forced to be zero.
+
+
+Sometimes, however, specific hypothesis could be of interest because of the problem setting. We could perform bespoke test to check here that $\mathscr{H}_0: \beta_2=\beta_4=0$, which consists in merging the two non-smoker categories, or even $\mathscr{H}_0: \beta_2=\beta_4= \beta_5=\beta_7=0$, which amounts to merging non-smokers and the imposing a common slope for $\texttt{age}$. Such tests are not directly available in the output, but we can implement them manually by fitting two models and then plug-in in the values of residual sum of squares of both model in the formula of the $F$ statistic. Using the $F$ null distribution, we get a $p$-value of `r pf((sum(resid(lm(charges ~ smobese + age, data = insurance))^2)- sum(resid(lm_interaction)^2))/4 / summary(lm_interaction)$sigma^2, df1 = 4, df2 = summary(lm_interaction)$df[2], lower.tail = FALSE)`. This suggests both non-smoker groups are indistinguishable and likewise that there is no evidence that slopes for $\texttt{age}$ are not equal.
+
+Most interactions include functions of categorical variables together with either other categorical variables (different intercepts / conditional means per subgroups) or else other. Keep in mind that the validity of our tests above depend on the model being correctly specified: there is however evidence of difference in heterogeneity between groups, with unexplained non-smoker records. Plotting the residuals from the model that includes four different intercepts and slopes for $\texttt{age}$ for each combination of smoker/obesity status misses other features that one would capture in diagnostic plots. in particular, except for some notable outliers, there is evidence that the premiums of smokers also increase with body mass index; as evidenced by @fig-resod. If we include `bmi` as additional covariate in the model in addition of `obese`, the interpretation of changes in obesity will depend on the value of `bmi` and vice-versa.
+
+```{r }
+#| label: fig-resod
+#| echo: false
+#| fig-cap: Residuals from the interaction model for `charges` with `age`,
+#|   `smoker` and `obesity`. There is a notably outlier for a male
+#|   smoker whose `bmi` is exactly 30 and other points above. There is indication
+#|   of a linear trend for both smoker sub-groups as their body mass index increase,
+#|   which was not apparent previously because of the effect of age.
+insurance$res <- resid(lm_interaction)
+ggplot(data = insurance, aes(x = bmi, y = res, col = smobese)) +
+    geom_vline(xintercept = 30) +
+  geom_point() +
+  xlab("body mass index") +
+  ylab("residuals") +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  labs(col = "smoking/obesity status") +
+     theme(legend.position = "bottom")
+```
+
+:::
 
 The concept of interactions readily extends to categorical variables with $k$ levels/categories. In this case, we need to use the global $F$-test to check if the interaction is statistically significant.
 
 
 :::{#def-anova}
 
-## Two-way analysis of variance
+## Analysis of variance
 
 An analysis of variance is a linear model in which the mean is a function of categorical explanatory variables. If we have data for all different combinations of factors, the factors are **crossed** and we can consider inclusion of their interactions. 
 
+:::
 
 Consider a two-way analysis of variance model. This is a linear model with two factors, $A$ and $B$, with respectively $n_a$ and $n_b$ levels. The response $Y_{ijk}$ of the $k$th measurement in group $(a_i, b_j)$ is
 $$
@@ -1733,6 +1821,25 @@ All of the discussion for a two-way ANOVA extends to higher-dimensional designs 
 
 We consider a three-way ANOVA from @Lin.Kim.Uduehi.Keinan:2024. Their Study 4 focused on cultural appropriation for soul food recipe cookbook from Chef Dax, who was either black (or not), manipulating the description of the way he obtained the recipes (by peeking without permission in kitchens, by asking permission or no mention for control). Authors postulated that the perception of appropriation would vary by political ideology (liberal or conservative). The study results in a 3 by 2 by 2 three-way ANOVA.
 
+```{r}
+data(LKUK24_S4, package = "hecedsm")
+# Check repartition of observations in subgroups
+xtabs(~politideo + chefdax + brandaction,
+          data = LKUK24_S4)
+# Factors are crossed, and there are replications
+# We fit the three-way ANOVA model (all interactions)
+mod <- lm(appropriation ~ politideo * chefdax * brandaction,
+          data = LKUK24_S4)
+# Compute estimated marginal means for each of the 12 subgroups
+emm <- emmeans(mod, 
+        specs = c("chefdax", "brandaction", "politideo"))
+# Create an interaction plot
+emmip(object = emm, 
+        formula = brandaction ~ chefdax | politideo, 
+        CIs = TRUE)
+anova_tab <- car::Anova(mod, type = 2)
+```
+
 For the $K$-way ANOVA, we always start with estimating the full model with all $K$-way interaction (provided there are enough data to estimate the latter, which implies there are repetitions). If the latter is significant, we can fix one or more factor levels and compare the others.
 
 ```{r}
@@ -1746,12 +1853,13 @@ mod <- lm(appropriation ~ politideo * chefdax * brandaction,
    data = LKUK24_S4)
 options(knitr.kable.NA = '')
 broom::tidy(car::Anova(mod, type = 2)) |>
-  dplyr::mutate(p.value = format.pval(p.value, digits = 2, eps = 1e-3)) |>
+  dplyr::mutate(p.value =ifelse(is.na(p.value), NA, format.pval(p.value, digits = 2, eps = 1e-3))) |>
   knitr::kable(digits = 2, 
                col.names = c("term", "sum of squares","df","stat","p-value"),
                booktabs = TRUE, 
                linesep = "")
 ```
+
 
 If we consider @tbl-anova-LKUK24, we find that there is no three-way interaction and, omitting the latter and focusing on lower-level, a single two-way interaction between political ideology and the race of Chef Dax. We cannot interpret the $p$-value for the main effect of `brandaction`, but we could look at the marginal means.
 
