@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.1">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -1058,7 +1058,7 @@ Table&nbsp;4.3: Predictions with prediction intervals (left) and confidence inte
 \end{align*}\]</span> where <span class="math inline">\(\widehat{Y}_i^{\mathbb{M}_1}\)</span> is the <span class="math inline">\(i\)</span>th fitted value from <span class="math inline">\(\mathbb{M}_1\)</span>. Similarly define <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0)\)</span> for the residuals sum of square of <span class="math inline">\(\mathbb{M}_0\)</span>. Clearly, <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\)</span> (why?)</p>
 <p>The <span class="math inline">\(F\)</span>-test statistic is <span class="math display">\[\begin{align*}
 F=\frac{\{\mathsf{SS}_e(\mathbb{M}_0)-\mathsf{SS}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SS}_e(\mathbb{M}_1)/(n-p-1)}.
-\end{align*}\]</span> Under <span class="math inline">\(\mathscr{H}_0\)</span>, the <span class="math inline">\(F\)</span> statistic follows a Fisher distribution (<a href="introduction.html#def-Fdist" class="quarto-xref">Definition&nbsp;<span>1.14</span></a>) with <span class="math inline">\((p-k)\)</span> and <span class="math inline">\((n-p-1)\)</span> degrees of freedom, <span class="math inline">\(\mathsf{Fisher}(p-k, n-p-1)\)</span> — <span class="math inline">\(p-k\)</span> is the number of restrictions, and <span class="math inline">\(n-p-1\)</span> is sample size minus the number of coefficients for the mean of <span class="math inline">\(\mathbb{M}_1\)</span>.</p>
+\end{align*}\]</span> Under <span class="math inline">\(\mathscr{H}_0\)</span>, the <span class="math inline">\(F\)</span> statistic follows a Fisher distribution (<a href="introduction.html#def-Fdist" class="quarto-xref">Definition&nbsp;<span>1.15</span></a>) with <span class="math inline">\((p-k)\)</span> and <span class="math inline">\((n-p-1)\)</span> degrees of freedom, <span class="math inline">\(\mathsf{Fisher}(p-k, n-p-1)\)</span> — <span class="math inline">\(p-k\)</span> is the number of restrictions, and <span class="math inline">\(n-p-1\)</span> is sample size minus the number of coefficients for the mean of <span class="math inline">\(\mathbb{M}_1\)</span>.</p>
 </div>
 <p>It turns out that both <span class="math inline">\(F\)</span> and <span class="math inline">\(t\)</span>-statistics are equivalent for testing a single coefficient <span class="math inline">\(\beta_j\)</span>: the <span class="math inline">\(F\)</span>-statistic is the square of the Wald statistic and they lead to the same inference — the <span class="math inline">\(p\)</span>-value for the test are identical. While it may get reported in tables, the test for <span class="math inline">\(\beta_0=0\)</span> is not of interest; we keep the intercept merely to centre the residuals.</p>
 <div id="rem-lrtvsF" class="proof remark">
@@ -1595,10 +1595,10 @@ Figure&nbsp;4.10: Scatterplots and fitted lines for a model with a single contin
 \end{cases}
 \end{align*}\]</span> The interpretation of the coefficients in the model is as usual with the treatment contrast parametrization:</p>
 <ul>
-<li><span class="math inline">\(\beta_0\)</span> is the average buying intention when the fixation time is zero for men</li>
-<li><span class="math inline">\(\beta_1\)</span> is the unit increase per second of fixation for men</li>
-<li><span class="math inline">\(\beta_2\)</span> is the difference in intercept for women vs men</li>
-<li><span class="math inline">\(\beta_3\)</span> is the difference in slope for women vs men</li>
+<li><span class="math inline">\(\beta_0\)</span> is the average buying intention when the fixation time is zero for men,</li>
+<li><span class="math inline">\(\beta_1\)</span> is the difference in intercept for women vs men,</li>
+<li><span class="math inline">\(\beta_2\)</span> is the unit increase per second of fixation for men,</li>
+<li><span class="math inline">\(\beta_3\)</span> is the difference in slope for women vs men.</li>
 </ul>
 <p>Testing whether the interaction is significant boils down to using the test <span class="math inline">\(\mathscr{H}_0: \beta_3=0\)</span>.</p>
 <div class="cell" data-layout-align="center">
@@ -1622,7 +1622,7 @@ Figure&nbsp;4.10: Scatterplots and fitted lines for a model with a single contin
   \beta_0, &amp;\texttt{sex}=0;                 
 \end{cases}
 \end{align*}\]</span><br>
-this implies that intention to buy is constant for me, regardless of the fixation time. As the choice of baseline is arbitrary, but changing the dummy ( for women, for men), would yield a different model and so potentially different inferences, we never consider removal of the main effect term that is involved in an interaction. The <strong>marginality principle</strong> states that all lower interaction terms should be included.</p>
+implying that intention to buy is constant for men, regardless of the fixation time. As the choice of baseline is arbitrary, but changing the dummy ( for women, for men), would yield a different model and so potentially different inferences, we never consider removal of the main effect term that is involved in an interaction. The <strong>marginality principle</strong> states that all lower interaction terms should be included.</p>
 </div>
 <p>The concept of interactions readily extends to categorical variables with <span class="math inline">\(k\)</span> levels/categories. In this case, we need to use the global <span class="math inline">\(F\)</span>-test to check if the interaction is statistically significant.</p>
 <div id="def-anova" class="theorem definition">
@@ -2042,9 +2042,9 @@ e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 <p>One thus typically uses ordinary residuals <span class="math inline">\(\boldsymbol{e}\)</span> for plots of fitted values/explanatories against residuals and otherwise jackknife studentized residuals for any other graphical diagnostic plot.</p>
 <div id="def-r2" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 4.5 (Coefficient of determination)</strong></span> When we specify a model, the error term <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn’t need statistic to begin with). Once we have fitted a model, we estimate the variance <span class="math inline">\(\sigma^2\)</span>; one may then wonder which share of the total variance in the sample is explained by the model.</p>
-<p>The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison — the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, <span class="math inline">\(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\)</span>. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix <span class="math inline">\(\mathbf{X}\)</span>, defined as <span class="math inline">\(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\)</span> with <span class="math inline">\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\)</span>. We define the coefficient of determination, or squared multiple correlation coefficient of the model, <span class="math inline">\(R^2\)</span>, as <span class="math display">\[\begin{align*}
-R^2 &amp;=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
-\end{align*}\]</span> An alternative decomposition shows that <span class="math inline">\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\)</span>, i.e., the coefficient of determination can be interpreted as the square of <a href="moments">Pearson’s linear correlation</a> between the response <span class="math inline">\(\boldsymbol{y}\)</span> and the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
+<p>The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison — the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, <span class="math inline">\(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\)</span>. We can then compare the variance of the original data with that of the residuals from the model with model matrix <span class="math inline">\(\mathbf{X}\)</span>, defined as <span class="math inline">\(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\)</span> with <span class="math inline">\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\)</span>. We define the coefficient of determination, or squared multiple correlation coefficient of the model, <span class="math inline">\(R^2\)</span>, as <span class="math display">\[\begin{align*}
+R^2 &amp;=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = 1 - \frac{sum_{i=1}^n (y_i - \widehat{y}_i)^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}\]</span> An alternative decomposition shows that <span class="math inline">\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\)</span>, i.e., the coefficient of determination can be interpreted as the square of <a href="#def-correlation-Pearson">Pearson’s linear correlation</a> between the response <span class="math inline">\(\boldsymbol{y}\)</span> and the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
 </div>
 <p>Its important to note that <span class="math inline">\(R^2\)</span> is not a goodness-of-fit criterion, like the log likelihood: some phenomena are inherently noisy and even a good model will fail to account for much of the response’s variability. Moreover, one can inflate the value of <span class="math inline">\(R^2\)</span> by including more explanatory variables and making the model more complex, thereby improving the likelihood and <span class="math inline">\(R^2\)</span>. Indeed, the coefficient is non-decreasing in the dimension of <span class="math inline">\(\mathbf{X}\)</span>, so a model with <span class="math inline">\(p+1\)</span> covariate will necessarily have a higher <span class="math inline">\(R^2\)</span> values than only <span class="math inline">\(p\)</span> of the explanatories. For model comparisons, it is better to employ information criteria or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high <span class="math inline">\(R^2\)</span> may imply high correlation, but <a href="http://www.tylervigen.com/spurious-correlations">the relation may be spurious</a>: linear regression does not yield causal models!</p>
 </section>
@@ -2293,7 +2293,7 @@ Figure&nbsp;4.22: Histogram (left) and Student quantile-quantile plot (right) of
 </div>
 </div>
 </div>
-<p>Quantile-quantile plots are discussed in <a href="introduction.html#def-qqplot" class="quarto-xref">Definition&nbsp;<span>1.16</span></a> but their interpretation requires training. For example, <a href="#fig-qqplotsbad" class="quarto-xref">Figure&nbsp;<span>4.23</span></a> shows many common scenarios that can be diagnosed using quantile-quantile plots: discrete data is responsible for staircase patterns, positively skewed data has too high low quantiles and too low high quantiles relative to the plotting positions, heavy tailed data have high observations in either tails and bimodal data leads to jumps in the plot.</p>
+<p>Quantile-quantile plots are discussed in <a href="introduction.html#def-qqplot" class="quarto-xref">Definition&nbsp;<span>1.17</span></a> but their interpretation requires training. For example, <a href="#fig-qqplotsbad" class="quarto-xref">Figure&nbsp;<span>4.23</span></a> shows many common scenarios that can be diagnosed using quantile-quantile plots: discrete data is responsible for staircase patterns, positively skewed data has too high low quantiles and too low high quantiles relative to the plotting positions, heavy tailed data have high observations in either tails and bimodal data leads to jumps in the plot.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-qqplotsbad" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

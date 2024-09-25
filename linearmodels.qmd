@@ -1343,27 +1343,21 @@ A good example of interaction is provided by the `insurance` dataset. An explora
 #| echo: false
 #| fig-cap: "Graph of insurance charges against body mass index, colored by smoking status."
 data(insurance, package = "hecstatmod")
-insurance <- insurance %>%
-  mutate(obesity = factor(bmi >= 30, labels = c("normal","obese"))) %>%
+insurance <- insurance |>
+  mutate(obesity = factor(bmi >= 30, labels = c("normal","obese"))) |>
   mutate(smobese = droplevels(factor(interaction(obesity, smoker),
                           levels = c("normal.no","obese.no","normal.yes","obese.yes"),
                           labels = c("non-smoker","non-smoker","smoker non-obese","smoker obese"))))
 
-g1 <- ggplot(data = insurance,
+ggplot(data = insurance,
              aes(x = bmi, y = charges, col = smobese)) +
   geom_point() +
   geom_vline(xintercept = 30) +
   MetBrewer::scale_color_met_d("Hiroshige") +
-  labs(x = "body mass index",
+  labs(color = "",
+       x = "body mass index",
        y = "charges (in USD)") +
   scale_y_continuous(expand = c(0, 0), limits = c(0, max(insurance$charges)+100))
-# g2 <- ggplot(data = insurance, aes(x = age, y = charges, col = smobese)) +
-#   geom_point() +
-#   labs(x = "age", y = "charges (in USD)") +
-#     scale_y_continuous(expand = c(0.5, 0), limits = c(0, NA))
-# g1 + g2 + plot_layout(guides = 'collect') & theme(legend.position = "bottom") & labs(col = "smoking/obesity status")
-g1
-
 ```
 
 :::
@@ -1397,35 +1391,35 @@ The model assumes that the effect of the continuous variable $\texttt{fixation}$
 #| label: fig-interaction-slope
 #| fig-cap: "Scatterplots and fitted lines for a model with a single continuous and binary explanatory, without (left) and with (right) an interaction term." 
 data(interaction, package = "hecstatmod")
+interaction <- interaction |> 
+  dplyr::mutate(sex = factor(sex, levels = c(0,1),
+                             labels = c("men","women")))
 mod <- lm(intention ~ fixation + sex, data = interaction)
 predmod <- predict(mod)
 g1 <- ggplot(data = interaction,   
        mapping = aes(
   x = fixation, 
   y = intention,
-  color = factor(sex, 
-                 levels = c(0,1),
-                 labels = c("men","women")))) +
+  color = sex)) +
  geom_point() +
- geom_line(aes(y = predmod)) +
+ geom_line(aes(y = predmod), linewidth = 1,
+           show.legend = FALSE) +
  MetBrewer::scale_color_met_d(name = "Hiroshige") + 
  labs(color = "sex",
      x = "fixation time (in seconds)", 
-     y = "intention to buy") +
- theme(legend.position = "bottom")
+     y = "intention to buy")
 g2 <- ggplot(data = interaction,   
        mapping = aes(x = fixation, 
-                     color = factor(sex, levels = c(0,1),
-                             labels = c("men","women")), 
+                     color = sex, 
                      y = intention)) +
  geom_point() +
- geom_smooth(formula = y ~ x, se = FALSE, method = "lm") +
+ geom_smooth(formula = y ~ x, se = FALSE, method = "lm", linewidth = 1,
+             show.legend = FALSE) +
  MetBrewer::scale_color_met_d(name = "Hiroshige") + 
  labs(color = "sex",
      x = "fixation time (in seconds)", 
-     y = "intention to buy") +
- theme(legend.position = "bottom")
-g1 + g2 + plot_layout(guides = 'collect') & theme(legend.position = "bottom") 
+     y = "intention to buy")
+g1 + g2 + plot_layout(guides = 'collect') & theme(legend.position = "bottom")
 ```
 
 In order to add a different slope for men and women, we can create a new variable equal to the product $\texttt{fixation}\times\texttt{sex}$  and add it to the model,
@@ -1442,10 +1436,10 @@ Depending on the value of the binary variable \texttt{sex}, we get
 \end{align*} 
 The interpretation of the coefficients in the model is as usual with the treatment contrast parametrization:
 
-- $\beta_0$ is the average buying intention when the fixation time is zero for men
-- $\beta_1$ is the unit increase per second of fixation for men
-- $\beta_2$ is the difference in intercept for women vs men
-- $\beta_3$ is the difference in slope for women vs men
+- $\beta_0$ is the average buying intention when the fixation time is zero for men,
+- $\beta_1$ is the difference in intercept for women vs men,
+- $\beta_2$ is the unit increase per second of fixation for men,
+- $\beta_3$ is the difference in slope for women vs men.
 
 Testing whether the interaction is significant boils down to using the test $\mathscr{H}_0: \beta_3=0$.
 
@@ -1474,7 +1468,7 @@ In the model with buying \texttt{intention} as a function of \texttt{sex} and \t
   \beta_0, &\texttt{sex}=0;                 
 \end{cases}
 \end{align*}  
-this implies that intention to buy is constant for me, regardless of the fixation time. As the choice of baseline is arbitrary, but changing the dummy \texttt{sex} (\texttt{0} for women, \texttt{1} for men), would yield a different model and so potentially different inferences, we never consider removal of the main effect term that is involved in an interaction. The **marginality principle** states that all lower interaction terms should be included.
+implying that intention to buy is constant for men, regardless of the fixation time. As the choice of baseline is arbitrary, but changing the dummy \texttt{sex} (\texttt{0} for women, \texttt{1} for men), would yield a different model and so potentially different inferences, we never consider removal of the main effect term that is involved in an interaction. The **marginality principle** states that all lower interaction terms should be included.
 
 :::
 
@@ -1934,12 +1928,12 @@ One thus typically uses ordinary residuals $\boldsymbol{e}$ for plots of fitted 
 
 When we specify a model, the error term $\boldsymbol{\varepsilon}$ accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn't need statistic to begin with). Once we have fitted a model, we estimate the variance $\sigma^2$; one may then wonder which share of the total variance in the sample is explained by the model.
 
-The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, $\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. We can then compare the variance of the original data with that of the residuals from the model with covariate matrix $\mathbf{X}$, defined as $\mathsf{SS}_e =\sum_{i=1}^n e_i^2$ with $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j$.
+The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, $\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. We can then compare the variance of the original data with that of the residuals from the model with model matrix $\mathbf{X}$, defined as $\mathsf{SS}_e =\sum_{i=1}^n e_i^2$ with $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j$.
 We define the coefficient of determination, or squared multiple correlation coefficient of the model, $R^2$, as
 \begin{align*}
-R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = 1 - \frac{sum_{i=1}^n (y_i - \widehat{y}_i)^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
 \end{align*}
-An alternative decomposition shows that $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, i.e., the coefficient of determination can be interpreted as the square of [Pearson's linear correlation](moments) between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$.
+An alternative decomposition shows that $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, i.e., the coefficient of determination can be interpreted as the square of [Pearson's linear correlation](#def-correlation-Pearson) between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$.
 
 :::
 

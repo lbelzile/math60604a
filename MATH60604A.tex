@@ -334,11 +334,11 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{plain}
 \newtheorem{corollary}{Corollary}[chapter]
 \theoremstyle{remark}
@@ -775,6 +775,15 @@ provided the integral is finite, the variance is \begin{align*}
 variance, \(\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}\): it units are the
 same as those of \(Y\) and are thus more easily interpreted.
 
+\begin{example}[]\protect\hypertarget{exm-moments-dice}{}\label{exm-moments-dice}
+
+Consider a discrete random variable \(Y\) giving the sum of two fair
+dice throws. The expected value of \(g(Y)=Y^2\) is then \begin{align*}
+\mathsf{E}(Y^2) &= (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \\&\;\times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} \\& + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+\end{align*}
+
+\end{example}
+
 The notion of moments can be extended to higher dimensions. Consider a
 column vector of size \(n\) \(\boldsymbol{Y}.\) In the regression
 setting, the response \(\boldsymbol{Y}\) would usually comprise repeated
@@ -826,14 +835,68 @@ case of repeated measures), which is the object of
 
 \end{definition}
 
-\begin{example}[]\protect\hypertarget{exm-moments-dice}{}\label{exm-moments-dice}
+\begin{definition}[Pearson linear
+correlation]\protect\hypertarget{def-correlation-Pearson}{}\label{def-correlation-Pearson}
 
-Consider a discrete random variable \(Y\) giving the outcome of two fair
-dice throws. The expected value of \(g(Y)=Y^2\) is then \begin{align*}
-\mathsf{E}(Y^2) = (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+The linear correlation between random variables \(X_j\) and \(X_k\),
+denoted \(r_{j, k}\), measures the strength of the linear relationship
+between the two variables, i.e., it measures how close the observations
+are from a line. The sample correlation coefficient is \begin{align*}
+r_{j, k} &= \frac{\widehat{\mathsf{Co}}(X_j, X_k)}{\{\widehat{\mathsf{Va}}(X_j) \widehat{\mathsf{Va}}(X_k)\}^{1/2}}
+%\\&=\frac{\sum_{i=1}^n (x_{i, j}-\overline{x}_j)(x_{i, k} -\overline{x}_{k})}{\left\{\sum_{i=1}^n (x_{i, j}-\overline{x}_j)^2 \sum_{i=1}^n(x_{i, k} -\overline{x}_{k})^2\right\}^{1/2}}
 \end{align*}
 
-\end{example}
+Properties of the linear correlation coefficient \(r\) include:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  \(-1 \leq r \leq 1\);
+\item
+  \(r=1\) (\(r=-1\)) if and only if the \(n\) observations fall exactly
+  on a positively (negatively) sloped line. In other words, there exist
+  two constants \(a\) and \(b > 0\) \((b <0\)) such that \(y_i=a+b x_i\)
+  for any \(i\).
+\end{enumerate}
+
+More generally,
+
+\begin{itemize}
+\tightlist
+\item
+  The sign of the correlation coefficient determines the orientation of
+  the slope (positive of negative).
+\item
+  The closer the correlation is from 1 (in absolute value), the more the
+  points tend to be aligned.
+\item
+  A correlation of zero does not imply that there is no relationship
+  between the two variables. It only means that there is no
+  \emph{linear} dependence between the two variables.
+\end{itemize}
+
+\end{definition}
+
+Figure~\ref{fig-datasaurus} clearly illustrates the last point: these
+datasets have near zero linear correlation, and thus the slope is close
+to flat, but they are not independent since dinosaurs or stars do not
+arise from independent observations.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-datasaurus-1.pdf}
+
+}
+
+\caption{\label{fig-datasaurus}Three datasets from the
+\texttt{datasauRus} dozen, each with a sample linear correlation of
+\(-0.06\) and descriptive statistics (mean, std. deviation, etc.) that
+are identical.}
+
+\end{figure}%
 
 \begin{definition}[Bias]\protect\hypertarget{def-bias}{}\label{def-bias}
 
@@ -1569,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, opacityback=0, colback=white, leftrule=.75mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, arc=.35mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, titlerule=0mm, opacitybacktitle=0.6, opacityback=0, bottomtitle=1mm, bottomrule=.15mm, colframe=quarto-callout-important-color-frame, toptitle=1mm, breakable, arc=.35mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -2217,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-caution-color-frame, opacityback=0, colback=white, leftrule=.75mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, coltitle=black, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, toprule=.15mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, arc=.35mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, colback=white, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, left=2mm, titlerule=0mm, opacitybacktitle=0.6, opacityback=0, bottomtitle=1mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, toptitle=1mm, breakable, arc=.35mm, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2762,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, opacityback=0, colback=white, leftrule=.75mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, arc=.35mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, titlerule=0mm, opacitybacktitle=0.6, opacityback=0, bottomtitle=1mm, bottomrule=.15mm, colframe=quarto-callout-important-color-frame, toptitle=1mm, breakable, arc=.35mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -5793,13 +5856,13 @@ usual with the treatment contrast parametrization:
 \tightlist
 \item
   \(\beta_0\) is the average buying intention when the fixation time is
-  zero for men
+  zero for men,
 \item
-  \(\beta_1\) is the unit increase per second of fixation for men
+  \(\beta_1\) is the difference in intercept for women vs men,
 \item
-  \(\beta_2\) is the difference in intercept for women vs men
+  \(\beta_2\) is the unit increase per second of fixation for men,
 \item
-  \(\beta_3\) is the difference in slope for women vs men
+  \(\beta_3\) is the difference in slope for women vs men.
 \end{itemize}
 
 Testing whether the interaction is significant boils down to using the
@@ -5837,7 +5900,7 @@ the main effect of \texttt{fixation} while keeping the interaction term
   \beta_0, &\texttt{sex}=0;                 
 \end{cases}
 \end{align*}\\
-this implies that intention to buy is constant for me, regardless of the
+implying that intention to buy is constant for men, regardless of the
 fixation time. As the choice of baseline is arbitrary, but changing the
 dummy \texttt{sex} (\texttt{0} for women, \texttt{1} for men), would
 yield a different model and so potentially different inferences, we
@@ -6532,17 +6595,18 @@ could come up with would involving every observation by the sample mean
 of the response and so this gives (up to scale) the variance of the
 response, \(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). We
 can then compare the variance of the original data with that of the
-residuals from the model with covariate matrix \(\mathbf{X}\), defined
-as \(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\) with
+residuals from the model with model matrix \(\mathbf{X}\), defined as
+\(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\) with
 \(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\).
 We define the coefficient of determination, or squared multiple
 correlation coefficient of the model, \(R^2\), as \begin{align*}
-R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = 1 - \frac{sum_{i=1}^n (y_i - \widehat{y}_i)^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
 \end{align*} An alternative decomposition shows that
 \(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\),
 i.e., the coefficient of determination can be interpreted as the square
-of \href{moments}{Pearson's linear correlation} between the response
-\(\boldsymbol{y}\) and the fitted values \(\widehat{\boldsymbol{y}}\).
+of \hyperref[def-correlation-Pearson]{Pearson's linear correlation}
+between the response \(\boldsymbol{y}\) and the fitted values
+\(\widehat{\boldsymbol{y}}\).
 
 \end{definition}
 

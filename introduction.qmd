@@ -122,6 +122,15 @@ The **standard deviation** is the square root of the variance, $\mathsf{sd}(Y)=\
 
 
 
+:::{#exm-moments-dice}
+
+Consider a discrete random variable $Y$ giving the sum of two fair dice throws. The expected value of $g(Y)=Y^2$ is then
+\begin{align*}
+\mathsf{E}(Y^2) &= (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \\&\;\times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} \\& + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+\end{align*}
+
+:::
+
 
 
 The notion of moments can be extended to higher dimensions.
@@ -172,15 +181,47 @@ correlated (or longitudinal) data is the need to account for within-group correl
 
 :::
 
-:::{#exm-moments-dice}
 
-Consider a discrete random variable $Y$ giving the outcome of two fair dice throws. The expected value of $g(Y)=Y^2$ is then
+:::{#def-correlation-Pearson}
+
+## Pearson linear correlation
+
+The linear correlation between random variables  $X_j$ and $X_k$, denoted $r_{j, k}$, measures the strength of the linear relationship between the two variables, i.e., it measures how close the observations are from a line. The sample correlation coefficient is
 \begin{align*}
-\mathsf{E}(Y^2) = (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+r_{j, k} &= \frac{\widehat{\mathsf{Co}}(X_j, X_k)}{\{\widehat{\mathsf{Va}}(X_j) \widehat{\mathsf{Va}}(X_k)\}^{1/2}}
+%\\&=\frac{\sum_{i=1}^n (x_{i, j}-\overline{x}_j)(x_{i, k} -\overline{x}_{k})}{\left\{\sum_{i=1}^n (x_{i, j}-\overline{x}_j)^2 \sum_{i=1}^n(x_{i, k} -\overline{x}_{k})^2\right\}^{1/2}}
 \end{align*}
+
+Properties of the linear correlation coefficient $r$ include:
+
+1) $-1 \leq r \leq 1$;
+2) $r=1$ ($r=-1$)  if and only if the $n$ observations fall exactly on a positively (negatively) sloped line. In other words, there exist two constants $a$ and $b > 0$ $(b <0$) such that $y_i=a+b x_i$ for any $i$.
+
+More generally,
+
+- The sign of the correlation coefficient determines the orientation of the slope (positive of negative).
+- The closer the correlation is from 1 (in absolute value), the more the points tend to be aligned.
+- A correlation of zero does not imply that there is no relationship between the two variables.  It only means that there is no *linear* dependence between the two variables.
 
 :::
 
+@fig-datasaurus clearly illustrates the last point: these datasets have near zero linear correlation, and thus the slope is close to flat, but they are not independent since dinosaurs or stars do not arise from independent observations.
+
+
+```{r}
+#| label: fig-datasaurus
+#| eval: true
+#| echo: false
+#| fig-cap: "Three datasets from the  `datasauRus` dozen, each with a sample linear correlation of $-0.06$ and descriptive statistics (mean, std. deviation, etc.) that are identical."
+ggplot(data = datasauRus::datasaurus_dozen |>
+    dplyr::filter(dataset %in% c("dino","star", "slant_up")),
+    mapping = aes(x = x, y = y))+
+  geom_point() +
+  geom_smooth(method = lm, formula = y ~ x, se = FALSE) +
+  theme_void() +
+  theme(legend.position = "none")+
+  facet_wrap(~dataset, ncol = 3)
+```
 
 ::: {#def-bias}
 
