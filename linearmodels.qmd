@@ -1407,9 +1407,9 @@ Depending on the value of the binary variable \texttt{sex}, we get
 The interpretation of the coefficients in the model is as usual with the treatment contrast parametrization:
 
 - $\beta_0$ is the average buying intention when the fixation time is zero for men,
-- $\beta_1$ is the difference in intercept for women vs men,
+- $\beta_1$ is the difference in intercept for women vs men (mean difference women vs men when the fixation time in zero),
 - $\beta_2$ is the unit increase per second of fixation for men,
-- $\beta_3$ is the difference in slope for women vs men.
+- $\beta_3$ is the difference in slope for women vs men (mean difference for women vs men of an increase of one additional second of fixation).
 
 Testing whether the interaction is significant boils down to using the test $\mathscr{H}_0: \beta_3=0$.
 

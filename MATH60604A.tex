@@ -334,9 +334,9 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{plain}
@@ -381,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-09-25}
+\date{2024-09-29}
 
 \begin{document}
 
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, left=2mm, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, breakable, opacitybacktitle=0.6, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toprule=.15mm, colback=white, leftrule=.75mm, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, breakable, bottomrule=.15mm, leftrule=.75mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, coltitle=black, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, arc=.35mm, colback=white]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, left=2mm, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, toptitle=1mm, breakable, opacitybacktitle=0.6, titlerule=0mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, toprule=.15mm, colback=white, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, rightrule=.15mm, arc=.35mm, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, breakable, bottomrule=.15mm, leftrule=.75mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, coltitle=black, opacityback=0, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacitybacktitle=0.6, arc=.35mm, colback=white]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, left=2mm, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, breakable, opacitybacktitle=0.6, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toprule=.15mm, colback=white, leftrule=.75mm, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, breakable, bottomrule=.15mm, leftrule=.75mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, coltitle=black, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, arc=.35mm, colback=white]
 
 \textbf{Learning objectives}:
 
@@ -5832,11 +5832,14 @@ usual with the treatment contrast parametrization:
   \(\beta_0\) is the average buying intention when the fixation time is
   zero for men,
 \item
-  \(\beta_1\) is the difference in intercept for women vs men,
+  \(\beta_1\) is the difference in intercept for women vs men (mean
+  difference women vs men when the fixation time in zero),
 \item
   \(\beta_2\) is the unit increase per second of fixation for men,
 \item
-  \(\beta_3\) is the difference in slope for women vs men.
+  \(\beta_3\) is the difference in slope for women vs men (mean
+  difference for women vs men of an increase of one additional second of
+  fixation).
 \end{itemize}
 
 Testing whether the interaction is significant boils down to using the
