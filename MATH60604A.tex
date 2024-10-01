@@ -338,9 +338,9 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[chapter]
 \theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
-\theoremstyle{plain}
 \newtheorem{corollary}{Corollary}[chapter]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -381,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-09-29}
+\date{2024-10-01}
 
 \begin{document}
 
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, breakable, bottomrule=.15mm, leftrule=.75mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, coltitle=black, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, arc=.35mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, coltitle=black, colframe=quarto-callout-important-color-frame, opacityback=0, colback=white, titlerule=0mm, bottomrule=.15mm, rightrule=.15mm, breakable, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, toprule=.15mm, toptitle=1mm, arc=.35mm]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, breakable, bottomrule=.15mm, leftrule=.75mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, coltitle=black, opacityback=0, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacitybacktitle=0.6, arc=.35mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, coltitle=black, colframe=quarto-callout-caution-color-frame, opacityback=0, colback=white, titlerule=0mm, bottomrule=.15mm, rightrule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomtitle=1mm, toprule=.15mm, toptitle=1mm, arc=.35mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2471,7 +2471,7 @@ chi-square test\footnote{If you have taken advanced modelling courses,
   \texttt{sex} and \texttt{action} as covariates; the null hypothesis
   corresponding to lack of interaction term between the two.}, which
 compares the overall proportions of promoted to that in for each
-subgroup. The sample proportion for male is 32/42 = \textasciitilde76\%,
+subgroup. The sample proportion for male is 32/44 = \textasciitilde73\%,
 compared to 19/49 or \textasciitilde49\% for female. While it seems that
 this difference of 16\% is large, it could be spurious: the standard
 error for the sample proportions is roughly 3.2\% for male and 3.4\% for
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, breakable, bottomrule=.15mm, leftrule=.75mm, titlerule=0mm, rightrule=.15mm, toprule=.15mm, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, coltitle=black, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, arc=.35mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, coltitle=black, colframe=quarto-callout-important-color-frame, opacityback=0, colback=white, titlerule=0mm, bottomrule=.15mm, rightrule=.15mm, breakable, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, toprule=.15mm, toptitle=1mm, arc=.35mm]
 
 \textbf{Learning objectives}:
 
@@ -2975,8 +2975,8 @@ log likelihood
 
 \end{definition}
 
-If we suppose that our model is correct, than we expect to observe
-whatever was realized, so we find the parameter vector that makes the
+If our model is correct, we expect to observe whatever was realized. In
+that sense, it makes sense to find the parameter vector that makes the
 sample the most likely to have been generated by our model. Several
 properties of maximum likelihood estimator makes it appealing for
 inference. The maximum likelihood estimator is efficient, meaning it has
@@ -4687,7 +4687,7 @@ The interpretation of the coefficients is as follows:
 \item
   everything else being equal (same field, academic rank, and number of
   years of service), the estimated salary difference between a woman and
-  is estimated at \(\widehat{\beta}_1=-4771\) dollars.
+  a man is estimated at \(\widehat{\beta}_1=-4771\) dollars.
 \item
   \emph{ceteris paribus}, the salary difference between a professor
   working in a theoretical field and one working in an applied field is
@@ -5124,7 +5124,7 @@ It is important to distinguish the equation of the stochastic model,
 expressed in terms of random variables
 \(\mathsf{E}(Y_i \mid \boldsymbol{x}_i) = \mathbf{x}_i\boldsymbol{\beta} + \varepsilon_i\)
 and the equation of the fitted values or predictions, \begin{align*}
-\widehat{\mathsf{E}(Y_i \mid \mathbf{x}_i)} \mathbf{x}_i\widehat{\boldsymbol{\beta}}
+\widehat{\mathsf{E}(Y_i \mid \mathbf{x}_i)} =\mathbf{x}_i\widehat{\boldsymbol{\beta}}
 \end{align*} The prediction does not involve unknown error terms.
 
 \label{rem-notation}
@@ -7201,7 +7201,7 @@ Definition 1.4.4).
 
 For \(y_1, \ldots, y_n\) and constant time lags \(h=0, 1, \ldots\)
 units, the autocorrelation at lag \(h\) is \begin{align*}
-r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y})
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
 \end{align*}
 
 If the series is correlated, the sample autocorrelation will likely fall

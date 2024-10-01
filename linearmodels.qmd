@@ -555,7 +555,7 @@ knitr::kable(t(coefs_college_lm), caption = "Estimated coefficients of the linea
 The interpretation of the coefficients is as follows:
 
 - The estimated intercept is $\widehat{\beta}_0=`r coefs_college_lm[1]`$ dollars; it corresponds to the mean salary of men assistant professors who just started the job and works in an applied domain.
-- everything else being equal (same field, academic rank, and number of years of service), the estimated salary difference between a woman and is estimated at $\widehat{\beta}_1=`r coefs_college_lm[2]`$ dollars.
+- everything else being equal (same field, academic rank, and number of years of service), the estimated salary difference between a woman and a man is estimated at $\widehat{\beta}_1=`r coefs_college_lm[2]`$ dollars.
 - *ceteris paribus*, the salary difference between a professor working in a theoretical field and one working in an applied field is $\beta_2$ dollars: our estimate of this difference is $`r coefs_college_lm[3]`$ dollars, meaning applied pays more than theoretical.
 - *ceteris paribus*, the estimated mean salary difference between associate and assistant professors is $\widehat{\beta}_3=`r coefs_college_lm[4]`$ dollars.
 - *ceteris paribus*, the estimated mean salary difference between full and assistant professors is $\widehat{\beta}_4=`r coefs_college_lm[5]`$ dollars.
@@ -913,7 +913,7 @@ knitr::kable(tab2,
 
 It is important to distinguish the equation of the stochastic model, expressed in terms of random variables $\mathsf{E}(Y_i \mid \boldsymbol{x}_i) = \mathbf{x}_i\boldsymbol{\beta} + \varepsilon_i$ and the equation of the fitted values or predictions,
 \begin{align*}
-\widehat{\mathsf{E}(Y_i \mid \mathbf{x}_i)} \mathbf{x}_i\widehat{\boldsymbol{\beta}}
+\widehat{\mathsf{E}(Y_i \mid \mathbf{x}_i)} =\mathbf{x}_i\widehat{\boldsymbol{\beta}}
 \end{align*}
 The prediction does not involve unknown error terms.
 :::
@@ -2297,7 +2297,7 @@ However, lagged residuals plots only show dependence at lag one between observat
 
 For $y_1, \ldots, y_n$ and constant time lags $h=0, 1, \ldots$ units, the autocorrelation at lag $h$ is
 \begin{align*}
-r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y})
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
 \end{align*}
 
 If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in @fig-correlogram. Presence of autocorrelation requires modelling the correlation  between observations explicitly using dedicated tools from the time series literature. We will however examine $\mathsf{AR}(1)$ models as part of the chapter on longitudinal data. See [Forecasting: Principles and Practice, section 5.3](https://otexts.com/fpp2/regression-evaluation.html) for more details.

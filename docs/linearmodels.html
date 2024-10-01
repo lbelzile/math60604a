@@ -748,7 +748,7 @@ Table&nbsp;4.2: Parametrization of dummies for the sum-to-zero constraints for a
 <p>The interpretation of the coefficients is as follows:</p>
 <ul>
 <li>The estimated intercept is <span class="math inline">\(\widehat{\beta}_0=86596\)</span> dollars; it corresponds to the mean salary of men assistant professors who just started the job and works in an applied domain.</li>
-<li>everything else being equal (same field, academic rank, and number of years of service), the estimated salary difference between a woman and is estimated at <span class="math inline">\(\widehat{\beta}_1=-4771\)</span> dollars.</li>
+<li>everything else being equal (same field, academic rank, and number of years of service), the estimated salary difference between a woman and a man is estimated at <span class="math inline">\(\widehat{\beta}_1=-4771\)</span> dollars.</li>
 <li><em>ceteris paribus</em>, the salary difference between a professor working in a theoretical field and one working in an applied field is <span class="math inline">\(\beta_2\)</span> dollars: our estimate of this difference is <span class="math inline">\(-13473\)</span> dollars, meaning applied pays more than theoretical.</li>
 <li><em>ceteris paribus</em>, the estimated mean salary difference between associate and assistant professors is <span class="math inline">\(\widehat{\beta}_3=14560\)</span> dollars.</li>
 <li><em>ceteris paribus</em>, the estimated mean salary difference between full and assistant professors is <span class="math inline">\(\widehat{\beta}_4=49160\)</span> dollars.</li>
@@ -1020,7 +1020,7 @@ Table&nbsp;4.3: Predictions with prediction intervals (left) and confidence inte
 </div>
 <div id="rem-notation" class="proof remark">
 <p><span class="proof-title"><em>Remark 4.4</em> (Notation). </span>It is important to distinguish the equation of the stochastic model, expressed in terms of random variables <span class="math inline">\(\mathsf{E}(Y_i \mid \boldsymbol{x}_i) = \mathbf{x}_i\boldsymbol{\beta} + \varepsilon_i\)</span> and the equation of the fitted values or predictions, <span class="math display">\[\begin{align*}
-\widehat{\mathsf{E}(Y_i \mid \mathbf{x}_i)} \mathbf{x}_i\widehat{\boldsymbol{\beta}}
+\widehat{\mathsf{E}(Y_i \mid \mathbf{x}_i)} =\mathbf{x}_i\widehat{\boldsymbol{\beta}}
 \end{align*}\]</span> The prediction does not involve unknown error terms.</p>
 </div>
 </section>
@@ -2330,7 +2330,7 @@ Figure&nbsp;4.17: Lagged residual plots: there is no evidence against independen
 </div>
 <p>However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations <span class="math inline">\(h\)</span> units apart as a function of the lag <span class="math inline">\(h\)</span> <span class="citation" data-cites="Brockwell.Davis:2016">(<a href="references.html#ref-Brockwell.Davis:2016" role="doc-biblioref">Brockwell and Davis 2016</a>, Definition 1.4.4)</span>.</p>
 <p>For <span class="math inline">\(y_1, \ldots, y_n\)</span> and constant time lags <span class="math inline">\(h=0, 1, \ldots\)</span> units, the autocorrelation at lag <span class="math inline">\(h\)</span> is <span class="math display">\[\begin{align*}
-r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h}) - \overline{y})
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
 \end{align*}\]</span></p>
 <p>If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in <a href="#fig-correlogram" class="quarto-xref">Figure&nbsp;<span>4.18</span></a>. Presence of autocorrelation requires modelling the correlation between observations explicitly using dedicated tools from the time series literature. We will however examine <span class="math inline">\(\mathsf{AR}(1)\)</span> models as part of the chapter on longitudinal data. See <a href="https://otexts.com/fpp2/regression-evaluation.html">Forecasting: Principles and Practice, section 5.3</a> for more details.</p>
 <p>When observations are positively correlated, the estimated standard errors reported by the software are too small. This means we are overconfident and will reject the null hypothesis more often then we should if the null is true (inflated Type I error, or false positive).</p>
