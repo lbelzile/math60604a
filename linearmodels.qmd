@@ -2628,8 +2628,6 @@ Based on the plots of @fig-diagplotscollege, we find that there is residual hete
 ### Transformation of the response {#sec-transfo}
 
 If the response is strictly positive, there are some options that can alleviate lack of additivity, more specifically multiplicative mean-variance relationships.If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.
-Theory sometimes dictates a multiplicative model: for example, the Cobb--Douglas production function in economics is
-$P=\alpha L^{\beta_1}C^{\beta_2}$, where $P$ stands for production, $L$ for labor and $C$ for capital; all inputs are positive, so taking a log-transform yields a model that is linear in $\beta$, with $\beta_0=\ln(\alpha)$.
 
 
 We can rewrite the log-linear model in the original response scale as
@@ -2723,9 +2721,9 @@ The plot of fitted values against residuals shows that the model is not additive
 
 
 
-One could consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. AN analysis of residuals in the top four plots of @fig-poisonplots show evidence of heteroscedasticity as a function of either poison and treatment. This is evident by looking at the plot of ordinary residuals, which displays increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. 
+One could consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. An analysis of residuals in the top four plots of @fig-poisonplots show evidence of heteroscedasticity as a function of either poison and treatment. This is evident by looking at the plot of ordinary residuals, which displays increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. 
 
-The bottom left panel of @fig-poisonplots shows the profile log likelihood for the Box--Cox transform parameter, suggesting a value of $\lambda=-1$ would be within the 95\% confidence interval. This choice has the benefit of being interpretable, as the reciprocal response $Y^{-1}$ corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plot at the bottom right of @fig-poisonplots also indicate that the model for the reciprocal has no residual structure and the variance appears constant.  After fitting the same additive model with main effect only to the reciprocal survival time, there is no more evidence of residual structure and unequal variance.
+The bottom left panel of @fig-poisonplots shows the profile log likelihood for the Box--Cox transform parameter, suggesting a value of $\lambda=-1$ would be within the 95\% confidence interval. This choice has the benefit of being interpretable, as the reciprocal response $Y^{-1}$ corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plot at the bottom right of @fig-poisonplots also indicate that the model for the reciprocal has no residual structure and the variance appears constant. 
 
 ```{r}
 #| label: fig-poisonplots

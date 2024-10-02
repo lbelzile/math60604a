@@ -381,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-10-01}
+\date{2024-10-02}
 
 \begin{document}
 
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, coltitle=black, colframe=quarto-callout-important-color-frame, opacityback=0, colback=white, titlerule=0mm, bottomrule=.15mm, rightrule=.15mm, breakable, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, toprule=.15mm, toptitle=1mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-important-color-frame, arc=.35mm, colback=white, bottomrule=.15mm, rightrule=.15mm, coltitle=black, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, coltitle=black, colframe=quarto-callout-caution-color-frame, opacityback=0, colback=white, titlerule=0mm, bottomrule=.15mm, rightrule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomtitle=1mm, toprule=.15mm, toptitle=1mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, arc=.35mm, colback=white, bottomrule=.15mm, rightrule=.15mm, coltitle=black, left=2mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, breakable]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, coltitle=black, colframe=quarto-callout-important-color-frame, opacityback=0, colback=white, titlerule=0mm, bottomrule=.15mm, rightrule=.15mm, breakable, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, toprule=.15mm, toptitle=1mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-important-color-frame, arc=.35mm, colback=white, bottomrule=.15mm, rightrule=.15mm, coltitle=black, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable]
 
 \textbf{Learning objectives}:
 
@@ -7561,12 +7561,7 @@ If the response is strictly positive, there are some options that can
 alleviate lack of additivity, more specifically multiplicative
 mean-variance relationships.If the data is right-skewed and the response
 is strictly positive, a log-linear model may be more adequate and the
-parameters can be interpreted. Theory sometimes dictates a
-multiplicative model: for example, the Cobb--Douglas production function
-in economics is \(P=\alpha L^{\beta_1}C^{\beta_2}\), where \(P\) stands
-for production, \(L\) for labor and \(C\) for capital; all inputs are
-positive, so taking a log-transform yields a model that is linear in
-\(\beta\), with \(\beta_0=\ln(\alpha)\).
+parameters can be interpreted.
 
 We can rewrite the log-linear model in the original response scale as
 \begin{align*}
@@ -7701,7 +7696,7 @@ constructed variables further point towards non-additivity
 model fit is poor and any conclusion drawn from it dubious.
 
 One could consider using a Box--Cox to find a suitable transformation of
-the residuals so as to improve normality. AN analysis of residuals in
+the residuals so as to improve normality. An analysis of residuals in
 the top four plots of Figure~\ref{fig-poisonplots} show evidence of
 heteroscedasticity as a function of either poison and treatment. This is
 evident by looking at the plot of ordinary residuals, which displays
@@ -7717,9 +7712,7 @@ response \(Y^{-1}\) corresponds to the speed of action of the poison
 depending on both poison type and treatment. The diagnostics plot at the
 bottom right of Figure~\ref{fig-poisonplots} also indicate that the
 model for the reciprocal has no residual structure and the variance
-appears constant. After fitting the same additive model with main effect
-only to the reciprocal survival time, there is no more evidence of
-residual structure and unequal variance.
+appears constant.
 
 \begin{figure}[ht!]
 
