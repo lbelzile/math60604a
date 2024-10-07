@@ -1329,9 +1329,6 @@ dust(college_lm) %>%
 The additive mean model with linear terms (including categorical variables) specifies that the marginal effect of one variable is independent of others. We may wish to relax this  assumption by including **interaction terms**. 
 
 
-Combinations combinations of covariates may affect the response differently than  when taking in isolation.
-
-
 :::{#def-interaction}
 
 ## Interaction
@@ -1417,8 +1414,11 @@ Testing whether the interaction is significant boils down to using the test $\ma
 #| eval: true
 #| echo: true
 data(interaction, package = "hecstatmod")
+# To specify an interaction, use the symbol :
 mod <- lm(intention ~ fixation + sex + sex:fixation, 
           data = interaction)
+# Another option is the star *,
+# So A*B is a shortcut that expands to A + B + A:B
 summary(mod)$coefficients
 ```
 The model with the interaction is significantly better, meaning that the effect of fixation time on intention to buy varies according to sex.
@@ -1442,7 +1442,7 @@ implying that intention to buy is constant for men, regardless of the fixation t
 
 :::
 
-
+<!--
 
 :::{#exm-visualising-interaction}
 
@@ -1559,6 +1559,9 @@ ggplot(data = insurance, aes(x = bmi, y = res, col = smobese)) +
 ```
 
 :::
+
+
+-->
 
 The concept of interactions readily extends to categorical variables with $k$ levels/categories. In this case, we need to use the global $F$-test to check if the interaction is statistically significant.
 
