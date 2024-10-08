@@ -1574,7 +1574,7 @@ An analysis of variance is a linear model in which the mean is a function of cat
 
 :::
 
-Consider a two-way analysis of variance model. This is a linear model with two factors, $A$ and $B$, with respectively $n_a$ and $n_b$ levels. The response $Y_{ijk}$ of the $k$th measurement in group $(a_i, b_j)$ is
+Consider a two-way analysis of variance model. This is a linear model with two factors, $A$ and $B$, with respectively $n_a$ and $n_b$ levels. The model with interaction can be written as 
 $$
 \underset{\text{response}\vphantom{b}}{Y_{ijk}} = \underset{\text{subgroup mean}}{\mu_{ij}} + \underset{\text{error term}}{\varepsilon_{ijk}}
 $$ {#eq-twowayasoneway} 
@@ -1866,7 +1866,7 @@ broom::tidy(car::Anova(mod, type = 2)) |>
 
 If we consider @tbl-anova-LKUK24, we find that there is no three-way interaction and, omitting the latter and focusing on lower-level, a single two-way interaction between political ideology and the race of Chef Dax. We cannot interpret the $p$-value for the main effect of `brandaction`, but we could look at the marginal means.
 
-Based on the data, we will collapse data to a one-way ANOVA comparing the three levels of `brandaction` and a 2 by 2 two-way ANOVA for the other two factors. The results are obtained by averaging over the missing factor, but estimating the standard deviation $\sigma^2$ from the full model.
+Based on the data, we will collapse data to a one-way ANOVA comparing the three levels of `brandaction` and a 2 by 2 two-way ANOVA for the other two factors. The results are obtained by averaging over the missing factor, but estimating the standard deviation $\sigma$ from the full model.
 
 We are interested in comparing the perception between the race of Chef Dax (black or not, as Southern Soul food cooking is more likely to be associated with cultural appropriation if Chef Dax is not black. We proceed with `emmeans` by computing the marginal means separately for each of the four subcategories, but compare the race of Chef Dax separately for liberals and conservatives due to the presence of the interaction.
 
@@ -1888,7 +1888,7 @@ emmeans(mod,
 ```
 We see that the liberals are much more likely to view Chef Dax cookbook as an instance of cultural appropriation if he is not black; there is limited evidence of any difference between conservatives and liberal when Chef Dax is black. Both differences are statistically significative, but the differences (and thus evidence of an effect) is much stronger for left-leaning respondents.
 
-We can look next at the brand action: we expect participants will view peeking less favorably than if Chef Dax asked for permission to publish the recipes. It's tricky to know the effect of the control, as we are not bringing the point to the attention of participants in this instance.
+We can look next at the `brandaction`: we expect participants will view peeking less favorably than if Chef Dax asked for permission to publish the recipes. It's tricky to know the effect of the control, as we are not bringing the point to the attention of participants in this instance.
 
 ```{r}
 #| eval: true
@@ -2018,9 +2018,9 @@ e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 \end{align*}
 The sum of the ordinary residuals is always zero by construction if the model includes an intercept, meaning $\overline{e} = 0$.
 
-Not all observations contribute equally to the adjustment of the fitted hyperplane. The geometry of least squares shows that the residuals are orthogonal to the fitted values, and $\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y}$, where $\mathbf{H}_{\mathbf{X}}=\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$ is an $n \times n$ projection matrix that spans the $p$-dimensional linear combination of the columns of $\mathbf{X}$, $\mathscr{S}(\mathbf{X})$. If $\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n$, it follows that $\mathsf{Va}(\boldsymbol{e})=\sigma^2(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})$ because $(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})$ is a projection matrix, therefore idempotent and symmetric. Because the matrix has rank $n-p$, the ordinary residuals cannot be independent from one another.
+Not all observations contribute equally to the adjustment of the fitted hyperplane. The geometry of least squares shows that the residuals are orthogonal to the fitted values, and $\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y}$, where $\mathbf{H}_{\mathbf{X}}=\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$ is an $n \times n$ projection matrix that spans the $(p+1)$-dimensional subspace consisting of all linear combination of the columns of $\mathbf{X}$, $\mathscr{S}(\mathbf{X})$. If $\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n$, it follows that $\mathsf{Va}(\boldsymbol{e})=\sigma^2(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})$ because $(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})$ is a projection matrix, therefore idempotent and symmetric. Because the matrix has rank $n-p-1$, the ordinary residuals cannot be independent from one another.
 
-If the errors are independent and homoscedastic, the ordinary residual $e_i$ has variance $\sigma^2(1-h_{i})$, where the leverage term $h_i =(\mathbf{H}_{\mathbf{X}})_{ii} = \mathbf{x}_i (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}_i$ is the $i$th diagonal entry of the projection matrix $(\mathbf{H}_{\mathbf{X}})$ and $\mathbf{x}_i$ is the $i$th row of the model matrix corresponding to observation $i$.
+If the errors are independent and homoscedastic, the ordinary residual $e_i$ has variance $\sigma^2(1-h_{i})$, where the leverage term $h_i =(\mathbf{H}_{\mathbf{X}})_{ii} = \mathbf{x}_i (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}_i$ is the $i$th diagonal entry of the projection matrix $\mathbf{H}_{\mathbf{X}}$ and $\mathbf{x}_i$ is the $i$th row of the model matrix corresponding to observation $i$.
 
 We thus conclude that ordinary residuals do not all have the same standard deviation and they are not independent. This is problematic, as we cannot make meaningful comparisons: points with low leverage are bound to deviate more from the fitted model than others. To palliate to this, we can standardize the residuals so each has the same variance under the null of independent homoscedastic errors --- the leverage terms $h_i$ are readily calculated from the model matrix $\mathbf{X}$.
 The only remaining question is how to estimate the variance. If we use the $i$th observation to estimate both the residual and the variance, we introduce additional dependence. A better way is remove  the $i$th observation and refit the model with the $n-1$ remaining observations to get of $s^2_{(-i)}$ (there are tricks and closed-form expressions for these, so one doesn't need to fit $n$ different linear models). The jacknife studentized residual $r_i = e_i/\{s_{(-i)}(1-h_i)\}$, also termed externally studentized residuals, are not independent, but they are identically distributed and follow a Student distribution with $n-p-2$ degrees of freedom.
@@ -2029,8 +2029,6 @@ These can be obtained in **R** with the command `rstudent`.
 When to use which residuals? By construction, the vector of ordinary residuals $\boldsymbol{e}$ is orthogonal to the fitted values $\widehat{\boldsymbol{y}}$ and also to each column of the model matrix $\mathbf{X}$: this means a simple linear regression of $\boldsymbol{e}$ with any of these as covariate gives zero intercept and zero slope. However, residual patterns due to forgotten interactions, nonlinear terms, etc. could be picked up from pair plots of ordinary residuals against the explanatories.
 
 While the jackknife studentized residuals $r_i$ are not orthogonal, they are not very different. Use jackknife residuals $\boldsymbol{r}$ to check for equality of variance and distributional assumptions (e.g., using quantile-quantile plots).
-
-One thus typically uses ordinary residuals $\boldsymbol{e}$ for plots of fitted values/explanatories against residuals and otherwise jackknife studentized residuals for any other graphical diagnostic plot.
 
 
 :::{#def-r2}

@@ -333,14 +333,14 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{plain}
-\newtheorem{corollary}{Corollary}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollary}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -381,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-10-02}
+\date{2024-10-08}
 
 \begin{document}
 
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-important-color-frame, arc=.35mm, colback=white, bottomrule=.15mm, rightrule=.15mm, coltitle=black, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colframe=quarto-callout-important-color-frame, arc=.35mm, left=2mm, bottomtitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, colback=white, breakable]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, arc=.35mm, colback=white, bottomrule=.15mm, rightrule=.15mm, coltitle=black, left=2mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, breakable]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, colframe=quarto-callout-caution-color-frame, arc=.35mm, left=2mm, bottomtitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, colback=white, breakable]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-important-color-frame, arc=.35mm, colback=white, bottomrule=.15mm, rightrule=.15mm, coltitle=black, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colframe=quarto-callout-important-color-frame, arc=.35mm, left=2mm, bottomtitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, colback=white, breakable]
 
 \textbf{Learning objectives}:
 
@@ -5764,9 +5764,6 @@ variables) specifies that the marginal effect of one variable is
 independent of others. We may wish to relax this assumption by including
 \textbf{interaction terms}.
 
-Combinations combinations of covariates may affect the response
-differently than when taking in isolation.
-
 \begin{definition}[Interaction]\protect\hypertarget{def-interaction}{}\label{def-interaction}
 
 An interaction occurs if some explanatory variables, when coupled
@@ -5848,8 +5845,11 @@ test \(\mathscr{H}_0: \beta_3=0\).
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{data}\NormalTok{(interaction, }\AttributeTok{package =} \StringTok{"hecstatmod"}\NormalTok{)}
+\CommentTok{\# To specify an interaction, use the symbol :}
 \NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(intention }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fixation }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ sex}\SpecialCharTok{:}\NormalTok{fixation, }
           \AttributeTok{data =}\NormalTok{ interaction)}
+\CommentTok{\# Another option is the star *,}
+\CommentTok{\# So A*B is a shortcut that expands to A + B + A:B}
 \FunctionTok{summary}\NormalTok{(mod)}\SpecialCharTok{$}\NormalTok{coefficients}
 \CommentTok{\#\textgreater{}              Estimate Std. Error t value Pr(\textgreater{}|t|)}
 \CommentTok{\#\textgreater{} (Intercept)     2.741      0.282    9.73 1.02e{-}16}
@@ -5889,209 +5889,6 @@ interaction terms should be included.
 
 \end{refremark}
 
-\begin{example}[Insurance data and complex
-interactions]\protect\hypertarget{exm-visualising-interaction}{}\label{exm-visualising-interaction}
-
-A good example of interaction is provided by the \texttt{insurance}
-dataset. An exploratory data analysis suggested that premiums depended
-on age, smoker status and body mass index (BMI).
-Figure~\ref{fig-insuranceinter1} shows that the insurance premium
-depends on smoking: smokers who have a BMI of 30 and above pay a hefty
-premium, but there is also seemingly a linear increase in the amount
-charged with BMI. We see no such behaviour for non-smokers.
-
-\begin{figure}[ht!]
-
-\centering{
-
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-insuranceinter1-1.pdf}
-
-}
-
-\caption{\label{fig-insuranceinter1}Graph of insurance charges against
-body mass index, colored by smoking status.}
-
-\end{figure}%
-
-From there, we could create an indicator variable
-\(\texttt{obese}=\mathsf{1}_{\texttt{bmi} \geq 30}\) and add an
-interaction term between smoker/obese (categorical) and age (continuous)
-in our mean model. We take non-smoker as baseline category. To make
-interpretation more meaningful, we rescale age so that
-\(\texttt{age}=0\) corresponds to 18 years old.
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.4868}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1184}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1447}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1447}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1053}}@{}}
-\caption{Table of regression coefficients for the insurance data with
-interaction terms between age, obesity and smoker
-status.}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-term
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-estimate
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-std. error
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Wald stat.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-p-value
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-term
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-estimate
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-std. error
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Wald stat.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-p-value
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-(Intercept) & 2668.7 & 362.7 & 7.36 & \textless{} 0.001 \\
-age & 265.9 & 15 & 17.7 & \textless{} 0.001 \\
-obesity {[}obese{]} & 115.3 & 510.3 & 0.23 & 0.82 \\
-smoker {[}yes{]} & 13526.2 & 803.1 & 16.84 & \textless{} 0.001 \\
-age * obesity {[}obese{]} & 1.4 & 20.1 & 0.07 & 0.94 \\
-age * smoker {[}yes{]} & -5.3 & 33.5 & -0.16 & 0.87 \\
-obesity {[}obese{]} * smoker {[}yes{]} & 19308.7 & 1110.5 & 17.39 &
-\textless{} 0.001 \\
-age * obesity {[}obese{]} * smoker {[}yes{]} & 19.1 & 44.8 & 0.43 &
-0.67 \\
-\end{longtable}
-
-The linear regression model has eight parameters, which could be mapped
-to four intercepts and four different slopes for \texttt{age}; however,
-the model is parametrized in terms of contrasts, which facilitates
-testing restrictions.
-
-\begin{align*}
-\texttt{charges} &= \beta_{0} + \beta_{1}\texttt{age} + \beta_{2}\texttt{obese} + \beta_{3}\texttt{smoker} +
-\beta_{4}\texttt{age} \cdot \texttt{obese} \\&\quad + \beta_{5}\texttt{age} \cdot \texttt{smoker} + \beta_{6}\texttt{obese} \cdot \texttt{smoker} + \beta_{7}\texttt{age} \cdot \texttt{obese} \cdot \texttt{smoker} + \varepsilon
-\end{align*}
-
-Because of the three-way interaction, it is not possible to recover
-individual parameters by changing the value of the corresponding
-covariate and keeping everything else constant: changing the smoker
-status likely impacts multiple regressors simultaneously. To retrieve
-the interpretation of the different coefficients, we will need to change
-one parameter at the time, write the mean equation and then isolate the
-coefficients. Throughout, \(\texttt{obese}\) is a dummy variable equal
-to one if the person has a body mass index greater than 30 and likewise
-\(\texttt{smoker}\) if the person is a smoker.
-
-\begin{align*}
-\texttt{charges}  =
-\begin{cases}
-\beta_{0} + \beta_{1}\texttt{age}  & (\mathrm{g}_1)\, \texttt{non-obese}, \texttt{non-smoker} \\
-(\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{4})\texttt{age},  & (\mathrm{g}_2)\,  \texttt{obese}, \texttt{non-smoker} \\
-(\beta_{0} + \beta_{3}) + (\beta_{1} + \beta_{5})\texttt{age},  & (\mathrm{g}_3)\,  \texttt{non-obese}, \texttt{smoker} \\
-(\beta_{0} + \beta_{2} + \beta_{3}+ \beta_{6}) + (\beta_{1} + \beta_{4} +\beta_{5} + \beta_7)\texttt{age},  & (\mathrm{g}_4)\,  \texttt{obese}, \texttt{smoker}
-\end{cases}
-\end{align*}
-
-\begin{itemize}
-\tightlist
-\item
-  The intercept \(\beta_0\) is the average at 18 years old of
-  non-smokers who are not obese.
-\item
-  The slope \(\beta_1\) is the average annual increase in charges for
-  non-smokers who are not obese.
-\item
-  The parameter \(\beta_2\) is a contrast, the difference between the
-  average charges of 18 years old non-smokers who are obese and those
-  who are not.
-\item
-  The parameter \(\beta_3\) is a contrast, the difference between the
-  average premium for non-obese 18 years old who smoke and those who
-  don't.
-\item
-  The parameter \(\beta_4\) is a contrast, the difference in average
-  annual increase for non-smokers between obese and non-obese adults.
-\item
-  The parameter \(\beta_5\) is a contrast, the difference in average
-  annual increase for non-obese between smoker and non-smoker adults.
-\end{itemize}
-
-The other two coefficients, \(\beta_6\) and \(\beta_7\) represent
-differences of average between groups
-\(\mathrm{g}_1 + \mathrm{g}_4 - \mathrm{g}_2 - \mathrm{g}_3\) for both
-intercepts and slopes.
-
-The only \(F\)-test that we should consider in the analysis of variance
-table is the test for the three-way interaction, which corresponds to
-\(\mathscr{H}_0: \beta_7=0\). The \(p\)-value against the two-sided
-alternative is \(0.6704\), suggesting no difference in slope. The reason
-why we do not consider the other tests is that they correspond to
-irrelevant hypotheses. For example, the test for the two-way interaction
-term \(\mathscr{H}_0: \beta_4=0\) associated to
-\(\texttt{age} \cdot \texttt{obese}\) would correspond to merging the
-intercepts of group \(\mathrm{g}_1\) and \(\mathrm{g}_2\). Changing the
-baseline category would imply that a different difference in intercept
-is forced to be zero.
-
-Sometimes, however, specific hypothesis could be of interest because of
-the problem setting. We could perform bespoke test to check here that
-\(\mathscr{H}_0: \beta_2=\beta_4=0\), which consists in merging the two
-non-smoker categories, or even
-\(\mathscr{H}_0: \beta_2=\beta_4= \beta_5=\beta_7=0\), which amounts to
-merging non-smokers and the imposing a common slope for
-\(\texttt{age}\). Such tests are not directly available in the output,
-but we can implement them manually by fitting two models and then
-plug-in in the values of residual sum of squares of both model in the
-formula of the \(F\) statistic. Using the \(F\) null distribution, we
-get a \(p\)-value of 0.965. This suggests both non-smoker groups are
-indistinguishable and likewise that there is no evidence that slopes for
-\(\texttt{age}\) are not equal.
-
-Most interactions include functions of categorical variables together
-with either other categorical variables (different intercepts /
-conditional means per subgroups) or else other. Keep in mind that the
-validity of our tests above depend on the model being correctly
-specified: there is however evidence of difference in heterogeneity
-between groups, with unexplained non-smoker records. Plotting the
-residuals from the model that includes four different intercepts and
-slopes for \(\texttt{age}\) for each combination of smoker/obesity
-status misses other features that one would capture in diagnostic plots.
-in particular, except for some notable outliers, there is evidence that
-the premiums of smokers also increase with body mass index; as evidenced
-by Figure~\ref{fig-resod}. If we include \texttt{bmi} as additional
-covariate in the model in addition of \texttt{obese}, the interpretation
-of changes in obesity will depend on the value of \texttt{bmi} and
-vice-versa.
-
-\begin{figure}[ht!]
-
-\centering{
-
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-resod-1.pdf}
-
-}
-
-\caption{\label{fig-resod}Residuals from the interaction model for
-\texttt{charges} with \texttt{age}, \texttt{smoker} and
-\texttt{obesity}. There is a notably outlier for a male smoker whose
-\texttt{bmi} is exactly 30 and other points above. There is indication
-of a linear trend for both smoker sub-groups as their body mass index
-increase, which was not apparent previously because of the effect of
-age.}
-
-\end{figure}%
-
-\end{example}
-
 The concept of interactions readily extends to categorical variables
 with \(k\) levels/categories. In this case, we need to use the global
 \(F\)-test to check if the interaction is statistically significant.
@@ -6108,8 +5905,7 @@ we can consider inclusion of their interactions.
 
 Consider a two-way analysis of variance model. This is a linear model
 with two factors, \(A\) and \(B\), with respectively \(n_a\) and \(n_b\)
-levels. The response \(Y_{ijk}\) of the \(k\)th measurement in group
-\((a_i, b_j)\) is
+levels. The model with interaction can be written as
 \begin{equation}\phantomsection\label{eq-twowayasoneway}{
 \underset{\text{response}\vphantom{b}}{Y_{ijk}} = \underset{\text{subgroup mean}}{\mu_{ij}} + \underset{\text{error term}}{\varepsilon_{ijk}}
 }\end{equation} where
@@ -6538,7 +6334,7 @@ effect of \texttt{brandaction}, but we could look at the marginal means.
 Based on the data, we will collapse data to a one-way ANOVA comparing
 the three levels of \texttt{brandaction} and a 2 by 2 two-way ANOVA for
 the other two factors. The results are obtained by averaging over the
-missing factor, but estimating the standard deviation \(\sigma^2\) from
+missing factor, but estimating the standard deviation \(\sigma\) from
 the full model.
 
 We are interested in comparing the perception between the race of Chef
@@ -6583,11 +6379,11 @@ when Chef Dax is black. Both differences are statistically
 significative, but the differences (and thus evidence of an effect) is
 much stronger for left-leaning respondents.
 
-We can look next at the brand action: we expect participants will view
-peeking less favorably than if Chef Dax asked for permission to publish
-the recipes. It's tricky to know the effect of the control, as we are
-not bringing the point to the attention of participants in this
-instance.
+We can look next at the \texttt{brandaction}: we expect participants
+will view peeking less favorably than if Chef Dax asked for permission
+to publish the recipes. It's tricky to know the effect of the control,
+as we are not bringing the point to the attention of participants in
+this instance.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6735,20 +6531,21 @@ orthogonal to the fitted values, and
 \(\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y}\),
 where
 \(\mathbf{H}_{\mathbf{X}}=\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)
-is an \(n \times n\) projection matrix that spans the \(p\)-dimensional
-linear combination of the columns of \(\mathbf{X}\),
-\(\mathscr{S}(\mathbf{X})\). If
+is an \(n \times n\) projection matrix that spans the
+\((p+1)\)-dimensional subspace consisting of all linear combination of
+the columns of \(\mathbf{X}\), \(\mathscr{S}(\mathbf{X})\). If
 \(\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n\), it follows that
 \(\mathsf{Va}(\boldsymbol{e})=\sigma^2(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\)
 because \((\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\) is a projection
 matrix, therefore idempotent and symmetric. Because the matrix has rank
-\(n-p\), the ordinary residuals cannot be independent from one another.
+\(n-p-1\), the ordinary residuals cannot be independent from one
+another.
 
 If the errors are independent and homoscedastic, the ordinary residual
 \(e_i\) has variance \(\sigma^2(1-h_{i})\), where the leverage term
 \(h_i =(\mathbf{H}_{\mathbf{X}})_{ii} = \mathbf{x}_i (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}_i\)
 is the \(i\)th diagonal entry of the projection matrix
-\((\mathbf{H}_{\mathbf{X}})\) and \(\mathbf{x}_i\) is the \(i\)th row of
+\(\mathbf{H}_{\mathbf{X}}\) and \(\mathbf{x}_i\) is the \(i\)th row of
 the model matrix corresponding to observation \(i\).
 
 We thus conclude that ordinary residuals do not all have the same
@@ -6783,10 +6580,6 @@ While the jackknife studentized residuals \(r_i\) are not orthogonal,
 they are not very different. Use jackknife residuals \(\boldsymbol{r}\)
 to check for equality of variance and distributional assumptions (e.g.,
 using quantile-quantile plots).
-
-One thus typically uses ordinary residuals \(\boldsymbol{e}\) for plots
-of fitted values/explanatories against residuals and otherwise jackknife
-studentized residuals for any other graphical diagnostic plot.
 
 \begin{definition}[Coefficient of
 determination]\protect\hypertarget{def-r2}{}\label{def-r2}
