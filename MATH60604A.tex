@@ -336,11 +336,11 @@
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
 \theoremstyle{plain}
 \newtheorem{corollary}{Corollary}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -381,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-10-08}
+\date{2024-10-12}
 
 \begin{document}
 
@@ -990,7 +990,7 @@ Bernoulli events, the number of sucesses \(Y\) out of \(m\) trials is
 \href{https://en.wikipedia.org/wiki/Binomial_distribution}{binomial},
 denoted \(\mathsf{Bin}(m, p)\); the mass function of the binomial
 distribution is \begin{align*}
-\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{1-y}, \quad y=0, 1.
+\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{m-y}, \quad y=0, 1, \ldots, m.
 \end{align*} The likelihood of a sample from a binomial distribution is
 (up to a normalizing constant that doesn't depend on \(p\)) the same as
 that of \(m\) independent Bernoulli trials. The expectation of the
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colframe=quarto-callout-important-color-frame, arc=.35mm, left=2mm, bottomtitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, colback=white, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, opacityback=0, breakable, rightrule=.15mm, bottomrule=.15mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, arc=.35mm]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, colframe=quarto-callout-caution-color-frame, arc=.35mm, left=2mm, bottomtitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, colback=white, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, opacityback=0, breakable, rightrule=.15mm, bottomrule=.15mm, colback=white, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, toptitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, arc=.35mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colframe=quarto-callout-important-color-frame, arc=.35mm, left=2mm, bottomtitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, colback=white, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, opacityback=0, breakable, rightrule=.15mm, bottomrule=.15mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, arc=.35mm]
 
 \textbf{Learning objectives}:
 
@@ -7352,9 +7352,9 @@ appearance of the quantile-quantile plot.
 
 If the response is strictly positive, there are some options that can
 alleviate lack of additivity, more specifically multiplicative
-mean-variance relationships.If the data is right-skewed and the response
-is strictly positive, a log-linear model may be more adequate and the
-parameters can be interpreted.
+mean-variance relationships. If the data is right-skewed and the
+response is strictly positive, a log-linear model may be more adequate
+and the parameters can be interpreted.
 
 We can rewrite the log-linear model in the original response scale as
 \begin{align*}

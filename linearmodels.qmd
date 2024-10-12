@@ -2628,7 +2628,7 @@ Based on the plots of @fig-diagplotscollege, we find that there is residual hete
 
 ### Transformation of the response {#sec-transfo}
 
-If the response is strictly positive, there are some options that can alleviate lack of additivity, more specifically multiplicative mean-variance relationships.If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.
+If the response is strictly positive, there are some options that can alleviate lack of additivity, more specifically multiplicative mean-variance relationships. If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.
 
 
 We can rewrite the log-linear model in the original response scale as
