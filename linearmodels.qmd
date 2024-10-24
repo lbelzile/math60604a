@@ -1329,9 +1329,6 @@ dust(college_lm) %>%
 The additive mean model with linear terms (including categorical variables) specifies that the marginal effect of one variable is independent of others. We may wish to relax this  assumption by including **interaction terms**. 
 
 
-Combinations combinations of covariates may affect the response differently than  when taking in isolation.
-
-
 :::{#def-interaction}
 
 ## Interaction
@@ -1417,8 +1414,11 @@ Testing whether the interaction is significant boils down to using the test $\ma
 #| eval: true
 #| echo: true
 data(interaction, package = "hecstatmod")
+# To specify an interaction, use the symbol :
 mod <- lm(intention ~ fixation + sex + sex:fixation, 
           data = interaction)
+# Another option is the star *,
+# So A*B is a shortcut that expands to A + B + A:B
 summary(mod)$coefficients
 ```
 The model with the interaction is significantly better, meaning that the effect of fixation time on intention to buy varies according to sex.
@@ -1442,7 +1442,126 @@ implying that intention to buy is constant for men, regardless of the fixation t
 
 :::
 
+<!--
 
+:::{#exm-visualising-interaction}
+
+## Insurance data and complex interactions
+
+A good example of interaction is provided by the `insurance` dataset. An exploratory data analysis suggested that premiums depended on age, smoker status and body mass index (BMI). @fig-insuranceinter1   shows that the insurance premium depends on smoking: smokers who have a BMI of 30 and above pay a hefty premium, but there is also seemingly a linear increase in the amount charged with BMI. We see no such behaviour for non-smokers. 
+
+```{r}
+#| label: fig-insuranceinter1
+#| echo: false
+#| fig-cap: "Graph of insurance charges against body mass index, colored by smoking status."
+data(insurance, package = "hecstatmod")
+insurance <- insurance |>
+  mutate(obesity = factor(bmi >= 30, labels = c("normal","obese"))) |>
+  mutate(smobese = droplevels(factor(interaction(obesity, smoker),
+                          levels = c("normal.no","obese.no","normal.yes","obese.yes"),
+                          labels = c("non-smoker","non-smoker","smoker non-obese","smoker obese"))))
+
+ggplot(data = insurance,
+             aes(x = bmi, y = charges, col = smobese)) +
+  geom_point() +
+  geom_vline(xintercept = 30) +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  labs(color = "",
+       x = "body mass index",
+       y = "charges (in USD)") +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, max(insurance$charges)+100))
+```
+
+
+
+From there, we could create an indicator variable $\texttt{obese}=\mathsf{1}_{\texttt{bmi} \geq 30}$ and add an interaction term between smoker/obese (categorical) and age (continuous) in our mean model. We take non-smoker as baseline category. To make interpretation more meaningful, we rescale age so that $\texttt{age}=0$ corresponds to 18 years old.
+
+
+```{r}
+#| label: coefintercharges
+#| echo: false
+lm_interaction <- lm(charges ~ I(age-18)*obesity*smoker, data = insurance)
+
+names(lm_interaction$coefficients)[2:8] <- c("age","obesity [obese]","smoker [yes]","age * obesity [obese]", "age * smoker [yes]","obesity [obese] * smoker [yes]","age * obesity [obese] * smoker [yes]")
+dust(lm_interaction) %>%
+  sprinkle(col = 2:3, round = 1) %>%
+  sprinkle(col = 4, round = 2) %>%
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>%
+  sprinkle_colnames(estimate = "estimate",
+                     std.error = "std. error",
+                     statistic = "Wald stat.",
+                     p.value = "p-value") %>%
+  sprinkle_bookdown() %>%
+  knitr::kable(align = "lrrrr", booktabs = TRUE, caption = "Table of regression coefficients for the insurance data with interaction terms between age, obesity and smoker status.")
+```
+
+The linear regression model has eight parameters, which could be mapped to four intercepts and four different slopes for `age`; however, the model is parametrized in terms of contrasts, which facilitates testing restrictions.
+```{r}
+#| label: equation
+#| echo: false
+#| eval: false
+# equatiomatic::extract_eq(lm_interaction,
+#                          intercept = "beta",
+#                          wrap = TRUE,
+#                          align_env = "align*")
+```
+
+\begin{align*}
+\texttt{charges} &= \beta_{0} + \beta_{1}\texttt{age} + \beta_{2}\texttt{obese} + \beta_{3}\texttt{smoker} +
+\beta_{4}\texttt{age} \cdot \texttt{obese} \\&\quad + \beta_{5}\texttt{age} \cdot \texttt{smoker} + \beta_{6}\texttt{obese} \cdot \texttt{smoker} + \beta_{7}\texttt{age} \cdot \texttt{obese} \cdot \texttt{smoker} + \varepsilon
+\end{align*}
+
+Because of the three-way interaction, it is not possible to recover individual parameters by changing the value of the corresponding covariate and keeping everything else constant: changing the smoker status likely impacts multiple regressors simultaneously. To retrieve the interpretation of the different coefficients, we will need to change one parameter at the time, write the mean equation and then isolate the coefficients. Throughout, $\texttt{obese}$ is a dummy variable equal to one if the person has a body mass index greater than 30 and likewise $\texttt{smoker}$ if the person is a smoker.
+
+\begin{align*}
+\texttt{charges}  =
+\begin{cases}
+\beta_{0} + \beta_{1}\texttt{age}  & (\mathrm{g}_1)\, \texttt{non-obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{4})\texttt{age},  & (\mathrm{g}_2)\,  \texttt{obese}, \texttt{non-smoker} \\
+(\beta_{0} + \beta_{3}) + (\beta_{1} + \beta_{5})\texttt{age},  & (\mathrm{g}_3)\,  \texttt{non-obese}, \texttt{smoker} \\
+(\beta_{0} + \beta_{2} + \beta_{3}+ \beta_{6}) + (\beta_{1} + \beta_{4} +\beta_{5} + \beta_7)\texttt{age},  & (\mathrm{g}_4)\,  \texttt{obese}, \texttt{smoker}
+\end{cases}
+\end{align*}
+
+- The intercept $\beta_0$ is the average at 18 years old of non-smokers who are not obese.
+- The slope $\beta_1$ is the average annual increase in charges for non-smokers who are not obese.
+- The parameter $\beta_2$ is a contrast, the difference between the average charges of 18 years old non-smokers who are obese and those who are not.
+- The parameter $\beta_3$ is a contrast, the difference between the average premium for non-obese 18 years old who smoke and those who don't.
+- The parameter $\beta_4$ is a contrast, the difference in average annual increase for non-smokers between obese and non-obese adults.
+- The parameter $\beta_5$ is a contrast, the difference in average annual increase for non-obese between smoker and non-smoker adults.
+
+The other two coefficients, $\beta_6$ and $\beta_7$ represent differences of average between groups $\mathrm{g}_1 + \mathrm{g}_4 - \mathrm{g}_2 - \mathrm{g}_3$ for both intercepts and slopes.
+
+The only $F$-test that we should consider in the analysis of variance table is the test for the three-way interaction, which corresponds to $\mathscr{H}_0: \beta_7=0$. The $p$-value against the two-sided alternative is $0.6704$, suggesting no difference in slope. The reason why we do not consider the other tests is that they correspond to irrelevant hypotheses. For example, the test for the two-way interaction term $\mathscr{H}_0: \beta_4=0$ associated to $\texttt{age} \cdot \texttt{obese}$ would correspond to merging the intercepts of group $\mathrm{g}_1$ and $\mathrm{g}_2$. Changing the baseline category would imply that a different difference in intercept is forced to be zero.
+
+
+Sometimes, however, specific hypothesis could be of interest because of the problem setting. We could perform bespoke test to check here that $\mathscr{H}_0: \beta_2=\beta_4=0$, which consists in merging the two non-smoker categories, or even $\mathscr{H}_0: \beta_2=\beta_4= \beta_5=\beta_7=0$, which amounts to merging non-smokers and the imposing a common slope for $\texttt{age}$. Such tests are not directly available in the output, but we can implement them manually by fitting two models and then plug-in in the values of residual sum of squares of both model in the formula of the $F$ statistic. Using the $F$ null distribution, we get a $p$-value of `r pf((sum(resid(lm(charges ~ smobese + age, data = insurance))^2)- sum(resid(lm_interaction)^2))/4 / summary(lm_interaction)$sigma^2, df1 = 4, df2 = summary(lm_interaction)$df[2], lower.tail = FALSE)`. This suggests both non-smoker groups are indistinguishable and likewise that there is no evidence that slopes for $\texttt{age}$ are not equal.
+
+Most interactions include functions of categorical variables together with either other categorical variables (different intercepts / conditional means per subgroups) or else other. Keep in mind that the validity of our tests above depend on the model being correctly specified: there is however evidence of difference in heterogeneity between groups, with unexplained non-smoker records. Plotting the residuals from the model that includes four different intercepts and slopes for $\texttt{age}$ for each combination of smoker/obesity status misses other features that one would capture in diagnostic plots. in particular, except for some notable outliers, there is evidence that the premiums of smokers also increase with body mass index; as evidenced by @fig-resod. If we include `bmi` as additional covariate in the model in addition of `obese`, the interpretation of changes in obesity will depend on the value of `bmi` and vice-versa.
+
+```{r }
+#| label: fig-resod
+#| echo: false
+#| fig-cap: Residuals from the interaction model for `charges` with `age`,
+#|   `smoker` and `obesity`. There is a notably outlier for a male
+#|   smoker whose `bmi` is exactly 30 and other points above. There is indication
+#|   of a linear trend for both smoker sub-groups as their body mass index increase,
+#|   which was not apparent previously because of the effect of age.
+insurance$res <- resid(lm_interaction)
+ggplot(data = insurance, aes(x = bmi, y = res, col = smobese)) +
+    geom_vline(xintercept = 30) +
+  geom_point() +
+  xlab("body mass index") +
+  ylab("residuals") +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  labs(col = "smoking/obesity status") +
+     theme(legend.position = "bottom")
+```
+
+:::
+
+
+-->
 
 The concept of interactions readily extends to categorical variables with $k$ levels/categories. In this case, we need to use the global $F$-test to check if the interaction is statistically significant.
 
@@ -1948,7 +2067,7 @@ The added-variable plot shows the relation between the response $Y$ and an expla
 \begin{align*}
 x_j = \beta^{\star}_0 + \beta^{\star}_1 x_1 + \cdots + \beta^{\star}_{j-1} x_{j-1} + \beta^{\star}_{j+1} x_{j+1} + \cdots + \beta^{\star}_px_p + \varepsilon^{\star}
 \end{align*}
-By definition, $R^2(j)$ represents the proportion of the variance of $x_j$ that is explained by all the other predictor variables. Large variance inflation factors are indicative of problems (typically covariates with $\mathsf{VIF}>10$ require scrutinity, and values in the hundreds or more indicate serious problems).
+By definition, $R^2(j)$ represents the proportion of the variance of $x_j$ that is explained by all the other predictor variables. Large variance inflation factors are indicative of problems (typically covariates with $\mathsf{VIF}>10$ require scrutinity, and values in the hundreds or more indicate serious problems). For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor [@Fox:1992].
 
 Added-variable plots can also serve as diagnostics, by means of comparison of the partial residuals with a scatterplot of the pair $(Y, x_j)$; if the latter shows very strong linear relation, but the slope is nearly zero in the added-variable plot, this hints that collinearity is an issue.
 
@@ -1967,10 +2086,10 @@ Whatever the method, it's important to understand that it can be very difficult 
 :::{#exm-collegedatcollinear}
 
 ## Collinearity in the `college` data
-We consider the `college` data analysis and include all the covariates in the database, including `years`, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, `service` and `years` is `r cor(college$service, college$years)`. The variance inflation factor for the five covariates
+We consider the `college` data analysis and include all the covariates in the database, including `years`, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, `service` and `years` is `r cor(college$service, college$years)`. 
 
 
-For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor [@Fox:1992]. Here, we are interested in gender disparities, so the fact that both service and field are
+ Here, we are interested in gender disparities, so the fact that both service and field are
 strongly correlated is not problematic, since the $\mathsf{VIF}$ for $\texttt{sex}$ is not high and the other variables are there to act as control and avoid confounders.
 
 
@@ -2025,187 +2144,24 @@ Except in obvious scenarios, unusual observations should not be discarded. In ve
 
 ## Model assumptions and diagnostics
 
-So far, we have fit models and tested significance of the parameters without checking the model assumptions. The correctness of statements about the $p$-values and confidence intervals depend on the (approximate) validity of the model assumptions, which all stem from the distributional assumption for the error, assumed to be independent and identically distributed with $\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{normal}(0, \sigma^2)$. This compact mathematical description can be broken down into four assumptions.
+
+This section reviews the assumptions made in order to allow statistical inference using the linear model and different residuals that serve as building blocks for graphical diagnostics. We investigate the consequences of violation of these assumptions and outline potential mitigation strategies, many of which are undertaken in other chapters.
+
+So far, we have fit models and tested significance of the parameters without checking the model. The correctness of statements about the $p$-values and confidence intervals depend on the (approximate) validity of the model assumptions, which all stem from the distributional assumption for $$Y_i \mid \mathbf{x}_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$$, assumed independent. This compact mathematical description can be broken down into four assumptions.
 
 - linearity: the mean of $Y$ is $\beta_0 + \beta_1x_1 + \cdots + \beta_p x_p$.
 - homoscedasticity: the error variance is constant
 - independence of the errors/observations conditional on covariates.
 - normality of the errors
 
-This section reviews the assumptions made in order to allow statistical inference using the linear model and different residuals that serve as building blocks for graphical diagnostics. We investigate the consequences of violation of these assumptions and outline potential mitigation strategies, many of which are undertaken in other chapters.
 
 When we perform an hypothesis test, we merely fail to reject the null hypothesis, either because the latter is true or else due to lack of evidence. The same goes for checking the validity of model assumptions: scientific reasoning dictates that we cannot know for certain whether these hold true. Our strategy is therefore to use implications of the linear model assumptions to create graphical diagnostic tools, so as to ensure that there is no gross violation of these hypothesis. However, it is important to beware of over-interpreting diagnostic plots: the human eye is very good at finding spurious patterns.
 
 We review the assumptions in turn and discuss what happens when the assumptions fail to hold.
 
-### Independence assumption
+### Linearity and additivity assumption
 
-Usually, the independence of the observations follows directly from the type of sampling used  --- this assumption is implicitly true if the observations were taken from a *random sample* from the population. This is generally not the case for longitudinal data, which contains repeated measures from the same individuals across time. Likewise, time series are bound not to have independent observations. If we want to include all the time points in the analysis, we must take into account the possible dependence (correlation) between observations. If we ignore correlation, the estimated standard errors are too small relative to the truth, so the effective sample size is smaller than number of observations.
-
-
-
-What is the impact of dependence between measurements? Heuristically, correlated measurements carry less information than independent ones. In the most extreme case, there is no additional information and measurements are identical, but adding them multiple times unduly inflates the statistic and leads to more frequent rejections.
-
-```{r}
-#| label: sizetestCorrelation
-#| echo: false
-#| eval: true
-#| cache: true
-# if(!"matRes.RData" %in% list.files(path = "./figures")){
-# set.seed(1234)
-# n <- 25
-# ng <- c(2,3,5,10)
-# correlation <- seq(0, 0.5, by = 0.05)
-# matRes <- array(0, dim = c(1e4,
-#                            length(correlation),
-#                            length(ng)))
-# for(i in seq_along(correlation)){
-#   Sigma <- diag(1-correlation[i], nrow = n, ncol = n) +
-#     matrix(correlation[i], nrow = n, ncol = n)
-# for(j in seq_along(ng)){
-#   for(k in seq_len(dim(matRes)[1])){
-#     samp <- mev::mvrnorm(n = ng[j],
-#                          mu = rep(0, n),
-#                          Sigma = Sigma)
-#     matRes[k,i,j] <-
-#       oneway.test(data = tibble(
-#         resp = c(t(samp)),
-#         group = factor(x = rep(1:ng[j], each = n))),
-#            formula = resp ~ group,
-#            var.equal = TRUE)$p.value
-#   }
-#  }
-# }
-# save(list = c("matRes", "correlation", "ng"), file = "figures/matRes.RData")
-# } else{
-#   load(file = "figures/matRes.RData")
-# }
-
-
-```
-
-```{r }
-#| label: fig-plotLevelIndep
-#| echo: false
-#| eval: true
-#| fig-cap: Percentage of rejection of the null hypothesis for the $F$-test of equality
-#|   of means for the one way ANOVA with data generated with equal mean and variance
-#|   from an equicorrelation model (within group observations are correlated, between
-#|   group observations are independent). The nominal level of the test is 5%.
-# size_p5 <- t(apply(matRes, 2:3, function(x){mean(x < 0.05)}))
-# nent <- length(size_p5)
-# size_p5_tibble <-
-#   tibble(size = c(size_p5),
-#          samp = factor(rep(ng, length.out = nent)),
-#          correlation = rep(correlation, each = length(ng)))
-
-
-# From Don Fraser (1958). Statistics: an introduction, pp. 342-343
-nrep <- 25L
-rho <- seq(0, 0.8, by = 0.01)
-dims <- c(2,3,5,10)
-size <- matrix(0, nrow = length(rho), ncol = length(dims))
-for(i in seq_along(dims)){
-  d <- dims[i]
-  sigmasq <- (1-rho)
-  tausq <- rho
-  fact <- (nrep*tausq + sigmasq)/sigmasq
-
-  cutoff <- qf(0.95, df1 = d-1, df2 = (nrep-1)*d)
-  size[,i] <- pf(cutoff/fact, df1 = d-1, df2 = (nrep-1)*d, lower.tail = FALSE)
-}
-
-size_exact <- data.frame(
-  size = c(size),
-  dim = factor(rep(dims, each = length(rho))),
-  rho = rep(rho, length.out = length(size)))
-
-# ggplot(data = size_p5_tibble,
-#        mapping = aes(col = samp,
-#                      x = correlation,
-#                      y = size)) +
-#   geom_line() +
-ggplot() +
-  geom_line(data = size_exact,
-            mapping = aes(color = dim, x = rho, y = size)) +
-  geom_hline(yintercept = 0.05, alpha = 0.5) +
-  labs(y = "size of test",
-       x = "within group correlation",
-       color = "number of groups",
-       caption = "25 observations per group") +
-  coord_cartesian(xlim = c(0, max(rho)),
-                  ylim = c(0, 1),
-                  expand = FALSE) +
-  theme_minimal() +
-  theme(legend.position = "bottom")
-
-
-```
-
-The lack of independence can also have drastic consequences on inference and lead to false conclusions: @fig-plotLevelIndep shows an example with correlated samples within group (or equivalently repeated measurements from individuals) with 25 observations per group. The $y$-axis shows the proportion of times the null is rejected when it shouldn't be. Here, since the data are generated from the null model (equal mean) with equal variance, the inflation in the number of spurious discoveries, false alarm or type I error is alarming and the inflation is substantial even with very limited correlation between measurements.
-
-The first source of dependence is clustered data, meaning measurements taken from subjects that are not independent from one another (family, groups, etc.) More generally, correlation between observations can arises from space-time dependence, roughly categorized into
-
-- longitudinal data: repeated measurements are taken from the same subjects (few time points)
-- time series: observations observed at multiple time periods (many time points).
-
-
-Time series require dedicated models not covered in this course. Because of autocorrelation, positive errors tend to be followed by positive errors, etc. We can plot the residuals as a function of time, and a scatterplot of lagged residuals $e_i$ versus $e_{i-1}$ ($i=2, \ldots, n$).
-
-```{r}
-#| label: fig-timeresidplot
-#| cache: true
-#| echo: false
-#| fig-cap: 'Lagged residual plots: there is no evidence against independence in the
-#|   left panel, whereas the right panel shows positively correlated residuals.'
-lm1 <- lm(intention~emotion+factor(educ)+age+factor(revenue)+marital, data = intention)
-data(airpassengers, package = "hecstatmod")
-ols_airpass <- lm(log(passengers) ~ month + year, data = airpassengers)
-par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
-par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
-par(mfrow=c(1, 2))
-# plot(resid(lm1), ylab = "residuals", xlab = "time index")
-# car::gamLine(1:n, resid(lm1), spread = TRUE, col = hecblue)
-plot(x = resid(lm1)[-1], y = resid(lm1)[-length(resid(lm1))],
-     ylab = "residuals", xlab = "lagged residuals", main = "")
-car::gamLine(resid(lm1)[-1], resid(lm1)[-length(resid(lm1))], spread = TRUE, col = hecblue)
-# plot(resid(ols_airpass), ylab = "residuals", xlab = "time index")
-# car::gamLine(1:length(ols_airpass$residuals), resid(ols_airpass), spread = TRUE, col = hecblue)
- plot(x = resid(ols_airpass)[-1], y = resid(ols_airpass)[-length(resid(ols_airpass))], ylab = "residuals", xlab = "lagged residuals", main = "")
- car::gamLine(resid(ols_airpass)[-1], resid(ols_airpass)[-length(resid(ols_airpass))], spread = TRUE, col = hecblue)
-
-```
-
-
-However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations $h$ units apart as a function of the lag $h$ [@Brockwell.Davis:2016, Definition 1.4.4].
-
-For $y_1, \ldots, y_n$ and constant time lags $h=0, 1, \ldots$ units, the autocorrelation at lag $h$ is
-\begin{align*}
-r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
-\end{align*}
-
-If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in @fig-correlogram. Presence of autocorrelation requires modelling the correlation  between observations explicitly using dedicated tools from the time series literature. We will however examine $\mathsf{AR}(1)$ models as part of the chapter on longitudinal data. See [Forecasting: Principles and Practice, section 5.3](https://otexts.com/fpp2/regression-evaluation.html) for more details.
-
-When observations are positively correlated, the estimated standard errors reported by the software are too small. This means we are overconfident and will reject the null hypothesis more often then we should if the null is true (inflated Type I error, or false positive).
-
-```{r}
-#| label: fig-correlogram
-#| echo: false
-#| fig-cap: Correlogram of independent observations (left) and the ordinary residuals
-#|   of the log-linear model fitted to the air passengers data (right). While the mean
-#|   model of the latter is seemingly correctly specified, there is residual dependence
-#|   between monthly observations and yearly (at lag 12). The blue lines give approximate
-#|   pointwise 95\% confidence intervals for white noise (uncorrelated observations).
-library(forecast)
-set.seed(1234)
-g0 <- ggAcf(rnorm(100),lag.max=25) + labs(x = "lag", y ="autocorrelation", title = "")+ ylim(c(-1,1))
-g1 <- ggAcf(resid(ols_airpass),lag.max=25) + labs(x = "lag", y ="autocorrelation", title = "") + ylim(c(-1,1))
-g0 + g1
-```
-
-### Linearity assumption
-
-The second assumption of the linear model is that of  linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified.
+The first assumption of the linear model is that of  linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified.
 To check that the response surface of the linear model is adequate, we plot $e_i$ against $\widehat{y}_i$ or $x_{ij}$ (for $j=1, \ldots, p$). Since the linear correlation between $\boldsymbol{e}$ and $\widehat{\boldsymbol{y}}$ (or $\boldsymbol{e}$ and $\mathbf{X}_j$) is zero by construction, patterns (e.g., quadratic trend, cycles, changepoints) are indicative of misspecification of the mean model. One can add a smoother to detect patterns. @fig-regdiaglin shows three diagnostics plots, the second of which shows no pattern in the residuals, but skewed fitted values.
 
 ```{r}
@@ -2298,7 +2254,6 @@ An obvious extension of the linear model is to allow variance to vary according 
 We can perform hypothesis tests for the homogeneity (equal) variance assumption. The most commonly used tests are Bartlett's test, the likelihood ratio test under the assumption of normally distributed data, with a Bartlett correction to improve the $\chi^2$ approximation to the null distribution. The second most popular is Levene's test (a more robust alternative, less sensitive to outliers). For both tests, the null distribution is $\mathscr{H}_0: \sigma^2_1 = \cdots = \sigma^2_K$ against the alternative that at least two differ. The Bartlett test statistic has a $\chi^2$ null distribution with $K-1$ degrees of freedom, whereas Levene's test has an $F$-distribution with ($K-1$, $n-K$) degrees of freedom: it is equivalent to computing the one-way ANOVA $F$-statistic with the absolute value of the centered residuals, $|y_{ik} - \widehat{\mu}_k|$, as observations.
 
 
-What are the impacts of unequal variance if we use the $F$-test instead? For one, the pooled variance will be based on a weighted average of the variance in each group, where the weight is a function of the sample size. This can lead to size distortion (meaning that the proportion of type I error is not the nominal level $\alpha$ as claimed) and potential loss of power. The following toy example illustrates this.
 
 :::{#exm-heterogeneity}
 
@@ -2366,14 +2321,176 @@ theme_set(theme_classic())
 g1 + g2
 ```
 
-We consider for simplicity a problem with $K=2$ groups, which is the two-sample $t$-test. We simulated 50 observations from a $\mathsf{normal}(0, 1)$ distribution and 10 observations from $\mathsf{normal}(0, 9)$, comparing the distribution of the $p$-values for the Welch and the $F$-test statistics. @fig-simuWelchnull shows the results. The percentage of $p$-values less than $\alpha=0.05$ based on 10 000  replicates is estimated to be `r 100*mean(pvalsW < 0.05)`% for the Welch statistic, not far from the level. By contrast, we reject `r 100*mean(pvalsF < 0.05)`% of the time with the one-way ANOVA global $F$-test: this is a large share of innocents sentenced to jail based on false premises! While the size distortion is not always as striking, heterogeneity should be accounted in the design by requiring sufficient sample sizes (whenever costs permits) in each group to be able to estimate the variance reliably and using an adequate statistic.
+We consider for simplicity a two sample $t$-with $K=2$ groups, which is the two-sample $t$-test. We simulated 50 observations from a $\mathsf{normal}(0, 1)$ distribution and 10 observations from $\mathsf{normal}(0, 9)$, comparing the distribution of the $p$-values for the Welch and the $t$-test statistics. @fig-simuWelchnull shows the results. The percentage of $p$-values less than $\alpha=0.05$ based on 10 000  replicates is estimated to be `r 100*mean(pvalsW < 0.05)`% for the Welch statistic, not far from the level. By contrast, we reject `r 100*mean(pvalsF < 0.05)`% of the time with the two-sample $t$-test! While the size distortion is not always as striking, heterogeneity of variance should be accounted in the design by requiring sufficient sample sizes (whenever costs permits) in each group to be able to estimate the variance reliably and using an adequate statistic.
 
 :::
 
-There are alternative graphical ways of checking the assumption of equal variance, many including the standardized residuals $r_{ik} = (y_{ik} - \widehat{\mu}_k)/\widehat{\sigma}$ against the fitted values $\widehat{\mu}_k$. We will cover these in later sections.
 
 Oftentimes, unequal variance occurs because the model is not additive. You could use variance-stabilizing transformations (e.g., log for multiplicative effects) to ensure approximately equal variance in each group. Another option is to use a model that is suitable for the type of response you have (including count and binary data). Lastly, it may be necessary to explicitly model the variance in more complex design (including repeated measures) where there is a learning effect over time and variability decreases as a result. Consult an expert if needed.
 
+
+### Independence assumption
+
+Usually, the independence of the observations follows directly from the type of sampling used  --- this assumption is implicitly true if the observations were taken from a *random sample* from the population. This is generally not the case for longitudinal data, which contains repeated measures from the same individuals across time. Likewise, time series are bound not to have independent observations. If we want to include all the time points in the analysis, we must take into account the possible dependence (correlation) between observations. If we ignore correlation, the estimated standard errors are too small relative to the truth, so the effective sample size is smaller than number of observations.
+
+
+
+What is the impact of dependence between measurements? Heuristically, correlated measurements carry less information than independent ones. In the most extreme case, there is no additional information and measurements are identical, but adding them multiple times unduly inflates the statistic and leads to more frequent rejections.
+
+```{r}
+#| label: sizetestCorrelation
+#| echo: false
+#| eval: true
+#| cache: true
+# if(!"matRes.RData" %in% list.files(path = "./figures")){
+# set.seed(1234)
+# n <- 25
+# ng <- c(2,3,5,10)
+# correlation <- seq(0, 0.5, by = 0.05)
+# matRes <- array(0, dim = c(1e4,
+#                            length(correlation),
+#                            length(ng)))
+# for(i in seq_along(correlation)){
+#   Sigma <- diag(1-correlation[i], nrow = n, ncol = n) +
+#     matrix(correlation[i], nrow = n, ncol = n)
+# for(j in seq_along(ng)){
+#   for(k in seq_len(dim(matRes)[1])){
+#     samp <- mev::mvrnorm(n = ng[j],
+#                          mu = rep(0, n),
+#                          Sigma = Sigma)
+#     matRes[k,i,j] <-
+#       oneway.test(data = tibble(
+#         resp = c(t(samp)),
+#         group = factor(x = rep(1:ng[j], each = n))),
+#            formula = resp ~ group,
+#            var.equal = TRUE)$p.value
+#   }
+#  }
+# }
+# save(list = c("matRes", "correlation", "ng"), file = "figures/matRes.RData")
+# } else{
+#   load(file = "figures/matRes.RData")
+# }
+
+
+```
+
+```{r }
+#| label: fig-plotLevelIndep
+#| echo: false
+#| eval: true
+#| fig-cap: Percentage of rejection of the null hypothesis for the $F$-test of equality
+#|   of means for the one way ANOVA with data generated with equal mean and variance
+#|   from an equicorrelation model (within group observations are correlated, between
+#|   group observations are independent). The nominal level of the test is 5%.
+# size_p5 <- t(apply(matRes, 2:3, function(x){mean(x < 0.05)}))
+# nent <- length(size_p5)
+# size_p5_tibble <-
+#   tibble(size = c(size_p5),
+#          samp = factor(rep(ng, length.out = nent)),
+#          correlation = rep(correlation, each = length(ng)))
+
+
+# From Don Fraser (1958). Statistics: an introduction, pp. 342-343
+nrep <- 5L
+rho <- seq(0, 0.8, by = 0.01)
+dims <- c(2,3,5,10)
+size <- matrix(0, nrow = length(rho), ncol = length(dims))
+for(i in seq_along(dims)){
+  d <- dims[i]
+  sigmasq <- (1-rho)
+  tausq <- rho
+  fact <- (nrep*tausq + sigmasq)/sigmasq
+
+  cutoff <- qf(0.95, df1 = d-1, df2 = (nrep-1)*d)
+  size[,i] <- pf(cutoff/fact, df1 = d-1, df2 = (nrep-1)*d, lower.tail = FALSE)
+}
+
+size_exact <- data.frame(
+  size = c(size),
+  dim = factor(rep(dims, each = length(rho))),
+  rho = rep(rho, length.out = length(size)))
+
+# ggplot(data = size_p5_tibble,
+#        mapping = aes(col = samp,
+#                      x = correlation,
+#                      y = size)) +
+#   geom_line() +
+ggplot() +
+  geom_line(data = size_exact,
+            mapping = aes(color = dim, x = rho, y = size)) +
+  geom_hline(yintercept = 0.05, alpha = 0.5) +
+  labs(y = "size of test",
+       x = "within group correlation",
+       color = "number of groups",
+       caption = "5 observations per group") +
+  scale_color_viridis_d()+
+  coord_cartesian(xlim = c(0, max(rho)),
+                  ylim = c(0, 1),
+                  expand = FALSE) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+
+```
+
+The lack of independence can also have drastic consequences on inference and lead to false conclusions: @fig-plotLevelIndep shows an example with correlated samples within group (or equivalently repeated measurements from individuals) with five observations per group. The $y$-axis shows the proportion of times the null is rejected when it shouldn't be. Here, since the data are generated from the null model (equal mean) with equal variance, the inflation in the number of spurious discoveries, false alarm or type I error is alarming and the inflation is substantial even with very limited correlation between measurements.
+
+The first source of dependence is clustered data, meaning measurements taken from subjects that are not independent from one another (family, groups, etc.) More generally, correlation between observations can arises from space-time dependence, roughly categorized into **longitudinal data**, when repeated measurements are taken from the same subjects at a few time points, and **time series**, which have more observations sampled at higher frequency.
+
+
+Time series require dedicated models not covered in this course. Because of autocorrelation, positive errors tend to be followed by positive errors, etc. We can plot the residuals as a function of time, and a scatterplot of lagged residuals $e_i$ versus $e_{i-1}$ ($i=2, \ldots, n$).
+
+```{r}
+#| label: fig-timeresidplot
+#| cache: true
+#| echo: false
+#| fig-cap: 'Lagged residual plots: there is no evidence against independence in the
+#|   left panel, whereas the right panel shows positively correlated residuals.'
+lm1 <- lm(intention~emotion+factor(educ)+age+factor(revenue)+marital, data = intention)
+data(airpassengers, package = "hecstatmod")
+ols_airpass <- lm(log(passengers) ~ month + year, data = airpassengers)
+par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
+par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
+par(mfrow=c(1, 2))
+# plot(resid(lm1), ylab = "residuals", xlab = "time index")
+# car::gamLine(1:n, resid(lm1), spread = TRUE, col = hecblue)
+plot(x = resid(lm1)[-1], y = resid(lm1)[-length(resid(lm1))],
+     ylab = "residuals", xlab = "lagged residuals", main = "")
+car::gamLine(resid(lm1)[-1], resid(lm1)[-length(resid(lm1))], spread = TRUE, col = hecblue)
+# plot(resid(ols_airpass), ylab = "residuals", xlab = "time index")
+# car::gamLine(1:length(ols_airpass$residuals), resid(ols_airpass), spread = TRUE, col = hecblue)
+ plot(x = resid(ols_airpass)[-1], y = resid(ols_airpass)[-length(resid(ols_airpass))], ylab = "residuals", xlab = "lagged residuals", main = "")
+ car::gamLine(resid(ols_airpass)[-1], resid(ols_airpass)[-length(resid(ols_airpass))], spread = TRUE, col = hecblue)
+
+```
+
+
+However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations $h$ units apart as a function of the lag $h$ [@Brockwell.Davis:2016, Definition 1.4.4].
+
+For $y_1, \ldots, y_n$ and constant time lags $h=0, 1, \ldots$ units, the autocorrelation at lag $h$ is
+\begin{align*}
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
+\end{align*}
+
+If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in @fig-correlogram. Presence of autocorrelation requires modelling the correlation  between observations explicitly using dedicated tools from the time series literature. We will however examine $\mathsf{AR}(1)$ models as part of the chapter on longitudinal data. See [Forecasting: Principles and Practice, section 5.3](https://otexts.com/fpp2/regression-evaluation.html) for more details.
+
+When observations are positively correlated, the estimated standard errors reported by the software are too small. This means we are overconfident and will reject the null hypothesis more often then we should if the null is true (inflated Type I error, or false positive).
+
+```{r}
+#| label: fig-correlogram
+#| echo: false
+#| fig-cap: Correlogram of independent observations (left) and the ordinary residuals
+#|   of the log-linear model fitted to the air passengers data (right). While the mean
+#|   model of the latter is seemingly correctly specified, there is residual dependence
+#|   between monthly observations and yearly (at lag 12). The blue lines give approximate
+#|   pointwise 95\% confidence intervals for white noise (uncorrelated observations).
+library(forecast)
+set.seed(1234)
+g0 <- ggAcf(rnorm(100),lag.max=25) + labs(x = "lag", y ="autocorrelation", title = "")+ ylim(c(-1,1))
+g1 <- ggAcf(resid(ols_airpass),lag.max=25) + labs(x = "lag", y ="autocorrelation", title = "") + ylim(c(-1,1))
+g0 + g1
+```
 
 ### Normality assumption
 
