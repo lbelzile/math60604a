@@ -523,7 +523,7 @@ rug(qchisq(p = seq(0.1, 0.9, by = 0.1), df = 2))
 If $\mathscr{H}_0$ is true, the three test statistics follow asymptotically a $\chi^2_q$ distribution under a null hypothesis $\mathscr{H}_0,$ where the degrees of freedom $q$ are the number of restrictions.
 \begin{align*}
 w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) \\
-r({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
 \left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \\
 s(\theta_0)&=j^{-1/2}(\theta_0)U(\theta_0)
 \end{align*}

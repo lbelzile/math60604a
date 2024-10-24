@@ -335,12 +335,12 @@
 \usepackage{amsthm}
 \theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
-\theoremstyle{plain}
-\newtheorem{corollary}{Corollary}[chapter]
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollary}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, colback=white, colframe=quarto-callout-important-color-frame, arc=.35mm, titlerule=0mm, breakable, coltitle=black, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, leftrule=.75mm, left=2mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, left=2mm, coltitle=black, bottomtitle=1mm, colback=white, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, toprule=.15mm, arc=.35mm, opacitybacktitle=0.6, opacityback=0, rightrule=.15mm, breakable, colbacktitle=quarto-callout-important-color!10!white]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomtitle=1mm, colback=white, colframe=quarto-callout-caution-color-frame, arc=.35mm, titlerule=0mm, breakable, coltitle=black, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, bottomrule=.15mm, leftrule=.75mm, left=2mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, left=2mm, coltitle=black, bottomtitle=1mm, colback=white, toptitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, leftrule=.75mm, toprule=.15mm, arc=.35mm, opacitybacktitle=0.6, opacityback=0, rightrule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, colback=white, colframe=quarto-callout-important-color-frame, arc=.35mm, titlerule=0mm, breakable, coltitle=black, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, leftrule=.75mm, left=2mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, left=2mm, coltitle=black, bottomtitle=1mm, colback=white, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, toprule=.15mm, arc=.35mm, opacitybacktitle=0.6, opacityback=0, rightrule=.15mm, breakable, colbacktitle=quarto-callout-important-color!10!white]
 
 \textbf{Learning objectives}:
 
@@ -3525,7 +3525,7 @@ asymptotically a \(\chi^2_q\) distribution under a null hypothesis
 \(\mathscr{H}_0,\) where the degrees of freedom \(q\) are the number of
 restrictions. \begin{align*}
 w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) \\
-r({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
 \left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \\
 s(\theta_0)&=j^{-1/2}(\theta_0)U(\theta_0)
 \end{align*} We call \(r({\theta_0})\) the directed likelihood root.
