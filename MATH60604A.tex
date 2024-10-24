@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, left=2mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, breakable, opacitybacktitle=0.6, bottomtitle=1mm, opacityback=0, toprule=.15mm, titlerule=0mm, leftrule=.75mm, coltitle=black, colback=white, rightrule=.15mm, bottomrule=.15mm, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
+\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, colback=white, colframe=quarto-callout-important-color-frame, arc=.35mm, titlerule=0mm, breakable, coltitle=black, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, leftrule=.75mm, left=2mm, opacityback=0]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, left=2mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, breakable, opacitybacktitle=0.6, bottomtitle=1mm, opacityback=0, toprule=.15mm, titlerule=0mm, leftrule=.75mm, coltitle=black, colback=white, rightrule=.15mm, bottomrule=.15mm, toptitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}]
+\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomtitle=1mm, colback=white, colframe=quarto-callout-caution-color-frame, arc=.35mm, titlerule=0mm, breakable, coltitle=black, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, bottomrule=.15mm, leftrule=.75mm, left=2mm, opacityback=0]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, left=2mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, breakable, opacitybacktitle=0.6, bottomtitle=1mm, opacityback=0, toprule=.15mm, titlerule=0mm, leftrule=.75mm, coltitle=black, colback=white, rightrule=.15mm, bottomrule=.15mm, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
+\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, colback=white, colframe=quarto-callout-important-color-frame, arc=.35mm, titlerule=0mm, breakable, coltitle=black, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, leftrule=.75mm, left=2mm, opacityback=0]
 
 \textbf{Learning objectives}:
 
@@ -3472,10 +3472,58 @@ respectively as \begin{align*}
 likelihood estimate under the alternative and \(\boldsymbol{\theta}_0\)
 is the null value of the parameter vector. Asymptotically, all the test
 statistics are equivalent (in the sense that they lead to the same
-conclusions about \(\mathscr{H}_0\)). If \(\mathscr{H}_0\) is true, the
-three test statistics follow asymptotically a \(\chi^2_q\) distribution
-under a null hypothesis \(\mathscr{H}_0,\) where the degrees of freedom
-\(q\) are the number of restrictions. \begin{align*}
+conclusions about \(\mathscr{H}_0\)).
+
+\begin{refremark}[Testing procedures and quadratic forms]
+The null distribution of the maximum likelihood estimator (and related
+quantities) is useful for testing, albeit not in this form. Consider for
+simplicity the case where we have \(p=2\) dimensional parameter (e.g., a
+Weibull distribution) and we impose \(q=2\) restrictions; we consider
+for simplicity a Wald-type test. The asymptotic distribution of the
+maximum likelihood estimator is
+\(\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\}\),
+and we can obtain confidence ellipse for the MLE by replacing Fisher
+information \(i(\boldsymbol{\theta})\) by a convergent estimator
+\(j(\widehat{\boldsymbol{\theta}})\): we then obtain the left panel of
+Figure~\ref{fig-ellipses}.
+
+If we postulate \(\boldsymbol{\theta} = \boldsymbol{\theta}_0\), it
+suffices to consider where the pair falls on the plot and find the level
+of the ellipse that intersects with the point. This however is
+complicated: rather, we can standardize the variable to
+\(\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)\),
+where now the contour curves are circular. To reduce the problem from a
+two-dimensional problem to a one-dimensional, we consider the squared
+radius
+\(W = \vartheta_1^2 + \vartheta_2^2 = (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)\),
+which is approximately \(\chi^2_2\) in large sample, as shown in the
+right panel of Figure~\ref{fig-ellipses}. It is much easier to determine
+whether the value is large based on the radius.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-ellipses-1.pdf}
+
+}
+
+\caption{\label{fig-ellipses}Elliptical contour curves for the
+asymptotic multivariate normal distribution of the MLE (left) and
+density of the squared radial of the standardized variable
+\(\boldsymbol{\vartheta}\) with the corresponding quantile levels (rugs)
+for the squared radial component (right).}
+
+\end{figure}%
+
+\label{rem-nulldist}
+
+\end{refremark}
+
+If \(\mathscr{H}_0\) is true, the three test statistics follow
+asymptotically a \(\chi^2_q\) distribution under a null hypothesis
+\(\mathscr{H}_0,\) where the degrees of freedom \(q\) are the number of
+restrictions. \begin{align*}
 w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) \\
 r({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
 \left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \\
@@ -3773,7 +3821,7 @@ denotes the quantile of a \(\chi^2_1\) random variable.
      \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mu, }\AttributeTok{y =}\NormalTok{ r)) }\SpecialCharTok{+}
   \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{intercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{slope =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{),}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FunctionTok{qnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{)),}
             \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+} 
   \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"expectation "}\NormalTok{, mu)),}
        \AttributeTok{y =} \StringTok{"signed likelihood root"}\NormalTok{)}
