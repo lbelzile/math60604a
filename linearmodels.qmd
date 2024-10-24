@@ -1618,7 +1618,7 @@ $$\sum_{i=1}^{n_a} \alpha_i=0, \quad \sum_{j=1}^{n_b} \beta_j=0, \quad  \sum_{j=
 
 We can consider model simplifications from bottom up. Removing the interaction leads to a model with $1 + (n_a-1) + (n_b-1)$ parameters, relative to $n_a\times n_b$ for the model with the interaction. We can use an $F$-test to check for the significance of the latter. If the factors don't interact, the mean in the cell is given by the sum of the main effects. Only once we have a removed this term can we consider if all row means  or column means are the same.
 
-:::
+
 
 While formal testing is needed to check for interactions, the concept can be better understood by looking at graphs (at least in a setting where the means are known with little to no uncertainty).
 
@@ -1825,6 +1825,8 @@ All of the discussion for a two-way ANOVA extends to higher-dimensional designs 
 We consider a three-way ANOVA from @Lin.Kim.Uduehi.Keinan:2024. Their Study 4 focused on cultural appropriation for soul food recipe cookbook from Chef Dax, who was either black (or not), manipulating the description of the way he obtained the recipes (by peeking without permission in kitchens, by asking permission or no mention for control). Authors postulated that the perception of appropriation would vary by political ideology (liberal or conservative). The study results in a 3 by 2 by 2 three-way ANOVA.
 
 ```{r}
+#| eval: true
+#| echo: true
 data(LKUK24_S4, package = "hecedsm")
 # Check repartition of observations in subgroups
 xtabs(~politideo + chefdax + brandaction,
@@ -1839,7 +1841,8 @@ emm <- emmeans(mod,
 # Create an interaction plot
 emmip(object = emm, 
         formula = brandaction ~ chefdax | politideo, 
-        CIs = TRUE)
+        CIs = TRUE) +
+  MetBrewer::scale_color_met_d(name = "Hiroshige")
 anova_tab <- car::Anova(mod, type = 2)
 ```
 
@@ -2422,7 +2425,7 @@ ggplot() +
        x = "within group correlation",
        color = "number of groups",
        caption = "5 observations per group") +
-  scale_color_viridis_d()+
+  MetBrewer::scale_color_met_d(name = "Hiroshige") +
   coord_cartesian(xlim = c(0, max(rho)),
                   ylim = c(0, 1),
                   expand = FALSE) +
