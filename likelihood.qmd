@@ -486,6 +486,7 @@ V_phi <- dphi(lambda_hat)^2 * V_lambda
 :::
 
 
+
 ## Likelihood-based tests {#sec-liktests}
 
 We consider a null hypothesis $\mathscr{H}_0$ that imposes restrictions on the possible values of $\boldsymbol{\theta}$ can take, relative to an unconstrained alternative $\mathscr{H}_1.$ We need two **nested** models: a *full* model, and a *reduced* model that is a subset of the full model where we impose $q$ restrictions. For example, the exponential distribution is a special case of the Weibull one if $\alpha=1$. The testing procedure involves fitting the two models and obtaining the maximum likelihood estimators of each of $\mathscr{H}_1$ and $\mathscr{H}_0,$ respectively $\widehat{\boldsymbol{\theta}}$ and $\widehat{\boldsymbol{\theta}}_0$ for the parameters under $\mathscr{H}_0.$  The null hypothesis $\mathscr{H}_0$ tested is: `the reduced model is an **adequate simplification** of the full model' and the likelihood provides three main classes of statistics for testing this hypothesis: these are
@@ -510,10 +511,60 @@ The three main classes of statistics for testing a simple null hypothesis $\math
  S &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
 \end{align*}
 where $\widehat{\boldsymbol{\theta}}$ is the maximum likelihood estimate under the alternative and $\boldsymbol{\theta}_0$ is the null value of the parameter vector. Asymptotically, all the test statistics are equivalent (in the sense that they lead to the same conclusions about $\mathscr{H}_0$).
+
+
+
+:::{#rem-nulldist}
+
+## Testing procedures and quadratic forms
+
+The null distribution of the maximum likelihood estimator (and related quantities) is useful for testing, albeit not in this form. Consider for simplicity the case where we have $p=2$ dimensional parameter (e.g., a Weibull distribution) and we impose $q=2$ restrictions; we consider for simplicity a Wald-type test. The asymptotic distribution of the maximum likelihood estimator is $\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\}$, and we can obtain confidence ellipse for the MLE by replacing Fisher information $i(\boldsymbol{\theta})$ by a convergent estimator  $j(\widehat{\boldsymbol{\theta}})$: we then obtain the left panel of @fig-ellipses. 
+
+If we postulate $\boldsymbol{\theta} = \boldsymbol{\theta}_0$, it suffices to consider where the pair  falls on the plot and find the level of the ellipse that intersects with the point. This however is complicated: rather, we can standardize the variable to $\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)$, where now the contour curves are circular. To reduce the problem from a two-dimensional problem to a one-dimensional, we consider the squared radius $W = \vartheta_1^2 + \vartheta_2^2 = (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)$, which is approximately $\chi^2_2$ in large sample, as shown in the right panel of @fig-ellipses. It is much easier to determine whether the value is large based on the radius.
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: fig-ellipses
+#| fig-cap: "Elliptical contour curves for the asymptotic multivariate normal distribution of the MLE (left) and density of the squared radial of the standardized variable $\\boldsymbol{\\vartheta}$ with the corresponding quantile levels (rugs) for the squared radial component (right)."
+# x <- seq(0, 7, length.out = 101)
+# y <- seq(31, 34, length.out = 101)
+# z <- matrix(
+#         mvtnorm::dmvnorm(x = expand.grid(x, y), 
+#                          mean = fitweibull$estimate, 
+#                          sigma = vmat_weibull, 
+#                          log = TRUE), 
+#         nrow = 101)
+radius <- sqrt(qchisq(p = seq(0.9, 0.1, by = -0.1), df = 2))
+# image(x = x, y = y, z = z, col = viridis::plasma(n = 11), breaks = log(c(1e-4, radius, 1e4)))
+par(mfrow = c(1,2), mar = c(4,4,0.5,0.5), bty = "l")
+for (r in seq_along(radius)) {
+  car::ellipse(grid = FALSE,
+  center = opt_weibull$par,
+  shape = vmat_weibull,
+  radius = radius[r],
+  add = ifelse(r == 1, FALSE, TRUE),
+  draw = TRUE,
+  col = "black",
+  xlab = "scale",
+  ylab = "shape",
+  ylim = c(2, 3.2), 
+  xlim = c(29, 36.5)
+  ) 
+}
+curve(dchisq(x, df = 2), from = 0, to = 10, xaxs = "i", yaxs = "i", 
+ylim = c(0, 0.55), xlab = "squared radius", ylab = "density")
+rug(qchisq(p = seq(0.1, 0.9, by = 0.1), df = 2))
+
+
+```
+
+:::
+
 If $\mathscr{H}_0$ is true, the three test statistics follow asymptotically a $\chi^2_q$ distribution under a null hypothesis $\mathscr{H}_0,$ where the degrees of freedom $q$ are the number of restrictions.
 \begin{align*}
 w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) \\
-r({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
 \left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \\
 s(\theta_0)&=j^{-1/2}(\theta_0)U(\theta_0)
 \end{align*}
@@ -877,7 +928,7 @@ g1 <- ggplot(data = prof,
      mapping = aes(x = mu, y = r)) +
   geom_abline(intercept = 0, slope = 1) +
   geom_line() + 
-  geom_hline(yintercept = qnorm(0.025, 0.975),
+  geom_hline(yintercept = qnorm(c(0.025, 0.975)),
             linetype = "dashed") + 
   labs(x = expression(paste("expectation ", mu)),
        y = "signed likelihood root")

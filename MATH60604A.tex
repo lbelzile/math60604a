@@ -333,12 +333,12 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{plain}
 \newtheorem{corollary}{Corollary}[chapter]
 \theoremstyle{remark}
@@ -381,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-10-12}
+\date{2024-10-24}
 
 \begin{document}
 
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, opacityback=0, breakable, rightrule=.15mm, bottomrule=.15mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, left=2mm, coltitle=black, bottomtitle=1mm, colback=white, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, toprule=.15mm, arc=.35mm, opacitybacktitle=0.6, opacityback=0, rightrule=.15mm, breakable, colbacktitle=quarto-callout-important-color!10!white]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, opacityback=0, breakable, rightrule=.15mm, bottomrule=.15mm, colback=white, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, toptitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, left=2mm, coltitle=black, bottomtitle=1mm, colback=white, toptitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, leftrule=.75mm, toprule=.15mm, arc=.35mm, opacitybacktitle=0.6, opacityback=0, rightrule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, toprule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, opacityback=0, breakable, rightrule=.15mm, bottomrule=.15mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, left=2mm, coltitle=black, bottomtitle=1mm, colback=white, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, toprule=.15mm, arc=.35mm, opacitybacktitle=0.6, opacityback=0, rightrule=.15mm, breakable, colbacktitle=quarto-callout-important-color!10!white]
 
 \textbf{Learning objectives}:
 
@@ -3472,12 +3472,60 @@ respectively as \begin{align*}
 likelihood estimate under the alternative and \(\boldsymbol{\theta}_0\)
 is the null value of the parameter vector. Asymptotically, all the test
 statistics are equivalent (in the sense that they lead to the same
-conclusions about \(\mathscr{H}_0\)). If \(\mathscr{H}_0\) is true, the
-three test statistics follow asymptotically a \(\chi^2_q\) distribution
-under a null hypothesis \(\mathscr{H}_0,\) where the degrees of freedom
-\(q\) are the number of restrictions. \begin{align*}
+conclusions about \(\mathscr{H}_0\)).
+
+\begin{refremark}[Testing procedures and quadratic forms]
+The null distribution of the maximum likelihood estimator (and related
+quantities) is useful for testing, albeit not in this form. Consider for
+simplicity the case where we have \(p=2\) dimensional parameter (e.g., a
+Weibull distribution) and we impose \(q=2\) restrictions; we consider
+for simplicity a Wald-type test. The asymptotic distribution of the
+maximum likelihood estimator is
+\(\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\}\),
+and we can obtain confidence ellipse for the MLE by replacing Fisher
+information \(i(\boldsymbol{\theta})\) by a convergent estimator
+\(j(\widehat{\boldsymbol{\theta}})\): we then obtain the left panel of
+Figure~\ref{fig-ellipses}.
+
+If we postulate \(\boldsymbol{\theta} = \boldsymbol{\theta}_0\), it
+suffices to consider where the pair falls on the plot and find the level
+of the ellipse that intersects with the point. This however is
+complicated: rather, we can standardize the variable to
+\(\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)\),
+where now the contour curves are circular. To reduce the problem from a
+two-dimensional problem to a one-dimensional, we consider the squared
+radius
+\(W = \vartheta_1^2 + \vartheta_2^2 = (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)\),
+which is approximately \(\chi^2_2\) in large sample, as shown in the
+right panel of Figure~\ref{fig-ellipses}. It is much easier to determine
+whether the value is large based on the radius.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-ellipses-1.pdf}
+
+}
+
+\caption{\label{fig-ellipses}Elliptical contour curves for the
+asymptotic multivariate normal distribution of the MLE (left) and
+density of the squared radial of the standardized variable
+\(\boldsymbol{\vartheta}\) with the corresponding quantile levels (rugs)
+for the squared radial component (right).}
+
+\end{figure}%
+
+\label{rem-nulldist}
+
+\end{refremark}
+
+If \(\mathscr{H}_0\) is true, the three test statistics follow
+asymptotically a \(\chi^2_q\) distribution under a null hypothesis
+\(\mathscr{H}_0,\) where the degrees of freedom \(q\) are the number of
+restrictions. \begin{align*}
 w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) \\
-r({\theta_0}) = \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
 \left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} \\
 s(\theta_0)&=j^{-1/2}(\theta_0)U(\theta_0)
 \end{align*} We call \(r({\theta_0})\) the directed likelihood root.
@@ -3773,7 +3821,7 @@ denotes the quantile of a \(\chi^2_1\) random variable.
      \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mu, }\AttributeTok{y =}\NormalTok{ r)) }\SpecialCharTok{+}
   \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{intercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{slope =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{),}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FunctionTok{qnorm}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{)),}
             \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+} 
   \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"expectation "}\NormalTok{, mu)),}
        \AttributeTok{y =} \StringTok{"signed likelihood root"}\NormalTok{)}
@@ -5947,8 +5995,6 @@ factors don't interact, the mean in the cell is given by the sum of the
 main effects. Only once we have a removed this term can we consider if
 all row means or column means are the same.
 
-:::
-
 While formal testing is needed to check for interactions, the concept
 can be better understood by looking at graphs (at least in a setting
 where the means are known with little to no uncertainty).
@@ -6268,28 +6314,47 @@ the perception of appropriation would vary by political ideology
 (liberal or conservative). The study results in a 3 by 2 by 2 three-way
 ANOVA.
 
-\begin{verbatim}
-#> , , brandaction = peeking
-#> 
-#>               chefdax
-#> politideo      not black black
-#>   conservative        33    36
-#>   liberal             87    84
-#> 
-#> , , brandaction = permission
-#> 
-#>               chefdax
-#> politideo      not black black
-#>   conservative        42    34
-#>   liberal             77    84
-#> 
-#> , , brandaction = control
-#> 
-#>               chefdax
-#> politideo      not black black
-#>   conservative        38    32
-#>   liberal             79    85
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(LKUK24\_S4, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\CommentTok{\# Check repartition of observations in subgroups}
+\FunctionTok{xtabs}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{politideo }\SpecialCharTok{+}\NormalTok{ chefdax }\SpecialCharTok{+}\NormalTok{ brandaction,}
+          \AttributeTok{data =}\NormalTok{ LKUK24\_S4)}
+\CommentTok{\#\textgreater{} , , brandaction = peeking}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}               chefdax}
+\CommentTok{\#\textgreater{} politideo      not black black}
+\CommentTok{\#\textgreater{}   conservative        33    36}
+\CommentTok{\#\textgreater{}   liberal             87    84}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} , , brandaction = permission}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}               chefdax}
+\CommentTok{\#\textgreater{} politideo      not black black}
+\CommentTok{\#\textgreater{}   conservative        42    34}
+\CommentTok{\#\textgreater{}   liberal             77    84}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} , , brandaction = control}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}               chefdax}
+\CommentTok{\#\textgreater{} politideo      not black black}
+\CommentTok{\#\textgreater{}   conservative        38    32}
+\CommentTok{\#\textgreater{}   liberal             79    85}
+\CommentTok{\# Factors are crossed, and there are replications}
+\CommentTok{\# We fit the three{-}way ANOVA model (all interactions)}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(appropriation }\SpecialCharTok{\textasciitilde{}}\NormalTok{ politideo }\SpecialCharTok{*}\NormalTok{ chefdax }\SpecialCharTok{*}\NormalTok{ brandaction,}
+          \AttributeTok{data =}\NormalTok{ LKUK24\_S4)}
+\CommentTok{\# Compute estimated marginal means for each of the 12 subgroups}
+\NormalTok{emm }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(mod, }
+        \AttributeTok{specs =} \FunctionTok{c}\NormalTok{(}\StringTok{"chefdax"}\NormalTok{, }\StringTok{"brandaction"}\NormalTok{, }\StringTok{"politideo"}\NormalTok{))}
+\CommentTok{\# Create an interaction plot}
+\FunctionTok{emmip}\NormalTok{(}\AttributeTok{object =}\NormalTok{ emm, }
+        \AttributeTok{formula =}\NormalTok{ brandaction }\SpecialCharTok{\textasciitilde{}}\NormalTok{ chefdax }\SpecialCharTok{|}\NormalTok{ politideo, }
+        \AttributeTok{CIs =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{  MetBrewer}\SpecialCharTok{::}\FunctionTok{scale\_color\_met\_d}\NormalTok{(}\AttributeTok{name =} \StringTok{"Hiroshige"}\NormalTok{)}
+\NormalTok{anova\_tab }\OtherTok{\textless{}{-}}\NormalTok{ car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(mod, }\AttributeTok{type =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{center}
 \includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/unnamed-chunk-48-1.pdf}
@@ -6703,7 +6768,11 @@ x_j = \beta^{\star}_0 + \beta^{\star}_1 x_1 + \cdots + \beta^{\star}_{j-1} x_{j-
 variance of \(x_j\) that is explained by all the other predictor
 variables. Large variance inflation factors are indicative of problems
 (typically covariates with \(\mathsf{VIF}>10\) require scrutinity, and
-values in the hundreds or more indicate serious problems).
+values in the hundreds or more indicate serious problems). For
+categorical variables, the variance inflation factor definition would
+normally yield for each level a different value; an alternative is the
+generalized variance inflation factor (\citeproc{ref-Fox:1992}{Fox and
+Monette 1992}).
 
 Added-variable plots can also serve as diagnostics, by means of
 comparison of the partial residuals with a scatterplot of the pair
@@ -6757,17 +6826,12 @@ covariates in the database, including \texttt{years}, the number of
 years since PhD. One can suspect that, unless a professor started his or
 her career elsewhere before moving to the college, they will have nearly
 the same years of service. In fact, the correlation between the two
-variables, \texttt{service} and \texttt{years} is 0.91. The variance
-inflation factor for the five covariates
+variables, \texttt{service} and \texttt{years} is 0.91.
 
-For categorical variables, the variance inflation factor definition
-would normally yield for each level a different value; an alternative is
-the generalized variance inflation factor (\citeproc{ref-Fox:1992}{Fox
-and Monette 1992}). Here, we are interested in gender disparities, so
-the fact that both service and field are strongly correlated is not
-problematic, since the \(\mathsf{VIF}\) for \(\texttt{sex}\) is not high
-and the other variables are there to act as control and avoid
-confounders.
+Here, we are interested in gender disparities, so the fact that both
+service and field are strongly correlated is not problematic, since the
+\(\mathsf{VIF}\) for \(\texttt{sex}\) is not high and the other
+variables are there to act as control and avoid confounders.
 
 \begin{longtable}[]{@{}rrrrr@{}}
 \caption{(Generalized) variance inflation factor for the
@@ -6861,15 +6925,20 @@ observations, at the cost of efficiency.
 \section{Model assumptions and
 diagnostics}\label{model-assumptions-and-diagnostics}
 
+This section reviews the assumptions made in order to allow statistical
+inference using the linear model and different residuals that serve as
+building blocks for graphical diagnostics. We investigate the
+consequences of violation of these assumptions and outline potential
+mitigation strategies, many of which are undertaken in other chapters.
+
 So far, we have fit models and tested significance of the parameters
-without checking the model assumptions. The correctness of statements
-about the \(p\)-values and confidence intervals depend on the
-(approximate) validity of the model assumptions, which all stem from the
-distributional assumption for the error, assumed to be independent and
-identically distributed with
-\(\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{normal}(0, \sigma^2)\).
-This compact mathematical description can be broken down into four
-assumptions.
+without checking the model. The correctness of statements about the
+\(p\)-values and confidence intervals depend on the (approximate)
+validity of the model assumptions, which all stem from the
+distributional assumption for
+\[Y_i \mid \mathbf{x}_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\],
+assumed independent. This compact mathematical description can be broken
+down into four assumptions.
 
 \begin{itemize}
 \tightlist
@@ -6884,12 +6953,6 @@ assumptions.
   normality of the errors
 \end{itemize}
 
-This section reviews the assumptions made in order to allow statistical
-inference using the linear model and different residuals that serve as
-building blocks for graphical diagnostics. We investigate the
-consequences of violation of these assumptions and outline potential
-mitigation strategies, many of which are undertaken in other chapters.
-
 When we perform an hypothesis test, we merely fail to reject the null
 hypothesis, either because the latter is true or else due to lack of
 evidence. The same goes for checking the validity of model assumptions:
@@ -6903,136 +6966,10 @@ eye is very good at finding spurious patterns.
 We review the assumptions in turn and discuss what happens when the
 assumptions fail to hold.
 
-\subsection{Independence assumption}\label{independence-assumption}
+\subsection{Linearity and additivity
+assumption}\label{linearity-and-additivity-assumption}
 
-Usually, the independence of the observations follows directly from the
-type of sampling used --- this assumption is implicitly true if the
-observations were taken from a \emph{random sample} from the population.
-This is generally not the case for longitudinal data, which contains
-repeated measures from the same individuals across time. Likewise, time
-series are bound not to have independent observations. If we want to
-include all the time points in the analysis, we must take into account
-the possible dependence (correlation) between observations. If we ignore
-correlation, the estimated standard errors are too small relative to the
-truth, so the effective sample size is smaller than number of
-observations.
-
-What is the impact of dependence between measurements? Heuristically,
-correlated measurements carry less information than independent ones. In
-the most extreme case, there is no additional information and
-measurements are identical, but adding them multiple times unduly
-inflates the statistic and leads to more frequent rejections.
-
-\begin{figure}[ht!]
-
-\centering{
-
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-plotLevelIndep-1.pdf}
-
-}
-
-\caption{\label{fig-plotLevelIndep}Percentage of rejection of the null
-hypothesis for the \(F\)-test of equality of means for the one way ANOVA
-with data generated with equal mean and variance from an equicorrelation
-model (within group observations are correlated, between group
-observations are independent). The nominal level of the test is 5\%.}
-
-\end{figure}%
-
-The lack of independence can also have drastic consequences on inference
-and lead to false conclusions: Figure~\ref{fig-plotLevelIndep} shows an
-example with correlated samples within group (or equivalently repeated
-measurements from individuals) with 25 observations per group. The
-\(y\)-axis shows the proportion of times the null is rejected when it
-shouldn't be. Here, since the data are generated from the null model
-(equal mean) with equal variance, the inflation in the number of
-spurious discoveries, false alarm or type I error is alarming and the
-inflation is substantial even with very limited correlation between
-measurements.
-
-The first source of dependence is clustered data, meaning measurements
-taken from subjects that are not independent from one another (family,
-groups, etc.) More generally, correlation between observations can
-arises from space-time dependence, roughly categorized into
-
-\begin{itemize}
-\tightlist
-\item
-  longitudinal data: repeated measurements are taken from the same
-  subjects (few time points)
-\item
-  time series: observations observed at multiple time periods (many time
-  points).
-\end{itemize}
-
-Time series require dedicated models not covered in this course. Because
-of autocorrelation, positive errors tend to be followed by positive
-errors, etc. We can plot the residuals as a function of time, and a
-scatterplot of lagged residuals \(e_i\) versus \(e_{i-1}\)
-(\(i=2, \ldots, n\)).
-
-\begin{figure}[ht!]
-
-\centering{
-
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-timeresidplot-1.pdf}
-
-}
-
-\caption{\label{fig-timeresidplot}Lagged residual plots: there is no
-evidence against independence in the left panel, whereas the right panel
-shows positively correlated residuals.}
-
-\end{figure}%
-
-However, lagged residuals plots only show dependence at lag one between
-observations. For time series, we can look instead at a correlogram,
-i.e., a bar plot of the correlation between two observations \(h\) units
-apart as a function of the lag \(h\)
-(\citeproc{ref-Brockwell.Davis:2016}{Brockwell and Davis 2016},
-Definition 1.4.4).
-
-For \(y_1, \ldots, y_n\) and constant time lags \(h=0, 1, \ldots\)
-units, the autocorrelation at lag \(h\) is \begin{align*}
-r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
-\end{align*}
-
-If the series is correlated, the sample autocorrelation will likely fall
-outside of the pointwise confidence intervals, as shown in
-Figure~\ref{fig-correlogram}. Presence of autocorrelation requires
-modelling the correlation between observations explicitly using
-dedicated tools from the time series literature. We will however examine
-\(\mathsf{AR}(1)\) models as part of the chapter on longitudinal data.
-See
-\href{https://otexts.com/fpp2/regression-evaluation.html}{Forecasting:
-Principles and Practice, section 5.3} for more details.
-
-When observations are positively correlated, the estimated standard
-errors reported by the software are too small. This means we are
-overconfident and will reject the null hypothesis more often then we
-should if the null is true (inflated Type I error, or false positive).
-
-\begin{figure}[ht!]
-
-\centering{
-
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-correlogram-1.pdf}
-
-}
-
-\caption{\label{fig-correlogram}Correlogram of independent observations
-(left) and the ordinary residuals of the log-linear model fitted to the
-air passengers data (right). While the mean model of the latter is
-seemingly correctly specified, there is residual dependence between
-monthly observations and yearly (at lag 12). The blue lines give
-approximate pointwise 95\% confidence intervals for white noise
-(uncorrelated observations).}
-
-\end{figure}%
-
-\subsection{Linearity assumption}\label{linearity-assumption}
-
-The second assumption of the linear model is that of linearity, which
+The first assumption of the linear model is that of linearity, which
 means that the mean model is correctly specified, all relevant
 covariates have been included and their effect is correctly specified.
 To check that the response surface of the linear model is adequate, we
@@ -7173,14 +7110,6 @@ freedom, whereas Levene's test has an \(F\)-distribution with (\(K-1\),
 ANOVA \(F\)-statistic with the absolute value of the centered residuals,
 \(|y_{ik} - \widehat{\mu}_k|\), as observations.
 
-What are the impacts of unequal variance if we use the \(F\)-test
-instead? For one, the pooled variance will be based on a weighted
-average of the variance in each group, where the weight is a function of
-the sample size. This can lead to size distortion (meaning that the
-proportion of type I error is not the nominal level \(\alpha\) as
-claimed) and potential loss of power. The following toy example
-illustrates this.
-
 \begin{example}[Violation of the null hypothesis of equal
 variance]\protect\hypertarget{exm-heterogeneity}{}\label{exm-heterogeneity}
 
@@ -7204,28 +7133,21 @@ would have 5\% in each of the 20 bins used for the display.}
 
 \end{figure}%
 
-We consider for simplicity a problem with \(K=2\) groups, which is the
-two-sample \(t\)-test. We simulated 50 observations from a
+We consider for simplicity a two sample \(t\)-with \(K=2\) groups, which
+is the two-sample \(t\)-test. We simulated 50 observations from a
 \(\mathsf{normal}(0, 1)\) distribution and 10 observations from
 \(\mathsf{normal}(0, 9)\), comparing the distribution of the
-\(p\)-values for the Welch and the \(F\)-test statistics.
+\(p\)-values for the Welch and the \(t\)-test statistics.
 Figure~\ref{fig-simuWelchnull} shows the results. The percentage of
 \(p\)-values less than \(\alpha=0.05\) based on 10 000 replicates is
 estimated to be 4.76\% for the Welch statistic, not far from the level.
-By contrast, we reject 28.95\% of the time with the one-way ANOVA global
-\(F\)-test: this is a large share of innocents sentenced to jail based
-on false premises! While the size distortion is not always as striking,
-heterogeneity should be accounted in the design by requiring sufficient
-sample sizes (whenever costs permits) in each group to be able to
-estimate the variance reliably and using an adequate statistic.
+By contrast, we reject 28.95\% of the time with the two-sample
+\(t\)-test! While the size distortion is not always as striking,
+heterogeneity of variance should be accounted in the design by requiring
+sufficient sample sizes (whenever costs permits) in each group to be
+able to estimate the variance reliably and using an adequate statistic.
 
 \end{example}
-
-There are alternative graphical ways of checking the assumption of equal
-variance, many including the standardized residuals
-\(r_{ik} = (y_{ik} - \widehat{\mu}_k)/\widehat{\sigma}\) against the
-fitted values \(\widehat{\mu}_k\). We will cover these in later
-sections.
 
 Oftentimes, unequal variance occurs because the model is not additive.
 You could use variance-stabilizing transformations (e.g., log for
@@ -7235,6 +7157,126 @@ response you have (including count and binary data). Lastly, it may be
 necessary to explicitly model the variance in more complex design
 (including repeated measures) where there is a learning effect over time
 and variability decreases as a result. Consult an expert if needed.
+
+\subsection{Independence assumption}\label{independence-assumption}
+
+Usually, the independence of the observations follows directly from the
+type of sampling used --- this assumption is implicitly true if the
+observations were taken from a \emph{random sample} from the population.
+This is generally not the case for longitudinal data, which contains
+repeated measures from the same individuals across time. Likewise, time
+series are bound not to have independent observations. If we want to
+include all the time points in the analysis, we must take into account
+the possible dependence (correlation) between observations. If we ignore
+correlation, the estimated standard errors are too small relative to the
+truth, so the effective sample size is smaller than number of
+observations.
+
+What is the impact of dependence between measurements? Heuristically,
+correlated measurements carry less information than independent ones. In
+the most extreme case, there is no additional information and
+measurements are identical, but adding them multiple times unduly
+inflates the statistic and leads to more frequent rejections.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-plotLevelIndep-1.pdf}
+
+}
+
+\caption{\label{fig-plotLevelIndep}Percentage of rejection of the null
+hypothesis for the \(F\)-test of equality of means for the one way ANOVA
+with data generated with equal mean and variance from an equicorrelation
+model (within group observations are correlated, between group
+observations are independent). The nominal level of the test is 5\%.}
+
+\end{figure}%
+
+The lack of independence can also have drastic consequences on inference
+and lead to false conclusions: Figure~\ref{fig-plotLevelIndep} shows an
+example with correlated samples within group (or equivalently repeated
+measurements from individuals) with five observations per group. The
+\(y\)-axis shows the proportion of times the null is rejected when it
+shouldn't be. Here, since the data are generated from the null model
+(equal mean) with equal variance, the inflation in the number of
+spurious discoveries, false alarm or type I error is alarming and the
+inflation is substantial even with very limited correlation between
+measurements.
+
+The first source of dependence is clustered data, meaning measurements
+taken from subjects that are not independent from one another (family,
+groups, etc.) More generally, correlation between observations can
+arises from space-time dependence, roughly categorized into
+\textbf{longitudinal data}, when repeated measurements are taken from
+the same subjects at a few time points, and \textbf{time series}, which
+have more observations sampled at higher frequency.
+
+Time series require dedicated models not covered in this course. Because
+of autocorrelation, positive errors tend to be followed by positive
+errors, etc. We can plot the residuals as a function of time, and a
+scatterplot of lagged residuals \(e_i\) versus \(e_{i-1}\)
+(\(i=2, \ldots, n\)).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-timeresidplot-1.pdf}
+
+}
+
+\caption{\label{fig-timeresidplot}Lagged residual plots: there is no
+evidence against independence in the left panel, whereas the right panel
+shows positively correlated residuals.}
+
+\end{figure}%
+
+However, lagged residuals plots only show dependence at lag one between
+observations. For time series, we can look instead at a correlogram,
+i.e., a bar plot of the correlation between two observations \(h\) units
+apart as a function of the lag \(h\)
+(\citeproc{ref-Brockwell.Davis:2016}{Brockwell and Davis 2016},
+Definition 1.4.4).
+
+For \(y_1, \ldots, y_n\) and constant time lags \(h=0, 1, \ldots\)
+units, the autocorrelation at lag \(h\) is \begin{align*}
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
+\end{align*}
+
+If the series is correlated, the sample autocorrelation will likely fall
+outside of the pointwise confidence intervals, as shown in
+Figure~\ref{fig-correlogram}. Presence of autocorrelation requires
+modelling the correlation between observations explicitly using
+dedicated tools from the time series literature. We will however examine
+\(\mathsf{AR}(1)\) models as part of the chapter on longitudinal data.
+See
+\href{https://otexts.com/fpp2/regression-evaluation.html}{Forecasting:
+Principles and Practice, section 5.3} for more details.
+
+When observations are positively correlated, the estimated standard
+errors reported by the software are too small. This means we are
+overconfident and will reject the null hypothesis more often then we
+should if the null is true (inflated Type I error, or false positive).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-correlogram-1.pdf}
+
+}
+
+\caption{\label{fig-correlogram}Correlogram of independent observations
+(left) and the ordinary residuals of the log-linear model fitted to the
+air passengers data (right). While the mean model of the latter is
+seemingly correctly specified, there is residual dependence between
+monthly observations and yearly (at lag 12). The blue lines give
+approximate pointwise 95\% confidence intervals for white noise
+(uncorrelated observations).}
+
+\end{figure}%
 
 \subsection{Normality assumption}\label{normality-assumption}
 

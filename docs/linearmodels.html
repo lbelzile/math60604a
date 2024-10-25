@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.1">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -276,9 +276,9 @@ window.Quarto = {
   </ul></li>
   <li><a href="#model-assumptions-and-diagnostics" id="toc-model-assumptions-and-diagnostics" class="nav-link" data-scroll-target="#model-assumptions-and-diagnostics"><span class="header-section-number">4.7</span> Model assumptions and diagnostics</a>
   <ul class="collapse">
-  <li><a href="#independence-assumption" id="toc-independence-assumption" class="nav-link" data-scroll-target="#independence-assumption"><span class="header-section-number">4.7.1</span> Independence assumption</a></li>
-  <li><a href="#linearity-assumption" id="toc-linearity-assumption" class="nav-link" data-scroll-target="#linearity-assumption"><span class="header-section-number">4.7.2</span> Linearity assumption</a></li>
-  <li><a href="#constant-variance-assumption" id="toc-constant-variance-assumption" class="nav-link" data-scroll-target="#constant-variance-assumption"><span class="header-section-number">4.7.3</span> Constant variance assumption</a></li>
+  <li><a href="#linearity-and-additivity-assumption" id="toc-linearity-and-additivity-assumption" class="nav-link" data-scroll-target="#linearity-and-additivity-assumption"><span class="header-section-number">4.7.1</span> Linearity and additivity assumption</a></li>
+  <li><a href="#constant-variance-assumption" id="toc-constant-variance-assumption" class="nav-link" data-scroll-target="#constant-variance-assumption"><span class="header-section-number">4.7.2</span> Constant variance assumption</a></li>
+  <li><a href="#independence-assumption" id="toc-independence-assumption" class="nav-link" data-scroll-target="#independence-assumption"><span class="header-section-number">4.7.3</span> Independence assumption</a></li>
   <li><a href="#normality-assumption" id="toc-normality-assumption" class="nav-link" data-scroll-target="#normality-assumption"><span class="header-section-number">4.7.4</span> Normality assumption</a></li>
   </ul></li>
   <li><a href="#extensions-of-the-model" id="toc-extensions-of-the-model" class="nav-link" data-scroll-target="#extensions-of-the-model"><span class="header-section-number">4.8</span> Extensions of the model</a>
@@ -1764,7 +1764,6 @@ The model formulation in terms of difference from the global average or main eff
 $$\sum_{i=1}^{n_a} \alpha_i=0, \quad \sum_{j=1}^{n_b} \beta_j=0, \quad  \sum_{j=1}^{n_b} (\alpha\beta)_{ij}=0, \quad \sum_{i=1}^{n_a} (\alpha\beta)_{ij}=0.$$
 -->
 <p>We can consider model simplifications from bottom up. Removing the interaction leads to a model with <span class="math inline">\(1 + (n_a-1) + (n_b-1)\)</span> parameters, relative to <span class="math inline">\(n_a\times n_b\)</span> for the model with the interaction. We can use an <span class="math inline">\(F\)</span>-test to check for the significance of the latter. If the factors don’t interact, the mean in the cell is given by the sum of the main effects. Only once we have a removed this term can we consider if all row means or column means are the same.</p>
-<p>:::</p>
 <p>While formal testing is needed to check for interactions, the concept can be better understood by looking at graphs (at least in a setting where the means are known with little to no uncertainty).</p>
 <div id="def-interactionplot" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 4.3 (Interaction plot)</strong></span> We can try to detect interactions visually by plotting the (mean) response as a function of one of the covariates, using a so-called <strong>interaction plot</strong>. When there are more than two categorical variables, we can use colors, symbols or panels to represent the categories. Lack of interaction in those plots implies parallel lines, but one must account for the uncertainty.</p>
@@ -1946,26 +1945,43 @@ Table&nbsp;4.8: Sum of square decompositions in ANOVA tables. Comparison of sum 
 <div id="exm-LKUK24" class="theorem example">
 <p><span class="theorem-title"><strong>Example 4.21 (Perceptions of cultural appropriation by ideology)</strong></span> We consider a three-way ANOVA from <span class="citation" data-cites="Lin.Kim.Uduehi.Keinan:2024">Lin et al. (<a href="references.html#ref-Lin.Kim.Uduehi.Keinan:2024" role="doc-biblioref">2024</a>)</span>. Their Study 4 focused on cultural appropriation for soul food recipe cookbook from Chef Dax, who was either black (or not), manipulating the description of the way he obtained the recipes (by peeking without permission in kitchens, by asking permission or no mention for control). Authors postulated that the perception of appropriation would vary by political ideology (liberal or conservative). The study results in a 3 by 2 by 2 three-way ANOVA.</p>
 <div class="cell" data-layout-align="center">
-<pre><code>#&gt; , , brandaction = peeking
-#&gt; 
-#&gt;               chefdax
-#&gt; politideo      not black black
-#&gt;   conservative        33    36
-#&gt;   liberal             87    84
-#&gt; 
-#&gt; , , brandaction = permission
-#&gt; 
-#&gt;               chefdax
-#&gt; politideo      not black black
-#&gt;   conservative        42    34
-#&gt;   liberal             77    84
-#&gt; 
-#&gt; , , brandaction = control
-#&gt; 
-#&gt;               chefdax
-#&gt; politideo      not black black
-#&gt;   conservative        38    32
-#&gt;   liberal             79    85</code></pre>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(LKUK24_S4, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Check repartition of observations in subgroups</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span>politideo <span class="sc">+</span> chefdax <span class="sc">+</span> brandaction,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> LKUK24_S4)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , brandaction = peeking</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               chefdax</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; politideo      not black black</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   conservative        33    36</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   liberal             87    84</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , brandaction = permission</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               chefdax</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; politideo      not black black</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   conservative        42    34</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   liberal             77    84</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , brandaction = control</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               chefdax</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; politideo      not black black</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   conservative        38    32</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   liberal             79    85</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Factors are crossed, and there are replications</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co"># We fit the three-way ANOVA model (all interactions)</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(appropriation <span class="sc">~</span> politideo <span class="sc">*</span> chefdax <span class="sc">*</span> brandaction,</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> LKUK24_S4)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute estimated marginal means for each of the 12 subgroups</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(mod, </span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">"chefdax"</span>, <span class="st">"brandaction"</span>, <span class="st">"politideo"</span>))</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an interaction plot</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="fu">emmip</span>(<span class="at">object =</span> emm, </span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">formula =</span> brandaction <span class="sc">~</span> chefdax <span class="sc">|</span> politideo, </span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">CIs =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>  MetBrewer<span class="sc">::</span><span class="fu">scale_color_met_d</span>(<span class="at">name =</span> <span class="st">"Hiroshige"</span>)</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>anova_tab <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod, <span class="at">type =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2198,7 +2214,7 @@ R^2 &amp;=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = 1 - \frac{sum_{i=1}^n (y_i - 
 <p>One potential harm of collinearity is a decrease in the precision of parameter estimators. With collinear explanatories, many linear combinations of the covariates represent the response nearly as well. Due to the (near) lack of identifiability, the estimated coefficients become numerically unstable and this causes an increase of the standard errors of the parameters. The predicted or fitted values are unaffected. Generally, collinearity leads to high estimated standard errors and the regression coefficients can change drastically when new observations are included in the model, or when we include or remove explanatories. The individual <span class="math inline">\(\beta\)</span> coefficients may not be statistically significant, but the global <span class="math inline">\(F\)</span>-test will indicate that some covariates are relevant for explaining the response. This however would also be the case if there are predictors with strong signal, so neither is likely to be useful to detect issues.</p>
 <p>The added-variable plot shows the relation between the response <span class="math inline">\(Y\)</span> and an explanatory <span class="math inline">\(x_j\)</span> after accounting for other variables: the slope <span class="math inline">\(\widehat{\beta}_j\)</span> of the simple linear regression is the same of the full model. A similar idea can be used to see how much of <span class="math inline">\(x_j\)</span> is already explained by the other variables. For a given explanatory variable <span class="math inline">\(x_j\)</span>, we define its <strong>variance inflation factor</strong> as <span class="math inline">\(\mathsf{VIF}(j)=(1-R^2(j))^{-1}\)</span>, where <span class="math inline">\(R^2(j)\)</span> is the coefficient of determination of the model obtained by regressing <span class="math inline">\(x_j\)</span> on all the other explanatory variables, i.e., <span class="math display">\[\begin{align*}
 x_j = \beta^{\star}_0 + \beta^{\star}_1 x_1 + \cdots + \beta^{\star}_{j-1} x_{j-1} + \beta^{\star}_{j+1} x_{j+1} + \cdots + \beta^{\star}_px_p + \varepsilon^{\star}
-\end{align*}\]</span> By definition, <span class="math inline">\(R^2(j)\)</span> represents the proportion of the variance of <span class="math inline">\(x_j\)</span> that is explained by all the other predictor variables. Large variance inflation factors are indicative of problems (typically covariates with <span class="math inline">\(\mathsf{VIF}&gt;10\)</span> require scrutinity, and values in the hundreds or more indicate serious problems).</p>
+\end{align*}\]</span> By definition, <span class="math inline">\(R^2(j)\)</span> represents the proportion of the variance of <span class="math inline">\(x_j\)</span> that is explained by all the other predictor variables. Large variance inflation factors are indicative of problems (typically covariates with <span class="math inline">\(\mathsf{VIF}&gt;10\)</span> require scrutinity, and values in the hundreds or more indicate serious problems). For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor <span class="citation" data-cites="Fox:1992">(<a href="references.html#ref-Fox:1992" role="doc-biblioref">Fox and Monette 1992</a>)</span>.</p>
 <p>Added-variable plots can also serve as diagnostics, by means of comparison of the partial residuals with a scatterplot of the pair <span class="math inline">\((Y, x_j)\)</span>; if the latter shows very strong linear relation, but the slope is nearly zero in the added-variable plot, this hints that collinearity is an issue.</p>
 <p>What can one do about collinearity? If the goal of the study is to develop a predictive model and we’re not interested in the parameters themselves, then we don’t need to do anything. Collinearity is not a problem for the overall model: it’s only a problem for the individual effects of the variables. Their joint effect is still present in the model, regardless of how the individual effects are combined.</p>
 <p>If we are interested in individual parameter estimates, for example, to see how (and to what extent) the predictor variables explain the behaviour of <span class="math inline">\(Y\)</span>, then things get more complicated. Collinearity only affects the variables that are strongly correlated with one another, so we only care if it affects one or more of the variables of interest. There sadly is no good solution to the problem. One could</p>
@@ -2210,8 +2226,8 @@ x_j = \beta^{\star}_0 + \beta^{\star}_1 x_1 + \cdots + \beta^{\star}_{j-1} x_{j-
 </ul>
 <p>Whatever the method, it’s important to understand that it can be very difficult (and sometimes impossible) to isolate the individual effect of a predictor variable strongly correlated with other predictors.</p>
 <div id="exm-collegedatcollinear" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.22 (Collinearity in the <code>college</code> data)</strong></span> We consider the <code>college</code> data analysis and include all the covariates in the database, including <code>years</code>, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, <code>service</code> and <code>years</code> is 0.91. The variance inflation factor for the five covariates</p>
-<p>For categorical variables, the variance inflation factor definition would normally yield for each level a different value; an alternative is the generalized variance inflation factor <span class="citation" data-cites="Fox:1992">(<a href="references.html#ref-Fox:1992" role="doc-biblioref">Fox and Monette 1992</a>)</span>. Here, we are interested in gender disparities, so the fact that both service and field are strongly correlated is not problematic, since the <span class="math inline">\(\mathsf{VIF}\)</span> for <span class="math inline">\(\texttt{sex}\)</span> is not high and the other variables are there to act as control and avoid confounders.</p>
+<p><span class="theorem-title"><strong>Example 4.22 (Collinearity in the <code>college</code> data)</strong></span> We consider the <code>college</code> data analysis and include all the covariates in the database, including <code>years</code>, the number of years since PhD. One can suspect that, unless a professor started his or her career elsewhere before moving to the college, they will have nearly the same years of service. In fact, the correlation between the two variables, <code>service</code> and <code>years</code> is 0.91.</p>
+<p>Here, we are interested in gender disparities, so the fact that both service and field are strongly correlated is not problematic, since the <span class="math inline">\(\mathsf{VIF}\)</span> for <span class="math inline">\(\texttt{sex}\)</span> is not high and the other variables are there to act as control and avoid confounders.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -2268,79 +2284,19 @@ C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\righ
 </section>
 <section id="model-assumptions-and-diagnostics" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="model-assumptions-and-diagnostics"><span class="header-section-number">4.7</span> Model assumptions and diagnostics</h2>
-<p>So far, we have fit models and tested significance of the parameters without checking the model assumptions. The correctness of statements about the <span class="math inline">\(p\)</span>-values and confidence intervals depend on the (approximate) validity of the model assumptions, which all stem from the distributional assumption for the error, assumed to be independent and identically distributed with <span class="math inline">\(\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{normal}(0, \sigma^2)\)</span>. This compact mathematical description can be broken down into four assumptions.</p>
+<p>This section reviews the assumptions made in order to allow statistical inference using the linear model and different residuals that serve as building blocks for graphical diagnostics. We investigate the consequences of violation of these assumptions and outline potential mitigation strategies, many of which are undertaken in other chapters.</p>
+<p>So far, we have fit models and tested significance of the parameters without checking the model. The correctness of statements about the <span class="math inline">\(p\)</span>-values and confidence intervals depend on the (approximate) validity of the model assumptions, which all stem from the distributional assumption for <span class="math display">\[Y_i \mid \mathbf{x}_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\]</span>, assumed independent. This compact mathematical description can be broken down into four assumptions.</p>
 <ul>
 <li>linearity: the mean of <span class="math inline">\(Y\)</span> is <span class="math inline">\(\beta_0 + \beta_1x_1 + \cdots + \beta_p x_p\)</span>.</li>
 <li>homoscedasticity: the error variance is constant</li>
 <li>independence of the errors/observations conditional on covariates.</li>
 <li>normality of the errors</li>
 </ul>
-<p>This section reviews the assumptions made in order to allow statistical inference using the linear model and different residuals that serve as building blocks for graphical diagnostics. We investigate the consequences of violation of these assumptions and outline potential mitigation strategies, many of which are undertaken in other chapters.</p>
 <p>When we perform an hypothesis test, we merely fail to reject the null hypothesis, either because the latter is true or else due to lack of evidence. The same goes for checking the validity of model assumptions: scientific reasoning dictates that we cannot know for certain whether these hold true. Our strategy is therefore to use implications of the linear model assumptions to create graphical diagnostic tools, so as to ensure that there is no gross violation of these hypothesis. However, it is important to beware of over-interpreting diagnostic plots: the human eye is very good at finding spurious patterns.</p>
 <p>We review the assumptions in turn and discuss what happens when the assumptions fail to hold.</p>
-<section id="independence-assumption" class="level3" data-number="4.7.1">
-<h3 data-number="4.7.1" class="anchored" data-anchor-id="independence-assumption"><span class="header-section-number">4.7.1</span> Independence assumption</h3>
-<p>Usually, the independence of the observations follows directly from the type of sampling used — this assumption is implicitly true if the observations were taken from a <em>random sample</em> from the population. This is generally not the case for longitudinal data, which contains repeated measures from the same individuals across time. Likewise, time series are bound not to have independent observations. If we want to include all the time points in the analysis, we must take into account the possible dependence (correlation) between observations. If we ignore correlation, the estimated standard errors are too small relative to the truth, so the effective sample size is smaller than number of observations.</p>
-<p>What is the impact of dependence between measurements? Heuristically, correlated measurements carry less information than independent ones. In the most extreme case, there is no additional information and measurements are identical, but adding them multiple times unduly inflates the statistic and leads to more frequent rejections.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-plotLevelIndep" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-plotLevelIndep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="linearmodels_files/figure-html/fig-plotLevelIndep-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotLevelIndep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.14: Percentage of rejection of the null hypothesis for the <span class="math inline">\(F\)</span>-test of equality of means for the one way ANOVA with data generated with equal mean and variance from an equicorrelation model (within group observations are correlated, between group observations are independent). The nominal level of the test is 5%.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>The lack of independence can also have drastic consequences on inference and lead to false conclusions: <a href="#fig-plotLevelIndep" class="quarto-xref">Figure&nbsp;<span>4.14</span></a> shows an example with correlated samples within group (or equivalently repeated measurements from individuals) with 25 observations per group. The <span class="math inline">\(y\)</span>-axis shows the proportion of times the null is rejected when it shouldn’t be. Here, since the data are generated from the null model (equal mean) with equal variance, the inflation in the number of spurious discoveries, false alarm or type I error is alarming and the inflation is substantial even with very limited correlation between measurements.</p>
-<p>The first source of dependence is clustered data, meaning measurements taken from subjects that are not independent from one another (family, groups, etc.) More generally, correlation between observations can arises from space-time dependence, roughly categorized into</p>
-<ul>
-<li>longitudinal data: repeated measurements are taken from the same subjects (few time points)</li>
-<li>time series: observations observed at multiple time periods (many time points).</li>
-</ul>
-<p>Time series require dedicated models not covered in this course. Because of autocorrelation, positive errors tend to be followed by positive errors, etc. We can plot the residuals as a function of time, and a scatterplot of lagged residuals <span class="math inline">\(e_i\)</span> versus <span class="math inline">\(e_{i-1}\)</span> (<span class="math inline">\(i=2, \ldots, n\)</span>).</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-timeresidplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-timeresidplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="linearmodels_files/figure-html/fig-timeresidplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeresidplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.15: Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations <span class="math inline">\(h\)</span> units apart as a function of the lag <span class="math inline">\(h\)</span> <span class="citation" data-cites="Brockwell.Davis:2016">(<a href="references.html#ref-Brockwell.Davis:2016" role="doc-biblioref">Brockwell and Davis 2016</a>, Definition 1.4.4)</span>.</p>
-<p>For <span class="math inline">\(y_1, \ldots, y_n\)</span> and constant time lags <span class="math inline">\(h=0, 1, \ldots\)</span> units, the autocorrelation at lag <span class="math inline">\(h\)</span> is <span class="math display">\[\begin{align*}
-r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
-\end{align*}\]</span></p>
-<p>If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in <a href="#fig-correlogram" class="quarto-xref">Figure&nbsp;<span>4.16</span></a>. Presence of autocorrelation requires modelling the correlation between observations explicitly using dedicated tools from the time series literature. We will however examine <span class="math inline">\(\mathsf{AR}(1)\)</span> models as part of the chapter on longitudinal data. See <a href="https://otexts.com/fpp2/regression-evaluation.html">Forecasting: Principles and Practice, section 5.3</a> for more details.</p>
-<p>When observations are positively correlated, the estimated standard errors reported by the software are too small. This means we are overconfident and will reject the null hypothesis more often then we should if the null is true (inflated Type I error, or false positive).</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-correlogram" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-correlogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="linearmodels_files/figure-html/fig-correlogram-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.16: Correlogram of independent observations (left) and the ordinary residuals of the log-linear model fitted to the air passengers data (right). While the mean model of the latter is seemingly correctly specified, there is residual dependence between monthly observations and yearly (at lag 12). The blue lines give approximate pointwise 95% confidence intervals for white noise (uncorrelated observations).
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="linearity-assumption" class="level3" data-number="4.7.2">
-<h3 data-number="4.7.2" class="anchored" data-anchor-id="linearity-assumption"><span class="header-section-number">4.7.2</span> Linearity assumption</h3>
-<p>The second assumption of the linear model is that of linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified. To check that the response surface of the linear model is adequate, we plot <span class="math inline">\(e_i\)</span> against <span class="math inline">\(\widehat{y}_i\)</span> or <span class="math inline">\(x_{ij}\)</span> (for <span class="math inline">\(j=1, \ldots, p\)</span>). Since the linear correlation between <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> (or <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\mathbf{X}_j\)</span>) is zero by construction, patterns (e.g., quadratic trend, cycles, changepoints) are indicative of misspecification of the mean model. One can add a smoother to detect patterns. <a href="#fig-regdiaglin" class="quarto-xref">Figure&nbsp;<span>4.17</span></a> shows three diagnostics plots, the second of which shows no pattern in the residuals, but skewed fitted values.</p>
+<section id="linearity-and-additivity-assumption" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="linearity-and-additivity-assumption"><span class="header-section-number">4.7.1</span> Linearity and additivity assumption</h3>
+<p>The first assumption of the linear model is that of linearity, which means that the mean model is correctly specified, all relevant covariates have been included and their effect is correctly specified. To check that the response surface of the linear model is adequate, we plot <span class="math inline">\(e_i\)</span> against <span class="math inline">\(\widehat{y}_i\)</span> or <span class="math inline">\(x_{ij}\)</span> (for <span class="math inline">\(j=1, \ldots, p\)</span>). Since the linear correlation between <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> (or <span class="math inline">\(\boldsymbol{e}\)</span> and <span class="math inline">\(\mathbf{X}_j\)</span>) is zero by construction, patterns (e.g., quadratic trend, cycles, changepoints) are indicative of misspecification of the mean model. One can add a smoother to detect patterns. <a href="#fig-regdiaglin" class="quarto-xref">Figure&nbsp;<span>4.14</span></a> shows three diagnostics plots, the second of which shows no pattern in the residuals, but skewed fitted values.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-regdiaglin" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -2349,7 +2305,7 @@ Figure&nbsp;4.16: Correlogram of independent observations (left) and the ordinar
 <img src="linearmodels_files/figure-html/fig-regdiaglin-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-regdiaglin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.17: Scatterplots of residuals against fitted values. The first two plots show no departure from linearity (mean zero). The third plot shows a clear quadratic pattern, suggesting the mean model is misspecified. Note that the distribution of the fitted value need not be uniform, as in the second panel which shows more high fitted values.
+Figure&nbsp;4.14: Scatterplots of residuals against fitted values. The first two plots show no departure from linearity (mean zero). The third plot shows a clear quadratic pattern, suggesting the mean model is misspecified. Note that the distribution of the fitted value need not be uniform, as in the second panel which shows more high fitted values.
 </figcaption>
 </figure>
 </div>
@@ -2359,11 +2315,11 @@ Figure&nbsp;4.17: Scatterplots of residuals against fitted values. The first two
 <p>Plotting residuals against left-out explanatory variables can also serve to check that all of the explanatory power of the omitted covariate is already explained by the columns of <span class="math inline">\(\mathbf{X}\)</span>.</p>
 <p>If an important variable has been omitted and is not available in the dataset, then the effect of that variable is captured by both the errors (the portion orthogonal to the model matrix <span class="math inline">\(\mathbf{X}\)</span>, i.e., unexplained by the covariates included in the model) and the remaining part is captured by other explanatories of the model that are correlated with the omitted variable. These variables can act as confounders. There is little that can be done in either case unless the data for the omitted variable are available, but subject-specific knowledge may help make sense of the results.</p>
 </section>
-<section id="constant-variance-assumption" class="level3" data-number="4.7.3">
-<h3 data-number="4.7.3" class="anchored" data-anchor-id="constant-variance-assumption"><span class="header-section-number">4.7.3</span> Constant variance assumption</h3>
+<section id="constant-variance-assumption" class="level3" data-number="4.7.2">
+<h3 data-number="4.7.2" class="anchored" data-anchor-id="constant-variance-assumption"><span class="header-section-number">4.7.2</span> Constant variance assumption</h3>
 <p>If the variance of the errors is the same for all observations (homoscedasticity), that of the observations <span class="math inline">\(Y\)</span> is also constant. The most common scenarios for heteroscedasticity are increases in variance with the response, or else variance that depends on explanatory variables <span class="math inline">\(\mathbf{X}\)</span>, most notably categorical variables. For the former, a log-transform (or Box–Cox transformation) can help stabilize the variance, but we need the response to be positive. For the latter, we can explicitly model that variance and we will see how to include different variance per group later on. A popular strategy in the econometrics literature, is to use robust (inflated) estimators of the standard errors such as <a href="https://en.wikipedia.org/wiki/Heteroscedasticity-consistent_standard_errors">White’s sandwich estimator of the variance</a>.</p>
 <p>If the residuals (or observations) are heteroscedastic (non constant variance), the estimated effects of the variables (the <span class="math inline">\(\beta\)</span> parameters) are still valid in the sense that the ordinary least squares estimator <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> is unbiased. However, the estimated standard errors of the <span class="math inline">\(\widehat{\beta}\)</span> are no longer reliable and, consequently, the confidence intervals and the hypothesis tests for the model parameters will be incorrect. Indeed, if the variance of the errors differs from one observation to the next, we will estimate an average of the different variance terms. The standard errors of each term are incorrect (too small or too large) and the conclusions of the tests (<span class="math inline">\(p\)</span>-values) will be off because the formulas of both <span class="math inline">\(t\)</span>-test and <span class="math inline">\(F\)</span>-test statistics include estimates of <span class="math inline">\(\hat{\sigma}^2\)</span>.</p>
-<p>Looking at the plot of jackknife studentized residuals against regressors (or fitted values) is instructive — for example, we often see a funnel pattern when there is an increase in variance in the plot of the jackknife studentized residuals against fitted value, or else in boxplots with a categorical variable as in <a href="#fig-diagfitvalhomosce" class="quarto-xref">Figure&nbsp;<span>4.19</span></a>. However, if we want to fit a local smoother to observe trends, it is better to plot the absolute value of the jackknife studentized residuals against regressors or observation number.</p>
+<p>Looking at the plot of jackknife studentized residuals against regressors (or fitted values) is instructive — for example, we often see a funnel pattern when there is an increase in variance in the plot of the jackknife studentized residuals against fitted value, or else in boxplots with a categorical variable as in <a href="#fig-diagfitvalhomosce" class="quarto-xref">Figure&nbsp;<span>4.16</span></a>. However, if we want to fit a local smoother to observe trends, it is better to plot the absolute value of the jackknife studentized residuals against regressors or observation number.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-residhomoscedastic" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -2372,7 +2328,7 @@ Figure&nbsp;4.17: Scatterplots of residuals against fitted values. The first two
 <img src="linearmodels_files/figure-html/fig-residhomoscedastic-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residhomoscedastic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.18: Plot of the absolute value of jackknife studentized residuals against observation number. The left panel is typical of homoscedastic data, whereas the right panel indicates an increase in the variance.
+Figure&nbsp;4.15: Plot of the absolute value of jackknife studentized residuals against observation number. The left panel is typical of homoscedastic data, whereas the right panel indicates an increase in the variance.
 </figcaption>
 </figure>
 </div>
@@ -2386,7 +2342,7 @@ Figure&nbsp;4.18: Plot of the absolute value of jackknife studentized residuals 
 <img src="linearmodels_files/figure-html/fig-diagfitvalhomosce-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagfitvalhomosce-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.19: Plot of jackknife studentized residuals against fitted value (left) and categorical explanatory (right). Both clearly display heteroscedasticity.
+Figure&nbsp;4.16: Plot of jackknife studentized residuals against fitted value (left) and categorical explanatory (right). Both clearly display heteroscedasticity.
 </figcaption>
 </figure>
 </div>
@@ -2394,7 +2350,6 @@ Figure&nbsp;4.19: Plot of jackknife studentized residuals against fitted value (
 </div>
 <p>An obvious extension of the linear model is to allow variance to vary according to explanatories, typically categorical covariates. In a likelihood framework, this is easy to do and we will cover this approach in more detail.</p>
 <p>We can perform hypothesis tests for the homogeneity (equal) variance assumption. The most commonly used tests are Bartlett’s test, the likelihood ratio test under the assumption of normally distributed data, with a Bartlett correction to improve the <span class="math inline">\(\chi^2\)</span> approximation to the null distribution. The second most popular is Levene’s test (a more robust alternative, less sensitive to outliers). For both tests, the null distribution is <span class="math inline">\(\mathscr{H}_0: \sigma^2_1 = \cdots = \sigma^2_K\)</span> against the alternative that at least two differ. The Bartlett test statistic has a <span class="math inline">\(\chi^2\)</span> null distribution with <span class="math inline">\(K-1\)</span> degrees of freedom, whereas Levene’s test has an <span class="math inline">\(F\)</span>-distribution with (<span class="math inline">\(K-1\)</span>, <span class="math inline">\(n-K\)</span>) degrees of freedom: it is equivalent to computing the one-way ANOVA <span class="math inline">\(F\)</span>-statistic with the absolute value of the centered residuals, <span class="math inline">\(|y_{ik} - \widehat{\mu}_k|\)</span>, as observations.</p>
-<p>What are the impacts of unequal variance if we use the <span class="math inline">\(F\)</span>-test instead? For one, the pooled variance will be based on a weighted average of the variance in each group, where the weight is a function of the sample size. This can lead to size distortion (meaning that the proportion of type I error is not the nominal level <span class="math inline">\(\alpha\)</span> as claimed) and potential loss of power. The following toy example illustrates this.</p>
 <div id="exm-heterogeneity" class="theorem example">
 <p><span class="theorem-title"><strong>Example 4.23 (Violation of the null hypothesis of equal variance)</strong></span> &nbsp;</p>
 <div class="cell" data-layout-align="center">
@@ -2405,16 +2360,71 @@ Figure&nbsp;4.19: Plot of jackknife studentized residuals against fitted value (
 <img src="linearmodels_files/figure-html/fig-simuWelchnull-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simuWelchnull-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.20: Histogram of the null distribution of <span class="math inline">\(p\)</span>-values obtained through simulation using the classical analysis of variance <span class="math inline">\(F\)</span>-test (left) and Welch’s unequal variance alternative (right), based on 10 000 simulations. Each simulated sample consist of 50 observations from a <span class="math inline">\(\mathsf{normal}(0, 1)\)</span> distribution and 10 observations from <span class="math inline">\(\mathsf{normal}(0, 9)\)</span>. The uniform distribution would have 5% in each of the 20 bins used for the display.
+Figure&nbsp;4.17: Histogram of the null distribution of <span class="math inline">\(p\)</span>-values obtained through simulation using the classical analysis of variance <span class="math inline">\(F\)</span>-test (left) and Welch’s unequal variance alternative (right), based on 10 000 simulations. Each simulated sample consist of 50 observations from a <span class="math inline">\(\mathsf{normal}(0, 1)\)</span> distribution and 10 observations from <span class="math inline">\(\mathsf{normal}(0, 9)\)</span>. The uniform distribution would have 5% in each of the 20 bins used for the display.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>We consider for simplicity a problem with <span class="math inline">\(K=2\)</span> groups, which is the two-sample <span class="math inline">\(t\)</span>-test. We simulated 50 observations from a <span class="math inline">\(\mathsf{normal}(0, 1)\)</span> distribution and 10 observations from <span class="math inline">\(\mathsf{normal}(0, 9)\)</span>, comparing the distribution of the <span class="math inline">\(p\)</span>-values for the Welch and the <span class="math inline">\(F\)</span>-test statistics. <a href="#fig-simuWelchnull" class="quarto-xref">Figure&nbsp;<span>4.20</span></a> shows the results. The percentage of <span class="math inline">\(p\)</span>-values less than <span class="math inline">\(\alpha=0.05\)</span> based on 10 000 replicates is estimated to be 4.76% for the Welch statistic, not far from the level. By contrast, we reject 28.95% of the time with the one-way ANOVA global <span class="math inline">\(F\)</span>-test: this is a large share of innocents sentenced to jail based on false premises! While the size distortion is not always as striking, heterogeneity should be accounted in the design by requiring sufficient sample sizes (whenever costs permits) in each group to be able to estimate the variance reliably and using an adequate statistic.</p>
+<p>We consider for simplicity a two sample <span class="math inline">\(t\)</span>-with <span class="math inline">\(K=2\)</span> groups, which is the two-sample <span class="math inline">\(t\)</span>-test. We simulated 50 observations from a <span class="math inline">\(\mathsf{normal}(0, 1)\)</span> distribution and 10 observations from <span class="math inline">\(\mathsf{normal}(0, 9)\)</span>, comparing the distribution of the <span class="math inline">\(p\)</span>-values for the Welch and the <span class="math inline">\(t\)</span>-test statistics. <a href="#fig-simuWelchnull" class="quarto-xref">Figure&nbsp;<span>4.17</span></a> shows the results. The percentage of <span class="math inline">\(p\)</span>-values less than <span class="math inline">\(\alpha=0.05\)</span> based on 10 000 replicates is estimated to be 4.76% for the Welch statistic, not far from the level. By contrast, we reject 28.95% of the time with the two-sample <span class="math inline">\(t\)</span>-test! While the size distortion is not always as striking, heterogeneity of variance should be accounted in the design by requiring sufficient sample sizes (whenever costs permits) in each group to be able to estimate the variance reliably and using an adequate statistic.</p>
 </div>
-<p>There are alternative graphical ways of checking the assumption of equal variance, many including the standardized residuals <span class="math inline">\(r_{ik} = (y_{ik} - \widehat{\mu}_k)/\widehat{\sigma}\)</span> against the fitted values <span class="math inline">\(\widehat{\mu}_k\)</span>. We will cover these in later sections.</p>
 <p>Oftentimes, unequal variance occurs because the model is not additive. You could use variance-stabilizing transformations (e.g., log for multiplicative effects) to ensure approximately equal variance in each group. Another option is to use a model that is suitable for the type of response you have (including count and binary data). Lastly, it may be necessary to explicitly model the variance in more complex design (including repeated measures) where there is a learning effect over time and variability decreases as a result. Consult an expert if needed.</p>
+</section>
+<section id="independence-assumption" class="level3" data-number="4.7.3">
+<h3 data-number="4.7.3" class="anchored" data-anchor-id="independence-assumption"><span class="header-section-number">4.7.3</span> Independence assumption</h3>
+<p>Usually, the independence of the observations follows directly from the type of sampling used — this assumption is implicitly true if the observations were taken from a <em>random sample</em> from the population. This is generally not the case for longitudinal data, which contains repeated measures from the same individuals across time. Likewise, time series are bound not to have independent observations. If we want to include all the time points in the analysis, we must take into account the possible dependence (correlation) between observations. If we ignore correlation, the estimated standard errors are too small relative to the truth, so the effective sample size is smaller than number of observations.</p>
+<p>What is the impact of dependence between measurements? Heuristically, correlated measurements carry less information than independent ones. In the most extreme case, there is no additional information and measurements are identical, but adding them multiple times unduly inflates the statistic and leads to more frequent rejections.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-plotLevelIndep" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotLevelIndep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="linearmodels_files/figure-html/fig-plotLevelIndep-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotLevelIndep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.18: Percentage of rejection of the null hypothesis for the <span class="math inline">\(F\)</span>-test of equality of means for the one way ANOVA with data generated with equal mean and variance from an equicorrelation model (within group observations are correlated, between group observations are independent). The nominal level of the test is 5%.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The lack of independence can also have drastic consequences on inference and lead to false conclusions: <a href="#fig-plotLevelIndep" class="quarto-xref">Figure&nbsp;<span>4.18</span></a> shows an example with correlated samples within group (or equivalently repeated measurements from individuals) with five observations per group. The <span class="math inline">\(y\)</span>-axis shows the proportion of times the null is rejected when it shouldn’t be. Here, since the data are generated from the null model (equal mean) with equal variance, the inflation in the number of spurious discoveries, false alarm or type I error is alarming and the inflation is substantial even with very limited correlation between measurements.</p>
+<p>The first source of dependence is clustered data, meaning measurements taken from subjects that are not independent from one another (family, groups, etc.) More generally, correlation between observations can arises from space-time dependence, roughly categorized into <strong>longitudinal data</strong>, when repeated measurements are taken from the same subjects at a few time points, and <strong>time series</strong>, which have more observations sampled at higher frequency.</p>
+<p>Time series require dedicated models not covered in this course. Because of autocorrelation, positive errors tend to be followed by positive errors, etc. We can plot the residuals as a function of time, and a scatterplot of lagged residuals <span class="math inline">\(e_i\)</span> versus <span class="math inline">\(e_{i-1}\)</span> (<span class="math inline">\(i=2, \ldots, n\)</span>).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-timeresidplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-timeresidplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="linearmodels_files/figure-html/fig-timeresidplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeresidplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.19: Lagged residual plots: there is no evidence against independence in the left panel, whereas the right panel shows positively correlated residuals.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>However, lagged residuals plots only show dependence at lag one between observations. For time series, we can look instead at a correlogram, i.e., a bar plot of the correlation between two observations <span class="math inline">\(h\)</span> units apart as a function of the lag <span class="math inline">\(h\)</span> <span class="citation" data-cites="Brockwell.Davis:2016">(<a href="references.html#ref-Brockwell.Davis:2016" role="doc-biblioref">Brockwell and Davis 2016</a>, Definition 1.4.4)</span>.</p>
+<p>For <span class="math inline">\(y_1, \ldots, y_n\)</span> and constant time lags <span class="math inline">\(h=0, 1, \ldots\)</span> units, the autocorrelation at lag <span class="math inline">\(h\)</span> is <span class="math display">\[\begin{align*}
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
+\end{align*}\]</span></p>
+<p>If the series is correlated, the sample autocorrelation will likely fall outside of the pointwise confidence intervals, as shown in <a href="#fig-correlogram" class="quarto-xref">Figure&nbsp;<span>4.20</span></a>. Presence of autocorrelation requires modelling the correlation between observations explicitly using dedicated tools from the time series literature. We will however examine <span class="math inline">\(\mathsf{AR}(1)\)</span> models as part of the chapter on longitudinal data. See <a href="https://otexts.com/fpp2/regression-evaluation.html">Forecasting: Principles and Practice, section 5.3</a> for more details.</p>
+<p>When observations are positively correlated, the estimated standard errors reported by the software are too small. This means we are overconfident and will reject the null hypothesis more often then we should if the null is true (inflated Type I error, or false positive).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-correlogram" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-correlogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="linearmodels_files/figure-html/fig-correlogram-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.20: Correlogram of independent observations (left) and the ordinary residuals of the log-linear model fitted to the air passengers data (right). While the mean model of the latter is seemingly correctly specified, there is residual dependence between monthly observations and yearly (at lag 12). The blue lines give approximate pointwise 95% confidence intervals for white noise (uncorrelated observations).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="normality-assumption" class="level3" data-number="4.7.4">
 <h3 data-number="4.7.4" class="anchored" data-anchor-id="normality-assumption"><span class="header-section-number">4.7.4</span> Normality assumption</h3>
