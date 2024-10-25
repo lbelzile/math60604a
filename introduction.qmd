@@ -742,7 +742,7 @@ Whether points fall on a 45 degree line is difficult to judge by eye and so it i
 #| cache: true
 #| eval: true
 #| echo: false
-#| fig-cap: Probability-probability plot (left) on uniform margins, and ormal quantile-quantile plot (right) for the same dataset.
+#| fig-cap: Probability-probability plot (left) on uniform margins, and normal quantile-quantile plot (right) for the same dataset.
 library(qqplotr, warn.conflicts = FALSE)
 # library(patchwork)
 set.seed(1234)

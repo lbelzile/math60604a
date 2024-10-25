@@ -279,11 +279,52 @@ and the observed information is the $2 \times 2$ matrix-valued function
 \begin{align*}
 j(\lambda, \alpha) &= - \begin{pmatrix}
 \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda^2} &  \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda \partial \alpha} \\ \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha \partial \lambda} & \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha^2}
-\end{pmatrix} 
-\\&= \begin{pmatrix}
-\lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^2\right\} & \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]\\ \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]& n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\theta)\}^2
-\end{pmatrix}
+\end{pmatrix}  = \begin{pmatrix} j_{\lambda, \lambda} & j_{\lambda, \alpha} \\ j_{\lambda, \alpha} & j_{\alpha, \alpha} \end{pmatrix}
+\end{align*} 
+where the entries of the information matrix are
+j_{\lambda, \lambda} &= \lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^\alpha\right\} \\
+j_{\lambda, \alpha} &= \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}] \\
+j_{\alpha,\alpha} &= n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\lambda)\}^2
 \end{align*}
+To compute the expected information matrix, we need to compute expectation of terms of the form $\mathsf{E}\{(Y/\lambda)^2\}$, $\mathsf{E}\{(Y/\lambda)^\alpha\}$, $\mathsf{E}[(Y/\lambda)^\alpha\ln\{(Y/\lambda)^\alpha\}]$ and $\mathsf{E}[(Y/\lambda)^\alpha\ln^2\{(Y/\lambda)^\alpha\}]$. By definition,
+\begin{align*}
+\mathsf{E}\left\{Y^\alpha\} = \int_0^\infty x^\alpha \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\} \mathrm{d} x
+\end{align*}
+and making a change of variable from $S = (Y/\lambda)^\alpha$ gives $S \sim \mathsf{Exp}(1)$. Such integrals are tabulated in @Gradshteyn.Ryzhik:2014, and are equal to $1$, $\Gamma(\alpha/2+1)$, $1-\gamma$ and $\gamma^2-2\gamma + \pi^2/6$, respectively, where $\gamma \approx `r -digamma(1)`$ is the Euler--Mascherroni constant and $\Gamma(\cdot)$ the gamma function.
+<!-- \begin{align*} -->
+<!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\exp(-s) \mathrm{d} s \\ -->
+<!-- \mathsf{E}\left\{S\} &= \int_0^\infty s^{2/\alpha}\exp(-s) \mathrm{d} s \\ -->
+<!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\ln\exp(-s) \mathrm{d} s \\ -->
+<!-- \end{align*} -->
+The expected information matrix of the Weibull distribution has entries
+\begin{align*}
+i_{\lambda, \lambda} & = n \lambda^{-2}\alpha\left\{ (\alpha+1)\Gamma(\alpha/2+1)-1\right\} \\
+i_{\lambda, \alpha} & = n\lambda^{-1} (1-\gamma) \\
+i_{\alpha, \alpha} & = n\alpha^{-2}(1 + \gamma^2-2\gamma+\pi^2/6) 
+\end{align*}
+The information of an independent and identically distributed sample of size $n$  is $n$ times that of a single observation, so information accumulates at a linear rate.
+
+```{r}
+#| eval: false
+#| echo: false
+info <- function(scale, shape){ 
+  c(shape/(scale^2)*((shape + 1)*gamma(shape/2+1) - 1),
+  (1+digamma(1))/scale, 
+  (1+digamma(1)^2+2*digamma(1)+pi^2/6)/shape^2)
+}
+obs_info <- function(y, scale, shape){
+  y/scale -> ys
+ c(shape*((shape + 1)*mean(ys^shape)-1)/scale^2,
+   (1-mean(ys^shape*(1+shape*log(ys))))/scale,
+   1/(shape*shape) + mean(ys^shape*(log(ys))^2)
+ )
+}
+nll <- function(pars, y){-sum(dweibull(x = y, scale = pars[1], shape = pars[2], log = TRUE))}
+dat <- rweibull(n = 1000, scale = 2, shape = 0.4)
+# numDeriv::hessian(nll, x = c(2, 0.4), y = dat) / length(dat)
+obs_info(dat, 2, 0.4)
+  
+```
 
 :::
 
