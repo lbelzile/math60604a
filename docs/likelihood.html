@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.6.1">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -403,21 +403,29 @@ f(x; \lambda, \alpha) &amp;= \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left
 <p><span class="theorem-title"><strong>Example 3.6 (Score and information of the Weibull distribution)</strong></span> The log likelihood for a simple random sample whose realizations are <span class="math inline">\(y_1, \ldots, y_n\)</span> of size <span class="math inline">\(n\)</span> from a <span class="math inline">\(\mathsf{Weibull}(\lambda, \alpha)\)</span> model is <span class="math display">\[\begin{align*}
 \ell(\lambda, \alpha) = n \ln(\alpha) - n\alpha\ln(\lambda) + (\alpha-1) \sum_{i=1}^n \ln y_i  - \lambda^{-\alpha}\sum_{i=1}^n y_i^\alpha.
 \end{align*}\]</span> The score, which is the gradient of the log likelihood, is easily obtained by differentiation<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="math display">\[\begin{align*}
-U(\lambda, \alpha) = \begin{pmatrix}\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} \\
-\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} \end{pmatrix} &amp;=
+U(\lambda, \alpha) &amp;= \begin{pmatrix}\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} \\
+\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} \end{pmatrix} \\&amp;=
 \begin{pmatrix}
 -\frac{n\alpha}{\lambda} +\alpha\lambda^{-\alpha-1}\sum_{i=1}^n y_i^\alpha
 \\
-\frac{n}{\alpha} - n \ln(\lambda) + \sum_{i=1}^n \ln y_i  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
+\frac{n}{\alpha} + \sum_{i=1}^n \ln (y_i/\lambda)  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
 \end{pmatrix}
 \end{align*}\]</span> and the observed information is the <span class="math inline">\(2 \times 2\)</span> matrix-valued function <span class="math display">\[\begin{align*}
 j(\lambda, \alpha) &amp;= - \begin{pmatrix}
 \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda^2} &amp;  \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda \partial \alpha} \\ \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha \partial \lambda} &amp; \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha^2}
-\end{pmatrix}
-\\&amp;= \begin{pmatrix}
-\lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^2\right\} &amp; \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]\\ \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]&amp; n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\theta)\}^2
-\end{pmatrix}
-\end{align*}\]</span></p>
+\end{pmatrix}  = \begin{pmatrix} j_{\lambda, \lambda} &amp; j_{\lambda, \alpha} \\ j_{\lambda, \alpha} &amp; j_{\alpha, \alpha} \end{pmatrix}
+\end{align*}\]</span> where the entries of the observed information matrix are <span class="math display">\[\begin{align*}
+j_{\lambda, \lambda} &amp;= \lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^\alpha\right\} \\
+j_{\lambda, \alpha} &amp;= \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}] \\
+j_{\alpha,\alpha} &amp;= n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\lambda)\}^2
+\end{align*}\]</span> To compute the expected information matrix, we need to compute expectation of <span class="math inline">\(\mathsf{E}\{(Y/\lambda)^\alpha\}\)</span>, <span class="math inline">\(\mathsf{E}[(Y/\lambda)^\alpha\ln\{(Y/\lambda)^\alpha\}]\)</span> and <span class="math inline">\(\mathsf{E}[(Y/\lambda)^\alpha\ln^2\{(Y/\lambda)^\alpha\}]\)</span>. By definition, <span class="math display">\[\begin{align*}
+\mathsf{E}\left\{(Y/\lambda)^\alpha\right\} &amp; = \int_0^\infty (x/\lambda)^\alpha \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\} \mathrm{d} x \\
+&amp;= \int_0^\infty s\exp(-s) \mathrm{d} s =1
+\end{align*}\]</span> making a change of variable <span class="math inline">\(S = (Y/\lambda)^\alpha\sim \mathsf{Exp}(1)\)</span>. The two other integrals are tabulated in <span class="citation" data-cites="Gradshteyn.Ryzhik:2014">Gradshteyn and Ryzhik (<a href="references.html#ref-Gradshteyn.Ryzhik:2014" role="doc-biblioref">2014</a>)</span>, and are equal <span class="math inline">\(1-\gamma\)</span> and <span class="math inline">\(\gamma^2-2\gamma + \pi^2/6\)</span>, respectively, where <span class="math inline">\(\gamma \approx 0.577\)</span> is the Euler–Mascherroni constant. <!-- \begin{align*} --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\exp(-s) \mathrm{d} s \\ --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s^{2/\alpha}\exp(-s) \mathrm{d} s \\ --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\ln\exp(-s) \mathrm{d} s \\ --> <!-- \end{align*} --> The expected information matrix of the Weibull distribution has entries <span class="math display">\[\begin{align*}
+i_{\lambda, \lambda} &amp; = n \lambda^{-2}\alpha\left\{ (\alpha+1)-1\right\} \\
+i_{\lambda, \alpha} &amp; = -n\lambda^{-1} (1-\gamma) \\
+i_{\alpha, \alpha} &amp; = n\alpha^{-2}(1 + \gamma^2-2\gamma+\pi^2/6)
+\end{align*}\]</span> The information of an independent and identically distributed sample of size <span class="math inline">\(n\)</span> is <span class="math inline">\(n\)</span> times that of a single observation, so information accumulates at a linear rate.</p>
 </div>
 <div id="prp-gradient" class="theorem proposition">
 <p><span class="theorem-title"><strong>Proposition 3.2 (Gradient-based optimization)</strong></span> To obtain the maximum likelihood estimator, we will typically find the value of the vector <span class="math inline">\(\boldsymbol{\theta}\)</span> that solves the score vector, meaning <span class="math inline">\(U(\widehat{\boldsymbol{\theta}})=\boldsymbol{0}_p.\)</span> This amounts to solving simultaneously a <span class="math inline">\(p\)</span>-system of equations by setting the derivative with respect to each element of <span class="math inline">\(\boldsymbol{\theta}\)</span> to zero. If <span class="math inline">\(j(\widehat{\boldsymbol{\theta}})\)</span> is a positive definite matrix (i.e., all of it’s eigenvalues are positive), then the vector <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is the maximum likelihood estimator.</p>
@@ -555,12 +563,12 @@ where $R(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim} \chi^2_p.$
 </div>
 </div>
 <p>The three main classes of statistics for testing a simple null hypothesis <span class="math inline">\(\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0\)</span> against the alternative <span class="math inline">\(\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\)</span> are the Wald, likelihood ratio, and the score test statistics, defined respectively as <span class="math display">\[\begin{align*}
-W &amp;= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),
+W &amp;= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), \\
 R &amp;= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
 S &amp;= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), \\
 \end{align*}\]</span> where <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> is the maximum likelihood estimate under the alternative and <span class="math inline">\(\boldsymbol{\theta}_0\)</span> is the null value of the parameter vector. Asymptotically, all the test statistics are equivalent (in the sense that they lead to the same conclusions about <span class="math inline">\(\mathscr{H}_0\)</span>).</p>
 <div id="rem-nulldist" class="proof remark">
-<p><span class="proof-title"><em>Remark 3.1</em> (Testing procedures and quadratic forms). </span>The null distribution of the maximum likelihood estimator (and related quantities) is useful for testing, albeit not in this form. Consider for simplicity the case where we have <span class="math inline">\(p=2\)</span> dimensional parameter (e.g., a Weibull distribution) and we impose <span class="math inline">\(q=2\)</span> restrictions; we consider for simplicity a Wald-type test. The asymptotic distribution of the maximum likelihood estimator is <span class="math inline">\(\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\}\)</span>, and we can obtain confidence ellipse for the MLE by replacing Fisher information <span class="math inline">\(i(\boldsymbol{\theta})\)</span> by a convergent estimator <span class="math inline">\(j(\widehat{\boldsymbol{\theta}})\)</span>: we then obtain the left panel of <a href="#fig-ellipses" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>.</p>
+<p><span class="proof-title"><em>Remark 3.1</em> (Testing procedures and quadratic forms). </span>The null distribution of the maximum likelihood estimator (and related quantities) is useful for testing, albeit not in this form. Consider for simplicity the case where we have <span class="math inline">\(p=2\)</span> dimensional parameter (e.g., a Weibull distribution) and we impose <span class="math inline">\(q=2\)</span> restrictions; we consider for simplicity a Wald-type test. The asymptotic distribution of the maximum likelihood estimator is <span class="math inline">\(\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normal}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\}\)</span>, and we can obtain confidence ellipse for the MLE by replacing Fisher information <span class="math inline">\(i(\boldsymbol{\theta})\)</span> by a convergent estimator <span class="math inline">\(j(\widehat{\boldsymbol{\theta}})\)</span>: we then obtain the left panel of <a href="#fig-ellipses" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>.</p>
 <p>If we postulate <span class="math inline">\(\boldsymbol{\theta} = \boldsymbol{\theta}_0\)</span>, it suffices to consider where the pair falls on the plot and find the level of the ellipse that intersects with the point. This however is complicated: rather, we can standardize the variable to <span class="math inline">\(\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)\)</span>, where now the contour curves are circular. To reduce the problem from a two-dimensional problem to a one-dimensional, we consider the squared radius <span class="math inline">\(W = \vartheta_1^2 + \vartheta_2^2 = (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)\)</span>, which is approximately <span class="math inline">\(\chi^2_2\)</span> in large sample, as shown in the right panel of <a href="#fig-ellipses" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>. It is much easier to determine whether the value is large based on the radius.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -616,6 +624,7 @@ Figure&nbsp;3.3: Profile log likelihood for <span class="math inline">\(\alpha\)
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 is not inside the confidence interval, reject null</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We reject the null hypothesis, meaning the exponential submodel is not an adequate simplification of the Weibull.</p>
+</div>
 <p>We can also check the goodness-of-fit of both models by drawing a quantile-quantile plot (cf. <a href="introduction.html#def-qqplot" class="quarto-xref">Definition&nbsp;<span>1.17</span></a>). It is apparent from <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> that the exponential model is overestimating the largest waiting times, whose dispersion in the sample is less than that implied by the model. By contrast, the near perfect straight line for the Weibull model in the right panel of <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> suggests that the model fit is adequate.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -631,7 +640,7 @@ Figure&nbsp;3.4: Quantile-quantile plots for exponential (left) and Weibull (rig
 </div>
 </div>
 </div>
-</div>
+<p>:::</p>
 <div id="rem-invariance-wald-intervals" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.2</em> (Lack of invariance of Wald-based confidence intervals). </span>The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function <span class="math inline">\(g(\theta),\)</span> then in general <span class="math inline">\(\mathsf{CI}_{W}\{g(\theta)\} \neq g\{\mathsf{CI}_{W}(\theta)\}.\)</span></p>
 <p>For example, consider the exponential submodel. We can invert the Wald test statistic to get a symmetric 95% confidence interval for <span class="math inline">\(\phi,\)</span> <span class="math inline">\([0.061,\)</span> <span class="math inline">\(0.191].\)</span> If we were to naively transform the confidence interval for <span class="math inline">\(\lambda\)</span> into one for <span class="math inline">\(\phi,\)</span> we would get <span class="math inline">\([0.063,\)</span> <span class="math inline">\(0.19],\)</span> which highlights the invariance although the difference here is subtle. The Gaussian approximation underlying the Wald test is reliable if the sampling distribution of the likelihood is near quadratic, which happens when the likelihood function is roughly symmetric on either side of the maximum likelihood estimator.</p>
@@ -698,61 +707,95 @@ Figure&nbsp;3.4: Quantile-quantile plots for exponential (left) and Weibull (rig
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+<div id="exm-weibull-scoretest" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.12 (Score and likelihood ratio tests for comparing exponential vs Weibull models)</strong></span> We can proceed similarly with the score test, using the expected information matrix formula derived earlier. Under the null model <span class="math inline">\(\alpha=1\)</span> and we get that the constrained MLE for the scale is the sample mean <span class="math inline">\(\overline{y}\)</span>. Both statistics show strong evidence against the null of exponentiality.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Score test</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Expected information matrix - one observation</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>info_weib <span class="ot">&lt;-</span> <span class="cf">function</span>(scale, shape){ </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  i11 <span class="ot">&lt;-</span> shape<span class="sc">*</span>((shape <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">/</span>(scale<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  i12 <span class="ot">&lt;-</span> <span class="sc">-</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">digamma</span>(<span class="dv">1</span>))<span class="sc">/</span>scale</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  i22 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">+</span><span class="fu">digamma</span>(<span class="dv">1</span>)<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span><span class="dv">2</span><span class="sc">*</span><span class="fu">digamma</span>(<span class="dv">1</span>)<span class="sc">+</span>pi<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">/</span>(shape<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="fu">c</span>(i11, i12, i12, i22), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Score statistic</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>score_stat <span class="ot">&lt;-</span> <span class="cf">function</span>(scale, shape, xdat){</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  score_w <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">gr_nll_weibull</span>(<span class="fu">c</span>(scale, shape), <span class="at">y =</span> xdat)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  finfo_w <span class="ot">&lt;-</span> <span class="fu">length</span>(xdat)<span class="sc">*</span><span class="fu">info_weib</span>(scale, shape)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>(<span class="fu">t</span>(score_w) <span class="sc">%*%</span> <span class="fu">solve</span>(finfo_w) <span class="sc">%*%</span> score_w)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>(S <span class="ot">&lt;-</span> <span class="fu">score_stat</span>(<span class="at">scale =</span> <span class="fu">mean</span>(waiting), <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">xdat =</span> waiting))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 24.9</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(S, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6.18e-07</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Likelihood ratio test</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>ll_weib <span class="ot">&lt;-</span> <span class="cf">function</span>(xdat, scale, shape){</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">dweibull</span>(<span class="at">x =</span> xdat, <span class="at">scale =</span> scale, <span class="at">shape =</span> shape, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>ll1 <span class="ot">&lt;-</span> <span class="fu">ll_weib</span>(<span class="at">xdat =</span> waiting, <span class="at">scale =</span> mle_weibull[<span class="dv">1</span>], <span class="at">shape =</span> mle_weibull[<span class="dv">2</span>])</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>ll0 <span class="ot">&lt;-</span> <span class="fu">ll_weib</span>(<span class="at">xdat =</span> waiting, <span class="at">scale =</span> <span class="fu">mean</span>(waiting), <span class="at">shape =</span> <span class="dv">1</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>(lrt <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(ll1<span class="sc">-</span>ll0))</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 60.4</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>pval <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(lrt, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 <div id="exm-profile-mean-weibull" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.12 (Profile log likelihood for the Weibull mean)</strong></span> As an alternative, we can use numerical optimization to compute the profile for another function. Suppose we are interested in the expected waiting time, which according to the model is <span class="math inline">\(\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha)\)</span>. To this effect, we reparametrize the model in terms of <span class="math inline">\((\mu, \alpha)\)</span>, where <span class="math inline">\(\lambda=\mu/\Gamma(1+1/\alpha)\)</span>. We then make a wrapper function that optimizes the log likelihood for fixed value of <span class="math inline">\(\mu\)</span>, then returns <span class="math inline">\(\widehat{\alpha}_{\mu}\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\ell_{\mathrm{p}}(\mu)\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 3.13 (Profile log likelihood for the Weibull mean)</strong></span> As an alternative, we can use numerical optimization to compute the profile for another function. Suppose we are interested in the expected waiting time, which according to the model is <span class="math inline">\(\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha)\)</span>. To this effect, we reparametrize the model in terms of <span class="math inline">\((\mu, \alpha)\)</span>, where <span class="math inline">\(\lambda=\mu/\Gamma(1+1/\alpha)\)</span>. We then make a wrapper function that optimizes the log likelihood for fixed value of <span class="math inline">\(\mu\)</span>, then returns <span class="math inline">\(\widehat{\alpha}_{\mu}\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\ell_{\mathrm{p}}(\mu)\)</span>.</p>
 <p>To get the confidence intervals for a scalar parameter, there is a trick that helps with the derivation. We compute the signed likelihood root <span class="math inline">\(r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}\)</span> over a fine grid of <span class="math inline">\(\psi\)</span>, then fit a smoothing spline to the equation flipping the axis (thus, the model has response <span class="math inline">\(y=\psi\)</span> and <span class="math inline">\(x=r(\psi)\)</span>). We then predict the curve at the standard normal quantiles <span class="math inline">\(\mathfrak{z}_{\alpha/2}\)</span> and <span class="math inline">\(\mathfrak{z}_{1-\alpha/2}\)</span>, and return these values as confidence interval. <a href="#fig-profile-mu-weibull" class="quarto-xref">Figure&nbsp;<span>3.5</span></a> shows how these value correspond to the cutoff points on the log likelihood ratio scale, where the vertical line is given by <span class="math inline">\(-\mathfrak{c}(1-\alpha)/2\)</span> where <span class="math inline">\(\mathfrak{c}\)</span> denotes the quantile of a <span class="math inline">\(\chi^2_1\)</span> random variable.</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the MLE for the expected value via plug-in</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> mle_weibull[<span class="dv">1</span>]<span class="sc">*</span><span class="fu">gamma</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>mle_weibull[<span class="dv">2</span>])</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a profile function</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>prof_weibull_mu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For given value of mu</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  alpha_mu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){ </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the profile by optimizing (line search) for fixed mu and the best alpha</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>     opt <span class="ot">&lt;-</span> <span class="fu">optimize</span>(<span class="at">f =</span> <span class="cf">function</span>(alpha, mu){</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>     <span class="co"># minimize the negative log likelihood</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">nll_weibull</span>(<span class="fu">c</span>(mu<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>alpha), alpha), <span class="at">y =</span> waiting)}, </span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">mu =</span> mu, </span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">10</span>) <span class="co">#search region</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the value of the negative log likelihood and alpha_mu</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="at">nll =</span> opt<span class="sc">$</span>objective, <span class="at">alpha =</span> opt<span class="sc">$</span>minimum))</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a data frame with mu and the other parameters</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">mu =</span> mu, <span class="fu">t</span>(<span class="fu">sapply</span>(mu, <span class="cf">function</span>(m){<span class="fu">alpha_mu</span>(m)})))</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with the profile  </span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>prof <span class="ot">&lt;-</span> <span class="fu">prof_weibull_mu</span>(<span class="fu">seq</span>(<span class="dv">22</span>, <span class="dv">35</span>, <span class="at">length.out =</span> <span class="dv">101</span>L))</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute signed likelihood root r</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>prof<span class="sc">$</span>r <span class="ot">&lt;-</span> <span class="fu">sign</span>(prof<span class="sc">$</span>mu <span class="sc">-</span> mu_hat)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>(prof<span class="sc">$</span>nll <span class="sc">-</span> opt_weibull<span class="sc">$</span>value))</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Trick: fit a spline to obtain the predictions with mu as a function of r</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Then use this to predict the value at which we intersect the normal quantiles</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>fit.r <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">smooth.spline</span>(<span class="at">x =</span> <span class="fu">cbind</span>(prof<span class="sc">$</span>r, prof<span class="sc">$</span>mu), <span class="at">cv =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.r, <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)))<span class="sc">$</span>y</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the signed likelihood root - near linear indicates quadratic</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>     <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> r)) <span class="sc">+</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)),</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span> </span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"expectation "</span>, mu)),</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"signed likelihood root"</span>)</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a plot of the profile</span></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> opt_weibull<span class="sc">$</span>value <span class="sc">-</span> nll)) <span class="sc">+</span> </span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>), <span class="at">df =</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span>,</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">linetype =</span> <span class="st">"dotted"</span>,</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">xintercept =</span> pr) <span class="sc">+</span> </span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"expectation "</span>, mu)),</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"profile log likelihood"</span>)</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">+</span> g2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the MLE for the expected value via plug-in</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> mle_weibull[<span class="dv">1</span>]<span class="sc">*</span><span class="fu">gamma</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>mle_weibull[<span class="dv">2</span>])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a profile function</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>prof_weibull_mu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For given value of mu</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  alpha_mu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){ </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the profile by optimizing (line search) for fixed mu and the best alpha</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>     opt <span class="ot">&lt;-</span> <span class="fu">optimize</span>(<span class="at">f =</span> <span class="cf">function</span>(alpha, mu){</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>     <span class="co"># minimize the negative log likelihood</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">nll_weibull</span>(<span class="fu">c</span>(mu<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>alpha), alpha), <span class="at">y =</span> waiting)}, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">mu =</span> mu, </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">10</span>) <span class="co">#search region</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the value of the negative log likelihood and alpha_mu</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="at">nll =</span> opt<span class="sc">$</span>objective, <span class="at">alpha =</span> opt<span class="sc">$</span>minimum))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a data frame with mu and the other parameters</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">mu =</span> mu, <span class="fu">t</span>(<span class="fu">sapply</span>(mu, <span class="cf">function</span>(m){<span class="fu">alpha_mu</span>(m)})))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with the profile  </span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>prof <span class="ot">&lt;-</span> <span class="fu">prof_weibull_mu</span>(<span class="fu">seq</span>(<span class="dv">22</span>, <span class="dv">35</span>, <span class="at">length.out =</span> <span class="dv">101</span>L))</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute signed likelihood root r</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>prof<span class="sc">$</span>r <span class="ot">&lt;-</span> <span class="fu">sign</span>(prof<span class="sc">$</span>mu <span class="sc">-</span> mu_hat)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>(prof<span class="sc">$</span>nll <span class="sc">-</span> opt_weibull<span class="sc">$</span>value))</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Trick: fit a spline to obtain the predictions with mu as a function of r</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Then use this to predict the value at which we intersect the normal quantiles</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>fit.r <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">smooth.spline</span>(<span class="at">x =</span> <span class="fu">cbind</span>(prof<span class="sc">$</span>r, prof<span class="sc">$</span>mu), <span class="at">cv =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.r, <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)))<span class="sc">$</span>y</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the signed likelihood root - near linear indicates quadratic</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>     <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> r)) <span class="sc">+</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)),</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span> </span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"expectation "</span>, mu)),</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"signed likelihood root"</span>)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a plot of the profile</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> opt_weibull<span class="sc">$</span>value <span class="sc">-</span> nll)) <span class="sc">+</span> </span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>), <span class="at">df =</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">linetype =</span> <span class="st">"dotted"</span>,</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">xintercept =</span> pr) <span class="sc">+</span> </span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"expectation "</span>, mu)),</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"profile log likelihood"</span>)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">+</span> g2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-profile-mu-weibull" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -785,6 +828,9 @@ Figure&nbsp;3.5: Signed likelihood root (left) and shifted profile log likelihoo
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-Davison:2003" class="csl-entry" role="listitem">
 Davison, A. C. 2003. <em>Statistical Models</em>. Cambridge University Press.
+</div>
+<div id="ref-Gradshteyn.Ryzhik:2014" class="csl-entry" role="listitem">
+Gradshteyn, I. S., and I. M. Ryzhik. 2014. <em>Table of Integrals, Series, and Products</em>. 8th ed. Academic Press. <a href="https://doi.org/10.1016/C2010-0-64839-5">https://doi.org/10.1016/C2010-0-64839-5</a>.
 </div>
 </div>
 </section>
