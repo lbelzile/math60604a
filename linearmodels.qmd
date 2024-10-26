@@ -947,7 +947,7 @@ The Wald test statistic is reported by most software for the hypothesis $b=0$. S
 
 :::{#exm-sokolova-simple-ttest}
 
-Consider the data from @exm-sokolova. If we fit againt the simple linear regression model, we can extract the $p$-values for the Wald or $t$-tests. The test for the intercept is of no interest since data are measured on a scale from 1 to 7, so the mean response when `proportion=0` cannot be zero. The coefficient for `proportion` suggests a trend of 0.5 point per unit ratio, and this is significantly different from zero, indicating that the `pef` score changes with the paper to plastic ratio.
+Consider the data from @exm-sokolova. If we fit against the simple linear regression model, we can extract the $p$-values for the Wald or $t$-tests. The test for the intercept is of no interest since data are measured on a scale from 1 to 7, so the mean response when `proportion=0` cannot be zero. The coefficient for `proportion` suggests a trend of 0.5 point per unit ratio, and this is significantly different from zero, indicating that the `pef` score changes with the paper to plastic ratio.
 
 ```{r}
 #| eval: true
@@ -1192,7 +1192,8 @@ anovamod <- lm(pef ~ factor(proportion), # one-way ANOVA
                data = SKD23_S2A) 
 # Compare simple linear regression with ANOVA
 anova(linmod, anovamod) # is the change in PEF linear?
-# Specifying the weights - these are not contrasts!
+# Specifying the weights of the contrasts
+# these contrasts encode the mean (so don't sum to zero)
 car::linearHypothesis(model = anovamod, 
    hypothesis = rbind(c(0, -2, 1, 0), 
                       c(0, 0, -2, 1)))

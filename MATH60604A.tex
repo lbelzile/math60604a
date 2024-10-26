@@ -333,14 +333,14 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{plain}
 \newtheorem{corollary}{Corollary}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -381,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-10-24}
+\date{2024-10-26}
 
 \begin{document}
 
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, coltitle=black, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, opacityback=0, breakable, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, leftrule=.75mm, rightrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, breakable, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, opacityback=0, toptitle=1mm, left=2mm, coltitle=black, titlerule=0mm, opacitybacktitle=0.6, bottomrule=.15mm, rightrule=.15mm, leftrule=.75mm, colback=white, colframe=quarto-callout-important-color-frame]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, coltitle=black, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, left=2mm, opacityback=0, breakable, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, leftrule=.75mm, rightrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomtitle=1mm, opacityback=0, toptitle=1mm, left=2mm, coltitle=black, titlerule=0mm, opacitybacktitle=0.6, bottomrule=.15mm, rightrule=.15mm, leftrule=.75mm, colback=white, colframe=quarto-callout-caution-color-frame]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, coltitle=black, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, opacityback=0, breakable, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, leftrule=.75mm, rightrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, breakable, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, opacityback=0, toptitle=1mm, left=2mm, coltitle=black, titlerule=0mm, opacitybacktitle=0.6, bottomrule=.15mm, rightrule=.15mm, leftrule=.75mm, colback=white, colframe=quarto-callout-important-color-frame]
 
 \textbf{Learning objectives}:
 
@@ -3172,8 +3172,7 @@ matrix-valued function \begin{align*}
 j(\lambda, \alpha) &= - \begin{pmatrix}
 \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda^2} &  \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda \partial \alpha} \\ \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha \partial \lambda} & \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha^2}
 \end{pmatrix}  = \begin{pmatrix} j_{\lambda, \lambda} & j_{\lambda, \alpha} \\ j_{\lambda, \alpha} & j_{\alpha, \alpha} \end{pmatrix}
-\end{align*} where the entries of the observed information matrix are
-\begin{align*}
+\end{align*} whose entries are \begin{align*}
 j_{\lambda, \lambda} &= \lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^\alpha\right\} \\
 j_{\lambda, \alpha} &= \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}] \\
 j_{\alpha,\alpha} &= n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\lambda)\}^2
@@ -3797,7 +3796,6 @@ against the null of exponentiality.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-
 \DocumentationTok{\#\# Score test}
 \CommentTok{\# Expected information matrix {-} one observation}
 \NormalTok{info\_weib }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(scale, shape)\{ }
@@ -3812,10 +3810,8 @@ against the null of exponentiality.
 \NormalTok{  finfo\_w }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(xdat)}\SpecialCharTok{*}\FunctionTok{info\_weib}\NormalTok{(scale, shape)}
   \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{t}\NormalTok{(score\_w) }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(finfo\_w) }\SpecialCharTok{\%*\%}\NormalTok{ score\_w)}
 \NormalTok{\}}
-\NormalTok{(S }\OtherTok{\textless{}{-}} \FunctionTok{score\_stat}\NormalTok{(}\AttributeTok{scale =} \FunctionTok{mean}\NormalTok{(waiting), }\AttributeTok{shape =} \DecValTok{1}\NormalTok{, }\AttributeTok{xdat =}\NormalTok{ waiting))}
-\CommentTok{\#\textgreater{} [1] 24.9}
-\FunctionTok{pchisq}\NormalTok{(S, }\AttributeTok{df =} \DecValTok{1}\NormalTok{, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
-\CommentTok{\#\textgreater{} [1] 6.18e{-}07}
+\NormalTok{S }\OtherTok{\textless{}{-}} \FunctionTok{score\_stat}\NormalTok{(}\AttributeTok{scale =} \FunctionTok{mean}\NormalTok{(waiting), }\AttributeTok{shape =} \DecValTok{1}\NormalTok{, }\AttributeTok{xdat =}\NormalTok{ waiting)}
+\NormalTok{pval\_score }\OtherTok{\textless{}{-}} \FunctionTok{pchisq}\NormalTok{(S, }\AttributeTok{df =} \DecValTok{1}\NormalTok{, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
 
 \DocumentationTok{\#\# Likelihood ratio test}
 \NormalTok{ll\_weib }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(xdat, scale, shape)\{}
@@ -3823,11 +3819,12 @@ against the null of exponentiality.
 \NormalTok{\}}
 \NormalTok{ll1 }\OtherTok{\textless{}{-}} \FunctionTok{ll\_weib}\NormalTok{(}\AttributeTok{xdat =}\NormalTok{ waiting, }\AttributeTok{scale =}\NormalTok{ mle\_weibull[}\DecValTok{1}\NormalTok{], }\AttributeTok{shape =}\NormalTok{ mle\_weibull[}\DecValTok{2}\NormalTok{])}
 \NormalTok{ll0 }\OtherTok{\textless{}{-}} \FunctionTok{ll\_weib}\NormalTok{(}\AttributeTok{xdat =}\NormalTok{ waiting, }\AttributeTok{scale =} \FunctionTok{mean}\NormalTok{(waiting), }\AttributeTok{shape =} \DecValTok{1}\NormalTok{)}
-\NormalTok{(lrt }\OtherTok{\textless{}{-}} \DecValTok{2}\SpecialCharTok{*}\NormalTok{(ll1}\SpecialCharTok{{-}}\NormalTok{ll0))}
-\CommentTok{\#\textgreater{} [1] 60.4}
-\NormalTok{pval }\OtherTok{\textless{}{-}} \FunctionTok{pchisq}\NormalTok{(lrt, }\AttributeTok{df =} \DecValTok{1}\NormalTok{, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{lrt }\OtherTok{\textless{}{-}} \DecValTok{2}\SpecialCharTok{*}\NormalTok{(ll1}\SpecialCharTok{{-}}\NormalTok{ll0)}
+\NormalTok{pval\_lrt }\OtherTok{\textless{}{-}} \FunctionTok{pchisq}\NormalTok{(lrt, }\AttributeTok{df =} \DecValTok{1}\NormalTok{, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+Bien que les statistiques soient asymptotiquement équivalentes
 
 \end{example}
 
@@ -5296,7 +5293,7 @@ quantile of the \(\mathsf{Student}({n-p-1})\) distribution.
 
 \begin{example}[]\protect\hypertarget{exm-sokolova-simple-ttest}{}\label{exm-sokolova-simple-ttest}
 
-Consider the data from Example~\ref{exm-sokolova}. If we fit againt the
+Consider the data from Example~\ref{exm-sokolova}. If we fit against the
 simple linear regression model, we can extract the \(p\)-values for the
 Wald or \(t\)-tests. The test for the intercept is of no interest since
 data are measured on a scale from 1 to 7, so the mean response when
@@ -5716,13 +5713,13 @@ distribution is \(\mathsf{Fisher}(2, 798)\) or roughly \(\chi^2_2\).
 \CommentTok{\#\textgreater{} 2    798 1343  2      29.3 8.69 0.00018 ***}
 \CommentTok{\#\textgreater{} {-}{-}{-}}
 \CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
-\CommentTok{\# Specifying the weights {-} these are not contrasts!}
+\CommentTok{\# Specifying the weights of the contrasts}
+\CommentTok{\# these contrasts encode the mean (so don\textquotesingle{}t sum to zero)}
 \NormalTok{car}\SpecialCharTok{::}\FunctionTok{linearHypothesis}\NormalTok{(}\AttributeTok{model =}\NormalTok{ anovamod, }
    \AttributeTok{hypothesis =} \FunctionTok{rbind}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), }
                       \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)))}
-\CommentTok{\#\textgreater{} Linear hypothesis test}
 \CommentTok{\#\textgreater{} }
-\CommentTok{\#\textgreater{} Hypothesis:}
+\CommentTok{\#\textgreater{} Linear hypothesis test:}
 \CommentTok{\#\textgreater{} {-} 2 factor(proportion)0.5  + factor(proportion)1 = 0}
 \CommentTok{\#\textgreater{} {-} 2 factor(proportion)1  + factor(proportion)2 = 0}
 \CommentTok{\#\textgreater{} }

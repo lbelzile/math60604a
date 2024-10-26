@@ -281,7 +281,7 @@ j(\lambda, \alpha) &= - \begin{pmatrix}
 \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda^2} &  \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda \partial \alpha} \\ \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha \partial \lambda} & \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha^2}
 \end{pmatrix}  = \begin{pmatrix} j_{\lambda, \lambda} & j_{\lambda, \alpha} \\ j_{\lambda, \alpha} & j_{\alpha, \alpha} \end{pmatrix}
 \end{align*} 
-where the entries of the observed information matrix are
+whose entries are
 \begin{align*}
 j_{\lambda, \lambda} &= \lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^\alpha\right\} \\
 j_{\lambda, \alpha} &= \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}] \\
@@ -897,8 +897,7 @@ We can proceed similarly with the score test, using the expected information mat
 ```{r}
 #| eval: true
 #| echo: true
-
-
+#| code-fold: true
 ## Score test
 # Expected information matrix - one observation
 info_weib <- function(scale, shape){ 
@@ -913,8 +912,8 @@ score_stat <- function(scale, shape, xdat){
   finfo_w <- length(xdat)*info_weib(scale, shape)
   as.numeric(t(score_w) %*% solve(finfo_w) %*% score_w)
 }
-(S <- score_stat(scale = mean(waiting), shape = 1, xdat = waiting))
-pchisq(S, df = 1, lower.tail = FALSE)
+S <- score_stat(scale = mean(waiting), shape = 1, xdat = waiting)
+pval_score <- pchisq(S, df = 1, lower.tail = FALSE)
 
 ## Likelihood ratio test
 ll_weib <- function(xdat, scale, shape){
@@ -922,9 +921,11 @@ ll_weib <- function(xdat, scale, shape){
 }
 ll1 <- ll_weib(xdat = waiting, scale = mle_weibull[1], shape = mle_weibull[2])
 ll0 <- ll_weib(xdat = waiting, scale = mean(waiting), shape = 1)
-(lrt <- 2*(ll1-ll0))
-pval <- pchisq(lrt, df = 1, lower.tail = FALSE)
+lrt <- 2*(ll1-ll0)
+pval_lrt <- pchisq(lrt, df = 1, lower.tail = FALSE)
 ```
+
+Bien que les statistiques soient asymptotiquement équivalentes
 
 :::
 
