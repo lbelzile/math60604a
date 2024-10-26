@@ -49,6 +49,11 @@ format:
     code-copy: true
     default-image-extension: png
     bibliography: math60604.bib
+    grid:
+      sidebar-width: 200px
+      body-width: 1100px
+      margin-width: 200px
+      gutter-width: 1.5rem
   pdf:
     documentclass: scrbook
     latex_documents:

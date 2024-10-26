@@ -508,7 +508,7 @@ We consider a null hypothesis $\mathscr{H}_0$ that imposes restrictions on the p
 knitr::include_graphics('images/likelihood_tests.png')
 ```
 
-The three main classes of statistics for testing a simple null hypothesis $\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0$ against the alternative $\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$ are the Wald, likelihood ratio, and the score test statistics, defined respectively as
+The three main classes of statistics for testing a simple null hypothesis $\mathscr{H}_0: \boldsymbol{\theta}=\boldsymbol{\theta}_0$ against the alternative $\mathscr{H}_a: \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$ are the Wald (denoted $W$), likelihood ratio ($R$), and the score ($S$) test statistics, defined respectively as
 \begin{align*}
  W &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), \\
  R &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, \\
