@@ -1013,8 +1013,52 @@ $\mathsf{AIC}$ and $\mathsf{BIC}$ are information criteria measuring how well th
 \end{align*}
 where $p$ is the number of parameters in the model. The smaller the value of $\mathsf{AIC}$ (or of $\mathsf{BIC}$), the better the model fit.
 
+:::{#exm-aic}
+
+## Comparing models for waiting time
+
+We have already considered two parametric families, exponential and Weibull, for the metro `waiting` time. Other candidate models which are not necessarily nested include the lognormal and the gamma  distributions.
+
+We can fit these models using `fitdistr` routine in the `MASS` package. All but the exponential have two parameters, so the penalty is the same. The Weibull appears best, and while the difference with the gamma distribution isn't overwhelmingly large, a quantile-quantile plot (not shown) reveals that our Weibull provides a much better fit to the upper tail.
+
+```{r}
+#| eval: true
+#| echo: true
+#| warning: false
+mod0 <- MASS::fitdistr(x = waiting, densfun = "exponential")
+mod1 <- MASS::fitdistr(x = waiting, densfun = "gamma")
+mod2 <- MASS::fitdistr(x = waiting, densfun = "weibull")
+mod3 <- MASS::fitdistr(x = waiting, densfun = "lognormal")
+c("exp" = AIC(mod0), 
+  "gamma" = AIC(mod1), 
+  "weibull" = AIC(mod2),
+  "lognormal" = AIC(mod3))
+```
+
+:::
+
+
 Note that information criteria do not constitute formal hypothesis tests on the parameters, but they can be used to compare models that are not nested. Such tools work under regularity conditions, and the estimated information criteria are quite noisy, so comparison for non-nested models are hazardous although popular among practitioners. If we want to compare likelihood from different probability models, we need to make sure they include normalizing constant. The $\mathsf{BIC}$ is more stringent than $\mathsf{AIC}$, as its penalty increases with the sample size, so it selects models with fewer parameters. The $\mathsf{BIC}$ is **consistent**, meaning that it will pick the true correct model from an ensemble of models with probability one as $n \to \infty$. In practice, this is of little interest if one assumes that all models are approximation of reality (it is unlikely that the true model is included in the ones we consider). $\mathsf{AIC}$ often selects overly complicated models in large samples, whereas $\mathsf{BIC}$ chooses models that are overly simple.
 
-A cautionary warning: while you can compare regression models that are not nested using information criteria, they can only be used when the response variable is the same. You could compare a Poisson regression with a linear regression for some response $Y$ using information criteria provided you include all normalizing constants in your model. Software often drops constant terms; this has no impact when you compare models with the same constant factors, but it matters when these differ. However, **you cannot** compare them to a log-linear model with response $\ln(Y)$. Comparisons for log-linear and linear models are valid only if you use the Box--Cox likelihood, as it includes the Jacobian of the transformation.
+:::{#rem-warning-transformation}
+
+## Transformation of variables
+
+While you can compare regression models that are not nested using information criteria, they can only be used when the response variable is the same. To see this, we fit a simple normal distribution to the log of the waiting time, which is equivalent to the lognormal model from `mod3` in @exm-aic.
+
+```{r}
+#| eval: true
+#| echo: true
+mod4 <- MASS::fitdistr(x = log(waiting), densfun = "normal")
+# Due to the transformation, the log likelihood differ
+logLik(mod3) - logLik(mod4)
+# The Jacobian is (d/dy log(y) = 1/y)
+# hence the log likelihood is -log(y) for each obs.
+sum(-log(waiting))
+```
+Thus, **you cannot** compare a linear regression for $Y$ to one with response $\ln(Y)$. Comparisons for log-linear and linear models are valid only if you use the Box--Cox likelihood or include the Jacobian of the transformation.
+
+:::
 
 
+Software often drops constant terms; this has no impact when you compare models with the same constant factors, but it matters when these differ (e.g., different linear regression models), but it matters more generally when you want to compare a Poisson regression with a linear regression. 

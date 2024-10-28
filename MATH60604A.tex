@@ -333,14 +333,14 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollary}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{plain}
-\newtheorem{corollary}{Corollary}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -381,7 +381,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-10-26}
+\date{2024-10-28}
 
 \begin{document}
 
@@ -1632,7 +1632,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, left=2mm, coltitle=black, breakable, bottomtitle=1mm, titlerule=0mm, colback=white, colframe=quarto-callout-important-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, leftrule=.75mm, colframe=quarto-callout-important-color-frame, coltitle=black, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, left=2mm, opacitybacktitle=0.6, bottomrule=.15mm, opacityback=0, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, titlerule=0mm, toptitle=1mm, arc=.35mm, toprule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -2280,7 +2280,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm, rightrule=.15mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, toptitle=1mm, opacitybacktitle=0.6, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, coltitle=black, breakable, bottomtitle=1mm, titlerule=0mm, colback=white, colframe=quarto-callout-caution-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, coltitle=black, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm, left=2mm, opacitybacktitle=0.6, bottomrule=.15mm, opacityback=0, breakable, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomtitle=1mm, titlerule=0mm, toptitle=1mm, arc=.35mm, toprule=.15mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2825,7 +2825,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, left=2mm, coltitle=black, breakable, bottomtitle=1mm, titlerule=0mm, colback=white, colframe=quarto-callout-important-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, leftrule=.75mm, colframe=quarto-callout-important-color-frame, coltitle=black, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, left=2mm, opacitybacktitle=0.6, bottomrule=.15mm, opacityback=0, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, titlerule=0mm, toptitle=1mm, arc=.35mm, toprule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -3949,6 +3949,38 @@ parameters, \begin{align*}
 smaller the value of \(\mathsf{AIC}\) (or of \(\mathsf{BIC}\)), the
 better the model fit.
 
+\begin{example}[Comparing models for waiting
+time]\protect\hypertarget{exm-aic}{}\label{exm-aic}
+
+We have already considered two parametric families, exponential and
+Weibull, for the metro \texttt{waiting} time. Other candidate models
+which are not necessarily nested include the lognormal and the gamma
+distributions.
+
+We can fit these models using \texttt{fitdistr} routine in the
+\texttt{MASS} package. All but the exponential have two parameters, so
+the penalty is the same. The Weibull appears best, and while the
+difference with the gamma distribution isn't overwhelmingly large, a
+quantile-quantile plot (not shown) reveals that our Weibull provides a
+much better fit to the upper tail.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod0 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =}\NormalTok{ waiting, }\AttributeTok{densfun =} \StringTok{"exponential"}\NormalTok{)}
+\NormalTok{mod1 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =}\NormalTok{ waiting, }\AttributeTok{densfun =} \StringTok{"gamma"}\NormalTok{)}
+\NormalTok{mod2 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =}\NormalTok{ waiting, }\AttributeTok{densfun =} \StringTok{"weibull"}\NormalTok{)}
+\NormalTok{mod3 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =}\NormalTok{ waiting, }\AttributeTok{densfun =} \StringTok{"lognormal"}\NormalTok{)}
+\FunctionTok{c}\NormalTok{(}\StringTok{"exp"} \OtherTok{=} \FunctionTok{AIC}\NormalTok{(mod0), }
+  \StringTok{"gamma"} \OtherTok{=} \FunctionTok{AIC}\NormalTok{(mod1), }
+  \StringTok{"weibull"} \OtherTok{=} \FunctionTok{AIC}\NormalTok{(mod2),}
+  \StringTok{"lognormal"} \OtherTok{=} \FunctionTok{AIC}\NormalTok{(mod3))}
+\CommentTok{\#\textgreater{}       exp     gamma   weibull lognormal }
+\CommentTok{\#\textgreater{}       543       488       485       496}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
 Note that information criteria do not constitute formal hypothesis tests
 on the parameters, but they can be used to compare models that are not
 nested. Such tools work under regularity conditions, and the estimated
@@ -3966,17 +3998,40 @@ true model is included in the ones we consider). \(\mathsf{AIC}\) often
 selects overly complicated models in large samples, whereas
 \(\mathsf{BIC}\) chooses models that are overly simple.
 
-A cautionary warning: while you can compare regression models that are
-not nested using information criteria, they can only be used when the
-response variable is the same. You could compare a Poisson regression
-with a linear regression for some response \(Y\) using information
-criteria provided you include all normalizing constants in your model.
-Software often drops constant terms; this has no impact when you compare
-models with the same constant factors, but it matters when these differ.
-However, \textbf{you cannot} compare them to a log-linear model with
-response \(\ln(Y)\). Comparisons for log-linear and linear models are
-valid only if you use the Box--Cox likelihood, as it includes the
+\begin{refremark}[Transformation of variables]
+While you can compare regression models that are not nested using
+information criteria, they can only be used when the response variable
+is the same. To see this, we fit a simple normal distribution to the log
+of the waiting time, which is equivalent to the lognormal model from
+\texttt{mod3} in Example~\ref{exm-aic}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod4 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(waiting), }\AttributeTok{densfun =} \StringTok{"normal"}\NormalTok{)}
+\CommentTok{\# Due to the transformation, the log likelihood differ}
+\FunctionTok{logLik}\NormalTok{(mod3) }\SpecialCharTok{{-}} \FunctionTok{logLik}\NormalTok{(mod4)}
+\CommentTok{\#\textgreater{} \textquotesingle{}log Lik.\textquotesingle{} {-}202 (df=2)}
+\CommentTok{\# The Jacobian is (d/dy log(y) = 1/y)}
+\CommentTok{\# hence the log likelihood is {-}log(y) for each obs.}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{log}\NormalTok{(waiting))}
+\CommentTok{\#\textgreater{} [1] {-}202}
+\end{Highlighting}
+\end{Shaded}
+
+Thus, \textbf{you cannot} compare a linear regression for \(Y\) to one
+with response \(\ln(Y)\). Comparisons for log-linear and linear models
+are valid only if you use the Box--Cox likelihood or include the
 Jacobian of the transformation.
+
+\label{rem-warning-transformation}
+
+\end{refremark}
+
+Software often drops constant terms; this has no impact when you compare
+models with the same constant factors, but it matters when these differ
+(e.g., different linear regression models), but it matters more
+generally when you want to compare a Poisson regression with a linear
+regression.
 
 \bookmarksetup{startatroot}
 
