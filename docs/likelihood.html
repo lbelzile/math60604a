@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.1">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -421,7 +421,7 @@ j_{\alpha,\alpha} &amp;= n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(
 \end{align*}\]</span> To compute the expected information matrix, we need to compute expectation of <span class="math inline">\(\mathsf{E}\{(Y/\lambda)^\alpha\}\)</span>, <span class="math inline">\(\mathsf{E}[(Y/\lambda)^\alpha\ln\{(Y/\lambda)^\alpha\}]\)</span> and <span class="math inline">\(\mathsf{E}[(Y/\lambda)^\alpha\ln^2\{(Y/\lambda)^\alpha\}]\)</span>. By definition, <span class="math display">\[\begin{align*}
 \mathsf{E}\left\{(Y/\lambda)^\alpha\right\} &amp; = \int_0^\infty (x/\lambda)^\alpha \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\} \mathrm{d} x \\
 &amp;= \int_0^\infty s\exp(-s) \mathrm{d} s =1
-\end{align*}\]</span> making a change of variable <span class="math inline">\(S = (Y/\lambda)^\alpha\sim \mathsf{Exp}(1)\)</span>. The two other integrals are tabulated in <span class="citation" data-cites="Gradshteyn.Ryzhik:2014">Gradshteyn and Ryzhik (<a href="references.html#ref-Gradshteyn.Ryzhik:2014" role="doc-biblioref">2014</a>)</span>, and are equal <span class="math inline">\(1-\gamma\)</span> and <span class="math inline">\(\gamma^2-2\gamma + \pi^2/6\)</span>, respectively, where <span class="math inline">\(\gamma \approx 0.577\)</span> is the Euler–Mascherroni constant. <!-- \begin{align*} --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\exp(-s) \mathrm{d} s \\ --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s^{2/\alpha}\exp(-s) \mathrm{d} s \\ --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\ln\exp(-s) \mathrm{d} s \\ --> <!-- \end{align*} --> The expected information matrix of the Weibull distribution has entries <span class="math display">\[\begin{align*}
+\end{align*}\]</span> making a change of variable <span class="math inline">\(S = (Y/\lambda)^\alpha\sim \mathsf{Exp}(1)\)</span>. The two other integrals are tabulated in <span class="citation" data-cites="Gradshteyn.Ryzhik:2014">Gradshteyn and Ryzhik (<a href="references.html#ref-Gradshteyn.Ryzhik:2014" role="doc-biblioref">2014</a>)</span>, and are equal to <span class="math inline">\(1-\gamma\)</span> and <span class="math inline">\(\gamma^2-2\gamma + \pi^2/6\)</span>, respectively, where <span class="math inline">\(\gamma \approx 0.577\)</span> is the Euler–Mascherroni constant. <!-- \begin{align*} --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\exp(-s) \mathrm{d} s \\ --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s^{2/\alpha}\exp(-s) \mathrm{d} s \\ --> <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\ln\exp(-s) \mathrm{d} s \\ --> <!-- \end{align*} --> The expected information matrix of the Weibull distribution has entries <span class="math display">\[\begin{align*}
 i_{\lambda, \lambda} &amp; = n \lambda^{-2}\alpha\left\{ (\alpha+1)-1\right\} \\
 i_{\lambda, \alpha} &amp; = -n\lambda^{-1} (1-\gamma) \\
 i_{\alpha, \alpha} &amp; = n\alpha^{-2}(1 + \gamma^2-2\gamma+\pi^2/6)
@@ -578,7 +578,7 @@ S &amp;= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol
 <img src="likelihood_files/figure-html/fig-ellipses-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ellipses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: Elliptical contour curves for the asymptotic multivariate normal distribution of the MLE (left) and density of the squared radial of the standardized variable <span class="math inline">\(\boldsymbol{\vartheta}\)</span> with the corresponding quantile levels (rugs) for the squared radial component (right).
+Figure&nbsp;3.2: Elliptical contour curves for the asymptotic multivariate normal distribution of the MLE (left) and density of the squared radial of the standardized variable <span class="math inline">\(\boldsymbol{\vartheta}\)</span> with rugs for the corresponding quantile levels (right).
 </figcaption>
 </figure>
 </div>
@@ -640,7 +640,6 @@ Figure&nbsp;3.4: Quantile-quantile plots for exponential (left) and Weibull (rig
 </div>
 </div>
 </div>
-<p>:::</p>
 <div id="rem-invariance-wald-intervals" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.2</em> (Lack of invariance of Wald-based confidence intervals). </span>The Wald-based confidence intervals are not parametrization invariant: if we want intervals for a nonlinear continuous function <span class="math inline">\(g(\theta),\)</span> then in general <span class="math inline">\(\mathsf{CI}_{W}\{g(\theta)\} \neq g\{\mathsf{CI}_{W}(\theta)\}.\)</span></p>
 <p>For example, consider the exponential submodel. We can invert the Wald test statistic to get a symmetric 95% confidence interval for <span class="math inline">\(\phi,\)</span> <span class="math inline">\([0.061,\)</span> <span class="math inline">\(0.191].\)</span> If we were to naively transform the confidence interval for <span class="math inline">\(\lambda\)</span> into one for <span class="math inline">\(\phi,\)</span> we would get <span class="math inline">\([0.063,\)</span> <span class="math inline">\(0.19],\)</span> which highlights the invariance although the difference here is subtle. The Gaussian approximation underlying the Wald test is reliable if the sampling distribution of the likelihood is near quadratic, which happens when the likelihood function is roughly symmetric on either side of the maximum likelihood estimator.</p>
@@ -708,7 +707,7 @@ Figure&nbsp;3.4: Quantile-quantile plots for exponential (left) and Weibull (rig
 </div>
 </div>
 <div id="exm-weibull-scoretest" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.12 (Score and likelihood ratio tests for comparing exponential vs Weibull models)</strong></span> We can proceed similarly with the score test, using the expected information matrix formula derived earlier. Under the null model <span class="math inline">\(\alpha=1\)</span> and we get that the constrained MLE for the scale is the sample mean <span class="math inline">\(\overline{y}\)</span>. Both statistics show strong evidence against the null of exponentiality.</p>
+<p><span class="theorem-title"><strong>Example 3.12 (Score and likelihood ratio tests for comparing exponential vs Weibull models)</strong></span> We can proceed similarly with the score test, using the expected information matrix formula derived earlier. Under the null model <span class="math inline">\(\alpha=1\)</span> and we get that the constrained MLE for the scale is the sample mean <span class="math inline">\(\overline{y}\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
@@ -739,11 +738,11 @@ Figure&nbsp;3.4: Quantile-quantile plots for exponential (left) and Weibull (rig
 <span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>pval_lrt <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(lrt, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Bien que les statistiques soient asymptotiquement équivalentes</p>
+<p>Both statistics show strong evidence against the null of exponentiality, even if their numerical values are very different: we get <span class="math inline">\(24.9\)</span> for the score test and <span class="math inline">\(60.4\)</span> for the likelihood ratio statistic.</p>
 </div>
 <div id="exm-profile-mean-weibull" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.13 (Profile log likelihood for the Weibull mean)</strong></span> As an alternative, we can use numerical optimization to compute the profile for another function. Suppose we are interested in the expected waiting time, which according to the model is <span class="math inline">\(\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha)\)</span>. To this effect, we reparametrize the model in terms of <span class="math inline">\((\mu, \alpha)\)</span>, where <span class="math inline">\(\lambda=\mu/\Gamma(1+1/\alpha)\)</span>. We then make a wrapper function that optimizes the log likelihood for fixed value of <span class="math inline">\(\mu\)</span>, then returns <span class="math inline">\(\widehat{\alpha}_{\mu}\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\ell_{\mathrm{p}}(\mu)\)</span>.</p>
-<p>To get the confidence intervals for a scalar parameter, there is a trick that helps with the derivation. We compute the signed likelihood root <span class="math inline">\(r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}\)</span> over a fine grid of <span class="math inline">\(\psi\)</span>, then fit a smoothing spline to the equation flipping the axis (thus, the model has response <span class="math inline">\(y=\psi\)</span> and <span class="math inline">\(x=r(\psi)\)</span>). We then predict the curve at the standard normal quantiles <span class="math inline">\(\mathfrak{z}_{\alpha/2}\)</span> and <span class="math inline">\(\mathfrak{z}_{1-\alpha/2}\)</span>, and return these values as confidence interval. <a href="#fig-profile-mu-weibull" class="quarto-xref">Figure&nbsp;<span>3.5</span></a> shows how these value correspond to the cutoff points on the log likelihood ratio scale, where the vertical line is given by <span class="math inline">\(-\mathfrak{c}(1-\alpha)/2\)</span> where <span class="math inline">\(\mathfrak{c}\)</span> denotes the quantile of a <span class="math inline">\(\chi^2_1\)</span> random variable.</p>
+<p>To get the confidence intervals for a scalar parameter, there is a trick that helps with the derivation. We compute the signed likelihood root <span class="math inline">\(r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}\)</span> over a fine grid of <span class="math inline">\(\psi\)</span>, then fit a smoothing spline to the equation flipping the axis (thus, the model has response <span class="math inline">\(y=\psi\)</span> and <span class="math inline">\(x=r(\psi)\)</span>). We then predict the curve at the standard normal quantiles <span class="math inline">\(\mathfrak{z}_{\alpha/2}\)</span> and <span class="math inline">\(\mathfrak{z}_{1-\alpha/2}\)</span>, and return these values as confidence interval. <a href="#fig-profile-mu-weibull" class="quarto-xref">Figure&nbsp;<span>3.5</span></a> shows how these value correspond to the cutoff points on the log likelihood ratio scale, where the vertical line is given by <span class="math inline">\(-\mathfrak{c}(1-\alpha)\)</span> for <span class="math inline">\(\mathfrak{c}\)</span> denotes the quantile of a <span class="math inline">\(\chi^2_1\)</span> random variable, if we consider instead <span class="math inline">\(R(\psi) = r(\psi)^2\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
@@ -786,14 +785,14 @@ Figure&nbsp;3.4: Quantile-quantile plots for exponential (left) and Weibull (rig
 <span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"signed likelihood root"</span>)</span>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a plot of the profile</span></span>
 <span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> opt_weibull<span class="sc">$</span>value <span class="sc">-</span> nll)) <span class="sc">+</span> </span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> <span class="dv">2</span><span class="sc">*</span>(opt_weibull<span class="sc">$</span>value <span class="sc">-</span> nll))) <span class="sc">+</span> </span>
 <span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>), <span class="at">df =</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>), <span class="at">df =</span> <span class="dv">1</span>),</span>
 <span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
 <span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">linetype =</span> <span class="st">"dotted"</span>,</span>
 <span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">xintercept =</span> pr) <span class="sc">+</span> </span>
 <span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"expectation "</span>, mu)),</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"profile log likelihood"</span>)</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"negative of likelihood ratio statistic"</span>)</span>
 <span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">+</span> g2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>

@@ -492,7 +492,7 @@ g2 + g1
 ```
 
 The distribution function of the normal distribution is not available in closed-form.
-The normal distribution is a location-scale distribution: if $Y \sim \mathsf{normal}(\mu, \sigma^2)$, then $Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1).$ Conversely, if $Z \sim \mathsf{normal}(0,1)$, then $Y = \mu + \sigma Z \sim \mathsf{normal}(\mu, \sigma^2).$
+The normal distribution is a location-scale distribution: if $Y \sim \mathsf{normal}(\mu, \sigma^2)$, then $Z = (Y-\mu)/\sigma \sim \mathsf{normal}(0,1).$ Conversely, if $Z \sim \mathsf{normal}(0,1)$, then $Y = \mu + \sigma Z \sim \mathsf{normal}(\mu, \sigma^2).$
 
 
 
@@ -664,6 +664,7 @@ We can represent the distribution of a response variable as a function of a cate
 renfe |> subset(fare == "Promo") |>
     ggplot(aes(y = price, x = class, col = type)) +
     geom_boxplot() +
+    MetBrewer::scale_color_met_d("Hiroshige") +
     labs(y = "price (in euros)", col = "train type") +
     theme(legend.position = "bottom")
 ```
@@ -689,7 +690,7 @@ g2 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]),
              aes(x = x, y = y)) +
   geom_hex()  +
   scico::scale_fill_scico(direction = -1) +
-  labs(fill = "décompte") +
+  labs(fill = "counts") +
   theme_classic()
 g1 + g2
 ```
