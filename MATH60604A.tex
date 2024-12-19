@@ -119,15 +119,17 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 % definitions for citeproc citations
@@ -333,14 +335,14 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{corollary}{Corollary}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{definition}
 \newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollary}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -365,7 +367,7 @@
 \let\LanguageShortHands\languageshorthands
 \def\languageshorthands#1{}
 \ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
+  \usepackage[english]{selnolig} % disable illegal ligatures
 \fi
 \usepackage{bookmark}
 
@@ -381,7 +383,7 @@
 
 \title{MATH 60604A - Statistical Modelling}
 \author{Léo Belzile}
-\date{2024-11-25}
+\date{2024-12-19}
 
 \begin{document}
 
@@ -614,13 +616,13 @@ the full story here.}
 \end{itemize}
 
 \begin{longtable}[]{@{}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0923}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1231}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1692}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1385}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2615}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1385}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0769}}@{}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0923}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1231}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1692}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1385}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2615}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1385}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0769}}@{}}
 
 \caption{\label{tbl-data-renfe}First lines of the \texttt{renfe}
 database, which contains the price of 10K train tickets between Madrid
@@ -737,7 +739,7 @@ continuous random variable is simply
 
 \begin{figure}[ht!]
 
-{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{images/02-ttest-DF_illustration.png}
+{\centering \includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/02-ttest-DF_illustration.png}
 
 }
 
@@ -887,7 +889,7 @@ arise from independent observations.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-datasaurus-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-datasaurus-1.pdf}
 
 }
 
@@ -986,7 +988,7 @@ Oftentimes, we will have access to aggregated data.
 distribution]\protect\hypertarget{def-binomialdist}{}\label{def-binomialdist}
 
 If we consider the sum of independent and identically distributed
-Bernoulli events, the number of sucesses \(Y\) out of \(m\) trials is
+Bernoulli events, the number of successes \(Y\) out of \(m\) trials is
 \href{https://en.wikipedia.org/wiki/Binomial_distribution}{binomial},
 denoted \(\mathsf{Bin}(m, p)\); the mass function of the binomial
 distribution is \begin{align*}
@@ -1087,7 +1089,7 @@ f(x) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}x^{\alpha-1}(1-x)
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-densite-beta-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-densite-beta-1.pdf}
 
 }
 
@@ -1132,7 +1134,7 @@ f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\},
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-normal-loc-scale-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-normal-loc-scale-1.pdf}
 
 }
 
@@ -1216,7 +1218,7 @@ terminology \(t\)-tests.
 
 \centering{
 
-\includegraphics[width=0.5\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-student-density-1.pdf}
+\includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-student-density-1.pdf}
 
 }
 
@@ -1266,7 +1268,7 @@ graph)!
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-barplotrenfe-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-barplotrenfe-1.pdf}
 
 }
 
@@ -1296,7 +1298,7 @@ of the intervals.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-histrenfe-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-histrenfe-1.pdf}
 
 }
 
@@ -1337,7 +1339,7 @@ A box-and-whiskers plot (or boxplot) represents five numbers
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/01-intro-boxplot.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/01-intro-boxplot.pdf}
 
 }
 
@@ -1356,7 +1358,7 @@ via a color palette, as shown in Figure~\ref{fig-histboxplot}.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-histboxplot-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-histboxplot-1.pdf}
 
 }
 
@@ -1382,7 +1384,7 @@ points using hexagonal binning, an analog of the bivariate density.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-scatterplot-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-scatterplot-1.pdf}
 
 }
 
@@ -1434,7 +1436,7 @@ line with unit slope passing through the origin.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-diagrammeqq2-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-diagrammeqq2-1.pdf}
 
 }
 
@@ -1550,7 +1552,7 @@ that are operated by Renfe.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-renfeclt-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-renfeclt-1.pdf}
 
 }
 
@@ -1574,7 +1576,7 @@ in the third, etc.
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-renfemeanCLT-1.pdf}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-renfemeanCLT-1.pdf}
 
 }
 
@@ -1632,7 +1634,7 @@ culinary analogy, users focus on learning recipes rather than trying to
 understand the basics of cookery. This chapter focuses on understanding
 of key ideas related to testing.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, rightrule=.15mm, left=2mm, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, toptitle=1mm, coltitle=black, toprule=.15mm, bottomtitle=1mm, leftrule=.75mm, breakable, colback=white, titlerule=0mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, arc=.35mm, breakable, rightrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, toptitle=1mm, left=2mm, opacityback=0, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomrule=.15mm, coltitle=black, bottomtitle=1mm, colback=white, titlerule=0mm, toprule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -1672,7 +1674,7 @@ or data collection.
 
 \centering{
 
-\includegraphics[width=0.6\textwidth,height=\textheight]{images/xkcd2569_hypothesis_generation.png}
+\includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio]{images/xkcd2569_hypothesis_generation.png}
 
 }
 
@@ -1734,7 +1736,7 @@ In other words,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimand.jpg}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/estimand.jpg}
 
 }
 
@@ -1746,7 +1748,7 @@ In other words,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimator.jpg}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/estimator.jpg}
 
 }
 
@@ -1758,7 +1760,7 @@ In other words,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimate.jpg}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/estimate.jpg}
 
 }
 
@@ -1791,7 +1793,7 @@ Figure~\ref{fig-xkcd605}.
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{images/xkcd2581_health_stats.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{images/xkcd2581_health_stats.png}
 
 }
 
@@ -1818,7 +1820,7 @@ accounting for spurious results due to the background noise.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-samplevar-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-samplevar-1.pdf}
 
 }
 
@@ -1872,7 +1874,7 @@ to be sampled.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-unifsamp1-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-unifsamp1-1.pdf}
 
 }
 
@@ -1917,7 +1919,7 @@ noise.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-uniformsamp2-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-uniformsamp2-1.pdf}
 
 }
 
@@ -2092,7 +2094,7 @@ more likely to be observed.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-power-plots-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-power-plots-1.pdf}
 
 }
 
@@ -2186,7 +2188,7 @@ actual values we obtain from a sample.
 
 \begin{figure}[ht!]
 
-{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/intconf-1.pdf}
+{\centering \includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/intconf-1.pdf}
 
 }
 
@@ -2280,7 +2282,7 @@ depend on the \emph{p}-value. The latter is conditional probability of
 observing a more extreme likelihood given the null distribution
 \(\mathscr{H}_0\) is true.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, rightrule=.15mm, left=2mm, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-caution-color!10!white, bottomrule=.15mm, toptitle=1mm, coltitle=black, toprule=.15mm, bottomtitle=1mm, leftrule=.75mm, breakable, colback=white, titlerule=0mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, arc=.35mm, breakable, rightrule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, opacitybacktitle=0.6, toptitle=1mm, left=2mm, opacityback=0, colframe=quarto-callout-caution-color-frame, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution}, bottomrule=.15mm, coltitle=black, bottomtitle=1mm, colback=white, titlerule=0mm, toprule=.15mm]
 
 The \href{https://doi.org/10.1080/00031305.2016.1154108}{American
 Statistical Association (ASA) published a list of principles} guiding
@@ -2360,7 +2362,7 @@ reject in favor of an alternative.
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{inference_files/figure-pdf/fig-power-1.pdf}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-power-1.pdf}
 
 }
 
@@ -2550,7 +2552,7 @@ being promoted) (why?)
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-infer-odds-ratio-permutation-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-infer-odds-ratio-permutation-1.pdf}
 
 }
 
@@ -2787,7 +2789,7 @@ the rank of our statistic relative to the others.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-renfepermut-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-renfepermut-1.pdf}
 
 }
 
@@ -2825,7 +2827,7 @@ This chapter is dedicated to the basics of statistical modelling using
 likelihood-based inference, arguably the most popular estimation
 paradigm in statistics.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, rightrule=.15mm, left=2mm, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, toptitle=1mm, coltitle=black, toprule=.15mm, bottomtitle=1mm, leftrule=.75mm, breakable, colback=white, titlerule=0mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, arc=.35mm, breakable, rightrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, toptitle=1mm, left=2mm, opacityback=0, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomrule=.15mm, coltitle=black, bottomtitle=1mm, colback=white, titlerule=0mm, toprule=.15mm]
 
 \textbf{Learning objectives}:
 
@@ -2870,7 +2872,7 @@ positive, so our model must account for this feature.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-waiting-hist-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{likelihood_files/figure-pdf/fig-waiting-hist-1.pdf}
 
 }
 
@@ -3470,7 +3472,7 @@ this hypothesis: these are
 
 \begin{figure}[ht!]
 
-{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{images/likelihood_tests.png}
+{\centering \includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/likelihood_tests.png}
 
 }
 
@@ -3525,7 +3527,7 @@ whether the value is large based on the radius.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-ellipses-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{likelihood_files/figure-pdf/fig-ellipses-1.pdf}
 
 }
 
@@ -3562,7 +3564,7 @@ the alternative is costly or impossible.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-weibull-profile-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{likelihood_files/figure-pdf/fig-weibull-profile-1.pdf}
 
 }
 
@@ -3634,7 +3636,7 @@ adequate.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-qqplots-weibull-exp-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{likelihood_files/figure-pdf/fig-qqplots-weibull-exp-1.pdf}
 
 }
 
@@ -3911,7 +3913,7 @@ instead \(R(\psi) = r(\psi)^2\).
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{likelihood_files/figure-pdf/fig-profile-mu-weibull-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{likelihood_files/figure-pdf/fig-profile-mu-weibull-1.pdf}
 
 }
 
@@ -4293,7 +4295,7 @@ salaries.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-edacollege-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-edacollege-1.pdf}
 
 }
 
@@ -4414,7 +4416,7 @@ postulated explanatory factor of interest.
 
 \begin{figure}[ht!]
 
-{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{images/correlation_causation.jpg}
+{\centering \includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/correlation_causation.jpg}
 
 }
 
@@ -4441,7 +4443,7 @@ simplistic and clearly insufficient to explain differences in salary.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-droitenuage-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-droitenuage-1.pdf}
 
 }
 
@@ -4497,7 +4499,7 @@ model with design matrix
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-autoquad2d-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-autoquad2d-1.pdf}
 
 }
 
@@ -4530,7 +4532,7 @@ Figure~\ref{fig-hyperplan}.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/hyperplane_auto.png}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/hyperplane_auto.png}
 
 }
 
@@ -4555,7 +4557,7 @@ lower precision of the coefficients).
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-auto-discre-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-auto-discre-1.pdf}
 
 }
 
@@ -4615,7 +4617,7 @@ difference between the groups, as this amounts to testing
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-donation-moon-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-donation-moon-1.pdf}
 
 }
 
@@ -4800,12 +4802,12 @@ The postulated model is \begin{align*}
 \end{align*}
 
 \begin{longtable}[]{@{}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}@{}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
 \caption{Estimated coefficients of the linear model for the
 \(\texttt{college}\) (in USD, rounded to the nearest
 dollar).}\tabularnewline
@@ -4964,7 +4966,7 @@ and the observations \(y_i\).
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-vertdist-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-vertdist-1.pdf}
 
 }
 
@@ -5018,7 +5020,7 @@ The linear regression model specifies that the observations
 are independent. The linear model has \(p+2\) parameters
 (\(\boldsymbol{\beta}\) and \(\sigma^2\)) and the log likelihood is,
 abstracting from constant terms, \begin{align*}
-\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*} Maximizing the log likelihood with respect to
 \(\boldsymbol{\beta}\) is equivalent to minimizing the sum of squared
 errors \(\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2\),
@@ -5204,7 +5206,7 @@ deviate much from them.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-predinterval-1.png}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-predinterval-1.png}
 
 }
 
@@ -5969,7 +5971,7 @@ left panel of Figure~\ref{fig-interaction-slope}.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-interaction-slope-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-interaction-slope-1.pdf}
 
 }
 
@@ -6135,7 +6137,7 @@ but one must account for the uncertainty.
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-2by2-1.pdf}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-2by2-1.pdf}
 
 }
 
@@ -6329,7 +6331,7 @@ the contrasts.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-interaction-ST-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-interaction-ST-1.pdf}
 
 }
 
@@ -6351,10 +6353,10 @@ meaning each cell has the same number of replications \(n_r\), so that
 the overall number of observations is \(n = n_an_bn_r\).
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2069}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2529}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2529}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2874}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2069}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2529}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2529}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2874}}@{}}
 
 \caption{\label{tbl-ssdecompo}Sum of square decompositions in ANOVA
 tables. Comparison of sum of squares between null, versus alternative
@@ -6479,7 +6481,7 @@ ANOVA.
 \end{Shaded}
 
 \begin{center}
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/unnamed-chunk-48-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/unnamed-chunk-48-1.pdf}
 \end{center}
 
 For the \(K\)-way ANOVA, we always start with estimating the full model
@@ -6642,7 +6644,7 @@ dependence.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-zerocor-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-zerocor-1.pdf}
 
 }
 
@@ -6998,7 +7000,7 @@ problematic.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-outliers-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-outliers-1.pdf}
 
 }
 
@@ -7109,7 +7111,7 @@ values.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-regdiaglin-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-regdiaglin-1.pdf}
 
 }
 
@@ -7188,7 +7190,7 @@ number.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-residhomoscedastic-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-residhomoscedastic-1.pdf}
 
 }
 
@@ -7203,7 +7205,7 @@ indicates an increase in the variance.}
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-diagfitvalhomosce-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-diagfitvalhomosce-1.pdf}
 
 }
 
@@ -7241,7 +7243,7 @@ variance]\protect\hypertarget{exm-heterogeneity}{}\label{exm-heterogeneity}
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-simuWelchnull-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-simuWelchnull-1.pdf}
 
 }
 
@@ -7304,7 +7306,7 @@ inflates the statistic and leads to more frequent rejections.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-plotLevelIndep-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-plotLevelIndep-1.pdf}
 
 }
 
@@ -7345,7 +7347,7 @@ scatterplot of lagged residuals \(e_i\) versus \(e_{i-1}\)
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-timeresidplot-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-timeresidplot-1.pdf}
 
 }
 
@@ -7386,7 +7388,7 @@ should if the null is true (inflated Type I error, or false positive).
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-correlogram-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-correlogram-1.pdf}
 
 }
 
@@ -7439,7 +7441,7 @@ covariates.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-qqplotresid-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-qqplotresid-1.pdf}
 
 }
 
@@ -7464,7 +7466,7 @@ data leads to jumps in the plot.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-qqplotsbad-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-qqplotsbad-1.pdf}
 
 }
 
@@ -7485,7 +7487,7 @@ assumptions hold.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-diagplotscollege-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-diagplotscollege-1.pdf}
 
 }
 
@@ -7675,7 +7677,7 @@ appears constant.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{linearmodels_files/figure-pdf/fig-poisonplots-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{linearmodels_files/figure-pdf/fig-poisonplots-1.pdf}
 
 }
 
