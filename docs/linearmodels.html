@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.3">
+<meta name="generator" content="quarto-1.7.1">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -92,10 +92,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-81b5c3e63835cfde897ecd3d35a35a41.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2bb0ec5e928ee8c40b12725cb7836c35.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-648ee59fc9c8aa7567b008853604e02e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c0d1c8e78a85b75d62ca82a0b1b736f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -464,7 +464,7 @@ Figure&nbsp;4.1: Exploratory data analysis of <code>college</code> data: salarie
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/correlation_causation.jpg" class="img-fluid figure-img" style="width:85.0%"></p>
+<p><img src="images/correlation_causation.jpg" class="img-fluid figure-img" style="width:60.0%"></p>
 <figcaption>Difference between experimental and observational studies by Andrew Heiss <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a></figcaption>
 </figure>
 </div>
@@ -2201,7 +2201,7 @@ e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 <div id="def-r2" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 4.5 (Coefficient of determination)</strong></span> When we specify a model, the error term <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> accounts for the fact no perfect linear relationship characterizes the data (if it did, we wouldn’t need statistic to begin with). Once we have fitted a model, we estimate the variance <span class="math inline">\(\sigma^2\)</span>; one may then wonder which share of the total variance in the sample is explained by the model.</p>
 <p>The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison — the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, <span class="math inline">\(\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2\)</span>. We can then compare the variance of the original data with that of the residuals from the model with model matrix <span class="math inline">\(\mathbf{X}\)</span>, defined as <span class="math inline">\(\mathsf{SS}_e =\sum_{i=1}^n e_i^2\)</span> with <span class="math inline">\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\)</span>. We define the coefficient of determination, or squared multiple correlation coefficient of the model, <span class="math inline">\(R^2\)</span>, as <span class="math display">\[\begin{align*}
-R^2 &amp;=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = 1 - \frac{sum_{i=1}^n (y_i - \widehat{y}_i)^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+R^2 &amp;=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = 1 - \frac{\sum_{i=1}^n (y_i - \widehat{y}_i)^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
 \end{align*}\]</span> An alternative decomposition shows that <span class="math inline">\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\)</span>, i.e., the coefficient of determination can be interpreted as the square of <a href="#def-correlation-Pearson">Pearson’s linear correlation</a> between the response <span class="math inline">\(\boldsymbol{y}\)</span> and the fitted values <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
 </div>
 <p>Its important to note that <span class="math inline">\(R^2\)</span> is not a goodness-of-fit criterion, like the log likelihood: some phenomena are inherently noisy and even a good model will fail to account for much of the response’s variability. Moreover, one can inflate the value of <span class="math inline">\(R^2\)</span> by including more explanatory variables and making the model more complex, thereby improving the likelihood and <span class="math inline">\(R^2\)</span>. Indeed, the coefficient is non-decreasing in the dimension of <span class="math inline">\(\mathbf{X}\)</span>, so a model with <span class="math inline">\(p+1\)</span> covariate will necessarily have a higher <span class="math inline">\(R^2\)</span> values than only <span class="math inline">\(p\)</span> of the explanatories. For model comparisons, it is better to employ information criteria or else rely on the predictive performance if this is the purpose of the regression. Lastly, a model with a high <span class="math inline">\(R^2\)</span> may imply high correlation, but <a href="http://www.tylervigen.com/spurious-correlations">the relation may be spurious</a>: linear regression does not yield causal models!</p>
