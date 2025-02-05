@@ -687,7 +687,7 @@ We could also consider maximum likelihood estimation. @prp-ols-mle shows that, a
 The linear regression model specifies that the observations $Y_i \sim \mathsf{normal}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$ are independent. 
 The linear model has $p+2$ parameters ($\boldsymbol{\beta}$ and $\sigma^2$) and the log likelihood is, abstracting from constant terms,
 \begin{align*}
-\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
 Maximizing the log likelihood with respect to $\boldsymbol{\beta}$ is equivalent to
 minimizing the sum of squared errors $\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2$, regardless of the value of $\sigma$, and we recover the OLS estimator $\widehat{\boldsymbol{\beta}}$. The maximum likelihood estimator of the variance $\widehat{\sigma}^2$ is thus
