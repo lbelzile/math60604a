@@ -223,6 +223,7 @@ In an observational setting, people self-select in different groups, so we need 
 #| eval: true
 #| echo: false
 #| fig-align: center
+#| out-width: '60%'
 #| fig-cap: "Difference between experimental and observational studies by Andrew Heiss [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)"
 knitr::include_graphics("images/correlation_causation.jpg")
 ```
@@ -2044,7 +2045,7 @@ When we specify a model, the error term $\boldsymbol{\varepsilon}$ accounts for 
 The total sum of squares, defined as the sum of squared residuals from the intercept-only model, serves as comparison --- the simplest model we could come up with would involving every observation by the sample mean of the response and so this gives (up to scale) the variance of the response, $\mathsf{SS}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. We can then compare the variance of the original data with that of the residuals from the model with model matrix $\mathbf{X}$, defined as $\mathsf{SS}_e =\sum_{i=1}^n e_i^2$ with $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j$.
 We define the coefficient of determination, or squared multiple correlation coefficient of the model, $R^2$, as
 \begin{align*}
-R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = 1 - \frac{sum_{i=1}^n (y_i - \widehat{y}_i)^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+R^2 &=1- \frac{\mathsf{SS}_e}{\mathsf{SS}_c} = 1 - \frac{\sum_{i=1}^n (y_i - \widehat{y}_i)^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
 \end{align*}
 An alternative decomposition shows that $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, i.e., the coefficient of determination can be interpreted as the square of [Pearson's linear correlation](#def-correlation-Pearson) between the response $\boldsymbol{y}$ and the fitted values $\widehat{\boldsymbol{y}}$.
 
